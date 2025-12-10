@@ -1,0 +1,84 @@
+digraph STXP {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", color="#2aff8a", fontname="Helvetica", fontsize=10, fillcolor="#0b0f13", fontcolor="#c7e8d0"];
+  edge [color="#2aff8a", fontcolor="#9fb3a4", fontname="Helvetica", fontsize=9];
+
+  subgraph cluster_pages {
+    label="Pages";
+    color="#2aff8a";
+    Portal_Main [label="Portal_Main\n(index.html)\nActive Portal", fillcolor="#0f1b21"];
+    UnderConstruction [label="UnderConstruction\n(under-construction.html)\nActive Stub", fillcolor="#0f1b21"];
+    Portal_Variant_01 [label="Portal_Variant_01\n(assets/deprecated_pages/index_0_1.html)\nArchived Portal", fillcolor="#0b1014"];
+    Portal_Variant_02 [label="Portal_Variant_02\n(assets/deprecated_pages/index_0_2.html)\nArchived Portal", fillcolor="#0b1014"];
+  }
+
+  subgraph cluster_assets {
+    label="Assets";
+    color="#2aff8a";
+    CSS_Global [label="CSS_Global\nglobal.css"];
+    CSS_Typography [label="CSS_Typography\ntypography.css"];
+    CSS_Layout [label="CSS_Layout\nlayout.css"];
+    CSS_Gallery [label="CSS_Gallery\ngallery.css"];
+    JS_Theme [label="JS_Theme\ntheme.js"];
+    JS_Gallery [label="JS_Gallery\ngallery.js"];
+    JS_Portal [label="JS_Portal\nportal.js"];
+    Media_PortalGif [label="Media_PortalGif\ncrow_glitch_text.gif"];
+    Media_CrowFrames [label="Media_CrowFrames\ncrow_frames/"];
+    Media_Sigils [label="Media_Sigils\ndeprecated_images/"];
+  }
+
+  subgraph cluster_guides {
+    label="Guides";
+    color="#2aff8a";
+    Guide_Setup [label="Guide_Setup\n01-setup.md"];
+    Guide_Aesthetic [label="Guide_Aesthetic\n02-aesthetic.md"];
+    Guide_Portal [label="Guide_Portal\n03-portal.md"];
+    Guide_Theme [label="Guide_Theme\n04-theme.md"];
+    Guide_Assets [label="Guide_Assets\n05-assets.md"];
+    Guide_A11y [label="Guide_A11y\n06-accessibility.md"];
+    Guide_Deploy [label="Guide_Deploy\n07-deploy.md"];
+    Guide_Filenaming [label="Guide_Filenaming\n08-filenaming.md"];
+  }
+
+  subgraph cluster_themes {
+    label="Themes";
+    color="#2aff8a";
+    NeonSlate [label="NeonSlateTheme"];
+  }
+
+  // Page -> Theme
+  Portal_Main -> NeonSlate [label="hasTheme"];
+  UnderConstruction -> NeonSlate [label="hasTheme"];
+  Portal_Variant_01 -> NeonSlate [label="hasTheme"];
+  Portal_Variant_02 -> NeonSlate [label="hasTheme"];
+
+  // Navigation links
+  Portal_Main -> UnderConstruction [label="linksTo"];
+  UnderConstruction -> Portal_Main [label="linksTo"];
+
+  // Assets attached to Portal_Main
+  Portal_Main -> CSS_Global [label="hasAsset"];
+  Portal_Main -> CSS_Typography [label="hasAsset"];
+  Portal_Main -> CSS_Layout [label="hasAsset"];
+  Portal_Main -> JS_Portal [label="hasAsset"];
+  Portal_Main -> JS_Theme [label="hasAsset"];
+  Portal_Main -> Media_PortalGif [label="hasAsset"];
+
+  // Stub uses theme and global styling
+  UnderConstruction -> CSS_Global [label="hasAsset"];
+
+  // Guides documenting assets
+  CSS_Global -> Guide_Aesthetic [label="documentedBy"];
+  CSS_Layout -> Guide_Portal [label="documentedBy"];
+  JS_Theme -> Guide_Theme [label="documentedBy"];
+  JS_Portal -> Guide_Portal [label="documentedBy"];
+  Media_PortalGif -> Guide_Assets [label="documentedBy"];
+  Guide_Setup [shape=note, style="filled", fillcolor="#112027"];
+  Guide_Aesthetic [shape=note, style="filled", fillcolor="#112027"];
+  Guide_Portal [shape=note, style="filled", fillcolor="#112027"];
+  Guide_Theme [shape=note, style="filled", fillcolor="#112027"];
+  Guide_Assets [shape=note, style="filled", fillcolor="#112027"];
+  Guide_A11y [shape=note, style="filled", fillcolor="#112027"];
+  Guide_Deploy [shape=note, style="filled", fillcolor="#112027"];
+  Guide_Filenaming [shape=note, style="filled", fillcolor="#112027"];
+}

@@ -1,0 +1,117 @@
+<!doctype html>
+<!-- Under Construction: neon slate stub with return to portal -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>St. Expedite Press — Under Construction</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #2aff8a;
+  --green-soft: rgba(42,255,138,0.18);
+  --dark: #050807;
+  --muted: #9fb3a4;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 40%, rgba(42,255,138,0.08), rgba(5,8,7,0.96)), #040607;
+  color: var(--green);
+  font-family: "Cormorant Garamond", serif;
+  text-align: center;
+}
+
+.card {
+  position: relative;
+  padding: clamp(2rem, 6vw, 3rem);
+  border: 1px solid var(--green-soft);
+  background: rgba(5,8,7,0.72);
+  box-shadow: 0 0 18px var(--green-soft), 0 0 48px rgba(42,255,138,0.12);
+  max-width: 640px;
+  width: min(92vw, 680px);
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.14em;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+p {
+  margin: 0 0 1.2rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.divider {
+  margin: 1rem auto;
+  width: 60px;
+  height: 1px;
+  background: var(--green-soft);
+  box-shadow: 0 0 8px var(--green-soft);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85em 1.6em;
+  border: 1px solid var(--green);
+  background: rgba(42,255,138,0.08);
+  color: var(--green);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  box-shadow: 0 0 0 1px rgba(42,255,138,0.2), 0 10px 32px rgba(42,255,138,0.14);
+  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  background: var(--green);
+  color: #040607;
+  box-shadow: 0 0 0 1px rgba(42,255,138,0.3), 0 14px 40px rgba(42,255,138,0.2);
+}
+
+.glyph {
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.texture {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
+  opacity: 0.14;
+  mix-blend-mode: soft-light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button, .card { transition: none; }
+}
+</style>
+</head>
+<body>
+  <div class="texture" aria-hidden="true"></div>
+  <main class="card">
+    <h1>Under Construction</h1>
+    <div class="divider"></div>
+    <p>These coordinates are still wiring themselves together. The portal is live; other surfaces return soon.</p>
+    <a class="button" href="/index.html">
+      <span class="glyph">△</span>
+      Return to Portal
+      <span class="glyph">△</span>
+    </a>
+  </main>
+</body>
+</html>

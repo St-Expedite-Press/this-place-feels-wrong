@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>St. Expedite Press — Portal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ====================================================================== */
+/*  ROOT VARIABLES                                                        */
+/* ====================================================================== */
+:root {
+  --green-base: #2aff8a;
+  --green-1: rgba(42,255,138,0.22);
+  --green-2: rgba(42,255,138,0.12);
+  --green-3: rgba(42,255,138,0.06);
+
+  --green-hot-1: rgba(42,255,138,0.75);
+  --green-hot-2: rgba(42,255,138,0.55);
+  --green-hot-3: rgba(42,255,138,0.38);
+  --green-hot-4: rgba(42,255,138,0.22);
+
+  --relief-base: #d96aff;
+
+  --dark: #050807;
+  --scan-warp: 0.4deg;
+}
+
+/* ====================================================================== */
+/*  GLOBAL                                                                */
+/* ====================================================================== */
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: "Cormorant Garamond", serif;
+  color: var(--green-base);
+
+  /* Void engine + gradient mask composite background */
+  background:
+    linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.88)),
+    url("assets/img/void_engine_twinkle_green.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* ====================================================================== */
+/*  FLASH ON LOAD                                                         */
+/* ====================================================================== */
+.portal-flash {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 300;
+  animation: portal-flash 0.45s ease-out forwards;
+}
+
+@keyframes portal-flash {
+  0%   { opacity: 1; background: #000; }
+  50%  { opacity: .9; background: radial-gradient(circle, rgba(42,255,138,0.4), #000 80%); }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+/* ====================================================================== */
+/*  TITLE                                                                 */
+/* ====================================================================== */
+.header-title {
+  font-family: "Cinzel", serif;
+  letter-spacing: .18em;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  text-align: center;
+  margin-top: 2.5vh;
+  color: var(--green-base);
+  text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
+  animation: title-breathe 12s ease-in-out infinite;
+}
+
+@keyframes title-breathe {
+  0%, 100% { filter: brightness(1.2) contrast(2); }
+  50%      { filter: brightness(1.6) contrast(2.6); }
+}
+
+/* ====================================================================== */
+/*  PORTAL FRAME (GLITCH + DRIFT)                                         */
+/* ====================================================================== */
+.portal-frame {
+  position: absolute;
+  top: 46%;              /* lifted slightly to sit above the void “gravity center” */
+  left: 50%;
+  width: 40vh;
+  height: 40vh;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 10;
+
+  border: 3px solid var(--green-base);
+  box-shadow:
+    0 0 16px var(--green-1),
+    0 0 36px var(--green-2),
+    0 0 72px var(--green-3);
+
+  backdrop-filter: blur(4px) brightness(1.2) contrast(1.3);
+  will-change: transform;
+
+  animation:
+    portal-drift 22s ease-in-out infinite,
+    portal-glitch-cycle 2.2s steps(2, end) infinite,
+    portal-twinkle-sync 6.3s ease-in-out infinite alternate;
+}
+
+/* Slow oscillation (breathing rotation) */
+@keyframes portal-drift {
+  0%,100% { transform: translate(-50%, -50%) rotate(calc(var(--scan-warp) * -1)); }
+  50%     { transform: translate(-50%, -50%) rotate(calc(var(--scan-warp) * 1)); }
+}
+
+/* Glitch spikes */
+@keyframes portal-glitch-cycle {
+  0%,95% { }
+  96% {
+    border-color: rgba(42,255,138,0.35);
+    transform: translate(calc(-50% + 2px), calc(-50% - 1px)) skew(.4deg,-.6deg);
+    box-shadow:
+      0 0 6px var(--green-hot-2),
+      0 0 20px var(--green-hot-3);
+  }
+  98% {
+    transform: translate(calc(-50% - 3px), calc(-50% + 2px)) skew(-.3deg,.6deg);
+  }
+}
+
+/* Subtle brightness sync as if portal is “sampling” the twinkling pavement */
+@keyframes portal-twinkle-sync {
+  0%, 92%  { filter: brightness(1.0) saturate(1.0); }
+  93%,100% { filter: brightness(1.2) saturate(1.4); }
+}
+
+/* ====================================================================== */
+/*  PORTAL NOISE LAYER                                                    */
+/* ====================================================================== */
+.portal-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
+  opacity: .22;
+  mix-blend-mode: lighten;
+  animation: noise-shift 0.6s infinite steps(2);
+}
+
+@keyframes noise-shift {
+  from { transform: translate(0,0); }
+  to   { transform: translate(-1px,1px); }
+}
+
+/* ====================================================================== */
+/*  GIF INSIDE PORTAL                                                    */
+/* ====================================================================== */
+.portal-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(1.2) contrast(1.6);
+  image-rendering: pixelated;
+  animation: gif-breathe 10s ease-in-out infinite;
+}
+
+@keyframes gif-breathe {
+  0%,100% { filter: brightness(1.1) contrast(1.5); }
+  50%     { filter: brightness(1.25) contrast(1.8); }
+}
+
+/* ====================================================================== */
+/*  REDUCED MOTION FALLBACK                                              */
+/* ====================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .portal-gif,
+  .portal-frame,
+  .portal-noise,
+  .header-title {
+    animation: none !important;
+  }
+  .portal-noise { opacity: .25; }
+}
+
+/* ====================================================================== */
+/*  NAV GRID                                                              */
+/* ====================================================================== */
+.big-nav {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 88%;
+  height: 68vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(3,1fr);
+  z-index: 2;
+}
+
+/* Subtle darkened/blurred field beneath nav to stabilize against bright twinkles */
+.big-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  backdrop-filter: brightness(0.75) blur(1.2px);
+  z-index: -1;
+}
+
+.big-word {
+  font-family: "Cinzel", serif;
+  font-size: clamp(3rem, 7vw, 7rem);
+  text-decoration: none;
+  color: var(--green-base);
+  opacity: .42;
+  align-self: center;
+  justify-self: center;
+  text-shadow:
+    0 0 14px rgba(42,255,138,0.4),
+    0 0 28px rgba(42,255,138,0.25);
+  transition: all .25s ease;
+}
+
+.big-word:hover {
+  opacity: 1;
+  filter: brightness(2.5) contrast(2.6);
+  text-shadow:
+    0 0 18px var(--green-hot-1),
+    0 0 36px var(--green-hot-2),
+    0 0 72px var(--green-hot-3);
+}
+
+/* ====================================================================== */
+/*  LOWER SPLASH                                                          */
+/* ====================================================================== */
+.splash {
+  position: absolute;
+  bottom: 3.3vh;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 5;
+}
+
+.splash__eyebrow {
+  font-size: 1.1rem;
+  letter-spacing: .15em;
+  text-shadow:
+    -1px -1px 0 var(--relief-base),
+     0 0 8px var(--green-1),
+     0 0 18px var(--green-2),
+     0 0 28px var(--green-3);
+}
+
+.lede {
+  font-size: 1.45rem;
+  max-width: 520px;
+  margin: 0.3rem auto;
+  opacity: .92;
+  text-shadow: 0 0 9px var(--green-1);
+}
+
+.divider {
+  margin-top: .4rem;
+  font-family: "Cinzel", serif;
+  opacity: .7;
+  text-shadow: 0 0 9px var(--green-2);
+}
+
+.splash__foot {
+  font-size: 1rem;
+  opacity: .9;
+  letter-spacing: .12em;
+}
+
+.splash__foot a {
+  color: var(--green-base);
+  margin: 0 .6rem;
+  text-decoration: none;
+  text-shadow: 0 0 8px var(--green-1);
+}
+
+/* ====================================================================== */
+/*  BACKGROUND TEXTURE + CURSOR GLOW                                      */
+/* ====================================================================== */
+.texture--grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
+  opacity: .16;
+  mix-blend-mode: soft-light;
+  z-index: 0;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle,
+      rgba(42,255,138,0.10) 0%,
+      rgba(42,255,138,0.00) 70%);
+  mix-blend-mode: soft-light;
+  opacity: .55;
+  z-index: 50;
+}
+</style>
+</head>
+
+<body>
+
+<div class="portal-flash"></div>
+
+<div class="header-title">ST. EXPEDITE PRESS</div>
+
+<!-- THE PORTAL -->
+<div class="portal-frame">
+  <div class="portal-noise"></div>
+  <img src="assets/gif/crow_glitch_text.gif" class="portal-gif" alt="">
+</div>
+
+<!-- NAVIGATION GRID -->
+<div class="big-nav">
+  <!-- top row -->
+  <a href="/under-construction.html"   class="big-word"                >BOOKS</a>
+  <div></div>
+  <a href="/under-construction.html" class="big-word" style="grid-column:3;">GALLERY</a>
+
+  <!-- middle row (kept empty for breathing room) -->
+  <div></div><div></div><div></div>
+
+  <!-- bottom row -->
+  <a href="/under-construction.html" class="big-word" style="grid-row:3;"                    >MISSION</a>
+  <div></div>
+  <a href="/under-construction.html"    class="big-word" style="grid-column:3; grid-row:3;"     >LICE</a>
+</div>
+
+<!-- LOWER TEXT -->
+<div class="splash">
+  <p class="splash__eyebrow">29.9511° N — 90.0715° W</p>
+  <p class="lede">...in the key of Night.</p>
+  <div class="divider">△ ✝ △</div>
+  <div class="splash__foot">
+    <a href="/under-construction.html">Services</a> / /
+    <a href="/under-construction.html">Contact</a>
+  </div>
+</div>
+
+<div class="texture--grain"></div>
+<div class="cursor-glow"></div>
+
+<script>
+/* CURSOR GLOW FOLLOW */
+document.addEventListener('mousemove', e => {
+  const glow = document.querySelector('.cursor-glow');
+  if (!glow) return;
+  glow.style.left = (e.pageX - 60) + 'px';
+  glow.style.top = (e.pageY - 60) + 'px';
+});
+
+/* CURSOR PROXIMITY WARPING THE PORTAL FRAME */
+document.addEventListener('mousemove', e => {
+  const portal = document.querySelector('.portal-frame');
+  if (!portal) return;
+
+  const rect = portal.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+
+  const dx = (e.pageX - cx) / rect.width;
+  const dy = (e.pageY - cy) / rect.height;
+
+  const warpX = (dx * 1.8);
+  const warpY = (dy * 1.8);
+
+  portal.style.transform =
+    `translate(-50%, -50%)
+     rotate(${warpX * 0.9}deg)
+     skew(${warpX}deg, ${warpY}deg)`;
+});
+</script>
+
+</body>
+</html>
