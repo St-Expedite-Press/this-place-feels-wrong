@@ -7,6 +7,7 @@ This repository contains a single neon-wired portal experience on slate-dark bac
 - Stub: `under-construction.html` (neon slate, return-to-portal CTA).
 - Archived portal variants: `assets/deprecated_pages/index_0_1.html`, `index_0_2.html`, and an older `index.html` copy (reference only; do not deploy).
 - Version: `1.0.1` (see `VERSION` and `CHANGELOG.md`).
+- No standalone 404 page is deployed; all outbound portal links currently route to the under-construction stub.
 
 ## Repository Layout (high-level)
 - Root: `index.html`, `under-construction.html`, `portal.js`, `VERSION`, `CHANGELOG.md`, `README.md`, `.gitignore`, `.env` (local).

@@ -47,10 +47,10 @@ digraph STXP {
   }
 
   // Page -> Theme
-  Portal_Main -> NeonSlate [label="hasTheme"];
-  UnderConstruction -> NeonSlate [label="hasTheme"];
-  Portal_Variant_01 -> NeonSlate [label="hasTheme"];
-  Portal_Variant_02 -> NeonSlate [label="hasTheme"];
+    Portal_Main -> NeonSlate [label="hasTheme"];
+    UnderConstruction -> NeonSlate [label="hasTheme"];
+    Portal_Variant_01 -> NeonSlate [label="hasTheme"];
+    Portal_Variant_02 -> NeonSlate [label="hasTheme"];
 
   // Navigation links
   Portal_Main -> UnderConstruction [label="linksTo"];
