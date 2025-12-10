@@ -1,0 +1,32 @@
+# Environment files
+.env
+.env.*
+
+# OS/editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Node/Python (future tooling)
+node_modules/
+.cache/
+dist/
+build/
+__pycache__/
+*.pyc
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local server artifacts
+.vscode/
+.idea/
+.parcel-cache/
+
+# Generated archives
+*.zip
+*.tar

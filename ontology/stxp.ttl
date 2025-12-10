@@ -1,0 +1,136 @@
+@prefix : <http://stexpedite.press/ontology#> .
+@prefix stxp: <http://stexpedite.press/ontology#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+stxp: a owl:Ontology ;
+  dct:title "St. Expedite Press Neon Portal Ontology" ;
+  dct:creator "St. Expedite Press" ;
+  dct:description "Structural ontology for the neon portal, its assets, guides, and state branches." ;
+  dct:created "2025-12-10"^^xsd:date ;
+  dct:modified "2025-12-10"^^xsd:date .
+
+### Classes
+stxp:Page a owl:Class ; rdfs:label "Page" .
+stxp:ActivePage a owl:Class ; rdfs:subClassOf stxp:Page ; rdfs:label "Active Page" .
+stxp:ArchivedPage a owl:Class ; rdfs:subClassOf stxp:Page ; rdfs:label "Archived Page" .
+stxp:PortalPage a owl:Class ; rdfs:subClassOf stxp:ActivePage ; rdfs:label "Portal Page" .
+stxp:StubPage a owl:Class ; rdfs:subClassOf stxp:ActivePage ; rdfs:label "Stub Page" .
+stxp:DeprecatedPage a owl:Class ; rdfs:subClassOf stxp:ArchivedPage ; rdfs:label "Deprecated Page" .
+
+stxp:Asset a owl:Class ; rdfs:label "Asset" .
+stxp:CSSAsset a owl:Class ; rdfs:subClassOf stxp:Asset ; rdfs:label "CSS Asset" .
+stxp:JSAsset a owl:Class ; rdfs:subClassOf stxp:Asset ; rdfs:label "JS Asset" .
+stxp:MediaAsset a owl:Class ; rdfs:subClassOf stxp:Asset ; rdfs:label "Media Asset" .
+stxp:GuideDoc a owl:Class ; rdfs:subClassOf stxp:Asset ; rdfs:label "Guide Document" .
+
+stxp:Theme a owl:Class ; rdfs:label "Theme" .
+stxp:Variant a owl:Class ; rdfs:label "Variant" .
+
+### Properties
+stxp:filePath a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "file path" .
+stxp:linksTo a owl:ObjectProperty ; rdfs:domain stxp:Page ; rdfs:range stxp:Page ; rdfs:label "links to" .
+stxp:hasAsset a owl:ObjectProperty ; rdfs:domain stxp:Page ; rdfs:range stxp:Asset ; rdfs:label "has asset" .
+stxp:hasTheme a owl:ObjectProperty ; rdfs:domain stxp:Page ; rdfs:range stxp:Theme ; rdfs:label "has theme" .
+stxp:hasVariant a owl:ObjectProperty ; rdfs:domain stxp:Page ; rdfs:range stxp:Variant ; rdfs:label "has variant" .
+stxp:documentedBy a owl:ObjectProperty ; rdfs:domain stxp:Asset ; rdfs:range stxp:GuideDoc ; rdfs:label "documented by" .
+
+### Themes
+stxp:NeonSlateTheme a stxp:Theme ;
+  rdfs:label "Neon Slate Theme" ;
+  dct:description "Neon green wiring on slate/black with glow stacks and radial backdrops; supports day/night via body classes." ;
+  stxp:filePath "assets/css/global.css" .
+
+### Pages
+stxp:Portal_Main a stxp:PortalPage, stxp:ActivePage ;
+  rdfs:label "Portal Main" ;
+  stxp:filePath "index.html" ;
+  stxp:hasTheme stxp:NeonSlateTheme ;
+  stxp:hasAsset stxp:CSS_Global, stxp:CSS_Typography, stxp:CSS_Layout, stxp:JS_Portal, stxp:JS_Theme, stxp:Media_PortalGif ;
+  stxp:linksTo stxp:UnderConstruction .
+
+stxp:UnderConstruction a stxp:StubPage, stxp:ActivePage ;
+  rdfs:label "Under Construction" ;
+  stxp:filePath "under-construction.html" ;
+  stxp:hasTheme stxp:NeonSlateTheme ;
+  stxp:linksTo stxp:Portal_Main .
+
+stxp:Portal_Variant_01 a stxp:DeprecatedPage, stxp:PortalPage, stxp:ArchivedPage ;
+  rdfs:label "Portal Variant 0_1" ;
+  stxp:filePath "assets/deprecated_pages/index_0_1.html" ;
+  stxp:hasTheme stxp:NeonSlateTheme .
+
+stxp:Portal_Variant_02 a stxp:DeprecatedPage, stxp:PortalPage, stxp:ArchivedPage ;
+  rdfs:label "Portal Variant 0_2" ;
+  stxp:filePath "assets/deprecated_pages/index_0_2.html" ;
+  stxp:hasTheme stxp:NeonSlateTheme .
+
+### Assets (CSS)
+stxp:CSS_Global a stxp:CSSAsset ;
+  rdfs:label "Global CSS" ;
+  stxp:filePath "assets/css/global.css" ;
+  dct:description "Palette, tokens, textures, neon slate base." .
+
+stxp:CSS_Typography a stxp:CSSAsset ;
+  rdfs:label "Typography CSS" ;
+  stxp:filePath "assets/css/typography.css" ;
+  dct:description "Type scales for Cormorant/Cinzel pairings." .
+
+stxp:CSS_Layout a stxp:CSSAsset ;
+  rdfs:label "Layout CSS" ;
+  stxp:filePath "assets/css/layout.css" ;
+  dct:description "Structure, glitch/logo composition, buttons, grids." .
+
+stxp:CSS_Gallery a stxp:CSSAsset ;
+  rdfs:label "Gallery CSS" ;
+  stxp:filePath "assets/css/gallery.css" ;
+  dct:description "Plate/modal styling retained for future reuse." .
+
+### Assets (JS)
+stxp:JS_Theme a stxp:JSAsset ;
+  rdfs:label "Theme JS" ;
+  stxp:filePath "assets/js/theme.js" ;
+  dct:description "Day/night toggle with sep-theme persistence and prefers-color-scheme." .
+
+stxp:JS_Gallery a stxp:JSAsset ;
+  rdfs:label "Gallery JS" ;
+  stxp:filePath "assets/js/gallery.js" ;
+  dct:description "Modal logic for gallery plates (legacy/optional reuse)." .
+
+stxp:JS_Portal a stxp:JSAsset ;
+  rdfs:label "Portal JS" ;
+  stxp:filePath "portal.js" ;
+  dct:description "Cursor glow follower and proximity warp of portal frame." .
+
+### Assets (Media)
+stxp:Media_PortalGif a stxp:MediaAsset ;
+  rdfs:label "Crow Glitch GIF" ;
+  stxp:filePath "assets/gif/crow_glitch_text.gif" .
+
+stxp:Media_CrowFrames a stxp:MediaAsset ;
+  rdfs:label "Crow Frame Sequence" ;
+  stxp:filePath "assets/img/crow_frames/" .
+
+stxp:Media_Sigils a stxp:MediaAsset ;
+  rdfs:label "Legacy Sigils" ;
+  stxp:filePath "assets/img/deprecated_images/" .
+
+### Guides
+stxp:Guide_Setup a stxp:GuideDoc ; rdfs:label "Setup Guide" ; stxp:filePath "Agent_Guide/01-setup.md" .
+stxp:Guide_Aesthetic a stxp:GuideDoc ; rdfs:label "Aesthetic Guide" ; stxp:filePath "Agent_Guide/02-aesthetic.md" .
+stxp:Guide_Portal a stxp:GuideDoc ; rdfs:label "Portal Guide" ; stxp:filePath "Agent_Guide/03-portal.md" .
+stxp:Guide_Theme a stxp:GuideDoc ; rdfs:label "Theme Guide" ; stxp:filePath "Agent_Guide/04-theme.md" .
+stxp:Guide_Assets a stxp:GuideDoc ; rdfs:label "Assets Guide" ; stxp:filePath "Agent_Guide/05-assets.md" .
+stxp:Guide_A11y a stxp:GuideDoc ; rdfs:label "Accessibility Guide" ; stxp:filePath "Agent_Guide/06-accessibility.md" .
+stxp:Guide_Deploy a stxp:GuideDoc ; rdfs:label "Deploy Guide" ; stxp:filePath "Agent_Guide/07-deploy.md" .
+stxp:Guide_Filenaming a stxp:GuideDoc ; rdfs:label "File Naming Guide" ; stxp:filePath "Agent_Guide/08-filenaming.md" .
+
+### Documentation Links
+stxp:CSS_Global stxp:documentedBy stxp:Guide_Aesthetic .
+stxp:CSS_Layout stxp:documentedBy stxp:Guide_Portal .
+stxp:JS_Theme stxp:documentedBy stxp:Guide_Theme .
+stxp:JS_Portal stxp:documentedBy stxp:Guide_Portal .
+stxp:Media_PortalGif stxp:documentedBy stxp:Guide_Assets .

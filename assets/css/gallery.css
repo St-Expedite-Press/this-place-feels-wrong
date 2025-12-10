@@ -1,0 +1,28 @@
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Plate styling and modal SVG accents */
+.plate-svg {
+  width: 100%;
+  height: 100%;
+  background: var(--bone);
+}
+
+.plate-svg path,
+.plate-svg line,
+.plate-svg circle,
+.plate-svg polyline {
+  stroke: var(--obsidian);
+  stroke-width: 1.4;
+  fill: none;
+}
+
+.plate-svg .accent {
+  stroke: var(--occult);
+}
+
+.modal__image svg {
+  width: 100%;
+  height: 100%;
+}
