@@ -25,6 +25,13 @@ digraph STXP {
     Media_PortalGif [label="Media_PortalGif\ncrow_glitch_text.gif"];
     Media_CrowFrames [label="Media_CrowFrames\ncrow_frames/"];
     Media_Sigils [label="Media_Sigils\ndeprecated_images/"];
+    Visual_OntologyPNG [label="Visual_OntologyPNG\nontology/stxp.png", fillcolor="#102027"];
+  }
+
+  subgraph cluster_ontology {
+    label="Ontology";
+    color="#2aff8a";
+    OntologyRoot [label="stxp ontology", shape=ellipse, fillcolor="#0f1b21"];
   }
 
   subgraph cluster_guides {
@@ -66,6 +73,9 @@ digraph STXP {
 
   // Stub uses theme and global styling
   UnderConstruction -> CSS_Global [label="hasAsset"];
+
+  // Ontology visualization node
+  Visual_OntologyPNG -> OntologyRoot [label="depicts ontology", style=dashed];
 
   // Guides documenting assets
   CSS_Global -> Guide_Aesthetic [label="documentedBy"];

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 — Venv + Ontology Visualization
+- Added local venv setup and installed graphviz (0.21) for ontology rendering.
+- Generated `ontology/stxp.png` from `stxp.dot`.
+- Updated README and agent guides with venv/command/structure changes.
+
 ## 1.0.1 — Docs & Naming Pass
 - Added `under-construction.html` stub and pointed portal links to it with a return-to-portal CTA.
 - Added file-naming conventions guide for agents and referenced it in docs.

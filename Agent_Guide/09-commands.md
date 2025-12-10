@@ -17,8 +17,14 @@ Use these as copy/paste prompts when working locally. All commands assume repo r
 ## Ontology and graph
 - View ontology file:
   - `Get-Content ontology/stxp.ttl`
-- Render Graphviz DOT (requires dot):
-  - `dot -Tpng ontology/stxp.dot -o ontology/stxp.png`
+- Render Graphviz DOT via venv (Python graphviz):
+  ```
+  @'
+  from graphviz import Source
+  src = Source.from_file('ontology/stxp.dot')
+  src.render('ontology/stxp', format='png', cleanup=True)
+  '@ | .\.venv\Scripts\python -
+  ```
 
 ## Lint/check basics
 - HTML sanity (PowerShell quick view):

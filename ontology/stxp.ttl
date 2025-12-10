@@ -26,6 +26,7 @@ stxp:CSSAsset a owl:Class ; rdfs:subClassOf stxp:Asset ; rdfs:label "CSS Asset" 
 stxp:JSAsset a owl:Class ; rdfs:subClassOf stxp:Asset ; rdfs:label "JS Asset" .
 stxp:MediaAsset a owl:Class ; rdfs:subClassOf stxp:Asset ; rdfs:label "Media Asset" .
 stxp:GuideDoc a owl:Class ; rdfs:subClassOf stxp:Asset ; rdfs:label "Guide Document" .
+stxp:VisualAsset a owl:Class ; rdfs:subClassOf stxp:Asset ; rdfs:label "Visualized Ontology Asset" .
 
 stxp:Theme a owl:Class ; rdfs:label "Theme" .
 stxp:Variant a owl:Class ; rdfs:label "Variant" .
@@ -37,6 +38,7 @@ stxp:hasAsset a owl:ObjectProperty ; rdfs:domain stxp:Page ; rdfs:range stxp:Ass
 stxp:hasTheme a owl:ObjectProperty ; rdfs:domain stxp:Page ; rdfs:range stxp:Theme ; rdfs:label "has theme" .
 stxp:hasVariant a owl:ObjectProperty ; rdfs:domain stxp:Page ; rdfs:range stxp:Variant ; rdfs:label "has variant" .
 stxp:documentedBy a owl:ObjectProperty ; rdfs:domain stxp:Asset ; rdfs:range stxp:GuideDoc ; rdfs:label "documented by" .
+stxp:depictsOntology a owl:ObjectProperty ; rdfs:domain stxp:VisualAsset ; rdfs:range owl:Ontology ; rdfs:label "depicts ontology" .
 
 ### Themes
 stxp:NeonSlateTheme a stxp:Theme ;
@@ -117,6 +119,13 @@ stxp:Media_CrowFrames a stxp:MediaAsset ;
 stxp:Media_Sigils a stxp:MediaAsset ;
   rdfs:label "Legacy Sigils" ;
   stxp:filePath "assets/img/deprecated_images/" .
+
+stxp:Visual_OntologyPNG a stxp:VisualAsset ;
+  rdfs:label "Ontology Graph PNG" ;
+  stxp:filePath "ontology/stxp.png" ;
+  dct:created "2025-12-10"^^xsd:date ;
+  dct:description "Rendered ontology graph from stxp.dot using Python graphviz 0.21 in venv." ;
+  stxp:depictsOntology stxp: .
 
 ### Guides
 stxp:Guide_Setup a stxp:GuideDoc ; rdfs:label "Setup Guide" ; stxp:filePath "Agent_Guide/01-setup.md" .

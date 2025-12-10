@@ -4,7 +4,7 @@ Annotated snapshot of the repo layout; update this file when structure changes.
 
 ```
 /                  # Repo root
-├─ CHANGELOG.md    # Release notes (current 1.0.1)
+├─ CHANGELOG.md    # Release notes (current 1.0.2)
 ├─ LICENSE
 ├─ README.md       # Project overview, behavior highlights, guardrails
 ├─ VERSION         # Current version string
@@ -44,7 +44,9 @@ Annotated snapshot of the repo layout; update this file when structure changes.
 │     └─ index_0_2.html
 ├─ ontology/
 │  ├─ stxp.ttl          # OWL/Turtle ontology of portal + assets
-│  └─ stxp.dot          # Graphviz visualization of ontology
+│  ├─ stxp.dot          # Graphviz visualization of ontology
+│  └─ stxp.png          # Rendered graph (generated via venv graphviz)
+├─ .venv/               # Python virtualenv (graphviz installed) — ignored by git
 ```
 
 Notes:
