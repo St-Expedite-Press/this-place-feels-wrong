@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LICE Magazine — St. Expedite Press</title>
+
+  <!-- Fonts identical to main site -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+  /***********************************************************************
+   * ROOT VARIABLES — Same Neon System
+   **********************************************************************/
+  :root {
+    --green-base: #2aff8a;
+    --green-1: rgba(42,255,138,0.22);
+    --green-2: rgba(42,255,138,0.12);
+    --green-3: rgba(42,255,138,0.06);
+
+    --green-hot-1: rgba(42,255,138,0.75);
+    --green-hot-2: rgba(42,255,138,0.55);
+    --green-hot-3: rgba(42,255,138,0.38);
+    --green-hot-4: rgba(42,255,138,0.22);
+
+    --relief-base: #d96aff;
+    --dark: #050807;
+  }
+
+  /***********************************************************************
+   * GLOBAL — Background, Typography, Glow
+   **********************************************************************/
+  body {
+    margin: 0;
+    background: radial-gradient(circle at 50% 50%, #030504 0%, #050807 65%, #000 100%);
+    color: var(--green-base);
+    font-family: "Cormorant Garamond", serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: var(--green-base);
+  }
+
+  .texture--grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:url('data:image/png;base64,iVBOR…') repeat;
+    opacity:.16;
+    mix-blend-mode:soft-light;
+    z-index: 0;
+  }
+
+  .cursor-glow {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(42,255,138,0.18), rgba(42,255,138,0));
+    mix-blend-mode: soft-light;
+    z-index: 50;
+  }
+
+  /***********************************************************************
+   * HEADER — Matches Portal + Books
+   **********************************************************************/
+  .page {
+    position: relative;
+    z-index: 1;
+    padding: 2.5vh 6vw 5vh;
+  }
+
+  .site-header {
+    text-align: center;
+    margin-bottom: 3vh;
+  }
+
+  .site-title {
+    font-family:"Cinzel", serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: .18em;
+    text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
+  }
+
+  .site-subtitle {
+    font-size: 1.15rem;
+    letter-spacing: .14em;
+    margin-top: 0.4rem;
+    opacity: .9;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px var(--green-2);
+  }
+
+  .header-divider {
+    width: 240px;
+    max-width: 60vw;
+    height: 1px;
+    margin: 1rem auto;
+    background: var(--green-2);
+    box-shadow: 0 0 12px var(--green-1);
+  }
+
+  .header-nav a {
+    text-decoration: none;
+    margin: 0 .8rem;
+    font-size: .95rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow: 0 0 6px var(--green-2);
+  }
+
+  .header-nav a:hover {
+    text-shadow: 0 0 12px var(--green-hot-1);
+  }
+
+  /***********************************************************************
+   * INTRO BLOCK — What LICE Is
+   **********************************************************************/
+  .intro {
+    max-width: 760px;
+    margin: 4vh auto 6vh;
+    text-align: center;
+    opacity: .92;
+    line-height: 1.55;
+    font-size: 1.1rem;
+    text-shadow: 0 0 8px var(--green-3);
+  }
+
+  .intro strong {
+    color: var(--green-base);
+    text-shadow: 0 0 12px var(--green-hot-1);
+  }
+
+  /***********************************************************************
+   * ISSUES GRID
+   **********************************************************************/
+  .issues-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 1020px) { .issues-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px)  { .issues-grid { grid-template-columns: 1fr; } }
+
+  .issue-card {
+    background: rgba(0,0,0,0.75);
+    border:1px solid rgba(42,255,138,0.18);
+    border-radius: 20px;
+    padding: 1rem;
+    box-shadow: 0 0 12px rgba(0,0,0,0.9), 0 0 20px var(--green-3);
+    transition: .25s ease;
+    position: relative;
+  }
+
+  .issue-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--green-hot-2);
+    box-shadow: 0 0 18px rgba(0,0,0,0.9), 0 0 28px var(--green-hot-2);
+  }
+
+  .issue-cover {
+    aspect-ratio: 3/4;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(42,255,138,0.12), rgba(217,106,255,0.12));
+    box-shadow: 0 0 14px rgba(0,0,0,0.9);
+    margin-bottom: .8rem;
+    position: relative;
+  }
+
+  .issue-cover-placeholder {
+    position: absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Cinzel", serif;
+    letter-spacing:.18em;
+    font-size:1rem;
+    text-shadow:0 0 8px var(--green-1);
+    opacity:.9;
+  }
+
+  .issue-meta {
+    display:flex;
+    flex-direction:column;
+    gap:.2rem;
+  }
+
+  .issue-number {
+    font-family:"Cinzel", serif;
+    font-size:1.2rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    text-shadow:0 0 8px var(--green-2);
+  }
+
+  .issue-theme {
+    font-size:.92rem;
+    opacity:.88;
+    letter-spacing:.06em;
+  }
+
+  .issue-actions {
+    margin-top:.6rem;
+    display:flex;
+    gap:.4rem;
+  }
+
+  .issue-btn {
+    flex:1;
+    text-align:center;
+    cursor:pointer;
+    border-radius:999px;
+    border:1px solid var(--green-2);
+    background:rgba(0,0,0,0.8);
+    padding:.45rem;
+    letter-spacing:.13em;
+    font-size:.82rem;
+    font-family:"Cinzel", serif;
+    text-shadow:0 0 6px var(--green-1);
+  }
+
+  .issue-btn:hover {
+    border-color:var(--green-hot-2);
+    box-shadow:0 0 12px var(--green-hot-2);
+  }
+
+  .issue-btn--buy {
+    background:rgba(42,255,138,0.12);
+  }
+
+  /***********************************************************************
+   * SUBSCRIBE SECTION
+   **********************************************************************/
+  .subscribe {
+    margin: 8vh auto;
+    max-width: 760px;
+    text-align: center;
+    padding: 2rem;
+    border: 1px solid rgba(42,255,138,0.22);
+    border-radius: 20px;
+    background: rgba(0,0,0,0.6);
+    box-shadow: 0 0 14px var(--green-2);
+  }
+
+  .subscribe h2 {
+    font-family:"Cinzel", serif;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 12px var(--green-2);
+  }
+
+  .subscribe p {
+    opacity: .9;
+    line-height: 1.45;
+    margin-bottom: 1rem;
+  }
+
+  .subscribe-btn {
+    font-family:"Cinzel", serif;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    padding: .7rem 1.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--green-hot-2);
+    background: rgba(42,255,138,0.12);
+    cursor: pointer;
+    text-shadow: 0 0 8px var(--green-1);
+  }
+
+  .subscribe-btn:hover {
+    box-shadow: 0 0 16px var(--green-hot-2);
+  }
+
+  /***********************************************************************
+   * SUBMISSIONS CTA
+   **********************************************************************/
+  .submissions {
+    max-width: 760px;
+    margin: 6vh auto 8vh;
+    text-align: center;
+    opacity: .92;
+  }
+
+  .submissions h2 {
+    font-family:"Cinzel", serif;
+    letter-spacing:.14em;
+    text-shadow:0 0 12px var(--green-2);
+  }
+
+  .submissions p {
+    line-height:1.55;
+    margin:1rem 0 1.5rem;
+  }
+
+  .submit-btn {
+    padding:.6rem 1.6rem;
+    border-radius:999px;
+    border:1px solid var(--green-2);
+    color:var(--green-base);
+    text-transform:uppercase;
+    font-family:"Cinzel", serif;
+    letter-spacing:.14em;
+    cursor:pointer;
+    background:rgba(0,0,0,0.7);
+  }
+
+  .submit-btn:hover {
+    border-color:var(--green-hot-2);
+    box-shadow:0 0 14px var(--green-hot-2);
+  }
+
+  /***********************************************************************
+   * MODAL — Issue Details
+   **********************************************************************/
+  .modal-backdrop {
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    backdrop-filter:blur(3px);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:200;
+  }
+
+  .modal-backdrop.is-visible { display:flex; }
+
+  .modal {
+    background:radial-gradient(circle at top, rgba(42,255,138,0.1), #040707 70%);
+    border-radius:22px;
+    border:1px solid rgba(42,255,138,0.4);
+    padding:1.4rem 1.6rem;
+    max-width:680px;
+    width:90vw;
+    max-height:82vh;
+    overflow:auto;
+    position:relative;
+    box-shadow:0 0 18px var(--green-1), 0 0 36px var(--green-2);
+  }
+
+  .modal-close {
+    position:absolute;
+    right:.6rem;
+    top:.5rem;
+    font-size:1.4rem;
+    color:var(--green-base);
+    cursor:pointer;
+    background:none;
+    border:none;
+  }
+
+  .modal-title {
+    font-family:"Cinzel", serif;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    margin-bottom:.3rem;
+    text-shadow:0 0 8px var(--green-1);
+  }
+
+  .modal-theme {
+    font-size:.9rem;
+    opacity:.9;
+    margin-bottom:.6rem;
+  }
+
+  .modal-toc {
+    line-height:1.45;
+    opacity:.92;
+  }
+
+  .modal-buy {
+    margin-top:1rem;
+    text-align:right;
+  }
+  .modal-buy a {
+    padding:.6rem 1.4rem;
+    border-radius:999px;
+    border:1px solid var(--green-hot-2);
+    background:rgba(42,255,138,0.12);
+    text-transform:uppercase;
+    font-family:"Cinzel", serif;
+    letter-spacing:.14em;
+    text-shadow:0 0 8px var(--green-1);
+  }
+
+  /***********************************************************************
+   * FOOTER
+   **********************************************************************/
+  .footer {
+    margin-top: 8vh;
+    text-align:center;
+    opacity:.7;
+    font-size:.8rem;
+    letter-spacing:.12em;
+  }
+  </style>
+</head>
+
+<body>
+
+  <div class="texture--grain"></div>
+  <div class="cursor-glow"></div>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="site-title">LICE MAGAZINE</div>
+      <div class="site-subtitle">A Biannual Journal of Heresy, Gulf Noir, & Strange Catholic Modernism</div>
+      <div class="header-divider"></div>
+
+      <nav class="header-nav">
+        <a href="/index.html">Portal</a>
+        <a href="/books.html">Books</a>
+        <a href="/lice.html">LICE</a>
+      </nav>
+    </header>
+
+    <!-- INTRO BLOCK -->
+    <section class="intro">
+      <strong>LICE</strong> is St. Expedite Press’s biannual literary journal—  
+      a midnight salon of essays, experimental fiction, folklore,  
+      Gulf-Gothic surrealism, weird Catholic modernism,  
+      and avant-garde cultural theory.  
+      <br><br>
+      A place where <strong>liturgy and heresy</strong> collide.  
+      A publication for readers who want the shock of meaning.  
+    </section>
+
+    <!-- ISSUES GRID -->
+    <section class="issues-grid">
+
+      <!-- ISSUE 1 -->
+      <article class="issue-card"
+        data-number="LICE No. 1"
+        data-theme="Parish & Port"
+        data-buy="#"
+        data-toc="
+          • Essay — 'Notes Toward a Gulf Catholicism'<br>
+          • Fiction — 'The Night Fisherman'<br>
+          • Interview — 'A Tattooist of the Lower Ninth'<br>
+          • Archive — Lost Parish Bulletins, 1890–1910<br>
+          • Visuals — Marina del Sol, Glitch Icons"
+      >
+        <div class="issue-cover">
+          <div class="issue-cover-placeholder">LICE 01</div>
+        </div>
+        <div class="issue-meta">
+          <div class="issue-number">No. 1 — Parish &amp; Port</div>
+          <div class="issue-theme">Gulf noir, folk Catholicism, working-waterfront surrealism</div>
+        </div>
+        <div class="issue-actions">
+          <button class="issue-btn" data-role="details">Details</button>
+          <a class="issue-btn issue-btn--buy" href="#" target="_blank">Buy</a>
+        </div>
+      </article>
+
+      <!-- ISSUE 2 -->
+      <article class="issue-card"
+        data-number="LICE No. 2"
+        data-theme="Heresies"
+        data-buy="#"
+        data-toc="
+          • Essay — 'A Catalogue of American Heresies'<br>
+          • Fiction — 'The Stigmata at Mile Marker 11'<br>
+          • Criticism — 'Dimes Square and the Death of Irony'<br>
+          • Folklore — Bayou folk saints and miracle claims<br>
+          • Visuals — Neon saints, CRT glitch mosaics"
+      >
+        <div class="issue-cover">
+          <div class="issue-cover-placeholder">LICE 02</div>
+        </div>
+        <div class="issue-meta">
+          <div class="issue-number">No. 2 — Heresies</div>
+          <div class="issue-theme">Strange faiths, glitch mysticism, underground theory</div>
+        </div>
+        <div class="issue-actions">
+          <button class="issue-btn" data-role="details">Details</button>
+          <a class="issue-btn issue-btn--buy" href="#" target="_blank">Buy</a>
+        </div>
+      </article>
+
+      <!-- ISSUE 3 (placeholder future) -->
+      <article class="issue-card"
+        data-number="LICE No. 3"
+        data-theme="The Maritime Dead"
+        data-buy="#"
+        data-toc="
+          • Essay — 'Ghost Ships of the Gulf'<br>
+          • Fiction — 'The Saltwoman'<br>
+          • Field Notes — Coastal Catholic necropolises<br>
+          • Reportage — Shrimping culture in collapse<br>
+          • Visuals — Sonar apparitions, drowned saints"
+      >
+        <div class="issue-cover">
+          <div class="issue-cover-placeholder">LICE 03</div>
+        </div>
+        <div class="issue-meta">
+          <div class="issue-number">No. 3 — The Maritime Dead</div>
+          <div class="issue-theme">Oceans, ghosts, coastal erosions of body and soul</div>
+        </div>
+        <div class="issue-actions">
+          <button class="issue-btn" data-role="details">Details</button>
+          <a class="issue-btn issue-btn--buy" href="#" target="_blank">Buy</a>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- SUBSCRIPTION BLOCK -->
+    <section class="subscribe">
+      <h2>Subscribe to LICE</h2>
+      <p>
+        Two issues a year.  
+        Priority shipping.  
+        Access to digital archives, experimental PDFs, and subscriber-only notes  
+        on Gulf Noir spiritual culture and underground theory.
+      </p>
+
+      <a class="subscribe-btn" href="#" target="_blank">Subscribe — $30/yr</a>
+    </section>
+
+    <!-- SUBMISSIONS -->
+    <section class="submissions">
+      <h2>Submit to LICE</h2>
+      <p>
+        We welcome short fiction, essays, experiments, heretical theology,  
+        Gulf folklore, postpolitical criticism, and visual work  
+        aligned with the LICE aesthetic (night-minded, sacred/profane, experimental).
+      </p>
+      <a class="submit-btn" href="/submit.html">Submit Work</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      LICE Magazine — St. Expedite Press — New Orleans
+    </footer>
+
+  </div>
+
+  <!-- MODAL STRUCTURE -->
+  <div class="modal-backdrop" id="issueModal">
+    <div class="modal">
+      <button class="modal-close">&times;</button>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-theme" id="modalTheme"></div>
+      <div class="modal-toc" id="modalToc"></div>
+      <div class="modal-buy" id="modalBuy"></div>
+    </div>
+  </div>
+
+
+  <script>
+  /***********************************************************************
+   * Cursor glow
+   **********************************************************************/
+  const glow = document.querySelector('.cursor-glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = (e.clientX - 60) + 'px';
+    glow.style.top  = (e.clientY - 60) + 'px';
+  });
+
+  /***********************************************************************
+   * Modal Logic
+   **********************************************************************/
+  const modalBackdrop = document.getElementById('issueModal');
+  const modalTitle    = document.getElementById('modalTitle');
+  const modalTheme    = document.getElementById('modalTheme');
+  const modalToc      = document.getElementById('modalToc');
+  const modalBuy      = document.getElementById('modalBuy');
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-role="details"]');
+    if (!btn) return;
+
+    const card = btn.closest('.issue-card');
+    const num  = card.getAttribute('data-number');
+    const theme= card.getAttribute('data-theme');
+    const toc  = card.getAttribute('data-toc');
+    const buy  = card.getAttribute('data-buy');
+
+    modalTitle.textContent = num;
+    modalTheme.textContent = theme;
+    modalToc.innerHTML = toc;
+    modalBuy.innerHTML = `<a href="${buy}" target="_blank">Buy Issue</a>`;
+
+    modalBackdrop.classList.add('is-visible');
+  });
+
+  document.querySelector('.modal-close').addEventListener('click', () => {
+    modalBackdrop.classList.remove('is-visible');
+  });
+
+  modalBackdrop.addEventListener('click', e => {
+    if (e.target === modalBackdrop) modalBackdrop.classList.remove('is-visible');
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === "Escape") modalBackdrop.classList.remove('is-visible');
+  });
+  </script>
+
+</body>
+</html>
