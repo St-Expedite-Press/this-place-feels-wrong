@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>St. Expedite Press — Books</title>
+
+  <!-- Same font stack as portal -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+  /***********************************************************************
+   * ROOT VARIABLES — NEON / GLOW / DARK SYSTEM
+   * Mirrors the portal page so everything feels like the same world.
+   **********************************************************************/
+  :root {
+    --green-base: #2aff8a;
+    --green-1: rgba(42,255,138,0.22);
+    --green-2: rgba(42,255,138,0.12);
+    --green-3: rgba(42,255,138,0.06);
+
+    --green-hot-1: rgba(42,255,138,0.75);
+    --green-hot-2: rgba(42,255,138,0.55);
+    --green-hot-3: rgba(42,255,138,0.38);
+    --green-hot-4: rgba(42,255,138,0.22);
+
+    --relief-base: #d96aff;
+    --dark: #050807;
+  }
+
+  /***********************************************************************
+   * GLOBAL BASE — BACKGROUND, TYPOGRAPHY, ETC.
+   **********************************************************************/
+  body {
+    margin: 0;
+    background: radial-gradient(circle at 50% 50%, #030504 0%, #050807 65%, #000 100%);
+    min-height: 100vh;
+    color: var(--green-base);
+    font-family: "Cormorant Garamond", serif;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: var(--green-base);
+  }
+
+  /***********************************************************************
+   * BACKGROUND GRAIN TEXTURE + CURSOR GLOW
+   **********************************************************************/
+  .texture--grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
+    opacity: .16;
+    mix-blend-mode: soft-light;
+    z-index: 0;
+  }
+
+  .cursor-glow {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(
+      circle,
+      rgba(42,255,138,0.18) 0%,
+      rgba(42,255,138,0.0) 70%
+    );
+    mix-blend-mode: soft-light;
+    z-index: 50;
+  }
+
+  /***********************************************************************
+   * PAGE WRAPPER & HEADER
+   **********************************************************************/
+  .page {
+    position: relative;
+    z-index: 1; /* Above grain */
+    padding: 2.5vh 5vw 5vh;
+  }
+
+  .site-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3vh;
+  }
+
+  .site-title {
+    font-family: "Cinzel", serif;
+    letter-spacing: .18em;
+    font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+    margin-bottom: .4rem;
+    text-shadow:
+      -1px -1px 0 var(--relief-base),
+       0 0 12px var(--green-1);
+  }
+
+  .site-subtitle {
+    font-size: 1rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow: 0 0 6px var(--green-2);
+  }
+
+  .site-header-divider {
+    width: 220px;
+    max-width: 60vw;
+    height: 1px;
+    margin: 0.8rem auto 0;
+    background: var(--green-2);
+    box-shadow: 0 0 12px var(--green-1);
+  }
+
+  .header-nav {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    opacity: .9;
+  }
+
+  .header-nav a {
+    text-decoration: none;
+    margin: 0 .8rem;
+    text-shadow:
+      0 0 6px var(--green-2),
+      0 0 12px var(--green-3);
+  }
+
+  .header-nav a:hover {
+    text-shadow:
+      0 0 10px var(--green-hot-1),
+      0 0 24px var(--green-hot-2);
+  }
+
+  /***********************************************************************
+   * FILTER BAR — SERIES / IMPRINT FILTERS
+   **********************************************************************/
+  .filter-bar-wrapper {
+    margin: 3vh auto 2vh;
+    max-width: 1024px;
+    text-align: center;
+  }
+
+  .filter-heading {
+    font-size: 1.1rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: .9;
+    margin-bottom: 0.7rem;
+    text-shadow: 0 0 8px var(--green-2);
+  }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .filter-button {
+    border: 1px solid var(--green-2);
+    background: rgba(0,0,0,0.7);
+    color: var(--green-base);
+    font-family: "Cinzel", serif;
+    font-size: 0.82rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    border-radius: 999px;
+    text-shadow: 0 0 6px var(--green-1);
+    box-shadow:
+      0 0 8px rgba(0,0,0,0.9),
+      0 0 12px var(--green-3);
+    transition: all .2s ease;
+  }
+
+  .filter-button:hover {
+    border-color: var(--green-hot-2);
+    box-shadow:
+      0 0 10px var(--green-hot-2),
+      0 0 20px var(--green-hot-3);
+  }
+
+  .filter-button.is-active {
+    background: rgba(42,255,138,0.1);
+    border-color: var(--green-hot-1);
+    box-shadow:
+      0 0 12px var(--green-hot-1),
+      0 0 26px var(--green-hot-2);
+  }
+
+  /***********************************************************************
+   * BOOK GRID LAYOUT
+   **********************************************************************/
+  .books-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.8rem;
+  }
+
+  @media (max-width: 1050px) {
+    .books-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .books-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 540px) {
+    .books-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /***********************************************************************
+   * BOOK CARD — VISUAL & INTERACTION
+   **********************************************************************/
+  .book-card {
+    position: relative;
+    background: rgba(0,0,0,0.75);
+    border-radius: 20px;
+    border: 1px solid rgba(42,255,138,0.2);
+    overflow: hidden;
+    padding: 0.75rem 0.75rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    box-shadow:
+      0 0 12px rgba(0,0,0,0.9),
+      0 0 20px var(--green-3);
+    transform: translate3d(0,0,0);
+    will-change: transform, box-shadow;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+
+  .book-card::before {
+    /* subtle static/glitch overlay for cards */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(42,255,138,0.03) 0px,
+        rgba(42,255,138,0.03) 1px,
+        rgba(42,255,138,0.00) 2px
+      );
+    opacity: 0.6;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
+
+  .book-card:hover {
+    transform: translate3d(0,-4px,0) scale(1.01);
+    border-color: var(--green-hot-2);
+    box-shadow:
+      0 0 14px rgba(0,0,0,0.9),
+      0 0 26px var(--green-hot-2),
+      0 0 48px var(--green-hot-3);
+  }
+
+  .book-cover-wrap {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 2 / 3; /* 2:3 book cover ratio */
+    background:
+      linear-gradient(135deg, rgba(42,255,138,0.12), rgba(217,106,255,0.12));
+    box-shadow:
+      0 0 12px rgba(0,0,0,0.9),
+      0 0 18px var(--green-2);
+  }
+
+  /* If you later want real cover images, put <img> inside .book-cover-wrap */
+  .book-cover-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Cinzel", serif;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    font-size: 0.8rem;
+    text-align: center;
+    color: var(--green-base);
+    text-shadow:
+      0 0 6px var(--green-1),
+      0 0 12px var(--green-2);
+  }
+
+  .book-series-pill {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.68);
+    border: 1px solid rgba(42,255,138,0.4);
+    text-shadow: 0 0 4px var(--green-2);
+  }
+
+  .book-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-top: 0.4rem;
+  }
+
+  .book-title {
+    font-family: "Cinzel", serif;
+    font-size: 1.0rem;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    text-shadow: 0 0 7px var(--green-1);
+  }
+
+  .book-author {
+    font-size: 0.85rem;
+    opacity: .9;
+    letter-spacing: .04em;
+  }
+
+  .book-price {
+    margin-top: 0.2rem;
+    font-size: 0.9rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: .95;
+  }
+
+  .book-actions {
+    margin-top: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.4rem;
+  }
+
+  .book-btn {
+    flex: 1;
+    font-family: "Cinzel", serif;
+    font-size: 0.78rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 0.45rem 0.4rem;
+    border: 1px solid var(--green-2);
+    background: rgba(0,0,0,0.85);
+    color: var(--green-base);
+    cursor: pointer;
+    text-align: center;
+    text-shadow: 0 0 6px var(--green-1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.9);
+    transition: all .2s ease;
+  }
+
+  .book-btn:hover {
+    border-color: var(--green-hot-2);
+    box-shadow:
+      0 0 10px var(--green-hot-2),
+      0 0 22px var(--green-hot-3);
+  }
+
+  .book-btn--primary {
+    background: rgba(42,255,138,0.12);
+  }
+
+  /***********************************************************************
+   * BOOK MODAL — DETAIL VIEW
+   **********************************************************************/
+  .book-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.86);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+  }
+
+  .book-modal-backdrop.is-visible {
+    display: flex;
+  }
+
+  .book-modal {
+    position: relative;
+    max-width: 640px;
+    width: 92vw;
+    max-height: 80vh;
+    background: radial-gradient(circle at top, rgba(42,255,138,0.08), #040707 60%);
+    border-radius: 22px;
+    border: 1px solid rgba(42,255,138,0.5);
+    box-shadow:
+      0 0 18px var(--green-1),
+      0 0 36px var(--green-2);
+    padding: 1.1rem 1.3rem 1.3rem;
+    overflow-y: auto;
+  }
+
+  .book-modal-close {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.6rem;
+    border: none;
+    background: transparent;
+    color: var(--green-base);
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-shadow: 0 0 10px var(--green-1);
+  }
+
+  .book-modal-series {
+    font-size: 0.8rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    opacity: .9;
+    margin-bottom: 0.3rem;
+  }
+
+  .book-modal-title {
+    font-family: "Cinzel", serif;
+    font-size: 1.3rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+    text-shadow: 0 0 8px var(--green-1);
+  }
+
+  .book-modal-author {
+    font-size: 0.9rem;
+    opacity: .95;
+    margin-bottom: 0.4rem;
+  }
+
+  .book-modal-price {
+    font-size: 0.9rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: .95;
+    margin-bottom: 0.7rem;
+  }
+
+  .book-modal-description {
+    font-size: 0.94rem;
+    line-height: 1.45;
+    opacity: .96;
+  }
+
+  .book-modal-footer {
+    margin-top: 0.9rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .book-modal-buy {
+    font-family: "Cinzel", serif;
+    font-size: 0.82rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 0.5rem 1.3rem;
+    border: 1px solid var(--green-hot-2);
+    background: rgba(42,255,138,0.14);
+    color: var(--green-base);
+    cursor: pointer;
+    text-shadow: 0 0 6px var(--green-1);
+    box-shadow:
+      0 0 10px rgba(0,0,0,0.9),
+      0 0 22px var(--green-hot-2);
+  }
+
+  /***********************************************************************
+   * FOOTER / SMALL PRINT
+   **********************************************************************/
+  .page-footer {
+    margin-top: 4vh;
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: .7;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    text-shadow: 0 0 6px var(--green-3);
+  }
+  </style>
+</head>
+
+<body>
+
+  <!-- Ambient grain + cursor glow -->
+  <div class="texture--grain"></div>
+  <div class="cursor-glow"></div>
+
+  <div class="page">
+
+    <!-- HEADER: mirrors portal vibe but focused on BOOKS -->
+    <header class="site-header">
+      <div class="site-title">ST. EXPEDITE PRESS</div>
+      <div class="site-subtitle">Books & Imprints</div>
+      <div class="site-header-divider"></div>
+
+      <nav class="header-nav">
+        <!-- Adjust href for your actual portal index -->
+        <a href="/index.html">Portal</a>
+        <a href="/books.html">Books</a>
+        <a href="/lice.html">LICE Magazine</a>
+      </nav>
+    </header>
+
+    <!-- FILTER BAR: series / imprint filters -->
+    <section class="filter-bar-wrapper">
+      <div class="filter-heading">Filter by Series / Imprint</div>
+      <div class="filter-bar" id="filterBar">
+        <!-- data-filter values correspond to book-card data-series attributes -->
+        <button class="filter-button is-active" data-filter="all">All</button>
+        <button class="filter-button" data-filter="sexp">SEXP — New Fiction</button>
+        <button class="filter-button" data-filter="lice">LICE Magazine</button>
+        <button class="filter-button" data-filter="southern">Legends of the Southern Past</button>
+        <button class="filter-button" data-filter="euro">European Classics &amp; Modernists</button>
+      </div>
+    </section>
+
+    <!-- BOOK GRID -->
+    <section class="books-grid" id="booksGrid">
+
+      <!-- Example SEXP title -->
+      <article
+        class="book-card"
+        data-series="sexp"
+        data-title="Something Awful and Beautiful Is Coming"
+        data-author="C. Sandbatch"
+        data-series-label="SEXP — Flagship Fiction"
+        data-price="$22.00"
+        data-description="A Gulf Noir cantata set in a spiritually scorched New Orleans, following a wayward musician whose life fractures into visions, liturgy, and heresy. SEXP’s signature novel: metaphysical, region-soaked, fiercely postpolitical."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <!-- Replace with actual <img src="..."> when you have covers -->
+          <div class="book-cover-placeholder">SEXP</div>
+          <div class="book-series-pill">SEXP</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">Something Awful and Beautiful Is Coming</div>
+          <div class="book-author">C. Sandbatch</div>
+          <div class="book-price">$22.00</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
+            Buy
+          </a>
+        </div>
+      </article>
+
+      <!-- Another SEXP title -->
+      <article
+        class="book-card"
+        data-series="sexp"
+        data-title="Gulf Noir Canticles"
+        data-author="Various Authors"
+        data-series-label="SEXP — Flagship Fiction"
+        data-price="$19.00"
+        data-description="An anthology of SEXP authors: twelve stories of bayou hauntings, parish scandals, and mystical breakdowns. A field guide to St. Expedite’s night-minded fiction aesthetic."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">SEXP</div>
+          <div class="book-series-pill">SEXP</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">Gulf Noir Canticles</div>
+          <div class="book-author">Various Authors</div>
+          <div class="book-price">$19.00</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
+            Buy
+          </a>
+        </div>
+      </article>
+
+      <!-- LICE Magazine issue -->
+      <article
+        class="book-card"
+        data-series="lice"
+        data-title="LICE No. 1: Parish &amp; Port"
+        data-author="Edited by St. Expedite Press"
+        data-series-label="LICE Magazine — Biannual Journal"
+        data-price="$14.00"
+        data-description="The inaugural issue of LICE: midnight essays, short fiction, and visual work from the Gulf and beyond. Dimes Square after midnight meets parish bulletin mysticism."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">LICE 01</div>
+          <div class="book-series-pill">LICE</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">LICE No. 1: Parish &amp; Port</div>
+          <div class="book-author">Edited by St. Expedite Press</div>
+          <div class="book-price">$14.00</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
+            Buy
+          </a>
+        </div>
+      </article>
+
+      <!-- Another LICE issue -->
+      <article
+        class="book-card"
+        data-series="lice"
+        data-title="LICE No. 2: Heresies"
+        data-author="Edited by St. Expedite Press"
+        data-series-label="LICE Magazine — Biannual Journal"
+        data-price="$15.00"
+        data-description="Essays on folk Catholicism, strange faiths, and late-capitalist mythologies; fiction that blurs liturgy and glitch. A journal issue that bites as much as it blesses."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">LICE 02</div>
+          <div class="book-series-pill">LICE</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">LICE No. 2: Heresies</div>
+          <div class="book-author">Edited by St. Expedite Press</div>
+          <div class="book-price">$15.00</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
+            Buy
+          </a>
+        </div>
+      </article>
+
+      <!-- Legends of the Southern Past — Reprint 1 -->
+      <article
+        class="book-card"
+        data-series="southern"
+        data-title="Haunts of the Delta"
+        data-author="M. J. LaCour (1953)"
+        data-series-label="Legends of the Southern Past"
+        data-price="$18.00"
+        data-description="A reprint of a 1953 Gulf South ghost-story collection, back in print for the first time in decades. River spirits, parish haints, and bayou visitations annotated for contemporary readers."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">LEGENDS</div>
+          <div class="book-series-pill">Legends</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">Haunts of the Delta</div>
+          <div class="book-author">M. J. LaCour (1953)</div>
+          <div class="book-price">$18.00</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
+            Buy
+          </a>
+        </div>
+      </article>
+
+      <!-- Legends of the Southern Past — Reprint 2 -->
+      <article
+        class="book-card"
+        data-series="southern"
+        data-title="The Haints of St. Roch"
+        data-author="Anonymous (1907)"
+        data-series-label="Legends of the Southern Past"
+        data-price="$17.00"
+        data-description="Collected miracle stories, graveyard legends, and folk Catholic vignettes from a vanished New Orleans neighborhood. Includes a new foreword on St. Roch and Gulf South folk piety."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">LEGENDS</div>
+          <div class="book-series-pill">Legends</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">The Haints of St. Roch</div>
+          <div class="book-author">Anonymous (1907)</div>
+          <div class="book-price">$17.00</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
+            Buy
+          </a>
+        </div>
+      </article>
+
+      <!-- European Classics & Modernists — Title 1 -->
+      <article
+        class="book-card"
+        data-series="euro"
+        data-title="Night Procession in Castile"
+        data-author="Ramón del Valle-Inclán (trans. St. Expedite)"
+        data-series-label="European Classics & Modernists in Translation"
+        data-price="$21.00"
+        data-description="Baroque processions, miracles, and political heresies in a Spanish village on the brink of modernity. A new English translation of Valle-Inclán’s mystical grotesque."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">EURO</div>
+          <div class="book-series-pill">EURO</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">Night Procession in Castile</div>
+          <div class="book-author">Ramón del Valle-Inclán (trans. St. Expedite)</div>
+          <div class="book-price">$21.00</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
+            Buy
+          </a>
+        </div>
+      </article>
+
+      <!-- European Classics & Modernists — Title 2 -->
+      <article
+        class="book-card"
+        data-series="euro"
+        data-title="The Icon and the Fire"
+        data-author="Unknown Russian Modernist"
+        data-series-label="European Classics & Modernists in Translation"
+        data-price="$20.00"
+        data-description="A lost Russian modernist novella about an icon painter, a secret heresy, and the collapse of a village world. For readers of Bernanos, Akhmatova, and the Orthodox mystic line."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">EURO</div>
+          <div class="book-series-pill">EURO</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">The Icon and the Fire</div>
+          <div class="book-author">Unknown Russian Modernist</div>
+          <div class="book-price">$20.00</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
+            Buy
+          </a>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="page-footer">
+      ST. EXPEDITE PRESS · NEW ORLEANS · MMXXV
+    </footer>
+  </div>
+
+  <!-- BOOK MODAL STRUCTURE -->
+  <div class="book-modal-backdrop" id="bookModalBackdrop" aria-hidden="true">
+    <div class="book-modal" role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
+      <button class="book-modal-close" type="button" aria-label="Close">&times;</button>
+      <div class="book-modal-series" id="bookModalSeries"></div>
+      <div class="book-modal-title" id="bookModalTitle"></div>
+      <div class="book-modal-author" id="bookModalAuthor"></div>
+      <div class="book-modal-price" id="bookModalPrice"></div>
+      <div class="book-modal-description" id="bookModalDescription"></div>
+      <div class="book-modal-footer">
+        <a href="#" class="book-modal-buy" id="bookModalBuy" target="_blank" rel="noopener noreferrer">
+          Purchase
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /***********************************************************************
+   * CURSOR GLOW FOLLOW — REUSES PORTAL FEEL
+   **********************************************************************/
+  (function() {
+    const glow = document.querySelector('.cursor-glow');
+    if (!glow) return;
+
+    document.addEventListener('mousemove', e => {
+      glow.style.left = (e.clientX - 60) + 'px';
+      glow.style.top  = (e.clientY - 60) + 'px';
+    });
+  })();
+
+  /***********************************************************************
+   * FILTER LOGIC — SHOW/HIDE BOOK CARDS BY SERIES
+   *
+   *  - Buttons have data-filter="all|sexp|lice|southern|euro"
+   *  - Cards have data-series="sexp|lice|southern|euro"
+   **********************************************************************/
+  (function() {
+    const filterBar = document.getElementById('filterBar');
+    const booksGrid = document.getElementById('booksGrid');
+    if (!filterBar || !booksGrid) return;
+
+    const buttons = Array.from(filterBar.querySelectorAll('.filter-button'));
+    const cards   = Array.from(booksGrid.querySelectorAll('.book-card'));
+
+    function applyFilter(filter) {
+      cards.forEach(card => {
+        const series = card.getAttribute('data-series');
+        const match = (filter === 'all') || (series === filter);
+        card.style.display = match ? '' : 'none';
+      });
+    }
+
+    filterBar.addEventListener('click', event => {
+      const btn = event.target.closest('.filter-button');
+      if (!btn) return;
+
+      const filter = btn.getAttribute('data-filter');
+      if (!filter) return;
+
+      buttons.forEach(b => b.classList.toggle('is-active', b === btn));
+      applyFilter(filter);
+    });
+
+    // initialize with 'all' active
+    applyFilter('all');
+  })();
+
+  /***********************************************************************
+   * BOOK MODAL — POPULATE FROM DATA ATTRIBUTES
+   *
+   *  - Each .book-card carries data-title, data-author, etc.
+   *  - "More Info" button opens the modal with those fields filled in.
+   **********************************************************************/
+  (function() {
+    const backdrop = document.getElementById('bookModalBackdrop');
+    const titleEl  = document.getElementById('bookModalTitle');
+    const authorEl = document.getElementById('bookModalAuthor');
+    const seriesEl = document.getElementById('bookModalSeries');
+    const priceEl  = document.getElementById('bookModalPrice');
+    const descEl   = document.getElementById('bookModalDescription');
+    const buyEl    = document.getElementById('bookModalBuy');
+
+    if (!backdrop || !titleEl || !authorEl || !seriesEl || !priceEl || !descEl || !buyEl) return;
+
+    const closeButton = backdrop.querySelector('.book-modal-close');
+
+    function openModal(card) {
+      const title   = card.getAttribute('data-title') || '';
+      const author  = card.getAttribute('data-author') || '';
+      const series  = card.getAttribute('data-series-label') || '';
+      const price   = card.getAttribute('data-price') || '';
+      const desc    = card.getAttribute('data-description') || '';
+      const buyUrl  = card.getAttribute('data-buy-url') || '#';
+
+      titleEl.textContent  = title;
+      authorEl.textContent = author;
+      seriesEl.textContent = series;
+      priceEl.textContent  = price;
+      descEl.textContent   = desc;
+      buyEl.setAttribute('href', buyUrl);
+
+      backdrop.classList.add('is-visible');
+      backdrop.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal() {
+      backdrop.classList.remove('is-visible');
+      backdrop.setAttribute('aria-hidden', 'true');
+    }
+
+    // Attach listeners to all "More Info" buttons
+    document.addEventListener('click', event => {
+      const btn = event.target.closest('[data-role="details"]');
+      if (!btn) return;
+
+      const card = btn.closest('.book-card');
+      if (!card) return;
+
+      openModal(card);
+    });
+
+    // Close button
+    if (closeButton) {
+      closeButton.addEventListener('click', closeModal);
+    }
+
+    // Click outside modal content closes
+    backdrop.addEventListener('click', event => {
+      if (event.target === backdrop) {
+        closeModal();
+      }
+    });
+
+    // ESC key closes modal
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && backdrop.classList.contains('is-visible')) {
+        closeModal();
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
