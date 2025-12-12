@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mission — St. Expedite Press</title>
+
+  <!-- Fonts shared sitewide -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+  /* ============================================================
+     CORE VARIABLES — identical palette to the rest of the site
+     ============================================================ */
+  :root {
+    --green-base: #2aff8a;
+    --green-1: rgba(42,255,138,0.22);
+    --green-2: rgba(42,255,138,0.12);
+    --green-3: rgba(42,255,138,0.06);
+
+    --green-hot-1: rgba(42,255,138,0.75);
+    --green-hot-2: rgba(42,255,138,0.55);
+    --green-hot-3: rgba(42,255,138,0.38);
+
+    --relief-base: #d96aff;
+    --dark: #050807;
+  }
+
+  /* ============================================================
+     GLOBAL
+     ============================================================ */
+  body {
+    margin: 0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      #030504 0%,
+      #050807 65%,
+      #000 100%
+    );
+    color: var(--green-base);
+    font-family: "Cormorant Garamond", serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: var(--green-base);
+    text-decoration: none;
+  }
+
+  /* Subtle film grain */
+  .texture--grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=')
+      repeat;
+    opacity: .18;
+    mix-blend-mode: soft-light;
+  }
+
+  /* Cursor aura */
+  .cursor-glow {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(
+      circle,
+      rgba(42,255,138,0.18),
+      rgba(42,255,138,0)
+    );
+    mix-blend-mode: soft-light;
+    z-index: 50;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    padding: 2.5vh 6vw 6vh;
+  }
+
+  /* ============================================================
+     HEADER
+     ============================================================ */
+  .site-header {
+    text-align: center;
+    margin-bottom: 4vh;
+  }
+
+  .site-title {
+    font-family: "Cinzel", serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: .18em;
+    text-shadow:
+      -1px -1px 0 var(--relief-base),
+       0 0 12px var(--green-1);
+  }
+
+  .site-subtitle {
+    margin-top: .4rem;
+    font-size: 1.05rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow: 0 0 8px var(--green-2);
+  }
+
+  .header-divider {
+    width: 260px;
+    max-width: 70vw;
+    height: 1px;
+    margin: 1rem auto;
+    background: var(--green-2);
+    box-shadow: 0 0 12px var(--green-1);
+  }
+
+  .header-nav a {
+    margin: 0 .8rem;
+    font-size: .95rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow: 0 0 6px var(--green-2);
+  }
+
+  .header-nav a:hover {
+    text-shadow: 0 0 12px var(--green-hot-1);
+  }
+
+  /* ============================================================
+     MISSION BODY
+     ============================================================ */
+  .mission {
+    max-width: 860px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    opacity: .95;
+    text-shadow: 0 0 6px var(--green-3);
+  }
+
+  .mission p {
+    margin-bottom: 1.4rem;
+  }
+
+  .mission strong {
+    text-shadow: 0 0 10px var(--green-hot-1);
+    font-weight: 600;
+  }
+
+  /* Section markers act like liturgical breaks */
+  .mission-section {
+    margin: 4vh 0 3vh;
+    text-align: center;
+  }
+
+  .mission-section-title {
+    font-family: "Cinzel", serif;
+    font-size: 1.2rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    opacity: .95;
+    text-shadow: 0 0 10px var(--green-2);
+  }
+
+  .mission-divider {
+    width: 180px;
+    height: 1px;
+    margin: .8rem auto 0;
+    background: var(--green-2);
+    box-shadow: 0 0 10px var(--green-1);
+  }
+
+  /* ============================================================
+     AXIOMS / DECLARATIONS
+     ============================================================ */
+  .axioms {
+    margin: 4vh auto 5vh;
+    max-width: 720px;
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .axiom {
+    padding: 1rem 1.2rem;
+    border-radius: 18px;
+    background: rgba(0,0,0,0.75);
+    border: 1px solid rgba(42,255,138,0.18);
+    box-shadow: 0 0 14px var(--green-3);
+    font-size: .98rem;
+  }
+
+  .axiom::before {
+    content: "△";
+    margin-right: .6rem;
+    opacity: .8;
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .footer {
+    margin-top: 6vh;
+    text-align: center;
+    font-size: .8rem;
+    letter-spacing: .12em;
+    opacity: .7;
+  }
+  </style>
+</head>
+
+<body>
+  <div class="texture--grain"></div>
+  <div class="cursor-glow"></div>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="site-title">MISSION</div>
+      <div class="site-subtitle">St. Expedite Press</div>
+      <div class="header-divider"></div>
+
+      <nav class="header-nav">
+        <a href="index.html">Portal</a>
+        <a href="books.html">Books</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="lice.html">LICE</a>
+      </nav>
+    </header>
+
+    <!-- MAIN MISSION TEXT -->
+    <main class="mission">
+
+      <p>
+        <strong>St. Expedite Press</strong> is a micropress founded in New Orleans
+        and dedicated to the publication of literature that moves quickly,
+        thinks slowly, and endures.
+      </p>
+
+      <p>
+        We publish fiction, translations, and visual work that resists the
+        flattening pressures of the contemporary market: literature that
+        refuses to become content, slogans, or lifestyle branding.
+      </p>
+
+      <div class="mission-section">
+        <div class="mission-section-title">Orientation</div>
+        <div class="mission-divider"></div>
+      </div>
+
+      <p>
+        Our editorial orientation is best described as
+        <strong>soft Catholic, postpolitical, and postidentitarian</strong>.
+        This does not mean doctrinal or partisan alignment. It means a
+        seriousness about meaning, memory, ritual, and moral consequence.
+      </p>
+
+      <p>
+        We believe literature should be allowed to speak in symbols, parables,
+        and contradictions—to explore grace, failure, heresy, devotion, and
+        doubt without being conscripted into contemporary ideological regimes.
+      </p>
+
+      <div class="mission-section">
+        <div class="mission-section-title">What We Publish</div>
+        <div class="mission-divider"></div>
+      </div>
+
+      <p>
+        St. Expedite Press publishes four primary bodies of work:
+      </p>
+
+      <div class="axioms">
+        <div class="axiom">
+          Reprints and rediscoveries from the Southern and Gulf tradition,
+          especially works that have fallen out of circulation.
+        </div>
+        <div class="axiom">
+          European classics and modernist texts in Spanish, French, and Russian,
+          translated with literary and spiritual fidelity.
+        </div>
+        <div class="axiom">
+          LICE Magazine, a biannual journal for experimental, transgressive,
+          and spiritually serious contemporary writing.
+        </div>
+        <div class="axiom">
+          SEXP, our flagship fiction imprint for original novels and collections
+          that operate outside commercial genre expectations.
+        </div>
+      </div>
+
+      <div class="mission-section">
+        <div class="mission-section-title">Why We Exist</div>
+        <div class="mission-divider"></div>
+      </div>
+
+      <p>
+        We exist because the literary ecosystem increasingly rewards speed,
+        conformity, and legibility over depth.
+      </p>
+
+      <p>
+        St. Expedite Press is committed to the opposite wager:
+        that careful work, issued in small runs, can exert influence over time;
+        that books can still carry aura; that readers are hungry for writing
+        that treats them as adults.
+      </p>
+
+      <p>
+        Our mission is not scale, virality, or dominance.
+        It is continuity.
+      </p>
+
+      <p>
+        In the spirit of our patron saint, we act with urgency—but not haste.
+        We publish what must be published, when it is ready.
+      </p>
+
+    </main>
+
+    <footer class="footer">
+      St. Expedite Press — New Orleans
+    </footer>
+
+  </div>
+
+  <script>
+  // Cursor glow follower (shared behavior across site)
+  const glow = document.querySelector('.cursor-glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = (e.clientX - 60) + 'px';
+    glow.style.top  = (e.clientY - 60) + 'px';
+  });
+  </script>
+</body>
+</html>
