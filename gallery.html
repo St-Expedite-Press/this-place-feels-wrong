@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gallery — St. Expedite Press</title>
+
+  <!-- Same fonts as the rest of the site -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+  :root {
+    /* Neon system */
+    --green-base: #2aff8a;
+    --green-1: rgba(42,255,138,0.22);
+    --green-2: rgba(42,255,138,0.12);
+    --green-3: rgba(42,255,138,0.06);
+
+    --green-hot-1: rgba(42,255,138,0.75);
+    --green-hot-2: rgba(42,255,138,0.55);
+    --green-hot-3: rgba(42,255,138,0.38);
+    --green-hot-4: rgba(42,255,138,0.22);
+
+    --relief-base: #d96aff;
+    --dark: #050807;
+  }
+
+  /* GLOBAL ----------------------------------------------------------- */
+  body {
+    margin: 0;
+    background: radial-gradient(circle at 50% 50%, #030504 0%, #050807 65%, #000 100%);
+    color: var(--green-base);
+    font-family: "Cormorant Garamond", serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: var(--green-base);
+  }
+
+  .texture--grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
+    opacity:.18;
+    mix-blend-mode:soft-light;
+  }
+
+  .cursor-glow {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(42,255,138,0.18), rgba(42,255,138,0));
+    mix-blend-mode: soft-light;
+    z-index: 50;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    padding: 2.5vh 6vw 5vh;
+  }
+
+  /* HEADER ----------------------------------------------------------- */
+  .site-header {
+    text-align: center;
+    margin-bottom: 3vh;
+  }
+
+  .site-title {
+    font-family:"Cinzel", serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: .18em;
+    text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
+  }
+
+  .site-subtitle {
+    font-size: 1.05rem;
+    letter-spacing: .14em;
+    margin-top: 0.4rem;
+    opacity: .9;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px var(--green-2);
+  }
+
+  .header-divider {
+    width: 260px;
+    max-width: 70vw;
+    height: 1px;
+    margin: 1rem auto;
+    background: var(--green-2);
+    box-shadow: 0 0 12px var(--green-1);
+  }
+
+  .header-nav a {
+    text-decoration: none;
+    margin: 0 .8rem;
+    font-size: .95rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow: 0 0 6px var(--green-2);
+  }
+
+  .header-nav a:hover {
+    text-shadow: 0 0 12px var(--green-hot-1);
+  }
+
+  /* INTRO ------------------------------------------------------------ */
+  .intro {
+    max-width: 780px;
+    margin: 4vh auto 4vh;
+    text-align: center;
+    opacity: .94;
+    line-height: 1.55;
+    font-size: 1.05rem;
+    text-shadow: 0 0 8px var(--green-3);
+  }
+
+  .intro strong {
+    text-shadow: 0 0 10px var(--green-hot-1);
+  }
+
+  /* FILTER BAR ------------------------------------------------------- */
+  .filter-bar {
+    max-width: 980px;
+    margin: 2vh auto 4vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+  }
+
+  .filter-pill {
+    border-radius: 999px;
+    border: 1px solid var(--green-2);
+    padding: .35rem 1.1rem;
+    font-family:"Cinzel", serif;
+    font-size: .82rem;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    background: rgba(0,0,0,0.8);
+    cursor:pointer;
+    opacity:.9;
+    text-shadow:0 0 6px var(--green-1);
+  }
+
+  .filter-pill.is-active {
+    background: rgba(42,255,138,0.15);
+    border-color: var(--green-hot-2);
+    box-shadow: 0 0 12px var(--green-hot-2);
+  }
+
+  /* GRID ------------------------------------------------------------- */
+  .gallery-grid {
+    max-width: 1200px;
+    margin: 0 auto 6vh;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 1100px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 720px)  { .gallery-grid { grid-template-columns: 1fr; } }
+
+  .print-card {
+    background: rgba(0,0,0,0.75);
+    border-radius: 20px;
+    border: 1px solid rgba(42,255,138,0.2);
+    padding: 1rem;
+    box-shadow: 0 0 12px rgba(0,0,0,0.9), 0 0 20px var(--green-3);
+    transition: .25s ease;
+    position: relative;
+  }
+
+  .print-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--green-hot-2);
+    box-shadow: 0 0 18px rgba(0,0,0,0.9), 0 0 28px var(--green-hot-2);
+  }
+
+  .print-thumb {
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    position: relative;
+    margin-bottom: .75rem;
+    aspect-ratio: 3/4;
+  }
+
+  .print-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display:block;
+    transition: .35s ease;
+    filter:brightness(1.15) contrast(1.5);
+  }
+
+  .print-card:hover .print-thumb img {
+    filter:brightness(1.3) contrast(1.8);
+    transform: scale(1.03);
+  }
+
+  .print-meta {
+    display:flex;
+    flex-direction:column;
+    gap:.15rem;
+  }
+
+  .print-title {
+    font-family:"Cinzel", serif;
+    font-size:1.1rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-shadow:0 0 8px var(--green-2);
+  }
+
+  .print-series {
+    font-size:.86rem;
+    opacity:.88;
+    letter-spacing:.08em;
+  }
+
+  .print-edition {
+    font-size:.86rem;
+    opacity:.85;
+  }
+
+  .print-price {
+    margin-top:.25rem;
+    font-size:.95rem;
+    font-weight:600;
+  }
+
+  .print-tags {
+    margin-top:.35rem;
+    font-size:.78rem;
+    opacity:.78;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+  }
+
+  .print-actions {
+    margin-top:.7rem;
+    display:flex;
+    gap:.45rem;
+  }
+
+  .print-btn {
+    flex:1;
+    text-align:center;
+    border-radius:999px;
+    border:1px solid var(--green-2);
+    padding:.45rem;
+    font-family:"Cinzel", serif;
+    font-size:.8rem;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    background:rgba(0,0,0,0.8);
+    cursor:pointer;
+    text-shadow:0 0 6px var(--green-1);
+  }
+
+  .print-btn--buy {
+    background:rgba(42,255,138,0.14);
+    border-color:var(--green-hot-2);
+  }
+
+  .print-btn:hover {
+    box-shadow:0 0 12px var(--green-hot-2);
+  }
+
+  /* SUBTEXT ---------------------------------------------------------- */
+  .note-block {
+    max-width: 780px;
+    margin: 0 auto 8vh;
+    text-align:center;
+    opacity:.85;
+    font-size:.9rem;
+    line-height:1.5;
+  }
+
+  /* MODAL ------------------------------------------------------------ */
+  .modal-backdrop {
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.88);
+    backdrop-filter:blur(3px);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:200;
+  }
+
+  .modal-backdrop.is-visible { display:flex; }
+
+  .modal {
+    background:radial-gradient(circle at top, rgba(42,255,138,0.14), #030505 70%);
+    border-radius:24px;
+    border:1px solid rgba(42,255,138,0.5);
+    max-width:1000px;
+    width:92vw;
+    max-height:86vh;
+    padding:1.3rem 1.5rem 1.6rem;
+    box-shadow:0 0 18px var(--green-1), 0 0 36px var(--green-2);
+    display:grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap:1.4rem;
+    position:relative;
+  }
+
+  @media (max-width: 880px) {
+    .modal { grid-template-columns: 1fr; max-height: 88vh; }
+  }
+
+  .modal-close {
+    position:absolute;
+    right:.6rem;
+    top:.5rem;
+    font-size:1.4rem;
+    color:var(--green-base);
+    cursor:pointer;
+    background:none;
+    border:none;
+  }
+
+  .modal-image {
+    border-radius:16px;
+    overflow:hidden;
+    background:#000;
+  }
+
+  .modal-image img {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+  }
+
+  .modal-info {
+    font-size:.98rem;
+    line-height:1.5;
+  }
+
+  .modal-title {
+    font-family:"Cinzel", serif;
+    font-size:1.2rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    margin-bottom:.3rem;
+    text-shadow:0 0 8px var(--green-2);
+  }
+
+  .modal-series {
+    font-size:.9rem;
+    opacity:.9;
+    margin-bottom:.4rem;
+  }
+
+  .modal-edition, .modal-size, .modal-paper {
+    font-size:.9rem;
+    opacity:.9;
+  }
+
+  .modal-description {
+    margin-top:.6rem;
+    opacity:.92;
+  }
+
+  .modal-price {
+    margin-top:.8rem;
+    font-size:1.05rem;
+    font-weight:600;
+  }
+
+  .modal-buy {
+    margin-top:1rem;
+  }
+
+  .modal-buy a {
+    display:inline-block;
+    padding:.6rem 1.6rem;
+    border-radius:999px;
+    border:1px solid var(--green-hot-2);
+    background:rgba(42,255,138,0.16);
+    text-transform:uppercase;
+    font-family:"Cinzel", serif;
+    letter-spacing:.14em;
+    text-shadow:0 0 8px var(--green-1);
+  }
+
+  .modal-buy a:hover {
+    box-shadow:0 0 16px var(--green-hot-2);
+  }
+
+  /* FOOTER ----------------------------------------------------------- */
+  .footer {
+    margin-top: 4vh;
+    text-align:center;
+    opacity:.7;
+    font-size:.8rem;
+    letter-spacing:.12em;
+  }
+  </style>
+</head>
+
+<body>
+  <div class="texture--grain"></div>
+  <div class="cursor-glow"></div>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="site-title">GALLERY</div>
+      <div class="site-subtitle">Burning World Prints &amp; Visual Editions</div>
+      <div class="header-divider"></div>
+
+      <nav class="header-nav">
+        <a href="index.html">Portal</a>
+        <a href="books.html">Books</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="lice.html">LICE</a>
+      </nav>
+    </header>
+
+    <!-- INTRO TEXT -->
+    <section class="intro">
+      <strong>Burning World</strong> is the visual arm of St. Expedite Press:  
+      crows, sigils, neon saints, glitch-lit shrines, and Gulf Noir visions  
+      issued as numbered, physical prints.  
+      <br><br>
+      Each work below is an editioned artifact—slow, deliberate, and scarce.
+    </section>
+
+    <!-- FILTERS -->
+    <section class="filter-bar">
+      <button class="filter-pill is-active" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="burning-world">Burning World</button>
+      <button class="filter-pill" data-filter="crows">Crows / Avian</button>
+      <button class="filter-pill" data-filter="sigils">Saints &amp; Sigils</button>
+      <button class="filter-pill" data-filter="neon">Neon Glyphs</button>
+      <button class="filter-pill" data-filter="ritual">Ritual Landscapes</button>
+    </section>
+
+    <!-- GRID OF PRINTS -->
+    <section class="gallery-grid">
+
+      <!-- PRINT 1 -->
+      <article class="print-card"
+        data-series="burning-world crows"
+        data-title="Crow in Transmission I"
+        data-series-label="Burning World — Crows / Avian"
+        data-edition="Edition of 25, signed & numbered"
+        data-size="12\" × 16\" image area"
+        data-paper="Archival matte, 100% cotton rag"
+        data-price="$120"
+        data-description="First state of the Burning World crow sigil: a wireframe bird emerging from a CRT-green field, mid-pivot between life and icon."
+        data-image="/assets/gallery/burning-world-crow-1.jpg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="/assets/gallery/burning-world-crow-1.jpg" alt="Crow in Transmission I">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">Crow in Transmission I</div>
+          <div class="print-series">Burning World — Crows / Avian</div>
+          <div class="print-edition">Edition of 25, signed &amp; numbered</div>
+          <div class="print-price">$120</div>
+          <div class="print-tags">Burning World · Crows · Neon Wireframe</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+        </div>
+      </article>
+
+      <!-- PRINT 2 -->
+      <article class="print-card"
+        data-series="burning-world crows"
+        data-title="Crow in Transmission II"
+        data-series-label="Burning World — Crows / Avian"
+        data-edition="Edition of 25, signed & numbered"
+        data-size="12\" × 16\" image area"
+        data-paper="Archival matte, 100% cotton rag"
+        data-price="$120"
+        data-description="Second rotation in the crow cycle: the wireframe body half-turned toward the viewer, as if caught during a glitch in a devotional broadcast."
+        data-image="/assets/gallery/burning-world-crow-2.jpg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="/assets/gallery/burning-world-crow-2.jpg" alt="Crow in Transmission II">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">Crow in Transmission II</div>
+          <div class="print-series">Burning World — Crows / Avian</div>
+          <div class="print-edition">Edition of 25, signed &amp; numbered</div>
+          <div class="print-price">$120</div>
+          <div class="print-tags">Burning World · Crows · Phase Shift</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+        </div>
+      </article>
+
+      <!-- PRINT 3 -->
+      <article class="print-card"
+        data-series="burning-world crows"
+        data-title="Crow in Transmission III"
+        data-series-label="Burning World — Crows / Avian"
+        data-edition="Edition of 25, signed & numbered"
+        data-size="12\" × 16\" image area"
+        data-paper="Archival matte, 100% cotton rag"
+        data-price="$120"
+        data-description="Central, forward-facing crow: a full apparition inside the circular portal, poised between heraldic icon and low-resolution broadcast error."
+        data-image="/assets/gallery/burning-world-crow-3.jpg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="/assets/gallery/burning-world-crow-3.jpg" alt="Crow in Transmission III">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">Crow in Transmission III</div>
+          <div class="print-series">Burning World — Crows / Avian</div>
+          <div class="print-edition">Edition of 25, signed &amp; numbered</div>
+          <div class="print-price">$120</div>
+          <div class="print-tags">Burning World · Crows · Full Frontal Icon</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+        </div>
+      </article>
+
+      <!-- PRINT 4 -->
+      <article class="print-card"
+        data-series="burning-world sigils neon"
+        data-title="CRAS / HODIE"
+        data-series-label="Burning World — Saints &amp; Sigils"
+        data-edition="Edition of 30, signed & numbered"
+        data-size="11\" × 14\" image area"
+        data-paper="Archival matte, 100% cotton rag"
+        data-price="$110"
+        data-description="Latin motto 'CRAS / HODIE' intercepted as flashing neon: yesterday's liturgy passing through a damaged display, tomorrow’s omen burned into the phosphor."
+        data-image="/assets/gallery/burning-world-cras-hodie.jpg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="/assets/gallery/burning-world-cras-hodie.jpg" alt="CRAS / HODIE">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">CRAS / HODIE</div>
+          <div class="print-series">Burning World — Saints &amp; Sigils</div>
+          <div class="print-edition">Edition of 30, signed &amp; numbered</div>
+          <div class="print-price">$110</div>
+          <div class="print-tags">Burning World · Sigil · Text Icon</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+        </div>
+      </article>
+
+      <!-- PRINT 5 -->
+      <article class="print-card"
+        data-series="burning-world neon"
+        data-title="Saint Expedite (Neon)"
+        data-series-label="Burning World — Saints &amp; Sigils"
+        data-edition="Edition of 20, signed & numbered"
+        data-size="13\" × 19\" image area"
+        data-paper="Archival matte, 100% cotton rag"
+        data-price="$150"
+        data-description="An apparition of Saint Expedite rendered as a neon glitch icon: halo, cross, and crow interlaced as a single, unstable glyph."
+        data-image="/assets/gallery/burning-world-st-expedite-neon.jpg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="/assets/gallery/burning-world-st-expedite-neon.jpg" alt="Saint Expedite (Neon)">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">Saint Expedite (Neon)</div>
+          <div class="print-series">Burning World — Saints &amp; Sigils</div>
+          <div class="print-edition">Edition of 20, signed &amp; numbered</div>
+          <div class="print-price">$150</div>
+          <div class="print-tags">Burning World · Saint · Neon Icon</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+        </div>
+      </article>
+
+      <!-- PRINT 6 -->
+      <article class="print-card"
+        data-series="burning-world ritual"
+        data-title="Burning World: Gulf Horizon"
+        data-series-label="Burning World — Ritual Landscapes"
+        data-edition="Edition of 25, signed & numbered"
+        data-size="13\" × 19\" image area"
+        data-paper="Archival matte, 100% cotton rag"
+        data-price="$150"
+        data-description="A horizon-line seared in green fire: petrochemical sky, liturgical sea, and a thin strip of land where procession and catastrophe coincide."
+        data-image="/assets/gallery/burning-world-gulf-horizon.jpg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="/assets/gallery/burning-world-gulf-horizon.jpg" alt="Burning World: Gulf Horizon">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">Burning World: Gulf Horizon</div>
+          <div class="print-series">Burning World — Ritual Landscapes</div>
+          <div class="print-edition">Edition of 25, signed &amp; numbered</div>
+          <div class="print-price">$150</div>
+          <div class="print-tags">Burning World · Ritual · Landscape</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- NOTE BLOCK -->
+    <section class="note-block">
+      All prints are produced in small, numbered runs.  
+      For original works, commissions, or wholesale inquiries, contact the press directly.
+    </section>
+
+    <footer class="footer">
+      St. Expedite Press — Burning World Gallery — New Orleans
+    </footer>
+
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="printModal">
+    <div class="modal">
+      <button class="modal-close" aria-label="Close">&times;</button>
+
+      <div class="modal-image">
+        <img id="modalImage" src="" alt="">
+      </div>
+
+      <div class="modal-info">
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-series" id="modalSeries"></div>
+        <div class="modal-edition" id="modalEdition"></div>
+        <div class="modal-size" id="modalSize"></div>
+        <div class="modal-paper" id="modalPaper"></div>
+        <div class="modal-description" id="modalDescription"></div>
+        <div class="modal-price" id="modalPrice"></div>
+        <div class="modal-buy" id="modalBuy"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // Cursor glow
+  const glow = document.querySelector('.cursor-glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = (e.clientX - 60) + 'px';
+    glow.style.top  = (e.clientY - 60) + 'px';
+  });
+
+  // Filter logic
+  const filterPills = document.querySelectorAll('.filter-pill');
+  const printCards  = document.querySelectorAll('.print-card');
+
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const filter = pill.getAttribute('data-filter');
+      filterPills.forEach(p => p.classList.remove('is-active'));
+      pill.classList.add('is-active');
+
+      printCards.forEach(card => {
+        const series = card.getAttribute('data-series').split(' ');
+        if (filter === 'all' || series.includes(filter)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Modal logic
+  const modalBackdrop = document.getElementById('printModal');
+  const modalImage    = document.getElementById('modalImage');
+  const modalTitle    = document.getElementById('modalTitle');
+  const modalSeries   = document.getElementById('modalSeries');
+  const modalEdition  = document.getElementById('modalEdition');
+  const modalSize     = document.getElementById('modalSize');
+  const modalPaper    = document.getElementById('modalPaper');
+  const modalDesc     = document.getElementById('modalDescription');
+  const modalPrice    = document.getElementById('modalPrice');
+  const modalBuy      = document.getElementById('modalBuy');
+  const modalCloseBtn = document.querySelector('.modal-close');
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-role="details"]');
+    if (!btn) return;
+
+    const card = btn.closest('.print-card');
+
+    modalImage.src        = card.getAttribute('data-image');
+    modalImage.alt        = card.getAttribute('data-title');
+    modalTitle.textContent= card.getAttribute('data-title');
+    modalSeries.textContent = card.getAttribute('data-series-label');
+    modalEdition.textContent= card.getAttribute('data-edition');
+    modalSize.textContent   = card.getAttribute('data-size');
+    modalPaper.textContent  = card.getAttribute('data-paper');
+    modalDesc.textContent   = card.getAttribute('data-description');
+    modalPrice.textContent  = card.getAttribute('data-price');
+    const buyUrl            = card.getAttribute('data-buy-url') || '#';
+    modalBuy.innerHTML      = `<a href="${buyUrl}" target="_blank" rel="noopener noreferrer">Buy Print</a>`;
+
+    modalBackdrop.classList.add('is-visible');
+  });
+
+  modalCloseBtn.addEventListener('click', () => {
+    modalBackdrop.classList.remove('is-visible');
+  });
+
+  modalBackdrop.addEventListener('click', e => {
+    if (e.target === modalBackdrop) {
+      modalBackdrop.classList.remove('is-visible');
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      modalBackdrop.classList.remove('is-visible');
+    }
+  });
+  </script>
+</body>
+</html>
