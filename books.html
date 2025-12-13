@@ -89,14 +89,26 @@
     margin-bottom: 3vh;
   }
 
+  .site-eyebrow {
+    font-family: "Cinzel", serif;
+    letter-spacing: .24em;
+    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow:
+      -1px -1px 0 var(--relief-base),
+       0 0 8px var(--green-1);
+  }
+
   .site-title {
     font-family: "Cinzel", serif;
     letter-spacing: .18em;
-    font-size: clamp(1.7rem, 3.6vw, 2.6rem);
-    margin-bottom: .4rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-top: .2rem;
+    text-transform: uppercase;
     text-shadow:
-      -1px -1px 0 var(--relief-base),
-       0 0 12px var(--green-1);
+       0 0 12px var(--green-1),
+       0 0 24px var(--green-2);
   }
 
   .site-subtitle {
@@ -104,6 +116,7 @@
     letter-spacing: .18em;
     text-transform: uppercase;
     opacity: .9;
+    margin-top: 0.35rem;
     text-shadow: 0 0 6px var(--green-2);
   }
 
@@ -111,7 +124,7 @@
     width: 220px;
     max-width: 60vw;
     height: 1px;
-    margin: 0.8rem auto 0;
+    margin: 0.9rem auto 0;
     background: var(--green-2);
     box-shadow: 0 0 12px var(--green-1);
   }
@@ -509,9 +522,10 @@
 
   <div class="page">
 
-    <!-- HEADER: mirrors portal vibe but focused on BOOKS -->
+    <!-- HEADER: interiorized but aligned with portal -->
     <header class="site-header">
-      <div class="site-title">ST. EXPEDITE PRESS</div>
+      <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
+      <div class="site-title">BOOKS</div>
       <div class="site-subtitle">Books & Imprints</div>
       <div class="site-header-divider"></div>
 
