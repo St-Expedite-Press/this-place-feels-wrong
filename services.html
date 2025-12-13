@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>St. Expedite Press — Services</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ======================================================================
+   ROOT VARIABLES
+   ====================================================================== */
+:root {
+  --green-base: #2aff8a;
+  --green-1: rgba(42,255,138,0.22);
+  --green-2: rgba(42,255,138,0.12);
+  --green-3: rgba(42,255,138,0.06);
+
+  --green-hot-1: rgba(42,255,138,0.75);
+  --green-hot-2: rgba(42,255,138,0.55);
+  --green-hot-3: rgba(42,255,138,0.38);
+
+  --relief-base: #d96aff;
+  --dark: #050807;
+}
+
+/* ======================================================================
+   GLOBAL
+   ====================================================================== */
+body {
+  margin: 0;
+  background: radial-gradient(circle at 50% 50%, #030504 0%, #050807 65%, #000 100%);
+  color: var(--green-base);
+  font-family: "Cormorant Garamond", serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a { color: var(--green-base); }
+
+/* ======================================================================
+   TEXTURE + CURSOR
+   ====================================================================== */
+.texture--grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
+  opacity: .16;
+  mix-blend-mode: soft-light;
+  z-index: 0;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(42,255,138,0.18), rgba(42,255,138,0));
+  mix-blend-mode: soft-light;
+  z-index: 50;
+}
+
+/* ======================================================================
+   PAGE
+   ====================================================================== */
+.page {
+  position: relative;
+  z-index: 1;
+  padding: 3vh 5vw 6vh;
+}
+
+/* ======================================================================
+   HEADER CARD
+   ====================================================================== */
+.header-card {
+  max-width: 1120px;
+  margin: 0 auto 3vh;
+  padding: 1.4rem 1.6rem 1.6rem;
+  background: rgba(0,0,0,0.78);
+  border-radius: 22px;
+  border: 1px solid rgba(42,255,138,0.35);
+  box-shadow:
+    0 0 18px rgba(0,0,0,0.9),
+    0 0 26px var(--green-3);
+  text-align: center;
+}
+
+.header-eyebrow {
+  font-family: "Cinzel", serif;
+  font-size: .95rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  text-shadow:
+    -1px -1px 0 var(--relief-base),
+     0 0 6px var(--green-1);
+}
+
+.header-title {
+  font-family: "Cinzel", serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: .18em;
+  margin-top: .25rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 14px var(--green-1);
+}
+
+.header-subtitle {
+  font-size: .95rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  opacity: .85;
+  margin-top: .4rem;
+}
+
+.header-divider {
+  width: 180px;
+  height: 1px;
+  margin: 1rem auto;
+  background: var(--green-2);
+  box-shadow: 0 0 10px var(--green-1);
+}
+
+.header-nav {
+  font-size: .9rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.header-nav a {
+  margin: 0 .7rem;
+  text-decoration: none;
+  opacity: .85;
+}
+
+.header-nav a:hover {
+  opacity: 1;
+  text-shadow: 0 0 10px var(--green-hot-2);
+}
+
+/* ======================================================================
+   SERVICES GRID
+   ====================================================================== */
+.services-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+}
+
+@media (max-width: 780px) {
+  .services-grid { grid-template-columns: 1fr; }
+}
+
+/* ======================================================================
+   SERVICE CARD
+   ====================================================================== */
+.service-card {
+  background: rgba(0,0,0,0.75);
+  border-radius: 22px;
+  border: 1px solid rgba(42,255,138,0.25);
+  padding: 1.4rem 1.6rem 1.6rem;
+  box-shadow:
+    0 0 16px rgba(0,0,0,0.9),
+    0 0 22px var(--green-3);
+}
+
+.service-title {
+  font-family: "Cinzel", serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-size: 1.05rem;
+  margin-bottom: .45rem;
+  text-shadow: 0 0 8px var(--green-2);
+}
+
+.service-body {
+  font-size: .95rem;
+  line-height: 1.5;
+  opacity: .96;
+}
+
+.service-body ul {
+  margin: .7rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.service-body li {
+  margin-bottom: .35rem;
+}
+
+/* ======================================================================
+   NOTE
+   ====================================================================== */
+.services-note {
+  max-width: 860px;
+  margin: 5vh auto 0;
+  text-align: center;
+  font-size: .9rem;
+  line-height: 1.45;
+  opacity: .85;
+}
+
+/* ======================================================================
+   FOOTER
+   ====================================================================== */
+.page-footer {
+  margin-top: 6vh;
+  text-align: center;
+  font-size: .8rem;
+  letter-spacing: .12em;
+  opacity: .7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="texture--grain"></div>
+<div class="cursor-glow"></div>
+
+<div class="page">
+
+<header class="header-card">
+  <div class="header-eyebrow">ST. EXPEDITE PRESS</div>
+  <div class="header-title">SERVICES</div>
+  <div class="header-subtitle">Institutional Capabilities</div>
+  <div class="header-divider"></div>
+  <nav class="header-nav">
+    <a href="index.html">Portal</a>
+    <a href="books.html">Books</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="lice.html">LICE</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<section class="services-grid">
+
+  <article class="service-card">
+    <div class="service-title">Editorial & Canon Architecture</div>
+    <div class="service-body">
+      St. Expedite Press provides editorial leadership for projects that require coherence across form, history, and production.
+      <ul>
+        <li>Magazine and imprint architecture</li>
+        <li>Editorial standards and workflow design</li>
+        <li>Manuscript development for formally experimental work</li>
+        <li>Translation framing and critical apparatus</li>
+        <li>Print, distribution, and audience strategy integration</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="service-card">
+    <div class="service-title">Archives, Ontologies & Digital Humanities</div>
+    <div class="service-body">
+      We design structural systems for cultural and historical knowledge where metadata, interpretation, and access must align.
+      <ul>
+        <li>Archive structuring and metadata discipline</li>
+        <li>Ontology and knowledge-graph design (RDF/OWL)</li>
+        <li>Textual and historical data modeling</li>
+        <li>AI-assisted analysis of large corpora</li>
+        <li>Interpretive frameworks for fragmented collections</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="service-card">
+    <div class="service-title">AI & Applied Machine Intelligence</div>
+    <div class="service-body">
+      St. Expedite deploys machine intelligence only where interpretability and fidelity are preserved.
+      <ul>
+        <li>Predictive modeling and optimization pipelines</li>
+        <li>NLP and text-forward AI systems</li>
+        <li>Image and audio enhancement for archival material</li>
+        <li>Agent-based research workflows</li>
+        <li>Automation without semantic loss</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="service-card">
+    <div class="service-title">Operational & Institutional Design</div>
+    <div class="service-body">
+      We bring logistics-grade rigor to cultural infrastructure.
+      <ul>
+        <li>Program, fellowship, and initiative architecture</li>
+        <li>Grant writing and research alignment</li>
+        <li>Nonprofit and hybrid organizational design</li>
+        <li>Vendor, distribution, and fulfillment strategy</li>
+        <li>Documentation and compliance discipline</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="service-card">
+    <div class="service-title">Publishing & Media Systems</div>
+    <div class="service-body">
+      Beyond books, St. Expedite designs interconnected media ecosystems.
+      <ul>
+        <li>Editorial automation and metadata pipelines</li>
+        <li>Text-first web systems</li>
+        <li>Magazine relaunches and continuity planning</li>
+        <li>Audio programming and long-form interviews</li>
+        <li>Audience growth without platform dependency</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="service-card">
+    <div class="service-title">Selective Consulting</div>
+    <div class="service-body">
+      Short, high-impact engagements offered where complexity exceeds existing structure.
+      <ul>
+        <li>Project diagnosis and systems audits</li>
+        <li>Conceptual reframing of stalled initiatives</li>
+        <li>Second-order strategy development</li>
+        <li>Finite advisory interventions by inquiry</li>
+      </ul>
+    </div>
+  </article>
+
+</section>
+
+<section class="services-note">
+  St. Expedite Press does not operate as a general-purpose agency.<br>
+  Services are offered selectively, where cultural ambition requires structural seriousness.
+</section>
+
+<footer class="page-footer">
+  ST. EXPEDITE PRESS · NEW ORLEANS · MMXXV
+</footer>
+
+</div>
+
+<script>
+document.addEventListener('mousemove', e => {
+  const g = document.querySelector('.cursor-glow');
+  g.style.left = (e.clientX - 60) + 'px';
+  g.style.top  = (e.clientY - 60) + 'px';
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>St. Expedite Press — Contact</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ======================================================================
+   ROOT VARIABLES
+   ====================================================================== */
+:root {
+  --green-base: #2aff8a;
+  --green-1: rgba(42,255,138,0.22);
+  --green-2: rgba(42,255,138,0.12);
+  --green-3: rgba(42,255,138,0.06);
+
+  --green-hot-1: rgba(42,255,138,0.75);
+  --green-hot-2: rgba(42,255,138,0.55);
+  --green-hot-3: rgba(42,255,138,0.38);
+
+  --relief-base: #d96aff;
+  --dark: #050807;
+}
+
+/* ======================================================================
+   GLOBAL
+   ====================================================================== */
+body {
+  margin: 0;
+  background: radial-gradient(circle at 50% 50%, #030504 0%, #050807 65%, #000 100%);
+  color: var(--green-base);
+  font-family: "Cormorant Garamond", serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a { color: var(--green-base); }
+
+/* ======================================================================
+   TEXTURE + CURSOR GLOW
+   ====================================================================== */
+.texture--grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
+  opacity: .16;
+  mix-blend-mode: soft-light;
+  z-index: 0;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(42,255,138,0.18), rgba(42,255,138,0));
+  mix-blend-mode: soft-light;
+  z-index: 50;
+}
+
+/* ======================================================================
+   PAGE WRAPPER
+   ====================================================================== */
+.page {
+  position: relative;
+  z-index: 1;
+  padding: 3vh 5vw 6vh;
+}
+
+/* ======================================================================
+   HEADER CARD
+   ====================================================================== */
+.header-card {
+  max-width: 1120px;
+  margin: 0 auto 3vh;
+  padding: 1.4rem 1.6rem 1.6rem;
+  background: rgba(0,0,0,0.78);
+  border-radius: 22px;
+  border: 1px solid rgba(42,255,138,0.35);
+  box-shadow:
+    0 0 18px rgba(0,0,0,0.9),
+    0 0 26px var(--green-3);
+  text-align: center;
+}
+
+.header-eyebrow {
+  font-family: "Cinzel", serif;
+  font-size: .95rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  text-shadow: -1px -1px 0 var(--relief-base), 0 0 6px var(--green-1);
+}
+
+.header-title {
+  font-family: "Cinzel", serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: .18em;
+  margin-top: .25rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 14px var(--green-1);
+}
+
+.header-subtitle {
+  font-size: .95rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  opacity: .85;
+  margin-top: .4rem;
+}
+
+.header-divider {
+  width: 180px;
+  height: 1px;
+  margin: 1rem auto;
+  background: var(--green-2);
+  box-shadow: 0 0 10px var(--green-1);
+}
+
+.header-nav {
+  font-size: .9rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.header-nav a {
+  margin: 0 .7rem;
+  text-decoration: none;
+  opacity: .85;
+}
+
+.header-nav a:hover {
+  opacity: 1;
+  text-shadow: 0 0 10px var(--green-hot-2);
+}
+
+/* ======================================================================
+   CONTACT CARD
+   ====================================================================== */
+.contact-card {
+  max-width: 720px;
+  margin: 0 auto;
+  background: rgba(0,0,0,0.75);
+  border-radius: 22px;
+  border: 1px solid rgba(42,255,138,0.28);
+  padding: 1.8rem 2rem 2rem;
+  box-shadow:
+    0 0 18px rgba(0,0,0,0.9),
+    0 0 26px var(--green-3);
+}
+
+.contact-intro {
+  text-align: center;
+  margin-bottom: 1.6rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  opacity: .92;
+}
+
+/* ======================================================================
+   FORM ELEMENTS
+   ====================================================================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  margin-bottom: 1.3rem;
+}
+
+label {
+  font-family: "Cinzel", serif;
+  font-size: .85rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .9;
+}
+
+select,
+textarea,
+input {
+  background: rgba(0,0,0,0.85);
+  border: 1px solid var(--green-2);
+  border-radius: 14px;
+  color: var(--green-base);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  padding: .7rem .9rem;
+  resize: vertical;
+}
+
+select {
+  appearance: none;
+}
+
+textarea {
+  min-height: 160px;
+}
+
+select:focus,
+textarea:focus,
+input:focus {
+  outline: none;
+  border-color: var(--green-hot-2);
+  box-shadow: 0 0 14px var(--green-hot-3);
+}
+
+/* ======================================================================
+   SUBMIT
+   ====================================================================== */
+.form-actions {
+  text-align: center;
+  margin-top: 1.8rem;
+}
+
+.submit-btn {
+  font-family: "Cinzel", serif;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  padding: .7rem 2rem;
+  border-radius: 999px;
+  border: 1px solid var(--green-hot-2);
+  background: rgba(42,255,138,0.12);
+  color: var(--green-base);
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  box-shadow: 0 0 18px var(--green-hot-2);
+}
+
+/* ======================================================================
+   FOOTER
+   ====================================================================== */
+.page-footer {
+  margin-top: 6vh;
+  text-align: center;
+  font-size: .8rem;
+  letter-spacing: .12em;
+  opacity: .7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="texture--grain"></div>
+<div class="cursor-glow"></div>
+
+<div class="page">
+
+<header class="header-card">
+  <div class="header-eyebrow">ST. EXPEDITE PRESS</div>
+  <div class="header-title">CONTACT</div>
+  <div class="header-subtitle">Inquiries & Correspondence</div>
+  <div class="header-divider"></div>
+  <nav class="header-nav">
+    <a href="index.html">Portal</a>
+    <a href="books.html">Books</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="lice.html">LICE</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<section class="contact-card">
+
+  <div class="contact-intro">
+    Correspondence is reviewed deliberately.<br>
+    Please select the nature of your inquiry and be precise.
+  </div>
+
+  <form method="post" action="#">
+    
+    <div class="form-group">
+      <label for="reason">Reason for Contact</label>
+      <select id="reason" name="reason" required>
+        <option value="">Select one…</option>
+        <option>Book Orders & Fulfillment</option>
+        <option>Gallery / Print Inquiries</option>
+        <option>LICE Magazine</option>
+        <option>Submissions & Editorial</option>
+        <option>Rights & Permissions</option>
+        <option>Wholesale / Stockists</option>
+        <option>Press & Media</option>
+        <option>General Correspondence</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Your Email</label>
+      <input id="email" name="email" type="email" required />
+    </div>
+
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="submit-btn" type="submit">Send</button>
+    </div>
+
+  </form>
+
+</section>
+
+<footer class="page-footer">
+  ST. EXPEDITE PRESS · NEW ORLEANS · MMXXV
+</footer>
+
+</div>
+
+<script>
+document.addEventListener('mousemove', e => {
+  const g = document.querySelector('.cursor-glow');
+  g.style.left = (e.clientX - 60) + 'px';
+  g.style.top  = (e.clientY - 60) + 'px';
+});
+</script>
+
+</body>
+</html>
