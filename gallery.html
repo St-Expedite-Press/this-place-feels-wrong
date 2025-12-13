@@ -136,24 +136,39 @@
     gap: .6rem;
   }
 
+  /* Selector bar aesthetics aligned with Books filter buttons */
   .filter-pill {
-    border-radius: 999px;
     border: 1px solid var(--green-2);
-    padding: .35rem 1.1rem;
+    background: rgba(0,0,0,0.7);
+    color: var(--green-base);
     font-family:"Cinzel", serif;
     font-size: .82rem;
-    letter-spacing:.13em;
+    letter-spacing:.14em;
     text-transform:uppercase;
-    background: rgba(0,0,0,0.8);
+    padding:.5rem .9rem;
     cursor:pointer;
-    opacity:.9;
+    border-radius:999px;
     text-shadow:0 0 6px var(--green-1);
+    box-shadow:
+      0 0 8px rgba(0,0,0,0.9),
+      0 0 12px var(--green-3);
+    transition: all .2s ease;
+    opacity:.9;
+  }
+
+  .filter-pill:hover {
+    border-color: var(--green-hot-2);
+    box-shadow:
+      0 0 10px var(--green-hot-2),
+      0 0 20px var(--green-hot-3);
   }
 
   .filter-pill.is-active {
-    background: rgba(42,255,138,0.15);
-    border-color: var(--green-hot-2);
-    box-shadow: 0 0 12px var(--green-hot-2);
+    background: rgba(42,255,138,0.1);
+    border-color: var(--green-hot-1);
+    box-shadow:
+      0 0 12px var(--green-hot-1),
+      0 0 26px var(--green-hot-2);
   }
 
   /* GRID ------------------------------------------------------------- */
@@ -167,6 +182,20 @@
 
   @media (max-width: 1100px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 720px)  { .gallery-grid { grid-template-columns: 1fr; } }
+
+  /* Empty-grid infill: subtle glowing placeholder when no prints match */
+  .gallery-empty {
+    display: none;
+    grid-column: 1 / -1;
+    border-radius: 20px;
+    border: 1px dashed var(--green-2);
+    min-height: 120px;
+    background:
+      radial-gradient(circle at 50% 0, rgba(42,255,138,0.12), rgba(3,5,4,0.96) 70%);
+    box-shadow:
+      0 0 12px var(--green-3),
+      0 0 24px rgba(0,0,0,0.9);
+  }
 
   .print-card {
     background: rgba(0,0,0,0.75);
@@ -205,6 +234,35 @@
   .print-card:hover .print-thumb img {
     filter:brightness(1.3) contrast(1.8);
     transform: scale(1.03);
+  }
+
+  /* Broken / missing image placeholder, aligned with book cover infills */
+  .print-thumb.is-placeholder {
+    background:
+      linear-gradient(135deg,
+        rgba(42,255,138,0.12),
+        rgba(217,106,255,0.12));
+    box-shadow:
+      0 0 12px rgba(0,0,0,0.9),
+      0 0 18px var(--green-2);
+  }
+
+  .print-thumb-placeholder {
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Cinzel", serif;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:.78rem;
+    text-align:center;
+    color:var(--green-base);
+    text-shadow:
+      0 0 6px var(--green-1),
+      0 0 12px var(--green-2);
+    pointer-events:none;
   }
 
   .print-meta {
@@ -399,6 +457,86 @@
     box-shadow:0 0 16px var(--green-hot-2);
   }
 
+  /***********************************************************************
+   * CANONICAL HEADER (FROM BOOKS)
+   * Mirrors interior-content-template.html; applies to content pages only.
+   **********************************************************************/
+  .page {
+    position: relative;
+    z-index: 1; /* Above grain */
+    padding: 2.5vh 5vw 5vh;
+  }
+
+  .site-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3vh;
+  }
+
+  .site-eyebrow {
+    font-family: "Cinzel", serif;
+    letter-spacing: .24em;
+    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow:
+      -1px -1px 0 var(--relief-base),
+       0 0 8px var(--green-1);
+  }
+
+  .site-title {
+    font-family: "Cinzel", serif;
+    letter-spacing: .18em;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-top: .2rem;
+    text-transform: uppercase;
+    text-shadow:
+       0 0 12px var(--green-1),
+       0 0 24px var(--green-2);
+  }
+
+  .site-subtitle {
+    font-size: 1rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    opacity: .9;
+    margin-top: 0.35rem;
+    text-shadow: 0 0 6px var(--green-2);
+  }
+
+  .site-header-divider {
+    width: 220px;
+    max-width: 60vw;
+    height: 1px;
+    margin: 0.9rem auto 0;
+    background: var(--green-2);
+    box-shadow: 0 0 12px var(--green-1);
+  }
+
+  .header-nav {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    opacity: .9;
+  }
+
+  .header-nav a {
+    text-decoration: none;
+    margin: 0 .8rem;
+    text-shadow:
+      0 0 6px var(--green-2),
+      0 0 12px var(--green-3);
+  }
+
+  .header-nav a:hover {
+    text-shadow:
+      0 0 10px var(--green-hot-1),
+      0 0 24px var(--green-hot-2);
+  }
+
   /* FOOTER ----------------------------------------------------------- */
   .footer {
     margin-top: 4vh;
@@ -411,25 +549,31 @@
 </head>
 
 <body>
+  <!-- Uses interior-content-template.html (content-class page) -->
   <div class="texture--grain"></div>
   <div class="cursor-glow"></div>
 
   <div class="page">
 
-    <!-- HEADER -->
+    <!-- HEADER (canonical from interior-content-template.html) -->
     <header class="site-header">
+      <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
       <div class="site-title">GALLERY</div>
       <div class="site-subtitle">Burning World Prints &amp; Visual Editions</div>
-      <div class="header-divider"></div>
+      <div class="site-header-divider"></div>
 
       <nav class="header-nav">
         <a href="index.html">Portal</a>
         <a href="books.html">Books</a>
         <a href="gallery.html">Gallery</a>
         <a href="lice.html">LICE</a>
+        <a href="mission.html">Mission</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
       </nav>
     </header>
 
+    <!-- TEMPLATE-SLOT: intro / filter -->
     <!-- INTRO TEXT -->
     <section class="intro">
       <strong>Burning World</strong> is the visual arm of St. Expedite Press:  
@@ -449,6 +593,7 @@
       <button class="filter-pill" data-filter="ritual">Ritual Landscapes</button>
     </section>
 
+    <!-- TEMPLATE-SLOT: primary grid (.gallery-grid) -->
     <!-- GRID OF PRINTS -->
     <section class="gallery-grid">
 
@@ -626,6 +771,9 @@
         </div>
       </article>
 
+      <!-- EMPTY-GRID INFILL: appears when no prints match current filter -->
+      <div class="gallery-empty" id="galleryEmptyState" aria-hidden="true"></div>
+
     </section>
 
     <!-- NOTE BLOCK -->
@@ -634,12 +782,14 @@
       For original works, commissions, or wholesale inquiries, contact the press directly.
     </section>
 
+    <!-- TEMPLATE-SLOT: footer -->
     <footer class="footer">
       St. Expedite Press — Burning World Gallery — New Orleans
     </footer>
 
   </div>
 
+  <!-- TEMPLATE-SLOT: modals -->
   <!-- MODAL -->
   <div class="modal-backdrop" id="printModal">
     <div class="modal">
@@ -662,6 +812,7 @@
     </div>
   </div>
 
+  <!-- TEMPLATE-SLOT: page-specific scripts (cursor glow, filters, modal) -->
   <script>
   // Cursor glow
   const glow = document.querySelector('.cursor-glow');
@@ -673,22 +824,74 @@
   // Filter logic
   const filterPills = document.querySelectorAll('.filter-pill');
   const printCards  = document.querySelectorAll('.print-card');
+  const galleryEmpty = document.getElementById('galleryEmptyState');
+
+  function applyGalleryFilter(filter) {
+    let anyVisible = false;
+
+    printCards.forEach(card => {
+      const series = card.getAttribute('data-series').split(' ');
+      const match = (filter === 'all' || series.includes(filter));
+      card.style.display = match ? '' : 'none';
+      if (match) anyVisible = true;
+    });
+
+    if (galleryEmpty) {
+      if (anyVisible) {
+        galleryEmpty.style.display = 'none';
+        galleryEmpty.setAttribute('aria-hidden', 'true');
+      } else {
+        galleryEmpty.style.display = 'block';
+        galleryEmpty.setAttribute('aria-hidden', 'false');
+      }
+    }
+  }
 
   filterPills.forEach(pill => {
     pill.addEventListener('click', () => {
       const filter = pill.getAttribute('data-filter');
       filterPills.forEach(p => p.classList.remove('is-active'));
       pill.classList.add('is-active');
-
-      printCards.forEach(card => {
-        const series = card.getAttribute('data-series').split(' ');
-        if (filter === 'all' || series.includes(filter)) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      applyGalleryFilter(filter);
     });
+  });
+
+  // Initialize to current active filter (or 'all')
+  (function initGalleryFilter() {
+    const active = document.querySelector('.filter-pill.is-active');
+    const initial = active ? active.getAttribute('data-filter') : 'all';
+    applyGalleryFilter(initial || 'all');
+  })();
+
+  // Broken-image handling: replace missing thumbs with neon placeholder panels
+  const thumbImages = document.querySelectorAll('.print-thumb img');
+
+  function makeThumbPlaceholder(img) {
+    const thumb = img.closest('.print-thumb');
+    if (!thumb || thumb.classList.contains('has-placeholder')) return;
+
+    img.style.display = 'none';
+
+    const card = thumb.closest('.print-card');
+    const label =
+      (card && card.getAttribute('data-title')) ||
+      (card && card.getAttribute('data-series-label')) ||
+      'PRINT';
+
+    const placeholder = document.createElement('div');
+    placeholder.className = 'print-thumb-placeholder';
+    placeholder.textContent = label;
+
+    thumb.classList.add('is-placeholder', 'has-placeholder');
+    thumb.appendChild(placeholder);
+  }
+
+  thumbImages.forEach(img => {
+    img.addEventListener('error', () => makeThumbPlaceholder(img));
+
+    if (img.complete && img.naturalWidth === 0) {
+      makeThumbPlaceholder(img);
+    }
   });
 
   // Modal logic
