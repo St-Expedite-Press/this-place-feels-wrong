@@ -210,29 +210,118 @@
     letter-spacing: .12em;
     opacity: .7;
   }
+
+  /***********************************************************************
+   * CANONICAL HEADER (FROM BOOKS)
+   * Mirrors interior-content-template.html; applies to content pages only.
+   **********************************************************************/
+  .page {
+    position: relative;
+    z-index: 1; /* Above grain */
+    padding: 2.5vh 5vw 6vh;
+  }
+
+  .site-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3vh;
+  }
+
+  .site-eyebrow {
+    font-family: "Cinzel", serif;
+    letter-spacing: .24em;
+    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow:
+      -1px -1px 0 var(--relief-base),
+       0 0 8px var(--green-1);
+  }
+
+  .site-title {
+    font-family: "Cinzel", serif;
+    letter-spacing: .18em;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-top: .2rem;
+    text-transform: uppercase;
+    text-shadow:
+       0 0 12px var(--green-1),
+       0 0 24px var(--green-2);
+  }
+
+  .site-subtitle {
+    margin-top: 0.35rem;
+    font-size: 1rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow: 0 0 6px var(--green-2);
+  }
+
+  .site-header-divider {
+    width: 220px;
+    max-width: 60vw;
+    height: 1px;
+    margin: 0.9rem auto 0;
+    background: var(--green-2);
+    box-shadow: 0 0 12px var(--green-1);
+  }
+
+  .header-nav {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    opacity: .9;
+  }
+
+  .header-nav a {
+    margin: 0 .8rem;
+    font-size: .95rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: .9;
+    text-shadow:
+      0 0 6px var(--green-2),
+      0 0 12px var(--green-3);
+  }
+
+  .header-nav a:hover {
+    text-shadow:
+      0 0 10px var(--green-hot-1),
+      0 0 24px var(--green-hot-2);
+  }
   </style>
 </head>
 
 <body>
+  <!-- Uses interior-content-template.html (content-class page) -->
   <div class="texture--grain"></div>
   <div class="cursor-glow"></div>
 
   <div class="page">
 
-    <!-- HEADER -->
+    <!-- HEADER (canonical from interior-content-template.html) -->
     <header class="site-header">
+      <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
       <div class="site-title">MISSION</div>
       <div class="site-subtitle">St. Expedite Press</div>
-      <div class="header-divider"></div>
+      <div class="site-header-divider"></div>
 
       <nav class="header-nav">
         <a href="index.html">Portal</a>
         <a href="books.html">Books</a>
         <a href="gallery.html">Gallery</a>
         <a href="lice.html">LICE</a>
+        <a href="mission.html">Mission</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
       </nav>
     </header>
 
+    <!-- TEMPLATE-SLOT: intro / mission body -->
     <!-- MAIN MISSION TEXT -->
     <main class="mission">
 
@@ -275,6 +364,7 @@
         St. Expedite Press publishes four primary bodies of work:
       </p>
 
+      <!-- TEMPLATE-SLOT: primary grid (mission axioms) -->
       <div class="axioms">
         <div class="axiom">
           Reprints and rediscoveries from the Southern and Gulf tradition,
@@ -323,12 +413,14 @@
 
     </main>
 
+    <!-- TEMPLATE-SLOT: footer -->
     <footer class="footer">
       St. Expedite Press — New Orleans
     </footer>
 
   </div>
 
+  <!-- TEMPLATE-SLOT: page-specific scripts (cursor glow) -->
   <script>
   // Cursor glow follower (shared behavior across site)
   const glow = document.querySelector('.cursor-glow');

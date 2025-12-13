@@ -516,13 +516,14 @@
 
 <body>
 
+  <!-- Uses interior-content-template.html (content-class page: canonical source) -->
   <!-- Ambient grain + cursor glow -->
   <div class="texture--grain"></div>
   <div class="cursor-glow"></div>
 
   <div class="page">
 
-    <!-- HEADER: interiorized but aligned with portal -->
+    <!-- HEADER (canonical from interior-content-template.html) -->
     <header class="site-header">
       <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
       <div class="site-title">BOOKS</div>
@@ -534,9 +535,13 @@
         <a href="books.html">Books</a>
         <a href="gallery.html">Gallery</a>
         <a href="lice.html">LICE</a>
+        <a href="mission.html">Mission</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
       </nav>
     </header>
 
+    <!-- TEMPLATE-SLOT: filter / local controls -->
     <!-- FILTER BAR: series / imprint filters -->
     <section class="filter-bar-wrapper">
       <div class="filter-heading">Filter by Series / Imprint</div>
@@ -550,6 +555,7 @@
       </div>
     </section>
 
+    <!-- TEMPLATE-SLOT: primary grid (.books-grid) -->
     <!-- BOOK GRID -->
     <section class="books-grid" id="booksGrid">
 
@@ -780,12 +786,14 @@
 
     </section>
 
+    <!-- TEMPLATE-SLOT: footer -->
     <!-- FOOTER -->
     <footer class="page-footer">
       ST. EXPEDITE PRESS · NEW ORLEANS · MMXXV
     </footer>
   </div>
 
+  <!-- TEMPLATE-SLOT: modals -->
   <!-- BOOK MODAL STRUCTURE -->
   <div class="book-modal-backdrop" id="bookModalBackdrop" aria-hidden="true">
     <div class="book-modal" role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
@@ -803,6 +811,7 @@
     </div>
   </div>
 
+  <!-- TEMPLATE-SLOT: page-specific scripts (cursor glow, filters, modal) -->
   <script>
   /***********************************************************************
    * CURSOR GLOW FOLLOW — REUSES PORTAL FEEL
