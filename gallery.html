@@ -28,11 +28,18 @@
   /* GLOBAL ----------------------------------------------------------- */
   body {
     margin: 0;
-    background: radial-gradient(circle at 50% 50%, #030504 0%, #050807 65%, #000 100%);
+    min-height: 100vh;
     color: var(--green-base);
     font-family: "Cormorant Garamond", serif;
-    min-height: 100vh;
     overflow-x: hidden;
+
+    /* Mirrors portal/index background: void engine + gradient mask */
+    background:
+      linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.88)),
+      url("assets/img/void_engine_twinkle_green.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
   }
 
   a {
