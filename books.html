@@ -401,6 +401,74 @@
     background: rgba(42,255,138,0.12);
   }
 
+  @media (max-width: 768px) {
+    body {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .page {
+      padding: 3vh 6vw 8vh;
+    }
+
+    .site-header {
+      margin-bottom: 3vh;
+    }
+
+    .site-title {
+      font-size: 1.7rem;
+      text-shadow:
+        -1px -1px 0 var(--relief-base),
+         0 0 8px var(--green-1),
+         0 0 16px var(--green-2);
+    }
+
+    .header-nav {
+      margin-top: 1.5rem;
+      font-size: 0.78rem;
+      opacity: .72;
+    }
+
+    .filter-bar-wrapper,
+    .books-grid {
+      max-width: 34rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .filter-bar {
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .filter-button {
+      width: 100%;
+      text-align: center;
+      box-shadow:
+        0 0 6px rgba(0,0,0,0.7),
+        0 0 12px var(--green-3);
+    }
+
+    .books-grid {
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+      margin-top: 4vh;
+    }
+
+    .book-card {
+      padding: 1rem;
+      box-shadow:
+        0 0 10px rgba(0,0,0,0.85),
+        0 0 16px var(--green-3);
+    }
+
+    .book-actions {
+      flex-direction: column;
+    }
+  }
+
   /***********************************************************************
    * BOOK MODAL — DETAIL VIEW
    **********************************************************************/

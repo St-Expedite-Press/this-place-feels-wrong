@@ -173,13 +173,56 @@
       opacity: .8;
     }
 
-    .footer {
-      margin-top: 6vh;
-      text-align: center;
-      font-size: .8rem;
-      letter-spacing: .12em;
-      opacity: .7;
-    }
+.footer {
+  margin-top: 6vh;
+  text-align: center;
+  font-size: .8rem;
+  letter-spacing: .12em;
+  opacity: .7;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .page {
+    padding: 3vh 6vw 8vh;
+  }
+
+  .site-header {
+    margin-bottom: 3vh;
+  }
+
+  .site-title {
+    font-size: 1.8rem;
+    text-shadow:
+      -1px -1px 0 var(--relief-base),
+       0 0 8px var(--green-1),
+       0 0 16px var(--green-2);
+  }
+
+  .header-nav {
+    margin-top: 1.5rem;
+    font-size: 0.78rem;
+    opacity: .72;
+  }
+
+  .mission {
+    max-width: 34rem;
+  }
+
+  .mission-section {
+    margin: 5vh 0 3.5vh;
+  }
+
+  .axioms {
+    gap: 1.2rem;
+  }
+}
   </style>
 </head>
 
