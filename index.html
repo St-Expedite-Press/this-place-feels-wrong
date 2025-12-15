@@ -313,6 +313,86 @@ body {
   opacity: .55;
   z-index: 50;
 }
+
+.mobile-index-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .header-title {
+    font-size: 1.35rem;
+    letter-spacing: .16em;
+    margin-top: 4vh;
+    margin-bottom: 2vh;
+    text-shadow:
+      -1px -1px 0 var(--relief-base),
+       0 0 6px var(--green-1),
+       0 0 10px var(--green-2);
+  }
+
+  .portal-frame {
+    position: relative;
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(60vw, 32vh);
+    height: min(60vw, 32vh);
+    margin-top: 3vh;
+    box-shadow:
+      0 0 12px var(--green-1),
+      0 0 22px var(--green-2);
+    animation: portal-drift 30s ease-in-out infinite;
+  }
+
+  .big-nav,
+  .splash,
+  .portal-noise {
+    display: none;
+  }
+
+  .mobile-index-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin: 5vh auto 12vh;
+    width: 100%;
+  }
+
+  .mobile-index-nav a {
+    font-family: "Cinzel", serif;
+    font-size: 0.85rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--green-base);
+    text-shadow:
+      0 0 6px var(--green-2),
+      0 0 12px var(--green-3);
+    opacity: .82;
+    text-align: center;
+  }
+
+  .mobile-index-nav a::after {
+    content: "ƒ-3";
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    letter-spacing: .28em;
+    opacity: .6;
+  }
+
+  .portal-gif {
+    filter: brightness(1.05) contrast(1.2);
+  }
+}
 </style>
 </head>
 
@@ -327,6 +407,13 @@ body {
   <div class="portal-noise"></div>
   <img src="assets/gif/crow_glitch_text.gif" class="portal-gif" alt="">
 </div>
+
+<nav class="mobile-index-nav">
+  <a href="books.html">Books</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="mission.html">Mission</a>
+  <a href="lice.html">LICE</a>
+</nav>
 
 <!-- NAVIGATION GRID -->
 <div class="big-nav">
@@ -360,33 +447,34 @@ body {
 
 <script>
 /* CURSOR GLOW FOLLOW */
-document.addEventListener('mousemove', e => {
-  const glow = document.querySelector('.cursor-glow');
-  if (!glow) return;
-  glow.style.left = (e.pageX - 60) + 'px';
-  glow.style.top = (e.pageY - 60) + 'px';
-});
+if (window.matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('mousemove', e => {
+    const glow = document.querySelector('.cursor-glow');
+    if (!glow) return;
+    glow.style.left = (e.pageX - 60) + 'px';
+    glow.style.top  = (e.pageY - 60) + 'px';
+  });
 
-/* CURSOR PROXIMITY WARPING THE PORTAL FRAME */
-document.addEventListener('mousemove', e => {
-  const portal = document.querySelector('.portal-frame');
-  if (!portal) return;
+  document.addEventListener('mousemove', e => {
+    const portal = document.querySelector('.portal-frame');
+    if (!portal) return;
 
-  const rect = portal.getBoundingClientRect();
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height / 2;
+    const rect = portal.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
 
-  const dx = (e.pageX - cx) / rect.width;
-  const dy = (e.pageY - cy) / rect.height;
+    const dx = (e.pageX - cx) / rect.width;
+    const dy = (e.pageY - cy) / rect.height;
 
-  const warpX = (dx * 1.8);
-  const warpY = (dy * 1.8);
+    const warpX = (dx * 1.8);
+    const warpY = (dy * 1.8);
 
-  portal.style.transform =
-    `translate(-50%, -50%)
-     rotate(${warpX * 0.9}deg)
-     skew(${warpX}deg, ${warpY}deg)`;
-});
+    portal.style.transform =
+      `translate(-50%, -50%)
+       rotate(${warpX * 0.9}deg)
+       skew(${warpX}deg, ${warpY}deg)`;
+  });
+}
 </script>
 
 </body>
