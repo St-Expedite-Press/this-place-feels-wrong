@@ -80,8 +80,16 @@ a { color: var(--green-base); }
 }
 
 /* ======================================================================
-   HEADER CARD
+   HEADER CARD (CANONICAL HEADER INSIDE)
    ====================================================================== */
+.site-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 3vh;
+}
+
 .header-card {
   max-width: 1120px;
   margin: 0 auto 3vh;
@@ -95,54 +103,66 @@ a { color: var(--green-base); }
   text-align: center;
 }
 
-.header-eyebrow {
+.site-eyebrow {
   font-family: "Cinzel", serif;
-  font-size: .95rem;
-  letter-spacing: .26em;
+  letter-spacing: .24em;
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
   text-transform: uppercase;
-  text-shadow: -1px -1px 0 var(--relief-base), 0 0 6px var(--green-1);
+  opacity: .9;
+  text-shadow:
+    -1px -1px 0 var(--relief-base),
+     0 0 8px var(--green-1);
 }
 
-.header-title {
+.site-title {
   font-family: "Cinzel", serif;
   font-size: clamp(2rem, 4vw, 3rem);
   letter-spacing: .18em;
-  margin-top: .25rem;
+  margin-top: .2rem;
   text-transform: uppercase;
-  text-shadow: 0 0 14px var(--green-1);
+  text-shadow:
+     0 0 12px var(--green-1),
+     0 0 24px var(--green-2);
 }
 
-.header-subtitle {
-  font-size: .95rem;
+.site-subtitle {
+  font-size: 1rem;
   letter-spacing: .18em;
   text-transform: uppercase;
-  opacity: .85;
-  margin-top: .4rem;
+  opacity: .9;
+  margin-top: 0.35rem;
+  text-shadow: 0 0 6px var(--green-2);
 }
 
-.header-divider {
-  width: 180px;
+.site-header-divider {
+  width: 220px;
+  max-width: 60vw;
   height: 1px;
-  margin: 1rem auto;
+  margin: 0.9rem auto 0;
   background: var(--green-2);
-  box-shadow: 0 0 10px var(--green-1);
+  box-shadow: 0 0 12px var(--green-1);
 }
 
 .header-nav {
-  font-size: .9rem;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
   letter-spacing: .16em;
   text-transform: uppercase;
+  opacity: .9;
 }
 
 .header-nav a {
-  margin: 0 .7rem;
   text-decoration: none;
-  opacity: .85;
+  margin: 0 .8rem;
+  text-shadow:
+    0 0 6px var(--green-2),
+    0 0 12px var(--green-3);
 }
 
 .header-nav a:hover {
-  opacity: 1;
-  text-shadow: 0 0 10px var(--green-hot-2);
+  text-shadow:
+    0 0 10px var(--green-hot-1),
+    0 0 24px var(--green-hot-2);
 }
 
 /* ======================================================================
@@ -243,7 +263,7 @@ input:focus {
    FOOTER
    ====================================================================== */
 .page-footer {
-  margin-top: 6vh;
+  margin-top: 4vh;
   text-align: center;
   font-size: .8rem;
   letter-spacing: .12em;
@@ -259,11 +279,11 @@ input:focus {
 
 <div class="page">
 
-<header class="header-card">
-  <div class="header-eyebrow">ST. EXPEDITE PRESS</div>
-  <div class="header-title">CONTACT</div>
-  <div class="header-subtitle">Inquiries & Correspondence</div>
-  <div class="header-divider"></div>
+<header class="site-header header-card">
+  <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
+  <div class="site-title">CONTACT</div>
+  <div class="site-subtitle">Inquiries & Correspondence</div>
+  <div class="site-header-divider"></div>
   <nav class="header-nav">
     <a href="index.html">Portal</a>
     <a href="books.html">Books</a>
@@ -324,11 +344,15 @@ input:focus {
 </div>
 
 <script>
-document.addEventListener('mousemove', e => {
-  const g = document.querySelector('.cursor-glow');
-  g.style.left = (e.clientX - 60) + 'px';
-  g.style.top  = (e.clientY - 60) + 'px';
-});
+(function() {
+  const glow = document.querySelector('.cursor-glow');
+  if (!glow) return;
+
+  document.addEventListener('mousemove', function(e) {
+    glow.style.left = (e.clientX - 60) + 'px';
+    glow.style.top  = (e.clientY - 60) + 'px';
+  });
+})();
 </script>
 
 </body>
