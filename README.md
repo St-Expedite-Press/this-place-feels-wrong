@@ -1,5 +1,8 @@
 # St. Expedite Press Portal
 
+_St. Expedite Press Website_ (`this-place-feels-wrong`)
+
+
 Static neon portal for St. Expedite Press: a single-page entry point with a cursor-responsive portal, a three-by-three nav grid, and an under-construction stub for everything that isn't live yet.
 
 ## Current State
@@ -14,27 +17,27 @@ Static neon portal for St. Expedite Press: a single-page entry point with a curs
 
 ## Repository Layout
 - **Root**
-  - `index.html` – live portal surface.
-  - `under-construction.html` – shared under-construction page for nav and footer links.
-  - `books.html` – experimental/books surface (WIP).
-  - `CHANGELOG.md` – historical notes for portal iterations.
-  - `README.md` – this document.
-  - `LICENSE` – MIT license.
+  - `index.html` ï¿½ live portal surface.
+  - `under-construction.html` ï¿½ shared under-construction page for nav and footer links.
+  - `books.html` ï¿½ experimental/books surface (WIP).
+  - `CHANGELOG.md` ï¿½ historical notes for portal iterations.
+  - `README.md` ï¿½ this document.
+  - `LICENSE` ï¿½ MIT license.
   - `.gitignore`, optional local `.env`, local tooling like `.venv/` (not tracked).
 - **assets/css/**
-  - `global.css` – global palette tokens and base layout for the neon slate theme.
-  - `typography.css` – serif/sans type scales and text utility classes.
-  - `layout.css` – layout primitives, CTA styles, and logo/splash composition for non-portal pages.
-  - `gallery.css` – gallery plate and modal styling used by older experiments.
+  - `global.css` ï¿½ global palette tokens and base layout for the neon slate theme.
+  - `typography.css` ï¿½ serif/sans type scales and text utility classes.
+  - `layout.css` ï¿½ layout primitives, CTA styles, and logo/splash composition for non-portal pages.
+  - `gallery.css` ï¿½ gallery plate and modal styling used by older experiments.
 - **assets/js/**
-  - `theme.js` – day/night theme toggle that writes `sep-theme` to `localStorage` and flips `theme-day` / `theme-night` classes on `<body>` when wired up.
-  - `gallery.js` – modal viewer for SVG gallery plates (currently unused on the live portal).
+  - `theme.js` ï¿½ day/night theme toggle that writes `sep-theme` to `localStorage` and flips `theme-day` / `theme-night` classes on `<body>` when wired up.
+  - `gallery.js` ï¿½ modal viewer for SVG gallery plates (currently unused on the live portal).
 - **assets/gif/**
-  - `crow_glitch_text.gif` – animated GIF used inside the circular portal frame on `index.html`.
+  - `crow_glitch_text.gif` ï¿½ animated GIF used inside the circular portal frame on `index.html`.
 - **assets/img/**
-  - `void_engine_twinkle_green.png` – void/pavement background texture for `index.html`.
-  - `crow_frames/` – frame sequence for potential alternative portal rendering.
-  - `deprecated_images/` – legacy sigils and background art kept for reference.
+  - `void_engine_twinkle_green.png` ï¿½ void/pavement background texture for `index.html`.
+  - `crow_frames/` ï¿½ frame sequence for potential alternative portal rendering.
+  - `deprecated_images/` ï¿½ legacy sigils and background art kept for reference.
 - **assets/deprecated_pages/**
   - Prototype/legacy portal layouts. Safe to open locally; not intended for deploy.
 
