@@ -16,6 +16,9 @@ build/
 __pycache__/
 *.pyc
 
+# Local scripts/tools
+scripts/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
