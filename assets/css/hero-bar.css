@@ -1,0 +1,89 @@
+:root {
+  --hero-bar-height: 28px;
+  --hero-bar-gap: 10px;
+  --hero-bar-pad-x: 14px;
+  --hero-bar-border: rgba(42, 255, 138, 0.22);
+}
+
+.hero-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--hero-bar-height);
+  padding: 0 var(--hero-bar-pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 200;
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.28) 55%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  backdrop-filter: blur(6px);
+}
+
+.hero-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--hero-bar-gap);
+}
+
+.hero-bar__icon {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--hero-bar-border);
+  background: rgba(0, 0, 0, 0.32);
+  color: var(--green-base, #2aff8a);
+  text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset;
+  transition: background 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.hero-bar__icon svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+}
+
+.hero-bar__icon:hover {
+  background: rgba(42, 255, 138, 0.08);
+  box-shadow: 0 0 12px rgba(42, 255, 138, 0.14);
+  transform: translateY(-0.5px);
+}
+
+.hero-bar__icon:focus-visible {
+  outline: 2px solid var(--green-base, #2aff8a);
+  outline-offset: 2px;
+}
+
+@media (max-width: 420px) {
+  :root {
+    --hero-bar-pad-x: 10px;
+    --hero-bar-gap: 8px;
+  }
+
+  .hero-bar__icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .hero-bar__icon svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bar__icon {
+    transition: none;
+  }
+}
+

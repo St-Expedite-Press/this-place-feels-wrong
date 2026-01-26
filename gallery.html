@@ -7,6 +7,7 @@
 
   <!-- Same fonts as the rest of the site -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/hero-bar.css" />
 
   <style>
   :root {
@@ -420,7 +421,7 @@
   .page {
     position: relative;
     z-index: 1; /* Above grain */
-    padding: 2.5vh 5vw 5vh;
+    padding: calc(2.5vh + var(--hero-bar-height)) 5vw 5vh;
   }
 
   .site-header {
@@ -511,7 +512,7 @@
     }
 
     .page {
-      padding: 3vh 6vw 8vh;
+      padding: calc(3vh + var(--hero-bar-height)) 6vw 8vh;
     }
 
     .site-header {
@@ -567,6 +568,33 @@
 </head>
 
 <body>
+  <div class="hero-bar" role="navigation" aria-label="Social media">
+    <div class="hero-bar__inner">
+      <a class="hero-bar__icon" href="https://x.com/stex_press" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </a>
+      <a class="hero-bar__icon" href="https://substack.com/search/stexpeditepress?searching=profile" target="_blank" rel="noopener noreferrer" aria-label="Substack" title="Substack">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M7 7h10M7 12h10M7 17h10" />
+        </svg>
+      </a>
+      <a class="hero-bar__icon" href="https://t.me/stexpeditepress" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M21 5 3 12l7 2 2 7 9-16Z" />
+          <path d="M10 14 21 5" />
+        </svg>
+      </a>
+      <a class="hero-bar__icon" href="https://www.instagram.com/stexpeditepress/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="6" width="12" height="12" rx="3" />
+          <circle cx="12" cy="12" r="3" />
+          <path d="M16.5 7.5h.01" />
+        </svg>
+      </a>
+    </div>
+  </div>
   <!-- Uses interior-content-template.html (content-class page) -->
   <div class="texture--grain"></div>
   <div class="cursor-glow"></div>
