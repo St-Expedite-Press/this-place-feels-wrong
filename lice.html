@@ -3,9 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Lab and experiments for St. Expedite Press." />
+  <meta name="theme-color" content="#050807" />
+  <meta name="color-scheme" content="dark" />
+  <meta property="og:site_name" content="St. Expedite Press" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Lab — St. Expedite Press" />
+  <meta property="og:description" content="Lab and experiments." />
   <title>Lab — St. Expedite Press</title>
 
   <!-- Fonts identical to main site -->
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/hero-bar.css" />
 
@@ -40,11 +50,15 @@
 
     /* Mirrors portal/index background: void engine + gradient mask */
     background:
-      linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.88)),
+      linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
       url("assets/img/void_engine_twinkle_green.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+  }
+
+  @media (max-width: 900px) {
+    body { background-attachment: scroll; }
   }
 
   a {
@@ -658,7 +672,7 @@
         Gulf folklore, postpolitical criticism, and visual work  
         aligned with the LICE aesthetic (night-minded, sacred/profane, experimental).
       </p>
-      <a class="submit-btn" href="submit.html">Submit Work</a>
+      <a class="submit-btn" href="contact.html">Submit Work</a>
     </section>
 
     <!-- FOOTER -->
