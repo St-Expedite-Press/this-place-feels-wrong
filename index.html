@@ -716,9 +716,7 @@ body {
         <a class="portal-link" href="mission.html">Mission</a>
 
         <div class="thin-band" aria-label="Email updates">
-          <form class="thin-form" id="index-updates-form" method="post" action="https://formspree.io/f/REPLACE_ME" accept-charset="UTF-8">
-            <input type="hidden" name="form" value="updates" />
-            <input type="hidden" name="_subject" value="St. Expedite Press — Updates" />
+          <form class="thin-form" id="index-updates-form">
             <input class="thin-input" id="index-updates-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates" required>
             <button class="thin-button" type="submit">Get updates</button>
           </form>
@@ -851,6 +849,23 @@ window.addEventListener('resize', () => scheduleMobileFit(60), { passive: true }
 window.addEventListener('orientationchange', () => scheduleMobileFit(250), { passive: true });
 window.addEventListener('load', () => scheduleMobileFit(0), { passive: true });
 document.fonts?.ready?.then?.(() => scheduleMobileFit(0));
+
+const updatesForm = document.getElementById('index-updates-form');
+updatesForm?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = String(document.getElementById('index-updates-email')?.value ?? '').trim();
+  if (!email) return;
+
+  const subject = 'St. Expedite Press — Updates';
+  const lines = [
+    'Please add me to updates.',
+    '',
+    `Email: ${email}`,
+  ];
+
+  window.location.href =
+    `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\\n'))}`;
+});
 
 </script>
 

@@ -391,9 +391,7 @@ input:focus {
     Please select the nature of your inquiry and be precise.
   </div>
 
-  <form method="post" action="https://formspree.io/f/REPLACE_ME" accept-charset="UTF-8">
-    <input type="hidden" name="form" value="contact" />
-    <input type="hidden" name="_subject" value="St. Expedite Press — Contact" />
+  <form class="contact-form" id="contact-form" action="#" method="post" novalidate>
     
     <div class="form-group">
       <label for="reason">Reason for Contact</label>
@@ -439,17 +437,43 @@ input:focus {
 
 </div>
 
-<script>
-(function() {
-  const glow = document.querySelector('.cursor-glow');
-  if (!glow) return;
+  <script>
+  (function() {
+    const glow = document.querySelector('.cursor-glow');
+    if (!glow) return;
 
-  document.addEventListener('mousemove', function(e) {
-    glow.style.left = (e.clientX - 60) + 'px';
-    glow.style.top  = (e.clientY - 60) + 'px';
-  });
-})();
-</script>
+    document.addEventListener('mousemove', function(e) {
+      glow.style.left = (e.clientX - 60) + 'px';
+      glow.style.top  = (e.clientY - 60) + 'px';
+    });
+  })();
+
+  (function() {
+    const form = document.getElementById('contact-form');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const reason = String(document.getElementById('reason')?.value ?? '').trim();
+      const email = String(document.getElementById('email')?.value ?? '').trim();
+      const message = String(document.getElementById('message')?.value ?? '').trim();
+
+      if (!email || !message) return;
+
+      const subject = `St. Expedite Press — Contact${reason ? ` (${reason})` : ''}`;
+      const lines = [
+        'Contact form submission',
+        '',
+        reason ? `Reason: ${reason}` : '',
+        `From: ${email}`,
+        '',
+        message,
+      ].filter(Boolean);
+
+      window.location.href =
+        `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\\n'))}`;
+    });
+  })();
+  </script>
 
 </body>
 </html>
