@@ -19,21 +19,12 @@ This repo includes a `CNAME` file set to `stexpedite.press`.
 
 ## Email service (Contact + Updates)
 
-GitHub Pages cannot send email by itself (static hosting). You need a form backend that forwards submissions to email.
+GitHub Pages cannot send email by itself (static hosting). For now this site uses `mailto:` for:
 
-### Recommended (for now): Formspree
+- `contact.html` (Contact form)
+- `index.html` (Updates form)
+- `submit.html` (Submission helper)
 
-1. Create a Formspree form and set its recipient/notifications to `editor@stexpedite.press`.
-2. Copy the form endpoint URL (looks like `https://formspree.io/f/<id>`).
-3. Replace `https://formspree.io/f/REPLACE_ME` in:
-   - `contact.html`
-   - `index.html` (updates form)
-4. Test live on GitHub Pages:
-   - Submit the Contact form and confirm delivery to `editor@stexpedite.press`.
-   - Submit the Updates form and confirm delivery to `editor@stexpedite.press`.
+This reliably addresses messages to `editor@stexpedite.press`, but it depends on the visitor having a configured email client (it opens a compose window rather than sending server-side).
 
-### Notes
-
-- Current choice: **Formspree** as the temporary form backend until a custom mail/API solution is in place.
-- Make sure `editor@stexpedite.press` is a real inbox or a forwarding alias (Google Workspace / Proton / Fastmail / Cloudflare Email Routing, etc.).
-- If you want submissions to send without opening an email client, convert `submit.html` from `mailto:` to a form backend as well (same approach as Contact).
+If/when you want server-side sending (no email client required), use a form backend (Formspree, Cloudflare Worker + email provider, Netlify, etc.) and swap the forms back to POST.
