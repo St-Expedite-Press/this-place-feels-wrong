@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/hero-bar.css" />
+<link rel="stylesheet" href="assets/css/footer.css" />
 
 <style>
 /* ======================================================================
@@ -375,11 +376,10 @@ input:focus {
   </div>
   <nav class="header-nav">
     <a href="index.html">Portal</a>
-    <a href="books.html">Press</a>
+    <a href="books.html">Books</a>
     <a href="gallery.html">Store</a>
-    <a href="lice.html">Lab</a>
+    <a href="lab.html">Lab</a>
     <a href="mission.html">Mission</a>
-    <a href="services.html">Services</a>
     <a href="contact.html">Contact</a>
   </nav>
 </header>
@@ -391,7 +391,9 @@ input:focus {
     Please select the nature of your inquiry and be precise.
   </div>
 
-  <form method="post" action="#">
+  <form method="post" action="https://formspree.io/f/REPLACE_ME" accept-charset="UTF-8">
+    <input type="hidden" name="form" value="contact" />
+    <input type="hidden" name="_subject" value="St. Expedite Press — Contact" />
     
     <div class="form-group">
       <label for="reason">Reason for Contact</label>
@@ -399,7 +401,7 @@ input:focus {
         <option value="">Select one…</option>
         <option>Book Orders & Fulfillment</option>
         <option>Store / Print Inquiries</option>
-        <option>Lab / LICE Magazine</option>
+        <option>Lab</option>
         <option>Submissions & Editorial</option>
         <option>Rights & Permissions</option>
         <option>Wholesale / Stockists</option>
@@ -426,8 +428,13 @@ input:focus {
 
 </section>
 
-<footer class="page-footer">
-  ST. EXPEDITE PRESS · NEW ORLEANS · MMXXV
+<footer class="sep-footer">
+  <p class="sep-footer__coords">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+  <p class="sep-footer__lede">...in the key of Night.</p>
+  <div class="sep-footer__divider">&#9651; &#10013; &#9651;</div>
+  <div class="sep-footer__links">
+    <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
+  </div>
 </footer>
 
 </div>

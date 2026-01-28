@@ -3,7 +3,7 @@
 _St. Expedite Press Website_ (`this-place-feels-wrong`)
 
 
-Static neon portal for St. Expedite Press: a single-page entry point with a cursor-responsive portal, a three-by-three nav grid, and an under-construction stub for everything that isn't live yet.
+Static neon portal for St. Expedite Press: a cursor-responsive portal, a three-by-three nav grid, and interior pages (Books / Store / Mission / Lab / Contact / Submission).
 
 ## Current State
 - **Entry point:** `index.html`  
@@ -12,8 +12,8 @@ Static neon portal for St. Expedite Press: a single-page entry point with a curs
   Slate-dark card with a single 'Return to Portal' CTA that links back to `/index.html`.
 - **Archived portal variants:** `assets/deprecated_pages/*.html`  
   Earlier portal experiments (and an older `index.html`) kept for reference only; do not deploy.
-- **Books prototype:** `books.html`  
-  A standalone, grid-based Books catalog prototype mirroring the portal aesthetic. Not currently linked from `index.html`.
+- **Books:** `books.html`  
+  A standalone, grid-based Books catalog mirroring the portal aesthetic.
 
 ## Repository Layout
 - **Root**
@@ -51,9 +51,7 @@ Static neon portal for St. Expedite Press: a single-page entry point with a curs
   - Portal frame skew/rotation based on cursor proximity.
   - `prefers-reduced-motion: reduce` disables the primary animations.
 - **Navigation:**
-  - Grid links (BOOKS, GALLERY, MISSION, LICE) in `index.html` currently point to `/under-construction.html`.
-  - Footer links (Services, Contact) also route to `/under-construction.html`.
-  - The stub offers a single path back to `/index.html`.
+  - Grid links (BOOKS, STORE, MISSION, LAB) in `index.html` point to their live pages.
 
 ## Local Development
 This is a static site; there is no build step.
@@ -66,7 +64,7 @@ This is a static site; there is no build step.
 - Any equivalent static server (Caddy, nginx, `npx serve`, etc.) is fine as long as `index.html`, `under-construction.html`, `books.html` (if used), and the `assets/` directory share the same document root.
 
 ## Extending the Portal
-When adding or reactivating surfaces (Books, Gallery, Mission, LICE):
+When adding or reactivating surfaces (Books, Store, Mission, Lab):
 - Keep the neon slate palette and the type stack (Cormorant Garamond + Cinzel).
 - Prefer reusing tokens and motion patterns from `assets/css/global.css` and `assets/css/layout.css` instead of introducing new colors or shadow styles.
 - Use `theme.js` if you introduce a theme toggle; keep the `sep-theme` key and `theme-day` / `theme-night` classes stable for compatibility.
@@ -74,10 +72,7 @@ When adding or reactivating surfaces (Books, Gallery, Mission, LICE):
 - Respect `prefers-reduced-motion` for any new animations (flashes, glitch cycles, logo assembly, etc.).
 
 ## Deployment
-Any static host works:
-- Upload `index.html`, `under-construction.html`, `books.html` (if live), and the entire `assets/` tree.
-- Configure `/` to serve `index.html`; ensure `/under-construction.html` resolves as well.
-- If you add a dedicated 404 page, consider routing unknown paths either back to the portal or to a gentle under-construction surface that still offers a return-to-portal CTA.
+See `DEPLOYMENT.md` for GitHub Pages (CI/CD) and email form setup.
 
 ## Versioning & History
 - Historical changes and version notes live in `CHANGELOG.md` (current portal baseline is documented there as `1.0.2`).
