@@ -1,0 +1,318 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Start a submission email to St. Expedite Press." />
+  <meta name="theme-color" content="#050807" />
+  <meta name="color-scheme" content="dark" />
+  <meta property="og:site_name" content="St. Expedite Press" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Submission — St. Expedite Press" />
+  <meta property="og:description" content="Start a submission email." />
+  <title>Submission — St. Expedite Press</title>
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/hero-bar.css" />
+
+  <style>
+    :root {
+      --green-base: #2aff8a;
+      --green-1: rgba(42,255,138,0.22);
+      --green-2: rgba(42,255,138,0.12);
+      --green-3: rgba(42,255,138,0.06);
+      --green-hot-2: rgba(42,255,138,0.55);
+      --relief-base: #d96aff;
+      --dark: #050807;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--green-base);
+      font-family: "Cormorant Garamond", serif;
+      overflow-x: hidden;
+      background:
+        linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
+        url("assets/img/void_engine_twinkle_green.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    @media (max-width: 900px) {
+      body { background-attachment: scroll; }
+    }
+
+    a { color: var(--green-base); }
+
+    .texture--grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
+      opacity: .16;
+      mix-blend-mode: soft-light;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      padding: calc(3vh + var(--hero-bar-height)) 6vw 7vh;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin: 2vh 0 4vh;
+      padding: 1.4rem 1.6rem 1.6rem;
+      background: rgba(0,0,0,0.78);
+      border-radius: 22px;
+      border: 1px solid rgba(42,255,138,0.35);
+      box-shadow: 0 0 18px rgba(0,0,0,0.9), 0 0 26px var(--green-3);
+    }
+
+    .eyebrow {
+      font-family: "Cinzel", serif;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      opacity: .9;
+      text-shadow: -1px -1px 0 var(--relief-base), 0 0 8px var(--green-1);
+      font-size: clamp(1.0rem, 2.2vw, 1.4rem);
+    }
+
+    .title {
+      font-family: "Cinzel", serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin: .25rem 0 .4rem;
+      text-shadow: 0 0 12px var(--green-1), 0 0 24px var(--green-2);
+    }
+
+    .subtitle {
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .9;
+      font-size: .95rem;
+      text-shadow: 0 0 6px var(--green-2);
+    }
+
+    .nav {
+      margin-top: 1.1rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-size: .85rem;
+      opacity: .9;
+    }
+
+    .nav a {
+      text-decoration: none;
+      margin: 0 .7rem;
+      text-shadow: 0 0 6px var(--green-2), 0 0 12px var(--green-3);
+    }
+
+    .card {
+      background: rgba(0,0,0,0.75);
+      border-radius: 22px;
+      border: 1px solid rgba(42,255,138,0.22);
+      padding: 1.6rem 1.7rem;
+      box-shadow: 0 0 18px rgba(0,0,0,0.9), 0 0 22px var(--green-3);
+      margin: 0 0 2.2rem;
+    }
+
+    h2 {
+      font-family: "Cinzel", serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin: 0 0 .7rem;
+      font-size: 1.1rem;
+      text-shadow: 0 0 10px var(--green-2);
+    }
+
+    .form {
+      display: grid;
+      gap: .9rem;
+      margin-top: 1rem;
+    }
+
+    .field label {
+      display: block;
+      font-family: "Cinzel", serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: .78rem;
+      opacity: .85;
+      margin-bottom: .35rem;
+    }
+
+    .input,
+    .textarea {
+      width: 100%;
+      padding: .75rem .9rem;
+      border-radius: 14px;
+      border: 1px solid rgba(42,255,138,0.28);
+      background: rgba(0,0,0,0.55);
+      color: var(--green-base);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.05rem;
+      outline: none;
+      box-shadow: 0 0 0 1px rgba(42,255,138,0.08);
+    }
+
+    .textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .input:focus-visible,
+    .textarea:focus-visible {
+      border-color: rgba(42,255,138,0.55);
+      box-shadow: 0 0 0 2px rgba(42,255,138,0.16);
+    }
+
+    .submit-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .8rem;
+      margin-top: .3rem;
+    }
+
+    .hint {
+      opacity: .75;
+      letter-spacing: .08em;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .75rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid var(--green-hot-2);
+      background: rgba(42,255,138,0.10);
+      color: var(--green-base);
+      text-decoration: none;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-family: "Cinzel", serif;
+      font-size: .85rem;
+      cursor: pointer;
+    }
+
+    .foot {
+      text-align: center;
+      opacity: .7;
+      letter-spacing: .12em;
+      font-size: .8rem;
+      margin-top: 3vh;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-bar" role="navigation" aria-label="Social media">
+    <div class="hero-bar__inner">
+      <a class="hero-bar__icon" href="https://x.com/stex_press" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </a>
+      <a class="hero-bar__icon" href="https://substack.com/search/stexpeditepress?searching=profile" target="_blank" rel="noopener noreferrer" aria-label="Substack" title="Substack">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M7 7h10M7 12h10M7 17h10" />
+        </svg>
+      </a>
+      <a class="hero-bar__icon" href="https://t.me/stexpeditepress" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M21 5 3 12l7 2 2 7 9-16Z" />
+          <path d="M10 14 21 5" />
+        </svg>
+      </a>
+      <a class="hero-bar__icon" href="https://www.instagram.com/stexpeditepress/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="6" width="12" height="12" rx="3" />
+          <circle cx="12" cy="12" r="3" />
+          <path d="M16.5 7.5h.01" />
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="texture--grain" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="header">
+      <div class="eyebrow">St. Expedite Press</div>
+      <div class="title">Submission</div>
+      <div class="subtitle">Manuscripts & inquiries</div>
+      <nav class="nav">
+        <a href="index.html">Portal</a>
+        <a href="books.html">Press</a>
+        <a href="gallery.html">Store</a>
+        <a href="lice.html">Lab</a>
+        <a href="mission.html">Mission</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2>Email Submission</h2>
+      <p>
+        Use this to start a submission email. Attach files in your email client after it opens.
+      </p>
+
+      <form class="form" id="submit-form">
+        <div class="field">
+          <label for="submit-email">Email</label>
+          <input class="input" id="submit-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required>
+        </div>
+
+        <div class="field">
+          <label for="submit-note">Note (optional)</label>
+          <textarea class="textarea" id="submit-note" name="note" placeholder="A few lines about the project…"></textarea>
+        </div>
+
+        <div class="submit-row">
+          <div class="hint">Opens your email client — no upload system yet.</div>
+          <button class="cta" type="submit">Open Email</button>
+        </div>
+      </form>
+    </section>
+
+    <footer class="foot">
+      St. Expedite Press &middot; New Orleans
+    </footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('submit-form');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = String(document.getElementById('submit-email')?.value ?? '').trim();
+      const note = String(document.getElementById('submit-note')?.value ?? '').trim();
+      if (!email) return;
+
+      const subject = 'St. Expedite Press — Submission';
+      const lines = [
+        'Submission / inquiry',
+        '',
+        `Email: ${email}`,
+        '',
+        note ? note : '(no note)',
+      ];
+
+      window.location.href =
+        `mailto:contact@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\\n'))}`;
+    });
+  </script>
+</body>
+</html>
