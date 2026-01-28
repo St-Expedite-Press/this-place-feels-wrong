@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="St. Expedite Press portal — press, store, mission, lab, services, and contact." />
+<meta name="description" content="St. Expedite Press portal — books, store, mission, lab, services, and contact." />
 <meta name="theme-color" content="#050807" />
 <meta name="color-scheme" content="dark" />
 <meta property="og:site_name" content="St. Expedite Press" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Portal &mdash; St. Expedite Press" />
-<meta property="og:description" content="Press, store, mission, lab, services, and contact." />
+<meta property="og:description" content="Books, store, mission, lab, services, and contact." />
 <title>Portal &mdash; St. Expedite Press</title>
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/hero-bar.css" />
+<link rel="stylesheet" href="assets/css/footer.css" />
 
 <style>
 /* ====================================================================== */
@@ -715,7 +716,9 @@ body {
         <a class="portal-link" href="mission.html">Mission</a>
 
         <div class="thin-band" aria-label="Email updates">
-          <form class="thin-form" id="index-updates-form">
+          <form class="thin-form" id="index-updates-form" method="post" action="https://formspree.io/f/REPLACE_ME" accept-charset="UTF-8">
+            <input type="hidden" name="form" value="updates" />
+            <input type="hidden" name="_subject" value="St. Expedite Press — Updates" />
             <input class="thin-input" id="index-updates-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates" required>
             <button class="thin-button" type="submit">Get updates</button>
           </form>
@@ -727,7 +730,7 @@ body {
         <p class="lede">...in the key of Night.</p>
         <div class="divider">&#9651; &#10013; &#9651;</div>
       <div class="splash__foot">
-        <a href="services.html">Services</a> // <a href="submit.html">Submission</a>
+        <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
       </div>
     </footer>
       </div>
@@ -749,7 +752,7 @@ body {
     <a href="books.html">Books</a>
     <a href="gallery.html">Store</a>
     <a href="mission.html">Mission</a>
-    <a href="lice.html">Lab</a>
+    <a href="lab.html">Lab</a>
   </nav>
 
   <!-- NAVIGATION GRID -->
@@ -765,17 +768,16 @@ body {
     <!-- bottom row -->
     <a href="mission.html" class="big-word" style="grid-row:3;"                    >MISSION</a>
     <div></div>
-    <a href="lice.html"    class="big-word" style="grid-column:3; grid-row:3;"     >LAB</a>
+    <a href="lab.html"     class="big-word" style="grid-column:3; grid-row:3;"     >LAB</a>
   </div>
 
   <!-- LOWER TEXT -->
   <div class="splash">
-    <p class="splash__eyebrow">29.9511° N — 90.0715° W</p>
+    <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
     <p class="lede">...in the key of Night.</p>
-    <div class="divider">△ ✝ △</div>
+    <div class="divider">&#9651; &#10013; &#9651;</div>
     <div class="splash__foot">
-      <a href="services.html">Services</a> / /
-      <a href="contact.html">Contact</a>
+      <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
     </div>
   </div>
 </div>
@@ -850,22 +852,6 @@ window.addEventListener('orientationchange', () => scheduleMobileFit(250), { pas
 window.addEventListener('load', () => scheduleMobileFit(0), { passive: true });
 document.fonts?.ready?.then?.(() => scheduleMobileFit(0));
 
-const updatesForm = document.getElementById('index-updates-form');
-updatesForm?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = String(document.getElementById('index-updates-email')?.value ?? '').trim();
-  if (!email) return;
-
-  const subject = 'St. Expedite Press — Launch Updates';
-  const lines = [
-    'Please add me to launch updates.',
-    '',
-    `Email: ${email}`,
-  ];
-
-  window.location.href =
-    `mailto:contact@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\\n'))}`;
-});
 </script>
 
 </body>

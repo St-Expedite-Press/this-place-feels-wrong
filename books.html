@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Press catalog and announcements from St. Expedite Press." />
+  <meta name="description" content="Books catalog and announcements from St. Expedite Press." />
   <meta name="theme-color" content="#050807" />
   <meta name="color-scheme" content="dark" />
   <meta property="og:site_name" content="St. Expedite Press" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Press &mdash; St. Expedite Press" />
-  <meta property="og:description" content="Press catalog and announcements." />
-  <title>Press &mdash; St. Expedite Press</title>
+  <meta property="og:title" content="Books &mdash; St. Expedite Press" />
+  <meta property="og:description" content="Books catalog and announcements." />
+  <title>Books &mdash; St. Expedite Press</title>
 
   <!-- Same font stack as portal -->
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
@@ -18,6 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/hero-bar.css" />
+  <link rel="stylesheet" href="assets/css/footer.css" />
 
   <style>
   /***********************************************************************
@@ -374,6 +375,15 @@
   }
 
   /* If you later want real cover images, put <img> inside .book-cover-wrap */
+  .book-cover-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   .book-cover-placeholder {
     position: absolute;
     inset: 0;
@@ -424,14 +434,6 @@
     font-size: 0.85rem;
     opacity: .9;
     letter-spacing: .04em;
-  }
-
-  .book-price {
-    margin-top: 0.2rem;
-    font-size: 0.9rem;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    opacity: .95;
   }
 
   .book-actions {
@@ -606,14 +608,6 @@
     margin-bottom: 0.4rem;
   }
 
-  .book-modal-price {
-    font-size: 0.9rem;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    opacity: .95;
-    margin-bottom: 0.7rem;
-  }
-
   .book-modal-description {
     font-size: 0.94rem;
     line-height: 1.45;
@@ -699,18 +693,17 @@
     <header class="site-header">
       <div class="site-brand">
         <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
-        <div class="site-title">PRESS</div>
+        <div class="site-title">BOOKS</div>
         <div class="site-subtitle">Books & Imprints</div>
         <div class="site-header-divider"></div>
       </div>
 
       <nav class="header-nav">
         <a href="index.html">Portal</a>
-        <a href="books.html">Press</a>
+        <a href="books.html">Books</a>
         <a href="gallery.html">Store</a>
-        <a href="lice.html">Lab</a>
+        <a href="lab.html">Lab</a>
         <a href="mission.html">Mission</a>
-        <a href="services.html">Services</a>
         <a href="contact.html">Contact</a>
       </nav>
     </header>
@@ -722,8 +715,7 @@
       <div class="filter-bar" id="filterBar">
         <!-- data-filter values correspond to book-card data-series attributes -->
         <button class="filter-button is-active" data-filter="all">All</button>
-        <button class="filter-button" data-filter="sexp">SEXP — New Fiction</button>
-        <button class="filter-button" data-filter="lice">LICE Magazine</button>
+        <button class="filter-button" data-filter="sexp">SEXP &mdash; Editions</button>
         <button class="filter-button" data-filter="southern">Legends of the Southern Past</button>
         <button class="filter-button" data-filter="euro">European Classics &amp; Modernists</button>
       </div>
@@ -733,6 +725,35 @@
     <!-- BOOK GRID -->
     <section class="books-grid" id="booksGrid">
 
+      <!-- New: Les Fièvres et les Humeurs -->
+      <article
+        class="book-card"
+        data-series="sexp"
+        data-title="Les Fi&egrave;vres et les Humeurs"
+        data-author="C. Sandbatch"
+        data-series-label="SEXP &mdash; Editions"
+        data-description="Les Fi&egrave;vres et les Humeurs is a chamber-structured book of verse composed in three tonal movements: Obsession, Ruin, and D&eacute;sir. Rather than organizing itself around themes or narratives, the book treats poetry as music&mdash;each section inhabiting a key, a climate of feeling, and a discipline of constraint. Poems recur, mutate, fracture, and reassemble like motifs in a cantata or monody, exploring fixation, collapse, and sensual residue as formal states rather than autobiographical confession.&#10;&#10;Across classical and contemporary registers&mdash;sonnets, roundels, monodies, political triptychs, mythic lyrics, and erotic fragments&mdash;the collection moves between high lyricism and corrosive modernity. New Orleans atmospheres, economic grotesques, devotional ruins, borderlands, memory, and animal presences surface not as subjects but as tonal forces shaping cadence and gravity. Language oscillates between baroque elegance, streetwise abrasion, and liturgical hush.&#10;&#10;At its core, the book argues that intensity without structure is not meaning. Repetition must earn endurance. Excess must justify itself. Collapse must leave a trace worth following. The result is a poetry of control and fever, ritual and fracture&mdash;music written in verse, where coherence persists without promising consolation."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <img
+            class="book-cover-img"
+            src="assets/img/les-fievres-cover.svg"
+            alt="Cover art for Les Fi&egrave;vres et les Humeurs"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="book-series-pill">SEXP</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">Les Fi&egrave;vres et les Humeurs</div>
+          <div class="book-author">C. Sandbatch</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+        </div>
+      </article>
+
       <!-- Example SEXP title -->
       <article
         class="book-card"
@@ -740,7 +761,6 @@
         data-title="Something Awful and Beautiful Is Coming"
         data-author="C. Sandbatch"
         data-series-label="SEXP — Flagship Fiction"
-        data-price="$22.00"
         data-description="A Gulf Noir cantata set in a spiritually scorched New Orleans, following a wayward musician whose life fractures into visions, liturgy, and heresy. SEXP’s signature novel: metaphysical, region-soaked, fiercely postpolitical."
         data-buy-url="#"
       >
@@ -752,7 +772,6 @@
         <div class="book-meta">
           <div class="book-title">Something Awful and Beautiful Is Coming</div>
           <div class="book-author">C. Sandbatch</div>
-          <div class="book-price">$22.00</div>
         </div>
         <div class="book-actions">
           <button class="book-btn" data-role="details">More Info</button>
@@ -769,7 +788,6 @@
         data-title="Gulf Noir Canticles"
         data-author="Various Authors"
         data-series-label="SEXP — Flagship Fiction"
-        data-price="$19.00"
         data-description="An anthology of SEXP authors: twelve stories of bayou hauntings, parish scandals, and mystical breakdowns. A field guide to St. Expedite’s night-minded fiction aesthetic."
         data-buy-url="#"
       >
@@ -780,7 +798,6 @@
         <div class="book-meta">
           <div class="book-title">Gulf Noir Canticles</div>
           <div class="book-author">Various Authors</div>
-          <div class="book-price">$19.00</div>
         </div>
         <div class="book-actions">
           <button class="book-btn" data-role="details">More Info</button>
@@ -790,61 +807,7 @@
         </div>
       </article>
 
-      <!-- LICE Magazine issue -->
-      <article
-        class="book-card"
-        data-series="lice"
-        data-title="LICE No. 1: Parish &amp; Port"
-        data-author="Edited by St. Expedite Press"
-        data-series-label="LICE Magazine — Biannual Journal"
-        data-price="$14.00"
-        data-description="The inaugural issue of LICE: midnight essays, short fiction, and visual work from the Gulf and beyond. Dimes Square after midnight meets parish bulletin mysticism."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">LICE 01</div>
-          <div class="book-series-pill">LICE</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">LICE No. 1: Parish &amp; Port</div>
-          <div class="book-author">Edited by St. Expedite Press</div>
-          <div class="book-price">$14.00</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" data-role="details">More Info</button>
-          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
-            Buy
-          </a>
-        </div>
-      </article>
 
-      <!-- Another LICE issue -->
-      <article
-        class="book-card"
-        data-series="lice"
-        data-title="LICE No. 2: Heresies"
-        data-author="Edited by St. Expedite Press"
-        data-series-label="LICE Magazine — Biannual Journal"
-        data-price="$15.00"
-        data-description="Essays on folk Catholicism, strange faiths, and late-capitalist mythologies; fiction that blurs liturgy and glitch. A journal issue that bites as much as it blesses."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">LICE 02</div>
-          <div class="book-series-pill">LICE</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">LICE No. 2: Heresies</div>
-          <div class="book-author">Edited by St. Expedite Press</div>
-          <div class="book-price">$15.00</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" data-role="details">More Info</button>
-          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
-            Buy
-          </a>
-        </div>
-      </article>
 
       <!-- Legends of the Southern Past — Reprint 1 -->
       <article
@@ -853,7 +816,6 @@
         data-title="Haunts of the Delta"
         data-author="M. J. LaCour (1953)"
         data-series-label="Legends of the Southern Past"
-        data-price="$18.00"
         data-description="A reprint of a 1953 Gulf South ghost-story collection, back in print for the first time in decades. River spirits, parish haints, and bayou visitations annotated for contemporary readers."
         data-buy-url="#"
       >
@@ -864,7 +826,6 @@
         <div class="book-meta">
           <div class="book-title">Haunts of the Delta</div>
           <div class="book-author">M. J. LaCour (1953)</div>
-          <div class="book-price">$18.00</div>
         </div>
         <div class="book-actions">
           <button class="book-btn" data-role="details">More Info</button>
@@ -881,7 +842,6 @@
         data-title="The Haints of St. Roch"
         data-author="Anonymous (1907)"
         data-series-label="Legends of the Southern Past"
-        data-price="$17.00"
         data-description="Collected miracle stories, graveyard legends, and folk Catholic vignettes from a vanished New Orleans neighborhood. Includes a new foreword on St. Roch and Gulf South folk piety."
         data-buy-url="#"
       >
@@ -892,7 +852,6 @@
         <div class="book-meta">
           <div class="book-title">The Haints of St. Roch</div>
           <div class="book-author">Anonymous (1907)</div>
-          <div class="book-price">$17.00</div>
         </div>
         <div class="book-actions">
           <button class="book-btn" data-role="details">More Info</button>
@@ -909,7 +868,6 @@
         data-title="Night Procession in Castile"
         data-author="Ramón del Valle-Inclán (trans. St. Expedite)"
         data-series-label="European Classics & Modernists in Translation"
-        data-price="$21.00"
         data-description="Baroque processions, miracles, and political heresies in a Spanish village on the brink of modernity. A new English translation of Valle-Inclán’s mystical grotesque."
         data-buy-url="#"
       >
@@ -920,7 +878,6 @@
         <div class="book-meta">
           <div class="book-title">Night Procession in Castile</div>
           <div class="book-author">Ramón del Valle-Inclán (trans. St. Expedite)</div>
-          <div class="book-price">$21.00</div>
         </div>
         <div class="book-actions">
           <button class="book-btn" data-role="details">More Info</button>
@@ -937,7 +894,6 @@
         data-title="The Icon and the Fire"
         data-author="Unknown Russian Modernist"
         data-series-label="European Classics & Modernists in Translation"
-        data-price="$20.00"
         data-description="A lost Russian modernist novella about an icon painter, a secret heresy, and the collapse of a village world. For readers of Bernanos, Akhmatova, and the Orthodox mystic line."
         data-buy-url="#"
       >
@@ -948,7 +904,6 @@
         <div class="book-meta">
           <div class="book-title">The Icon and the Fire</div>
           <div class="book-author">Unknown Russian Modernist</div>
-          <div class="book-price">$20.00</div>
         </div>
         <div class="book-actions">
           <button class="book-btn" data-role="details">More Info</button>
@@ -962,8 +917,13 @@
 
     <!-- TEMPLATE-SLOT: footer -->
     <!-- FOOTER -->
-    <footer class="page-footer">
-      ST. EXPEDITE PRESS · NEW ORLEANS · MMXXV
+    <footer class="sep-footer">
+      <p class="sep-footer__coords">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+      <p class="sep-footer__lede">...in the key of Night.</p>
+      <div class="sep-footer__divider">&#9651; &#10013; &#9651;</div>
+      <div class="sep-footer__links">
+        <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
+      </div>
     </footer>
   </div>
 
@@ -975,7 +935,6 @@
       <div class="book-modal-series" id="bookModalSeries"></div>
       <div class="book-modal-title" id="bookModalTitle"></div>
       <div class="book-modal-author" id="bookModalAuthor"></div>
-      <div class="book-modal-price" id="bookModalPrice"></div>
       <div class="book-modal-description" id="bookModalDescription"></div>
       <div class="book-modal-footer">
         <a href="#" class="book-modal-buy" id="bookModalBuy" target="_blank" rel="noopener noreferrer">
@@ -1003,8 +962,8 @@
   /***********************************************************************
    * FILTER LOGIC — SHOW/HIDE BOOK CARDS BY SERIES
    *
-   *  - Buttons have data-filter="all|sexp|lice|southern|euro"
-   *  - Cards have data-series="sexp|lice|southern|euro"
+   *  - Buttons have data-filter="all|sexp|southern|euro"
+   *  - Cards have data-series="sexp|southern|euro"
    **********************************************************************/
   (function() {
     const filterBar = document.getElementById('filterBar');
@@ -1048,11 +1007,10 @@
     const titleEl  = document.getElementById('bookModalTitle');
     const authorEl = document.getElementById('bookModalAuthor');
     const seriesEl = document.getElementById('bookModalSeries');
-    const priceEl  = document.getElementById('bookModalPrice');
     const descEl   = document.getElementById('bookModalDescription');
     const buyEl    = document.getElementById('bookModalBuy');
 
-    if (!backdrop || !titleEl || !authorEl || !seriesEl || !priceEl || !descEl || !buyEl) return;
+    if (!backdrop || !titleEl || !authorEl || !seriesEl || !descEl || !buyEl) return;
 
     const closeButton = backdrop.querySelector('.book-modal-close');
 
@@ -1060,14 +1018,12 @@
       const title   = card.getAttribute('data-title') || '';
       const author  = card.getAttribute('data-author') || '';
       const series  = card.getAttribute('data-series-label') || '';
-      const price   = card.getAttribute('data-price') || '';
       const desc    = card.getAttribute('data-description') || '';
       const buyUrl  = card.getAttribute('data-buy-url') || '#';
 
       titleEl.textContent  = title;
       authorEl.textContent = author;
       seriesEl.textContent = series;
-      priceEl.textContent  = price;
       descEl.textContent   = desc;
       buyEl.setAttribute('href', buyUrl);
 

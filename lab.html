@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="St. Expedite Press lab: experiments, drafts, and works-in-progress." />
+  <meta name="theme-color" content="#050807" />
+  <meta name="color-scheme" content="dark" />
+  <meta property="og:site_name" content="St. Expedite Press" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Lab &mdash; St. Expedite Press" />
+  <meta property="og:description" content="Experiments, drafts, and works-in-progress." />
+  <title>Lab &mdash; St. Expedite Press</title>
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/hero-bar.css" />
+  <link rel="stylesheet" href="assets/css/footer.css" />
+
+  <style>
+  :root {
+    --green-base: #2aff8a;
+    --green-1: rgba(42,255,138,0.22);
+    --green-2: rgba(42,255,138,0.12);
+    --green-3: rgba(42,255,138,0.06);
+    --green-hot-2: rgba(42,255,138,0.55);
+    --relief-base: #d96aff;
+    --dark: #050807;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--green-base);
+    font-family: "Cormorant Garamond", serif;
+    overflow-x: hidden;
+    background:
+      linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
+      url("assets/img/void_engine_twinkle_green.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+
+  .texture--grain {
+    position: fixed;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.15'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cursor-glow {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(42,255,138,0.18), rgba(42,255,138,0) 60%);
+    filter: blur(3px);
+    z-index: 2;
+    opacity: 0.9;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    padding: calc(5vh + var(--hero-bar-height)) 8vw 8vh;
+  }
+
+  .site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-bottom: 5vh;
+  }
+
+  .site-eyebrow {
+    font-family: "Cinzel", serif;
+    letter-spacing: .22em;
+    opacity: .78;
+    font-size: 0.8rem;
+  }
+
+  .site-title {
+    font-family: "Cinzel", serif;
+    font-size: 2.3rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-shadow:
+      -1px -1px 0 var(--relief-base),
+      0 0 10px var(--green-1),
+      0 0 22px var(--green-2);
+  }
+
+  .site-subtitle {
+    margin-top: 0.4rem;
+    font-size: 1.05rem;
+    opacity: .92;
+    max-width: 36rem;
+  }
+
+  .site-header-divider {
+    height: 2px;
+    width: 100%;
+    margin-top: 1.1rem;
+    background: linear-gradient(90deg, rgba(42,255,138,0.0), rgba(42,255,138,0.55), rgba(217,106,255,0.55), rgba(42,255,138,0.0));
+    box-shadow: 0 0 18px var(--green-2);
+  }
+
+  .header-nav {
+    display: flex;
+    gap: 1.25rem;
+    font-family: "Cinzel", serif;
+    font-size: 0.82rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: .78;
+  }
+
+  .header-nav a {
+    color: var(--green-base);
+    text-decoration: none;
+    text-shadow: 0 0 8px var(--green-2);
+  }
+
+  .header-nav a:hover {
+    opacity: 1;
+    filter: brightness(1.18);
+    text-shadow:
+      0 0 10px var(--green-hot-2),
+      0 0 20px var(--green-2);
+  }
+
+  .lab-card {
+    max-width: 46rem;
+    background: rgba(0,0,0,0.72);
+    border: 1px solid rgba(42,255,138,0.22);
+    border-radius: 20px;
+    padding: 1.4rem 1.3rem;
+    box-shadow:
+      0 0 12px rgba(0,0,0,0.9),
+      0 0 22px var(--green-3);
+  }
+
+  .lab-card h2 {
+    font-family: "Cinzel", serif;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin: 0 0 0.4rem;
+    text-shadow: 0 0 8px var(--green-1);
+    font-size: 1.1rem;
+  }
+
+  .lab-card p {
+    margin: 0.45rem 0 0;
+    line-height: 1.55;
+    opacity: .96;
+  }
+
+  @media (max-width: 800px) {
+    .page { padding: calc(4vh + var(--hero-bar-height)) 6vw 7vh; }
+    .site-header { flex-direction: column; align-items: flex-start; }
+    .site-title { font-size: 1.8rem; }
+    .header-nav { flex-wrap: wrap; gap: 0.8rem 1rem; opacity: .86; }
+  }
+  </style>
+</head>
+<body class="content-class">
+  <!-- Uses interior-content-template.html (content-class page: canonical source) -->
+  <div class="texture--grain"></div>
+  <div class="cursor-glow"></div>
+
+  <div class="page">
+    <header class="site-header">
+      <div class="site-brand">
+        <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
+        <div class="site-title">LAB</div>
+        <div class="site-subtitle">Experiments, drafts, and works-in-progress</div>
+        <div class="site-header-divider"></div>
+      </div>
+
+      <nav class="header-nav">
+        <a href="index.html">Portal</a>
+        <a href="books.html">Books</a>
+        <a href="gallery.html">Store</a>
+        <a href="lab.html">Lab</a>
+        <a href="mission.html">Mission</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <section class="lab-card">
+      <h2>In Progress</h2>
+      <p>
+        The Lab is a holding chamber for works-in-progress: drafts, prototypes, and small experiments in form.
+        This page will evolve as new public-facing pieces come online.
+      </p>
+      <p>
+        For submissions and editorial correspondence, use the Submission or Contact page.
+      </p>
+    </section>
+
+    <footer class="sep-footer">
+      <p class="sep-footer__coords">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+      <p class="sep-footer__lede">...in the key of Night.</p>
+      <div class="sep-footer__divider">&#9651; &#10013; &#9651;</div>
+      <div class="sep-footer__links">
+        <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+  (function() {
+    const glow = document.querySelector('.cursor-glow');
+    if (!glow) return;
+    document.addEventListener('mousemove', e => {
+      glow.style.left = (e.clientX - 60) + 'px';
+      glow.style.top  = (e.clientY - 60) + 'px';
+    });
+  })();
+  </script>
+</body>
+</html>

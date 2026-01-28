@@ -18,6 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/hero-bar.css" />
+  <link rel="stylesheet" href="assets/css/footer.css" />
 
   <style>
   :root {
@@ -678,16 +679,15 @@
         <div class="site-header-divider"></div>
       </div>
 
-      <nav class="header-nav">
-        <a href="index.html">Portal</a>
-        <a href="books.html">Press</a>
-        <a href="gallery.html">Store</a>
-        <a href="lice.html">Lab</a>
-        <a href="mission.html">Mission</a>
-        <a href="services.html">Services</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-    </header>
+        <nav class="header-nav">
+          <a href="index.html">Portal</a>
+          <a href="books.html">Books</a>
+          <a href="gallery.html">Store</a>
+          <a href="lab.html">Lab</a>
+          <a href="mission.html">Mission</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </header>
 
     <!-- TEMPLATE-SLOT: intro / filter -->
     <!-- INTRO TEXT -->
@@ -719,7 +719,7 @@
         data-title="Crow in Transmission I"
         data-series-label="Burning World — Crows / Avian"
         data-edition="Edition of 25, signed & numbered"
-        data-size="12\" × 16\" image area"
+        data-size="12&quot; &times; 16&quot; image area"
         data-paper="Archival matte, 100% cotton rag"
         data-price="$120"
         data-description="First state of the Burning World crow sigil: a wireframe bird emerging from a CRT-green field, mid-pivot between life and icon."
@@ -748,7 +748,7 @@
         data-title="Crow in Transmission II"
         data-series-label="Burning World — Crows / Avian"
         data-edition="Edition of 25, signed & numbered"
-        data-size="12\" × 16\" image area"
+        data-size="12&quot; &times; 16&quot; image area"
         data-paper="Archival matte, 100% cotton rag"
         data-price="$120"
         data-description="Second rotation in the crow cycle: the wireframe body half-turned toward the viewer, as if caught during a glitch in a devotional broadcast."
@@ -777,7 +777,7 @@
         data-title="Crow in Transmission III"
         data-series-label="Burning World — Crows / Avian"
         data-edition="Edition of 25, signed & numbered"
-        data-size="12\" × 16\" image area"
+        data-size="12&quot; &times; 16&quot; image area"
         data-paper="Archival matte, 100% cotton rag"
         data-price="$120"
         data-description="Central, forward-facing crow: a full apparition inside the circular portal, poised between heraldic icon and low-resolution broadcast error."
@@ -806,7 +806,7 @@
         data-title="CRAS / HODIE"
         data-series-label="Burning World — Saints &amp; Sigils"
         data-edition="Edition of 30, signed & numbered"
-        data-size="11\" × 14\" image area"
+        data-size="11&quot; &times; 14&quot; image area"
         data-paper="Archival matte, 100% cotton rag"
         data-price="$110"
         data-description="Latin motto 'CRAS / HODIE' intercepted as flashing neon: yesterday's liturgy passing through a damaged display, tomorrow’s omen burned into the phosphor."
@@ -835,7 +835,7 @@
         data-title="Saint Expedite (Neon)"
         data-series-label="Burning World — Saints &amp; Sigils"
         data-edition="Edition of 20, signed & numbered"
-        data-size="13\" × 19\" image area"
+        data-size="13&quot; &times; 19&quot; image area"
         data-paper="Archival matte, 100% cotton rag"
         data-price="$150"
         data-description="An apparition of Saint Expedite rendered as a neon glitch icon: halo, cross, and crow interlaced as a single, unstable glyph."
@@ -864,7 +864,7 @@
         data-title="Burning World: Gulf Horizon"
         data-series-label="Burning World — Ritual Landscapes"
         data-edition="Edition of 25, signed & numbered"
-        data-size="13\" × 19\" image area"
+        data-size="13&quot; &times; 19&quot; image area"
         data-paper="Archival matte, 100% cotton rag"
         data-price="$150"
         data-description="A horizon-line seared in green fire: petrochemical sky, liturgical sea, and a thin strip of land where procession and catastrophe coincide."
@@ -899,8 +899,13 @@
     </section>
 
     <!-- TEMPLATE-SLOT: footer -->
-    <footer class="page-footer">
-      St. Expedite Press — Burning World Store — New Orleans
+    <footer class="sep-footer">
+      <p class="sep-footer__coords">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+      <p class="sep-footer__lede">...in the key of Night.</p>
+      <div class="sep-footer__divider">&#9651; &#10013; &#9651;</div>
+      <div class="sep-footer__links">
+        <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
+      </div>
     </footer>
 
   </div>
@@ -912,7 +917,7 @@
       <button class="modal-close" aria-label="Close">&times;</button>
 
       <div class="modal-image">
-        <img id="modalImage" src="" alt="">
+        <img id="modalImage" src="assets/img/favicon.svg" alt="">
       </div>
 
       <div class="modal-info">
