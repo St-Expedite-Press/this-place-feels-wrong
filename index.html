@@ -8,9 +8,9 @@
 <meta name="color-scheme" content="dark" />
 <meta property="og:site_name" content="St. Expedite Press" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="St. Expedite Press — Portal" />
+<meta property="og:title" content="Portal &mdash; St. Expedite Press" />
 <meta property="og:description" content="Press, store, mission, lab, services, and contact." />
-<title>St. Expedite Press — Portal</title>
+<title>Portal &mdash; St. Expedite Press</title>
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -60,6 +60,263 @@ body {
 
 @media (max-width: 900px) {
   body { background-attachment: scroll; }
+}
+
+/* ====================================================================== */
+/*  RESPONSIVE SURFACES                                                   */
+/* ====================================================================== */
+.portal-desktop { display: block; }
+.portal-mobile { display: none; }
+
+@media (max-width: 900px) {
+  .portal-desktop { display: none; }
+  .portal-mobile { display: block; }
+}
+
+.portal-mobile {
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.portal-mobile .wrap {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(calc(var(--hero-bar-height) + 6px), 3vh, 60px) 6vw 5vh;
+  text-align: center;
+}
+
+.portal-mobile .mobile-fit {
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(.35rem, 1.2svh, .75rem);
+  transform: scale(var(--mobile-fit-scale, 1));
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.portal-mobile header { margin: 0; margin-top: clamp(-18px, -2svh, -6px); }
+
+.portal-mobile .title {
+  font-family: "Cinzel", serif;
+  letter-spacing: clamp(0.10em, 0.8vw, 0.18em);
+  font-size: clamp(1.6rem, 3.2vw, 3rem);
+  text-transform: uppercase;
+  text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.portal-mobile .portal {
+  width: min(44vh, 380px);
+  height: min(44vh, 380px);
+  margin: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--green-base);
+  box-shadow: 0 0 18px var(--green-1), 0 0 44px var(--green-2), 0 0 92px var(--green-3);
+  backdrop-filter: blur(4px) brightness(1.15) contrast(1.25);
+}
+
+.portal-mobile .portal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(1.05) contrast(1.2);
+}
+
+.portal-mobile .portal-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(.6rem, 1.6svh, 1rem);
+}
+
+.portal-mobile .portal-link {
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.4rem, 3.2vw, 2.6rem);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--green-base);
+  opacity: .7;
+  text-shadow: 0 0 10px var(--green-2), 0 0 22px var(--green-3);
+  transition: opacity 150ms ease, filter 150ms ease, text-shadow 150ms ease;
+}
+
+.portal-mobile .portal-link:hover {
+  opacity: 1;
+  filter: brightness(1.35) contrast(1.2);
+  text-shadow: 0 0 14px var(--green-1), 0 0 32px var(--green-2);
+}
+
+.portal-mobile .portal-link:focus-visible {
+  outline: 2px solid var(--green-hot-1);
+  outline-offset: 8px;
+  border-radius: 8px;
+}
+
+.portal-mobile .thin-band {
+  margin-top: 0;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.portal-mobile .thin-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.portal-mobile .thin-input {
+  width: min(340px, 78vw);
+  padding: .5rem .85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(42,255,138,0.26);
+  background: rgba(0,0,0,0.55);
+  color: var(--green-base);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  text-align: center;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(42,255,138,0.08);
+}
+
+.portal-mobile .thin-input::placeholder {
+  color: rgba(42,255,138,0.6);
+}
+
+.portal-mobile .thin-input:focus-visible {
+  border-color: rgba(42,255,138,0.55);
+  box-shadow: 0 0 0 2px rgba(42,255,138,0.16);
+}
+
+.portal-mobile .thin-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .55rem .95rem;
+  border-radius: 999px;
+  border: 1px solid var(--green-hot-1);
+  background: rgba(42,255,138,0.10);
+  color: var(--green-base);
+  text-decoration: none;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-family: "Cinzel", serif;
+  font-size: .78rem;
+  cursor: pointer;
+  align-self: center;
+}
+
+.portal-mobile .foot {
+  text-align: center;
+  opacity: .92;
+  letter-spacing: .12em;
+  font-size: .95rem;
+  text-shadow: 0 0 10px var(--green-3);
+}
+
+.portal-mobile .splash__eyebrow {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: .15em;
+  text-shadow:
+    -1px -1px 0 var(--relief-base),
+     0 0 8px var(--green-1),
+     0 0 18px var(--green-2),
+     0 0 28px var(--green-3);
+}
+
+.portal-mobile .lede {
+  margin: 0.3rem auto;
+  font-size: 1.45rem;
+  max-width: 520px;
+  opacity: .92;
+  text-shadow: 0 0 9px var(--green-1);
+}
+
+.portal-mobile .divider {
+  margin-top: .4rem;
+  font-family: "Cinzel", serif;
+  opacity: .7;
+  text-shadow: 0 0 9px var(--green-2);
+}
+
+.portal-mobile .splash__foot {
+  font-size: 1rem;
+  opacity: .9;
+  letter-spacing: .12em;
+}
+
+.portal-mobile .splash__foot a {
+  color: var(--green-base);
+  margin: 0 .6rem;
+  text-decoration: none;
+  text-shadow: 0 0 8px var(--green-1);
+}
+
+.portal-mobile .splash__foot a:hover {
+  filter: brightness(1.25) contrast(1.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-mobile .portal-link { transition: none; }
+}
+
+@media (max-height: 680px) {
+  .portal-mobile .wrap { padding: clamp(calc(var(--hero-bar-height) + 6px), 2vh, 52px) 4.5vw 3vh; }
+  .portal-mobile .title {
+    font-size: clamp(1.35rem, 3.8vw, 2.3rem);
+    white-space: nowrap;
+  }
+
+  .portal-mobile .portal-stack { gap: .75rem; }
+  .portal-mobile .portal { width: min(32vh, 250px); height: min(32vh, 250px); }
+  .portal-mobile .portal-link { font-size: clamp(1.1rem, 3.2vw, 1.8rem); }
+
+  .portal-mobile .thin-input { width: min(280px, 74vw); font-size: 1rem; }
+  .portal-mobile .thin-button { padding: .52rem .85rem; font-size: .74rem; }
+
+  .portal-mobile .foot { font-size: .85rem; letter-spacing: .10em; }
+  .portal-mobile .splash__eyebrow { font-size: 0.95rem; }
+  .portal-mobile .lede { font-size: 1.05rem; margin: 0.2rem auto; }
+  .portal-mobile .divider { margin-top: .25rem; font-size: .9rem; }
+  .portal-mobile .splash__foot { font-size: .9rem; }
+}
+
+@media (max-width: 480px) {
+  .portal-mobile .wrap { padding: clamp(calc(var(--hero-bar-height) + 6px), 2vh, 52px) 4.5vw 3vh; }
+  .portal-mobile .portal-stack { gap: .75rem; }
+  .portal-mobile .portal-link { letter-spacing: .18em; }
+  .portal-mobile .thin-form { gap: .45rem; flex-direction: row; }
+}
+
+@media (max-width: 600px) {
+  .portal-mobile .wrap {
+    padding-top: calc(clamp(24px, 7svh, 72px) + env(safe-area-inset-top));
+    padding-bottom: calc(clamp(14px, 4svh, 32px) + env(safe-area-inset-bottom));
+  }
+
+  .portal-mobile .portal {
+    width: clamp(190px, 34svh, 300px);
+    height: clamp(190px, 34svh, 300px);
+  }
 }
 
 /* ====================================================================== */
@@ -441,47 +698,85 @@ body {
   </div>
 </div>
 
-<div class="portal-flash"></div>
+<div class="portal-mobile">
+  <div class="wrap">
+    <div class="mobile-fit">
+      <header>
+        <h1 class="title">St. Expedite Press</h1>
+      </header>
 
-<div class="header-title">ST. EXPEDITE PRESS</div>
+      <main class="portal-stack">
+        <a class="portal-link" href="books.html">Books</a>
 
-<!-- THE PORTAL -->
-<div class="portal-frame">
-  <div class="portal-noise"></div>
-  <img src="assets/gif/crow_glitch_text.gif" class="portal-gif" alt="">
+        <div class="portal" aria-hidden="true">
+          <img src="assets/gif/crow_glitch_text.gif" alt="">
+        </div>
+
+        <a class="portal-link" href="mission.html">Mission</a>
+
+        <div class="thin-band" aria-label="Email updates">
+          <form class="thin-form" id="index-updates-form">
+            <input class="thin-input" id="index-updates-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates" required>
+            <button class="thin-button" type="submit">Get updates</button>
+          </form>
+        </div>
+      </main>
+
+      <footer class="foot">
+        <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+        <p class="lede">...in the key of Night.</p>
+        <div class="divider">&#9651; &#10013; &#9651;</div>
+      <div class="splash__foot">
+        <a href="services.html">Services</a> // <a href="submit.html">Submission</a>
+      </div>
+    </footer>
+      </div>
+  </div>
 </div>
 
-<nav class="mobile-index-nav">
-  <a href="books.html">Press</a>
-  <a href="gallery.html">Store</a>
-  <a href="mission.html">Mission</a>
-  <a href="lice.html">Lab</a>
-</nav>
+<div class="portal-desktop">
+  <div class="portal-flash"></div>
 
-<!-- NAVIGATION GRID -->
-<div class="big-nav">
-  <!-- top row -->
-  <a href="books.html"   class="big-word"                >PRESS</a>
-  <div></div>
-  <a href="gallery.html" class="big-word" style="grid-column:3;">STORE</a>
+  <div class="header-title">ST. EXPEDITE PRESS</div>
 
-  <!-- middle row (kept empty for breathing room) -->
-  <div></div><div></div><div></div>
+  <!-- THE PORTAL -->
+  <div class="portal-frame">
+    <div class="portal-noise"></div>
+    <img src="assets/gif/crow_glitch_text.gif" class="portal-gif" alt="">
+  </div>
 
-  <!-- bottom row -->
-  <a href="mission.html" class="big-word" style="grid-row:3;"                    >MISSION</a>
-  <div></div>
-  <a href="lice.html"    class="big-word" style="grid-column:3; grid-row:3;"     >LAB</a>
-</div>
+  <nav class="mobile-index-nav">
+    <a href="books.html">Books</a>
+    <a href="gallery.html">Store</a>
+    <a href="mission.html">Mission</a>
+    <a href="lice.html">Lab</a>
+  </nav>
 
-<!-- LOWER TEXT -->
-<div class="splash">
-  <p class="splash__eyebrow">29.9511° N — 90.0715° W</p>
-  <p class="lede">...in the key of Night.</p>
-  <div class="divider">△ ✝ △</div>
-  <div class="splash__foot">
-    <a href="services.html">Services</a> / /
-    <a href="contact.html">Contact</a>
+  <!-- NAVIGATION GRID -->
+  <div class="big-nav">
+    <!-- top row -->
+    <a href="books.html"   class="big-word"                >BOOKS</a>
+    <div></div>
+    <a href="gallery.html" class="big-word" style="grid-column:3;">STORE</a>
+
+    <!-- middle row (kept empty for breathing room) -->
+    <div></div><div></div><div></div>
+
+    <!-- bottom row -->
+    <a href="mission.html" class="big-word" style="grid-row:3;"                    >MISSION</a>
+    <div></div>
+    <a href="lice.html"    class="big-word" style="grid-column:3; grid-row:3;"     >LAB</a>
+  </div>
+
+  <!-- LOWER TEXT -->
+  <div class="splash">
+    <p class="splash__eyebrow">29.9511° N — 90.0715° W</p>
+    <p class="lede">...in the key of Night.</p>
+    <div class="divider">△ ✝ △</div>
+    <div class="splash__foot">
+      <a href="services.html">Services</a> / /
+      <a href="contact.html">Contact</a>
+    </div>
   </div>
 </div>
 
@@ -518,6 +813,59 @@ if (window.matchMedia('(pointer: fine)').matches) {
        skew(${warpX}deg, ${warpY}deg)`;
   });
 }
+
+const applyMobileFit = () => {
+  const mobileFit = document.querySelector('.portal-mobile .mobile-fit');
+  const mobileWrap = document.querySelector('.portal-mobile .wrap');
+  if (!mobileFit || !mobileWrap) return;
+
+  const isMobileLayout = window.matchMedia('(max-width: 900px)').matches;
+  if (!isMobileLayout) {
+    mobileFit.style.removeProperty('--mobile-fit-scale');
+    return;
+  }
+
+  mobileFit.style.setProperty('--mobile-fit-scale', '1');
+  const availableWidth = mobileWrap.clientWidth;
+  const availableHeight = mobileWrap.clientHeight;
+
+  const contentWidth = mobileFit.scrollWidth;
+  const contentHeight = mobileFit.scrollHeight;
+
+  if (!contentWidth || !contentHeight) return;
+
+  const scale = Math.min(1, availableWidth / contentWidth, availableHeight / contentHeight);
+  mobileFit.style.setProperty('--mobile-fit-scale', String(Math.max(0.65, scale)));
+};
+
+let mobileFitTimer = 0;
+const scheduleMobileFit = (delayMs) => {
+  window.clearTimeout(mobileFitTimer);
+  mobileFitTimer = window.setTimeout(applyMobileFit, delayMs);
+};
+
+scheduleMobileFit(0);
+window.addEventListener('resize', () => scheduleMobileFit(60), { passive: true });
+window.addEventListener('orientationchange', () => scheduleMobileFit(250), { passive: true });
+window.addEventListener('load', () => scheduleMobileFit(0), { passive: true });
+document.fonts?.ready?.then?.(() => scheduleMobileFit(0));
+
+const updatesForm = document.getElementById('index-updates-form');
+updatesForm?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = String(document.getElementById('index-updates-email')?.value ?? '').trim();
+  if (!email) return;
+
+  const subject = 'St. Expedite Press — Launch Updates';
+  const lines = [
+    'Please add me to launch updates.',
+    '',
+    `Email: ${email}`,
+  ];
+
+  window.location.href =
+    `mailto:contact@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\\n'))}`;
+});
 </script>
 
 </body>
