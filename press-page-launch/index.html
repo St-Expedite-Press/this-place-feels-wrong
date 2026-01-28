@@ -1,0 +1,402 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="St. Expedite Press is a micropress based in New Orleans. Books, dispatches, and inquiries." />
+  <meta name="theme-color" content="#050807" />
+  <meta name="color-scheme" content="dark" />
+  <meta property="og:site_name" content="St. Expedite Press" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="St. Expedite Press — Portal" />
+  <meta property="og:description" content="A micropress based in New Orleans. Books, dispatches, and inquiries." />
+  <title>St. Expedite Press — Portal</title>
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/hero-bar.css" />
+
+  <style>
+    :root {
+      --green-base: #2aff8a;
+      --green-1: rgba(42,255,138,0.22);
+      --green-2: rgba(42,255,138,0.12);
+      --green-3: rgba(42,255,138,0.06);
+      --green-hot-1: rgba(42,255,138,0.75);
+      --relief-base: #d96aff;
+      --dark: #050807;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
+      overflow: hidden;
+      font-family: "Cormorant Garamond", serif;
+      color: var(--green-base);
+      background:
+        linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
+        url("../assets/img/void_engine_twinkle_green.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    @media (max-width: 900px) {
+      body { background-attachment: scroll; }
+    }
+
+    .texture--grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
+      opacity: .16;
+      mix-blend-mode: soft-light;
+      z-index: 0;
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(42,255,138,0.12) 0%, rgba(42,255,138,0.00) 70%);
+      mix-blend-mode: soft-light;
+      opacity: .55;
+      z-index: 50;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      align-items: center;
+      padding: clamp(calc(var(--hero-bar-height) + 6px), 3vh, 60px) 6vw 5vh;
+      text-align: center;
+    }
+
+    .title {
+      font-family: "Cinzel", serif;
+      letter-spacing: clamp(0.10em, 0.8vw, 0.18em);
+      font-size: clamp(1.6rem, 3.2vw, 3rem);
+      text-transform: uppercase;
+      text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .portal {
+      width: min(44vh, 380px);
+      height: min(44vh, 380px);
+      margin: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--green-base);
+      box-shadow: 0 0 18px var(--green-1), 0 0 44px var(--green-2), 0 0 92px var(--green-3);
+      backdrop-filter: blur(4px) brightness(1.15) contrast(1.25);
+    }
+
+    .portal img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(1.05) contrast(1.2);
+    }
+
+    .portal-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(.75rem, 1.8svh, 1.1rem);
+      min-height: min(60vh, 60svh);
+    }
+
+    .portal-link {
+      font-family: "Cinzel", serif;
+      font-size: clamp(1.4rem, 3.2vw, 2.6rem);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--green-base);
+      opacity: .7;
+      text-shadow: 0 0 10px var(--green-2), 0 0 22px var(--green-3);
+      transition: opacity 150ms ease, filter 150ms ease, text-shadow 150ms ease;
+    }
+
+    .portal-link:hover {
+      opacity: 1;
+      filter: brightness(1.35) contrast(1.2);
+      text-shadow: 0 0 14px var(--green-1), 0 0 32px var(--green-2);
+    }
+
+    .portal-link:focus-visible {
+      outline: 2px solid var(--green-hot-1);
+      outline-offset: 8px;
+      border-radius: 8px;
+    }
+
+    .thin-band {
+      margin-top: 0;
+      padding: 0;
+      border-radius: 0;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .thin-form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+      flex-direction: column;
+    }
+
+    .thin-input {
+      width: min(340px, 78vw);
+      padding: .5rem .85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(42,255,138,0.26);
+      background: rgba(0,0,0,0.55);
+      color: var(--green-base);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.05rem;
+      text-align: center;
+      outline: none;
+      box-shadow: 0 0 0 1px rgba(42,255,138,0.08);
+    }
+
+    .thin-input::placeholder {
+      color: rgba(42,255,138,0.6);
+    }
+
+    .thin-input:focus-visible {
+      border-color: rgba(42,255,138,0.55);
+      box-shadow: 0 0 0 2px rgba(42,255,138,0.16);
+    }
+
+    .thin-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .55rem .95rem;
+      border-radius: 999px;
+      border: 1px solid var(--green-hot-1);
+      background: rgba(42,255,138,0.10);
+      color: var(--green-base);
+      text-decoration: none;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-family: "Cinzel", serif;
+      font-size: .78rem;
+      cursor: pointer;
+      align-self: center;
+    }
+
+    .foot {
+      text-align: center;
+      opacity: .92;
+      letter-spacing: .12em;
+      font-size: .95rem;
+      text-shadow: 0 0 10px var(--green-3);
+    }
+
+    .splash__eyebrow {
+      margin: 0;
+      font-size: 1.1rem;
+      letter-spacing: .15em;
+      text-shadow:
+        -1px -1px 0 var(--relief-base),
+         0 0 8px var(--green-1),
+         0 0 18px var(--green-2),
+         0 0 28px var(--green-3);
+    }
+
+    .lede {
+      margin: 0.3rem auto;
+      font-size: 1.45rem;
+      max-width: 520px;
+      opacity: .92;
+      text-shadow: 0 0 9px var(--green-1);
+    }
+
+    .divider {
+      margin-top: .4rem;
+      font-family: "Cinzel", serif;
+      opacity: .7;
+      text-shadow: 0 0 9px var(--green-2);
+    }
+
+    .splash__foot {
+      font-size: 1rem;
+      opacity: .9;
+      letter-spacing: .12em;
+    }
+
+    .splash__foot a {
+      color: var(--green-base);
+      margin: 0 .6rem;
+      text-decoration: none;
+      text-shadow: 0 0 8px var(--green-1);
+    }
+
+    .splash__foot a:hover {
+      filter: brightness(1.25) contrast(1.1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .portal-link { transition: none; }
+    }
+
+    @media (max-height: 680px) {
+      .wrap { padding: clamp(calc(var(--hero-bar-height) + 6px), 2vh, 52px) 4.5vw 3vh; }
+      .title {
+        font-size: clamp(1.35rem, 3.8vw, 2.3rem);
+        white-space: nowrap;
+      }
+
+      .portal-stack { min-height: unset; gap: .85rem; }
+      .portal { width: min(32vh, 250px); height: min(32vh, 250px); }
+      .portal-link { font-size: clamp(1.1rem, 3.2vw, 1.8rem); }
+
+      header { margin-top: 4.8vh; }
+      .portal-stack { margin-top: .9rem; }
+
+      .thin-input { width: min(280px, 74vw); font-size: 1rem; }
+      .thin-button { padding: .52rem .85rem; font-size: .74rem; }
+
+      .foot { font-size: .85rem; letter-spacing: .10em; }
+      .splash__eyebrow { font-size: 0.95rem; }
+      .lede { font-size: 1.05rem; margin: 0.2rem auto; }
+      .divider { margin-top: .25rem; font-size: .9rem; }
+      .splash__foot { font-size: .9rem; }
+    }
+
+    @media (max-width: 480px) {
+      .wrap { padding: clamp(calc(var(--hero-bar-height) + 6px), 2vh, 52px) 4.5vw 3vh; }
+      .portal-stack { gap: .9rem; }
+      .portal-link { letter-spacing: .18em; }
+      header { margin-top: 7vh; }
+      .portal-stack { margin-top: 1.1rem; }
+      .thin-form { gap: .45rem; flex-direction: row; }
+    }
+
+    @media (max-width: 600px) {
+      .wrap {
+        padding-top: calc(clamp(24px, 7svh, 72px) + env(safe-area-inset-top));
+        padding-bottom: calc(clamp(14px, 4svh, 32px) + env(safe-area-inset-bottom));
+      }
+
+      .portal {
+        width: clamp(190px, 34svh, 300px);
+        height: clamp(190px, 34svh, 300px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-bar" role="navigation" aria-label="Social media">
+    <div class="hero-bar__inner">
+      <a class="hero-bar__icon" href="https://x.com/stex_press" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </a>
+      <a class="hero-bar__icon" href="https://substack.com/search/stexpeditepress?searching=profile" target="_blank" rel="noopener noreferrer" aria-label="Substack" title="Substack">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M7 7h10M7 12h10M7 17h10" />
+        </svg>
+      </a>
+      <a class="hero-bar__icon" href="https://t.me/stexpeditepress" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M21 5 3 12l7 2 2 7 9-16Z" />
+          <path d="M10 14 21 5" />
+        </svg>
+      </a>
+      <a class="hero-bar__icon" href="https://www.instagram.com/stexpeditepress/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="6" width="12" height="12" rx="3" />
+          <circle cx="12" cy="12" r="3" />
+          <path d="M16.5 7.5h.01" />
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="texture--grain" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header>
+      <h1 class="title">St. Expedite Press</h1>
+    </header>
+
+    <main class="portal-stack">
+      <a class="portal-link" href="../books.html">Books</a>
+
+      <div class="portal" aria-hidden="true">
+        <img src="../assets/gif/crow_glitch_text.gif" alt="">
+      </div>
+
+      <a class="portal-link" href="../mission.html">Mission</a>
+
+      <div class="thin-band" aria-label="Email updates">
+        <form class="thin-form" id="index-updates-form">
+          <input class="thin-input" id="index-updates-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates" required>
+          <button class="thin-button" type="submit">Get updates</button>
+        </form>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+      <p class="lede">...in the key of Night.</p>
+      <div class="divider">&#9651; &#10013; &#9651;</div>
+      <div class="splash__foot">
+        <a href="../services.html">Services</a> // <a href="../submit.html">Submission</a> // <a href="../index.html?desktop=1">Desktop Portal</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+  if (window.matchMedia('(pointer: fine)').matches) {
+    const glow = document.querySelector('.cursor-glow');
+    document.addEventListener('mousemove', e => {
+      if (!glow) return;
+      glow.style.left = (e.pageX - 70) + 'px';
+      glow.style.top  = (e.pageY - 70) + 'px';
+    });
+  }
+
+  const updatesForm = document.getElementById('index-updates-form');
+  updatesForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = String(document.getElementById('index-updates-email')?.value ?? '').trim();
+    if (!email) return;
+
+    const subject = 'St. Expedite Press — Launch Updates';
+    const lines = [
+      'Please add me to launch updates.',
+      '',
+      `Email: ${email}`,
+    ];
+
+    window.location.href =
+        `mailto:contact@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\\n'))}`;
+    });
+  </script>
+</body>
+</html>
