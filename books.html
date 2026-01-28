@@ -104,19 +104,28 @@
   }
 
   .site-header {
+    max-width: 1120px;
+    margin: 0 auto 2.2vh;
+    padding: 1.05rem 1.15rem 1rem;
+    background: rgba(0,0,0,0.74);
+    border-radius: 18px;
+    border: 1px solid rgba(42,255,138,0.30);
+    box-shadow:
+      0 0 18px rgba(0,0,0,0.9),
+      0 0 26px var(--green-3);
+
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 3vh;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .site-eyebrow {
     font-family: "Cinzel", serif;
     letter-spacing: .24em;
-    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
     text-transform: uppercase;
-    opacity: .9;
+    opacity: .85;
     text-shadow:
       -1px -1px 0 var(--relief-base),
        0 0 8px var(--green-1);
@@ -125,8 +134,9 @@
   .site-title {
     font-family: "Cinzel", serif;
     letter-spacing: .18em;
-    font-size: clamp(2rem, 4vw, 3rem);
-    margin-top: .2rem;
+    font-size: clamp(1.55rem, 3.2vw, 2.25rem);
+    letter-spacing: .14em;
+    margin-top: .15rem;
     text-transform: uppercase;
     text-shadow:
        0 0 12px var(--green-1),
@@ -134,34 +144,37 @@
   }
 
   .site-subtitle {
-    font-size: 1rem;
-    letter-spacing: .18em;
+    font-size: 0.85rem;
+    letter-spacing: .16em;
     text-transform: uppercase;
     opacity: .9;
-    margin-top: 0.35rem;
+    margin-top: 0.25rem;
     text-shadow: 0 0 6px var(--green-2);
   }
 
   .site-header-divider {
-    width: 220px;
-    max-width: 60vw;
+    width: 180px;
+    max-width: 70vw;
     height: 1px;
-    margin: 0.9rem auto 0;
+    margin: 0.75rem 0 0;
     background: var(--green-2);
     box-shadow: 0 0 12px var(--green-1);
   }
 
   .header-nav {
-    margin-top: 1.5rem;
-    font-size: 0.95rem;
-    letter-spacing: .16em;
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 1.05rem;
+    font-size: 0.78rem;
+    letter-spacing: .18em;
     text-transform: uppercase;
     opacity: .9;
   }
 
   .header-nav a {
     text-decoration: none;
-    margin: 0 .8rem;
+    margin: 0;
     text-shadow:
       0 0 6px var(--green-2),
       0 0 12px var(--green-3);
