@@ -21,7 +21,7 @@ This repo includes a `CNAME` file set to `stexpedite.press`.
 
 GitHub Pages cannot send email by itself (static hosting). You need a form backend that forwards submissions to email.
 
-### Recommended: Formspree
+### Recommended (for now): Formspree
 
 1. Create a Formspree form and set its recipient/notifications to `editor@stexpedite.press`.
 2. Copy the form endpoint URL (looks like `https://formspree.io/f/<id>`).
@@ -34,5 +34,6 @@ GitHub Pages cannot send email by itself (static hosting). You need a form backe
 
 ### Notes
 
+- Current choice: **Formspree** as the temporary form backend until a custom mail/API solution is in place.
 - Make sure `editor@stexpedite.press` is a real inbox or a forwarding alias (Google Workspace / Proton / Fastmail / Cloudflare Email Routing, etc.).
 - If you want submissions to send without opening an email client, convert `submit.html` from `mailto:` to a form backend as well (same approach as Contact).
