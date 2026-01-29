@@ -35,7 +35,7 @@ Static neon portal for St. Expedite Press: a cursor-responsive portal, a three-b
 - **assets/gif/**
   - `crow_glitch_text.gif` � animated GIF used inside the circular portal frame on `index.html`.
 - **assets/img/**
-  - `void_engine_twinkle_green.png` � void/pavement background texture for `index.html`.
+  - `void_engine_twinkle_green.webp` � optimized void/pavement background texture (with `void_engine_twinkle_green.png` fallback in CSS).
   - `crow_frames/` � frame sequence for potential alternative portal rendering.
   - `deprecated_images/` � legacy sigils and background art kept for reference.
 - **assets/deprecated_pages/**
