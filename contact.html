@@ -303,6 +303,46 @@ input:focus {
   margin-top: 1.8rem;
 }
 
+.form-helper {
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  opacity: .92;
+}
+
+.form-helper__actions {
+  margin-top: 0.55rem;
+  display: flex;
+  gap: 0.55rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.form-helper__link,
+.form-helper__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(42,255,138,0.28);
+  background: rgba(0,0,0,0.65);
+  color: var(--green-base);
+  text-decoration: none;
+  font-family: "Cinzel", serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.form-helper__link:hover,
+.form-helper__btn:hover {
+  border-color: var(--green-hot-2);
+  box-shadow: 0 0 14px var(--green-2);
+}
+
 .submit-btn {
   font-family: "Cinzel", serif;
   letter-spacing: .16em;
@@ -396,7 +436,7 @@ input:focus {
     <div class="form-group">
       <label for="reason">Reason for Contact</label>
       <select id="reason" name="reason" required>
-        <option value="">Select one…</option>
+        <option value="">Select one&hellip;</option>
         <option>Book Orders & Fulfillment</option>
         <option>Store / Print Inquiries</option>
         <option>Lab</option>
@@ -420,6 +460,13 @@ input:focus {
 
     <div class="form-actions">
       <button class="submit-btn" type="submit">Send</button>
+      <div class="form-helper" id="contact-helper" aria-live="polite" hidden>
+        <div id="contact-helper-text"></div>
+        <div class="form-helper__actions">
+          <a class="form-helper__link" id="contact-mailto-fallback" href="mailto:editor@stexpedite.press">Open Email</a>
+          <button class="form-helper__btn" id="contact-copy" type="button">Copy</button>
+        </div>
+      </div>
     </div>
 
   </form>
@@ -450,6 +497,27 @@ input:focus {
 
   (function() {
     const form = document.getElementById('contact-form');
+    const helper = document.getElementById('contact-helper');
+    const helperText = document.getElementById('contact-helper-text');
+    const fallbackLink = document.getElementById('contact-mailto-fallback');
+    const copyBtn = document.getElementById('contact-copy');
+
+    if (!form || !helper || !helperText || !fallbackLink || !copyBtn) return;
+
+    let lastCopyText = '';
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        try {
+          window.prompt('Copy this message:', text);
+        } catch {}
+        return false;
+      }
+    }
+
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -457,7 +525,13 @@ input:focus {
       const email = String(document.getElementById('email')?.value ?? '').trim();
       const message = String(document.getElementById('message')?.value ?? '').trim();
 
-      if (!email || !message) return;
+      if (!email || !message) {
+        helper.hidden = false;
+        helperText.textContent = 'Add your email and message, then send again.';
+        fallbackLink.setAttribute('href', 'mailto:editor@stexpedite.press');
+        lastCopyText = '';
+        return;
+      }
 
       const subject = `St. Expedite Press — Contact${reason ? ` (${reason})` : ''}`;
       const lines = [
@@ -469,8 +543,23 @@ input:focus {
         message,
       ].filter(Boolean);
 
-      window.location.href =
-        `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\\n'))}`;
+      const body = lines.join('\n');
+      const mailtoUrl =
+        `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      helper.hidden = false;
+      helperText.textContent = 'Opening your email client. If nothing happens, use the buttons below.';
+      fallbackLink.setAttribute('href', mailtoUrl);
+      lastCopyText = `To: editor@stexpedite.press\nSubject: ${subject}\n\n${body}`;
+
+      window.location.href = mailtoUrl;
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      if (!lastCopyText) return;
+      const ok = await copyText(lastCopyText);
+      helper.hidden = false;
+      helperText.textContent = ok ? 'Copied. Paste into your email client and send to editor@stexpedite.press.' : 'Copy dialog opened.';
     });
   })();
   </script>

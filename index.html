@@ -225,6 +225,47 @@ body {
   align-self: center;
 }
 
+.portal-mobile .thin-helper {
+  margin-top: 0.55rem;
+  width: min(420px, 86vw);
+  text-align: center;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  opacity: .92;
+}
+
+.portal-mobile .thin-helper__actions {
+  margin-top: 0.45rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.portal-mobile .thin-helper__link,
+.portal-mobile .thin-helper__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.48rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(42,255,138,0.26);
+  background: rgba(0,0,0,0.5);
+  color: var(--green-base);
+  text-decoration: none;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-family: "Cinzel", serif;
+  font-size: .74rem;
+  cursor: pointer;
+}
+
+.portal-mobile .thin-helper__link:hover,
+.portal-mobile .thin-helper__btn:hover {
+  border-color: rgba(42,255,138,0.55);
+  box-shadow: 0 0 14px rgba(42,255,138,0.16);
+}
+
 .portal-mobile .foot {
   text-align: center;
   opacity: .92;
@@ -720,6 +761,13 @@ body {
             <input class="thin-input" id="index-updates-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates" required>
             <button class="thin-button" type="submit">Get updates</button>
           </form>
+          <div class="thin-helper" id="index-updates-helper" aria-live="polite" hidden>
+            <div id="index-updates-helper-text"></div>
+            <div class="thin-helper__actions">
+              <a class="thin-helper__link" id="index-updates-mailto" href="mailto:editor@stexpedite.press">Open Email</a>
+              <button class="thin-helper__btn" id="index-updates-copy" type="button">Copy</button>
+            </div>
+          </div>
         </div>
       </main>
 
@@ -851,21 +899,63 @@ window.addEventListener('load', () => scheduleMobileFit(0), { passive: true });
 document.fonts?.ready?.then?.(() => scheduleMobileFit(0));
 
 const updatesForm = document.getElementById('index-updates-form');
-updatesForm?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = String(document.getElementById('index-updates-email')?.value ?? '').trim();
-  if (!email) return;
+const updatesHelper = document.getElementById('index-updates-helper');
+const updatesHelperText = document.getElementById('index-updates-helper-text');
+const updatesMailto = document.getElementById('index-updates-mailto');
+const updatesCopy = document.getElementById('index-updates-copy');
 
-  const subject = 'St. Expedite Press — Updates';
-  const lines = [
-    'Please add me to updates.',
-    '',
-    `Email: ${email}`,
-  ];
+if (updatesForm && updatesHelper && updatesHelperText && updatesMailto && updatesCopy) {
+  let lastCopyText = '';
 
-  window.location.href =
-    `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\\n'))}`;
-});
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      try {
+        window.prompt('Copy this message:', text);
+      } catch {}
+      return false;
+    }
+  }
+
+  updatesForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = String(document.getElementById('index-updates-email')?.value ?? '').trim();
+    if (!email) {
+      updatesHelper.hidden = false;
+      updatesHelperText.textContent = 'Enter your email, then try again.';
+      updatesMailto.setAttribute('href', 'mailto:editor@stexpedite.press');
+      lastCopyText = '';
+      return;
+    }
+
+    const subject = 'St. Expedite Press — Updates';
+    const lines = [
+      'Please add me to updates.',
+      '',
+      `Email: ${email}`,
+    ];
+
+    const body = lines.join('\n');
+    const mailtoUrl =
+      `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    updatesHelper.hidden = false;
+    updatesHelperText.textContent = 'Opening your email client. If nothing happens, use the buttons below.';
+    updatesMailto.setAttribute('href', mailtoUrl);
+    lastCopyText = `To: editor@stexpedite.press\nSubject: ${subject}\n\n${body}`;
+
+    window.location.href = mailtoUrl;
+  });
+
+  updatesCopy.addEventListener('click', async () => {
+    if (!lastCopyText) return;
+    const ok = await copyText(lastCopyText);
+    updatesHelper.hidden = false;
+    updatesHelperText.textContent = ok ? 'Copied. Paste into your email client and send to editor@stexpedite.press.' : 'Copy dialog opened.';
+  });
+}
 
 </script>
 
