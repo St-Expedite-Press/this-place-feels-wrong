@@ -716,8 +716,6 @@
         <!-- data-filter values correspond to book-card data-series attributes -->
         <button class="filter-button is-active" data-filter="all">All</button>
         <button class="filter-button" data-filter="sexp">SEXP &mdash; Editions</button>
-        <button class="filter-button" data-filter="southern">Legends of the Southern Past</button>
-        <button class="filter-button" data-filter="euro">European Classics &amp; Modernists</button>
       </div>
     </section>
 
@@ -728,6 +726,7 @@
       <!-- New: Les Fièvres et les Humeurs -->
       <article
         class="book-card"
+        data-live="true"
         data-series="sexp"
         data-title="Les Fi&egrave;vres et les Humeurs"
         data-author="C. Sandbatch"
@@ -922,7 +921,7 @@
       <p class="sep-footer__lede">...in the key of Night.</p>
       <div class="sep-footer__divider">&#9651; &#10013; &#9651;</div>
       <div class="sep-footer__links">
-        <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
+        <a href="under-construction.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
       </div>
     </footer>
   </div>
@@ -960,10 +959,25 @@
   })();
 
   /***********************************************************************
+   * LIVE SURFACE — TEMPORARILY SHOW ONLY ONE TITLE
+   **********************************************************************/
+  (function() {
+    const booksGrid = document.getElementById('booksGrid');
+    if (!booksGrid) return;
+
+    const cards = Array.from(booksGrid.querySelectorAll('.book-card'));
+    cards.forEach(card => {
+      if (card.getAttribute('data-live') !== 'true') {
+        card.remove();
+      }
+    });
+  })();
+
+  /***********************************************************************
    * FILTER LOGIC — SHOW/HIDE BOOK CARDS BY SERIES
    *
-   *  - Buttons have data-filter="all|sexp|southern|euro"
-   *  - Cards have data-series="sexp|southern|euro"
+   *  - Buttons have data-filter="all|sexp"
+   *  - Cards have data-series="sexp"
    **********************************************************************/
   (function() {
     const filterBar = document.getElementById('filterBar');
