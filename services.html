@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Services offered by St. Expedite Press." />
+<meta name="description" content="Aesthetic, editorial, and strategic capabilities from St. Expedite Press." />
 <meta name="theme-color" content="#050807" />
 <meta name="color-scheme" content="dark" />
 <meta property="og:site_name" content="St. Expedite Press" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Services &mdash; St. Expedite Press" />
-<meta property="og:description" content="Services offered by St. Expedite Press." />
+<meta property="og:description" content="Aesthetic, editorial, and strategic capabilities." />
 <title>Services &mdash; St. Expedite Press</title>
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
@@ -226,7 +226,7 @@ a { color: var(--green-base); }
 }
 
 /* ======================================================================
-   SERVICES GRID
+    SERVICES GRID
    ====================================================================== */
 .services-grid {
   max-width: 1100px;
@@ -241,7 +241,45 @@ a { color: var(--green-base); }
 }
 
 /* ======================================================================
-   SERVICE CARD
+   OPENING POSITIONING
+   ====================================================================== */
+.services-intro {
+  max-width: 1100px;
+  margin: 2vh auto 3vh;
+  padding: 1.4rem 1.6rem 1.55rem;
+  border-radius: 22px;
+  border: 1px solid rgba(42,255,138,0.22);
+  background:
+    radial-gradient(920px 260px at 10% 0%, rgba(217,106,255,0.10), rgba(0,0,0,0) 55%),
+    radial-gradient(920px 260px at 85% 0%, rgba(42,255,138,0.10), rgba(0,0,0,0) 55%),
+    linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.58));
+  box-shadow:
+    0 0 18px rgba(0,0,0,0.9),
+    0 0 26px var(--green-3);
+  backdrop-filter: blur(8px) saturate(1.15);
+}
+
+.services-intro__lead {
+  margin: 0;
+  font-family: "Cinzel", serif;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  font-size: 1.05rem;
+  text-shadow: 0 0 10px var(--green-2);
+}
+
+.services-intro__body {
+  margin-top: 0.8rem;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  opacity: .96;
+}
+
+.services-intro__body p { margin: 0.6rem 0 0; }
+.services-intro__body p:first-child { margin-top: 0; }
+
+/* ======================================================================
+    SERVICE CARD
    ====================================================================== */
 .service-card {
   background: rgba(0,0,0,0.75);
@@ -251,6 +289,31 @@ a { color: var(--green-base); }
   box-shadow:
     0 0 16px rgba(0,0,0,0.9),
     0 0 22px var(--green-3);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(520px 220px at 20% 0%, rgba(42,255,138,0.06), rgba(0,0,0,0) 55%),
+    radial-gradient(520px 220px at 88% 0%, rgba(217,106,255,0.06), rgba(0,0,0,0) 60%);
+  opacity: .9;
+  pointer-events: none;
+}
+
+.service-card > * { position: relative; z-index: 1; }
+
+.service-card:hover {
+  transform: translate3d(0,-4px,0);
+  border-color: rgba(42,255,138,0.48);
+  box-shadow:
+    0 0 18px rgba(0,0,0,0.9),
+    0 0 26px var(--green-2),
+    0 0 42px var(--green-3);
 }
 
 .service-title {
@@ -389,7 +452,7 @@ a { color: var(--green-base); }
   <div class="site-brand">
     <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
     <div class="site-title">SERVICES</div>
-    <div class="site-subtitle">Institutional Capabilities</div>
+    <div class="site-subtitle">Aesthetic, Editorial, and Strategic Capabilities</div>
     <div class="site-header-divider"></div>
   </div>
       <nav class="header-nav">
@@ -402,87 +465,110 @@ a { color: var(--green-base); }
       </nav>
     </header>
 
+<section class="services-intro">
+  <p class="services-intro__lead">St. Expedite Press operates at the intersection of taste, structure, and power.</p>
+  <div class="services-intro__body">
+    <p>We design systems—editorial, technical, institutional, and political—where form must carry meaning and decisions must endure beyond the present moment.</p>
+    <p>Our services are not offered as commodities.<br>They are offered where seriousness is required.</p>
+  </div>
+</section>
+
 <section class="services-grid">
 
   <article class="service-card">
-    <div class="service-title">Editorial & Canon Architecture</div>
+    <div class="service-title">Editorial Systems &amp; Canon Architecture</div>
     <div class="service-body">
-      St. Expedite Press provides editorial leadership for projects that require coherence across form, history, and production.
+      We shape editorial identities the way architects shape civic space: with proportion, discipline, and historical awareness. Our work ensures that books, magazines, and imprints express a coherent worldview rather than a sequence of isolated releases.
       <ul>
-        <li>Magazine and imprint architecture</li>
-        <li>Editorial standards and workflow design</li>
-        <li>Manuscript development for formally experimental work</li>
-        <li>Translation framing and critical apparatus</li>
-        <li>Print, distribution, and audience strategy integration</li>
+        <li>Imprint and magazine identity design</li>
+        <li>Editorial standards, house voice, and canon logic</li>
+        <li>Manuscript development for formally ambitious work</li>
+        <li>Translation projects with critical and historical framing</li>
+        <li>Edition planning across print, distribution, and readership lifecycles</li>
       </ul>
     </div>
   </article>
 
   <article class="service-card">
-    <div class="service-title">Archives, Ontologies & Digital Humanities</div>
+    <div class="service-title">Archives, Ontologies &amp; Cultural Memory</div>
     <div class="service-body">
-      We design structural systems for cultural and historical knowledge where metadata, interpretation, and access must align.
+      We structure archives as living intellectual systems rather than storage vaults. Our work transforms collections into navigable, interpretable bodies of knowledge without flattening nuance or provenance.
       <ul>
-        <li>Archive structuring and metadata discipline</li>
-        <li>Ontology and knowledge-graph design (RDF/OWL)</li>
-        <li>Textual and historical data modeling</li>
-        <li>AI-assisted analysis of large corpora</li>
-        <li>Interpretive frameworks for fragmented collections</li>
+        <li>Archive architecture, metadata discipline, and collection strategy</li>
+        <li>Ontology and knowledge-graph design (RDF/OWL and pragmatic graph models)</li>
+        <li>Historical and textual data modeling</li>
+        <li>Corpus-scale analysis with interpretive accountability</li>
+        <li>Intellectual frameworks for fragmented or incomplete records</li>
       </ul>
     </div>
   </article>
 
   <article class="service-card">
-    <div class="service-title">AI & Applied Machine Intelligence</div>
+    <div class="service-title">Interpretable AI &amp; Machine Intelligence</div>
     <div class="service-body">
-      St. Expedite deploys machine intelligence only where interpretability and fidelity are preserved.
+      We design machine-assisted systems that preserve meaning rather than dissolve it. Our emphasis is not on spectacle, but on clarity, traceability, and epistemic restraint.
       <ul>
-        <li>Predictive modeling and optimization pipelines</li>
-        <li>NLP and text-forward AI systems</li>
-        <li>Image and audio enhancement for archival material</li>
-        <li>Agent-based research workflows</li>
-        <li>Automation without semantic loss</li>
+        <li>NLP systems for thematic, entity, and citation analysis</li>
+        <li>Corpus ingestion pipelines with auditability and provenance tracking</li>
+        <li>Agent-based research and investigative workflows</li>
+        <li>Archival image and audio restoration with quality control layers</li>
+        <li>Automation architectures designed to prevent semantic drift</li>
       </ul>
     </div>
   </article>
 
   <article class="service-card">
-    <div class="service-title">Operational & Institutional Design</div>
+    <div class="service-title">Publishing Infrastructure &amp; Media Systems</div>
     <div class="service-body">
-      We bring logistics-grade rigor to cultural infrastructure.
+      We treat publishing as an ecosystem, not a content pipeline. Our systems privilege continuity, bibliographic integrity, and independence from platform volatility.
       <ul>
-        <li>Program, fellowship, and initiative architecture</li>
-        <li>Grant writing and research alignment</li>
-        <li>Nonprofit and hybrid organizational design</li>
-        <li>Vendor, distribution, and fulfillment strategy</li>
-        <li>Documentation and compliance discipline</li>
+        <li>Editorial automation and publication pipelines</li>
+        <li>Metadata architecture and edition continuity planning</li>
+        <li>Text-first web platforms built for durability and legibility</li>
+        <li>Magazine relaunch strategy and long-term issue planning</li>
+        <li>Audience cultivation without platform dependency</li>
       </ul>
     </div>
   </article>
 
   <article class="service-card">
-    <div class="service-title">Publishing & Media Systems</div>
+    <div class="service-title">Institutional &amp; Program Architecture</div>
     <div class="service-body">
-      Beyond books, St. Expedite designs interconnected media ecosystems.
+      We design cultural and research institutions with the expectation that they will need to survive leadership changes, funding cycles, and political pressure.
       <ul>
-        <li>Editorial automation and metadata pipelines</li>
-        <li>Text-first web systems</li>
-        <li>Magazine relaunches and continuity planning</li>
-        <li>Audio programming and long-form interviews</li>
-        <li>Audience growth without platform dependency</li>
+        <li>Fellowship, grant, and initiative architecture</li>
+        <li>Organizational governance and documentation systems</li>
+        <li>Grant strategy and narrative-outcome alignment</li>
+        <li>Operational planning, vendor strategy, and compliance discipline</li>
+        <li>Institutional memory frameworks and record-keeping standards</li>
       </ul>
     </div>
   </article>
 
   <article class="service-card">
-    <div class="service-title">Selective Consulting</div>
+    <div class="service-title">Campaign Strategy &amp; Political Operations</div>
     <div class="service-body">
-      Short, high-impact engagements offered where complexity exceeds existing structure.
+      We support political and civic campaigns that require narrative coherence, strategic restraint, and infrastructural seriousness. Our work focuses on message architecture, intelligence systems, and long-term positioning rather than transient media tactics.
       <ul>
-        <li>Project diagnosis and systems audits</li>
-        <li>Conceptual reframing of stalled initiatives</li>
-        <li>Second-order strategy development</li>
-        <li>Finite advisory interventions by inquiry</li>
+        <li>Campaign narrative architecture and message discipline</li>
+        <li>Strategic positioning across electoral cycles</li>
+        <li>Opposition research structuring and intelligence workflows</li>
+        <li>Digital campaign infrastructure and data strategy</li>
+        <li>Targeting, persuasion modeling, and turnout optimization</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="service-card">
+    <div class="service-title">Diagnostic Sprints &amp; Selective Consulting</div>
+    <div class="service-body">
+      For projects facing conceptual deadlock or structural failure, we offer finite, high-intensity interventions. These engagements prioritize clarity, constraint, and decisive reframing.
+      <ul>
+        <li>Systems diagnosis and failure-mode analysis</li>
+        <li>Strategic reframing of stalled initiatives</li>
+        <li>Roadmaps with risk mapping and dependency logic</li>
+        <li>Tooling and workflow audits</li>
+        <li>Defined-scope advisory engagements with formal closure</li>
       </ul>
     </div>
   </article>
@@ -490,8 +576,8 @@ a { color: var(--green-base); }
 </section>
 
 <section class="services-note">
-  St. Expedite Press does not operate as a general-purpose agency.<br>
-  Services are offered selectively, where cultural ambition requires structural seriousness.
+  <strong>St. Expedite Press does not operate as a general-purpose consultancy.</strong><br>
+  We work selectively, where editorial judgment, institutional structure, or strategic narrative must carry real consequence.
 </section>
 
 <footer class="sep-footer">
