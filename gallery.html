@@ -98,6 +98,50 @@
     text-shadow: 0 0 10px var(--green-hot-1);
   }
 
+  /* TYPE BAR --------------------------------------------------------- */
+  .type-bar {
+    max-width: 980px;
+    margin: 0 auto 1.2vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+  }
+
+  .type-pill {
+    border: 1px solid var(--green-2);
+    background: rgba(0,0,0,0.7);
+    color: var(--green-base);
+    font-family:"Cinzel", serif;
+    font-size: .78rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    padding:.48rem .88rem;
+    cursor:pointer;
+    border-radius:999px;
+    text-shadow:0 0 6px var(--green-1);
+    box-shadow:
+      0 0 8px rgba(0,0,0,0.9),
+      0 0 12px var(--green-3);
+    transition: all .2s ease;
+    opacity:.9;
+  }
+
+  .type-pill:hover {
+    border-color: var(--green-hot-2);
+    box-shadow:
+      0 0 10px var(--green-hot-2),
+      0 0 20px var(--green-hot-3);
+  }
+
+  .type-pill.is-active {
+    background: rgba(42,255,138,0.1);
+    border-color: var(--green-hot-1);
+    box-shadow:
+      0 0 12px var(--green-hot-1),
+      0 0 26px var(--green-hot-2);
+  }
+
   /* FILTER BAR ------------------------------------------------------- */
   .filter-bar {
     max-width: 980px;
@@ -155,7 +199,7 @@
   @media (max-width: 1100px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 720px)  { .gallery-grid { grid-template-columns: 1fr; } }
 
-  /* Empty-grid infill: subtle glowing placeholder when no prints match */
+  /* Empty-grid infill: subtle glowing placeholder when no items match */
   .gallery-empty {
     display: none;
     grid-column: 1 / -1;
@@ -167,6 +211,21 @@
     box-shadow:
       0 0 12px var(--green-3),
       0 0 24px rgba(0,0,0,0.9);
+    padding: 1.2rem 1.4rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .gallery-empty__text {
+    font-family:"Cinzel", serif;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    font-size:.85rem;
+    opacity:.9;
+    text-shadow:
+      0 0 8px var(--green-1),
+      0 0 14px var(--green-2);
   }
 
   .print-card {
@@ -616,6 +675,17 @@
       margin: 0 auto 3vh;
     }
 
+    .type-bar {
+      max-width: 32rem;
+      margin: 0 auto 1.2vh;
+    }
+
+    .type-pill {
+      flex: 1;
+      min-width: 7.2rem;
+      text-align: center;
+    }
+
     .filter-pill {
       width: 100%;
       text-align: center;
@@ -644,7 +714,7 @@
           <path d="M6 6l12 12M18 6L6 18" />
         </svg>
       </a>
-      <a class="hero-bar__icon" href="https://substack.com/search/stexpeditepress?searching=profile" target="_blank" rel="noopener noreferrer" aria-label="Substack" title="Substack">
+      <a class="hero-bar__icon" href="https://ecoamericana.substack.com" target="_blank" rel="noopener noreferrer" aria-label="Substack" title="Substack">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <path d="M7 7h10M7 12h10M7 17h10" />
         </svg>
@@ -655,11 +725,9 @@
           <path d="M10 14 21 5" />
         </svg>
       </a>
-      <a class="hero-bar__icon" href="https://www.instagram.com/stexpeditepress/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+      <a class="hero-bar__icon" href="https://github.com/organizations/St-Expedite-Press" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="6" y="6" width="12" height="12" rx="3" />
-          <circle cx="12" cy="12" r="3" />
-          <path d="M16.5 7.5h.01" />
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
         </svg>
       </a>
     </div>
@@ -675,7 +743,7 @@
       <div class="site-brand">
         <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
         <div class="site-title">STORE</div>
-        <div class="site-subtitle">Burning World Prints &amp; Visual Editions</div>
+        <div class="site-subtitle">Prints &amp; Merchandise</div>
         <div class="site-header-divider"></div>
       </div>
 
@@ -692,15 +760,21 @@
     <!-- TEMPLATE-SLOT: intro / filter -->
     <!-- INTRO TEXT -->
     <section class="intro">
-      <strong>Burning World</strong> is the visual arm of St. Expedite Press:  
-      crows, sigils, neon saints, glitch-lit shrines, and Gulf Noir visions  
-      issued as numbered, physical prints.  
+      <strong>Burning World</strong> is the visual arm of St. Expedite Press:
+      crows, sigils, neon saints, glitch-lit shrines, and Gulf Noir visions—issued as prints and small-run objects.
       <br><br>
-      Each work below is an editioned artifact—slow, deliberate, and scarce.
+      Each item below is an editioned artifact&mdash;slow, deliberate, and scarce.
     </section>
 
-    <!-- FILTERS -->
-    <section class="filter-bar">
+    <!-- TYPE FILTERS -->
+    <section class="type-bar" aria-label="Filter by type">
+      <button class="type-pill is-active" data-type="all">All</button>
+      <button class="type-pill" data-type="print">Prints</button>
+      <button class="type-pill" data-type="merch">Merch</button>
+    </section>
+
+    <!-- FILTERS (tags / series) -->
+    <section class="filter-bar" aria-label="Filter by tags">
       <button class="filter-pill is-active" data-filter="all">All</button>
       <button class="filter-pill" data-filter="burning-world">Burning World</button>
       <button class="filter-pill" data-filter="crows">Crows / Avian</button>
@@ -887,15 +961,134 @@
         </div>
       </article>
 
-      <!-- EMPTY-GRID INFILL: appears when no prints match current filter -->
-      <div class="gallery-empty" id="galleryEmptyState" aria-hidden="true"></div>
+      <!-- MERCH (placeholders until checkout is wired) -->
+      <article class="print-card"
+        data-type="merch"
+        data-series="burning-world crows"
+        data-title="Night Choir Patch"
+        data-series-label="Merch — Crows / Avian"
+        data-edition="Small-run embroidered patch"
+        data-size="Approx. 3&quot; &times; 3&quot;"
+        data-paper=""
+        data-price="Coming soon"
+        data-description="A stitched crow-sigil for jackets, bags, and field kits. Limited run; restocks are not guaranteed."
+        data-image="assets/img/favicon.svg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="assets/img/favicon.svg" alt="Night Choir Patch">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">Night Choir Patch</div>
+          <div class="print-series">Merch — Crows / Avian</div>
+          <div class="print-edition">Small-run embroidered patch</div>
+          <div class="print-price">Coming soon</div>
+          <div class="print-tags">Merch · Crows</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Inquire</a>
+        </div>
+      </article>
+
+      <article class="print-card"
+        data-type="merch"
+        data-series="burning-world sigils"
+        data-title="CRAS / HODIE Pin"
+        data-series-label="Merch — Saints &amp; Sigils"
+        data-edition="Small-run enamel pin"
+        data-size="Approx. 1.25&quot;"
+        data-paper=""
+        data-price="Coming soon"
+        data-description="Hard enamel pin. A tiny neon-motto relic for collars and lapels."
+        data-image="assets/img/favicon.svg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="assets/img/favicon.svg" alt="CRAS / HODIE Pin">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">CRAS / HODIE Pin</div>
+          <div class="print-series">Merch — Saints &amp; Sigils</div>
+          <div class="print-edition">Small-run enamel pin</div>
+          <div class="print-price">Coming soon</div>
+          <div class="print-tags">Merch · Sigil</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Inquire</a>
+        </div>
+      </article>
+
+      <article class="print-card"
+        data-type="merch"
+        data-series="burning-world neon"
+        data-title="Saint Expedite Tee"
+        data-series-label="Merch — Neon Glyphs"
+        data-edition="Screenprinted shirt"
+        data-size="S–XXL"
+        data-paper=""
+        data-price="Coming soon"
+        data-description="Black tee with a neon-glitch saint glyph. Exact run size and inks will be announced."
+        data-image="assets/img/favicon.svg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="assets/img/favicon.svg" alt="Saint Expedite Tee">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">Saint Expedite Tee</div>
+          <div class="print-series">Merch — Neon Glyphs</div>
+          <div class="print-edition">Screenprinted shirt</div>
+          <div class="print-price">Coming soon</div>
+          <div class="print-tags">Merch · Neon</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Inquire</a>
+        </div>
+      </article>
+
+      <article class="print-card"
+        data-type="merch"
+        data-series="burning-world ritual"
+        data-title="Gulf Horizon Tote"
+        data-series-label="Merch — Ritual Landscapes"
+        data-edition="Heavy canvas tote"
+        data-size="Approx. 15&quot; &times; 16&quot;"
+        data-paper=""
+        data-price="Coming soon"
+        data-description="A carrying vessel for books, candles, and the necessary weight of the day."
+        data-image="assets/img/favicon.svg"
+        data-buy-url="#"
+      >
+        <div class="print-thumb">
+          <img src="assets/img/favicon.svg" alt="Gulf Horizon Tote">
+        </div>
+        <div class="print-meta">
+          <div class="print-title">Gulf Horizon Tote</div>
+          <div class="print-series">Merch — Ritual Landscapes</div>
+          <div class="print-edition">Heavy canvas tote</div>
+          <div class="print-price">Coming soon</div>
+          <div class="print-tags">Merch · Ritual</div>
+        </div>
+        <div class="print-actions">
+          <button class="print-btn" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank">Inquire</a>
+        </div>
+      </article>
+
+      <!-- EMPTY-GRID INFILL: appears when no items match current filters -->
+      <div class="gallery-empty" id="galleryEmptyState" aria-hidden="true" aria-live="polite">
+        <div class="gallery-empty__text">No items match the current filter.</div>
+      </div>
 
     </section>
 
     <!-- NOTE BLOCK -->
     <section class="note-block">
-      All prints are produced in small, numbered runs.  
-      For original works, commissions, or wholesale inquiries, contact the press directly.
+      Prints are produced in small, numbered runs. Merch is released in limited drops.
+      For originals, commissions, or wholesale inquiries, contact the press directly.
     </section>
 
     <!-- TEMPLATE-SLOT: footer -->
@@ -943,16 +1136,26 @@
   });
 
   // Filter logic
+  const typePills = document.querySelectorAll('.type-pill');
   const filterPills = document.querySelectorAll('.filter-pill');
   const printCards  = document.querySelectorAll('.print-card');
   const galleryEmpty = document.getElementById('galleryEmptyState');
+  const galleryEmptyText = galleryEmpty ? galleryEmpty.querySelector('.gallery-empty__text') : null;
 
-  function applyGalleryFilter(filter) {
+  let activeType = 'all';
+  let activeFilter = 'all';
+
+  function applyGalleryFilters() {
     let anyVisible = false;
 
     printCards.forEach(card => {
-      const series = card.getAttribute('data-series').split(' ');
-      const match = (filter === 'all' || series.includes(filter));
+      const cardType = (card.getAttribute('data-type') || 'print').trim();
+      const series = (card.getAttribute('data-series') || '').split(' ').filter(Boolean);
+
+      const typeMatch = (activeType === 'all' || cardType === activeType);
+      const tagMatch = (activeFilter === 'all' || series.includes(activeFilter));
+      const match = typeMatch && tagMatch;
+
       card.style.display = match ? '' : 'none';
       if (match) anyVisible = true;
     });
@@ -962,26 +1165,50 @@
         galleryEmpty.style.display = 'none';
         galleryEmpty.setAttribute('aria-hidden', 'true');
       } else {
-        galleryEmpty.style.display = 'block';
+        galleryEmpty.style.display = 'flex';
         galleryEmpty.setAttribute('aria-hidden', 'false');
+
+        if (galleryEmptyText) {
+          galleryEmptyText.textContent =
+            activeType === 'merch'
+              ? 'No merch matches the current filter.'
+              : activeType === 'print'
+                ? 'No prints match the current filter.'
+                : 'No items match the current filter.';
+        }
       }
     }
   }
 
-  filterPills.forEach(pill => {
+  typePills.forEach(pill => {
     pill.addEventListener('click', () => {
-      const filter = pill.getAttribute('data-filter');
-      filterPills.forEach(p => p.classList.remove('is-active'));
+      const type = (pill.getAttribute('data-type') || 'all').trim();
+      typePills.forEach(p => p.classList.remove('is-active'));
       pill.classList.add('is-active');
-      applyGalleryFilter(filter);
+      activeType = type || 'all';
+      applyGalleryFilters();
     });
   });
 
-  // Initialize to current active filter (or 'all')
-  (function initGalleryFilter() {
-    const active = document.querySelector('.filter-pill.is-active');
-    const initial = active ? active.getAttribute('data-filter') : 'all';
-    applyGalleryFilter(initial || 'all');
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const filter = (pill.getAttribute('data-filter') || 'all').trim();
+      filterPills.forEach(p => p.classList.remove('is-active'));
+      pill.classList.add('is-active');
+      activeFilter = filter || 'all';
+      applyGalleryFilters();
+    });
+  });
+
+  // Initialize to current active filters (or defaults)
+  (function initGalleryFilters() {
+    const activeTypePill = document.querySelector('.type-pill.is-active');
+    activeType = activeTypePill ? (activeTypePill.getAttribute('data-type') || 'all') : 'all';
+
+    const activeFilterPill = document.querySelector('.filter-pill.is-active');
+    activeFilter = activeFilterPill ? (activeFilterPill.getAttribute('data-filter') || 'all') : 'all';
+
+    applyGalleryFilters();
   })();
 
   // Broken-image handling: replace missing thumbs with neon placeholder panels
@@ -1028,25 +1255,81 @@
   const modalBuy      = document.getElementById('modalBuy');
   const modalCloseBtn = document.querySelector('.modal-close');
 
+  function setTextOrHide(el, value) {
+    const text = (value || '').toString().trim();
+    if (!text) {
+      el.style.display = 'none';
+      el.textContent = '';
+      return;
+    }
+    el.style.display = '';
+    el.textContent = text;
+  }
+
+  function buildInquiryMailto(card) {
+    const title = (card.getAttribute('data-title') || 'Store item').trim();
+    const type = (card.getAttribute('data-type') || 'print').trim();
+
+    const lines = [
+      `Item: ${title}`,
+      `Type: ${type}`,
+      `Series: ${(card.getAttribute('data-series-label') || '').trim()}`,
+      `Edition: ${(card.getAttribute('data-edition') || '').trim()}`,
+      `Size: ${(card.getAttribute('data-size') || '').trim()}`,
+      `Paper/Material: ${(card.getAttribute('data-paper') || '').trim()}`,
+      `Price: ${(card.getAttribute('data-price') || '').trim()}`
+    ].filter(line => !line.endsWith(':'));
+
+    const subject = `Store inquiry — ${title}`;
+    const body = lines.join('\n');
+    return `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+
   document.addEventListener('click', e => {
     const btn = e.target.closest('[data-role="details"]');
     if (!btn) return;
 
     const card = btn.closest('.print-card');
+    if (!card) return;
+    const cardType = (card.getAttribute('data-type') || 'print').trim();
 
     modalImage.src        = card.getAttribute('data-image');
     modalImage.alt        = card.getAttribute('data-title');
-    modalTitle.textContent= card.getAttribute('data-title');
-    modalSeries.textContent = card.getAttribute('data-series-label');
-    modalEdition.textContent= card.getAttribute('data-edition');
-    modalSize.textContent   = card.getAttribute('data-size');
-    modalPaper.textContent  = card.getAttribute('data-paper');
-    modalDesc.textContent   = card.getAttribute('data-description');
-    modalPrice.textContent  = card.getAttribute('data-price');
-    const buyUrl            = card.getAttribute('data-buy-url') || '#';
-    modalBuy.innerHTML      = `<a href="${buyUrl}" target="_blank" rel="noopener noreferrer">Buy Print</a>`;
+    modalTitle.textContent= card.getAttribute('data-title') || '';
+
+    setTextOrHide(modalSeries, card.getAttribute('data-series-label'));
+    setTextOrHide(modalEdition, card.getAttribute('data-edition'));
+    setTextOrHide(modalSize, card.getAttribute('data-size'));
+    setTextOrHide(modalPaper, card.getAttribute('data-paper'));
+    setTextOrHide(modalDesc, card.getAttribute('data-description'));
+    setTextOrHide(modalPrice, card.getAttribute('data-price'));
+
+    const rawBuyUrl = (card.getAttribute('data-buy-url') || '').trim();
+    const buyUrl = (!rawBuyUrl || rawBuyUrl === '#') ? buildInquiryMailto(card) : rawBuyUrl;
+    const label = rawBuyUrl && rawBuyUrl !== '#'
+      ? (cardType === 'merch' ? 'View / Buy' : 'Buy Print')
+      : 'Email to Inquire';
+    const buyUrlLower = buyUrl.toLowerCase();
+    const isExternal = buyUrlLower.startsWith('http://') || buyUrlLower.startsWith('https://');
+    const attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+    modalBuy.innerHTML = `<a href="${buyUrl}"${attrs}>${label}</a>`;
 
     modalBackdrop.classList.add('is-visible');
+  });
+
+  // Card-level "Buy/Inquire" buttons: if no URL is wired, fall back to email
+  document.addEventListener('click', e => {
+    const buyBtn = e.target.closest('.print-btn--buy');
+    if (!buyBtn) return;
+
+    const href = (buyBtn.getAttribute('href') || '').trim();
+    if (href && href !== '#') return;
+
+    const card = buyBtn.closest('.print-card');
+    if (!card) return;
+
+    e.preventDefault();
+    window.location.href = buildInquiryMailto(card);
   });
 
   modalCloseBtn.addEventListener('click', () => {
