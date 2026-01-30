@@ -725,7 +725,10 @@
       <div class="filter-bar" id="filterBar">
         <!-- data-filter values correspond to book-card data-series attributes -->
         <button class="filter-button is-active" data-filter="all">All</button>
-        <button class="filter-button" data-filter="sexp">SEXP &mdash; Editions</button>
+        <button class="filter-button" data-filter="sexp-editions">SEXP &mdash; Editions</button>
+        <button class="filter-button" data-filter="sexp-fiction">SEXP &mdash; Fiction</button>
+        <button class="filter-button" data-filter="sexp-scores">SEXP &mdash; Scores</button>
+        <button class="filter-button" data-filter="sexp-studies">SEXP &mdash; Studies</button>
       </div>
     </section>
 
@@ -737,7 +740,7 @@
       <article
         class="book-card"
         data-live="true"
-        data-series="sexp"
+        data-series="sexp-editions"
         data-title="Les Fi&egrave;vres et les Humeurs"
         data-author="C. Sandbatch"
         data-series-label="SEXP &mdash; Editions"
@@ -767,10 +770,10 @@
       <article
         class="book-card"
         data-live="true"
-        data-series="sexp"
+        data-series="sexp-scores"
         data-title="Lift Wind / Love Heat: Symphony No. 1 in C Minor"
         data-author="C. Sandbatch"
-        data-series-label="SEXP &mdash; Editions"
+        data-series-label="SEXP &mdash; Scores"
         data-description="Known book project (in development)."
         data-buy-url="#"
       >
@@ -791,7 +794,7 @@
       <article
         class="book-card"
         data-live="true"
-        data-series="sexp"
+        data-series="sexp-editions"
         data-title="Commit to Blue"
         data-author="C. Sandbatch"
         data-series-label="SEXP &mdash; Editions"
@@ -815,10 +818,10 @@
       <article
         class="book-card"
         data-live="true"
-        data-series="sexp"
+        data-series="sexp-fiction"
         data-title="The Hollowing Engine"
         data-author="C. Sandbatch"
-        data-series-label="SEXP &mdash; Editions"
+        data-series-label="SEXP &mdash; Fiction"
         data-description="Known book project (in development)."
         data-buy-url="#"
       >
@@ -835,14 +838,14 @@
         </div>
       </article>
 
-      <!-- Known project: The Early World of John Gould Fletcher -->
+      <!-- Known project: Early Works of John Gould Fletcher -->
       <article
         class="book-card"
         data-live="true"
-        data-series="sexp"
-        data-title="The Early World of John Gould Fletcher"
-        data-author="C. Sandbatch"
-        data-series-label="SEXP &mdash; Editions"
+        data-series="sexp-studies"
+        data-title="Early Works of John Gould Fletcher"
+        data-author="John G. Fletcher"
+        data-series-label="SEXP &mdash; Studies"
         data-description="Known book project (in development)."
         data-buy-url="#"
       >
@@ -851,8 +854,8 @@
           <div class="book-series-pill">SEXP</div>
         </div>
         <div class="book-meta">
-          <div class="book-title">The Early World of John Gould Fletcher</div>
-          <div class="book-author">C. Sandbatch</div>
+          <div class="book-title">Early Works of John Gould Fletcher</div>
+          <div class="book-author">John G. Fletcher</div>
         </div>
         <div class="book-actions">
           <button class="book-btn" data-role="details">More Info</button>
@@ -1082,9 +1085,9 @@
   /***********************************************************************
    * FILTER LOGIC — SHOW/HIDE BOOK CARDS BY SERIES
    *
-   *  - Buttons have data-filter="all|sexp"
-   *  - Cards have data-series="sexp"
-   **********************************************************************/
+   *  - Buttons have data-filter="all|<series>"
+   *  - Cards have data-series="<series>"
+  **********************************************************************/
   (function() {
     const filterBar = document.getElementById('filterBar');
     const booksGrid = document.getElementById('booksGrid');
