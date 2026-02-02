@@ -721,14 +721,14 @@
     <!-- TEMPLATE-SLOT: filter / local controls -->
     <!-- FILTER BAR: series / imprint filters -->
     <section class="filter-bar-wrapper">
-      <div class="filter-heading">Filter by Series / Imprint</div>
+      <div class="filter-heading">Filter by Imprint</div>
       <div class="filter-bar" id="filterBar">
         <!-- data-filter values correspond to book-card data-series attributes -->
         <button class="filter-button is-active" data-filter="all">All</button>
-        <button class="filter-button" data-filter="sexp-editions">SEXP &mdash; Editions</button>
-        <button class="filter-button" data-filter="sexp-fiction">SEXP &mdash; Fiction</button>
-        <button class="filter-button" data-filter="sexp-scores">SEXP &mdash; Scores</button>
-        <button class="filter-button" data-filter="sexp-studies">SEXP &mdash; Studies</button>
+        <button class="filter-button" data-filter="sexp">SEXP (Flagship / Originals)</button>
+        <button class="filter-button" data-filter="southern-civilization">Library of the Southern Civilization</button>
+        <button class="filter-button" data-filter="european-classics">European Classics &amp; Modernists</button>
+        <button class="filter-button" data-filter="english-minicanon">English Minicanon</button>
       </div>
     </section>
 
@@ -740,10 +740,10 @@
       <article
         class="book-card"
         data-live="true"
-        data-series="sexp-editions"
+        data-series="sexp"
         data-title="Les Fi&egrave;vres et les Humeurs"
         data-author="C. Sandbatch"
-        data-series-label="SEXP &mdash; Editions"
+        data-series-label="SEXP (Flagship / Originals)"
         data-description="What if a single emotion strained itself to breaking? Would it yield? Can words and thought transmute to music&mdash;can coal&rsquo;s obsession crystallize into the hardness of desire?&#10;&#10;Les Fi&egrave;vres et les Humeurs is a sequence in three parts, written deliberately under pressure. Its poems attend to fever, fixation, and desire as formal problems rather than narrative events, favoring compression, fracture, and controlled repetition.&#10;&#10;This book is concerned with how intensity reshapes language; with what remains when heat dissipates."
         data-buy-url="#"
       >
@@ -770,10 +770,10 @@
       <article
         class="book-card"
         data-live="true"
-        data-series="sexp-scores"
+        data-series="sexp"
         data-title="Lift Wind / Love Heat: Symphony No. 1 in C Minor"
         data-author="C. Sandbatch"
-        data-series-label="SEXP &mdash; Scores"
+        data-series-label="SEXP (Flagship / Originals)"
         data-description="Known book project (in development)."
         data-buy-url="#"
       >
@@ -794,10 +794,10 @@
       <article
         class="book-card"
         data-live="true"
-        data-series="sexp-editions"
+        data-series="sexp"
         data-title="Commit to Blue"
         data-author="C. Sandbatch"
-        data-series-label="SEXP &mdash; Editions"
+        data-series-label="SEXP (Flagship / Originals)"
         data-description="Known book project (in development)."
         data-buy-url="#"
       >
@@ -818,10 +818,10 @@
       <article
         class="book-card"
         data-live="true"
-        data-series="sexp-fiction"
+        data-series="sexp"
         data-title="The Hollowing Engine"
         data-author="C. Sandbatch"
-        data-series-label="SEXP &mdash; Fiction"
+        data-series-label="SEXP (Flagship / Originals)"
         data-description="Known book project (in development)."
         data-buy-url="#"
       >
@@ -838,37 +838,13 @@
         </div>
       </article>
 
-      <!-- Known project: Early Works of John Gould Fletcher -->
-      <article
-        class="book-card"
-        data-live="true"
-        data-series="sexp-studies"
-        data-title="Early Works of John Gould Fletcher"
-        data-author="John G. Fletcher"
-        data-series-label="SEXP &mdash; Studies"
-        data-description="Known book project (in development)."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">SEXP</div>
-          <div class="book-series-pill">SEXP</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">Early Works of John Gould Fletcher</div>
-          <div class="book-author">John G. Fletcher</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" data-role="details">More Info</button>
-        </div>
-      </article>
-
       <!-- Example SEXP title -->
       <article
         class="book-card"
         data-series="sexp"
         data-title="Something Awful and Beautiful Is Coming"
         data-author="C. Sandbatch"
-        data-series-label="SEXP — Flagship Fiction"
+        data-series-label="SEXP (Flagship / Originals)"
         data-description="A Gulf Noir cantata set in a spiritually scorched New Orleans, following a wayward musician whose life fractures into visions, liturgy, and heresy. SEXP’s signature novel: metaphysical, region-soaked, fiercely postpolitical."
         data-buy-url="#"
       >
@@ -895,7 +871,7 @@
         data-series="sexp"
         data-title="Gulf Noir Canticles"
         data-author="Various Authors"
-        data-series-label="SEXP — Flagship Fiction"
+        data-series-label="SEXP (Flagship / Originals)"
         data-description="An anthology of SEXP authors: twelve stories of bayou hauntings, parish scandals, and mystical breakdowns. A field guide to St. Expedite’s night-minded fiction aesthetic."
         data-buy-url="#"
       >
@@ -917,19 +893,43 @@
 
 
 
-      <!-- Legends of the Southern Past — Reprint 1 -->
+      <!-- Library of the Southern Civilization — Title 1 -->
       <article
         class="book-card"
-        data-series="southern"
+        data-live="true"
+        data-series="southern-civilization"
+        data-title="Early Works of John Gould Fletcher"
+        data-author="John G. Fletcher"
+        data-series-label="Library of the Southern Civilization"
+        data-description="Known book project (in development)."
+        data-buy-url="#"
+      >
+        <div class="book-cover-wrap">
+          <div class="book-cover-placeholder">LSC</div>
+          <div class="book-series-pill">Southern Civ.</div>
+        </div>
+        <div class="book-meta">
+          <div class="book-title">Early Works of John Gould Fletcher</div>
+          <div class="book-author">John G. Fletcher</div>
+        </div>
+        <div class="book-actions">
+          <button class="book-btn" data-role="details">More Info</button>
+        </div>
+      </article>
+
+      <!-- Library of the Southern Civilization — Title 2 -->
+      <article
+        class="book-card"
+        data-series="southern-civilization"
         data-title="Haunts of the Delta"
         data-author="M. J. LaCour (1953)"
-        data-series-label="Legends of the Southern Past"
+        data-series-label="Library of the Southern Civilization"
         data-description="A reprint of a 1953 Gulf South ghost-story collection, back in print for the first time in decades. River spirits, parish haints, and bayou visitations annotated for contemporary readers."
         data-buy-url="#"
       >
         <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">LEGENDS</div>
-          <div class="book-series-pill">Legends</div>
+          <div class="book-cover-placeholder">LSC</div>
+          <div class="book-series-pill">Southern Civ.</div>
         </div>
         <div class="book-meta">
           <div class="book-title">Haunts of the Delta</div>
@@ -943,19 +943,19 @@
         </div>
       </article>
 
-      <!-- Legends of the Southern Past — Reprint 2 -->
+      <!-- Library of the Southern Civilization — Title 3 -->
       <article
         class="book-card"
-        data-series="southern"
+        data-series="southern-civilization"
         data-title="The Haints of St. Roch"
         data-author="Anonymous (1907)"
-        data-series-label="Legends of the Southern Past"
+        data-series-label="Library of the Southern Civilization"
         data-description="Collected miracle stories, graveyard legends, and folk Catholic vignettes from a vanished New Orleans neighborhood. Includes a new foreword on St. Roch and Gulf South folk piety."
         data-buy-url="#"
       >
         <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">LEGENDS</div>
-          <div class="book-series-pill">Legends</div>
+          <div class="book-cover-placeholder">LSC</div>
+          <div class="book-series-pill">Southern Civ.</div>
         </div>
         <div class="book-meta">
           <div class="book-title">The Haints of St. Roch</div>
@@ -972,10 +972,10 @@
       <!-- European Classics & Modernists — Title 1 -->
       <article
         class="book-card"
-        data-series="euro"
+        data-series="european-classics"
         data-title="Night Procession in Castile"
         data-author="Ramón del Valle-Inclán (trans. St. Expedite)"
-        data-series-label="European Classics & Modernists in Translation"
+        data-series-label="European Classics & Modernists"
         data-description="Baroque processions, miracles, and political heresies in a Spanish village on the brink of modernity. A new English translation of Valle-Inclán’s mystical grotesque."
         data-buy-url="#"
       >
@@ -998,10 +998,10 @@
       <!-- European Classics & Modernists — Title 2 -->
       <article
         class="book-card"
-        data-series="euro"
+        data-series="european-classics"
         data-title="The Icon and the Fire"
         data-author="Unknown Russian Modernist"
-        data-series-label="European Classics & Modernists in Translation"
+        data-series-label="European Classics & Modernists"
         data-description="A lost Russian modernist novella about an icon painter, a secret heresy, and the collapse of a village world. For readers of Bernanos, Akhmatova, and the Orthodox mystic line."
         data-buy-url="#"
       >
@@ -1068,7 +1068,10 @@
   })();
 
   /***********************************************************************
-   * LIVE SURFACE — TEMPORARILY SHOW ONLY ONE TITLE
+   * LIVE SURFACE — OPTIONAL CATALOG PRUNING
+   *
+   * If a card has data-live="false", it is removed from the DOM.
+   * (Cards without data-live are treated as live by default.)
    **********************************************************************/
   (function() {
     const booksGrid = document.getElementById('booksGrid');
@@ -1076,7 +1079,7 @@
 
     const cards = Array.from(booksGrid.querySelectorAll('.book-card'));
     cards.forEach(card => {
-      if (card.getAttribute('data-live') !== 'true') {
+      if (card.getAttribute('data-live') === 'false') {
         card.remove();
       }
     });
