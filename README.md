@@ -3,13 +3,15 @@
 _St. Expedite Press Website_ (`this-place-feels-wrong`)
 
 
-Static neon portal for St. Expedite Press: a cursor-responsive portal, a three-by-three nav grid, and interior pages (Books / Store / Mission / Lab / Contact / Submission).
+Static neon portal for St. Expedite Press: a cursor-responsive portal, a three-by-three nav grid, and interior pages (Books / Store / Services / Mission / Lab / Contact / Submission).
 
 ## Current State
 - **Entry point:** `index.html`  
   Neon crest/title, animated circular portal frame, cursor halo, grid navigation, and an entry flash on load. All motion respects `prefers-reduced-motion`.
 - **Under-construction stub:** `under-construction.html`  
   Slate-dark card with a single 'Return to Portal' CTA that links back to `/index.html`.
+- **Services:** `services.html`  
+  Editorial systems and interpretable AI capabilities.
 - **Archived portal variants:** `assets/deprecated_pages/*.html`  
   Earlier portal experiments (and an older `index.html`) kept for reference only; do not deploy.
 - **Books:** `books.html`  
@@ -17,12 +19,13 @@ Static neon portal for St. Expedite Press: a cursor-responsive portal, a three-b
 
 ## Repository Layout
 - **Root**
-  - `index.html` � live portal surface.
-  - `under-construction.html` � shared under-construction page for nav and footer links.
-  - `books.html` � experimental/books surface (WIP).
-  - `CHANGELOG.md` � historical notes for portal iterations.
-  - `README.md` � this document.
-  - `LICENSE` � MIT license.
+  - `index.html` — live portal surface.
+  - `services.html` — services surface.
+  - `under-construction.html` — generic holding page.
+  - `books.html` — experimental/books surface (WIP).
+  - `CHANGELOG.md` — historical notes for portal iterations.
+  - `README.md` — this document.
+  - `LICENSE` — MIT license.
   - `.gitignore`, optional local `.env`, local tooling like `.venv/` (not tracked).
 - **assets/css/**
   - `global.css` � global palette tokens and base layout for the neon slate theme.
@@ -61,7 +64,7 @@ This is a static site; there is no build step.
   python -m http.server 8000
   ```
   Then visit `http://localhost:8000/` in your browser.
-- Any equivalent static server (Caddy, nginx, `npx serve`, etc.) is fine as long as `index.html`, `under-construction.html`, `books.html` (if used), and the `assets/` directory share the same document root.
+- Any equivalent static server (Caddy, nginx, `npx serve`, etc.) is fine as long as `index.html`, `services.html`, `books.html` (if used), and the `assets/` directory share the same document root.
 
 ## Extending the Portal
 When adding or reactivating surfaces (Books, Store, Mission, Lab):
