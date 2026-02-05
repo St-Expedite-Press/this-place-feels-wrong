@@ -205,6 +205,47 @@
       letter-spacing: .08em;
     }
 
+    .form-helper {
+      margin-top: 0.8rem;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      opacity: .92;
+      text-align: center;
+    }
+
+    .form-helper__actions {
+      margin-top: 0.55rem;
+      display: flex;
+      gap: 0.55rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .form-helper__link,
+    .form-helper__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(42,255,138,0.28);
+      background: rgba(0,0,0,0.65);
+      color: var(--green-base);
+      text-decoration: none;
+      font-family: "Cinzel", serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .form-helper__link:hover,
+    .form-helper__btn:hover {
+      border-color: var(--green-hot-2);
+      box-shadow: 0 0 14px var(--green-2);
+    }
+
     .cta {
       display: inline-flex;
       align-items: center;
@@ -277,10 +318,11 @@
     <section class="card">
       <h2>Email Submission</h2>
       <p>
-        Use this to start a submission email. Attach files in your email client after it opens.
+        Use this to send a submission inquiry. If you need to attach files, reply to the confirmation email with your reference in the subject line.
       </p>
 
       <form class="form" id="submit-form">
+        <input class="input" id="submit-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
         <div class="field">
           <label for="submit-email">Email</label>
           <input class="input" id="submit-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required>
@@ -292,8 +334,16 @@
         </div>
 
         <div class="submit-row">
-          <div class="hint">Opens your email client — no upload system yet.</div>
-          <button class="cta" type="submit">Open Email</button>
+          <div class="hint">Sends from this site. Falls back to your email client if needed.</div>
+          <button class="cta" type="submit">Send</button>
+        </div>
+
+        <div class="form-helper" id="submit-helper" aria-live="polite" hidden>
+          <div id="submit-helper-text"></div>
+          <div class="form-helper__actions">
+            <a class="form-helper__link" id="submit-mailto-fallback" href="mailto:editor@stexpedite.press">Open Email</a>
+            <button class="form-helper__btn" id="submit-copy" type="button">Copy</button>
+          </div>
         </div>
       </form>
     </section>
@@ -310,11 +360,38 @@
 
   <script>
     const form = document.getElementById('submit-form');
+    const helper = document.getElementById('submit-helper');
+    const helperText = document.getElementById('submit-helper-text');
+    const fallbackLink = document.getElementById('submit-mailto-fallback');
+    const copyBtn = document.getElementById('submit-copy');
+
+    let lastCopyText = '';
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        try {
+          window.prompt('Copy this message:', text);
+        } catch {}
+        return false;
+      }
+    }
+
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
       const email = String(document.getElementById('submit-email')?.value ?? '').trim();
       const note = String(document.getElementById('submit-note')?.value ?? '').trim();
-      if (!email) return;
+      const website = String(document.getElementById('submit-website')?.value ?? '').trim();
+      if (!email) {
+        if (!helper || !helperText || !fallbackLink) return;
+        helper.hidden = false;
+        helperText.textContent = 'Enter your email, then try again.';
+        fallbackLink.setAttribute('href', 'mailto:editor@stexpedite.press');
+        lastCopyText = '';
+        return;
+      }
 
       const subject = 'St. Expedite Press — Submission';
       const lines = [
@@ -325,8 +402,48 @@
         note ? note : '(no note)',
       ];
 
-      window.location.href =
-        `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\\n'))}`;
+      const body = lines.join('\n');
+      const mailtoUrl =
+        `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      if (helper && helperText && fallbackLink) {
+        helper.hidden = false;
+        helperText.textContent = 'Sending...';
+        fallbackLink.setAttribute('href', mailtoUrl);
+        lastCopyText = `To: editor@stexpedite.press\nSubject: ${subject}\n\n${body}`;
+      }
+
+      fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, note, website }),
+      })
+        .then(async (res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.json().catch(() => ({}));
+        })
+        .then((data) => {
+          const id = String(data?.id ?? '').trim();
+          if (helper && helperText) {
+            helper.hidden = false;
+            helperText.textContent = id ? `Sent. Reference: ${id}` : 'Sent.';
+          }
+        })
+        .catch(() => {
+          if (helper && helperText) {
+            helper.hidden = false;
+            helperText.textContent = 'Could not send automatically. Opening your email client...';
+          }
+          window.location.href = mailtoUrl;
+        });
+    });
+
+    copyBtn?.addEventListener('click', async () => {
+      if (!helper || !helperText) return;
+      if (!lastCopyText) return;
+      const ok = await copyText(lastCopyText);
+      helper.hidden = false;
+      helperText.textContent = ok ? 'Copied. Paste into your email client and send to editor@stexpedite.press.' : 'Copy dialog opened.';
     });
   </script>
 </body>

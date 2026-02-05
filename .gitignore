@@ -33,3 +33,6 @@ pnpm-debug.log*
 # Generated archives
 *.zip
 *.tar
+
+# Cloudflare Workers (local artifacts)
+workers/**/.wrangler/
