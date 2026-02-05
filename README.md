@@ -11,7 +11,7 @@ Static neon portal for St. Expedite Press: a cursor-responsive portal, a three-b
 - **Under-construction stub:** `under-construction.html`  
   Slate-dark card with a single 'Return to Portal' CTA that links back to `/index.html`.
 - **Services:** `services.html`  
-  Editorial systems and interpretable AI capabilities.
+  Knowledge engineering, decision intelligence, and interpretable AI capabilities.
 - **Archived portal variants:** `assets/deprecated_pages/*.html`  
   Earlier portal experiments (and an older `index.html`) kept for reference only; do not deploy.
 - **Books:** `books.html`  
