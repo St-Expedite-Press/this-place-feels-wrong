@@ -774,7 +774,7 @@ body {
           <div class="thin-helper" id="index-updates-helper" aria-live="polite" hidden>
             <div id="index-updates-helper-text"></div>
             <div class="thin-helper__actions">
-              <a class="thin-helper__link" id="index-updates-mailto" href="mailto:editor@stexpedite.press">Open Email</a>
+              <a class="thin-helper__link" id="index-updates-open" href="https://ecoamericana.substack.com/subscribe" target="_blank" rel="noopener noreferrer">Open Substack</a>
               <button class="thin-helper__btn" id="index-updates-copy" type="button">Copy</button>
             </div>
           </div>
@@ -911,10 +911,10 @@ document.fonts?.ready?.then?.(() => scheduleMobileFit(0));
 const updatesForm = document.getElementById('index-updates-form');
 const updatesHelper = document.getElementById('index-updates-helper');
 const updatesHelperText = document.getElementById('index-updates-helper-text');
-const updatesMailto = document.getElementById('index-updates-mailto');
+const updatesOpen = document.getElementById('index-updates-open');
 const updatesCopy = document.getElementById('index-updates-copy');
 
-if (updatesForm && updatesHelper && updatesHelperText && updatesMailto && updatesCopy) {
+if (updatesForm && updatesHelper && updatesHelperText && updatesOpen && updatesCopy) {
   let lastCopyText = '';
 
   async function copyText(text) {
@@ -935,35 +935,27 @@ if (updatesForm && updatesHelper && updatesHelperText && updatesMailto && update
     if (!email) {
       updatesHelper.hidden = false;
       updatesHelperText.textContent = 'Enter your email, then try again.';
-      updatesMailto.setAttribute('href', 'mailto:editor@stexpedite.press');
+      updatesOpen.setAttribute('href', 'https://ecoamericana.substack.com/subscribe');
       lastCopyText = '';
       return;
     }
 
-    const subject = 'St. Expedite Press — Updates';
-    const lines = [
-      'Please add me to updates.',
-      '',
-      `Email: ${email}`,
-    ];
-
-    const body = lines.join('\n');
-    const mailtoUrl =
-      `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const subscribeUrl =
+      `https://ecoamericana.substack.com/subscribe?email=${encodeURIComponent(email)}`;
 
     updatesHelper.hidden = false;
-    updatesHelperText.textContent = 'Opening your email client. If nothing happens, use the buttons below.';
-    updatesMailto.setAttribute('href', mailtoUrl);
-    lastCopyText = `To: editor@stexpedite.press\nSubject: ${subject}\n\n${body}`;
+    updatesHelperText.textContent = 'Opening Substack signup. If nothing happens, use the buttons below.';
+    updatesOpen.setAttribute('href', subscribeUrl);
+    lastCopyText = subscribeUrl;
 
-    window.location.href = mailtoUrl;
+    window.open(subscribeUrl, '_blank', 'noopener,noreferrer');
   });
 
   updatesCopy.addEventListener('click', async () => {
     if (!lastCopyText) return;
     const ok = await copyText(lastCopyText);
     updatesHelper.hidden = false;
-    updatesHelperText.textContent = ok ? 'Copied. Paste into your email client and send to editor@stexpedite.press.' : 'Copy dialog opened.';
+    updatesHelperText.textContent = ok ? 'Copied. Paste into your browser to subscribe.' : 'Copy dialog opened.';
   });
 }
 
