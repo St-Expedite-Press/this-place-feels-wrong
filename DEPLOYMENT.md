@@ -28,3 +28,16 @@ GitHub Pages cannot send email by itself (static hosting). For now this site use
 This reliably addresses messages to `editor@stexpedite.press`, but it depends on the visitor having a configured email client (it opens a compose window rather than sending server-side).
 
 If/when you want server-side sending (no email client required), use a form backend (Formspree, Cloudflare Worker + email provider, Netlify, etc.) and swap the forms back to POST.
+
+## Cloudflare Worker (Contact + Submissions)
+
+This site uses a Cloudflare Worker for non-newsletter communications:
+
+- `contact.html` submits to `POST /api/contact`
+- `submit.html` submits to `POST /api/submit`
+
+The Worker lives at `workers/communications/` and is intended to be routed on Cloudflare for:
+
+`stexpedite.press/api/*`
+
+If the route is not configured or the request fails, the frontend falls back to `mailto:` so the site still functions on GitHub Pages alone.

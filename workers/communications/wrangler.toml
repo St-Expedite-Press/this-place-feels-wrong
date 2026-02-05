@@ -1,0 +1,9 @@
+name = "stexpedite-communications"
+main = "src/index.ts"
+compatibility_date = "2026-02-05"
+
+[vars]
+# Use a verified sender domain in Resend.
+FROM_EMAIL = "St. Expedite Press <no-reply@stexpedite.press>"
+TO_EMAIL = "editor@stexpedite.press"
+

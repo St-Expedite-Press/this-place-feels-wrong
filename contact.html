@@ -308,6 +308,28 @@ input:focus {
 }
 
 /* ======================================================================
+   UPDATES (SUBSTACK)
+   ====================================================================== */
+.contact-updates {
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(42,255,138,0.14);
+}
+
+.contact-updates__row {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.contact-updates__row input {
+  flex: 1 1 240px;
+  min-width: min(320px, 100%);
+}
+
+/* ======================================================================
    SUBMIT
    ====================================================================== */
 .form-actions {
@@ -442,6 +464,8 @@ input:focus {
   </div>
 
   <form class="contact-form" id="contact-form" action="#" method="post" novalidate>
+
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
     
     <div class="form-group">
       <label for="reason">Reason for Contact</label>
@@ -480,6 +504,21 @@ input:focus {
     </div>
 
   </form>
+
+  <div class="form-group contact-updates">
+    <label for="contact-updates-email">Updates</label>
+    <div class="contact-updates__row">
+      <input id="contact-updates-email" name="updates_email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates">
+      <button class="submit-btn" id="contact-updates-submit" type="button">Get updates</button>
+    </div>
+    <div class="form-helper" id="contact-updates-helper" aria-live="polite" hidden>
+      <div id="contact-updates-helper-text"></div>
+      <div class="form-helper__actions">
+        <a class="form-helper__link" id="contact-updates-open" href="https://ecoamericana.substack.com/subscribe" target="_blank" rel="noopener noreferrer">Open Substack</a>
+        <button class="form-helper__btn" id="contact-updates-copy" type="button">Copy</button>
+      </div>
+    </div>
+  </div>
 
 </section>
 
@@ -534,6 +573,7 @@ input:focus {
       const reason = String(document.getElementById('reason')?.value ?? '').trim();
       const email = String(document.getElementById('email')?.value ?? '').trim();
       const message = String(document.getElementById('message')?.value ?? '').trim();
+      const website = String(document.getElementById('website')?.value ?? '').trim();
 
       if (!email || !message) {
         helper.hidden = false;
@@ -557,12 +597,33 @@ input:focus {
       const mailtoUrl =
         `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
+      const payload = { reason, email, message, website };
+
       helper.hidden = false;
-      helperText.textContent = 'Opening your email client. If nothing happens, use the buttons below.';
+      helperText.textContent = 'Sending...';
       fallbackLink.setAttribute('href', mailtoUrl);
       lastCopyText = `To: editor@stexpedite.press\nSubject: ${subject}\n\n${body}`;
 
-      window.location.href = mailtoUrl;
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(async (res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.json().catch(() => ({}));
+        })
+        .then((data) => {
+          const id = String(data?.id ?? '').trim();
+          helper.hidden = false;
+          helperText.textContent = id ? `Sent. Reference: ${id}` : 'Sent.';
+        })
+        .catch(() => {
+          helper.hidden = false;
+          helperText.textContent = 'Could not send automatically. Opening your email client...';
+          window.location.href = mailtoUrl;
+        });
+
     });
 
     copyBtn.addEventListener('click', async () => {
@@ -570,6 +631,61 @@ input:focus {
       const ok = await copyText(lastCopyText);
       helper.hidden = false;
       helperText.textContent = ok ? 'Copied. Paste into your email client and send to editor@stexpedite.press.' : 'Copy dialog opened.';
+    });
+  })();
+
+  (function() {
+    const emailInput = document.getElementById('contact-updates-email');
+    const submitBtn = document.getElementById('contact-updates-submit');
+    const helper = document.getElementById('contact-updates-helper');
+    const helperText = document.getElementById('contact-updates-helper-text');
+    const openLink = document.getElementById('contact-updates-open');
+    const copyBtn = document.getElementById('contact-updates-copy');
+
+    if (!emailInput || !submitBtn || !helper || !helperText || !openLink || !copyBtn) return;
+
+    let lastCopyText = '';
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        try {
+          window.prompt('Copy this link:', text);
+        } catch {}
+        return false;
+      }
+    }
+
+    const buildUrl = (email) =>
+      `https://ecoamericana.substack.com/subscribe?email=${encodeURIComponent(email)}`;
+
+    submitBtn.addEventListener('click', () => {
+      const fallbackEmail = String(document.getElementById('email')?.value ?? '').trim();
+      const email = String(emailInput.value ?? '').trim() || fallbackEmail;
+
+      if (!email) {
+        helper.hidden = false;
+        helperText.textContent = 'Enter your email, then try again.';
+        openLink.setAttribute('href', 'https://ecoamericana.substack.com/subscribe');
+        lastCopyText = '';
+        return;
+      }
+
+      const url = buildUrl(email);
+      helper.hidden = false;
+      helperText.textContent = 'Opening Substack signup. If nothing happens, use the buttons below.';
+      openLink.setAttribute('href', url);
+      lastCopyText = url;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      if (!lastCopyText) return;
+      const ok = await copyText(lastCopyText);
+      helper.hidden = false;
+      helperText.textContent = ok ? 'Copied. Paste into your browser to subscribe.' : 'Copy dialog opened.';
     });
   })();
   </script>
