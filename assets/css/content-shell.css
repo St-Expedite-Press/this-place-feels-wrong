@@ -1,0 +1,163 @@
+/*
+  content-shell.css
+
+  Canonical shell used by “content” pages and most interior pages:
+  - books.html, gallery.html, mission.html
+  - services.html, contact.html
+
+  NOTE: lab.html and submit.html have their own layouts.
+*/
+
+.page {
+  position: relative;
+  z-index: 1;
+  padding: calc(2.5vh + var(--hero-bar-height)) 5vw 5vh;
+}
+
+.site-header {
+  max-width: 1120px;
+  margin: 0 auto 2.2vh;
+  padding: 0.95rem 1.1rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    radial-gradient(1000px 220px at 8% 0%, rgba(42, 255, 138, 0.12), rgba(0, 0, 0, 0) 60%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.6));
+  border: 1px solid rgba(42, 255, 138, 0.26);
+  backdrop-filter: blur(8px) saturate(1.15);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.9), 0 0 26px var(--green-3);
+
+  display: flex;
+  gap: 0.85rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    radial-gradient(540px 220px at 16% 10%, rgba(217, 106, 255, 0.12), rgba(0, 0, 0, 0) 60%),
+    radial-gradient(520px 220px at 82% 0%, rgba(42, 255, 138, 0.1), rgba(0, 0, 0, 0) 58%);
+  opacity: 0.9;
+}
+
+.site-brand {
+  position: relative;
+  z-index: 1;
+  min-width: min(520px, 100%);
+}
+
+.site-brand > * {
+  text-align: left;
+}
+
+.site-eyebrow {
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.24em;
+  font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+  text-transform: uppercase;
+  opacity: 0.85;
+  text-shadow: -1px -1px 0 var(--relief-base), 0 0 8px var(--green-1);
+}
+
+.site-title {
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.55rem, 3.2vw, 2.25rem);
+  letter-spacing: 0.14em;
+  margin: 0.12rem 0 0;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px var(--green-1), 0 0 24px var(--green-2);
+}
+
+.site-subtitle {
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+  text-shadow: 0 0 6px var(--green-2);
+}
+
+.site-header-divider {
+  width: 180px;
+  max-width: 70vw;
+  height: 1px;
+  margin: 0.65rem 0 0;
+  background: linear-gradient(90deg, rgba(42, 255, 138, 0.7), rgba(42, 255, 138, 0.12));
+  box-shadow: 0 0 12px var(--green-1), 0 0 22px var(--green-2);
+}
+
+.header-nav {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.15rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.header-nav a {
+  text-decoration: none;
+  margin: 0;
+  padding: 0.38rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid rgba(42, 255, 138, 0.2);
+  background: rgba(0, 0, 0, 0.22);
+  text-shadow: 0 0 6px var(--green-2), 0 0 12px var(--green-3);
+  transition: background 140ms ease, border-color 140ms ease, filter 140ms ease,
+    text-shadow 140ms ease;
+}
+
+.header-nav a:hover {
+  border-color: rgba(42, 255, 138, 0.48);
+  background: rgba(42, 255, 138, 0.08);
+  filter: brightness(1.2) contrast(1.05);
+  text-shadow: 0 0 10px var(--green-hot-1), 0 0 24px var(--green-hot-2);
+}
+
+@media (max-width: 780px) {
+  .site-brand {
+    min-width: 100%;
+  }
+
+  .header-nav a {
+    padding: 0.34rem 0.56rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    overflow-y: auto;
+  }
+
+  .page {
+    padding: calc(3vh + var(--hero-bar-height)) 6vw 8vh;
+  }
+
+  .site-header {
+    margin-bottom: 3vh;
+  }
+
+  .site-title {
+    font-size: 1.8rem;
+    text-shadow: -1px -1px 0 var(--relief-base), 0 0 8px var(--green-1), 0 0 16px var(--green-2);
+  }
+
+  .header-nav {
+    margin-top: 1.5rem;
+    font-size: 0.78rem;
+    opacity: 0.72;
+  }
+}

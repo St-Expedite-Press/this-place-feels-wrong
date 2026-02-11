@@ -19,80 +19,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/hero-bar.css" />
   <link rel="stylesheet" href="assets/css/footer.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/effects.css" />
+  <link rel="stylesheet" href="assets/css/a11y.css" />
+  <link rel="stylesheet" href="assets/css/content-shell.css" />
 
   <style>
-  :root {
-    /* Neon system */
-    --green-base: #2aff8a;
-    --green-1: rgba(42,255,138,0.22);
-    --green-2: rgba(42,255,138,0.12);
-    --green-3: rgba(42,255,138,0.06);
-
-    --green-hot-1: rgba(42,255,138,0.75);
-    --green-hot-2: rgba(42,255,138,0.55);
-    --green-hot-3: rgba(42,255,138,0.38);
-    --green-hot-4: rgba(42,255,138,0.22);
-
-    --relief-base: #d96aff;
-    --dark: #050807;
-  }
-
-  /* GLOBAL ----------------------------------------------------------- */
-  body {
-    margin: 0;
-    min-height: 100vh;
-    color: var(--green-base);
-    font-family: "Cormorant Garamond", serif;
-    overflow-x: hidden;
-
-    /* Mirrors portal/index background: void engine + gradient mask */
-    background:
-      linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
-      url("assets/img/void_engine_twinkle_green.png");
-    background:
-      linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
-      -webkit-image-set(
-        url("assets/img/void_engine_twinkle_green.webp") type("image/webp"),
-        url("assets/img/void_engine_twinkle_green.png") type("image/png")
-      );
-    background:
-      linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
-      image-set(
-        url("assets/img/void_engine_twinkle_green.webp") type("image/webp"),
-        url("assets/img/void_engine_twinkle_green.png") type("image/png")
-      );
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-  }
-
-  @media (max-width: 900px) {
-    body { background-attachment: scroll; }
-  }
-
-  a {
-    color: var(--green-base);
-  }
-
-  .texture--grain {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
-    opacity:.18;
-    mix-blend-mode:soft-light;
-  }
-
-  .cursor-glow {
-    position: fixed;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    pointer-events: none;
-    background: radial-gradient(circle, rgba(42,255,138,0.18), rgba(42,255,138,0));
-    mix-blend-mode: soft-light;
-    z-index: 50;
+  /* Focus parity: match hover glow when navigating by keyboard */
+  .header-nav a:focus-visible {
+    border-color: rgba(42,255,138,0.48);
+    background: rgba(42,255,138,0.08);
+    filter: brightness(1.2) contrast(1.05);
+    text-shadow:
+      0 0 10px var(--green-hot-1),
+      0 0 24px var(--green-hot-2);
   }
 
   /* INTRO ------------------------------------------------------------ */
@@ -146,6 +86,13 @@
       0 0 20px var(--green-hot-3);
   }
 
+  .type-pill:focus-visible {
+    border-color: var(--green-hot-2);
+    box-shadow:
+      0 0 10px var(--green-hot-2),
+      0 0 20px var(--green-hot-3);
+  }
+
   .type-pill.is-active {
     background: rgba(42,255,138,0.1);
     border-color: var(--green-hot-1);
@@ -185,6 +132,13 @@
   }
 
   .filter-pill:hover {
+    border-color: var(--green-hot-2);
+    box-shadow:
+      0 0 10px var(--green-hot-2),
+      0 0 20px var(--green-hot-3);
+  }
+
+  .filter-pill:focus-visible {
     border-color: var(--green-hot-2);
     box-shadow:
       0 0 10px var(--green-hot-2),
@@ -251,6 +205,12 @@
   }
 
   .print-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--green-hot-2);
+    box-shadow: 0 0 18px rgba(0,0,0,0.9), 0 0 28px var(--green-hot-2);
+  }
+
+  .print-card:focus-within {
     transform: translateY(-4px);
     border-color: var(--green-hot-2);
     box-shadow: 0 0 18px rgba(0,0,0,0.9), 0 0 28px var(--green-hot-2);
@@ -377,6 +337,10 @@
     box-shadow:0 0 12px var(--green-hot-2);
   }
 
+  .print-btn:focus-visible {
+    box-shadow:0 0 12px var(--green-hot-2);
+  }
+
   /* SUBTEXT ---------------------------------------------------------- */
   .note-block {
     max-width: 780px;
@@ -500,179 +464,10 @@
     box-shadow:0 0 16px var(--green-hot-2);
   }
 
-  /***********************************************************************
-   * CANONICAL HEADER (FROM BOOKS)
-   * Mirrors interior-content-template.html; applies to content pages only.
-   **********************************************************************/
-  .page {
-    position: relative;
-    z-index: 1; /* Above grain */
-    padding: calc(2.5vh + var(--hero-bar-height)) 5vw 5vh;
+  .modal-buy a:focus-visible {
+    box-shadow:0 0 16px var(--green-hot-2);
   }
-
-  .site-header {
-    max-width: 1120px;
-    margin: 0 auto 2.2vh;
-    padding: 0.95rem 1.1rem;
-    position: relative;
-    overflow: hidden;
-    border-radius: 18px;
-    background:
-      radial-gradient(1000px 220px at 8% 0%, rgba(42,255,138,0.12), rgba(0,0,0,0) 60%),
-      linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.60));
-    border: 1px solid rgba(42,255,138,0.26);
-    backdrop-filter: blur(8px) saturate(1.15);
-    box-shadow:
-      0 0 18px rgba(0,0,0,0.9),
-      0 0 26px var(--green-3);
-
-    display: flex;
-    gap: 0.85rem 1.25rem;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    text-align: left;
-  }
-
-  .site-header::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    pointer-events: none;
-    background:
-      radial-gradient(540px 220px at 16% 10%, rgba(217,106,255,0.12), rgba(0,0,0,0) 60%),
-      radial-gradient(520px 220px at 82% 0%, rgba(42,255,138,0.10), rgba(0,0,0,0) 58%);
-    opacity: 0.9;
-  }
-
-  .site-brand {
-    position: relative;
-    z-index: 1;
-    min-width: min(520px, 100%);
-  }
-
-  .site-brand > * { text-align: left; }
-
-  .site-eyebrow {
-    font-family: "Cinzel", serif;
-    letter-spacing: .24em;
-    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
-    text-transform: uppercase;
-    opacity: .85;
-    text-shadow:
-      -1px -1px 0 var(--relief-base),
-       0 0 8px var(--green-1);
-  }
-
-  .site-title {
-    font-family: "Cinzel", serif;
-    letter-spacing: .18em;
-    font-size: clamp(1.55rem, 3.2vw, 2.25rem);
-    letter-spacing: .14em;
-    margin-top: .12rem;
-    text-transform: uppercase;
-    text-shadow:
-       0 0 12px var(--green-1),
-       0 0 24px var(--green-2);
-  }
-
-  .site-subtitle {
-    font-size: 0.85rem;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    opacity: .9;
-    margin-top: 0.25rem;
-    text-shadow: 0 0 6px var(--green-2);
-  }
-
-  .site-header-divider {
-    width: 180px;
-    max-width: 70vw;
-    height: 1px;
-    margin: 0.65rem 0 0;
-    background: linear-gradient(90deg, rgba(42,255,138,0.70), rgba(42,255,138,0.12));
-    box-shadow: 0 0 12px var(--green-1), 0 0 22px var(--green-2);
-  }
-
-  .header-nav {
-    position: relative;
-    z-index: 1;
-    margin-top: 0.15rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 0.5rem;
-    font-size: 0.78rem;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    opacity: .9;
-  }
-
-  .header-nav a {
-    text-decoration: none;
-    margin: 0;
-    padding: 0.38rem 0.62rem;
-    border-radius: 999px;
-    border: 1px solid rgba(42,255,138,0.20);
-    background: rgba(0,0,0,0.22);
-    text-shadow:
-      0 0 6px var(--green-2),
-      0 0 12px var(--green-3);
-    transition: background 140ms ease, border-color 140ms ease, filter 140ms ease, text-shadow 140ms ease;
-  }
-
-  .header-nav a:hover {
-    border-color: rgba(42,255,138,0.48);
-    background: rgba(42,255,138,0.08);
-    filter: brightness(1.2) contrast(1.05);
-    text-shadow:
-      0 0 10px var(--green-hot-1),
-      0 0 24px var(--green-hot-2);
-  }
-
-  @media (max-width: 780px) {
-    .site-brand { min-width: 100%; }
-    .header-nav a { padding: 0.34rem 0.56rem; }
-  }
-
-  /* FOOTER ----------------------------------------------------------- */
-  .page-footer {
-    margin-top: 4vh;
-    text-align:center;
-    opacity:.7;
-    font-size:.8rem;
-    letter-spacing:.12em;
-  }
-
   @media (max-width: 768px) {
-    body {
-      font-size: 0.92rem;
-      line-height: 1.6;
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
-
-    .page {
-      padding: calc(3vh + var(--hero-bar-height)) 6vw 8vh;
-    }
-
-    .site-header {
-      margin-bottom: 3vh;
-    }
-
-    .site-title {
-      font-size: 1.8rem;
-      text-shadow:
-        -1px -1px 0 var(--relief-base),
-         0 0 8px var(--green-1),
-         0 0 16px var(--green-2);
-    }
-
-    .header-nav {
-      margin-top: 1.5rem;
-      font-size: 0.78rem;
-      opacity: .72;
-    }
-
     .intro,
     .note-block {
       max-width: 32rem;
@@ -719,6 +514,7 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="hero-bar" role="navigation" aria-label="Social media">
     <div class="hero-bar__inner">
       <a class="hero-bar__icon" href="https://x.com/stex_press" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
@@ -748,13 +544,13 @@
   <div class="texture--grain"></div>
   <div class="cursor-glow"></div>
 
-  <div class="page">
+  <main id="main" class="page">
 
     <!-- HEADER (canonical from interior-content-template.html) -->
     <header class="site-header">
       <div class="site-brand">
         <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
-        <div class="site-title">STORE</div>
+        <h1 class="site-title">STORE</h1>
         <div class="site-subtitle">Prints &amp; Merchandise</div>
         <div class="site-header-divider"></div>
       </div>
@@ -780,19 +576,19 @@
 
     <!-- TYPE FILTERS -->
     <section class="type-bar" aria-label="Filter by type">
-      <button class="type-pill is-active" data-type="all">All</button>
-      <button class="type-pill" data-type="print">Prints</button>
-      <button class="type-pill" data-type="merch">Merch</button>
+      <button class="type-pill is-active" type="button" data-type="all">All</button>
+      <button class="type-pill" type="button" data-type="print">Prints</button>
+      <button class="type-pill" type="button" data-type="merch">Merch</button>
     </section>
 
     <!-- FILTERS (tags / series) -->
     <section class="filter-bar" aria-label="Filter by tags">
-      <button class="filter-pill is-active" data-filter="all">All</button>
-      <button class="filter-pill" data-filter="burning-world">Burning World</button>
-      <button class="filter-pill" data-filter="crows">Crows / Avian</button>
-      <button class="filter-pill" data-filter="sigils">Saints &amp; Sigils</button>
-      <button class="filter-pill" data-filter="neon">Neon Glyphs</button>
-      <button class="filter-pill" data-filter="ritual">Ritual Landscapes</button>
+      <button class="filter-pill is-active" type="button" data-filter="all">All</button>
+      <button class="filter-pill" type="button" data-filter="burning-world">Burning World</button>
+      <button class="filter-pill" type="button" data-filter="crows">Crows / Avian</button>
+      <button class="filter-pill" type="button" data-filter="sigils">Saints &amp; Sigils</button>
+      <button class="filter-pill" type="button" data-filter="neon">Neon Glyphs</button>
+      <button class="filter-pill" type="button" data-filter="ritual">Ritual Landscapes</button>
     </section>
 
     <!-- TEMPLATE-SLOT: primary grid (.gallery-grid) -->
@@ -823,8 +619,8 @@
           <div class="print-tags">Burning World · Crows · Neon Wireframe</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
         </div>
       </article>
 
@@ -852,8 +648,8 @@
           <div class="print-tags">Burning World · Crows · Phase Shift</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
         </div>
       </article>
 
@@ -881,8 +677,8 @@
           <div class="print-tags">Burning World · Crows · Full Frontal Icon</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
         </div>
       </article>
 
@@ -910,8 +706,8 @@
           <div class="print-tags">Burning World · Sigil · Text Icon</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
         </div>
       </article>
 
@@ -939,8 +735,8 @@
           <div class="print-tags">Burning World · Saint · Neon Icon</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
         </div>
       </article>
 
@@ -968,8 +764,8 @@
           <div class="print-tags">Burning World · Ritual · Landscape</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Buy</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
         </div>
       </article>
 
@@ -998,8 +794,8 @@
           <div class="print-tags">Merch · Crows</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Inquire</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Inquire</a>
         </div>
       </article>
 
@@ -1027,8 +823,8 @@
           <div class="print-tags">Merch · Sigil</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Inquire</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Inquire</a>
         </div>
       </article>
 
@@ -1056,8 +852,8 @@
           <div class="print-tags">Merch · Neon</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Inquire</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Inquire</a>
         </div>
       </article>
 
@@ -1085,8 +881,8 @@
           <div class="print-tags">Merch · Ritual</div>
         </div>
         <div class="print-actions">
-          <button class="print-btn" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank">Inquire</a>
+          <button class="print-btn" type="button" data-role="details">View</button>
+          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Inquire</a>
         </div>
       </article>
 
@@ -1113,13 +909,14 @@
       </div>
     </footer>
 
-  </div>
+
+  </main>
 
   <!-- TEMPLATE-SLOT: modals -->
   <!-- MODAL -->
-  <div class="modal-backdrop" id="printModal">
-    <div class="modal">
-      <button class="modal-close" aria-label="Close">&times;</button>
+  <div class="modal-backdrop" id="printModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" tabindex="-1">
+      <button class="modal-close" type="button" aria-label="Close dialog">&times;</button>
 
       <div class="modal-image">
         <img id="modalImage" src="assets/img/favicon.svg" alt="">
@@ -1139,14 +936,9 @@
   </div>
 
   <!-- TEMPLATE-SLOT: page-specific scripts (cursor glow, filters, modal) -->
+  <script src="assets/js/modal-utils.js"></script>
+  <script src="assets/js/cursor-glow.js"></script>
   <script>
-  // Cursor glow
-  const glow = document.querySelector('.cursor-glow');
-  document.addEventListener('mousemove', e => {
-    glow.style.left = (e.clientX - 60) + 'px';
-    glow.style.top  = (e.clientY - 60) + 'px';
-  });
-
   // Filter logic
   const typePills = document.querySelectorAll('.type-pill');
   const filterPills = document.querySelectorAll('.filter-pill');
@@ -1256,6 +1048,8 @@
 
   // Modal logic
   const modalBackdrop = document.getElementById('printModal');
+  const dialogEl     = modalBackdrop ? modalBackdrop.querySelector('.modal') : null;
+  const mainEl       = document.getElementById('main');
   const modalImage    = document.getElementById('modalImage');
   const modalTitle    = document.getElementById('modalTitle');
   const modalSeries   = document.getElementById('modalSeries');
@@ -1265,7 +1059,35 @@
   const modalDesc     = document.getElementById('modalDescription');
   const modalPrice    = document.getElementById('modalPrice');
   const modalBuy      = document.getElementById('modalBuy');
-  const modalCloseBtn = document.querySelector('.modal-close');
+  const modalCloseBtn = modalBackdrop ? modalBackdrop.querySelector('.modal-close') : null;
+
+  let lastActiveEl = null;
+  let cleanupTrap = null;
+
+  function closeModal() {
+    if (!modalBackdrop) return;
+
+    modalBackdrop.classList.remove('is-visible');
+    modalBackdrop.setAttribute('aria-hidden', 'true');
+
+    document.body.style.overflow = '';
+    if (mainEl) mainEl.removeAttribute('aria-hidden');
+
+    if (cleanupTrap) {
+      cleanupTrap();
+      cleanupTrap = null;
+    }
+
+    if (lastActiveEl && typeof lastActiveEl.focus === 'function') {
+      try {
+        lastActiveEl.focus();
+      } catch {
+        // ignore
+      }
+    }
+
+    lastActiveEl = null;
+  }
 
   function setTextOrHide(el, value) {
     const text = (value || '').toString().trim();
@@ -1305,9 +1127,11 @@
     if (!card) return;
     const cardType = (card.getAttribute('data-type') || 'print').trim();
 
-    modalImage.src        = card.getAttribute('data-image');
-    modalImage.alt        = card.getAttribute('data-title');
-    modalTitle.textContent= card.getAttribute('data-title') || '';
+    lastActiveEl = btn;
+
+    modalImage.src         = card.getAttribute('data-image') || '';
+    modalImage.alt         = card.getAttribute('data-title') || '';
+    modalTitle.textContent = card.getAttribute('data-title') || '';
 
     setTextOrHide(modalSeries, card.getAttribute('data-series-label'));
     setTextOrHide(modalEdition, card.getAttribute('data-edition'));
@@ -1327,6 +1151,20 @@
     modalBuy.innerHTML = `<a href="${buyUrl}"${attrs}>${label}</a>`;
 
     modalBackdrop.classList.add('is-visible');
+
+    modalBackdrop.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (mainEl) mainEl.setAttribute('aria-hidden', 'true');
+
+    if (cleanupTrap) cleanupTrap();
+    if (dialogEl && window.SEP?.modal?.trap) {
+      cleanupTrap = window.SEP.modal.trap(dialogEl, {
+        initialFocusEl: modalCloseBtn,
+        onEscape: () => closeModal(),
+      });
+    } else if (modalCloseBtn) {
+      modalCloseBtn.focus();
+    }
   });
 
   // Card-level "Buy/Inquire" buttons: if no URL is wired, fall back to email
@@ -1344,19 +1182,13 @@
     window.location.href = buildInquiryMailto(card);
   });
 
-  modalCloseBtn.addEventListener('click', () => {
-    modalBackdrop.classList.remove('is-visible');
-  });
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', closeModal);
+  }
 
   modalBackdrop.addEventListener('click', e => {
     if (e.target === modalBackdrop) {
-      modalBackdrop.classList.remove('is-visible');
-    }
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      modalBackdrop.classList.remove('is-visible');
+      closeModal();
     }
   });
   </script>

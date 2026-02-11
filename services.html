@@ -19,222 +19,20 @@
 <link rel="stylesheet" href="assets/css/hero-bar.css" />
 <link rel="stylesheet" href="assets/css/footer.css" />
 
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/effects.css" />
+<link rel="stylesheet" href="assets/css/a11y.css" />
+<link rel="stylesheet" href="assets/css/content-shell.css" />
+
 <style>
-/* ======================================================================
-   ROOT VARIABLES
-   ====================================================================== */
-:root {
-  --green-base: #2aff8a;
-  --green-1: rgba(42,255,138,0.22);
-  --green-2: rgba(42,255,138,0.12);
-  --green-3: rgba(42,255,138,0.06);
-
-  --green-hot-1: rgba(42,255,138,0.75);
-  --green-hot-2: rgba(42,255,138,0.55);
-  --green-hot-3: rgba(42,255,138,0.38);
-
-  --relief-base: #d96aff;
-  --dark: #050807;
-}
-
-/* ======================================================================
-   GLOBAL
-   ====================================================================== */
-body {
-  margin: 0;
-  min-height: 100vh;
-  color: var(--green-base);
-  font-family: "Cormorant Garamond", serif;
-  overflow-x: hidden;
-
-  /* Mirrors portal/index background: void engine + gradient mask */
-  background:
-    linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
-    url("assets/img/void_engine_twinkle_green.png");
-  background:
-    linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
-    -webkit-image-set(
-      url("assets/img/void_engine_twinkle_green.webp") type("image/webp"),
-      url("assets/img/void_engine_twinkle_green.png") type("image/png")
-    );
-  background:
-    linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
-    image-set(
-      url("assets/img/void_engine_twinkle_green.webp") type("image/webp"),
-      url("assets/img/void_engine_twinkle_green.png") type("image/png")
-    );
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-}
-
-@media (max-width: 900px) {
-  body { background-attachment: scroll; }
-}
-
-a { color: var(--green-base); }
-
-/* ======================================================================
-   TEXTURE + CURSOR
-   ====================================================================== */
-.texture--grain {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
-  opacity: .16;
-  mix-blend-mode: soft-light;
-  z-index: 0;
-}
-
-.cursor-glow {
-  position: fixed;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(circle, rgba(42,255,138,0.18), rgba(42,255,138,0));
-  mix-blend-mode: soft-light;
-  z-index: 50;
-}
-
-/* ======================================================================
-   PAGE
-   ====================================================================== */
-.page {
-  position: relative;
-  z-index: 1;
-  padding: calc(3vh + var(--hero-bar-height)) 5vw 6vh;
-}
-
-/* ======================================================================
-   HEADER CARD (CANONICAL HEADER INSIDE)
-   ====================================================================== */
-.site-header {
-  max-width: 1120px;
-  margin: 0 auto 2.2vh;
-  padding: 0.95rem 1.1rem;
-  position: relative;
-  overflow: hidden;
-  border-radius: 18px;
-  background:
-    radial-gradient(1000px 220px at 8% 0%, rgba(42,255,138,0.12), rgba(0,0,0,0) 60%),
-    linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.60));
-  border: 1px solid rgba(42,255,138,0.26);
-  backdrop-filter: blur(8px) saturate(1.15);
-  box-shadow:
-    0 0 18px rgba(0,0,0,0.9),
-    0 0 26px var(--green-3);
-
-  display: flex;
-  gap: 0.85rem 1.25rem;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  text-align: left;
-}
-
-.site-header::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  pointer-events: none;
-  background:
-    radial-gradient(540px 220px at 16% 10%, rgba(217,106,255,0.12), rgba(0,0,0,0) 60%),
-    radial-gradient(520px 220px at 82% 0%, rgba(42,255,138,0.10), rgba(0,0,0,0) 58%);
-  opacity: 0.9;
-}
-
-.site-brand {
-  position: relative;
-  z-index: 1;
-  min-width: min(520px, 100%);
-}
-
-.site-brand > * { text-align: left; }
-
-.header-card {
-  /* retained for markup compatibility */
-}
-
-.site-eyebrow {
-  font-family: "Cinzel", serif;
-  letter-spacing: .24em;
-  font-size: clamp(0.85rem, 1.8vw, 1.05rem);
-  text-transform: uppercase;
-  opacity: .85;
-  text-shadow:
-    -1px -1px 0 var(--relief-base),
-     0 0 8px var(--green-1);
-}
-
-.site-title {
-  font-family: "Cinzel", serif;
-  font-size: clamp(1.55rem, 3.2vw, 2.25rem);
-  letter-spacing: .14em;
-  margin-top: .12rem;
-  text-transform: uppercase;
-  text-shadow:
-     0 0 12px var(--green-1),
-     0 0 24px var(--green-2);
-}
-
-.site-subtitle {
-  font-size: 0.85rem;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  opacity: .9;
-  margin-top: 0.25rem;
-  text-shadow: 0 0 6px var(--green-2);
-}
-
-.site-header-divider {
-  width: 180px;
-  max-width: 70vw;
-  height: 1px;
-  margin: 0.65rem 0 0;
-  background: linear-gradient(90deg, rgba(42,255,138,0.70), rgba(42,255,138,0.12));
-  box-shadow: 0 0 12px var(--green-1), 0 0 22px var(--green-2);
-}
-
-.header-nav {
-  position: relative;
-  z-index: 1;
-  margin-top: 0.15rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 0.5rem;
-  font-size: 0.78rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  opacity: .9;
-}
-
-.header-nav a {
-  text-decoration: none;
-  margin: 0;
-  padding: 0.38rem 0.62rem;
-  border-radius: 999px;
-  border: 1px solid rgba(42,255,138,0.20);
-  background: rgba(0,0,0,0.22);
-  text-shadow:
-    0 0 6px var(--green-2),
-    0 0 12px var(--green-3);
-  transition: background 140ms ease, border-color 140ms ease, filter 140ms ease, text-shadow 140ms ease;
-}
-
-.header-nav a:hover {
+/* Focus parity: match hover glow when navigating by keyboard */
+.header-nav a:focus-visible {
   border-color: rgba(42,255,138,0.48);
   background: rgba(42,255,138,0.08);
   filter: brightness(1.2) contrast(1.05);
   text-shadow:
     0 0 10px var(--green-hot-1),
     0 0 24px var(--green-hot-2);
-}
-
-@media (max-width: 780px) {
-  .site-brand { min-width: 100%; }
-  .header-nav a { padding: 0.34rem 0.56rem; }
 }
 
 /* ======================================================================
@@ -320,6 +118,15 @@ a { color: var(--green-base); }
 .service-card > * { position: relative; z-index: 1; }
 
 .service-card:hover {
+  transform: translate3d(0,-4px,0);
+  border-color: rgba(42,255,138,0.48);
+  box-shadow:
+    0 0 18px rgba(0,0,0,0.9),
+    0 0 26px var(--green-2),
+    0 0 42px var(--green-3);
+}
+
+.service-card:focus-within {
   transform: translate3d(0,-4px,0);
   border-color: rgba(42,255,138,0.48);
   box-shadow:
@@ -430,6 +237,8 @@ a { color: var(--green-base); }
 
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <div class="hero-bar" role="navigation" aria-label="Social media">
   <div class="hero-bar__inner">
     <a class="hero-bar__icon" href="https://x.com/stex_press" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
@@ -459,12 +268,12 @@ a { color: var(--green-base); }
 <div class="texture--grain"></div>
 <div class="cursor-glow"></div>
 
-<div class="page">
+<main id="main" class="page">
 
 <header class="site-header header-card">
   <div class="site-brand">
     <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
-    <div class="site-title">SERVICES</div>
+    <h1 class="site-title">SERVICES</h1>
     <div class="site-subtitle">Editorial &amp; Interpretable AI Capabilities</div>
     <div class="site-header-divider"></div>
   </div>
@@ -596,19 +405,10 @@ a { color: var(--green-base); }
       </div>
     </footer>
 
-</div>
 
-<script>
-(function() {
-  const glow = document.querySelector('.cursor-glow');
-  if (!glow) return;
+</main>
 
-  document.addEventListener('mousemove', function(e) {
-    glow.style.left = (e.clientX - 60) + 'px';
-    glow.style.top  = (e.clientY - 60) + 'px';
-  });
-})();
-</script>
+<script src="assets/js/cursor-glow.js"></script>
 
 </body>
 </html>
