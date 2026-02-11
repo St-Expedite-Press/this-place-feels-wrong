@@ -60,6 +60,9 @@
 }
 
 .hero-bar__icon:focus-visible {
+  background: rgba(42, 255, 138, 0.08);
+  box-shadow: 0 0 12px rgba(42, 255, 138, 0.14);
+  transform: translateY(-0.5px);
   outline: 2px solid var(--green-base, #2aff8a);
   outline-offset: 2px;
 }

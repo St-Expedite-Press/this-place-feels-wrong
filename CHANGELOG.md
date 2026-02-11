@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.3 — Performance + Shared Shell
+- Refactored portal + interior pages to use shared CSS (`assets/css/base.css`, `assets/css/effects.css`, `assets/css/a11y.css`, `assets/css/content-shell.css`).
+- Moved cursor glow into shared JS (`assets/js/cursor-glow.js`) and consolidated index-only effects (`assets/js/index-effects.js`).
+- Optimized portal media: replaced the original 10.9MB GIF with an animated WebP (preferred), a smaller GIF fallback, and a static reduced-motion image.
+
 ## 1.0.2 — Venv + Ontology Visualization
 - Added local venv setup and installed graphviz (0.21) for ontology rendering.
 - Generated `ontology/stxp.png` from `stxp.dot`.

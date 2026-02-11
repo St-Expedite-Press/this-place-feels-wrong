@@ -1,0 +1,73 @@
+/*
+  base.css
+
+  Shared theme + page background.
+  Used across: index + content pages + services/contact/submit.
+*/
+
+:root {
+  --green-base: #2aff8a;
+  --green-1: rgba(42, 255, 138, 0.22);
+  --green-2: rgba(42, 255, 138, 0.12);
+  --green-3: rgba(42, 255, 138, 0.06);
+
+  --green-hot-1: rgba(42, 255, 138, 0.75);
+  --green-hot-2: rgba(42, 255, 138, 0.55);
+  --green-hot-3: rgba(42, 255, 138, 0.38);
+  --green-hot-4: rgba(42, 255, 138, 0.22);
+
+  --relief-base: #d96aff;
+  --dark: #050807;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--green-base);
+  font-family: "Cormorant Garamond", serif;
+  overflow-x: hidden;
+
+  /* Void engine + gradient mask composite background */
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.78)),
+    url("../img/void_engine_twinkle_green.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+@supports (background: image-set(url("../img/void_engine_twinkle_green.webp") type("image/webp"))) {
+  body {
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.78)),
+      image-set(
+        url("../img/void_engine_twinkle_green.webp") type("image/webp"),
+        url("../img/void_engine_twinkle_green.png") type("image/png")
+      );
+  }
+}
+
+@supports (background: -webkit-image-set(url("../img/void_engine_twinkle_green.webp") type("image/webp"))) {
+  body {
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.78)),
+      -webkit-image-set(
+        url("../img/void_engine_twinkle_green.webp") type("image/webp"),
+        url("../img/void_engine_twinkle_green.png") type("image/png")
+      );
+  }
+}
+
+@media (max-width: 900px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+a {
+  color: var(--green-base);
+}

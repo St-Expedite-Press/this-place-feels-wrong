@@ -16,63 +16,27 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/effects.css" />
+<link rel="stylesheet" href="assets/css/a11y.css" />
+
 <link rel="stylesheet" href="assets/css/hero-bar.css" />
 <link rel="stylesheet" href="assets/css/footer.css" />
 
 <style>
 /* ====================================================================== */
-/*  ROOT VARIABLES                                                        */
+/*  INDEX-SPECIFIC ROOT VARIABLES                                         */
 /* ====================================================================== */
 :root {
-  --green-base: #2aff8a;
-  --green-1: rgba(42,255,138,0.22);
-  --green-2: rgba(42,255,138,0.12);
-  --green-3: rgba(42,255,138,0.06);
-
-  --green-hot-1: rgba(42,255,138,0.75);
-  --green-hot-2: rgba(42,255,138,0.55);
-  --green-hot-3: rgba(42,255,138,0.38);
-  --green-hot-4: rgba(42,255,138,0.22);
-
-  --relief-base: #d96aff;
-
-  --dark: #050807;
   --scan-warp: 0.4deg;
 }
 
 /* ====================================================================== */
-/*  GLOBAL                                                                */
+/*  INDEX OVERRIDES                                                       */
 /* ====================================================================== */
 body {
-  margin: 0;
-  min-height: 100vh;
   overflow: hidden;
-  font-family: "Cormorant Garamond", serif;
-  color: var(--green-base);
-
-  /* Void engine + gradient mask composite background */
-  background:
-    linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
-    url("assets/img/void_engine_twinkle_green.png");
-  background:
-    linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
-    -webkit-image-set(
-      url("assets/img/void_engine_twinkle_green.webp") type("image/webp"),
-      url("assets/img/void_engine_twinkle_green.png") type("image/png")
-    );
-  background:
-    linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
-    image-set(
-      url("assets/img/void_engine_twinkle_green.webp") type("image/webp"),
-      url("assets/img/void_engine_twinkle_green.png") type("image/png")
-    );
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-}
-
-@media (max-width: 900px) {
-  body { background-attachment: scroll; }
 }
 
 /* ====================================================================== */
@@ -138,7 +102,13 @@ body {
   backdrop-filter: blur(4px) brightness(1.15) contrast(1.25);
 }
 
-.portal-mobile .portal img {
+.portal-mobile .portal .portal-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.portal-mobile .portal .portal-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -172,6 +142,9 @@ body {
 }
 
 .portal-mobile .portal-link:focus-visible {
+  opacity: 1;
+  filter: brightness(1.35) contrast(1.2);
+  text-shadow: 0 0 14px var(--green-1), 0 0 32px var(--green-2);
   outline: 2px solid var(--green-hot-1);
   outline-offset: 8px;
   border-radius: 8px;
@@ -278,6 +251,12 @@ body {
   box-shadow: 0 0 14px rgba(42,255,138,0.16);
 }
 
+.portal-mobile .thin-helper__link:focus-visible,
+.portal-mobile .thin-helper__btn:focus-visible {
+  border-color: rgba(42, 255, 138, 0.55);
+  box-shadow: 0 0 14px rgba(42, 255, 138, 0.16);
+}
+
 .portal-mobile .foot {
   text-align: center;
   opacity: .92;
@@ -325,7 +304,8 @@ body {
   text-shadow: 0 0 8px var(--green-1);
 }
 
-.portal-mobile .splash__foot a:hover {
+.portal-mobile .splash__foot a:hover,
+.portal-mobile .splash__foot a:focus-visible {
   filter: brightness(1.25) contrast(1.1);
 }
 
@@ -484,9 +464,15 @@ body {
 }
 
 /* ====================================================================== */
-/*  GIF INSIDE PORTAL                                                    */
+/*  PORTAL MEDIA (ANIMATED WEBP / GIF FALLBACK)                           */
 /* ====================================================================== */
-.portal-gif {
+.portal-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.portal-frame .portal-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -504,7 +490,7 @@ body {
 /*  REDUCED MOTION FALLBACK                                              */
 /* ====================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .portal-gif,
+  .portal-frame .portal-media img,
   .portal-frame,
   .portal-noise,
   .header-title {
@@ -563,6 +549,15 @@ body {
     0 0 72px var(--green-hot-3);
 }
 
+.big-word:focus-visible {
+  opacity: 1;
+  filter: brightness(2.5) contrast(2.6);
+  text-shadow:
+    0 0 18px var(--green-hot-1),
+    0 0 36px var(--green-hot-2),
+    0 0 72px var(--green-hot-3);
+}
+
 /* ====================================================================== */
 /*  LOWER SPLASH                                                          */
 /* ====================================================================== */
@@ -613,31 +608,21 @@ body {
   text-shadow: 0 0 8px var(--green-1);
 }
 
-/* ====================================================================== */
-/*  BACKGROUND TEXTURE + CURSOR GLOW                                      */
-/* ====================================================================== */
-.texture--grain {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgQAL///8AAQUBAf9luzwAAAAASUVORK5CYII=') repeat;
-  opacity: .16;
-  mix-blend-mode: soft-light;
-  z-index: 0;
+.splash__foot a:hover,
+.splash__foot a:focus-visible {
+  filter: brightness(1.25) contrast(1.1);
 }
 
+/* ====================================================================== */
+/*  SHARED EFFECTS OVERRIDES (PAGE-SPECIFIC)                               */
+/* ====================================================================== */
+/* Keep index glow a bit softer than the site default */
 .cursor-glow {
-  position: fixed;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(circle,
-      rgba(42,255,138,0.10) 0%,
-      rgba(42,255,138,0.00) 70%);
-  mix-blend-mode: soft-light;
-  opacity: .55;
-  z-index: 50;
+  background: radial-gradient(
+    circle,
+    rgba(42, 255, 138, 0.10) 0%,
+    rgba(42, 255, 138, 0) 70%
+  );
 }
 
 .mobile-index-nav {
@@ -706,6 +691,12 @@ body {
     text-align: center;
   }
 
+  .mobile-index-nav a:hover,
+  .mobile-index-nav a:focus-visible {
+    opacity: 1;
+    filter: brightness(1.25) contrast(1.1);
+  }
+
   .mobile-index-nav a::after {
     content: "ƒ-3";
     display: block;
@@ -723,6 +714,11 @@ body {
 </head>
 
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="texture--grain"></div>
+<div class="cursor-glow"></div>
 
 <div class="hero-bar" role="navigation" aria-label="Social media">
   <div class="hero-bar__inner">
@@ -750,6 +746,8 @@ body {
   </div>
 </div>
 
+<main id="main" class="page" tabindex="-1">
+
 <div class="portal-mobile">
   <div class="wrap">
     <div class="mobile-fit">
@@ -757,14 +755,22 @@ body {
         <h1 class="title">St. Expedite Press</h1>
       </header>
 
-      <main class="portal-stack">
+      <section class="portal-stack">
         <a class="portal-link" href="books.html">Books</a>
 
         <div class="portal" aria-hidden="true">
-          <img src="assets/gif/crow_glitch_text.gif" alt="">
+          <picture class="portal-media">
+            <source srcset="assets/img/crow_glitch_text.webp" type="image/webp" media="(prefers-reduced-motion: no-preference)">
+            <source srcset="assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
+            <img src="assets/img/crow_glitch_text_still.webp" alt="">
+          </picture>
         </div>
 
         <a class="portal-link" href="mission.html">Mission</a>
+
+        <a class="portal-link" href="gallery.html">Store</a>
+
+        <a class="portal-link" href="lab.html">Lab</a>
 
         <div class="thin-band" aria-label="Email updates">
           <form class="thin-form" id="index-updates-form">
@@ -779,7 +785,7 @@ body {
             </div>
           </div>
         </div>
-      </main>
+      </section>
 
       <footer class="foot">
         <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
@@ -796,12 +802,16 @@ body {
 <div class="portal-desktop">
   <div class="portal-flash"></div>
 
-  <div class="header-title">ST. EXPEDITE PRESS</div>
+  <h1 class="header-title">ST. EXPEDITE PRESS</h1>
 
   <!-- THE PORTAL -->
   <div class="portal-frame">
     <div class="portal-noise"></div>
-    <img src="assets/gif/crow_glitch_text.gif" class="portal-gif" alt="">
+    <picture class="portal-media">
+      <source srcset="assets/img/crow_glitch_text.webp" type="image/webp" media="(prefers-reduced-motion: no-preference)">
+      <source srcset="assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
+      <img src="assets/img/crow_glitch_text_still.webp" alt="">
+    </picture>
   </div>
 
   <nav class="mobile-index-nav">
@@ -812,7 +822,7 @@ body {
   </nav>
 
   <!-- NAVIGATION GRID -->
-  <div class="big-nav">
+  <nav class="big-nav" aria-label="Primary">
     <!-- top row -->
     <a href="books.html"   class="big-word"                >BOOKS</a>
     <div></div>
@@ -825,7 +835,7 @@ body {
     <a href="mission.html" class="big-word" style="grid-row:3;"                    >MISSION</a>
     <div></div>
     <a href="lab.html"     class="big-word" style="grid-column:3; grid-row:3;"     >LAB</a>
-  </div>
+  </nav>
 
   <!-- LOWER TEXT -->
   <div class="splash">
@@ -838,40 +848,11 @@ body {
   </div>
 </div>
 
-<div class="texture--grain"></div>
-<div class="cursor-glow"></div>
+</main>
+
+<script src="assets/js/index-effects.js"></script>
 
 <script>
-/* CURSOR GLOW FOLLOW */
-if (window.matchMedia('(pointer: fine)').matches) {
-  document.addEventListener('mousemove', e => {
-    const glow = document.querySelector('.cursor-glow');
-    if (!glow) return;
-    glow.style.left = (e.pageX - 60) + 'px';
-    glow.style.top  = (e.pageY - 60) + 'px';
-  });
-
-  document.addEventListener('mousemove', e => {
-    const portal = document.querySelector('.portal-frame');
-    if (!portal) return;
-
-    const rect = portal.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-
-    const dx = (e.pageX - cx) / rect.width;
-    const dy = (e.pageY - cy) / rect.height;
-
-    const warpX = (dx * 1.8);
-    const warpY = (dy * 1.8);
-
-    portal.style.transform =
-      `translate(-50%, -50%)
-       rotate(${warpX * 0.9}deg)
-       skew(${warpX}deg, ${warpY}deg)`;
-  });
-}
-
 const applyMobileFit = () => {
   const mobileFit = document.querySelector('.portal-mobile .mobile-fit');
   const mobileWrap = document.querySelector('.portal-mobile .wrap');
