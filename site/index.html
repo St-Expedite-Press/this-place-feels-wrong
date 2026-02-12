@@ -385,10 +385,13 @@ body {
 }
 
 .desktop-updates {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: calc(46% + 20vh + clamp(12px, 2.2vh, 26px));
+  transform: translateX(-50%);
   z-index: 20;
   width: min(560px, 86vw);
-  margin: 0.55rem auto 1.1rem;
+  margin: 0;
   text-align: center;
 }
 
@@ -886,6 +889,16 @@ body {
 
   <h1 class="header-title">ST. EXPEDITE PRESS</h1>
 
+  <!-- THE PORTAL -->
+  <div class="portal-frame">
+    <div class="portal-noise"></div>
+    <picture class="portal-media">
+      <source srcset="assets/img/crow_glitch_text.webp" type="image/webp" media="(prefers-reduced-motion: no-preference)">
+      <source srcset="assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
+      <img src="assets/img/crow_glitch_text_still.webp" alt="">
+    </picture>
+  </div>
+
   <div class="desktop-updates" aria-label="Email updates">
     <form class="desktop-updates__form" id="index-updates-form-desktop">
       <input class="desktop-updates__input" id="index-updates-email-desktop" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates" required>
@@ -898,16 +911,6 @@ body {
         <button class="desktop-updates__btn" id="index-updates-copy-desktop" type="button">Copy</button>
       </div>
     </div>
-  </div>
-
-  <!-- THE PORTAL -->
-  <div class="portal-frame">
-    <div class="portal-noise"></div>
-    <picture class="portal-media">
-      <source srcset="assets/img/crow_glitch_text.webp" type="image/webp" media="(prefers-reduced-motion: no-preference)">
-      <source srcset="assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
-      <img src="assets/img/crow_glitch_text_still.webp" alt="">
-    </picture>
   </div>
 
   <nav class="mobile-index-nav">
