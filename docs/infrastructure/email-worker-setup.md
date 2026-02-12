@@ -2,7 +2,7 @@
 
 This document describes how the production email pipeline for `stexpedite.press` is intended to be configured, based on the current repository implementation:
 
-- Frontend: `contact.html` and `submit.html` post JSON to `/api/*` with a `mailto:` fallback.
+- Frontend: `site/contact.html` and `site/submit.html` post JSON to `/api/*` with a `mailto:` fallback.
 - Backend: Cloudflare Worker in `workers/communications/` sends email via the Resend API.
 
 Important: this repo does **not** contain your Cloudflare zone settings or Resend dashboard state. Where relevant, this document includes **“verify in Cloudflare/Resend”** checkpoints so the setup is reproducible.
@@ -26,7 +26,7 @@ Key facts:
 - The Worker sends **two emails** per successful request:
   - One to the editor inbox (`TO_EMAIL`) with `reply_to` set to the submitter’s email.
   - One receipt back to the submitter with a reference ID (`CONTACT-...` or `SUBMIT-...`).
-- Updates/newsletter signup is separate: it opens Substack (`ecoamericana.substack.com`) and does **not** use this Worker (`index.html` and the Updates section in `contact.html`).
+- Updates/newsletter signup is separate: it opens Substack (`ecoamericana.substack.com`) and does **not** use this Worker (`site/index.html` and the Updates section in `site/contact.html`).
 
 ## 2. Cloudflare DNS Configuration
 
@@ -171,7 +171,7 @@ If you serve traffic on `www.stexpedite.press` too:
 
 Failure mode (expected fallback):
 
-- If `/api/contact` fails (no route, Worker error, CORS mismatch, etc.), the frontend will open a `mailto:` compose window to `editor@stexpedite.press` (`contact.html` implements this fallback).
+- If `/api/contact` fails (no route, Worker error, CORS mismatch, etc.), the frontend will open a `mailto:` compose window to `editor@stexpedite.press` (`site/contact.html` implements this fallback).
 
 ### PowerShell API test (direct)
 
@@ -212,8 +212,8 @@ Current state (as implemented in `workers/communications/src/index.ts` and front
 - No rate limiting yet.
 - No Turnstile/CAPTCHA yet.
 - Honeypot present:
-  - `contact.html` uses hidden field `website`.
-  - `submit.html` uses hidden field `website` (`submit-website`).
+  - `site/contact.html` uses hidden field `website`.
+  - `site/submit.html` uses hidden field `website` (`submit-website`).
   - If the honeypot is filled, the Worker returns `{ ok: true }` but sends no email.
 - CORS enforced in Worker:
   - Only `Origin: https://stexpedite.press` (and local dev origins) receives `access-control-allow-origin`.
@@ -221,7 +221,7 @@ Current state (as implemented in `workers/communications/src/index.ts` and front
 TODO recommendations:
 
 - Add rate limiting for `POST /api/*` (Cloudflare WAF rules, Worker middleware, or Durable Objects rate limiter).
-- Add Cloudflare Turnstile to `contact.html` and `submit.html` and validate the token server-side.
+- Add Cloudflare Turnstile to `site/contact.html` and `site/submit.html` and validate the token server-side.
 - Enable/monitor Worker logs and set alerting on elevated error rates.
 - Keep CORS origins strict; explicitly add `https://www.stexpedite.press` only if you serve the site there.
 

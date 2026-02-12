@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: HTML sanity check
-        run: npx -y htmlhint "**/*.html"
+        run: npx -y htmlhint "site/**/*.html"
 
   deploy:
     needs: validate
@@ -35,13 +35,7 @@ jobs:
       - name: Prepare artifact
         run: |
           mkdir -p dist
-          rsync -a --delete \
-            --exclude ".git/" \
-            --exclude ".github/" \
-            --exclude "dist/" \
-            --exclude ".env" \
-            --exclude "_local_git_backups/" \
-            ./ dist/
+          rsync -a --delete site/ dist/
 
       - uses: actions/upload-pages-artifact@v3
         with:
