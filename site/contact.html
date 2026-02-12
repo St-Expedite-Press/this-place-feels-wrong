@@ -481,7 +481,23 @@ input:focus {
       helperText.textContent = 'Opening Substack signup. If nothing happens, use the buttons below.';
       openLink.setAttribute('href', url);
       lastCopyText = url;
+
+      // Best-effort: also capture a first-party updates list (Worker + D1), if configured.
+      const capture = fetch('/api/updates', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, source: 'contact' }),
+      })
+        .then((res) => res.ok)
+        .catch(() => false);
+
       window.open(url, '_blank', 'noopener,noreferrer');
+
+      capture.then((ok) => {
+        if (!ok) return;
+        helper.hidden = false;
+        helperText.textContent = 'Opening Substack signup. You’re also added to our updates list.';
+      });
     });
 
     copyBtn.addEventListener('click', async () => {

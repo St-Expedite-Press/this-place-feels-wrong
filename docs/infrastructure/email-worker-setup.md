@@ -1,9 +1,9 @@
 # Email Worker Setup (Cloudflare + Resend)
 
-This document describes how the production email pipeline for `stexpedite.press` is intended to be configured, based on the current repository implementation:
+This document describes how the production pipeline for `stexpedite.press` is intended to be configured, based on the current repository implementation:
 
 - Frontend: `site/contact.html` and `site/submit.html` post JSON to `/api/*` with a `mailto:` fallback.
-- Backend: Cloudflare Worker in `workers/communications/` sends email via the Resend API.
+- Backend: Cloudflare Worker in `workers/communications/` sends email via the Resend API, and can optionally store update signups in D1.
 
 Important: this repo does **not** contain your Cloudflare zone settings or Resend dashboard state. Where relevant, this document includes **“verify in Cloudflare/Resend”** checkpoints so the setup is reproducible.
 
@@ -27,6 +27,7 @@ Key facts:
   - One to the editor inbox (`TO_EMAIL`) with `reply_to` set to the submitter’s email.
   - One receipt back to the submitter with a reference ID (`CONTACT-...` or `SUBMIT-...`).
 - Updates/newsletter signup is separate: it opens Substack (`ecoamericana.substack.com`) and does **not** use this Worker (`site/index.html` and the Updates section in `site/contact.html`).
+- If you enable the optional first-party capture endpoint (`POST /api/updates`), the frontend will also post the email to the Worker for storage in D1 (best-effort; Substack still opens).
 
 ## 2. Cloudflare DNS Configuration
 
@@ -113,6 +114,20 @@ How it’s used:
 Why secrets must not live in source control:
 
 - Anyone with the API key can send mail through your Resend account, potentially causing spam, account suspension, and cost exposure.
+
+## 4.1 Optional: Updates List Storage (D1)
+
+If you want a first-party “updates list” you control, the Worker supports:
+
+- `POST /api/updates` (stores emails in D1; no email is sent)
+
+To enable it:
+
+1. Create a D1 database for the Worker in Cloudflare.
+2. Bind it to the Worker with binding name `DB`.
+3. Apply `workers/communications/migrations/0001_updates_signups.sql`.
+
+To view/export the list, query D1 via Cloudflare dashboard or `wrangler d1 execute`. Do not expose a public endpoint that returns the full list.
 
 ## 5. Resend Domain Verification
 

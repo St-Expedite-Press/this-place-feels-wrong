@@ -4,6 +4,7 @@ type Env = {
   RESEND_API_KEY: string;
   FROM_EMAIL: string;
   TO_EMAIL: string;
+  DB?: unknown;
 };
 
 function json(data: JsonRecord, init?: ResponseInit) {
@@ -113,19 +114,55 @@ export default {
       return withCors(request, json({ ok: false, error: "Invalid JSON" }, { status: 400 }));
     }
 
-    if (!env.RESEND_API_KEY || !env.FROM_EMAIL || !env.TO_EMAIL) {
-      return withCors(
-        request,
-        json({ ok: false, error: "Server not configured" }, { status: 500 }),
-      );
-    }
-
     // Basic bot honeypot: if filled, accept but do nothing.
     if (pickHoneypot(body)) {
       return withCors(request, json({ ok: true }, { status: 200 }));
     }
 
+    if (url.pathname === "/api/updates") {
+      const fromEmail = normalizeText(body.email, 320);
+      const source = normalizeText(body.source, 80);
+
+      if (!isProbablyEmail(fromEmail)) {
+        return withCors(request, json({ ok: false, error: "Missing fields" }, { status: 400 }));
+      }
+
+      const db = (env as unknown as { DB?: any }).DB;
+      if (!db?.prepare) {
+        return withCors(
+          request,
+          json({ ok: false, error: "Updates list not configured" }, { status: 500 }),
+        );
+      }
+
+      const ua = request.headers.get("user-agent") ?? "";
+
+      await db
+        .prepare(
+          `
+          INSERT INTO updates_signups (email, first_seen_at, last_seen_at, source, user_agent, unsubscribed_at)
+          VALUES (?, datetime('now'), datetime('now'), ?, ?, NULL)
+          ON CONFLICT(email) DO UPDATE SET
+            last_seen_at = datetime('now'),
+            source = excluded.source,
+            user_agent = excluded.user_agent,
+            unsubscribed_at = NULL
+        `,
+        )
+        .bind(fromEmail, source || null, ua.slice(0, 400))
+        .run();
+
+      return withCors(request, json({ ok: true }, { status: 200 }));
+    }
+
     if (url.pathname === "/api/contact") {
+      if (!env.RESEND_API_KEY || !env.FROM_EMAIL || !env.TO_EMAIL) {
+        return withCors(
+          request,
+          json({ ok: false, error: "Server not configured" }, { status: 500 }),
+        );
+      }
+
       const fromEmail = normalizeText(body.email, 320);
       const reason = normalizeText(body.reason, 120);
       const message = normalizeText(body.message, 6000);
@@ -166,6 +203,13 @@ export default {
     }
 
     if (url.pathname === "/api/submit") {
+      if (!env.RESEND_API_KEY || !env.FROM_EMAIL || !env.TO_EMAIL) {
+        return withCors(
+          request,
+          json({ ok: false, error: "Server not configured" }, { status: 500 }),
+        );
+      }
+
       const fromEmail = normalizeText(body.email, 320);
       const note = normalizeText(body.note, 6000);
 
