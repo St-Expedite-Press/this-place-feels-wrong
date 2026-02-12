@@ -1,4 +1,5 @@
 User-agent: *
-Allow: /
+Disallow: /under-construction.html
+Disallow: /interior-content-template.html
 
 Sitemap: https://stexpedite.press/sitemap.xml
