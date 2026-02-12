@@ -384,106 +384,6 @@ body {
   animation: title-breathe 12s ease-in-out infinite;
 }
 
-.desktop-updates {
-  position: absolute;
-  left: 50%;
-  top: calc(46% + 20vh + 10px);
-  transform: translateX(-50%);
-  z-index: 20;
-  width: min(560px, 86vw);
-  margin: 0;
-  text-align: center;
-}
-
-.desktop-updates__form {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  flex-wrap: wrap;
-}
-
-.desktop-updates__input {
-  width: min(420px, 78vw);
-  padding: 0.65rem 1.05rem;
-  border-radius: 999px;
-  border: 1px solid rgba(42,255,138,0.28);
-  background: rgba(0,0,0,0.52);
-  color: var(--green-base);
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.05rem;
-  text-align: center;
-  outline: none;
-  box-shadow: 0 0 0 1px rgba(42,255,138,0.08);
-}
-
-.desktop-updates__input::placeholder {
-  color: rgba(42,255,138,0.62);
-}
-
-.desktop-updates__input:focus-visible {
-  border-color: rgba(42,255,138,0.55);
-  box-shadow: 0 0 0 2px rgba(42,255,138,0.16);
-}
-
-.desktop-updates__button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.65rem 1.05rem;
-  border-radius: 999px;
-  border: 1px solid var(--green-hot-1);
-  background: rgba(42,255,138,0.10);
-  color: var(--green-base);
-  text-decoration: none;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  font-family: "Cinzel", serif;
-  font-size: 0.78rem;
-  cursor: pointer;
-}
-
-.desktop-updates__helper {
-  margin-top: 0.55rem;
-  font-size: 0.95rem;
-  line-height: 1.35;
-  opacity: 0.92;
-}
-
-.desktop-updates__actions {
-  margin-top: 0.45rem;
-  display: flex;
-  justify-content: center;
-  gap: 0.55rem;
-  flex-wrap: wrap;
-}
-
-.desktop-updates__link,
-.desktop-updates__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.52rem 1.05rem;
-  border-radius: 999px;
-  border: 1px solid rgba(42,255,138,0.26);
-  background: rgba(0,0,0,0.5);
-  color: var(--green-base);
-  text-decoration: none;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  font-family: "Cinzel", serif;
-  font-size: 0.74rem;
-  cursor: pointer;
-}
-
-.desktop-updates__link:hover,
-.desktop-updates__btn:hover,
-.desktop-updates__link:focus-visible,
-.desktop-updates__btn:focus-visible {
-  border-color: rgba(42,255,138,0.55);
-  box-shadow: 0 0 14px rgba(42,255,138,0.16);
-}
-
 @keyframes title-breathe {
   0%, 100% { filter: brightness(1.2) contrast(2); }
   50%      { filter: brightness(1.6) contrast(2.6); }
@@ -813,6 +713,11 @@ body {
 <div class="cursor-glow"></div>
 
 <div class="hero-bar" role="navigation" aria-label="Social media">
+  <form class="hero-bar__updates" id="hero-updates-form">
+    <input class="hero-bar__updates-input" id="hero-updates-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates" required>
+    <button class="hero-bar__updates-btn" type="submit">Updates</button>
+  </form>
+
   <div class="hero-bar__inner">
     <a class="hero-bar__icon" href="https://x.com/stex_press" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
@@ -835,6 +740,14 @@ body {
         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
       </svg>
     </a>
+  </div>
+
+  <div class="hero-bar__updates-helper" id="hero-updates-helper" aria-live="polite" hidden>
+    <div id="hero-updates-helper-text"></div>
+    <div class="hero-bar__updates-actions">
+      <a class="hero-bar__updates-link" id="hero-updates-open" href="https://ecoamericana.substack.com/subscribe" target="_blank" rel="noopener noreferrer">Open Substack</a>
+      <button class="hero-bar__updates-copy" id="hero-updates-copy" type="button">Copy</button>
+    </div>
   </div>
 </div>
 
@@ -891,27 +804,13 @@ body {
 
   <!-- THE PORTAL -->
   <div class="portal-frame">
-    <div class="portal-noise"></div>
-    <picture class="portal-media">
-      <source srcset="assets/img/crow_glitch_text.webp" type="image/webp" media="(prefers-reduced-motion: no-preference)">
-      <source srcset="assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
-      <img src="assets/img/crow_glitch_text_still.webp" alt="">
-    </picture>
-  </div>
-
-  <div class="desktop-updates" aria-label="Email updates">
-    <form class="desktop-updates__form" id="index-updates-form-desktop">
-      <input class="desktop-updates__input" id="index-updates-email-desktop" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates" required>
-      <button class="desktop-updates__button" type="submit">Get updates</button>
-    </form>
-    <div class="desktop-updates__helper" id="index-updates-helper-desktop" aria-live="polite" hidden>
-      <div id="index-updates-helper-text-desktop"></div>
-      <div class="desktop-updates__actions">
-        <a class="desktop-updates__link" id="index-updates-open-desktop" href="https://ecoamericana.substack.com/subscribe" target="_blank" rel="noopener noreferrer">Open Substack</a>
-        <button class="desktop-updates__btn" id="index-updates-copy-desktop" type="button">Copy</button>
-      </div>
-    </div>
-  </div>
+  <div class="portal-noise"></div>
+  <picture class="portal-media">
+    <source srcset="assets/img/crow_glitch_text.webp" type="image/webp" media="(prefers-reduced-motion: no-preference)">
+    <source srcset="assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
+    <img src="assets/img/crow_glitch_text_still.webp" alt="">
+  </picture>
+</div>
 
   <nav class="mobile-index-nav">
     <a href="books.html">Books</a>
@@ -982,51 +881,11 @@ const scheduleMobileFit = (delayMs) => {
   mobileFitTimer = window.setTimeout(applyMobileFit, delayMs);
 };
 
-const applyDesktopUpdatesPosition = () => {
-  const updates = document.querySelector('.portal-desktop .desktop-updates');
-  const portal = document.querySelector('.portal-desktop .portal-frame');
-  if (!updates || !portal) return;
-
-  const isMobileLayout = window.matchMedia('(max-width: 900px)').matches;
-  if (isMobileLayout) {
-    updates.style.removeProperty('top');
-    return;
-  }
-
-  const portalRect = portal.getBoundingClientRect();
-  if (!portalRect.width || !portalRect.height) return;
-
-  const updatesHeight = updates.getBoundingClientRect().height || updates.offsetHeight || 0;
-  const margin = Math.round(Math.min(20, Math.max(8, window.innerHeight * 0.015)));
-
-  let top = portalRect.bottom + margin;
-
-  const splash = document.querySelector('.portal-desktop .splash');
-  if (splash && updatesHeight) {
-    const splashRect = splash.getBoundingClientRect();
-    const maxTop = splashRect.top - updatesHeight - margin;
-    top = Math.min(top, maxTop);
-  }
-
-  updates.style.top = `${Math.max(0, Math.round(top))}px`;
-};
-
-let desktopUpdatesTimer = 0;
-const scheduleDesktopUpdates = (delayMs) => {
-  window.clearTimeout(desktopUpdatesTimer);
-  desktopUpdatesTimer = window.setTimeout(applyDesktopUpdatesPosition, delayMs);
-};
-
-const scheduleLayoutRefresh = (delayMs) => {
-  scheduleMobileFit(delayMs);
-  scheduleDesktopUpdates(delayMs);
-};
-
-scheduleLayoutRefresh(0);
-window.addEventListener('resize', () => scheduleLayoutRefresh(60), { passive: true });
-window.addEventListener('orientationchange', () => scheduleLayoutRefresh(250), { passive: true });
-window.addEventListener('load', () => scheduleLayoutRefresh(0), { passive: true });
-document.fonts?.ready?.then?.(() => scheduleLayoutRefresh(0));
+scheduleMobileFit(0);
+window.addEventListener('resize', () => scheduleMobileFit(60), { passive: true });
+window.addEventListener('orientationchange', () => scheduleMobileFit(250), { passive: true });
+window.addEventListener('load', () => scheduleMobileFit(0), { passive: true });
+document.fonts?.ready?.then?.(() => scheduleMobileFit(0));
 
 async function copyText(text) {
   try {
@@ -1119,13 +978,13 @@ wireUpdatesForm({
 });
 
 wireUpdatesForm({
-  formId: 'index-updates-form-desktop',
-  emailId: 'index-updates-email-desktop',
-  helperId: 'index-updates-helper-desktop',
-  helperTextId: 'index-updates-helper-text-desktop',
-  openId: 'index-updates-open-desktop',
-  copyId: 'index-updates-copy-desktop',
-  source: 'index-desktop',
+  formId: 'hero-updates-form',
+  emailId: 'hero-updates-email',
+  helperId: 'hero-updates-helper',
+  helperTextId: 'hero-updates-helper-text',
+  openId: 'hero-updates-open',
+  copyId: 'hero-updates-copy',
+  source: 'hero-bar',
 });
 
 </script>
