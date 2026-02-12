@@ -417,7 +417,9 @@ input:focus {
         .then((data) => {
           const id = String(data?.id ?? '').trim();
           helper.hidden = false;
-          helperText.textContent = id ? `Sent. Reference: ${id}` : 'Sent.';
+          helperText.textContent = id
+            ? `Thanks — your message was received. You’ll get a confirmation email shortly. Reference: ${id}`
+            : 'Thanks — your message was received. You’ll get a confirmation email shortly.';
         })
         .catch(() => {
           helper.hidden = false;
