@@ -1,6 +1,6 @@
 :root {
-  --hero-bar-height: 28px;
-  --hero-bar-gap: 10px;
+  --hero-bar-height: 36px;
+  --hero-bar-gap: 12px;
   --hero-bar-pad-x: 14px;
   --hero-bar-border: rgba(42, 255, 138, 0.22);
 }
@@ -33,8 +33,8 @@
 }
 
 .hero-bar__icon {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -48,8 +48,8 @@
 }
 
 .hero-bar__icon svg {
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   display: block;
 }
 
@@ -70,17 +70,17 @@
 @media (max-width: 420px) {
   :root {
     --hero-bar-pad-x: 10px;
-    --hero-bar-gap: 8px;
+    --hero-bar-gap: 10px;
   }
 
   .hero-bar__icon {
-    width: 22px;
-    height: 22px;
+    width: 28px;
+    height: 28px;
   }
 
   .hero-bar__icon svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -89,4 +89,3 @@
     transition: none;
   }
 }
-
