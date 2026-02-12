@@ -2,18 +2,18 @@
 
 This is a narrative companion to `docs/ontology/project-ontology.json`.
 
-## 1) Major subsystems
+## Major subsystems
 
 ### Static site (`site/`)
 - Pages: `site/*.html`
 - Assets: `site/assets/**`
 - SEO: `site/robots.txt`, `site/sitemap.xml`
 
-All public pages are served from the domain root (e.g. `/contact.html`) even though the repo stores them under `site/`.
+Even though the repo stores pages under `site/`, they are published at the domain root (e.g. `/contact.html`, `/assets/...`).
 
 ### Deployment (GitHub Pages)
 - Workflow: `.github/workflows/deploy-pages.yml`
-- Publish model: copy `site/` → `dist/` → upload as Pages artifact.
+- Publish model: copy `site/` -> `dist/` -> upload as Pages artifact.
 
 ### Communications Worker (Cloudflare)
 - Code: `workers/communications/src/index.ts`
@@ -34,11 +34,11 @@ Endpoints:
   - Stores email into Cloudflare D1 if bound as `DB`
   - Does not send email
 
-## 2) User flows
+## User flows
 
 ### Contact message
 1. User submits `site/contact.html`
-2. Frontend posts JSON → `/api/contact`
+2. Frontend posts JSON -> `/api/contact`
 3. Worker sends email(s) via Resend
 4. Frontend shows a friendly confirmation + reference ID
 5. If `/api/contact` fails, frontend opens a `mailto:` fallback addressed to `editor@stexpedite.press`
@@ -46,21 +46,21 @@ Endpoints:
 ### Submission inquiry
 Same pattern as Contact, but endpoint is `/api/submit`.
 
-### Updates “signup”
+### Updates signup
 1. User enters email in the Updates UI (index or contact)
 2. Frontend opens Substack subscribe URL (newsletter list lives in Substack)
-3. Frontend additionally posts email to `/api/updates` best-effort (first-party list lives in D1, if configured)
+3. Frontend additionally posts email to `/api/updates` best-effort (first-party list lives in D1 if configured)
 
-## 3) External dependencies (by design)
+## External dependencies (by design)
 - Google Fonts: `fonts.googleapis.com`, `fonts.gstatic.com`
 - Social links: `x.com`, `t.me`, `github.com`
 - Newsletter: `ecoamericana.substack.com`
 - Email provider API: `api.resend.com`
 
-## 4) Operational gotchas
-- Worker Routes only work if Cloudflare DNS for the served hostname is **proxied** (orange cloud).
+## Operational gotchas
+- Worker Routes only work if Cloudflare DNS for the served hostname is proxied (orange cloud).
 - If you serve on `www.stexpedite.press`, you may need:
   - a route for `www.stexpedite.press/api/*`
-  - CORS allowlist update in the Worker
-- `/api/updates` requires a D1 binding named `DB` + migration applied; otherwise it returns “Updates list not configured.”
+  - a CORS allowlist update in the Worker
+- `/api/updates` requires a D1 binding named `DB` plus the migration applied; otherwise it returns `Updates list not configured`.
 
