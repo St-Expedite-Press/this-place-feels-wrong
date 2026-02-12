@@ -387,7 +387,7 @@ body {
 .desktop-updates {
   position: absolute;
   left: 50%;
-  top: calc(46% + 20vh + clamp(12px, 2.2vh, 26px));
+  top: calc(46% + 20vh + 10px);
   transform: translateX(-50%);
   z-index: 20;
   width: min(560px, 86vw);
@@ -982,11 +982,51 @@ const scheduleMobileFit = (delayMs) => {
   mobileFitTimer = window.setTimeout(applyMobileFit, delayMs);
 };
 
-scheduleMobileFit(0);
-window.addEventListener('resize', () => scheduleMobileFit(60), { passive: true });
-window.addEventListener('orientationchange', () => scheduleMobileFit(250), { passive: true });
-window.addEventListener('load', () => scheduleMobileFit(0), { passive: true });
-document.fonts?.ready?.then?.(() => scheduleMobileFit(0));
+const applyDesktopUpdatesPosition = () => {
+  const updates = document.querySelector('.portal-desktop .desktop-updates');
+  const portal = document.querySelector('.portal-desktop .portal-frame');
+  if (!updates || !portal) return;
+
+  const isMobileLayout = window.matchMedia('(max-width: 900px)').matches;
+  if (isMobileLayout) {
+    updates.style.removeProperty('top');
+    return;
+  }
+
+  const portalRect = portal.getBoundingClientRect();
+  if (!portalRect.width || !portalRect.height) return;
+
+  const updatesHeight = updates.getBoundingClientRect().height || updates.offsetHeight || 0;
+  const margin = Math.round(Math.min(20, Math.max(8, window.innerHeight * 0.015)));
+
+  let top = portalRect.bottom + margin;
+
+  const splash = document.querySelector('.portal-desktop .splash');
+  if (splash && updatesHeight) {
+    const splashRect = splash.getBoundingClientRect();
+    const maxTop = splashRect.top - updatesHeight - margin;
+    top = Math.min(top, maxTop);
+  }
+
+  updates.style.top = `${Math.max(0, Math.round(top))}px`;
+};
+
+let desktopUpdatesTimer = 0;
+const scheduleDesktopUpdates = (delayMs) => {
+  window.clearTimeout(desktopUpdatesTimer);
+  desktopUpdatesTimer = window.setTimeout(applyDesktopUpdatesPosition, delayMs);
+};
+
+const scheduleLayoutRefresh = (delayMs) => {
+  scheduleMobileFit(delayMs);
+  scheduleDesktopUpdates(delayMs);
+};
+
+scheduleLayoutRefresh(0);
+window.addEventListener('resize', () => scheduleLayoutRefresh(60), { passive: true });
+window.addEventListener('orientationchange', () => scheduleLayoutRefresh(250), { passive: true });
+window.addEventListener('load', () => scheduleLayoutRefresh(0), { passive: true });
+document.fonts?.ready?.then?.(() => scheduleLayoutRefresh(0));
 
 async function copyText(text) {
   try {
