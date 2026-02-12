@@ -516,15 +516,7 @@ body {
   z-index: 2;
 }
 
-/* Subtle darkened/blurred field beneath nav to stabilize against bright twinkles */
-.big-nav::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  backdrop-filter: brightness(0.75) blur(1.2px);
-  z-index: -1;
-}
+/* Intentionally no backdrop overlay here; some browsers render it as a visible dark box. */
 
 .big-word {
   font-family: "Cinzel", serif;
