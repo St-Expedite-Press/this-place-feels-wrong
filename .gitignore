@@ -36,3 +36,8 @@ pnpm-debug.log*
 
 # Cloudflare Workers (local artifacts)
 workers/**/.wrangler/
+.wrangler/
+.dev.vars
+.dev.vars.*
+*.sqlite
+*.sqlite3
