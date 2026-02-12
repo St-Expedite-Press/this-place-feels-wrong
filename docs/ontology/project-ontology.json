@@ -15,6 +15,7 @@
   },
   "docs": {
     "agent_protocols": "AGENTS.md",
+    "deployment": "DEPLOYMENT.md",
     "email_pipeline": "docs/infrastructure/email-worker-setup.md",
     "ontology": "docs/ontology/project-ontology.json",
     "state_of_play": "docs/state-of-play.md"
@@ -28,7 +29,7 @@
     "primary": "stexpedite.press"
   },
   "generated_at": "2026-02-12",
-  "generated_from_commit": "82947e3a4612b3c568adfa6b07de57bf8068d138",
+  "generated_from_commit": "bb32a07d7ff087b5eddd6b5b058c4a71ceb80725",
   "ontology_version": "1",
   "site": {
     "assets": {
@@ -400,7 +401,7 @@
       "routes": {
         "/api/contact": {
           "method": "POST",
-          "purpose": "Contact form submission ? sends editor email + user receipt via Resend",
+          "purpose": "Contact form submission -> sends editor email + user receipt via Resend",
           "requires": [
             "RESEND_API_KEY",
             "FROM_EMAIL",
@@ -409,7 +410,7 @@
         },
         "/api/submit": {
           "method": "POST",
-          "purpose": "Submission inquiry ? sends editor email + user receipt via Resend",
+          "purpose": "Submission inquiry -> sends editor email + user receipt via Resend",
           "requires": [
             "RESEND_API_KEY",
             "FROM_EMAIL",
