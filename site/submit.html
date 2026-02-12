@@ -426,7 +426,9 @@
           const id = String(data?.id ?? '').trim();
           if (helper && helperText) {
             helper.hidden = false;
-            helperText.textContent = id ? `Sent. Reference: ${id}` : 'Sent.';
+            helperText.textContent = id
+              ? `Thanks — your submission inquiry was received. You’ll get a confirmation email shortly. Reference: ${id}`
+              : 'Thanks — your submission inquiry was received. You’ll get a confirmation email shortly.';
           }
         })
         .catch(() => {
