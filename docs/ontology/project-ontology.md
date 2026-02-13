@@ -51,6 +51,10 @@ Same pattern as Contact, but endpoint is `/api/submit`.
 2. Frontend opens Substack subscribe URL (newsletter list lives in Substack)
 3. Frontend additionally posts email to `/api/updates` best-effort (first-party list lives in D1 if configured)
 
+Index placement:
+- Desktop: Updates form is in the hero bar.
+- Mobile: Updates form is embedded in the portal stack.
+
 ## External dependencies (by design)
 - Google Fonts: `fonts.googleapis.com`, `fonts.gstatic.com`
 - Social links: `x.com`, `t.me`, `github.com`
@@ -63,4 +67,3 @@ Same pattern as Contact, but endpoint is `/api/submit`.
   - a route for `www.stexpedite.press/api/*`
   - a CORS allowlist update in the Worker
 - `/api/updates` requires a D1 binding named `DB` plus the migration applied; otherwise it returns `Updates list not configured`.
-

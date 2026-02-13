@@ -9,12 +9,19 @@ This doc is a maintenance-oriented checklist: what exists, what is live, and wha
 - Deployment: GitHub Actions publishes only `site/` (copied into a Pages artifact). See `.github/workflows/deploy-pages.yml`.
 - Public URLs remain flat at the domain root (e.g. `/contact.html`, `/assets/...`) even though the repo is organized under `site/`.
 
+Navigation notes:
+- "Lab" and "Services" are currently routed to `site/under-construction.html` from nav (pages still exist in `site/`).
+
 ### Forms + email
 - Contact form: `site/contact.html` -> `POST /api/contact` (JSON) with `mailto:` fallback.
 - Submission form: `site/submit.html` -> `POST /api/submit` (JSON) with `mailto:` fallback.
 - Updates UI: `site/index.html` and the Updates section in `site/contact.html`:
   - opens Substack (newsletter)
   - also attempts best-effort first-party capture via `POST /api/updates`
+
+Index-specific UI notes:
+- Desktop: "Get updates" lives in the hero bar (left side).
+- Mobile: the index page only surfaces portal links for Books + Mission; the updates form remains embedded in the portal stack.
 
 ### Worker
 - Location: `workers/communications/`
@@ -95,4 +102,3 @@ Updates list:
 Google indexing:
 - Verify domain in Google Search Console (TXT record in Cloudflare DNS, DNS-only).
 - Submit sitemap: `https://stexpedite.press/sitemap.xml`.
-

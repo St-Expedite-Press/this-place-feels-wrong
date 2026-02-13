@@ -24,9 +24,9 @@ All public site files live under `site/`, but they are served from the domain ro
 - Pages:
   - `site/books.html` (Books)
   - `site/gallery.html` (Store)
-  - `site/services.html` (Services)
+  - `site/services.html` (Services; currently linked to the holding page from nav)
   - `site/mission.html` (Mission)
-  - `site/lab.html` (Lab)
+  - `site/lab.html` (Lab; currently linked to the holding page from nav)
   - `site/contact.html` (Contact)
   - `site/submit.html` (Submission)
   - `site/under-construction.html` (holding page)
@@ -100,6 +100,9 @@ If the Worker route is missing or fails, both pages fall back to opening a `mail
 
 2) Newsletter/updates signup (Substack)
 - The "Get updates" UI opens a Substack subscribe URL (`ecoamericana.substack.com`).
+- Index page placement:
+  - Desktop: in the hero bar (left side)
+  - Mobile: embedded in the portal stack
 
 ## Updates List
 
@@ -108,7 +111,7 @@ If you want a first-party list you control, the Worker supports:
 - `POST /api/updates` - stores an email into D1 (no email is sent)
 
 This is called best-effort from:
-- `site/index.html`
+- `site/index.html` (desktop hero bar + mobile portal stack)
 - the Updates section in `site/contact.html`
 
 To actually store the list, you must:
@@ -143,4 +146,3 @@ Rules that keep deploy stable:
 - If you add/rename pages, assets, or endpoints, update:
   - `docs/ontology/project-ontology.json`
   - `docs/state-of-play.md`
-
