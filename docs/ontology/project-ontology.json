@@ -4,7 +4,8 @@
       "dir": "workers/communications/",
       "routes_expected": [
         "stexpedite.press/api/*"
-      ]
+      ],
+      "workers_dev_url": "https://stexpedite-communications.stexpedite-communications.workers.dev"
     },
     "github_pages": {
       "artifact_dir": "dist/",
@@ -18,19 +19,232 @@
     "deployment": "DEPLOYMENT.md",
     "email_pipeline": "docs/infrastructure/email-worker-setup.md",
     "ontology": "docs/ontology/project-ontology.json",
-    "state_of_play": "docs/state-of-play.md"
+    "state_of_play": "docs/state-of-play.md",
+    "workers_openapi": "workers/communications/openapi.yaml"
   },
   "domains": {
     "edge": "Cloudflare (proxied)",
+    "nameservers": [
+      "nicolas.ns.cloudflare.com",
+      "sara.ns.cloudflare.com"
+    ],
     "newsletters": {
       "substack": "ecoamericana.substack.com"
     },
+    "mail_inbound_provider": "Zoho",
     "origin": "GitHub Pages",
     "primary": "stexpedite.press"
   },
   "generated_at": "2026-02-13",
   "generated_from_commit": "ce90793d2560ec1804ab4571064902facc7c4a17",
   "ontology_version": "1",
+  "intents": {
+    "edit_contact_form": {
+      "touch": [
+        "site/contact.html"
+      ],
+      "related": [
+        "workers/communications/src/index.ts"
+      ],
+      "notes": [
+        "Contact form JS is inline in site/contact.html; look for fetch('/api/contact')",
+        "Honeypot field is website (see worker pickHoneypot)."
+      ],
+      "also_update_if_contract_changes": [
+        "docs/ontology/project-ontology.json",
+        "docs/ontology/project-ontology.md",
+        "docs/state-of-play.md"
+      ]
+    },
+    "edit_submission_form": {
+      "touch": [
+        "site/submit.html"
+      ],
+      "related": [
+        "workers/communications/src/index.ts"
+      ],
+      "notes": [
+        "Submission form JS is inline in site/submit.html; look for fetch('/api/submit')."
+      ]
+    },
+    "edit_updates_signup": {
+      "touch": [
+        "site/index.html",
+        "site/contact.html"
+      ],
+      "related": [
+        "workers/communications/src/index.ts",
+        "workers/communications/migrations/0001_updates_signups.sql",
+        "workers/communications/wrangler.toml"
+      ],
+      "notes": [
+        "Index has two updates forms wired by wireUpdatesForm() (index + hero bar).",
+        "Updates capture is best-effort: opens Substack + POST /api/updates."
+      ]
+    },
+    "edit_global_nav_or_footer_links": {
+      "touch": [
+        "site/index.html",
+        "site/books.html",
+        "site/gallery.html",
+        "site/mission.html",
+        "site/contact.html",
+        "site/submit.html",
+        "site/lab.html",
+        "site/services.html"
+      ],
+      "notes": [
+        "Nav markup is duplicated across pages; see site.duplication_clusters.nav.",
+        "Lab/Services are intentionally pointed at under-construction.html in several places (see docs/state-of-play.md)."
+      ]
+    },
+    "add_or_change_worker_endpoint": {
+      "touch": [
+        "workers/communications/src/index.ts",
+        "workers/communications/wrangler.toml"
+      ],
+      "also_update": [
+        "docs/ontology/project-ontology.json",
+        "docs/ontology/project-ontology.md",
+        "docs/state-of-play.md"
+      ]
+    },
+    "change_github_pages_deploy": {
+      "touch": [
+        ".github/workflows/deploy-pages.yml"
+      ],
+      "also_review": [
+        "docs/state-of-play.md",
+        "DEPLOYMENT.md",
+        "AGENTS.md"
+      ]
+    }
+  },
+  "files": {
+    "site/index.html": {
+      "role": "Portal page; contains two updates forms (desktop hero bar + mobile portal stack)",
+      "anchors": {
+        "desktop_updates_form": "<form class=\"hero-bar__updates\" id=\"hero-updates-form\">",
+        "mobile_updates_form": "<form class=\"thin-form\" id=\"index-updates-form\">",
+        "updates_wiring": "function wireUpdatesForm(opts)",
+        "updates_capture": "fetch('/api/updates'",
+        "primary_nav_desktop": "<nav class=\"big-nav\"",
+        "splash_footer_links": "<div class=\"splash__foot\">"
+      }
+    },
+    "site/contact.html": {
+      "role": "Contact page; contact form + updates widget; both implemented with inline JS",
+      "anchors": {
+        "header_nav": "<nav class=\"header-nav\">",
+        "contact_form": "<form class=\"contact-form\" id=\"contact-form\"",
+        "honeypot": "id=\"website\"",
+        "contact_fetch": "fetch('/api/contact'",
+        "updates_widget": "id=\"contact-updates-email\"",
+        "updates_fetch": "fetch('/api/updates'",
+        "mailto_fallback": "mailto:editor@stexpedite.press"
+      }
+    },
+    "site/submit.html": {
+      "role": "Submission inquiry page; implemented with inline JS",
+      "anchors": {
+        "header_nav": "<nav class=\"nav\">",
+        "submit_form": "<form class=\"form\" id=\"submit-form\">",
+        "honeypot": "id=\"submit-website\"",
+        "submit_fetch": "fetch('/api/submit'",
+        "mailto_fallback": "mailto:editor@stexpedite.press"
+      }
+    },
+    "workers/communications/src/index.ts": {
+      "role": "Cloudflare Worker implementing /api/contact, /api/submit, /api/updates",
+      "anchors": {
+        "cors": "function withCors",
+        "email_validation": "function isProbablyEmail",
+        "ref_id": "function refId",
+        "honeypot": "function pickHoneypot",
+        "updates_route": "if (url.pathname === \"/api/updates\")",
+        "contact_route": "if (url.pathname === \"/api/contact\")",
+        "submit_route": "if (url.pathname === \"/api/submit\")"
+      }
+    },
+    ".github/workflows/deploy-pages.yml": {
+      "role": "GitHub Pages pipeline: validates HTML then rsync site/ -> dist/ for artifact",
+      "anchors": {
+        "htmlhint": "npx -y htmlhint \"site/**/*.html\"",
+        "artifact_prep": "rsync -a --delete site/ dist/"
+      }
+    },
+    "workers/communications/openapi.yaml": {
+      "role": "Machine-readable API contract for /api/contact, /api/submit, /api/updates",
+      "anchors": {
+        "openapi_version": "openapi: 3.1.0",
+        "contact_path": "/api/contact:",
+        "submit_path": "/api/submit:",
+        "updates_path": "/api/updates:"
+      }
+    }
+  },
+  "invariants": [
+    {
+      "id": "pages_publishes_site_only",
+      "rule": "GitHub Pages publishes site/ only (copied into dist/ artifact)",
+      "source": ".github/workflows/deploy-pages.yml"
+    },
+    {
+      "id": "urls_flat_root",
+      "rule": "Even though files live under site/, public URLs resolve at domain root (e.g. /contact.html, /assets/...)",
+      "source": "docs/state-of-play.md"
+    },
+    {
+      "id": "no_secrets_committed",
+      "rule": "Never commit secrets; .env is local-only; Worker secrets belong in Cloudflare",
+      "source": "AGENTS.md"
+    },
+    {
+      "id": "worker_routes_require_proxied_dns",
+      "rule": "Cloudflare Worker routes only apply when hostnames are proxied (orange cloud)",
+      "source": "docs/state-of-play.md"
+    }
+  ],
+  "maintenance": {
+    "when_changing_site_pages_or_assets": [
+      "docs/ontology/project-ontology.json",
+      "docs/state-of-play.md"
+    ],
+    "when_changing_worker_routes_or_contracts": [
+      "docs/ontology/project-ontology.json",
+      "docs/ontology/project-ontology.md",
+      "docs/state-of-play.md",
+      "workers/communications/openapi.yaml"
+    ],
+    "when_changing_deploy_pipeline": [
+      "docs/ontology/project-ontology.json",
+      "docs/state-of-play.md",
+      "DEPLOYMENT.md"
+    ]
+  },
+  "smoke_tests": {
+    "github_pages": {
+      "validate_html": "npx -y htmlhint \"site/**/*.html\""
+    },
+    "worker_endpoints": {
+      "notes": [
+        "Use a local dev Worker (wrangler dev) or a deployed preview. Do not paste real API keys into logs.",
+        "All endpoints are POST; Worker responds to OPTIONS for CORS preflight."
+      ],
+      "production_base": "https://stexpedite.press",
+      "contact": {
+        "curl": "curl -i -X POST http://127.0.0.1:8787/api/contact -H \"content-type: application/json\" --data '{\"reason\":\"General\",\"email\":\"test@example.com\",\"message\":\"Hello\",\"website\":\"\"}'",
+        "powershell_prod": "Invoke-RestMethod -Method POST -Uri \"https://stexpedite.press/api/contact\" -ContentType \"application/json\" -Body '{\"reason\":\"Test\",\"email\":\"test@example.com\",\"message\":\"Hello\"}'"
+      },
+      "submit": {
+        "curl": "curl -i -X POST http://127.0.0.1:8787/api/submit -H \"content-type: application/json\" --data '{\"email\":\"test@example.com\",\"note\":\"Hi\",\"website\":\"\"}'"
+      },
+      "updates": {
+        "curl": "curl -i -X POST http://127.0.0.1:8787/api/updates -H \"content-type: application/json\" --data '{\"email\":\"test@example.com\",\"source\":\"index\",\"website\":\"\"}'",
+        "expected_when_no_d1": "500 { ok:false, error: 'Updates list not configured' }"
+      }
+    }
+  },
   "site": {
     "assets": {
       "assets/css/a11y.css": {
@@ -59,15 +273,19 @@
       },
       "assets/gif/crow_glitch_text.gif": {
         "bytes": 2513938,
-        "role": "Portal media fallback (optimized GIF)"
+        "role": "Portal media animation (primary GIF)"
       },
       "assets/img/crow_glitch_text.webp": {
         "bytes": 838278,
-        "role": "Portal media (animated WebP preferred)"
+        "role": "Portal media animation (optional WebP fallback)"
       },
       "assets/img/crow_glitch_text_still.webp": {
         "bytes": 122370,
-        "role": "Portal media (reduced-motion/static)"
+        "role": "Portal still image (optional WebP fallback)"
+      },
+      "assets/img/crow_glitch_text_still.png": {
+        "bytes": 1243283,
+        "role": "Portal still image (primary PNG)"
       },
       "assets/img/favicon.svg": {
         "bytes": 338,
@@ -79,11 +297,11 @@
       },
       "assets/img/void_engine_twinkle_green.png": {
         "bytes": 2094346,
-        "role": "Background texture (fallback)"
+        "role": "Background texture (primary)"
       },
       "assets/img/void_engine_twinkle_green.webp": {
         "bytes": 143826,
-        "role": "Background texture (preferred)"
+        "role": "Background texture (optional WebP fallback)"
       },
       "assets/js/cursor-glow.js": {
         "bytes": 736,
@@ -95,7 +313,87 @@
       },
       "assets/js/modal-utils.js": {
         "bytes": 1918,
-        "role": "Modal helpers (Books/Store)"
+        "role": "Modal helpers (Books/Merch)"
+      }
+    },
+    "asset_bundles": {
+      "portal": {
+        "css": [
+          "assets/css/base.css",
+          "assets/css/effects.css",
+          "assets/css/a11y.css",
+          "assets/css/hero-bar.css",
+          "assets/css/footer.css"
+        ],
+        "js": [
+          "assets/js/index-effects.js"
+        ],
+        "pages": [
+          "site/index.html"
+        ]
+      },
+      "interior_shell": {
+        "css": [
+          "assets/css/base.css",
+          "assets/css/effects.css",
+          "assets/css/a11y.css",
+          "assets/css/content-shell.css",
+          "assets/css/hero-bar.css",
+          "assets/css/footer.css"
+        ],
+        "js": [
+          "assets/js/cursor-glow.js"
+        ],
+        "pages": [
+          "site/books.html",
+          "site/gallery.html",
+          "site/mission.html",
+          "site/contact.html",
+          "site/services.html"
+        ]
+      },
+      "forms_inline_js": {
+        "pages": [
+          "site/contact.html",
+          "site/submit.html"
+        ],
+        "notes": [
+          "These pages implement fetch() calls with inline scripts rather than site/assets/js/*.js modules."
+        ]
+      }
+    },
+    "duplication_clusters": {
+      "nav": {
+        "header_nav_pages": [
+          "site/books.html",
+          "site/gallery.html",
+          "site/mission.html",
+          "site/contact.html",
+          "site/lab.html",
+          "site/services.html",
+          "site/interior-content-template.html"
+        ],
+        "alt_nav_pages": [
+          "site/submit.html"
+        ],
+        "portal_nav_pages": [
+          "site/index.html"
+        ]
+      },
+      "footer_links": {
+        "pages": [
+          "site/index.html",
+          "site/books.html",
+          "site/gallery.html",
+          "site/mission.html",
+          "site/contact.html",
+          "site/submit.html",
+          "site/lab.html",
+          "site/services.html"
+        ],
+        "notes": [
+          "Most pages include a footer link row containing Services/Submission/Contact; Services currently routes to under-construction.html."
+        ]
       }
     },
     "pages": {
@@ -296,8 +594,7 @@
           "assets/css/footer.css",
           "assets/css/hero-bar.css",
           "assets/gif/crow_glitch_text.gif",
-          "assets/img/crow_glitch_text.webp",
-          "assets/img/crow_glitch_text_still.webp",
+          "assets/img/crow_glitch_text_still.png",
           "assets/img/favicon.svg",
           "assets/js/index-effects.js",
           "books.html",
@@ -320,8 +617,7 @@
           ],
           "img": [
             "assets/gif/crow_glitch_text.gif",
-            "assets/img/crow_glitch_text.webp",
-            "assets/img/crow_glitch_text_still.webp",
+            "assets/img/crow_glitch_text_still.png",
             "assets/img/favicon.svg"
           ],
           "pages": [
@@ -619,13 +915,52 @@
         "page": "site/contact.html",
         "endpoint": "/api/contact",
         "fallback": "mailto:editor@stexpedite.press",
-        "provider": "Resend (via Worker)"
+        "provider": "Resend (via Worker)",
+        "frontend": {
+          "form_id": "contact-form",
+          "fields": {
+            "reason": "#reason",
+            "email": "#email",
+            "message": "#message",
+            "honeypot": "#website"
+          },
+          "helper": {
+            "container": "#contact-helper",
+            "text": "#contact-helper-text",
+            "mailto": "#contact-mailto-fallback",
+            "copy": "#contact-copy"
+          },
+          "fetch": {
+            "url": "/api/contact",
+            "method": "POST",
+            "content_type": "application/json"
+          }
+        }
       },
       "submission_inquiry": {
         "page": "site/submit.html",
         "endpoint": "/api/submit",
         "fallback": "mailto:editor@stexpedite.press",
-        "provider": "Resend (via Worker)"
+        "provider": "Resend (via Worker)",
+        "frontend": {
+          "form_id": "submit-form",
+          "fields": {
+            "email": "#submit-email",
+            "note": "#submit-note",
+            "honeypot": "#submit-website"
+          },
+          "helper": {
+            "container": "#submit-helper",
+            "text": "#submit-helper-text",
+            "mailto": "#submit-mailto-fallback",
+            "copy": "#submit-copy"
+          },
+          "fetch": {
+            "url": "/api/submit",
+            "method": "POST",
+            "content_type": "application/json"
+          }
+        }
       },
       "updates_signup": {
         "pages": [
@@ -638,7 +973,40 @@
         },
         "external_newsletter": "ecoamericana.substack.com",
         "first_party_capture_endpoint": "/api/updates",
-        "storage": "Cloudflare D1 (optional; binding DB)"
+        "storage": "Cloudflare D1 (optional; binding DB)",
+        "frontend": {
+          "index": {
+            "forms": [
+              {
+                "form_id": "index-updates-form",
+                "email": "#index-updates-email",
+                "helper": "#index-updates-helper",
+                "helper_text": "#index-updates-helper-text",
+                "open": "#index-updates-open",
+                "copy": "#index-updates-copy",
+                "source": "index"
+              },
+              {
+                "form_id": "hero-updates-form",
+                "email": "#hero-updates-email",
+                "helper": "#hero-updates-helper",
+                "helper_text": "#hero-updates-helper-text",
+                "open": "#hero-updates-open",
+                "copy": "#hero-updates-copy",
+                "source": "hero-bar"
+              }
+            ]
+          },
+          "contact": {
+            "email": "#contact-updates-email",
+            "submit": "#contact-updates-submit",
+            "helper": "#contact-updates-helper",
+            "helper_text": "#contact-updates-helper-text",
+            "open": "#contact-updates-open",
+            "copy": "#contact-updates-copy",
+            "source": "contact"
+          }
+        }
       }
     },
     "dependency_structure": {
@@ -651,7 +1019,8 @@
         "cloudflare": "proxies site hostnames; routes /api/* to Worker",
         "worker_route_expected": [
           "stexpedite.press/api/*"
-        ]
+        ],
+        "worker_direct_url": "https://stexpedite-communications.stexpedite-communications.workers.dev"
       },
       "key_files": {
         "entrypoint": "site/index.html",
@@ -668,6 +1037,7 @@
   },
   "workers": {
     "communications": {
+      "openapi": "workers/communications/openapi.yaml",
       "bindings": {
         "d1_optional": {
           "binding": "DB",
@@ -694,6 +1064,24 @@
         }
       },
       "entry": "workers/communications/src/index.ts",
+      "production_integration": {
+        "route_active": "stexpedite.press/api/*",
+        "mail_inbound": "Zoho",
+        "mail_outbound": "Resend",
+        "dns_auth": {
+          "spf": "v=spf1 include:zohomail.com include:dc-8e814c8572._spfm.stexpedite.press include:amazonses.com include:_spf.zoho.com ~all",
+          "dmarc": "v=DMARC1; p=quarantine;",
+          "dkim_selectors": [
+            "zmail._domainkey",
+            "resend._domainkey"
+          ],
+          "mx_hosts": [
+            "mx.zoho.com",
+            "mx2.zoho.com",
+            "mx3.zoho.com"
+          ]
+        }
+      },
       "routes": {
         "/api/contact": {
           "method": "POST",
@@ -702,6 +1090,59 @@
             "RESEND_API_KEY",
             "FROM_EMAIL",
             "TO_EMAIL"
+          ],
+          "request": {
+            "content_type": "application/json",
+            "honeypot": [
+              "website",
+              "company",
+              "hp"
+            ],
+            "fields": {
+              "reason": {
+                "type": "string",
+                "max_len": 120,
+                "required": false
+              },
+              "email": {
+                "type": "string",
+                "max_len": 320,
+                "required": true,
+                "format": "email"
+              },
+              "message": {
+                "type": "string",
+                "max_len": 6000,
+                "required": true
+              }
+            }
+          },
+          "response": {
+            "success": {
+              "status": 200,
+              "body": {
+                "ok": true,
+                "id": "CONTACT-<ts>-<rand>"
+              }
+            }
+          },
+          "errors": [
+            {
+              "status": 400,
+              "when": "Invalid JSON or missing fields",
+              "body": {
+                "ok": false,
+                "error": "Invalid JSON|Missing fields"
+              }
+            },
+            {
+              "status": 500,
+              "when": "Worker not configured (missing RESEND_API_KEY/FROM_EMAIL/TO_EMAIL)",
+              "body": {
+                "ok": false,
+                "error": "Server not configured"
+              }
+            }
           ]
         },
         "/api/submit": {
@@ -711,6 +1152,54 @@
             "RESEND_API_KEY",
             "FROM_EMAIL",
             "TO_EMAIL"
+          ],
+          "request": {
+            "content_type": "application/json",
+            "honeypot": [
+              "website",
+              "company",
+              "hp"
+            ],
+            "fields": {
+              "email": {
+                "type": "string",
+                "max_len": 320,
+                "required": true,
+                "format": "email"
+              },
+              "note": {
+                "type": "string",
+                "max_len": 6000,
+                "required": false
+              }
+            }
+          },
+          "response": {
+            "success": {
+              "status": 200,
+              "body": {
+                "ok": true,
+                "id": "SUBMIT-<ts>-<rand>"
+              }
+            }
+          },
+          "errors": [
+            {
+              "status": 400,
+              "when": "Invalid JSON or missing fields",
+              "body": {
+                "ok": false,
+                "error": "Invalid JSON|Missing fields"
+              }
+            },
+            {
+              "status": 500,
+              "when": "Worker not configured (missing RESEND_API_KEY/FROM_EMAIL/TO_EMAIL)",
+              "body": {
+                "ok": false,
+                "error": "Server not configured"
+              }
+            }
           ]
         },
         "/api/updates": {
@@ -718,6 +1207,53 @@
           "purpose": "Capture updates/signup email to D1 (no email sent)",
           "requires": [
             "DB (D1 binding)"
+          ],
+          "request": {
+            "content_type": "application/json",
+            "honeypot": [
+              "website",
+              "company",
+              "hp"
+            ],
+            "fields": {
+              "email": {
+                "type": "string",
+                "max_len": 320,
+                "required": true,
+                "format": "email"
+              },
+              "source": {
+                "type": "string",
+                "max_len": 80,
+                "required": false
+              }
+            }
+          },
+          "response": {
+            "success": {
+              "status": 200,
+              "body": {
+                "ok": true
+              }
+            }
+          },
+          "errors": [
+            {
+              "status": 400,
+              "when": "Invalid JSON or missing fields",
+              "body": {
+                "ok": false,
+                "error": "Invalid JSON|Missing fields"
+              }
+            },
+            {
+              "status": 500,
+              "when": "No D1 binding is configured as DB",
+              "body": {
+                "ok": false,
+                "error": "Updates list not configured"
+              }
+            }
           ]
         }
       },

@@ -8,9 +8,9 @@
   <meta name="color-scheme" content="dark" />
   <meta property="og:site_name" content="St. Expedite Press" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Submission — St. Expedite Press" />
+  <meta property="og:title" content="Submission &mdash; St. Expedite Press" />
   <meta property="og:description" content="Start a submission email." />
-  <title>Submission — St. Expedite Press</title>
+  <title>Submission &mdash; St. Expedite Press</title>
 
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -44,14 +44,14 @@
       background:
         linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
         -webkit-image-set(
-          url("assets/img/void_engine_twinkle_green.webp") type("image/webp"),
-          url("assets/img/void_engine_twinkle_green.png") type("image/png")
+          url("assets/img/void_engine_twinkle_green.png") type("image/png"),
+          url("assets/img/void_engine_twinkle_green.webp") type("image/webp")
         );
       background:
         linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.78)),
         image-set(
-          url("assets/img/void_engine_twinkle_green.webp") type("image/webp"),
-          url("assets/img/void_engine_twinkle_green.png") type("image/png")
+          url("assets/img/void_engine_twinkle_green.png") type("image/png"),
+          url("assets/img/void_engine_twinkle_green.webp") type("image/webp")
         );
       background-size: cover;
       background-position: center;
@@ -308,7 +308,7 @@
       <nav class="nav">
         <a href="index.html">Portal</a>
         <a href="books.html">Books</a>
-        <a href="gallery.html">Store</a>
+        <a href="gallery.html">Merch</a>
         <a href="under-construction.html">Lab</a>
         <a href="mission.html">Mission</a>
         <a href="contact.html">Contact</a>
@@ -330,7 +330,7 @@
 
         <div class="field">
           <label for="submit-note">Note (optional)</label>
-          <textarea class="textarea" id="submit-note" name="note" placeholder="A few lines about the project…"></textarea>
+          <textarea class="textarea" id="submit-note" name="note" placeholder="A few lines about the project&hellip;"></textarea>
         </div>
 
         <div class="submit-row">
@@ -393,7 +393,7 @@
         return;
       }
 
-      const subject = 'St. Expedite Press — Submission';
+      const subject = 'St. Expedite Press \u2014 Submission';
       const lines = [
         'Submission / inquiry',
         '',
@@ -427,8 +427,8 @@
           if (helper && helperText) {
             helper.hidden = false;
             helperText.textContent = id
-              ? `Thanks — your submission inquiry was received. You’ll get a confirmation email shortly. Reference: ${id}`
-              : 'Thanks — your submission inquiry was received. You’ll get a confirmation email shortly.';
+              ? `Thanks \u2014 your submission inquiry was received. You\u2019ll get a confirmation email shortly. Reference: ${id}`
+              : 'Thanks \u2014 your submission inquiry was received. You\u2019ll get a confirmation email shortly.';
           }
         })
         .catch(() => {

@@ -1,6 +1,6 @@
 # State of Play (Repo + Deployment)
 
-This doc is a maintenance-oriented checklist: what exists, what is live, and what to verify next.
+This doc is a maintenance-oriented snapshot of what is live and what still needs follow-up.
 
 ## 1) Current architecture (what is in the repo)
 
@@ -11,36 +11,39 @@ This doc is a maintenance-oriented checklist: what exists, what is live, and wha
 
 Navigation notes:
 - "Lab" and "Services" are currently routed to `site/under-construction.html` from nav (pages still exist in `site/`).
+- The Gallery route remains `site/gallery.html`, but user-facing nav and metadata label it as "Merch".
 
 ### Forms + email
 - Contact form: `site/contact.html` -> `POST /api/contact` (JSON) with `mailto:` fallback.
 - Submission form: `site/submit.html` -> `POST /api/submit` (JSON) with `mailto:` fallback.
 - Updates UI: `site/index.html` and the Updates section in `site/contact.html`:
   - opens Substack (newsletter)
-  - also attempts best-effort first-party capture via `POST /api/updates`
+  - also attempts first-party capture via `POST /api/updates`
 
 Index-specific UI notes:
 - Desktop: "Get updates" lives in the hero bar (left side).
 - Mobile: the index page only surfaces portal links for Books + Mission; the updates form remains embedded in the portal stack.
+- Background and still imagery use PNG as primary, with WebP retained only as optional fallback.
 
 ### Worker
 - Location: `workers/communications/`
 - Worker name: `stexpedite-communications` (see `workers/communications/wrangler.toml`)
+- Contract file: `workers/communications/openapi.yaml`
 - Endpoints (implemented in `workers/communications/src/index.ts`):
   - `POST /api/contact` -> sends editor email + user receipt via Resend
   - `POST /api/submit` -> sends editor email + user receipt via Resend
-  - `POST /api/updates` -> stores an email into D1 (no email sent; requires D1 binding)
+  - `POST /api/updates` -> stores email into D1 when binding `DB` exists
 
 ### SEO
 - `site/robots.txt` points at `https://stexpedite.press/sitemap.xml`.
-- `site/robots.txt` currently disallows:
+- `site/robots.txt` disallows:
   - `/under-construction.html`
   - `/interior-content-template.html`
 - `site/sitemap.xml` lists canonical pages and includes `<lastmod>` values.
 
 ### Ontology
 - Machine-readable: `docs/ontology/project-ontology.json`
-- Use this first to avoid scanning the repo when working with agents.
+- Human companion: `docs/ontology/project-ontology.md`
 
 ## 2) What GitHub Pages deploy publishes (and what it does not)
 
@@ -52,25 +55,31 @@ GitHub Pages deploy does not publish:
 - `workers/`
 - `.env`
 
-So: changing docs or worker code does not change the public site unless you also change `site/`.
+So changing docs or worker code does not change the public site unless you also change `site/`.
 
-## 3) External configuration that must exist (Cloudflare + Resend)
+## 3) External production integration status (Cloudflare + Resend + Zoho)
 
-These are required for the Worker-based email pipeline to work in production.
+This integration is active in production.
 
-### Cloudflare zone
-- `stexpedite.press` must be in Cloudflare, and the site hostnames must be proxied (orange cloud) for Worker Routes to apply.
+Cloudflare zone:
+- Authoritative nameservers:
+  - `nicolas.ns.cloudflare.com`
+  - `sara.ns.cloudflare.com`
+- Worker route active: `stexpedite.press/api/*` -> `stexpedite-communications`
+- Worker direct URL available for testing:
+  - `https://stexpedite-communications.stexpedite-communications.workers.dev`
 
-### Worker route
-- Expected route: `stexpedite.press/api/*` -> Worker `stexpedite-communications`
-- If you serve the site on `www.stexpedite.press` without redirecting to apex first, you likely also need:
-  - `www.stexpedite.press/api/*`
+Email path:
+- Outbound sending: Resend API (`RESEND_API_KEY`, `FROM_EMAIL`, `TO_EMAIL`)
+- Inbound mailbox: Zoho (`editor@stexpedite.press`)
 
-### Resend
-- Domain must be verified to send from the `FROM_EMAIL` address (default: `no-reply@stexpedite.press`).
-- Worker secrets/vars must be set in Cloudflare:
-  - Secret: `RESEND_API_KEY`
-  - Vars: `FROM_EMAIL`, `TO_EMAIL`
+DNS auth records (Cloudflare DNS-only):
+- MX: `mx.zoho.com`, `mx2.zoho.com`, `mx3.zoho.com`
+- DKIM selectors: `zmail._domainkey`, `resend._domainkey`
+- SPF:
+  - `v=spf1 include:zohomail.com include:dc-8e814c8572._spfm.stexpedite.press include:amazonses.com include:_spf.zoho.com ~all`
+- DMARC:
+  - `v=DMARC1; p=quarantine;`
 
 ## 4) Updates list collection (first-party)
 
@@ -78,27 +87,27 @@ Current behavior:
 - Frontend opens Substack for newsletter signup.
 - Frontend additionally calls `POST /api/updates` best-effort.
 
-To actually store a list you control:
+Storage behavior:
+- If D1 binding `DB` is configured and migrated, updates are stored.
+- If D1 is not configured, `/api/updates` returns `Updates list not configured`.
+
+Migration path:
 1. Create a Cloudflare D1 database (example name: `stexpedite-updates`).
 2. Bind it to the Worker as `DB`.
 3. Apply migration: `workers/communications/migrations/0001_updates_signups.sql`.
 4. Deploy the Worker.
 
-If D1 is not configured, `/api/updates` returns `Updates list not configured` and nothing is stored.
-
-## 5) What to verify next (checklist)
+## 5) Ongoing checks
 
 Worker + email:
-- Confirm Worker routes are attached for every served hostname.
-- Confirm Worker has `RESEND_API_KEY`, `FROM_EMAIL`, `TO_EMAIL`.
-- Confirm Resend domain status is Verified.
-- Confirm CORS origin matches production hostname(s) (and add `www` only if needed).
+- Confirm route coverage for every served hostname (`apex`, and `www` if used before redirect).
+- Keep Worker secrets/vars current: `RESEND_API_KEY`, `FROM_EMAIL`, `TO_EMAIL`.
+- Monitor Resend domain verification and delivery health.
+- Keep CORS origins aligned with production hostnames.
 
 Updates list:
-- Create + bind D1 as `DB`.
-- Run the migration.
-- Decide retention and unsubscribe policy (table includes `unsubscribed_at`, but there is no unsubscribe UI yet).
+- Decide retention and unsubscribe policy (`unsubscribed_at` exists, but no unsubscribe UI yet).
 
-Google indexing:
-- Verify domain in Google Search Console (TXT record in Cloudflare DNS, DNS-only).
-- Submit sitemap: `https://stexpedite.press/sitemap.xml`.
+Search indexing:
+- Keep Search Console verification healthy.
+- Keep sitemap submitted at `https://stexpedite.press/sitemap.xml`.
