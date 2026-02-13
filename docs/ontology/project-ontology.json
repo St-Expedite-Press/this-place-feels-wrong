@@ -28,8 +28,8 @@
     "origin": "GitHub Pages",
     "primary": "stexpedite.press"
   },
-  "generated_at": "2026-02-12",
-  "generated_from_commit": "bb32a07d7ff087b5eddd6b5b058c4a71ceb80725",
+  "generated_at": "2026-02-13",
+  "generated_from_commit": "ce90793d2560ec1804ab4571064902facc7c4a17",
   "ontology_version": "1",
   "site": {
     "assets": {
@@ -38,8 +38,8 @@
         "role": "Skip link + focus-visible defaults"
       },
       "assets/css/base.css": {
-        "bytes": 1796,
-        "role": "Theme tokens + background image-set"
+        "bytes": 2030,
+        "role": "Theme tokens + background image-set (mobile tuned)"
       },
       "assets/css/content-shell.css": {
         "bytes": 3704,
@@ -54,8 +54,8 @@
         "role": "Shared footer"
       },
       "assets/css/hero-bar.css": {
-        "bytes": 1798,
-        "role": "Top social hero bar"
+        "bytes": 4139,
+        "role": "Top social hero bar + desktop updates form"
       },
       "assets/gif/crow_glitch_text.gif": {
         "bytes": 2513938,
@@ -100,6 +100,7 @@
     },
     "pages": {
       "books.html": {
+        "path": "site/books.html",
         "external_domains": [
           "ecoamericana.substack.com",
           "fonts.googleapis.com",
@@ -124,14 +125,44 @@
           "contact.html",
           "gallery.html",
           "index.html",
-          "lab.html",
           "mission.html",
-          "services.html",
-          "submit.html"
+          "submit.html",
+          "under-construction.html"
         ],
-        "path": "site/books.html"
+        "deps": {
+          "css": [
+            "assets/css/a11y.css",
+            "assets/css/base.css",
+            "assets/css/content-shell.css",
+            "assets/css/effects.css",
+            "assets/css/footer.css",
+            "assets/css/hero-bar.css"
+          ],
+          "js": [
+            "assets/js/cursor-glow.js",
+            "assets/js/modal-utils.js"
+          ],
+          "img": [
+            "assets/img/favicon.svg",
+            "assets/img/les-fievres-cover.svg"
+          ],
+          "pages": [
+            "books.html",
+            "contact.html",
+            "gallery.html",
+            "index.html",
+            "mission.html",
+            "submit.html",
+            "under-construction.html"
+          ],
+          "misc": [
+            "..."
+          ],
+          "endpoints": []
+        }
       },
       "contact.html": {
+        "path": "site/contact.html",
         "external_domains": [
           "ecoamericana.substack.com",
           "fonts.googleapis.com",
@@ -153,14 +184,43 @@
           "contact.html",
           "gallery.html",
           "index.html",
-          "lab.html",
           "mission.html",
-          "services.html",
-          "submit.html"
+          "submit.html",
+          "under-construction.html"
         ],
-        "path": "site/contact.html"
+        "deps": {
+          "css": [
+            "assets/css/a11y.css",
+            "assets/css/base.css",
+            "assets/css/content-shell.css",
+            "assets/css/effects.css",
+            "assets/css/footer.css",
+            "assets/css/hero-bar.css"
+          ],
+          "js": [
+            "assets/js/cursor-glow.js"
+          ],
+          "img": [
+            "assets/img/favicon.svg"
+          ],
+          "pages": [
+            "books.html",
+            "contact.html",
+            "gallery.html",
+            "index.html",
+            "mission.html",
+            "submit.html",
+            "under-construction.html"
+          ],
+          "misc": [],
+          "endpoints": [
+            "/api/contact",
+            "/api/updates"
+          ]
+        }
       },
       "gallery.html": {
+        "path": "site/gallery.html",
         "external_domains": [
           "ecoamericana.substack.com",
           "fonts.googleapis.com",
@@ -170,6 +230,7 @@
           "x.com"
         ],
         "local_refs": [
+          "${buyUrl}",
           "assets/css/a11y.css",
           "assets/css/base.css",
           "assets/css/content-shell.css",
@@ -183,14 +244,43 @@
           "contact.html",
           "gallery.html",
           "index.html",
-          "lab.html",
           "mission.html",
-          "services.html",
-          "submit.html"
+          "submit.html",
+          "under-construction.html"
         ],
-        "path": "site/gallery.html"
+        "deps": {
+          "css": [
+            "assets/css/a11y.css",
+            "assets/css/base.css",
+            "assets/css/content-shell.css",
+            "assets/css/effects.css",
+            "assets/css/footer.css",
+            "assets/css/hero-bar.css"
+          ],
+          "js": [
+            "assets/js/cursor-glow.js",
+            "assets/js/modal-utils.js"
+          ],
+          "img": [
+            "assets/img/favicon.svg"
+          ],
+          "pages": [
+            "books.html",
+            "contact.html",
+            "gallery.html",
+            "index.html",
+            "mission.html",
+            "submit.html",
+            "under-construction.html"
+          ],
+          "misc": [
+            "${buyUrl}"
+          ],
+          "endpoints": []
+        }
       },
       "index.html": {
+        "path": "site/index.html",
         "external_domains": [
           "ecoamericana.substack.com",
           "fonts.googleapis.com",
@@ -213,14 +303,43 @@
           "books.html",
           "contact.html",
           "gallery.html",
-          "lab.html",
           "mission.html",
-          "services.html",
-          "submit.html"
+          "submit.html",
+          "under-construction.html"
         ],
-        "path": "site/index.html"
+        "deps": {
+          "css": [
+            "assets/css/a11y.css",
+            "assets/css/base.css",
+            "assets/css/effects.css",
+            "assets/css/footer.css",
+            "assets/css/hero-bar.css"
+          ],
+          "js": [
+            "assets/js/index-effects.js"
+          ],
+          "img": [
+            "assets/gif/crow_glitch_text.gif",
+            "assets/img/crow_glitch_text.webp",
+            "assets/img/crow_glitch_text_still.webp",
+            "assets/img/favicon.svg"
+          ],
+          "pages": [
+            "books.html",
+            "contact.html",
+            "gallery.html",
+            "mission.html",
+            "submit.html",
+            "under-construction.html"
+          ],
+          "misc": [],
+          "endpoints": [
+            "/api/updates"
+          ]
+        }
       },
       "interior-content-template.html": {
+        "path": "site/interior-content-template.html",
         "external_domains": [
           "ecoamericana.substack.com",
           "fonts.googleapis.com",
@@ -235,15 +354,34 @@
           "books.html",
           "gallery.html",
           "index.html",
-          "lab.html",
-          "mission.html"
+          "mission.html",
+          "under-construction.html"
         ],
-        "path": "site/interior-content-template.html"
+        "deps": {
+          "css": [
+            "assets/css/hero-bar.css"
+          ],
+          "js": [],
+          "img": [
+            "assets/img/favicon.svg"
+          ],
+          "pages": [
+            "books.html",
+            "gallery.html",
+            "index.html",
+            "mission.html",
+            "under-construction.html"
+          ],
+          "misc": [],
+          "endpoints": []
+        }
       },
       "lab.html": {
+        "path": "site/lab.html",
         "external_domains": [
           "fonts.googleapis.com",
-          "fonts.gstatic.com"
+          "fonts.gstatic.com",
+          "www.w3.org"
         ],
         "local_refs": [
           "assets/css/footer.css",
@@ -253,14 +391,34 @@
           "contact.html",
           "gallery.html",
           "index.html",
-          "lab.html",
           "mission.html",
-          "services.html",
-          "submit.html"
+          "submit.html",
+          "under-construction.html"
         ],
-        "path": "site/lab.html"
+        "deps": {
+          "css": [
+            "assets/css/footer.css",
+            "assets/css/hero-bar.css"
+          ],
+          "js": [],
+          "img": [
+            "assets/img/favicon.svg"
+          ],
+          "pages": [
+            "books.html",
+            "contact.html",
+            "gallery.html",
+            "index.html",
+            "mission.html",
+            "submit.html",
+            "under-construction.html"
+          ],
+          "misc": [],
+          "endpoints": []
+        }
       },
       "mission.html": {
+        "path": "site/mission.html",
         "external_domains": [
           "ecoamericana.substack.com",
           "fonts.googleapis.com",
@@ -282,14 +440,40 @@
           "contact.html",
           "gallery.html",
           "index.html",
-          "lab.html",
           "mission.html",
-          "services.html",
-          "submit.html"
+          "submit.html",
+          "under-construction.html"
         ],
-        "path": "site/mission.html"
+        "deps": {
+          "css": [
+            "assets/css/a11y.css",
+            "assets/css/base.css",
+            "assets/css/content-shell.css",
+            "assets/css/effects.css",
+            "assets/css/footer.css",
+            "assets/css/hero-bar.css"
+          ],
+          "js": [
+            "assets/js/cursor-glow.js"
+          ],
+          "img": [
+            "assets/img/favicon.svg"
+          ],
+          "pages": [
+            "books.html",
+            "contact.html",
+            "gallery.html",
+            "index.html",
+            "mission.html",
+            "submit.html",
+            "under-construction.html"
+          ],
+          "misc": [],
+          "endpoints": []
+        }
       },
       "services.html": {
+        "path": "site/services.html",
         "external_domains": [
           "ecoamericana.substack.com",
           "fonts.googleapis.com",
@@ -311,14 +495,40 @@
           "contact.html",
           "gallery.html",
           "index.html",
-          "lab.html",
           "mission.html",
-          "services.html",
-          "submit.html"
+          "submit.html",
+          "under-construction.html"
         ],
-        "path": "site/services.html"
+        "deps": {
+          "css": [
+            "assets/css/a11y.css",
+            "assets/css/base.css",
+            "assets/css/content-shell.css",
+            "assets/css/effects.css",
+            "assets/css/footer.css",
+            "assets/css/hero-bar.css"
+          ],
+          "js": [
+            "assets/js/cursor-glow.js"
+          ],
+          "img": [
+            "assets/img/favicon.svg"
+          ],
+          "pages": [
+            "books.html",
+            "contact.html",
+            "gallery.html",
+            "index.html",
+            "mission.html",
+            "submit.html",
+            "under-construction.html"
+          ],
+          "misc": [],
+          "endpoints": []
+        }
       },
       "submit.html": {
+        "path": "site/submit.html",
         "external_domains": [
           "ecoamericana.substack.com",
           "fonts.googleapis.com",
@@ -335,14 +545,36 @@
           "contact.html",
           "gallery.html",
           "index.html",
-          "lab.html",
           "mission.html",
-          "services.html",
-          "submit.html"
+          "submit.html",
+          "under-construction.html"
         ],
-        "path": "site/submit.html"
+        "deps": {
+          "css": [
+            "assets/css/footer.css",
+            "assets/css/hero-bar.css"
+          ],
+          "js": [],
+          "img": [
+            "assets/img/favicon.svg"
+          ],
+          "pages": [
+            "books.html",
+            "contact.html",
+            "gallery.html",
+            "index.html",
+            "mission.html",
+            "submit.html",
+            "under-construction.html"
+          ],
+          "misc": [],
+          "endpoints": [
+            "/api/submit"
+          ]
+        }
       },
       "under-construction.html": {
+        "path": "site/under-construction.html",
         "external_domains": [
           "ecoamericana.substack.com",
           "fonts.googleapis.com",
@@ -356,7 +588,20 @@
           "assets/img/favicon.svg",
           "index.html"
         ],
-        "path": "site/under-construction.html"
+        "deps": {
+          "css": [
+            "assets/css/hero-bar.css"
+          ],
+          "js": [],
+          "img": [
+            "assets/img/favicon.svg"
+          ],
+          "pages": [
+            "index.html"
+          ],
+          "misc": [],
+          "endpoints": []
+        }
       }
     },
     "root": "site/",
@@ -368,6 +613,57 @@
       ],
       "robots": "site/robots.txt",
       "sitemap": "site/sitemap.xml"
+    },
+    "flows": {
+      "contact_message": {
+        "page": "site/contact.html",
+        "endpoint": "/api/contact",
+        "fallback": "mailto:editor@stexpedite.press",
+        "provider": "Resend (via Worker)"
+      },
+      "submission_inquiry": {
+        "page": "site/submit.html",
+        "endpoint": "/api/submit",
+        "fallback": "mailto:editor@stexpedite.press",
+        "provider": "Resend (via Worker)"
+      },
+      "updates_signup": {
+        "pages": [
+          "site/index.html",
+          "site/contact.html"
+        ],
+        "index_placement": {
+          "desktop": "hero bar (left)",
+          "mobile": "portal stack"
+        },
+        "external_newsletter": "ecoamericana.substack.com",
+        "first_party_capture_endpoint": "/api/updates",
+        "storage": "Cloudflare D1 (optional; binding DB)"
+      }
+    },
+    "dependency_structure": {
+      "static_publish": {
+        "published_dir": "site/",
+        "published_at": "/",
+        "workflow": ".github/workflows/deploy-pages.yml"
+      },
+      "edge_routing": {
+        "cloudflare": "proxies site hostnames; routes /api/* to Worker",
+        "worker_route_expected": [
+          "stexpedite.press/api/*"
+        ]
+      },
+      "key_files": {
+        "entrypoint": "site/index.html",
+        "shared_css": [
+          "site/assets/css/base.css",
+          "site/assets/css/hero-bar.css",
+          "site/assets/css/effects.css",
+          "site/assets/css/a11y.css",
+          "site/assets/css/footer.css"
+        ],
+        "worker_entry": "workers/communications/src/index.ts"
+      }
     }
   },
   "workers": {

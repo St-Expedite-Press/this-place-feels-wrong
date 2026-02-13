@@ -12,6 +12,7 @@ This ontology is meant to be:
 1. Open `docs/ontology/project-ontology.json`.
 2. Find the relevant subsystem:
    - Static site: `site.pages`, `site.assets`, `site.seo`
+   - Flows + dependencies: `site.flows`, `site.dependency_structure`
    - Deployment: `deploy.github_pages`
    - Forms + email: `workers.communications.routes`
 3. Only then open the specific files referenced by the ontology.
@@ -19,4 +20,3 @@ This ontology is meant to be:
 ## How to update
 
 If you move/rename pages or assets under `site/`, or add/change worker endpoints, regenerate `docs/ontology/project-ontology.json` so agents do not drift.
-
