@@ -337,7 +337,7 @@ input:focus {
   <p class="sep-footer__lede">...in the key of Night.</p>
   <div class="sep-footer__divider">&#9651; &#10013; &#9651;</div>
   <div class="sep-footer__links">
-    <a href="under-construction.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
+    <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
   </div>
 </footer>
 
@@ -384,7 +384,7 @@ input:focus {
         return;
       }
 
-      const subject = `St. Expedite Press — Contact${reason ? ` (${reason})` : ''}`;
+      const subject = `St. Expedite Press â€” Contact${reason ? ` (${reason})` : ''}`;
       const lines = [
         'Contact form submission',
         '',
@@ -418,8 +418,8 @@ input:focus {
           const id = String(data?.id ?? '').trim();
           helper.hidden = false;
           helperText.textContent = id
-            ? `Thanks — your message was received. You’ll get a confirmation email shortly. Reference: ${id}`
-            : 'Thanks — your message was received. You’ll get a confirmation email shortly.';
+            ? `Thanks â€” your message was received. Youâ€™ll get a confirmation email shortly. Reference: ${id}`
+            : 'Thanks â€” your message was received. Youâ€™ll get a confirmation email shortly.';
         })
         .catch(() => {
           helper.hidden = false;
@@ -496,7 +496,7 @@ input:focus {
       capture.then((ok) => {
         if (!ok) return;
         helper.hidden = false;
-        helperText.textContent = 'Opening Substack signup. You’re also added to our updates list.';
+        helperText.textContent = 'Opening Substack signup. Youâ€™re also added to our updates list.';
       });
     });
 

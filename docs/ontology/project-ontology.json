@@ -95,7 +95,7 @@
       ],
       "notes": [
         "Nav markup is duplicated across pages; see site.duplication_clusters.nav.",
-        "Lab/Services are intentionally pointed at under-construction.html in several places (see docs/state-of-play.md)."
+        "Lab is intentionally pointed at under-construction.html in several places (see docs/state-of-play.md)."
       ]
     },
     "add_or_change_worker_endpoint": {
@@ -392,7 +392,7 @@
           "site/services.html"
         ],
         "notes": [
-          "Most pages include a footer link row containing Services/Submission/Contact; Services currently routes to under-construction.html."
+          "Most pages include a footer link row containing Services/Submission/Contact."
         ]
       }
     },

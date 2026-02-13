@@ -10,7 +10,7 @@ This doc is a maintenance-oriented snapshot of what is live and what still needs
 - Public URLs remain flat at the domain root (e.g. `/contact.html`, `/assets/...`) even though the repo is organized under `site/`.
 
 Navigation notes:
-- "Lab" and "Services" are currently routed to `site/under-construction.html` from nav (pages still exist in `site/`).
+- "Lab" is currently routed to `site/under-construction.html` from nav (page still exists in `site/`).
 - The Gallery route remains `site/gallery.html`, but user-facing nav and metadata label it as "Merch".
 
 ### Forms + email
