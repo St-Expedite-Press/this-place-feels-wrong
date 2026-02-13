@@ -1,0 +1,239 @@
+openapi: 3.1.0
+info:
+  title: St. Expedite Press Communications API
+  version: 1.1.0
+  description: |
+    Cloudflare Worker API for contact, submission, and updates signup flows.
+    Source implementation: workers/communications/src/index.ts
+  license:
+    name: Proprietary
+    identifier: LicenseRef-Proprietary
+  contact:
+    name: St. Expedite Press
+    email: editor@stexpedite.press
+    url: https://stexpedite.press
+security: []
+servers:
+  - url: https://stexpedite.press
+    description: Production
+  - url: https://stexpedite-communications.stexpedite-communications.workers.dev
+    description: Worker direct endpoint (testing)
+paths:
+  /api/contact:
+    post:
+      tags: [contact]
+      summary: Submit contact form
+      operationId: submitContact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactRequest"
+      responses:
+        "200":
+          description: Submission accepted and emails sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactSuccess"
+        "400":
+          description: Invalid JSON or missing fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Worker not configured (missing email vars/secret)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/submit:
+    post:
+      tags: [submit]
+      summary: Submit inquiry form
+      operationId: submitInquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitRequest"
+      responses:
+        "200":
+          description: Inquiry accepted and emails sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmitSuccess"
+        "400":
+          description: Invalid JSON or missing fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Worker not configured (missing email vars/secret)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/updates:
+    post:
+      tags: [updates]
+      summary: Capture updates signup email
+      operationId: captureUpdatesSignup
+      description: |
+        Writes to D1 (`updates_signups`) when DB binding is configured.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatesRequest"
+      responses:
+        "200":
+          description: Signup recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdatesSuccess"
+        "400":
+          description: Invalid JSON or missing fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: DB binding is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    ContactRequest:
+      type: object
+      required: [email, message]
+      properties:
+        reason:
+          type: string
+          maxLength: 120
+          example: General
+        email:
+          type: string
+          format: email
+          maxLength: 320
+          example: person@example.com
+        message:
+          type: string
+          maxLength: 6000
+          example: Hello from the contact form.
+        website:
+          type: string
+          description: Honeypot field (leave empty)
+        company:
+          type: string
+          description: Honeypot field (leave empty)
+        hp:
+          type: string
+          description: Honeypot field (leave empty)
+    SubmitRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 320
+          example: person@example.com
+        note:
+          type: string
+          maxLength: 6000
+          example: Submission inquiry details.
+        website:
+          type: string
+          description: Honeypot field (leave empty)
+        company:
+          type: string
+          description: Honeypot field (leave empty)
+        hp:
+          type: string
+          description: Honeypot field (leave empty)
+    UpdatesRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 320
+          example: subscriber@example.com
+        source:
+          type: string
+          maxLength: 80
+          example: index
+        website:
+          type: string
+          description: Honeypot field (leave empty)
+        company:
+          type: string
+          description: Honeypot field (leave empty)
+        hp:
+          type: string
+          description: Honeypot field (leave empty)
+    ContactSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, id]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        id:
+          type: string
+          pattern: "^CONTACT-"
+          example: CONTACT-MTBYS6-YQWCQP6X9Q
+    SubmitSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, id]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        id:
+          type: string
+          pattern: "^SUBMIT-"
+          example: SUBMIT-MTBYTJ-3QWP1SK8FN
+    UpdatesSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok]
+      properties:
+        ok:
+          type: boolean
+          const: true
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required: [ok, error]
+      properties:
+        ok:
+          type: boolean
+          const: false
+        error:
+          type: string
+          examples:
+            - Invalid JSON
+            - Missing fields
+            - Server not configured
+            - Updates list not configured
+tags:
+  - name: contact
+    description: Contact form operations
+  - name: submit
+    description: Submission inquiry operations
+  - name: updates
+    description: Updates signup capture operations

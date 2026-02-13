@@ -6,7 +6,13 @@ Cloudflare Worker that powers form submissions for this site:
 - `POST /api/submit` - submissions/inquiries (sends email via Resend)
 - `POST /api/updates` - capture an updates/signup email list (stores in D1 if configured; does not send email)
 
+OpenAPI contract:
+- `workers/communications/openapi.yaml`
+
 The site is hosted on GitHub Pages; this Worker is meant to be deployed on Cloudflare and routed for `stexpedite.press/api/*`.
+
+Current production route:
+- `stexpedite.press/api/*` -> `stexpedite-communications`
 
 ## Setup
 

@@ -40,24 +40,24 @@ body {
   background-attachment: fixed;
 }
 
-@supports (background: image-set(url("../img/void_engine_twinkle_green.webp") type("image/webp"))) {
+@supports (background: image-set(url("../img/void_engine_twinkle_green.png") type("image/png"))) {
   body {
     background:
       linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.78)),
       image-set(
-        url("../img/void_engine_twinkle_green.webp") type("image/webp"),
-        url("../img/void_engine_twinkle_green.png") type("image/png")
+        url("../img/void_engine_twinkle_green.png") type("image/png"),
+        url("../img/void_engine_twinkle_green.webp") type("image/webp")
       );
   }
 }
 
-@supports (background: -webkit-image-set(url("../img/void_engine_twinkle_green.webp") type("image/webp"))) {
+@supports (background: -webkit-image-set(url("../img/void_engine_twinkle_green.png") type("image/png"))) {
   body {
     background:
       linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.78)),
       -webkit-image-set(
-        url("../img/void_engine_twinkle_green.webp") type("image/webp"),
-        url("../img/void_engine_twinkle_green.png") type("image/png")
+        url("../img/void_engine_twinkle_green.png") type("image/png"),
+        url("../img/void_engine_twinkle_green.webp") type("image/webp")
       );
   }
 }

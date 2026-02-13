@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Store and gallery for St. Expedite Press." />
+  <meta name="description" content="Merch and gallery for St. Expedite Press." />
   <meta name="theme-color" content="#050807" />
   <meta name="color-scheme" content="dark" />
   <meta property="og:site_name" content="St. Expedite Press" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Store &mdash; St. Expedite Press" />
-  <meta property="og:description" content="Store and gallery." />
-  <title>Store &mdash; St. Expedite Press</title>
+  <meta property="og:title" content="Merch &mdash; St. Expedite Press" />
+  <meta property="og:description" content="Merch and gallery." />
+  <title>Merch &mdash; St. Expedite Press</title>
 
   <!-- Same fonts as the rest of the site -->
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
@@ -558,7 +558,7 @@
         <nav class="header-nav">
           <a href="index.html">Portal</a>
           <a href="books.html">Books</a>
-          <a href="gallery.html">Store</a>
+          <a href="gallery.html">Merch</a>
           <a href="under-construction.html">Lab</a>
           <a href="mission.html">Mission</a>
           <a href="contact.html">Contact</a>
@@ -1101,7 +1101,7 @@
   }
 
   function buildInquiryMailto(card) {
-    const title = (card.getAttribute('data-title') || 'Store item').trim();
+    const title = (card.getAttribute('data-title') || 'Merch item').trim();
     const type = (card.getAttribute('data-type') || 'print').trim();
 
     const lines = [
@@ -1114,7 +1114,7 @@
       `Price: ${(card.getAttribute('data-price') || '').trim()}`
     ].filter(line => !line.endsWith(':'));
 
-    const subject = `Store inquiry — ${title}`;
+    const subject = `Merch inquiry — ${title}`;
     const body = lines.join('\n');
     return `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }

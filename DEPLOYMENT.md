@@ -1,6 +1,6 @@
 # Deployment (GitHub Pages + Cloudflare Worker)
 
-This repo deploys a static site via GitHub Pages, with Cloudflare in front. `/api/*` requests are routed to a Cloudflare Worker for email sending and (optionally) updates list capture.
+This repo deploys a static site via GitHub Pages, with Cloudflare in front. `/api/*` requests are routed to a Cloudflare Worker for communications.
 
 ## 1) GitHub Pages (CI/CD)
 
@@ -10,72 +10,66 @@ This repo deploys a static site via GitHub Pages, with Cloudflare in front. `/ap
 
 Deploy steps:
 1. Push to `main`.
-2. GitHub Actions runs HTML validation, then publishes `site/` as the Pages artifact.
+2. GitHub Actions validates HTML and publishes `site/` as the Pages artifact.
 
-### Custom domain
-
+Custom domain:
 - Domain file: `site/CNAME` (currently `stexpedite.press`)
-- GitHub: Settings -> Pages -> Custom domain
+- GitHub setting: Settings -> Pages -> Custom domain
 
-## 2) Cloudflare (DNS + Proxy)
+## 2) Cloudflare (DNS + Proxy + Worker Route)
 
-Cloudflare should be authoritative DNS for `stexpedite.press`.
+Cloudflare is authoritative DNS for `stexpedite.press`.
+
+Recorded production nameservers:
+- `nicolas.ns.cloudflare.com`
+- `sara.ns.cloudflare.com`
+
+Worker route (active):
+- `stexpedite.press/api/*` -> `stexpedite-communications`
+
+Worker direct endpoint (testing):
+- `https://stexpedite-communications.stexpedite-communications.workers.dev`
 
 Important:
-- The site hostname(s) must be proxied (orange cloud) for Worker Routes to apply.
-- Mail/auth DNS records (MX, SPF, DKIM, DMARC, Resend verification) must remain DNS only (gray cloud).
+- HTTP hostnames must be proxied (orange cloud) for Worker Routes to apply.
+- Mail/auth records (MX, SPF, DKIM, DMARC) remain DNS-only (gray cloud).
 
-## 3) Worker (Contact + Submissions + Updates Capture)
+## 3) Worker (Contact + Submit + Updates)
 
 Worker code: `workers/communications/`
 
-Endpoints:
+Implemented endpoints:
 - `POST /api/contact` (Resend email)
 - `POST /api/submit` (Resend email)
-- `POST /api/updates` (optional D1 capture; no email)
+- `POST /api/updates` (D1 capture when bound)
 
-### Deploy the Worker
+OpenAPI contract:
+- `workers/communications/openapi.yaml`
 
-From `workers/communications/`:
+Deploy the Worker:
 
 ```bash
+cd workers/communications
 wrangler login
 wrangler deploy
 ```
 
-### Attach the Worker route
-
-Cloudflare -> Workers & Pages -> `stexpedite-communications` -> Triggers -> Routes:
-
-- `stexpedite.press/api/*` -> `stexpedite-communications`
-
-If you serve the site on `www.stexpedite.press` without redirecting to apex first, you likely also need:
-- `www.stexpedite.press/api/*`
-
-### Configure Resend (required for `/api/contact` and `/api/submit`)
-
-Cloudflare Worker settings:
-- Secret: `RESEND_API_KEY` (store as a Worker secret; never commit)
+Configure secrets and vars:
+- Secret: `RESEND_API_KEY`
 - Vars: `FROM_EMAIL`, `TO_EMAIL` (see `workers/communications/wrangler.toml`)
 
-Resend:
-- Verify the domain so you can send from `no-reply@stexpedite.press` (or whatever `FROM_EMAIL` uses).
+## 4) Optional D1 for updates storage
 
-### Configure D1 (optional, for `/api/updates`)
+To store a first-party updates list:
+1. Create D1 database.
+2. Bind as `DB`.
+3. Run migration `workers/communications/migrations/0001_updates_signups.sql`.
 
-If you want to store a first-party updates list:
-1. Create a D1 database in Cloudflare.
-2. Bind it to the Worker as `DB`.
-3. Apply migration: `workers/communications/migrations/0001_updates_signups.sql`.
-
-## 4) Failure modes (expected)
-
-- If Worker routing is missing or the Worker errors, the frontend falls back to opening the visitor's email client via `mailto:` on Contact/Submit.
-- Updates signup still opens Substack; D1 capture is best-effort.
+Without `DB`, `/api/updates` returns `Updates list not configured`.
 
 ## 5) Reference docs
 
-- Email pipeline: `docs/infrastructure/email-worker-setup.md`
-- Current checklist: `docs/state-of-play.md`
-- Ontology: `docs/ontology/project-ontology.json`
-
+- Infrastructure details: `docs/infrastructure/email-worker-setup.md`
+- Current operational snapshot: `docs/state-of-play.md`
+- Ontology (machine): `docs/ontology/project-ontology.json`
+- Ontology (human): `docs/ontology/project-ontology.md`
