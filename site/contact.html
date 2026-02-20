@@ -384,7 +384,7 @@ input:focus {
         return;
       }
 
-      const subject = `St. Expedite Press â€” Contact${reason ? ` (${reason})` : ''}`;
+      const subject = `St. Expedite Press \u2014 Contact${reason ? ` (${reason})` : ''}`;
       const lines = [
         'Contact form submission',
         '',
@@ -418,8 +418,8 @@ input:focus {
           const id = String(data?.id ?? '').trim();
           helper.hidden = false;
           helperText.textContent = id
-            ? `Thanks â€” your message was received. Youâ€™ll get a confirmation email shortly. Reference: ${id}`
-            : 'Thanks â€” your message was received. Youâ€™ll get a confirmation email shortly.';
+            ? `Thanks \u2014 your message was received. You'll get a confirmation email shortly. Reference: ${id}`
+            : "Thanks \u2014 your message was received. You'll get a confirmation email shortly.";
         })
         .catch(() => {
           helper.hidden = false;
@@ -496,7 +496,7 @@ input:focus {
       capture.then((ok) => {
         if (!ok) return;
         helper.hidden = false;
-        helperText.textContent = 'Opening Substack signup. Youâ€™re also added to our updates list.';
+        helperText.textContent = "Opening Substack signup. You're also added to our updates list.";
       });
     });
 
