@@ -45,4 +45,7 @@ Use it to map a request to the exact files/endpoints involved. Only open additio
 - Worker: `workers/communications/src/index.ts`
 - Email pipeline doc: `docs/infrastructure/email-worker-setup.md`
 - D1 database doc: `docs/infrastructure/d1-database.md`
+- Incident runbook: `docs/operations/incident-runbook.md`
+- Release ops log: `docs/operations/release-ops-log.md`
+- Ops skills: `skills/ops/cloudflare-stability/`
 - State of play: `docs/state-of-play.md`

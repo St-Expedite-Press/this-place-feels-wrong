@@ -12,14 +12,14 @@ GitHub Pages publishes static site assets only:
 Cloudflare Worker handles dynamic API endpoints only:
 - Worker project: `workers/communications/`
 - Worker name: `stexpedite-communications`
-- API surface: `POST /api/contact`, `POST /api/submit`, `POST /api/updates`
+- API surface: `GET /api/health`, `POST /api/contact`, `POST /api/submit`, `POST /api/updates`
 
 ## 2) Required runtime prerequisites
 
 Cloudflare:
 - Zone: `stexpedite.press`
 - Required route: `stexpedite.press/api/*` -> `stexpedite-communications`
-- Optional conditional route: `www.stexpedite.press/api/*` if `www` is directly served before redirect
+- `www` policy: redirect-only to apex, no `www` API route required under current policy
 
 Worker runtime configuration:
 - Secret: `RESEND_API_KEY`
@@ -77,6 +77,12 @@ If binding is removed or missing, expected fallback:
 
 ## 5) Post-deploy smoke checks
 
+Health path:
+
+```bash
+curl -i "https://stexpedite.press/api/health"
+```
+
 Contact success path:
 
 ```bash
@@ -102,13 +108,26 @@ curl -i -X POST "https://stexpedite.press/api/updates" \
 ```
 
 Expected:
+- Health: `200` and JSON with `ok: true`
 - With D1 bound: `200` and `{ "ok": true }`
 - Without D1 bound: `500` and `{ "ok": false, "error": "Updates list not configured" }`
+
+Repo-local automation (recommended):
+
+```bash
+bash skills/ops/cloudflare-stability/scripts/runtime-audit.sh
+bash skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
+bash skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
+```
 
 ## 6) Reference docs
 
 - Infrastructure details: `docs/infrastructure/email-worker-setup.md`
 - D1 database reference: `docs/infrastructure/d1-database.md`
+- Incident runbook: `docs/operations/incident-runbook.md`
+- Release evidence log: `docs/operations/release-ops-log.md`
 - Current snapshot + verification matrix: `docs/state-of-play.md`
 - Ontology (machine): `docs/ontology/project-ontology.json`
 - Ontology (human): `docs/ontology/project-ontology.md`
+- Ops skill tooling: `skills/ops/cloudflare-stability/`
+- Scheduled health monitor workflow: `.github/workflows/api-health-monitor.yml`

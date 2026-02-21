@@ -19,6 +19,18 @@ servers:
   - url: https://stexpedite-communications.stexpedite-communications.workers.dev
     description: Worker direct endpoint (testing)
 paths:
+  /api/health:
+    get:
+      tags: [health]
+      summary: Worker runtime health probe
+      operationId: getHealth
+      responses:
+        "200":
+          description: Worker is running and returns runtime dependency flags
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthSuccess"
   /api/contact:
     post:
       tags: [contact]
@@ -230,7 +242,25 @@ components:
             - Missing fields
             - Server not configured
             - Updates list not configured
+    HealthSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, service, dbConfigured, now]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        service:
+          type: string
+          const: communications-worker
+        dbConfigured:
+          type: boolean
+        now:
+          type: string
+          format: date-time
 tags:
+  - name: health
+    description: Runtime probe operations
   - name: contact
     description: Contact form operations
   - name: submit

@@ -2,6 +2,7 @@
 
 Cloudflare Worker that powers form submissions for this site:
 
+- `GET /api/health` - lightweight runtime status probe
 - `POST /api/contact` - contact form submissions (sends email via Resend)
 - `POST /api/submit` - submissions/inquiries (sends email via Resend)
 - `POST /api/updates` - capture an updates/signup email list (stores in D1 if configured; does not send email)
@@ -48,5 +49,6 @@ D1 (optional, for `/api/updates`):
 ## Notes
 
 - The frontend falls back to `mailto:` if the Worker route is not configured or the request fails.
+- Use `GET /api/health` for operational smoke checks after deploys.
 - For real spam protection, add Cloudflare Turnstile (optional) and validate tokens server-side.
 - To export the updates list, query D1 from the Cloudflare dashboard, or use `wrangler d1 execute` (do not expose a public list endpoint).

@@ -1,0 +1,17 @@
+name: API Health Monitor
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe health endpoint
+        run: |
+          set -euo pipefail
+          resp="$(curl -fsS https://stexpedite.press/api/health)"
+          echo "$resp"
+          echo "$resp" | grep -q '"ok":true'

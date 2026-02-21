@@ -27,7 +27,7 @@ function withCors(request: Request, response: Response) {
     headers.set("vary", "origin");
     headers.set("access-control-allow-credentials", "false");
   }
-  headers.set("access-control-allow-methods", "POST, OPTIONS");
+  headers.set("access-control-allow-methods", "GET, POST, OPTIONS");
   headers.set("access-control-allow-headers", "content-type");
   headers.set("access-control-max-age", "86400");
 
@@ -100,6 +100,23 @@ function pickHoneypot(body: JsonRecord | null) {
 export default {
   async fetch(request: Request, env: Env) {
     const url = new URL(request.url);
+
+    // Lightweight runtime probe for deploy validation and monitoring checks.
+    if (url.pathname === "/api/health" && request.method === "GET") {
+      const db = (env as unknown as { DB?: any }).DB;
+      return withCors(
+        request,
+        json(
+          {
+            ok: true,
+            service: "communications-worker",
+            dbConfigured: Boolean(db?.prepare),
+            now: new Date().toISOString(),
+          },
+          { status: 200 },
+        ),
+      );
+    }
 
     if (request.method === "OPTIONS") {
       return withCors(request, new Response(null, { status: 204 }));

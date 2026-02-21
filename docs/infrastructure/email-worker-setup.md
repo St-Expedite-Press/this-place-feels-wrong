@@ -31,6 +31,7 @@ Configured in repo:
 - Worker name: `stexpedite-communications`
 - Vars in `wrangler.toml`: `FROM_EMAIL`, `TO_EMAIL`
 - Endpoints:
+  - `GET /api/health`
   - `POST /api/contact`
   - `POST /api/submit`
   - `POST /api/updates`
@@ -97,6 +98,16 @@ Current expected state:
 
 Run after Worker deploy and route verification.
 
+### Health endpoint
+
+```bash
+curl -i "https://stexpedite.press/api/health"
+```
+
+Expected:
+- `200`
+- body shape includes `{ "ok": true, "service": "communications-worker", "dbConfigured": true|false, "now": "..." }`
+
 ### Contact endpoint
 
 ```bash
@@ -133,6 +144,13 @@ Expected:
 - With D1 `DB` bound: `200` and `{ "ok": true }`
 - Without D1 `DB` bound: `500` and `{ "ok": false, "error": "Updates list not configured" }`
 
+Automated equivalent checks:
+
+```bash
+bash skills/ops/cloudflare-stability/scripts/runtime-audit.sh
+bash skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
+```
+
 ## 4) Security and operations notes
 
 Current controls in code:
@@ -152,5 +170,8 @@ Recommended hardening backlog:
 - `workers/communications/openapi.yaml`
 - `workers/communications/migrations/0001_updates_signups.sql`
 - `docs/infrastructure/d1-database.md`
+- `docs/operations/incident-runbook.md`
+- `docs/operations/release-ops-log.md`
+- `skills/ops/cloudflare-stability/`
 - `docs/state-of-play.md`
 - `DEPLOYMENT.md`
