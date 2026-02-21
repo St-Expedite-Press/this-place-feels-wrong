@@ -10,6 +10,7 @@
     "github_pages": {
       "artifact_dir": "dist/",
       "custom_domain_file": "site/CNAME",
+      "health_monitor_workflow": ".github/workflows/api-health-monitor.yml",
       "published_dir": "site/",
       "workflow": ".github/workflows/deploy-pages.yml"
     }
@@ -19,7 +20,10 @@
     "deployment": "DEPLOYMENT.md",
     "d1_database": "docs/infrastructure/d1-database.md",
     "email_pipeline": "docs/infrastructure/email-worker-setup.md",
+    "incident_runbook": "docs/operations/incident-runbook.md",
     "ontology": "docs/ontology/project-ontology.json",
+    "release_ops_log": "docs/operations/release-ops-log.md",
+    "skills_taxonomy": "skills/README.md",
     "state_of_play": "docs/state-of-play.md",
     "workers_openapi": "workers/communications/openapi.yaml"
   },
@@ -36,8 +40,8 @@
     "origin": "GitHub Pages",
     "primary": "stexpedite.press"
   },
-  "generated_at": "2026-02-13",
-  "generated_from_commit": "ce90793d2560ec1804ab4571064902facc7c4a17",
+  "generated_at": "2026-02-21",
+  "generated_from_commit": "249c45ea09d0f6e4f73bf265dcfa9dc4ed9010ba",
   "ontology_version": "1",
   "intents": {
     "edit_contact_form": {
@@ -156,12 +160,13 @@
       }
     },
     "workers/communications/src/index.ts": {
-      "role": "Cloudflare Worker implementing /api/contact, /api/submit, /api/updates",
+      "role": "Cloudflare Worker implementing /api/health, /api/contact, /api/submit, /api/updates",
       "anchors": {
         "cors": "function withCors",
         "email_validation": "function isProbablyEmail",
         "ref_id": "function refId",
         "honeypot": "function pickHoneypot",
+        "health_route": "if (url.pathname === \"/api/health\" && request.method === \"GET\")",
         "updates_route": "if (url.pathname === \"/api/updates\")",
         "contact_route": "if (url.pathname === \"/api/contact\")",
         "submit_route": "if (url.pathname === \"/api/submit\")"
@@ -174,10 +179,18 @@
         "artifact_prep": "rsync -a --delete site/ dist/"
       }
     },
+    ".github/workflows/api-health-monitor.yml": {
+      "role": "Scheduled production health probe for /api/health (15-minute cadence)",
+      "anchors": {
+        "schedule": "cron: \"*/15 * * * *\"",
+        "probe": "curl -fsS https://stexpedite.press/api/health"
+      }
+    },
     "workers/communications/openapi.yaml": {
-      "role": "Machine-readable API contract for /api/contact, /api/submit, /api/updates",
+      "role": "Machine-readable API contract for /api/health, /api/contact, /api/submit, /api/updates",
       "anchors": {
         "openapi_version": "openapi: 3.1.0",
+        "health_path": "/api/health:",
         "contact_path": "/api/contact:",
         "submit_path": "/api/submit:",
         "updates_path": "/api/updates:"
@@ -216,6 +229,7 @@
       "docs/ontology/project-ontology.md",
       "docs/state-of-play.md",
       "docs/infrastructure/d1-database.md",
+      "docs/operations/incident-runbook.md",
       "workers/communications/openapi.yaml"
     ],
     "when_changing_deploy_pipeline": [
@@ -231,9 +245,13 @@
     "worker_endpoints": {
       "notes": [
         "Use a local dev Worker (wrangler dev) or a deployed preview. Do not paste real API keys into logs.",
-        "All endpoints are POST; Worker responds to OPTIONS for CORS preflight."
+        "Worker exposes GET /api/health and POST endpoints for contact/submit/updates; responds to OPTIONS for CORS preflight."
       ],
       "production_base": "https://stexpedite.press",
+      "health": {
+        "curl": "curl -i https://stexpedite.press/api/health",
+        "expected": "200 { ok:true, service:'communications-worker', dbConfigured:boolean, now:ISO-8601 }"
+      },
       "contact": {
         "curl": "curl -i -X POST http://127.0.0.1:8787/api/contact -H \"content-type: application/json\" --data '{\"reason\":\"General\",\"email\":\"test@example.com\",\"message\":\"Hello\",\"website\":\"\"}'",
         "powershell_prod": "Invoke-RestMethod -Method POST -Uri \"https://stexpedite.press/api/contact\" -ContentType \"application/json\" -Body '{\"reason\":\"Test\",\"email\":\"test@example.com\",\"message\":\"Hello\"}'"
@@ -1085,6 +1103,21 @@
         }
       },
       "routes": {
+        "/api/health": {
+          "method": "GET",
+          "purpose": "Runtime health probe for Worker availability and DB binding visibility",
+          "response": {
+            "success": {
+              "status": 200,
+              "body": {
+                "ok": true,
+                "service": "communications-worker",
+                "dbConfigured": true,
+                "now": "ISO-8601"
+              }
+            }
+          }
+        },
         "/api/contact": {
           "method": "POST",
           "purpose": "Contact form submission -> sends editor email + user receipt via Resend",

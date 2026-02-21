@@ -26,6 +26,7 @@ Even though pages are stored under `site/`, they are published at domain root UR
 ### Deployment (GitHub Pages)
 - Workflow: `.github/workflows/deploy-pages.yml`
 - Publish model: copy `site/` -> `dist/` -> upload Pages artifact.
+- Runtime monitor: `.github/workflows/api-health-monitor.yml` probes `/api/health` every 15 minutes.
 
 ### Communications Worker (Cloudflare)
 - Code: `workers/communications/src/index.ts`
@@ -35,6 +36,8 @@ Even though pages are stored under `site/`, they are published at domain root UR
 - Worker direct URL: `https://stexpedite-communications.stexpedite-communications.workers.dev`
 
 Endpoints:
+- `GET /api/health`
+  - Runtime health probe used for monitoring and release verification
 - `POST /api/contact`
   - Called by: `site/contact.html`
   - Sends 2 emails via Resend:
@@ -83,3 +86,4 @@ Same pattern as Contact, but endpoint is `/api/submit`.
 2. Use `files.<path>.anchors` for in-file jumps.
 3. Use `workers.communications.routes` and `workers.communications.openapi` before opening worker code.
 4. For shared UI changes, consult `site.asset_bundles` and `site.duplication_clusters`.
+5. For stability operations, use repo-local tooling under `skills/ops/cloudflare-stability/`.

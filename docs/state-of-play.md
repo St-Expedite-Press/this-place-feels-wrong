@@ -4,7 +4,7 @@ Repo-verified snapshot as of **2026-02-21**.
 
 Baseline checked:
 - Branch: `main`
-- HEAD: `c6d7975`
+- HEAD: `249c45e`
 - Working tree: clean
 
 This document reflects what is present in the repository. Runtime/production status that cannot be observed from code is marked as configuration intent.
@@ -175,3 +175,94 @@ Config-intent still requiring dashboard confirmation:
 - Keep D1 migration state and `DB` binding consistent across Worker environments.
 - Treat `docs/infrastructure/d1-database.md` as the canonical D1 schema/binding runbook and keep it updated.
 - Refresh sitemap `<lastmod>` dates when shipping substantive content updates.
+
+## 8) Roadmap to stable
+
+Definition of stable for this project:
+- Public site deploy is deterministic and recoverable.
+- `/api/contact`, `/api/submit`, and `/api/updates` are consistently available in production.
+- Core edge dependencies (Cloudflare route, Worker secret, D1 binding/schema) are verifiable by runbook.
+- Operational docs remain current after each infra/content change.
+
+### Phase 1: Lock runtime contract (now)
+- Confirm dashboard route attachment for `stexpedite.press/api/*` to `stexpedite-communications`.
+- Decide and document `www` policy:
+  - either enforce redirect-only behavior, or
+  - add/maintain `www.stexpedite.press/api/*` route coverage.
+- Re-run production smoke checks for all three endpoints and archive outcomes in release notes/ops log.
+
+### Phase 2: Improve resiliency and observability
+- Add a lightweight health/status check path for API runtime validation (Worker-level).
+- Add Worker error monitoring workflow (tail or dashboard alerting) with explicit owner/response steps.
+- Define and document incident runbook:
+  - secret rotation
+  - rollback to last known-good Worker version
+  - temporary fallback behavior for form submissions.
+
+### Phase 3: Reduce abuse and operational risk
+- Add request-rate protections for `POST /api/*` (Cloudflare rules and/or Worker-side constraints).
+- Add Turnstile verification for user-facing forms (`contact`, `submit`, updates capture entry points).
+- Set explicit retention/cleanup policy for `updates_signups` data and operationalize it.
+
+### Phase 4: Documentation and release discipline
+- Add a mandatory post-deploy checklist item in release flow:
+  - run API smoke checks
+  - verify route + secret + D1 state
+  - update `docs/state-of-play.md` verification date/head when infra changed.
+- Keep these docs synchronized as a single contract:
+  - `DEPLOYMENT.md`
+  - `docs/infrastructure/email-worker-setup.md`
+  - `docs/infrastructure/d1-database.md`
+  - `docs/state-of-play.md`
+
+## 9) Information needed to get there
+
+The following decisions/data are still required to complete the roadmap with no ambiguity:
+
+### Routing and domain policy
+- Is `www.stexpedite.press` expected to serve users directly, or always redirect to apex?
+    Redirect, really
+- If `www` is served, should `/api/*` be callable on `www` or apex-only?
+    I dont believe it is served. 
+
+### Operational ownership
+- Who owns production incident response for:
+  - Cloudflare Worker/API issues
+  - DNS/route drift
+  - email deliverability regressions?
+- What response-time target is expected for production API outages?
+
+    Use your whole judgment in that situation and subject to opposition feedback. 
+
+
+
+### Monitoring and alert thresholds
+- Which channels should receive alerts (email, Telegram, etc.)?
+- What error-rate/latency thresholds should trigger alerts?
+- Which endpoint failures are page-worthy vs ticket-worthy?
+
+Again, use your judgment. 
+
+### Security controls
+- Preferred anti-abuse approach for forms:
+  - Cloudflare managed rules only,
+  - Turnstile only,
+  - or layered controls.
+- Any legal/compliance requirements for storing contact/update submissions?
+
+
+Don't worry about this stuff. 
+
+
+
+### Data governance for D1
+- Required retention period for `updates_signups`.
+- Unsubscribe and deletion workflow requirements (currently only `unsubscribed_at` field exists).
+- Whether data export/reporting requirements exist (format, cadence, owner).
+
+Yea do all this for me. 
+
+
+### Release process integration
+- Where release evidence should live (repo changelog, issue tracker, ops log).
+- Whether deploy approval gates are needed before Worker deploys.
