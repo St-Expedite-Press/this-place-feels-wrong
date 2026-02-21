@@ -745,7 +745,7 @@ body {
   <div class="hero-bar__updates-helper" id="hero-updates-helper" aria-live="polite" hidden>
     <div id="hero-updates-helper-text"></div>
     <div class="hero-bar__updates-actions">
-      <a class="hero-bar__updates-link" id="hero-updates-open" href="https://ecoamericana.substack.com/subscribe" target="_blank" rel="noopener noreferrer">Open Substack</a>
+      <a class="hero-bar__updates-link" id="hero-updates-open" href="https://ecoamericana.substack.com/subscribe">Continue to Substack</a>
       <button class="hero-bar__updates-copy" id="hero-updates-copy" type="button">Copy</button>
     </div>
   </div>
@@ -780,7 +780,7 @@ body {
           <div class="thin-helper" id="index-updates-helper" aria-live="polite" hidden>
             <div id="index-updates-helper-text"></div>
             <div class="thin-helper__actions">
-              <a class="thin-helper__link" id="index-updates-open" href="https://ecoamericana.substack.com/subscribe" target="_blank" rel="noopener noreferrer">Open Substack</a>
+              <a class="thin-helper__link" id="index-updates-open" href="https://ecoamericana.substack.com/subscribe">Continue to Substack</a>
               <button class="thin-helper__btn" id="index-updates-copy" type="button">Copy</button>
             </div>
           </div>
@@ -934,26 +934,32 @@ function wireUpdatesForm(opts) {
       `https://ecoamericana.substack.com/subscribe?email=${encodeURIComponent(email)}`;
 
     helper.hidden = false;
-    helperText.textContent = 'Opening Substack signup. If nothing happens, use the buttons below.';
+    helperText.textContent = 'Saving your email...';
     open.setAttribute('href', subscribeUrl);
     lastCopyText = subscribeUrl;
 
-    // Best-effort: also capture a first-party updates list (Worker + D1), if configured.
-    const capture = fetch('/api/updates', {
+    fetch('/api/updates', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ email, source }),
     })
-      .then((res) => res.ok)
-      .catch(() => false);
-
-    window.open(subscribeUrl, '_blank', 'noopener,noreferrer');
-
-    capture.then((ok) => {
-      if (!ok) return;
-      helper.hidden = false;
-      helperText.textContent =
-        "Opening Substack signup. You're also added to our updates list.";
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        helper.hidden = false;
+        helperText.textContent =
+          'Thanks for your email. Would you also like to continue to our Substack page?';
+        const shouldContinue = window.confirm(
+          'Thanks for your email. Would you like to continue to our Substack signup page?'
+        );
+        if (shouldContinue) {
+          const next = window.open(subscribeUrl, '_blank', 'noopener,noreferrer');
+          if (!next) window.location.href = subscribeUrl;
+        }
+      })
+      .catch(() => {
+        helper.hidden = false;
+        helperText.textContent =
+          'Could not save your signup right now. You can still join Substack below.';
     });
   });
 
@@ -961,7 +967,7 @@ function wireUpdatesForm(opts) {
     if (!lastCopyText) return;
     const ok = await copyText(lastCopyText);
     helper.hidden = false;
-    helperText.textContent = ok ? 'Copied. Paste into your browser to subscribe.' : 'Copy dialog opened.';
+    helperText.textContent = ok ? 'Copied Substack link.' : 'Copy dialog opened.';
   });
 }
 

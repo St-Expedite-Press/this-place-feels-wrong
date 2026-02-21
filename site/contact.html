@@ -324,7 +324,7 @@ input:focus {
     <div class="form-helper" id="contact-updates-helper" aria-live="polite" hidden>
       <div id="contact-updates-helper-text"></div>
       <div class="form-helper__actions">
-        <a class="form-helper__link" id="contact-updates-open" href="https://ecoamericana.substack.com/subscribe" target="_blank" rel="noopener noreferrer">Open Substack</a>
+        <a class="form-helper__link" id="contact-updates-open" href="https://ecoamericana.substack.com/subscribe">Continue to Substack</a>
         <button class="form-helper__btn" id="contact-updates-copy" type="button">Copy</button>
       </div>
     </div>
@@ -478,25 +478,32 @@ input:focus {
 
       const url = buildUrl(email);
       helper.hidden = false;
-      helperText.textContent = 'Opening Substack signup. If nothing happens, use the buttons below.';
+      helperText.textContent = 'Saving your email...';
       openLink.setAttribute('href', url);
       lastCopyText = url;
 
-      // Best-effort: also capture a first-party updates list (Worker + D1), if configured.
-      const capture = fetch('/api/updates', {
+      fetch('/api/updates', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ email, source: 'contact' }),
       })
-        .then((res) => res.ok)
-        .catch(() => false);
-
-      window.open(url, '_blank', 'noopener,noreferrer');
-
-      capture.then((ok) => {
-        if (!ok) return;
-        helper.hidden = false;
-        helperText.textContent = "Opening Substack signup. You're also added to our updates list.";
+        .then((res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          helper.hidden = false;
+          helperText.textContent =
+            'Thanks for your email. Would you also like to continue to our Substack page?';
+          const shouldContinue = window.confirm(
+            'Thanks for your email. Would you like to continue to our Substack signup page?'
+          );
+          if (shouldContinue) {
+            const next = window.open(url, '_blank', 'noopener,noreferrer');
+            if (!next) window.location.href = url;
+          }
+        })
+        .catch(() => {
+          helper.hidden = false;
+          helperText.textContent =
+            'Could not save your signup right now. You can still join Substack below.';
       });
     });
 
@@ -504,7 +511,7 @@ input:focus {
       if (!lastCopyText) return;
       const ok = await copyText(lastCopyText);
       helper.hidden = false;
-      helperText.textContent = ok ? 'Copied. Paste into your browser to subscribe.' : 'Copy dialog opened.';
+      helperText.textContent = ok ? 'Copied Substack link.' : 'Copy dialog opened.';
     });
   })();
   </script>
