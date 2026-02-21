@@ -1,113 +1,177 @@
 # State of Play (Repo + Deployment)
 
-This doc is a maintenance-oriented snapshot of what is live and what still needs follow-up.
+Repo-verified snapshot as of **2026-02-21**.
 
-## 1) Current architecture (what is in the repo)
+Baseline checked:
+- Branch: `main`
+- HEAD: `c6d7975`
+- Working tree: clean
 
-### Deployable static site
-- Location: `site/`
-- Deployment: GitHub Actions publishes only `site/` (copied into a Pages artifact). See `.github/workflows/deploy-pages.yml`.
-- Public URLs remain flat at the domain root (e.g. `/contact.html`, `/assets/...`) even though the repo is organized under `site/`.
+This document reflects what is present in the repository. Runtime/production status that cannot be observed from code is marked as configuration intent.
 
-Navigation notes:
-- "Lab" is currently routed to `site/under-construction.html` from nav (page still exists in `site/`).
-- The Gallery route remains `site/gallery.html`, but user-facing nav and metadata label it as "Merch".
+## 1) Cloudflare verification matrix
 
-### Forms + email
-- Contact form: `site/contact.html` -> `POST /api/contact` (JSON) with `mailto:` fallback.
-- Submission form: `site/submit.html` -> `POST /api/submit` (JSON) with `mailto:` fallback.
-- Updates UI: `site/index.html` and the Updates section in `site/contact.html`:
-  - opens Substack (newsletter)
-  - also attempts first-party capture via `POST /api/updates`
+Verification timestamp:
+- Date: **2026-02-21**
+- Method: local command checks + source inspection (`wrangler`, `rg`, `sed`)
 
-Index-specific UI notes:
-- Desktop: "Get updates" lives in the hero bar (left side).
-- Mobile: the index page only surfaces portal links for Books + Mission; the updates form remains embedded in the portal stack.
-- Background and still imagery use PNG as primary, with WebP retained only as optional fallback.
+| Check | Evidence | Status |
+|---|---|---|
+| Wrangler auth context | `npx -y wrangler whoami` succeeds under `workers/communications/` | Runtime-verified |
+| Worker secret presence | `npx -y wrangler secret list` includes `RESEND_API_KEY` | Runtime-verified |
+| Worker vars in repo config | `workers/communications/wrangler.toml` contains `FROM_EMAIL`, `TO_EMAIL` under `[vars]` | Repo-verified |
+| Required primary route | `POST https://stexpedite.press/api/updates` succeeds after deploy | Runtime-verified |
+| Optional `www` route | Not required by current repo contract | Config-intent only (conditional) |
+| D1 database presence | `wrangler d1 list` shows `stexpedite-updates` | Runtime-verified |
+| D1 binding status | `wrangler deploy` output shows `env.DB (stexpedite-updates)` | Runtime-verified |
+| D1 schema state | `wrangler d1 execute ... sqlite_master` includes `updates_signups` | Runtime-verified |
+| D1 binding semantics | Worker expects `DB`; `/api/updates` succeeds when bound and returns 500 when unbound | Runtime-verified |
+| API contract parity | `/api/contact`, `/api/submit`, `/api/updates` match between `src/index.ts` and `openapi.yaml` | Repo-verified |
+| Frontend endpoint wiring | `site/contact.html`, `site/submit.html`, `site/index.html` call expected `/api/*` paths | Repo-verified |
+| Pages publish scope | `.github/workflows/deploy-pages.yml` runs `rsync -a --delete site/ dist/` | Repo-verified |
 
-### Worker
-- Location: `workers/communications/`
-- Worker name: `stexpedite-communications` (see `workers/communications/wrangler.toml`)
-- Contract file: `workers/communications/openapi.yaml`
-- Endpoints (implemented in `workers/communications/src/index.ts`):
-  - `POST /api/contact` -> sends editor email + user receipt via Resend
-  - `POST /api/submit` -> sends editor email + user receipt via Resend
-  - `POST /api/updates` -> stores email into D1 when binding `DB` exists
+Operator verification commands:
 
-### SEO
-- `site/robots.txt` points at `https://stexpedite.press/sitemap.xml`.
-- `site/robots.txt` disallows:
-  - `/under-construction.html`
-  - `/interior-content-template.html`
-- `site/sitemap.xml` lists canonical pages and includes `<lastmod>` values.
+```bash
+cd workers/communications
+npx -y wrangler whoami
+npx -y wrangler secret list
+npx -y wrangler d1 list
+```
 
-### Ontology
-- Machine-readable: `docs/ontology/project-ontology.json`
-- Human companion: `docs/ontology/project-ontology.md`
+Dashboard-required checks:
+- Confirm route `stexpedite.press/api/*` is attached to `stexpedite-communications`.
+- If `www.stexpedite.press` is served before redirect, attach `www.stexpedite.press/api/*` as well.
+- Confirm hostnames using Worker Routes are proxied (orange cloud), while mail/auth DNS records remain DNS-only.
 
-## 2) What GitHub Pages deploy publishes (and what it does not)
+## 2) Architecture snapshot
 
-GitHub Pages deploy publishes:
-- Everything under `site/`
+### Static site
+- Source and publish root: `site/`
+- Custom domain file: `site/CNAME` -> `stexpedite.press`
+- Public URLs remain root-flat (for example `/contact.html`, `/assets/...`) even though files are stored under `site/`.
 
-GitHub Pages deploy does not publish:
-- `docs/`
-- `workers/`
-- `.env`
+Current HTML pages in `site/`:
+- `index.html`
+- `books.html`
+- `gallery.html`
+- `mission.html`
+- `contact.html`
+- `submit.html`
+- `services.html`
+- `lab.html`
+- `under-construction.html`
+- `interior-content-template.html` (template/support page)
 
-So changing docs or worker code does not change the public site unless you also change `site/`.
+### Navigation and page intent
+- User-facing nav labels `gallery.html` as **Merch** on primary pages.
+- Nav items labeled **Lab** currently link to `under-construction.html` across production-facing pages.
+- `lab.html` still exists as a standalone page but is not the primary linked Lab destination.
+- Footer utility links are consistently `Services // Submission // Contact` across main pages.
 
-## 3) External production integration status (Cloudflare + Resend + Zoho)
+### Forms and messaging flows
+- Contact flow:
+  - UI: `site/contact.html`
+  - Endpoint: `POST /api/contact`
+  - Fallback: `mailto:editor@stexpedite.press`
+- Submission flow:
+  - UI: `site/submit.html`
+  - Endpoint: `POST /api/submit`
+  - Fallback: `mailto:editor@stexpedite.press`
+- Updates flow:
+  - UI locations: `site/index.html` (hero + mobile form), `site/contact.html` (updates row)
+  - Newsletter target: `https://ecoamericana.substack.com/subscribe`
+  - Best-effort first-party capture: `POST /api/updates`
 
-This integration is active in production.
+Index behavior:
+- Desktop hero bar includes an inline updates form (`#hero-updates-form`).
+- Mobile portal stack includes an inline updates form (`#index-updates-form`).
+- Desktop nav surfaces `BOOKS`, `STORE` (`gallery.html`), `MISSION`, and `LAB` (`under-construction.html`).
 
-Cloudflare zone:
-- Authoritative nameservers:
-  - `nicolas.ns.cloudflare.com`
-  - `sara.ns.cloudflare.com`
-- Worker route active: `stexpedite.press/api/*` -> `stexpedite-communications`
-- Worker direct URL available for testing:
-  - `https://stexpedite-communications.stexpedite-communications.workers.dev`
+## 3) Worker/API snapshot
 
-Email path:
-- Outbound sending: Resend API (`RESEND_API_KEY`, `FROM_EMAIL`, `TO_EMAIL`)
-- Inbound mailbox: Zoho (`editor@stexpedite.press`)
+Worker location:
+- `workers/communications/`
 
-DNS auth records (Cloudflare DNS-only):
-- MX: `mx.zoho.com`, `mx2.zoho.com`, `mx3.zoho.com`
-- DKIM selectors: `zmail._domainkey`, `resend._domainkey`
-- SPF:
-  - `v=spf1 include:zohomail.com include:dc-8e814c8572._spfm.stexpedite.press include:amazonses.com include:_spf.zoho.com ~all`
-- DMARC:
-  - `v=DMARC1; p=quarantine;`
+Worker configuration:
+- Name: `stexpedite-communications` (`workers/communications/wrangler.toml`)
+- Runtime vars in `wrangler.toml`: `FROM_EMAIL`, `TO_EMAIL`
+- Required secret at runtime: `RESEND_API_KEY`
+- D1 binding: `DB` (currently configured to `stexpedite-updates`)
 
-## 4) Updates list collection (first-party)
+Implemented routes in `workers/communications/src/index.ts`:
+- `POST /api/contact`
+  - Validates JSON + email/message
+  - Sends editor email + receipt email via Resend
+- `POST /api/submit`
+  - Validates JSON + email
+  - Sends editor email + receipt email via Resend
+- `POST /api/updates`
+  - Validates JSON + email
+  - Writes/upserts into D1 table `updates_signups` when `DB` exists
+  - Returns `500` with `Updates list not configured` when `DB` is missing
 
-Current behavior:
-- Frontend opens Substack for newsletter signup.
-- Frontend additionally calls `POST /api/updates` best-effort.
+Cross-cutting behavior:
+- CORS allowlist includes:
+  - `https://stexpedite.press`
+  - `http://localhost:8787`
+  - `http://127.0.0.1:8787`
+- Honeypot fields accepted: `website`, `company`, `hp`
+- OPTIONS preflight is supported.
 
-Storage behavior:
-- If D1 binding `DB` is configured and migrated, updates are stored.
-- If D1 is not configured, `/api/updates` returns `Updates list not configured`.
+Contract and schema files:
+- OpenAPI contract: `workers/communications/openapi.yaml` (`openapi: 3.1.0`, `info.version: 1.1.0`)
+- D1 migration: `workers/communications/migrations/0001_updates_signups.sql`
 
-Migration path:
-1. Create a Cloudflare D1 database (example name: `stexpedite-updates`).
-2. Bind it to the Worker as `DB`.
-3. Apply migration: `workers/communications/migrations/0001_updates_signups.sql`.
-4. Deploy the Worker.
+## 4) Deploy pipeline snapshot
 
-## 5) Ongoing checks
+GitHub Pages workflow:
+- File: `.github/workflows/deploy-pages.yml`
+- Trigger: push to `main` (and manual dispatch)
+- Validation step: `npx -y htmlhint "site/**/*.html"`
+- Artifact prep: `rsync -a --delete site/ dist/`
+- Publish source: `dist/` artifact generated from `site/`
 
-Worker + email:
-- Confirm route coverage for every served hostname (`apex`, and `www` if used before redirect).
-- Keep Worker secrets/vars current: `RESEND_API_KEY`, `FROM_EMAIL`, `TO_EMAIL`.
-- Monitor Resend domain verification and delivery health.
-- Keep CORS origins aligned with production hostnames.
+Implication:
+- Only `site/` content is published by Pages.
+- Changes in `docs/`, `workers/`, and local `.env` do not change static site output unless corresponding `site/` files change.
 
-Updates list:
-- Decide retention and unsubscribe policy (`unsubscribed_at` exists, but no unsubscribe UI yet).
+## 5) SEO and crawl controls
 
-Search indexing:
-- Keep Search Console verification healthy.
-- Keep sitemap submitted at `https://stexpedite.press/sitemap.xml`.
+`site/robots.txt`:
+- `Disallow: /under-construction.html`
+- `Disallow: /interior-content-template.html`
+- `Sitemap: https://stexpedite.press/sitemap.xml`
+
+`site/sitemap.xml` includes:
+- `/`
+- `/contact.html`
+- `/books.html`
+- `/gallery.html`
+- `/mission.html`
+- `/lab.html`
+- `/services.html`
+- `/submit.html`
+
+Note:
+- Current sitemap `<lastmod>` values are `2026-02-11` and may need periodic refresh when content changes.
+
+## 6) External integration intent (from repo docs/config)
+
+Runtime-verified in this environment:
+- Cloudflare-authenticated Wrangler session
+- Secret `RESEND_API_KEY` present
+- D1 database `stexpedite-updates` present and bound as `DB`
+- Successful `POST https://stexpedite.press/api/updates` response (`200`, `{ "ok": true }`)
+
+Config-intent still requiring dashboard confirmation:
+- Route attachment visibility in Cloudflare dashboard
+- DNS orange/gray cloud settings across all records
+
+## 7) Maintenance priorities
+
+- Keep `docs/ontology/project-ontology.json` and this file in sync whenever page routing, forms, endpoints, or deployment behavior changes.
+- Decide whether to keep Lab intentionally routed to `under-construction.html` or restore nav links to `lab.html`.
+- Keep D1 migration state and `DB` binding consistent across Worker environments.
+- Treat `docs/infrastructure/d1-database.md` as the canonical D1 schema/binding runbook and keep it updated.
+- Refresh sitemap `<lastmod>` dates when shipping substantive content updates.

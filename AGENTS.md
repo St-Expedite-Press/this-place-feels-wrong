@@ -28,6 +28,10 @@ Use it to map a request to the exact files/endpoints involved. Only open additio
 - If you add/rename pages, assets, or endpoints, update:
   - `docs/ontology/project-ontology.json`
   - `docs/state-of-play.md`
+- If you change Worker bindings, D1 schema, or migrations, also update:
+  - `docs/infrastructure/d1-database.md`
+  - `docs/infrastructure/email-worker-setup.md`
+  - `docs/state-of-play.md`
 
 ## 4) Sensitive data handling
 
@@ -40,4 +44,5 @@ Use it to map a request to the exact files/endpoints involved. Only open additio
 - Deploy workflow: `.github/workflows/deploy-pages.yml`
 - Worker: `workers/communications/src/index.ts`
 - Email pipeline doc: `docs/infrastructure/email-worker-setup.md`
+- D1 database doc: `docs/infrastructure/d1-database.md`
 - State of play: `docs/state-of-play.md`

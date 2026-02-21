@@ -7,3 +7,7 @@ compatibility_date = "2026-02-05"
 FROM_EMAIL = "St. Expedite Press <no-reply@stexpedite.press>"
 TO_EMAIL = "editor@stexpedite.press"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "stexpedite-updates"
+database_id = "3bf56a30-c0cc-4b0f-a82a-caf740623af6"

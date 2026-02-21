@@ -2,74 +2,113 @@
 
 This repo deploys a static site via GitHub Pages, with Cloudflare in front. `/api/*` requests are routed to a Cloudflare Worker for communications.
 
-## 1) GitHub Pages (CI/CD)
+## 1) Responsibility split (Pages vs Worker)
 
+GitHub Pages publishes static site assets only:
+- Source path in repo: `site/`
 - Workflow: `.github/workflows/deploy-pages.yml`
-- Source: GitHub Actions
-- Published content: `site/` only
+- Artifact behavior: `rsync -a --delete site/ dist/` then publish `dist/`
 
-Deploy steps:
-1. Push to `main`.
-2. GitHub Actions validates HTML and publishes `site/` as the Pages artifact.
+Cloudflare Worker handles dynamic API endpoints only:
+- Worker project: `workers/communications/`
+- Worker name: `stexpedite-communications`
+- API surface: `POST /api/contact`, `POST /api/submit`, `POST /api/updates`
 
-Custom domain:
-- Domain file: `site/CNAME` (currently `stexpedite.press`)
-- GitHub setting: Settings -> Pages -> Custom domain
+## 2) Required runtime prerequisites
 
-## 2) Cloudflare (DNS + Proxy + Worker Route)
+Cloudflare:
+- Zone: `stexpedite.press`
+- Required route: `stexpedite.press/api/*` -> `stexpedite-communications`
+- Optional conditional route: `www.stexpedite.press/api/*` if `www` is directly served before redirect
 
-Cloudflare is authoritative DNS for `stexpedite.press`.
+Worker runtime configuration:
+- Secret: `RESEND_API_KEY`
+- Vars: `FROM_EMAIL`, `TO_EMAIL` (from `workers/communications/wrangler.toml`)
+- D1 binding: `DB` (currently bound to `stexpedite-updates`; required for updates capture persistence)
 
-Recorded production nameservers:
-- `nicolas.ns.cloudflare.com`
-- `sara.ns.cloudflare.com`
-
-Worker route (active):
-- `stexpedite.press/api/*` -> `stexpedite-communications`
-
-Worker direct endpoint (testing):
-- `https://stexpedite-communications.stexpedite-communications.workers.dev`
-
-Important:
-- HTTP hostnames must be proxied (orange cloud) for Worker Routes to apply.
+Important DNS/proxy rule:
+- Hostnames used by Worker Routes must be proxied (orange cloud).
 - Mail/auth records (MX, SPF, DKIM, DMARC) remain DNS-only (gray cloud).
 
-## 3) Worker (Contact + Submit + Updates)
+## 3) Deploy sequence (operator runbook)
 
-Worker code: `workers/communications/`
+### A) Deploy static Pages content
 
-Implemented endpoints:
-- `POST /api/contact` (Resend email)
-- `POST /api/submit` (Resend email)
-- `POST /api/updates` (D1 capture when bound)
+1. Push changes to `main`.
+2. Confirm workflow `.github/workflows/deploy-pages.yml` completes.
+3. Confirm custom domain remains set to `stexpedite.press` and matches `site/CNAME`.
 
-OpenAPI contract:
-- `workers/communications/openapi.yaml`
-
-Deploy the Worker:
+### B) Deploy Worker/API code
 
 ```bash
 cd workers/communications
-wrangler login
-wrangler deploy
+npx -y wrangler whoami
+npx -y wrangler deploy
 ```
 
-Configure secrets and vars:
-- Secret: `RESEND_API_KEY`
-- Vars: `FROM_EMAIL`, `TO_EMAIL` (see `workers/communications/wrangler.toml`)
+### C) Verify secret and route attachments
 
-## 4) Optional D1 for updates storage
+```bash
+cd workers/communications
+npx -y wrangler secret list
+```
 
-To store a first-party updates list:
-1. Create D1 database.
-2. Bind as `DB`.
-3. Run migration `workers/communications/migrations/0001_updates_signups.sql`.
+Required checks:
+- `RESEND_API_KEY` appears in secret list.
+- Dashboard route `stexpedite.press/api/*` targets `stexpedite-communications`.
+- If needed, `www.stexpedite.press/api/*` is also attached.
 
-Without `DB`, `/api/updates` returns `Updates list not configured`.
+## 4) D1 status and lifecycle
 
-## 5) Reference docs
+Current configured database:
+- Name: `stexpedite-updates`
+- Binding: `DB`
+- Migration applied: `workers/communications/migrations/0001_updates_signups.sql`
+
+Check current D1 status:
+
+```bash
+cd workers/communications
+npx -y wrangler d1 list
+```
+
+If binding is removed or missing, expected fallback:
+- `POST /api/updates` returns `500` with `{ "ok": false, "error": "Updates list not configured" }`.
+
+## 5) Post-deploy smoke checks
+
+Contact success path:
+
+```bash
+curl -i -X POST "https://stexpedite.press/api/contact" \
+  -H "content-type: application/json" \
+  --data '{"reason":"Test","email":"test@example.com","message":"Hello"}'
+```
+
+Submission success path:
+
+```bash
+curl -i -X POST "https://stexpedite.press/api/submit" \
+  -H "content-type: application/json" \
+  --data '{"email":"test@example.com","note":"Hello"}'
+```
+
+Updates path (documents both valid outcomes):
+
+```bash
+curl -i -X POST "https://stexpedite.press/api/updates" \
+  -H "content-type: application/json" \
+  --data '{"email":"test@example.com","source":"deploy-smoke"}'
+```
+
+Expected:
+- With D1 bound: `200` and `{ "ok": true }`
+- Without D1 bound: `500` and `{ "ok": false, "error": "Updates list not configured" }`
+
+## 6) Reference docs
 
 - Infrastructure details: `docs/infrastructure/email-worker-setup.md`
-- Current operational snapshot: `docs/state-of-play.md`
+- D1 database reference: `docs/infrastructure/d1-database.md`
+- Current snapshot + verification matrix: `docs/state-of-play.md`
 - Ontology (machine): `docs/ontology/project-ontology.json`
 - Ontology (human): `docs/ontology/project-ontology.md`
