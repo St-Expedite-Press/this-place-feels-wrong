@@ -106,7 +106,7 @@ paths:
               $ref: "#/components/schemas/UpdatesRequest"
       responses:
         "200":
-          description: Signup recorded
+          description: Signup recorded or refreshed
           content:
             application/json:
               schema:
@@ -222,11 +222,14 @@ components:
     UpdatesSuccess:
       type: object
       additionalProperties: false
-      required: [ok]
+      required: [ok, alreadySignedUp]
       properties:
         ok:
           type: boolean
           const: true
+        alreadySignedUp:
+          type: boolean
+          description: True when the email was already present before this request.
     ErrorResponse:
       type: object
       additionalProperties: false

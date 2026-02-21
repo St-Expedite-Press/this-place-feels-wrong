@@ -66,7 +66,8 @@ Same pattern as Contact, but endpoint is `/api/submit`.
 ### Updates signup
 1. User enters email in updates UI (index or contact).
 2. Frontend posts to `/api/updates` (primary action).
-3. After successful capture, frontend prompts user to optionally continue to Substack.
+3. Worker response includes `alreadySignedUp` so UI can distinguish new vs existing emails.
+4. After successful capture, frontend prompts user to optionally continue to Substack.
 
 ## External dependencies
 - Cloudflare (DNS + edge routing)

@@ -110,6 +110,7 @@ If the Worker route is missing or fails, both pages fall back to opening a `mail
 If you want a first-party list you control, the Worker supports:
 
 - `POST /api/updates` - stores an email into D1 (no email is sent)
+  - Returns `alreadySignedUp` so frontend can show when the email already exists.
 
 This is called from:
 - `site/index.html` (desktop hero bar + mobile portal stack)

@@ -1268,7 +1268,8 @@
             "success": {
               "status": 200,
               "body": {
-                "ok": true
+                "ok": true,
+                "alreadySignedUp": false
               }
             }
           },
