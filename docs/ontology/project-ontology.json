@@ -84,7 +84,7 @@
       ],
       "notes": [
         "Index has two updates forms wired by wireUpdatesForm() (index + hero bar).",
-        "Updates capture is best-effort: opens Substack + POST /api/updates."
+        "Updates capture posts to /api/updates first, then prompts users to optionally continue to Substack."
       ]
     },
     "edit_global_nav_or_footer_links": {

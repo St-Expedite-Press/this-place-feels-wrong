@@ -98,8 +98,9 @@ There are two "email-ish" flows:
 
 If the Worker route is missing or fails, both pages fall back to opening a `mailto:` compose window addressed to `editor@stexpedite.press`.
 
-2) Newsletter/updates signup (Substack)
-- The "Get updates" UI opens a Substack subscribe URL (`ecoamericana.substack.com`).
+2) Newsletter/updates signup
+- The "Get updates" UI first posts to `/api/updates` to store the email in the first-party list.
+- On success, the UI thanks the user and offers an optional continue action to Substack (`ecoamericana.substack.com`).
 - Index page placement:
   - Desktop: in the hero bar (left side)
   - Mobile: embedded in the portal stack
@@ -110,7 +111,7 @@ If you want a first-party list you control, the Worker supports:
 
 - `POST /api/updates` - stores an email into D1 (no email is sent)
 
-This is called best-effort from:
+This is called from:
 - `site/index.html` (desktop hero bar + mobile portal stack)
 - the Updates section in `site/contact.html`
 
