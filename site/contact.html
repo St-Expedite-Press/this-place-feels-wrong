@@ -326,6 +326,7 @@ input:focus {
       <div class="form-helper__actions">
         <a class="form-helper__link" id="contact-updates-open" href="https://ecoamericana.substack.com/subscribe">Continue to Substack</a>
         <button class="form-helper__btn" id="contact-updates-copy" type="button">Copy</button>
+        <button class="form-helper__btn" id="contact-updates-dismiss" type="button">Dismiss</button>
       </div>
     </div>
   </div>
@@ -345,76 +346,6 @@ input:focus {
 
   <script src="assets/js/cursor-glow.js"></script>
   <script>
-  function showSubstackPrompt(url, message) {
-    const overlay = document.createElement('div');
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-label', 'Substack signup prompt');
-    overlay.style.position = 'fixed';
-    overlay.style.inset = '0';
-    overlay.style.background = 'rgba(0,0,0,0.72)';
-    overlay.style.display = 'flex';
-    overlay.style.alignItems = 'center';
-    overlay.style.justifyContent = 'center';
-    overlay.style.padding = '1rem';
-    overlay.style.zIndex = '9999';
-
-    const panel = document.createElement('div');
-    panel.style.maxWidth = '480px';
-    panel.style.width = '100%';
-    panel.style.background = 'rgba(0,0,0,0.92)';
-    panel.style.border = '1px solid rgba(42,255,138,0.35)';
-    panel.style.borderRadius = '16px';
-    panel.style.padding = '1rem';
-    panel.style.boxShadow = '0 0 24px rgba(42,255,138,0.22)';
-
-    const text = document.createElement('p');
-    text.textContent = message;
-    text.style.margin = '0 0 .9rem';
-    text.style.lineHeight = '1.4';
-
-    const actions = document.createElement('div');
-    actions.style.display = 'flex';
-    actions.style.gap = '.55rem';
-    actions.style.flexWrap = 'wrap';
-
-    const continueBtn = document.createElement('button');
-    continueBtn.type = 'button';
-    continueBtn.textContent = 'Continue to Substack';
-    continueBtn.style.cursor = 'pointer';
-
-    const dismissBtn = document.createElement('button');
-    dismissBtn.type = 'button';
-    dismissBtn.textContent = 'Dismiss';
-    dismissBtn.style.cursor = 'pointer';
-
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape') close();
-    };
-    const close = () => {
-      document.removeEventListener('keydown', onKeyDown);
-      overlay.remove();
-    };
-
-    continueBtn.addEventListener('click', () => {
-      close();
-      const next = window.open(url, '_blank', 'noopener,noreferrer');
-      if (!next) window.location.href = url;
-    });
-    dismissBtn.addEventListener('click', close);
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) close();
-    });
-    document.addEventListener('keydown', onKeyDown);
-
-    actions.appendChild(continueBtn);
-    actions.appendChild(dismissBtn);
-    panel.appendChild(text);
-    panel.appendChild(actions);
-    overlay.appendChild(panel);
-    document.body.appendChild(overlay);
-  }
-
   (function() {
     const form = document.getElementById('contact-form');
     const helper = document.getElementById('contact-helper');
@@ -514,8 +445,9 @@ input:focus {
     const helperText = document.getElementById('contact-updates-helper-text');
     const openLink = document.getElementById('contact-updates-open');
     const copyBtn = document.getElementById('contact-updates-copy');
+    const dismissBtn = document.getElementById('contact-updates-dismiss');
 
-    if (!emailInput || !submitBtn || !helper || !helperText || !openLink || !copyBtn) return;
+    if (!emailInput || !submitBtn || !helper || !helperText || !openLink || !copyBtn || !dismissBtn) return;
 
     let lastCopyText = '';
 
@@ -565,12 +497,6 @@ input:focus {
           helperText.textContent = alreadySignedUp
             ? 'Thanks. We already have your email on our updates list. Continue to Substack?'
             : 'Thanks for your email. Would you also like to continue to our Substack page?';
-          showSubstackPrompt(
-            url,
-            alreadySignedUp
-              ? 'We already have your email on our updates list. Continue to our Substack signup page?'
-              : 'Thanks for your email. Would you like to continue to our Substack signup page?'
-          );
         })
         .catch(() => {
           helper.hidden = false;
@@ -584,6 +510,10 @@ input:focus {
       const ok = await copyText(lastCopyText);
       helper.hidden = false;
       helperText.textContent = ok ? 'Copied Substack link.' : 'Copy dialog opened.';
+    });
+
+    dismissBtn.addEventListener('click', () => {
+      helper.hidden = true;
     });
   })();
   </script>
