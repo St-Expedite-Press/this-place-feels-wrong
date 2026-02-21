@@ -109,6 +109,7 @@ Implemented routes in `workers/communications/src/index.ts`:
 - `POST /api/updates`
   - Validates JSON + email
   - Writes/upserts into D1 table `updates_signups` when `DB` exists
+  - Returns `alreadySignedUp: true|false` to indicate whether the email already existed
   - Returns `500` with `Updates list not configured` when `DB` is missing
 
 Cross-cutting behavior:
@@ -162,7 +163,7 @@ Runtime-verified in this environment:
 - Cloudflare-authenticated Wrangler session
 - Secret `RESEND_API_KEY` present
 - D1 database `stexpedite-updates` present and bound as `DB`
-- Successful `POST https://stexpedite.press/api/updates` response (`200`, `{ "ok": true }`)
+- Successful `POST https://stexpedite.press/api/updates` response (`200`, `{ "ok": true, "alreadySignedUp": false|true }`)
 
 Config-intent still requiring dashboard confirmation:
 - Route attachment visibility in Cloudflare dashboard

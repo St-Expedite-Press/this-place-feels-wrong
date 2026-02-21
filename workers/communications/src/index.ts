@@ -133,7 +133,7 @@ export default {
 
     // Basic bot honeypot: if filled, accept but do nothing.
     if (pickHoneypot(body)) {
-      return withCors(request, json({ ok: true }, { status: 200 }));
+      return withCors(request, json({ ok: true, alreadySignedUp: false }, { status: 200 }));
     }
 
     if (url.pathname === "/api/updates") {
@@ -153,6 +153,19 @@ export default {
       }
 
       const ua = request.headers.get("user-agent") ?? "";
+      const existing = await db
+        .prepare(
+          `
+          SELECT email
+          FROM updates_signups
+          WHERE lower(email) = lower(?)
+          LIMIT 1
+        `,
+        )
+        .bind(fromEmail)
+        .first<{ email: string }>();
+      const canonicalEmail = String(existing?.email ?? fromEmail);
+      const alreadySignedUp = Boolean(existing?.email);
 
       await db
         .prepare(
@@ -166,10 +179,10 @@ export default {
             unsubscribed_at = NULL
         `,
         )
-        .bind(fromEmail, source || null, ua.slice(0, 400))
+        .bind(canonicalEmail, source || null, ua.slice(0, 400))
         .run();
 
-      return withCors(request, json({ ok: true }, { status: 200 }));
+      return withCors(request, json({ ok: true, alreadySignedUp }, { status: 200 }));
     }
 
     if (url.pathname === "/api/contact") {

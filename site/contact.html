@@ -487,14 +487,17 @@ input:focus {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ email, source: 'contact' }),
       })
-        .then((res) => {
+        .then(async (res) => {
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json().catch(() => ({}));
+          const alreadySignedUp = Boolean(data?.alreadySignedUp);
           helper.hidden = false;
-          helperText.textContent =
-            'Thanks for your email. Would you also like to continue to our Substack page?';
-          const shouldContinue = window.confirm(
-            'Thanks for your email. Would you like to continue to our Substack signup page?'
-          );
+          helperText.textContent = alreadySignedUp
+            ? 'Thanks. We already have your email on our updates list. Continue to Substack?'
+            : 'Thanks for your email. Would you also like to continue to our Substack page?';
+          const shouldContinue = window.confirm(alreadySignedUp
+            ? 'We already have your email on our updates list. Continue to our Substack signup page?'
+            : 'Thanks for your email. Would you like to continue to our Substack signup page?');
           if (shouldContinue) {
             const next = window.open(url, '_blank', 'noopener,noreferrer');
             if (!next) window.location.href = url;
