@@ -17,6 +17,7 @@
   "docs": {
     "agent_protocols": "AGENTS.md",
     "deployment": "DEPLOYMENT.md",
+    "d1_database": "docs/infrastructure/d1-database.md",
     "email_pipeline": "docs/infrastructure/email-worker-setup.md",
     "ontology": "docs/ontology/project-ontology.json",
     "state_of_play": "docs/state-of-play.md",
@@ -214,6 +215,7 @@
       "docs/ontology/project-ontology.json",
       "docs/ontology/project-ontology.md",
       "docs/state-of-play.md",
+      "docs/infrastructure/d1-database.md",
       "workers/communications/openapi.yaml"
     ],
     "when_changing_deploy_pipeline": [

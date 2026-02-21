@@ -1,187 +1,156 @@
 # Communications Infrastructure (Cloudflare + Resend + Zoho)
 
-This document records the production communications setup for `stexpedite.press`.
+This document records communications infrastructure for `stexpedite.press`, with explicit separation between repo-configured state and dashboard/runtime checks.
 
-As of 2026-02-13, the Cloudflare zone, Worker routing, Resend integration, and Zoho inbound mail path are configured and operational.
+Runtime verification snapshot:
+- Date: **2026-02-21**
+- `npx -y wrangler whoami`: authenticated
+- `npx -y wrangler secret list`: includes `RESEND_API_KEY`
+- `npx -y wrangler d1 list`: includes `stexpedite-updates`
+- `POST https://stexpedite.press/api/updates`: `200` with `{ "ok": true }`
 
-## 1) System overview
+## 1) Repo-configured state (source-controlled)
 
-Architecture:
+### Topology
 
-User browser
--> Cloudflare edge (proxied DNS)
--> Cloudflare Worker (`stexpedite-communications`)
--> Resend API (`https://api.resend.com/emails`)
--> recipient mailbox (`editor@stexpedite.press`, Zoho)
+Browser traffic path for API calls:
+- Browser -> Cloudflare edge -> Worker `stexpedite-communications` -> Resend API -> mailbox
 
-Static pages continue to be served by GitHub Pages (`site/`); only `/api/*` is handled by the Worker.
+Static site path:
+- GitHub Pages serves static files from `site/`
+- Worker handles `/api/*` only
 
-## 2) Cloudflare zone and DNS
-
-Zone:
-- `stexpedite.press`
-
-Cloudflare authoritative nameservers:
-- `nicolas.ns.cloudflare.com`
-- `sara.ns.cloudflare.com`
-
-Worker route in production:
-- `stexpedite.press/api/*` -> `stexpedite-communications`
-
-Worker direct endpoint (testing/secondary):
-- `https://stexpedite-communications.stexpedite-communications.workers.dev`
-
-Mail and auth DNS records in Cloudflare (DNS-only / gray cloud):
-- MX (Zoho): `mx.zoho.com`, `mx2.zoho.com`, `mx3.zoho.com`
-- DKIM selectors: `zmail._domainkey` (Zoho), `resend._domainkey` (Resend)
-- SPF:
-  - `v=spf1 include:zohomail.com include:dc-8e814c8572._spfm.stexpedite.press include:amazonses.com include:_spf.zoho.com ~all`
-- DMARC:
-  - `v=DMARC1; p=quarantine;`
-
-Notes:
-- HTTP hostnames used by Worker Routes must be proxied (orange cloud).
-- MX/TXT auth records must remain DNS-only.
-
-## 3) Worker runtime and configuration
-
-Worker:
-- Name: `stexpedite-communications`
-- Entry: `workers/communications/src/index.ts`
-- Config: `workers/communications/wrangler.toml`
-
-Configured vars in `wrangler.toml`:
-
-```toml
-[vars]
-FROM_EMAIL = "St. Expedite Press <no-reply@stexpedite.press>"
-TO_EMAIL = "editor@stexpedite.press"
-```
-
-Configured secret in Cloudflare:
-- `RESEND_API_KEY`
-
-Secret handling:
-- Secrets are stored only in Cloudflare Worker secrets.
-- Never commit secrets to the repo.
-
-## 4) Implemented API endpoints
+### Worker code and contract
 
 Source of truth:
-- Worker implementation: `workers/communications/src/index.ts`
-- OpenAPI contract: `workers/communications/openapi.yaml`
+- Implementation: `workers/communications/src/index.ts`
+- Contract: `workers/communications/openapi.yaml`
+- Config: `workers/communications/wrangler.toml`
 
-### `POST /api/contact`
+Configured in repo:
+- Worker name: `stexpedite-communications`
+- Vars in `wrangler.toml`: `FROM_EMAIL`, `TO_EMAIL`
+- Endpoints:
+  - `POST /api/contact`
+  - `POST /api/submit`
+  - `POST /api/updates`
 
-Request JSON:
-- required: `email`, `message`
-- optional: `reason`
-- honeypot (optional): `website`, `company`, `hp`
+Updates storage semantics:
+- `DB` binding is configured to D1 database `stexpedite-updates`.
+- If `DB` exists, `/api/updates` writes/upserts to D1 table `updates_signups`.
+- If `DB` is missing, `/api/updates` returns `{ "ok": false, "error": "Updates list not configured" }` with status `500`.
 
-Behavior:
-- Validates input
-- Sends editor email to `TO_EMAIL`
-- Sends receipt email back to submitter
-- Returns `{ ok: true, id: "CONTACT-..." }`
+### Email layer
 
-### `POST /api/submit`
+Resend integration:
+- Worker sends HTTPS requests to `https://api.resend.com/emails`
+- Auth uses `Authorization: Bearer <RESEND_API_KEY>`
+- Sender identity comes from `FROM_EMAIL`
+- Editor recipient comes from `TO_EMAIL`
 
-Request JSON:
-- required: `email`
-- optional: `note`
-- honeypot (optional): `website`, `company`, `hp`
+## 2) Cloudflare dashboard required checks (not stored in git)
 
-Behavior:
-- Validates input
-- Sends editor email to `TO_EMAIL`
-- Sends receipt email back to submitter
-- Returns `{ ok: true, id: "SUBMIT-..." }`
+These checks must be confirmed in Cloudflare/Resend dashboards and are not guaranteed by repo contents alone.
 
-### `POST /api/updates`
-
-Request JSON:
-- required: `email`
-- optional: `source`
-- honeypot (optional): `website`, `company`, `hp`
-
-Behavior:
-- Validates input
-- Writes to D1 table `updates_signups` when binding `DB` exists
-- Returns `{ ok: true }` on success
-- Returns `{ ok: false, error: "Updates list not configured" }` if `DB` is not bound
-
-## 5) Email provider layer (Resend)
-
-Why Resend is used:
-- Cloudflare Workers do not send SMTP mail directly.
-- Worker sends HTTPS requests to Resend.
-
-Auth model:
-- `Authorization: Bearer <RESEND_API_KEY>`
-
-Sender identity:
-- `no-reply@stexpedite.press` (via `FROM_EMAIL`)
-
-## 6) Deployment procedure
-
-From `workers/communications/`:
+### Account and auth checks
 
 ```bash
-wrangler login
-wrangler deploy
-wrangler secret put RESEND_API_KEY
+cd workers/communications
+npx -y wrangler whoami
+npx -y wrangler secret list
+npx -y wrangler d1 list
 ```
 
-Cloudflare dashboard:
-- Ensure route `stexpedite.press/api/*` is attached to `stexpedite-communications`.
+Required outcomes:
+- Wrangler authentication succeeds.
+- Secret list contains `RESEND_API_KEY`.
+- D1 list contains `stexpedite-updates`.
 
-## 7) Validation runbook
+### Route and DNS checks
 
-Example production contact test (PowerShell):
+Required:
+- Route `stexpedite.press/api/*` is attached to `stexpedite-communications`.
 
-```powershell
-Invoke-RestMethod -Method POST `
-  -Uri "https://stexpedite.press/api/contact" `
-  -ContentType "application/json" `
-  -Body '{"reason":"Test","email":"test@example.com","message":"Hello"}'
-```
+Conditional:
+- If `www` serves traffic before redirect, add/verify `www.stexpedite.press/api/*`.
 
-Expected success shape:
+DNS mode checks:
+- Hostnames using Worker Routes are proxied (orange cloud).
+- Mail/auth records remain DNS-only (gray cloud):
+  - MX: `mx.zoho.com`, `mx2.zoho.com`, `mx3.zoho.com`
+  - DKIM selectors: `zmail._domainkey`, `resend._domainkey`
+  - SPF + DMARC TXT records
 
-```json
-{ "ok": true, "id": "CONTACT-..." }
-```
+### Optional D1 checks for updates capture
 
-Updates endpoint test:
+If first-party updates storage is required:
+1. D1 database exists.
+2. Worker has binding `DB`.
+3. Migration `workers/communications/migrations/0001_updates_signups.sql` is applied.
 
-```powershell
-Invoke-RestMethod -Method POST `
-  -Uri "https://stexpedite.press/api/updates" `
-  -ContentType "application/json" `
-  -Body '{"email":"test@example.com","source":"powershell"}'
+Current expected state:
+- Database name: `stexpedite-updates`
+- Binding name: `DB`
+- Migration `0001_updates_signups.sql` already applied remotely
+
+## 3) Runtime smoke tests
+
+Run after Worker deploy and route verification.
+
+### Contact endpoint
+
+```bash
+curl -i -X POST "https://stexpedite.press/api/contact" \
+  -H "content-type: application/json" \
+  --data '{"reason":"Test","email":"test@example.com","message":"Hello"}'
 ```
 
 Expected:
-- `{ "ok": true }` when D1 binding `DB` is configured
-- `{ "ok": false, "error": "Updates list not configured" }` when `DB` is not configured
+- `200`
+- body shape includes `{ "ok": true, "id": "CONTACT-..." }`
 
-## 8) Security model
+### Submit endpoint
 
-Current controls:
-- Secrets stored in Cloudflare secrets (not in git)
-- CORS allowlist enforced in Worker
-- Honeypot suppression for bot-like submissions
+```bash
+curl -i -X POST "https://stexpedite.press/api/submit" \
+  -H "content-type: application/json" \
+  --data '{"email":"test@example.com","note":"Hello"}'
+```
 
-Recommended next hardening:
+Expected:
+- `200`
+- body shape includes `{ "ok": true, "id": "SUBMIT-..." }`
+
+### Updates endpoint
+
+```bash
+curl -i -X POST "https://stexpedite.press/api/updates" \
+  -H "content-type: application/json" \
+  --data '{"email":"test@example.com","source":"smoke"}'
+```
+
+Expected:
+- With D1 `DB` bound: `200` and `{ "ok": true }`
+- Without D1 `DB` bound: `500` and `{ "ok": false, "error": "Updates list not configured" }`
+
+## 4) Security and operations notes
+
+Current controls in code:
+- CORS allowlist enforcement
+- Honeypot suppression (`website`, `company`, `hp`)
+- Secrets stored outside git
+
+Recommended hardening backlog:
 - Add rate limiting for `POST /api/*`
-- Add Turnstile and verify token server-side
-- Add alerting on elevated Worker error rates
+- Add Turnstile token verification server-side
+- Add error-rate alerting around Worker failures
 
-## 9) Filesystem reference
+## 5) Filesystem reference
 
-Relevant repo paths:
 - `workers/communications/wrangler.toml`
 - `workers/communications/src/index.ts`
 - `workers/communications/openapi.yaml`
+- `workers/communications/migrations/0001_updates_signups.sql`
+- `docs/infrastructure/d1-database.md`
 - `docs/state-of-play.md`
-- `docs/ontology/project-ontology.json`
+- `DEPLOYMENT.md`
