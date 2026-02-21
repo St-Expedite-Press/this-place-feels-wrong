@@ -4,7 +4,7 @@ Repo-verified snapshot as of **2026-02-21**.
 
 Baseline checked:
 - Branch: `main`
-- HEAD: `249c45e`
+- HEAD: `b8dbb7a`
 - Working tree: clean
 
 This document reflects what is present in the repository. Runtime/production status that cannot be observed from code is marked as configuration intent.
@@ -80,8 +80,8 @@ Current HTML pages in `site/`:
   - Fallback: `mailto:editor@stexpedite.press`
 - Updates flow:
   - UI locations: `site/index.html` (hero + mobile form), `site/contact.html` (updates row)
-  - Newsletter target: `https://ecoamericana.substack.com/subscribe`
-  - Best-effort first-party capture: `POST /api/updates`
+  - Primary action: first-party capture via `POST /api/updates`
+  - On successful capture, frontend prompts user to optionally continue to `https://ecoamericana.substack.com/subscribe`
 
 Index behavior:
 - Desktop hero bar includes an inline updates form (`#hero-updates-form`).
