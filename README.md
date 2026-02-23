@@ -42,6 +42,7 @@ All public site files live under `site/`, but they are served from the domain ro
 ### Edge and APIs (Cloudflare)
 - Cloudflare proxies the site hostname(s).
 - `/api/*` is routed to a Worker (so GitHub Pages never runs server code).
+- Worker POST routes apply per-IP rate limiting and can enforce Turnstile when configured.
 
 ## Repository Layout
 
@@ -72,6 +73,14 @@ Optional: develop the Worker locally (Wrangler required; see `workers/communicat
 ```bash
 cd workers/communications
 wrangler dev
+```
+
+Run Worker tests:
+
+```bash
+cd workers/communications
+npm install
+npm run test
 ```
 
 ## Deployment

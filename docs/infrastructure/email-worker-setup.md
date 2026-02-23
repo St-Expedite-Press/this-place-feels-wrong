@@ -3,7 +3,7 @@
 This document records communications infrastructure for `stexpedite.press`, with explicit separation between repo-configured state and dashboard/runtime checks.
 
 Runtime verification snapshot:
-- Date: **2026-02-21**
+- Date: **2026-02-23**
 - `npx -y wrangler whoami`: authenticated
 - `npx -y wrangler secret list`: includes `RESEND_API_KEY`
 - `npx -y wrangler d1 list`: includes `stexpedite-updates`
@@ -29,7 +29,8 @@ Source of truth:
 
 Configured in repo:
 - Worker name: `stexpedite-communications`
-- Vars in `wrangler.toml`: `FROM_EMAIL`, `TO_EMAIL`
+- Vars in `wrangler.toml`: `FROM_EMAIL`, `TO_EMAIL`, `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`
+- Optional secret-gated control: when `TURNSTILE_SECRET` is present, POST routes require valid Turnstile token verification
 - Endpoints:
   - `GET /api/health`
   - `POST /api/contact`
@@ -143,6 +144,7 @@ curl -i -X POST "https://stexpedite.press/api/updates" \
 Expected:
 - With D1 `DB` bound: `200` and `{ "ok": true }`
 - Without D1 `DB` bound: `500` and `{ "ok": false, "error": "Updates list not configured" }`
+- Under sustained per-IP burst: `429` and `{ "ok": false, "error": "Too many requests", "retryAfter": <seconds> }`
 
 Automated equivalent checks:
 
@@ -151,17 +153,27 @@ bash skills/ops/cloudflare-stability/scripts/runtime-audit.sh
 bash skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
 ```
 
+Worker test suite (repo-local contract checks):
+
+```bash
+cd workers/communications
+npm install
+npm run test
+```
+
 ## 4) Security and operations notes
 
 Current controls in code:
 - CORS allowlist enforcement
 - Honeypot suppression (`website`, `company`, `hp`)
+- Worker-side rate limiting (`RATE_LIMIT_MAX` + `RATE_LIMIT_WINDOW_MS`)
+- Optional Turnstile token verification (`TURNSTILE_SECRET`)
 - Secrets stored outside git
 
-Recommended hardening backlog:
-- Add rate limiting for `POST /api/*`
-- Add Turnstile token verification server-side
-- Add error-rate alerting around Worker failures
+Operational monitor:
+- `.github/workflows/api-health-monitor.yml` runs every 15 minutes and checks:
+  - `GET /api/health` success payload
+  - synthetic negative probes for `POST /api/updates`, `POST /api/contact`, and `POST /api/submit`
 
 ## 5) Filesystem reference
 

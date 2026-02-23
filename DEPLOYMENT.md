@@ -7,12 +7,14 @@ This repo deploys a static site via GitHub Pages, with Cloudflare in front. `/ap
 GitHub Pages publishes static site assets only:
 - Source path in repo: `site/`
 - Workflow: `.github/workflows/deploy-pages.yml`
+- Quality gates: HTML lint + communications Worker tests
 - Artifact behavior: `rsync -a --delete site/ dist/` then publish `dist/`
 
 Cloudflare Worker handles dynamic API endpoints only:
 - Worker project: `workers/communications/`
 - Worker name: `stexpedite-communications`
 - API surface: `GET /api/health`, `POST /api/contact`, `POST /api/submit`, `POST /api/updates`
+- Cross-cutting controls: per-IP rate limiting on POST routes, optional Turnstile validation when `TURNSTILE_SECRET` is configured
 
 ## 2) Required runtime prerequisites
 
@@ -23,7 +25,9 @@ Cloudflare:
 
 Worker runtime configuration:
 - Secret: `RESEND_API_KEY`
+- Optional secret: `TURNSTILE_SECRET` (enforces Turnstile verification on POST routes)
 - Vars: `FROM_EMAIL`, `TO_EMAIL` (from `workers/communications/wrangler.toml`)
+- Rate-limit vars: `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`
 - D1 binding: `DB` (currently bound to `stexpedite-updates`; required for updates capture persistence)
 
 Important DNS/proxy rule:
@@ -111,6 +115,7 @@ Expected:
 - Health: `200` and JSON with `ok: true`
 - With D1 bound: `200` and `{ "ok": true }`
 - Without D1 bound: `500` and `{ "ok": false, "error": "Updates list not configured" }`
+- On POST bursts beyond limits: `429` and `{ "ok": false, "error": "Too many requests", "retryAfter": <seconds> }`
 
 Repo-local automation (recommended):
 
@@ -130,4 +135,4 @@ bash skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
 - Ontology (machine): `docs/ontology/project-ontology.json`
 - Ontology (human): `docs/ontology/project-ontology.md`
 - Ops skill tooling: `skills/ops/cloudflare-stability/`
-- Scheduled health monitor workflow: `.github/workflows/api-health-monitor.yml`
+- Scheduled runtime monitor workflow: `.github/workflows/api-health-monitor.yml` (health + synthetic POST route checks)

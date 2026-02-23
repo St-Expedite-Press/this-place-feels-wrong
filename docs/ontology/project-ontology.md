@@ -25,8 +25,8 @@ Even though pages are stored under `site/`, they are published at domain root UR
 
 ### Deployment (GitHub Pages)
 - Workflow: `.github/workflows/deploy-pages.yml`
-- Publish model: copy `site/` -> `dist/` -> upload Pages artifact.
-- Runtime monitor: `.github/workflows/api-health-monitor.yml` probes `/api/health` every 15 minutes.
+- Publish model: run HTML + Worker tests, then copy `site/` -> `dist/` -> upload Pages artifact.
+- Runtime monitor: `.github/workflows/api-health-monitor.yml` probes `/api/health` plus synthetic POST route checks every 15 minutes.
 
 ### Communications Worker (Cloudflare)
 - Code: `workers/communications/src/index.ts`
@@ -50,6 +50,11 @@ Endpoints:
   - Called by: `site/index.html` and the Updates section in `site/contact.html`
   - Stores email into Cloudflare D1 if bound as `DB`
   - Returns `Updates list not configured` when `DB` is absent
+
+Cross-cutting controls:
+- Worker-side per-IP rate limiting on POST routes (`RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`)
+- Optional Turnstile verification on POST routes when `TURNSTILE_SECRET` is configured
+- Structured JSON 500 handling for unexpected runtime exceptions
 
 ## User flows
 
