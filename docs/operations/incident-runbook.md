@@ -13,12 +13,17 @@ Use this for production API outages/degradation affecting `/api/contact`, `/api/
 2. Run `bash skills/ops/cloudflare-stability/scripts/smoke-api.sh`.
 3. Confirm Cloudflare route attachment for `stexpedite.press/api/*`.
 4. Confirm Worker secret `RESEND_API_KEY` exists.
+5. If Turnstile is enabled, confirm Worker secret `TURNSTILE_SECRET` exists.
 
 ## Mitigation playbook
 
 - Secret/vars issue:
   - restore secret
   - verify wrangler vars
+  - redeploy Worker
+- Abuse-control issue (false-positive blocks):
+  - tune `RATE_LIMIT_MAX` / `RATE_LIMIT_WINDOW_MS`
+  - verify Turnstile token path and secret alignment
   - redeploy Worker
 - D1 issue:
   - verify DB presence and schema

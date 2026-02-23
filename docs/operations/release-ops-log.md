@@ -22,3 +22,11 @@ Deployment and runtime verification evidence entries.
   - runtime audit script executed
   - API smoke script executed
 - Scope: Cloudflare Worker + D1 + API runtime
+
+## 2026-02-23T00:33:23Z
+- Commit: `52e242d`
+- Checks:
+  - `npm run test` in `workers/communications/`
+  - `npx -y htmlhint "site/**/*.html"`
+  - ontology JSON parse validation
+- Scope: Worker hardening update (error envelope, rate limit, Turnstile hook), monitor and docs sync

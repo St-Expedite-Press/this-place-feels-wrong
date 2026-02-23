@@ -40,8 +40,8 @@
     "origin": "GitHub Pages",
     "primary": "stexpedite.press"
   },
-  "generated_at": "2026-02-21",
-  "generated_from_commit": "249c45ea09d0f6e4f73bf265dcfa9dc4ed9010ba",
+  "generated_at": "2026-02-23",
+  "generated_from_commit": "52e242dd425938e8fac8fb13e93c0c9035119f6c",
   "ontology_version": "1",
   "intents": {
     "edit_contact_form": {
@@ -160,9 +160,11 @@
       }
     },
     "workers/communications/src/index.ts": {
-      "role": "Cloudflare Worker implementing /api/health, /api/contact, /api/submit, /api/updates",
+      "role": "Cloudflare Worker implementing /api/health, /api/contact, /api/submit, /api/updates with rate limiting, optional Turnstile, and structured 500 handling",
       "anchors": {
         "cors": "function withCors",
+        "rate_limit": "function checkRateLimit",
+        "turnstile": "async function verifyTurnstile",
         "email_validation": "function isProbablyEmail",
         "ref_id": "function refId",
         "honeypot": "function pickHoneypot",
@@ -173,17 +175,21 @@
       }
     },
     ".github/workflows/deploy-pages.yml": {
-      "role": "GitHub Pages pipeline: validates HTML then rsync site/ -> dist/ for artifact",
+      "role": "GitHub Pages pipeline: validates HTML, runs communications Worker tests, then rsync site/ -> dist/ for artifact",
       "anchors": {
         "htmlhint": "npx -y htmlhint \"site/**/*.html\"",
+        "worker_tests": "npm --prefix workers/communications run test",
         "artifact_prep": "rsync -a --delete site/ dist/"
       }
     },
     ".github/workflows/api-health-monitor.yml": {
-      "role": "Scheduled production health probe for /api/health (15-minute cadence)",
+      "role": "Scheduled production runtime probe for /api/health and synthetic POST route checks (15-minute cadence)",
       "anchors": {
         "schedule": "cron: \"*/15 * * * *\"",
-        "probe": "curl -fsS https://stexpedite.press/api/health"
+        "health_probe": "curl -fsS https://stexpedite.press/api/health",
+        "updates_probe": "-X POST https://stexpedite.press/api/updates",
+        "contact_probe": "-X POST https://stexpedite.press/api/contact",
+        "submit_probe": "-X POST https://stexpedite.press/api/submit"
       }
     },
     "workers/communications/openapi.yaml": {
@@ -1124,7 +1130,8 @@
           "requires": [
             "RESEND_API_KEY",
             "FROM_EMAIL",
-            "TO_EMAIL"
+            "TO_EMAIL",
+            "TURNSTILE_SECRET (optional)"
           ],
           "request": {
             "content_type": "application/json",
@@ -1149,6 +1156,10 @@
                 "type": "string",
                 "max_len": 6000,
                 "required": true
+              },
+              "turnstileToken": {
+                "type": "string",
+                "required": false
               }
             }
           },
@@ -1171,11 +1182,27 @@
               }
             },
             {
-              "status": 500,
-              "when": "Worker not configured (missing RESEND_API_KEY/FROM_EMAIL/TO_EMAIL)",
+              "status": 403,
+              "when": "Turnstile verification fails when TURNSTILE_SECRET is configured",
               "body": {
                 "ok": false,
-                "error": "Server not configured"
+                "error": "Turnstile verification failed"
+              }
+            },
+            {
+              "status": 429,
+              "when": "Per-IP per-route POST rate limit exceeded",
+              "body": {
+                "ok": false,
+                "error": "Too many requests"
+              }
+            },
+            {
+              "status": 500,
+              "when": "Worker misconfigured or unexpected runtime failure",
+              "body": {
+                "ok": false,
+                "error": "Server not configured|Internal server error"
               }
             }
           ]
@@ -1186,7 +1213,8 @@
           "requires": [
             "RESEND_API_KEY",
             "FROM_EMAIL",
-            "TO_EMAIL"
+            "TO_EMAIL",
+            "TURNSTILE_SECRET (optional)"
           ],
           "request": {
             "content_type": "application/json",
@@ -1205,6 +1233,10 @@
               "note": {
                 "type": "string",
                 "max_len": 6000,
+                "required": false
+              },
+              "turnstileToken": {
+                "type": "string",
                 "required": false
               }
             }
@@ -1228,11 +1260,27 @@
               }
             },
             {
-              "status": 500,
-              "when": "Worker not configured (missing RESEND_API_KEY/FROM_EMAIL/TO_EMAIL)",
+              "status": 403,
+              "when": "Turnstile verification fails when TURNSTILE_SECRET is configured",
               "body": {
                 "ok": false,
-                "error": "Server not configured"
+                "error": "Turnstile verification failed"
+              }
+            },
+            {
+              "status": 429,
+              "when": "Per-IP per-route POST rate limit exceeded",
+              "body": {
+                "ok": false,
+                "error": "Too many requests"
+              }
+            },
+            {
+              "status": 500,
+              "when": "Worker misconfigured or unexpected runtime failure",
+              "body": {
+                "ok": false,
+                "error": "Server not configured|Internal server error"
               }
             }
           ]
@@ -1241,7 +1289,8 @@
           "method": "POST",
           "purpose": "Capture updates/signup email to D1 (no email sent)",
           "requires": [
-            "DB (D1 binding)"
+            "DB (D1 binding)",
+            "TURNSTILE_SECRET (optional)"
           ],
           "request": {
             "content_type": "application/json",
@@ -1260,6 +1309,10 @@
               "source": {
                 "type": "string",
                 "max_len": 80,
+                "required": false
+              },
+              "turnstileToken": {
+                "type": "string",
                 "required": false
               }
             }
@@ -1283,11 +1336,27 @@
               }
             },
             {
-              "status": 500,
-              "when": "No D1 binding is configured as DB",
+              "status": 403,
+              "when": "Turnstile verification fails when TURNSTILE_SECRET is configured",
               "body": {
                 "ok": false,
-                "error": "Updates list not configured"
+                "error": "Turnstile verification failed"
+              }
+            },
+            {
+              "status": 429,
+              "when": "Per-IP per-route POST rate limit exceeded",
+              "body": {
+                "ok": false,
+                "error": "Too many requests"
+              }
+            },
+            {
+              "status": 500,
+              "when": "No D1 binding is configured as DB, or unexpected runtime failure",
+              "body": {
+                "ok": false,
+                "error": "Updates list not configured|Internal server error"
               }
             }
           ]

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: St. Expedite Press Communications API
-  version: 1.1.0
+  version: 1.2.0
   description: |
     Cloudflare Worker API for contact, submission, and updates signup flows.
     Source implementation: workers/communications/src/index.ts
@@ -55,8 +55,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Turnstile verification failed (only when configured)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RateLimitErrorResponse"
         "500":
-          description: Worker not configured (missing email vars/secret)
+          description: Worker not configured, or unexpected runtime failure
           content:
             application/json:
               schema:
@@ -85,8 +97,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Turnstile verification failed (only when configured)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RateLimitErrorResponse"
         "500":
-          description: Worker not configured (missing email vars/secret)
+          description: Worker not configured, or unexpected runtime failure
           content:
             application/json:
               schema:
@@ -117,8 +141,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Turnstile verification failed (only when configured)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RateLimitErrorResponse"
         "500":
-          description: DB binding is not configured
+          description: DB binding not configured, or unexpected runtime failure
           content:
             application/json:
               schema:
@@ -151,6 +187,9 @@ components:
         hp:
           type: string
           description: Honeypot field (leave empty)
+        turnstileToken:
+          type: string
+          description: Optional Turnstile token (`cf-turnstile-response` equivalent)
     SubmitRequest:
       type: object
       required: [email]
@@ -173,6 +212,9 @@ components:
         hp:
           type: string
           description: Honeypot field (leave empty)
+        turnstileToken:
+          type: string
+          description: Optional Turnstile token (`cf-turnstile-response` equivalent)
     UpdatesRequest:
       type: object
       required: [email]
@@ -195,6 +237,9 @@ components:
         hp:
           type: string
           description: Honeypot field (leave empty)
+        turnstileToken:
+          type: string
+          description: Optional Turnstile token (`cf-turnstile-response` equivalent)
     ContactSuccess:
       type: object
       additionalProperties: false
@@ -245,6 +290,22 @@ components:
             - Missing fields
             - Server not configured
             - Updates list not configured
+            - Turnstile verification failed
+            - Internal server error
+    RateLimitErrorResponse:
+      type: object
+      additionalProperties: false
+      required: [ok, error, retryAfter]
+      properties:
+        ok:
+          type: boolean
+          const: false
+        error:
+          type: string
+          const: Too many requests
+        retryAfter:
+          type: integer
+          minimum: 1
     HealthSuccess:
       type: object
       additionalProperties: false

@@ -6,12 +6,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  health-check:
+  api-runtime-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Probe health endpoint
+      - name: Probe health and API route behavior
         run: |
           set -euo pipefail
-          resp="$(curl -fsS https://stexpedite.press/api/health)"
-          echo "$resp"
-          echo "$resp" | grep -q '"ok":true'
+
+          health="$(curl -fsS https://stexpedite.press/api/health)"
+          echo "$health"
+          echo "$health" | grep -q '"ok":true'
+
+          updates_code="$(curl -sS -o /tmp/updates.json -w "%{http_code}" \
+            -X POST https://stexpedite.press/api/updates \
+            -H "content-type: application/json" \
+            --data '{"email":"","source":"monitor"}')"
+          test "$updates_code" = "400"
+          grep -q '"ok":false' /tmp/updates.json
+
+          contact_code="$(curl -sS -o /tmp/contact.json -w "%{http_code}" \
+            -X POST https://stexpedite.press/api/contact \
+            -H "content-type: application/json" \
+            --data '{"email":"","message":""}')"
+          test "$contact_code" = "400" || test "$contact_code" = "500"
+          grep -q '"ok":false' /tmp/contact.json
+
+          submit_code="$(curl -sS -o /tmp/submit.json -w "%{http_code}" \
+            -X POST https://stexpedite.press/api/submit \
+            -H "content-type: application/json" \
+            --data '{"email":"","note":""}')"
+          test "$submit_code" = "400" || test "$submit_code" = "500"
+          grep -q '"ok":false' /tmp/submit.json

@@ -6,6 +6,8 @@ compatibility_date = "2026-02-05"
 # Use a verified sender domain in Resend.
 FROM_EMAIL = "St. Expedite Press <no-reply@stexpedite.press>"
 TO_EMAIL = "editor@stexpedite.press"
+RATE_LIMIT_MAX = "20"
+RATE_LIMIT_WINDOW_MS = "60000"
 
 [[d1_databases]]
 binding = "DB"

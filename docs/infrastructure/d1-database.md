@@ -8,6 +8,7 @@ Canonical reference for the Cloudflare D1 database used by the communications Wo
 - Database ID: `3bf56a30-c0cc-4b0f-a82a-caf740623af6`
 - Worker binding name: `DB`
 - Binding location: `workers/communications/wrangler.toml`
+- Related non-D1 Worker vars in the same config: `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`
 - Migration file: `workers/communications/migrations/0001_updates_signups.sql`
 
 Worker behavior dependency:
