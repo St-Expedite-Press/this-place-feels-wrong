@@ -205,6 +205,11 @@
       letter-spacing: 0.12em;
       opacity: 0.7;
     }
+
+    .footer-store-link {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
   </style>
 </head>
 <body>
@@ -265,6 +270,7 @@
 
     <footer class="page-footer" aria-label="Footer links">
       <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
+      <span id="footer-store-wrap" hidden> // <a id="footer-store-link" class="footer-store-link" href="#" target="_blank" rel="noopener noreferrer">Go to Full Store</a></span>
     </footer>
   </main>
 
@@ -274,8 +280,10 @@
       const toolbar = document.getElementById('store-toolbar');
       const status = document.getElementById('store-status');
       const grid = document.getElementById('store-grid');
+      const footerStoreWrap = document.getElementById('footer-store-wrap');
+      const footerStoreLink = document.getElementById('footer-store-link');
 
-      if (!toolbar || !status || !grid) return;
+      if (!toolbar || !status || !grid || !footerStoreWrap || !footerStoreLink) return;
 
       let currentCollection = '';
       let shopUrl = '';
@@ -331,11 +339,7 @@
           return `<button class="collection-pill${active}" type="button" data-collection="${slug}">${name}</button>`;
         });
 
-        const shopBtn = shopUrl
-          ? `<a class="store-link" href="${shopUrl}" target="_blank" rel="noopener noreferrer">Open Full Store</a>`
-          : '';
-
-        toolbar.innerHTML = [...pills, shopBtn].join('');
+        toolbar.innerHTML = pills.join('');
 
         toolbar.querySelectorAll('[data-collection]').forEach((btn) => {
           btn.addEventListener('click', () => {
@@ -368,6 +372,13 @@
 
           currentCollection = String(data.collection || collectionSlug || '');
           shopUrl = normalizeShopUrl(data?.shop?.url || data?.shop?.domain || '');
+          if (shopUrl) {
+            footerStoreWrap.hidden = false;
+            footerStoreLink.setAttribute('href', shopUrl);
+          } else {
+            footerStoreWrap.hidden = true;
+            footerStoreLink.setAttribute('href', '#');
+          }
           renderToolbar(Array.isArray(data.collections) ? data.collections : []);
           renderProducts(Array.isArray(data.products) ? data.products : []);
 
@@ -377,8 +388,12 @@
           const message = err && err.message ? err.message : 'Storefront unavailable';
           setStatus(`Could not load storefront right now (${message}).`);
           if (shopUrl) {
+            footerStoreWrap.hidden = false;
+            footerStoreLink.setAttribute('href', shopUrl);
             grid.innerHTML = `<div class="empty-state"><a class="store-link" href="${shopUrl}" target="_blank" rel="noopener noreferrer">Open Store Directly</a></div>`;
           } else {
+            footerStoreWrap.hidden = true;
+            footerStoreLink.setAttribute('href', '#');
             grid.innerHTML = '<div class="empty-state">Try again shortly.</div>';
           }
         }
