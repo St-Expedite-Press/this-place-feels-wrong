@@ -3,6 +3,7 @@
 Cloudflare Worker that powers form submissions for this site:
 
 - `GET /api/health` - lightweight runtime status probe
+- `GET /api/storefront` - reads a normalized Fourthwall storefront catalog snapshot
 - `POST /api/contact` - contact form submissions (sends branded HTML + plain-text fallback via Resend)
 - `POST /api/submit` - submissions/inquiries (sends branded HTML + plain-text fallback via Resend)
 - `POST /api/updates` - capture an updates/signup email list (stores in D1 if configured; does not send email)
@@ -11,6 +12,7 @@ OpenAPI contract:
 - `workers/communications/openapi.yaml`
 
 The site is hosted on GitHub Pages; this Worker is meant to be deployed on Cloudflare and routed for `stexpedite.press/api/*`.
+`site/gallery.html` consumes `GET /api/storefront` to render the live store grid.
 
 Current production route:
 - `stexpedite.press/api/*` -> `stexpedite-communications`
@@ -43,6 +45,7 @@ Environment variables (set in `wrangler.toml` or Cloudflare dashboard):
 Secret:
 - `RESEND_API_KEY`
 - `TURNSTILE_SECRET` (optional; when set, POST routes require a valid token)
+- `FOURTH_WALL_API_KEY` (required for `GET /api/storefront`; Fourthwall storefront token)
 
 D1 (optional, for `/api/updates`):
 - Create a D1 database (Cloudflare dashboard or `wrangler d1 create ...`).

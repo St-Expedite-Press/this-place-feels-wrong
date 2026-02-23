@@ -13,7 +13,7 @@ GitHub Pages publishes static site assets only:
 Cloudflare Worker handles dynamic API endpoints only:
 - Worker project: `workers/communications/`
 - Worker name: `stexpedite-communications`
-- API surface: `GET /api/health`, `POST /api/contact`, `POST /api/submit`, `POST /api/updates`
+- API surface: `GET /api/health`, `GET /api/storefront`, `POST /api/contact`, `POST /api/submit`, `POST /api/updates`
 - Cross-cutting controls: per-IP rate limiting on POST routes, optional Turnstile validation when `TURNSTILE_SECRET` is configured
 
 ## 2) Required runtime prerequisites
@@ -25,6 +25,7 @@ Cloudflare:
 
 Worker runtime configuration:
 - Secret: `RESEND_API_KEY`
+- Secret: `FOURTH_WALL_API_KEY` (for `GET /api/storefront`)
 - Optional secret: `TURNSTILE_SECRET` (enforces Turnstile verification on POST routes)
 - Vars: `FROM_EMAIL`, `TO_EMAIL` (from `workers/communications/wrangler.toml`)
 - Rate-limit vars: `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`

@@ -38,6 +38,9 @@ Even though pages are stored under `site/`, they are published at domain root UR
 Endpoints:
 - `GET /api/health`
   - Runtime health probe used for monitoring and release verification
+- `GET /api/storefront`
+  - Called by: `site/gallery.html`
+  - Reads Fourthwall shop + collections + products and returns normalized catalog JSON
 - `POST /api/contact`
   - Called by: `site/contact.html`
   - Sends 2 emails via Resend:

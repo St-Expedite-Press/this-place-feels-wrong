@@ -31,7 +31,7 @@ Verification timestamp:
 | Pages publish scope | `.github/workflows/deploy-pages.yml` runs `rsync -a --delete site/ dist/` | Repo-verified |
 | Worker abuse controls | `src/index.ts` enforces per-IP POST rate limiting and optional Turnstile verification when `TURNSTILE_SECRET` is set | Repo-verified |
 | Worker automated tests | `workers/communications/test/index.test.ts` validates health, success, failure, Turnstile-required, and 429 behavior | Repo-verified |
-| Scheduled runtime monitor | `.github/workflows/api-health-monitor.yml` checks `/api/health` and synthetic POST-route behavior every 15 minutes | Repo-verified |
+| Scheduled runtime monitor | `.github/workflows/api-health-monitor.yml` checks `/api/health`, `/api/storefront`, and synthetic POST-route behavior every 15 minutes | Repo-verified |
 
 Operator verification commands:
 
@@ -85,6 +85,10 @@ Current HTML pages in `site/`:
   - UI locations: `site/index.html` (hero + mobile form), `site/contact.html` (updates row)
   - Primary action: first-party capture via `POST /api/updates`
   - On successful capture, frontend prompts user to optionally continue to `https://ecoamericana.substack.com/subscribe`
+- Store flow:
+  - UI: `site/gallery.html`
+  - Endpoint: `GET /api/storefront`
+  - Source of catalog truth: Fourthwall Storefront API via Worker secret `FOURTH_WALL_API_KEY`
 
 Index behavior:
 - Desktop hero bar includes an inline updates form (`#hero-updates-form`).
@@ -104,6 +108,9 @@ Worker configuration:
 - D1 binding: `DB` (currently configured to `stexpedite-updates`)
 
 Implemented routes in `workers/communications/src/index.ts`:
+- `GET /api/storefront`
+  - Reads shop/collection/products from Fourthwall Storefront API
+  - Normalizes response for gallery rendering
 - `POST /api/contact`
   - Validates JSON + email/message
   - Sends editor email + receipt email via Resend
@@ -128,7 +135,7 @@ Cross-cutting behavior:
 - OPTIONS preflight is supported.
 
 Contract and schema files:
-- OpenAPI contract: `workers/communications/openapi.yaml` (`openapi: 3.1.0`, `info.version: 1.2.0`)
+- OpenAPI contract: `workers/communications/openapi.yaml` (`openapi: 3.1.0`, `info.version: 1.3.0`)
 - D1 migration: `workers/communications/migrations/0001_updates_signups.sql`
 
 ## 4) Deploy pipeline snapshot

@@ -33,6 +33,7 @@ Configured in repo:
 - Optional secret-gated control: when `TURNSTILE_SECRET` is present, POST routes require valid Turnstile token verification
 - Endpoints:
   - `GET /api/health`
+  - `GET /api/storefront`
   - `POST /api/contact`
   - `POST /api/submit`
   - `POST /api/updates`
@@ -173,7 +174,11 @@ Current controls in code:
 Operational monitor:
 - `.github/workflows/api-health-monitor.yml` runs every 15 minutes and checks:
   - `GET /api/health` success payload
+  - `GET /api/storefront` success payload
   - synthetic negative probes for `POST /api/updates`, `POST /api/contact`, and `POST /api/submit`
+
+Storefront dependency:
+- `GET /api/storefront` requires Worker secret `FOURTH_WALL_API_KEY` (Fourthwall storefront token).
 
 ## 5) Filesystem reference
 
