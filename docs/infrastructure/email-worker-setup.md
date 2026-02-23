@@ -100,6 +100,9 @@ Current expected state:
 
 Run after Worker deploy and route verification.
 
+Deploy command note:
+- Use `npx -y wrangler deploy --keep-vars` so dashboard-defined vars remain attached to runtime.
+
 ### Health endpoint
 
 ```bash

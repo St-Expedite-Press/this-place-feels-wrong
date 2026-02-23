@@ -29,7 +29,7 @@ Current production route:
    - `wrangler secret put RESEND_API_KEY`
 
 4. Deploy:
-   - `wrangler deploy`
+   - `wrangler deploy --keep-vars`
 
 5. In Cloudflare dashboard, add a route:
    - `stexpedite.press/api/*` -> this Worker
@@ -59,6 +59,7 @@ D1 (optional, for `/api/updates`):
 - Use `GET /api/health` for operational smoke checks after deploys.
 - POST routes include Worker-side rate limiting and optional Turnstile validation.
 - To export the updates list, query D1 from the Cloudflare dashboard, or use `wrangler d1 execute` (do not expose a public list endpoint).
+- Use `--keep-vars` on deploy so dashboard-managed vars are preserved (for example `FOURTH_WALL_API_KEY`).
 
 ## Testing
 

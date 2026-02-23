@@ -48,8 +48,11 @@ Important DNS/proxy rule:
 ```bash
 cd workers/communications
 npx -y wrangler whoami
-npx -y wrangler deploy
+npx -y wrangler deploy --keep-vars
 ```
+
+Important:
+- Always use `--keep-vars` for this Worker. Without it, Wrangler may remove dashboard-defined plaintext variables that are not declared in `wrangler.toml` (for example `FOURTH_WALL_API_KEY`).
 
 ### C) Verify secret and route attachments
 
