@@ -30,3 +30,10 @@ Deployment and runtime verification evidence entries.
   - `npx -y htmlhint "site/**/*.html"`
   - ontology JSON parse validation
 - Scope: Worker hardening update (error envelope, rate limit, Turnstile hook), monitor and docs sync
+
+## 2026-02-23T03:26:13Z
+- Commit: `cd701f1`
+- Checks:
+  - runtime audit script executed
+  - API smoke script executed
+- Scope: Cloudflare Worker + D1 + API runtime
