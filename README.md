@@ -23,7 +23,7 @@ All public site files live under `site/`, but they are served from the domain ro
 - Entry point: `site/index.html` (published at `/`)
 - Pages:
   - `site/books.html` (Books)
-  - `site/gallery.html` (Store)
+- `site/gallery.html` (Store)
   - `site/services.html` (Services; currently linked to the holding page from nav)
   - `site/mission.html` (Mission)
   - `site/lab.html` (Lab; currently linked to the holding page from nav)
@@ -113,6 +113,10 @@ If the Worker route is missing or fails, both pages fall back to opening a `mail
 - Index page placement:
   - Desktop: in the hero bar (left side)
   - Mobile: embedded in the portal stack
+
+3) Merch/storefront
+- `site/gallery.html` now renders a live Fourthwall catalog by calling `GET /api/storefront`.
+- Product cards link out to `shop.stexpedite.press` product pages.
 
 ## Updates List
 

@@ -57,6 +57,69 @@ describe("communications worker", () => {
     expect(body.dbConfigured).toBe(false);
   });
 
+  it("returns 500 when storefront is not configured", async () => {
+    const req = new Request("https://stexpedite.press/api/storefront", {
+      method: "GET",
+      headers: { origin: "https://stexpedite.press" },
+    });
+    const res = await worker.fetch(req, baseEnv as never);
+    const body = (await res.json()) as { ok: boolean; error: string };
+
+    expect(res.status).toBe(500);
+    expect(body.ok).toBe(false);
+    expect(body.error).toBe("Storefront not configured");
+  });
+
+  it("returns storefront catalog payload when configured", async () => {
+    fetchMock
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({
+          id: "shop_1",
+          name: "St. Expedite Press",
+          domain: "st-expedite-press-shop",
+          publicDomain: "shop.stexpedite.press",
+        }), { status: 200 }),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({
+          results: [{ name: "All", slug: "all" }],
+        }), { status: 200 }),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({
+          results: [{
+            id: "prod_1",
+            name: "Test Product",
+            slug: "test-product",
+            description: "Test",
+            images: [{ url: "https://example.com/p.jpg", transformedUrl: "https://example.com/p.jpg" }],
+            variants: [{ unitPrice: { value: 24, currency: "USD" } }],
+          }],
+        }), { status: 200 }),
+      );
+
+    const req = new Request("https://stexpedite.press/api/storefront", {
+      method: "GET",
+      headers: { origin: "https://stexpedite.press" },
+    });
+    const res = await worker.fetch(req, { ...baseEnv, FOURTH_WALL_API_KEY: "ptkn_test" } as never);
+    const body = (await res.json()) as {
+      ok: boolean;
+      collection: string;
+      collections: Array<{ slug: string }>;
+      products: Array<{ slug: string }>;
+      shop: { url: string };
+    };
+
+    expect(res.status).toBe(200);
+    expect(body.ok).toBe(true);
+    expect(body.collection).toBe("all");
+    expect(body.collections.length).toBe(1);
+    expect(body.products[0]?.slug).toBe("test-product");
+    expect(body.shop.url).toBe("https://shop.stexpedite.press");
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
   it("accepts contact request and sends two emails", async () => {
     fetchMock.mockResolvedValue(new Response("{}", { status: 200 }));
     const req = makeJsonRequest("/api/contact", {

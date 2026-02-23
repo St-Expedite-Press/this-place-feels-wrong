@@ -17,6 +17,11 @@ jobs:
           echo "$health"
           echo "$health" | grep -q '"ok":true'
 
+          storefront_code="$(curl -sS -o /tmp/storefront.json -w "%{http_code}" \
+            https://stexpedite.press/api/storefront)"
+          test "$storefront_code" = "200"
+          grep -q '"ok":true' /tmp/storefront.json
+
           updates_code="$(curl -sS -o /tmp/updates.json -w "%{http_code}" \
             -X POST https://stexpedite.press/api/updates \
             -H "content-type: application/json" \

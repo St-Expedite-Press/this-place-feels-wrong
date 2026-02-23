@@ -3,20 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Merch and gallery for St. Expedite Press." />
+  <meta name="description" content="Fourthwall storefront for St. Expedite Press." />
   <meta name="theme-color" content="#050807" />
   <meta name="color-scheme" content="dark" />
   <meta property="og:site_name" content="St. Expedite Press" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Merch &mdash; St. Expedite Press" />
-  <meta property="og:description" content="Merch and gallery." />
-  <title>Merch &mdash; St. Expedite Press</title>
+  <meta property="og:title" content="Store &mdash; St. Expedite Press" />
+  <meta property="og:description" content="Official Fourthwall storefront." />
+  <title>Store &mdash; St. Expedite Press</title>
 
-  <!-- Same fonts as the rest of the site -->
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/hero-bar.css" />
   <link rel="stylesheet" href="assets/css/footer.css" />
   <link rel="stylesheet" href="assets/css/base.css" />
@@ -25,1172 +24,368 @@
   <link rel="stylesheet" href="assets/css/content-shell.css" />
 
   <style>
-  /* Focus parity: match hover glow when navigating by keyboard */
-  .header-nav a:focus-visible {
-    border-color: rgba(42,255,138,0.48);
-    background: rgba(42,255,138,0.08);
-    filter: brightness(1.2) contrast(1.05);
-    text-shadow:
-      0 0 10px var(--green-hot-1),
-      0 0 24px var(--green-hot-2);
-  }
-
-  /* INTRO ------------------------------------------------------------ */
-  .intro {
-    max-width: 780px;
-    margin: 4vh auto 4vh;
-    text-align: center;
-    opacity: .94;
-    line-height: 1.55;
-    font-size: 1.05rem;
-    text-shadow: 0 0 8px var(--green-3);
-  }
-
-  .intro strong {
-    text-shadow: 0 0 10px var(--green-hot-1);
-  }
-
-  /* TYPE BAR --------------------------------------------------------- */
-  .type-bar {
-    max-width: 980px;
-    margin: 0 auto 1.2vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: .6rem;
-  }
-
-  .type-pill {
-    border: 1px solid var(--green-2);
-    background: rgba(0,0,0,0.7);
-    color: var(--green-base);
-    font-family:"Cinzel", serif;
-    font-size: .78rem;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    padding:.48rem .88rem;
-    cursor:pointer;
-    border-radius:999px;
-    text-shadow:0 0 6px var(--green-1);
-    box-shadow:
-      0 0 8px rgba(0,0,0,0.9),
-      0 0 12px var(--green-3);
-    transition: all .2s ease;
-    opacity:.9;
-  }
-
-  .type-pill:hover {
-    border-color: var(--green-hot-2);
-    box-shadow:
-      0 0 10px var(--green-hot-2),
-      0 0 20px var(--green-hot-3);
-  }
-
-  .type-pill:focus-visible {
-    border-color: var(--green-hot-2);
-    box-shadow:
-      0 0 10px var(--green-hot-2),
-      0 0 20px var(--green-hot-3);
-  }
-
-  .type-pill.is-active {
-    background: rgba(42,255,138,0.1);
-    border-color: var(--green-hot-1);
-    box-shadow:
-      0 0 12px var(--green-hot-1),
-      0 0 26px var(--green-hot-2);
-  }
-
-  /* FILTER BAR ------------------------------------------------------- */
-  .filter-bar {
-    max-width: 980px;
-    margin: 2vh auto 4vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: .6rem;
-  }
-
-  /* Selector bar aesthetics aligned with Books filter buttons */
-  .filter-pill {
-    border: 1px solid var(--green-2);
-    background: rgba(0,0,0,0.7);
-    color: var(--green-base);
-    font-family:"Cinzel", serif;
-    font-size: .82rem;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    padding:.5rem .9rem;
-    cursor:pointer;
-    border-radius:999px;
-    text-shadow:0 0 6px var(--green-1);
-    box-shadow:
-      0 0 8px rgba(0,0,0,0.9),
-      0 0 12px var(--green-3);
-    transition: all .2s ease;
-    opacity:.9;
-  }
-
-  .filter-pill:hover {
-    border-color: var(--green-hot-2);
-    box-shadow:
-      0 0 10px var(--green-hot-2),
-      0 0 20px var(--green-hot-3);
-  }
-
-  .filter-pill:focus-visible {
-    border-color: var(--green-hot-2);
-    box-shadow:
-      0 0 10px var(--green-hot-2),
-      0 0 20px var(--green-hot-3);
-  }
-
-  .filter-pill.is-active {
-    background: rgba(42,255,138,0.1);
-    border-color: var(--green-hot-1);
-    box-shadow:
-      0 0 12px var(--green-hot-1),
-      0 0 26px var(--green-hot-2);
-  }
-
-  /* GRID ------------------------------------------------------------- */
-  .gallery-grid {
-    max-width: 1200px;
-    margin: 0 auto 6vh;
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  @media (max-width: 1100px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 720px)  { .gallery-grid { grid-template-columns: 1fr; } }
-
-  /* Empty-grid infill: subtle glowing placeholder when no items match */
-  .gallery-empty {
-    display: none;
-    grid-column: 1 / -1;
-    border-radius: 20px;
-    border: 1px dashed var(--green-2);
-    min-height: 120px;
-    background:
-      radial-gradient(circle at 50% 0, rgba(42,255,138,0.12), rgba(3,5,4,0.96) 70%);
-    box-shadow:
-      0 0 12px var(--green-3),
-      0 0 24px rgba(0,0,0,0.9);
-    padding: 1.2rem 1.4rem;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  .gallery-empty__text {
-    font-family:"Cinzel", serif;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    font-size:.85rem;
-    opacity:.9;
-    text-shadow:
-      0 0 8px var(--green-1),
-      0 0 14px var(--green-2);
-  }
-
-  .print-card {
-    background: rgba(0,0,0,0.75);
-    border-radius: 20px;
-    border: 1px solid rgba(42,255,138,0.2);
-    padding: 1rem;
-    box-shadow: 0 0 12px rgba(0,0,0,0.9), 0 0 20px var(--green-3);
-    transition: .25s ease;
-    position: relative;
-  }
-
-  .print-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--green-hot-2);
-    box-shadow: 0 0 18px rgba(0,0,0,0.9), 0 0 28px var(--green-hot-2);
-  }
-
-  .print-card:focus-within {
-    transform: translateY(-4px);
-    border-color: var(--green-hot-2);
-    box-shadow: 0 0 18px rgba(0,0,0,0.9), 0 0 28px var(--green-hot-2);
-  }
-
-  .print-thumb {
-    border-radius: 14px;
-    overflow: hidden;
-    background: #000;
-    position: relative;
-    margin-bottom: .75rem;
-    aspect-ratio: 3/4;
-  }
-
-  .print-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display:block;
-    transition: .35s ease;
-    filter:brightness(1.15) contrast(1.5);
-  }
-
-  .print-card:hover .print-thumb img {
-    filter:brightness(1.3) contrast(1.8);
-    transform: scale(1.03);
-  }
-
-  /* Broken / missing image placeholder, aligned with book cover infills */
-  .print-thumb.is-placeholder {
-    background:
-      linear-gradient(135deg,
-        rgba(42,255,138,0.12),
-        rgba(217,106,255,0.12));
-    box-shadow:
-      0 0 12px rgba(0,0,0,0.9),
-      0 0 18px var(--green-2);
-  }
-
-  .print-thumb-placeholder {
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:"Cinzel", serif;
-    text-transform:uppercase;
-    letter-spacing:.18em;
-    font-size:.78rem;
-    text-align:center;
-    color:var(--green-base);
-    text-shadow:
-      0 0 6px var(--green-1),
-      0 0 12px var(--green-2);
-    pointer-events:none;
-  }
-
-  .print-meta {
-    display:flex;
-    flex-direction:column;
-    gap:.15rem;
-  }
-
-  .print-title {
-    font-family:"Cinzel", serif;
-    font-size:1.1rem;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    text-shadow:0 0 8px var(--green-2);
-  }
-
-  .print-series {
-    font-size:.86rem;
-    opacity:.88;
-    letter-spacing:.08em;
-  }
-
-  .print-edition {
-    font-size:.86rem;
-    opacity:.85;
-  }
-
-  .print-price {
-    margin-top:.25rem;
-    font-size:.95rem;
-    font-weight:600;
-  }
-
-  .print-tags {
-    margin-top:.35rem;
-    font-size:.78rem;
-    opacity:.78;
-    letter-spacing:.09em;
-    text-transform:uppercase;
-  }
-
-  .print-actions {
-    margin-top:.7rem;
-    display:flex;
-    gap:.45rem;
-  }
-
-  .print-btn {
-    flex:1;
-    text-align:center;
-    border-radius:999px;
-    border:1px solid var(--green-2);
-    padding:.45rem;
-    font-family:"Cinzel", serif;
-    font-size:.8rem;
-    letter-spacing:.13em;
-    text-transform:uppercase;
-    background:rgba(0,0,0,0.8);
-    cursor:pointer;
-    text-shadow:0 0 6px var(--green-1);
-  }
-
-  .print-btn--buy {
-    background:rgba(42,255,138,0.14);
-    border-color:var(--green-hot-2);
-  }
-
-  .print-btn:hover {
-    box-shadow:0 0 12px var(--green-hot-2);
-  }
-
-  .print-btn:focus-visible {
-    box-shadow:0 0 12px var(--green-hot-2);
-  }
-
-  /* SUBTEXT ---------------------------------------------------------- */
-  .note-block {
-    max-width: 780px;
-    margin: 0 auto 8vh;
-    text-align:center;
-    opacity:.85;
-    font-size:.9rem;
-    line-height:1.5;
-  }
-
-  /* MODAL ------------------------------------------------------------ */
-  .modal-backdrop {
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.88);
-    backdrop-filter:blur(3px);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:200;
-  }
-
-  .modal-backdrop.is-visible { display:flex; }
-
-  .modal {
-    background:radial-gradient(circle at top, rgba(42,255,138,0.14), #030505 70%);
-    border-radius:24px;
-    border:1px solid rgba(42,255,138,0.5);
-    max-width:1000px;
-    width:92vw;
-    max-height:86vh;
-    padding:1.3rem 1.5rem 1.6rem;
-    box-shadow:0 0 18px var(--green-1), 0 0 36px var(--green-2);
-    display:grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    gap:1.4rem;
-    position:relative;
-  }
-
-  @media (max-width: 880px) {
-    .modal { grid-template-columns: 1fr; max-height: 88vh; }
-  }
-
-  .modal-close {
-    position:absolute;
-    right:.6rem;
-    top:.5rem;
-    font-size:1.4rem;
-    color:var(--green-base);
-    cursor:pointer;
-    background:none;
-    border:none;
-  }
-
-  .modal-image {
-    border-radius:16px;
-    overflow:hidden;
-    background:#000;
-  }
-
-  .modal-image img {
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
-  }
-
-  .modal-info {
-    font-size:.98rem;
-    line-height:1.5;
-  }
-
-  .modal-title {
-    font-family:"Cinzel", serif;
-    font-size:1.2rem;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    margin-bottom:.3rem;
-    text-shadow:0 0 8px var(--green-2);
-  }
-
-  .modal-series {
-    font-size:.9rem;
-    opacity:.9;
-    margin-bottom:.4rem;
-  }
-
-  .modal-edition, .modal-size, .modal-paper {
-    font-size:.9rem;
-    opacity:.9;
-  }
-
-  .modal-description {
-    margin-top:.6rem;
-    opacity:.92;
-  }
-
-  .modal-price {
-    margin-top:.8rem;
-    font-size:1.05rem;
-    font-weight:600;
-  }
-
-  .modal-buy {
-    margin-top:1rem;
-  }
-
-  .modal-buy a {
-    display:inline-block;
-    padding:.6rem 1.6rem;
-    border-radius:999px;
-    border:1px solid var(--green-hot-2);
-    background:rgba(42,255,138,0.16);
-    text-transform:uppercase;
-    font-family:"Cinzel", serif;
-    letter-spacing:.14em;
-    text-shadow:0 0 8px var(--green-1);
-  }
-
-  .modal-buy a:hover {
-    box-shadow:0 0 16px var(--green-hot-2);
-  }
-
-  .modal-buy a:focus-visible {
-    box-shadow:0 0 16px var(--green-hot-2);
-  }
-  @media (max-width: 768px) {
-    .intro,
-    .note-block {
-      max-width: 32rem;
-      margin-left: auto;
-      margin-right: auto;
+    .header-nav a:focus-visible {
+      border-color: rgba(42,255,138,0.48);
+      background: rgba(42,255,138,0.08);
+      filter: brightness(1.2) contrast(1.05);
+      text-shadow: 0 0 10px var(--green-hot-1), 0 0 24px var(--green-hot-2);
     }
 
-    .filter-bar {
+    .store-intro {
+      max-width: 840px;
+      margin: 2vh auto 2.6vh;
+      text-align: center;
+      line-height: 1.55;
+      opacity: 0.95;
+      text-shadow: 0 0 8px var(--green-3);
+      font-size: 1.03rem;
+    }
+
+    .store-toolbar {
+      max-width: 1080px;
+      margin: 0 auto 1.2rem;
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .collection-pill,
+    .store-link {
+      border: 1px solid var(--green-2);
+      background: rgba(0,0,0,0.72);
+      color: var(--green-base);
+      border-radius: 999px;
+      padding: 0.5rem 0.95rem;
+      font-family: "Cinzel", serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 14px var(--green-3);
+      transition: 0.2s ease;
+    }
+
+    .collection-pill:hover,
+    .store-link:hover,
+    .collection-pill:focus-visible,
+    .store-link:focus-visible {
+      border-color: var(--green-hot-2);
+      box-shadow: 0 0 12px var(--green-hot-2), 0 0 22px var(--green-hot-3);
+    }
+
+    .collection-pill.is-active {
+      border-color: var(--green-hot-1);
+      background: rgba(42,255,138,0.1);
+      box-shadow: 0 0 14px var(--green-hot-1), 0 0 28px var(--green-hot-2);
+    }
+
+    .store-status {
+      max-width: 980px;
+      margin: 0.2rem auto 1.3rem;
+      text-align: center;
+      font-size: 0.95rem;
+      opacity: 0.9;
+      min-height: 1.5rem;
+    }
+
+    .store-grid {
+      max-width: 1160px;
+      margin: 0 auto 4rem;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.1rem;
+    }
+
+    @media (max-width: 1100px) {
+      .store-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 820px) {
+      .store-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .store-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .product-card {
+      border: 1px solid rgba(42,255,138,0.24);
+      border-radius: 20px;
+      background: rgba(0,0,0,0.74);
+      overflow: hidden;
+      box-shadow: 0 0 12px rgba(0,0,0,0.9), 0 0 18px var(--green-3);
+      display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      max-width: 32rem;
-      margin: 0 auto 3vh;
+      min-height: 100%;
+      transition: 0.23s ease;
     }
 
-    .type-bar {
-      max-width: 32rem;
-      margin: 0 auto 1.2vh;
+    .product-card:hover,
+    .product-card:focus-within {
+      transform: translateY(-3px);
+      border-color: var(--green-hot-2);
+      box-shadow: 0 0 16px rgba(0,0,0,0.9), 0 0 26px var(--green-hot-2);
     }
 
-    .type-pill {
-      flex: 1;
-      min-width: 7.2rem;
-      text-align: center;
+    .product-link {
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
     }
 
-    .filter-pill {
+    .product-image-wrap {
       width: 100%;
+      aspect-ratio: 1 / 1;
+      background: radial-gradient(circle at 20% 15%, rgba(42,255,138,0.16), rgba(0,0,0,0.95) 68%);
+      border-bottom: 1px solid rgba(42,255,138,0.12);
+      overflow: hidden;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(1.08) contrast(1.1);
+      transition: 0.28s ease;
+    }
+
+    .product-card:hover .product-image {
+      transform: scale(1.03);
+      filter: brightness(1.16) contrast(1.22);
+    }
+
+    .product-body {
+      padding: 0.9rem 0.95rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .product-name {
+      font-family: "Cinzel", serif;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-size: 0.86rem;
+      line-height: 1.35;
+      text-shadow: 0 0 8px var(--green-2);
+    }
+
+    .product-price {
+      font-size: 0.92rem;
+      opacity: 0.9;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      border: 1px dashed rgba(42,255,138,0.3);
+      border-radius: 20px;
+      padding: 1.6rem;
       text-align: center;
+      background: radial-gradient(circle at 50% 0, rgba(42,255,138,0.14), rgba(0,0,0,0.92) 72%);
+      box-shadow: 0 0 14px var(--green-3);
+      letter-spacing: 0.05em;
     }
 
-    .gallery-grid {
-      grid-template-columns: 1fr;
-      gap: 1.4rem;
-      margin-bottom: 5vh;
+    .page-footer {
+      margin-top: 4vh;
+      text-align: center;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      opacity: 0.7;
     }
-
-    .print-card {
-      box-shadow:
-        0 0 12px rgba(0,0,0,0.85),
-        0 0 18px var(--green-3);
-    }
-  }
   </style>
 </head>
-
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+
   <div class="hero-bar" role="navigation" aria-label="Social media">
     <div class="hero-bar__inner">
       <a class="hero-bar__icon" href="https://x.com/stex_press" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-          <path d="M6 6l12 12M18 6L6 18" />
-        </svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
       </a>
       <a class="hero-bar__icon" href="https://ecoamericana.substack.com" target="_blank" rel="noopener noreferrer" aria-label="Substack" title="Substack">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M7 7h10M7 12h10M7 17h10" />
-        </svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 7h10M7 12h10M7 17h10" /></svg>
       </a>
       <a class="hero-bar__icon" href="https://t.me/stexpeditepress" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-          <path d="M21 5 3 12l7 2 2 7 9-16Z" />
-          <path d="M10 14 21 5" />
-        </svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M21 5 3 12l7 2 2 7 9-16Z" /><path d="M10 14 21 5" /></svg>
       </a>
       <a class="hero-bar__icon" href="https://github.com/organizations/St-Expedite-Press" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-        </svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
       </a>
     </div>
   </div>
-  <!-- Uses interior-content-template.html (content-class page) -->
+
   <div class="texture--grain"></div>
   <div class="cursor-glow"></div>
 
   <main id="main" class="page">
-
-    <!-- HEADER (canonical from interior-content-template.html) -->
     <header class="site-header">
       <div class="site-brand">
         <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
         <h1 class="site-title">STORE</h1>
-        <div class="site-subtitle">Prints &amp; Merchandise</div>
+        <div class="site-subtitle">Powered by Fourthwall</div>
         <div class="site-header-divider"></div>
       </div>
 
-        <nav class="header-nav">
-          <a href="index.html">Portal</a>
-          <a href="books.html">Books</a>
-          <a href="gallery.html">Merch</a>
-          <a href="under-construction.html">Lab</a>
-          <a href="mission.html">Mission</a>
-          <a href="contact.html">Contact</a>
-        </nav>
-      </header>
+      <nav class="header-nav">
+        <a href="index.html">Portal</a>
+        <a href="books.html">Books</a>
+        <a href="gallery.html" aria-current="page">Merch</a>
+        <a href="under-construction.html">Lab</a>
+        <a href="mission.html">Mission</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
 
-    <!-- TEMPLATE-SLOT: intro / filter -->
-    <!-- INTRO TEXT -->
-    <section class="intro">
-      <strong>Burning World</strong> is the visual arm of St. Expedite Press:
-      crows, sigils, neon saints, glitch-lit shrines, and Gulf Noir visions&mdash;issued as prints and small-run objects.
-      <br><br>
-      Each item below is an editioned artifact&mdash;slow, deliberate, and scarce.
+    <section class="store-intro" aria-label="Store intro">
+      <p>
+        Official merchandise and limited drops from <strong>St. Expedite Press</strong>.
+        Inventory is loaded live from the Fourthwall catalog.
+      </p>
     </section>
 
-    <!-- TYPE FILTERS -->
-    <section class="type-bar" aria-label="Filter by type">
-      <button class="type-pill is-active" type="button" data-type="all">All</button>
-      <button class="type-pill" type="button" data-type="print">Prints</button>
-      <button class="type-pill" type="button" data-type="merch">Merch</button>
+    <section aria-label="Store controls">
+      <div id="store-toolbar" class="store-toolbar"></div>
+      <div id="store-status" class="store-status" role="status" aria-live="polite"></div>
     </section>
 
-    <!-- FILTERS (tags / series) -->
-    <section class="filter-bar" aria-label="Filter by tags">
-      <button class="filter-pill is-active" type="button" data-filter="all">All</button>
-      <button class="filter-pill" type="button" data-filter="burning-world">Burning World</button>
-      <button class="filter-pill" type="button" data-filter="crows">Crows / Avian</button>
-      <button class="filter-pill" type="button" data-filter="sigils">Saints &amp; Sigils</button>
-      <button class="filter-pill" type="button" data-filter="neon">Neon Glyphs</button>
-      <button class="filter-pill" type="button" data-filter="ritual">Ritual Landscapes</button>
-    </section>
+    <section id="store-grid" class="store-grid" aria-label="Store products"></section>
 
-    <!-- TEMPLATE-SLOT: primary grid (.gallery-grid) -->
-    <!-- GRID OF PRINTS -->
-    <section class="gallery-grid">
-
-      <!-- PRINT 1 -->
-      <article class="print-card"
-        data-series="burning-world crows"
-        data-title="Crow in Transmission I"
-        data-series-label="Burning World &mdash; Crows / Avian"
-        data-edition="Edition of 25, signed & numbered"
-        data-size="12&quot; &times; 16&quot; image area"
-        data-paper="Archival matte, 100% cotton rag"
-        data-price="$120"
-        data-description="First state of the Burning World crow sigil: a wireframe bird emerging from a CRT-green field, mid-pivot between life and icon."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="Crow in Transmission I">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">Crow in Transmission I</div>
-          <div class="print-series">Burning World &mdash; Crows / Avian</div>
-          <div class="print-edition">Edition of 25, signed &amp; numbered</div>
-          <div class="print-price">$120</div>
-          <div class="print-tags">Burning World &middot; Crows &middot; Neon Wireframe</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
-        </div>
-      </article>
-
-      <!-- PRINT 2 -->
-      <article class="print-card"
-        data-series="burning-world crows"
-        data-title="Crow in Transmission II"
-        data-series-label="Burning World &mdash; Crows / Avian"
-        data-edition="Edition of 25, signed & numbered"
-        data-size="12&quot; &times; 16&quot; image area"
-        data-paper="Archival matte, 100% cotton rag"
-        data-price="$120"
-        data-description="Second rotation in the crow cycle: the wireframe body half-turned toward the viewer, as if caught during a glitch in a devotional broadcast."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="Crow in Transmission II">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">Crow in Transmission II</div>
-          <div class="print-series">Burning World &mdash; Crows / Avian</div>
-          <div class="print-edition">Edition of 25, signed &amp; numbered</div>
-          <div class="print-price">$120</div>
-          <div class="print-tags">Burning World &middot; Crows &middot; Phase Shift</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
-        </div>
-      </article>
-
-      <!-- PRINT 3 -->
-      <article class="print-card"
-        data-series="burning-world crows"
-        data-title="Crow in Transmission III"
-        data-series-label="Burning World &mdash; Crows / Avian"
-        data-edition="Edition of 25, signed & numbered"
-        data-size="12&quot; &times; 16&quot; image area"
-        data-paper="Archival matte, 100% cotton rag"
-        data-price="$120"
-        data-description="Central, forward-facing crow: a full apparition inside the circular portal, poised between heraldic icon and low-resolution broadcast error."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="Crow in Transmission III">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">Crow in Transmission III</div>
-          <div class="print-series">Burning World &mdash; Crows / Avian</div>
-          <div class="print-edition">Edition of 25, signed &amp; numbered</div>
-          <div class="print-price">$120</div>
-          <div class="print-tags">Burning World &middot; Crows &middot; Full Frontal Icon</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
-        </div>
-      </article>
-
-      <!-- PRINT 4 -->
-      <article class="print-card"
-        data-series="burning-world sigils neon"
-        data-title="CRAS / HODIE"
-        data-series-label="Burning World &mdash; Saints &amp; Sigils"
-        data-edition="Edition of 30, signed & numbered"
-        data-size="11&quot; &times; 14&quot; image area"
-        data-paper="Archival matte, 100% cotton rag"
-        data-price="$110"
-        data-description="Latin motto 'CRAS / HODIE' intercepted as flashing neon: yesterday's liturgy passing through a damaged display, tomorrow&rsquo;s omen burned into the phosphor."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="CRAS / HODIE">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">CRAS / HODIE</div>
-          <div class="print-series">Burning World &mdash; Saints &amp; Sigils</div>
-          <div class="print-edition">Edition of 30, signed &amp; numbered</div>
-          <div class="print-price">$110</div>
-          <div class="print-tags">Burning World &middot; Sigil &middot; Text Icon</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
-        </div>
-      </article>
-
-      <!-- PRINT 5 -->
-      <article class="print-card"
-        data-series="burning-world neon"
-        data-title="Saint Expedite (Neon)"
-        data-series-label="Burning World &mdash; Saints &amp; Sigils"
-        data-edition="Edition of 20, signed & numbered"
-        data-size="13&quot; &times; 19&quot; image area"
-        data-paper="Archival matte, 100% cotton rag"
-        data-price="$150"
-        data-description="An apparition of Saint Expedite rendered as a neon glitch icon: halo, cross, and crow interlaced as a single, unstable glyph."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="Saint Expedite (Neon)">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">Saint Expedite (Neon)</div>
-          <div class="print-series">Burning World &mdash; Saints &amp; Sigils</div>
-          <div class="print-edition">Edition of 20, signed &amp; numbered</div>
-          <div class="print-price">$150</div>
-          <div class="print-tags">Burning World &middot; Saint &middot; Neon Icon</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
-        </div>
-      </article>
-
-      <!-- PRINT 6 -->
-      <article class="print-card"
-        data-series="burning-world ritual"
-        data-title="Burning World: Gulf Horizon"
-        data-series-label="Burning World &mdash; Ritual Landscapes"
-        data-edition="Edition of 25, signed & numbered"
-        data-size="13&quot; &times; 19&quot; image area"
-        data-paper="Archival matte, 100% cotton rag"
-        data-price="$150"
-        data-description="A horizon-line seared in green fire: petrochemical sky, liturgical sea, and a thin strip of land where procession and catastrophe coincide."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="Burning World: Gulf Horizon">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">Burning World: Gulf Horizon</div>
-          <div class="print-series">Burning World &mdash; Ritual Landscapes</div>
-          <div class="print-edition">Edition of 25, signed &amp; numbered</div>
-          <div class="print-price">$150</div>
-          <div class="print-tags">Burning World &middot; Ritual &middot; Landscape</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Buy</a>
-        </div>
-      </article>
-
-      <!-- MERCH (placeholders until checkout is wired) -->
-      <article class="print-card"
-        data-type="merch"
-        data-series="burning-world crows"
-        data-title="Night Choir Patch"
-        data-series-label="Merch &mdash; Crows / Avian"
-        data-edition="Small-run embroidered patch"
-        data-size="Approx. 3&quot; &times; 3&quot;"
-        data-paper=""
-        data-price="Coming soon"
-        data-description="A stitched crow-sigil for jackets, bags, and field kits. Limited run; restocks are not guaranteed."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="Night Choir Patch">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">Night Choir Patch</div>
-          <div class="print-series">Merch &mdash; Crows / Avian</div>
-          <div class="print-edition">Small-run embroidered patch</div>
-          <div class="print-price">Coming soon</div>
-          <div class="print-tags">Merch &middot; Crows</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Inquire</a>
-        </div>
-      </article>
-
-      <article class="print-card"
-        data-type="merch"
-        data-series="burning-world sigils"
-        data-title="CRAS / HODIE Pin"
-        data-series-label="Merch &mdash; Saints &amp; Sigils"
-        data-edition="Small-run enamel pin"
-        data-size="Approx. 1.25&quot;"
-        data-paper=""
-        data-price="Coming soon"
-        data-description="Hard enamel pin. A tiny neon-motto relic for collars and lapels."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="CRAS / HODIE Pin">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">CRAS / HODIE Pin</div>
-          <div class="print-series">Merch &mdash; Saints &amp; Sigils</div>
-          <div class="print-edition">Small-run enamel pin</div>
-          <div class="print-price">Coming soon</div>
-          <div class="print-tags">Merch &middot; Sigil</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Inquire</a>
-        </div>
-      </article>
-
-      <article class="print-card"
-        data-type="merch"
-        data-series="burning-world neon"
-        data-title="Saint Expedite Tee"
-        data-series-label="Merch &mdash; Neon Glyphs"
-        data-edition="Screenprinted shirt"
-        data-size="S&ndash;XXL"
-        data-paper=""
-        data-price="Coming soon"
-        data-description="Black tee with a neon-glitch saint glyph. Exact run size and inks will be announced."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="Saint Expedite Tee">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">Saint Expedite Tee</div>
-          <div class="print-series">Merch &mdash; Neon Glyphs</div>
-          <div class="print-edition">Screenprinted shirt</div>
-          <div class="print-price">Coming soon</div>
-          <div class="print-tags">Merch &middot; Neon</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Inquire</a>
-        </div>
-      </article>
-
-      <article class="print-card"
-        data-type="merch"
-        data-series="burning-world ritual"
-        data-title="Gulf Horizon Tote"
-        data-series-label="Merch &mdash; Ritual Landscapes"
-        data-edition="Heavy canvas tote"
-        data-size="Approx. 15&quot; &times; 16&quot;"
-        data-paper=""
-        data-price="Coming soon"
-        data-description="A carrying vessel for books, candles, and the necessary weight of the day."
-        data-image="assets/img/favicon.svg"
-        data-buy-url="#"
-      >
-        <div class="print-thumb">
-          <img src="assets/img/favicon.svg" alt="Gulf Horizon Tote">
-        </div>
-        <div class="print-meta">
-          <div class="print-title">Gulf Horizon Tote</div>
-          <div class="print-series">Merch &mdash; Ritual Landscapes</div>
-          <div class="print-edition">Heavy canvas tote</div>
-          <div class="print-price">Coming soon</div>
-          <div class="print-tags">Merch &middot; Ritual</div>
-        </div>
-        <div class="print-actions">
-          <button class="print-btn" type="button" data-role="details">View</button>
-          <a class="print-btn print-btn--buy" href="#" target="_blank" rel="noopener noreferrer">Inquire</a>
-        </div>
-      </article>
-
-      <!-- EMPTY-GRID INFILL: appears when no items match current filters -->
-      <div class="gallery-empty" id="galleryEmptyState" aria-hidden="true" aria-live="polite">
-        <div class="gallery-empty__text">No items match the current filter.</div>
-      </div>
-
-    </section>
-
-    <!-- NOTE BLOCK -->
-    <section class="note-block">
-      Prints are produced in small, numbered runs. Merch is released in limited drops.
-      For originals, commissions, or wholesale inquiries, contact the press directly.
-    </section>
-
-    <!-- TEMPLATE-SLOT: footer -->
-    <footer class="sep-footer">
-      <p class="sep-footer__coords">29.9511&deg; N &mdash; 90.0715&deg; W</p>
-      <p class="sep-footer__lede">...in the key of Night.</p>
-      <div class="sep-footer__divider">&#9651; &#10013; &#9651;</div>
-      <div class="sep-footer__links">
-        <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
-      </div>
+    <footer class="page-footer" aria-label="Footer links">
+      <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
     </footer>
-
-
   </main>
 
-  <!-- TEMPLATE-SLOT: modals -->
-  <!-- MODAL -->
-  <div class="modal-backdrop" id="printModal" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" tabindex="-1">
-      <button class="modal-close" type="button" aria-label="Close dialog">&times;</button>
-
-      <div class="modal-image">
-        <img id="modalImage" src="assets/img/favicon.svg" alt="">
-      </div>
-
-      <div class="modal-info">
-        <div class="modal-title" id="modalTitle"></div>
-        <div class="modal-series" id="modalSeries"></div>
-        <div class="modal-edition" id="modalEdition"></div>
-        <div class="modal-size" id="modalSize"></div>
-        <div class="modal-paper" id="modalPaper"></div>
-        <div class="modal-description" id="modalDescription"></div>
-        <div class="modal-price" id="modalPrice"></div>
-        <div class="modal-buy" id="modalBuy"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TEMPLATE-SLOT: page-specific scripts (cursor glow, filters, modal) -->
-  <script src="assets/js/modal-utils.js"></script>
   <script src="assets/js/cursor-glow.js"></script>
   <script>
-  // Filter logic
-  const typePills = document.querySelectorAll('.type-pill');
-  const filterPills = document.querySelectorAll('.filter-pill');
-  const printCards  = document.querySelectorAll('.print-card');
-  const galleryEmpty = document.getElementById('galleryEmptyState');
-  const galleryEmptyText = galleryEmpty ? galleryEmpty.querySelector('.gallery-empty__text') : null;
+    (function () {
+      const toolbar = document.getElementById('store-toolbar');
+      const status = document.getElementById('store-status');
+      const grid = document.getElementById('store-grid');
 
-  let activeType = 'all';
-  let activeFilter = 'all';
+      if (!toolbar || !status || !grid) return;
 
-  function applyGalleryFilters() {
-    let anyVisible = false;
+      let currentCollection = '';
+      let shopUrl = '';
 
-    printCards.forEach(card => {
-      const cardType = (card.getAttribute('data-type') || 'print').trim();
-      const series = (card.getAttribute('data-series') || '').split(' ').filter(Boolean);
+      function setStatus(text) {
+        status.textContent = text;
+      }
 
-      const typeMatch = (activeType === 'all' || cardType === activeType);
-      const tagMatch = (activeFilter === 'all' || series.includes(activeFilter));
-      const match = typeMatch && tagMatch;
+      function normalizeShopUrl(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+        if (/^https?:\/\//i.test(raw)) return raw;
+        return `https://${raw}`;
+      }
 
-      card.style.display = match ? '' : 'none';
-      if (match) anyVisible = true;
-    });
-
-    if (galleryEmpty) {
-      if (anyVisible) {
-        galleryEmpty.style.display = 'none';
-        galleryEmpty.setAttribute('aria-hidden', 'true');
-      } else {
-        galleryEmpty.style.display = 'flex';
-        galleryEmpty.setAttribute('aria-hidden', 'false');
-
-        if (galleryEmptyText) {
-          galleryEmptyText.textContent =
-            activeType === 'merch'
-              ? 'No merch matches the current filter.'
-              : activeType === 'print'
-                ? 'No prints match the current filter.'
-                : 'No items match the current filter.';
+      function formatMoney(value, currency) {
+        const amount = Number(value);
+        if (!Number.isFinite(amount)) return '';
+        const code = String(currency || 'USD').toUpperCase();
+        try {
+          return new Intl.NumberFormat('en-US', { style: 'currency', currency: code }).format(amount);
+        } catch {
+          return `${amount.toFixed(2)} ${code}`;
         }
       }
-    }
-  }
 
-  typePills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      const type = (pill.getAttribute('data-type') || 'all').trim();
-      typePills.forEach(p => p.classList.remove('is-active'));
-      pill.classList.add('is-active');
-      activeType = type || 'all';
-      applyGalleryFilters();
-    });
-  });
-
-  filterPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      const filter = (pill.getAttribute('data-filter') || 'all').trim();
-      filterPills.forEach(p => p.classList.remove('is-active'));
-      pill.classList.add('is-active');
-      activeFilter = filter || 'all';
-      applyGalleryFilters();
-    });
-  });
-
-  // Initialize to current active filters (or defaults)
-  (function initGalleryFilters() {
-    const activeTypePill = document.querySelector('.type-pill.is-active');
-    activeType = activeTypePill ? (activeTypePill.getAttribute('data-type') || 'all') : 'all';
-
-    const activeFilterPill = document.querySelector('.filter-pill.is-active');
-    activeFilter = activeFilterPill ? (activeFilterPill.getAttribute('data-filter') || 'all') : 'all';
-
-    applyGalleryFilters();
-  })();
-
-  // Broken-image handling: replace missing thumbs with neon placeholder panels
-  const thumbImages = document.querySelectorAll('.print-thumb img');
-
-  function makeThumbPlaceholder(img) {
-    const thumb = img.closest('.print-thumb');
-    if (!thumb || thumb.classList.contains('has-placeholder')) return;
-
-    img.style.display = 'none';
-
-    const card = thumb.closest('.print-card');
-    const label =
-      (card && card.getAttribute('data-title')) ||
-      (card && card.getAttribute('data-series-label')) ||
-      'PRINT';
-
-    const placeholder = document.createElement('div');
-    placeholder.className = 'print-thumb-placeholder';
-    placeholder.textContent = label;
-
-    thumb.classList.add('is-placeholder', 'has-placeholder');
-    thumb.appendChild(placeholder);
-  }
-
-  thumbImages.forEach(img => {
-    img.addEventListener('error', () => makeThumbPlaceholder(img));
-
-    if (img.complete && img.naturalWidth === 0) {
-      makeThumbPlaceholder(img);
-    }
-  });
-
-  // Modal logic
-  const modalBackdrop = document.getElementById('printModal');
-  const dialogEl     = modalBackdrop ? modalBackdrop.querySelector('.modal') : null;
-  const mainEl       = document.getElementById('main');
-  const modalImage    = document.getElementById('modalImage');
-  const modalTitle    = document.getElementById('modalTitle');
-  const modalSeries   = document.getElementById('modalSeries');
-  const modalEdition  = document.getElementById('modalEdition');
-  const modalSize     = document.getElementById('modalSize');
-  const modalPaper    = document.getElementById('modalPaper');
-  const modalDesc     = document.getElementById('modalDescription');
-  const modalPrice    = document.getElementById('modalPrice');
-  const modalBuy      = document.getElementById('modalBuy');
-  const modalCloseBtn = modalBackdrop ? modalBackdrop.querySelector('.modal-close') : null;
-
-  let lastActiveEl = null;
-  let cleanupTrap = null;
-
-  function closeModal() {
-    if (!modalBackdrop) return;
-
-    modalBackdrop.classList.remove('is-visible');
-    modalBackdrop.setAttribute('aria-hidden', 'true');
-
-    document.body.style.overflow = '';
-    if (mainEl) mainEl.removeAttribute('aria-hidden');
-
-    if (cleanupTrap) {
-      cleanupTrap();
-      cleanupTrap = null;
-    }
-
-    if (lastActiveEl && typeof lastActiveEl.focus === 'function') {
-      try {
-        lastActiveEl.focus();
-      } catch {
-        // ignore
+      function productCard(product) {
+        const name = String(product.name || 'Product');
+        const slug = String(product.slug || '');
+        const image = String(product.image || '');
+        const price = formatMoney(product.priceValue, product.priceCurrency);
+        const href = shopUrl && slug ? `${shopUrl.replace(/\/$/, '')}/products/${encodeURIComponent(slug)}` : shopUrl || '#';
+        return `
+          <article class="product-card">
+            <a class="product-link" href="${href}" target="_blank" rel="noopener noreferrer" aria-label="Open ${name} on shop">
+              <div class="product-image-wrap">
+                ${image ? `<img class="product-image" src="${image}" alt="${name}" loading="lazy" decoding="async" />` : ''}
+              </div>
+              <div class="product-body">
+                <div class="product-name">${name}</div>
+                <div class="product-price">${price || 'View on store'}</div>
+              </div>
+            </a>
+          </article>
+        `;
       }
-    }
 
-    lastActiveEl = null;
-  }
+      function renderToolbar(collections) {
+        const pills = collections.map((item) => {
+          const slug = String(item.slug || '');
+          const name = String(item.name || slug || 'Collection');
+          const active = slug === currentCollection ? ' is-active' : '';
+          return `<button class="collection-pill${active}" type="button" data-collection="${slug}">${name}</button>`;
+        });
 
-  function setTextOrHide(el, value) {
-    const text = (value || '').toString().trim();
-    if (!text) {
-      el.style.display = 'none';
-      el.textContent = '';
-      return;
-    }
-    el.style.display = '';
-    el.textContent = text;
-  }
+        const shopBtn = shopUrl
+          ? `<a class="store-link" href="${shopUrl}" target="_blank" rel="noopener noreferrer">Open Full Store</a>`
+          : '';
 
-  function buildInquiryMailto(card) {
-    const title = (card.getAttribute('data-title') || 'Merch item').trim();
-    const type = (card.getAttribute('data-type') || 'print').trim();
+        toolbar.innerHTML = [...pills, shopBtn].join('');
 
-    const lines = [
-      `Item: ${title}`,
-      `Type: ${type}`,
-      `Series: ${(card.getAttribute('data-series-label') || '').trim()}`,
-      `Edition: ${(card.getAttribute('data-edition') || '').trim()}`,
-      `Size: ${(card.getAttribute('data-size') || '').trim()}`,
-      `Paper/Material: ${(card.getAttribute('data-paper') || '').trim()}`,
-      `Price: ${(card.getAttribute('data-price') || '').trim()}`
-    ].filter(line => !line.endsWith(':'));
+        toolbar.querySelectorAll('[data-collection]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const slug = String(btn.getAttribute('data-collection') || '').trim();
+            if (!slug || slug === currentCollection) return;
+            loadCatalog(slug);
+          });
+        });
+      }
 
-    const subject = `Merch inquiry \u2014 ${title}`;
-    const body = lines.join('\n');
-    return `mailto:editor@stexpedite.press?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }
+      function renderProducts(products) {
+        if (!products.length) {
+          grid.innerHTML = '<div class="empty-state">No products found in this collection yet.</div>';
+          return;
+        }
+        grid.innerHTML = products.map(productCard).join('');
+      }
 
-  document.addEventListener('click', e => {
-    const btn = e.target.closest('[data-role="details"]');
-    if (!btn) return;
+      async function loadCatalog(collectionSlug) {
+        const query = collectionSlug ? `?collection=${encodeURIComponent(collectionSlug)}` : '';
+        setStatus('Loading storefront...');
+        grid.innerHTML = '';
 
-    const card = btn.closest('.print-card');
-    if (!card) return;
-    const cardType = (card.getAttribute('data-type') || 'print').trim();
+        try {
+          const res = await fetch(`/api/storefront${query}`, { method: 'GET' });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || !data.ok) {
+            throw new Error(String(data.error || `HTTP ${res.status}`));
+          }
 
-    lastActiveEl = btn;
+          currentCollection = String(data.collection || collectionSlug || '');
+          shopUrl = normalizeShopUrl(data?.shop?.url || data?.shop?.domain || '');
+          renderToolbar(Array.isArray(data.collections) ? data.collections : []);
+          renderProducts(Array.isArray(data.products) ? data.products : []);
 
-    modalImage.src         = card.getAttribute('data-image') || '';
-    modalImage.alt         = card.getAttribute('data-title') || '';
-    modalTitle.textContent = card.getAttribute('data-title') || '';
+          const shopName = String(data?.shop?.name || 'store');
+          setStatus(`Loaded ${shopName} — ${currentCollection || 'catalog'}.`);
+        } catch (err) {
+          const message = err && err.message ? err.message : 'Storefront unavailable';
+          setStatus(`Could not load storefront right now (${message}).`);
+          if (shopUrl) {
+            grid.innerHTML = `<div class="empty-state"><a class="store-link" href="${shopUrl}" target="_blank" rel="noopener noreferrer">Open Store Directly</a></div>`;
+          } else {
+            grid.innerHTML = '<div class="empty-state">Try again shortly.</div>';
+          }
+        }
+      }
 
-    setTextOrHide(modalSeries, card.getAttribute('data-series-label'));
-    setTextOrHide(modalEdition, card.getAttribute('data-edition'));
-    setTextOrHide(modalSize, card.getAttribute('data-size'));
-    setTextOrHide(modalPaper, card.getAttribute('data-paper'));
-    setTextOrHide(modalDesc, card.getAttribute('data-description'));
-    setTextOrHide(modalPrice, card.getAttribute('data-price'));
-
-    const rawBuyUrl = (card.getAttribute('data-buy-url') || '').trim();
-    const buyUrl = (!rawBuyUrl || rawBuyUrl === '#') ? buildInquiryMailto(card) : rawBuyUrl;
-    const label = rawBuyUrl && rawBuyUrl !== '#'
-      ? (cardType === 'merch' ? 'View / Buy' : 'Buy Print')
-      : 'Email to Inquire';
-    const buyUrlLower = buyUrl.toLowerCase();
-    const isExternal = buyUrlLower.startsWith('http://') || buyUrlLower.startsWith('https://');
-    const attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-    modalBuy.innerHTML = `<a href="${buyUrl}"${attrs}>${label}</a>`;
-
-    modalBackdrop.classList.add('is-visible');
-
-    modalBackdrop.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    if (mainEl) mainEl.setAttribute('aria-hidden', 'true');
-
-    if (cleanupTrap) cleanupTrap();
-    if (dialogEl && window.SEP?.modal?.trap) {
-      cleanupTrap = window.SEP.modal.trap(dialogEl, {
-        initialFocusEl: modalCloseBtn,
-        onEscape: () => closeModal(),
-      });
-    } else if (modalCloseBtn) {
-      modalCloseBtn.focus();
-    }
-  });
-
-  // Card-level "Buy/Inquire" buttons: if no URL is wired, fall back to email
-  document.addEventListener('click', e => {
-    const buyBtn = e.target.closest('.print-btn--buy');
-    if (!buyBtn) return;
-
-    const href = (buyBtn.getAttribute('href') || '').trim();
-    if (href && href !== '#') return;
-
-    const card = buyBtn.closest('.print-card');
-    if (!card) return;
-
-    e.preventDefault();
-    window.location.href = buildInquiryMailto(card);
-  });
-
-  if (modalCloseBtn) {
-    modalCloseBtn.addEventListener('click', closeModal);
-  }
-
-  modalBackdrop.addEventListener('click', e => {
-    if (e.target === modalBackdrop) {
-      closeModal();
-    }
-  });
+      loadCatalog('');
+    })();
   </script>
 </body>
 </html>

@@ -41,7 +41,7 @@
     "primary": "stexpedite.press"
   },
   "generated_at": "2026-02-23",
-  "generated_from_commit": "52e242dd425938e8fac8fb13e93c0c9035119f6c",
+  "generated_from_commit": "1c47708",
   "ontology_version": "1",
   "intents": {
     "edit_contact_form": {
@@ -160,7 +160,7 @@
       }
     },
     "workers/communications/src/index.ts": {
-      "role": "Cloudflare Worker implementing /api/health, /api/contact, /api/submit, /api/updates with rate limiting, optional Turnstile, and structured 500 handling",
+      "role": "Cloudflare Worker implementing /api/health, /api/storefront, /api/contact, /api/submit, /api/updates with rate limiting, optional Turnstile, and structured 500 handling",
       "anchors": {
         "cors": "function withCors",
         "rate_limit": "function checkRateLimit",
@@ -169,6 +169,7 @@
         "ref_id": "function refId",
         "honeypot": "function pickHoneypot",
         "health_route": "if (url.pathname === \"/api/health\" && request.method === \"GET\")",
+        "storefront_route": "if (url.pathname === \"/api/storefront\" && request.method === \"GET\")",
         "updates_route": "if (url.pathname === \"/api/updates\")",
         "contact_route": "if (url.pathname === \"/api/contact\")",
         "submit_route": "if (url.pathname === \"/api/submit\")"
@@ -187,16 +188,18 @@
       "anchors": {
         "schedule": "cron: \"*/15 * * * *\"",
         "health_probe": "curl -fsS https://stexpedite.press/api/health",
+        "storefront_probe": "https://stexpedite.press/api/storefront",
         "updates_probe": "-X POST https://stexpedite.press/api/updates",
         "contact_probe": "-X POST https://stexpedite.press/api/contact",
         "submit_probe": "-X POST https://stexpedite.press/api/submit"
       }
     },
     "workers/communications/openapi.yaml": {
-      "role": "Machine-readable API contract for /api/health, /api/contact, /api/submit, /api/updates",
+      "role": "Machine-readable API contract for /api/health, /api/storefront, /api/contact, /api/submit, /api/updates",
       "anchors": {
         "openapi_version": "openapi: 3.1.0",
         "health_path": "/api/health:",
+        "storefront_path": "/api/storefront:",
         "contact_path": "/api/contact:",
         "submit_path": "/api/submit:",
         "updates_path": "/api/updates:"
@@ -1123,6 +1126,56 @@
               }
             }
           }
+        },
+        "/api/storefront": {
+          "method": "GET",
+          "purpose": "Expose normalized Fourthwall storefront catalog data to gallery UI",
+          "requires": [
+            "FOURTH_WALL_API_KEY"
+          ],
+          "request": {
+            "query": {
+              "collection": {
+                "type": "string",
+                "required": false
+              }
+            }
+          },
+          "response": {
+            "success": {
+              "status": 200,
+              "body": {
+                "ok": true,
+                "shop": {
+                  "id": "<shop-id>",
+                  "name": "St. Expedite Press",
+                  "domain": "shop.stexpedite.press",
+                  "url": "https://shop.stexpedite.press"
+                },
+                "collection": "all",
+                "collections": [],
+                "products": []
+              }
+            }
+          },
+          "errors": [
+            {
+              "status": 500,
+              "when": "Storefront token not configured on Worker",
+              "body": {
+                "ok": false,
+                "error": "Storefront not configured"
+              }
+            },
+            {
+              "status": 502,
+              "when": "Upstream Fourthwall storefront request fails",
+              "body": {
+                "ok": false,
+                "error": "Storefront unavailable"
+              }
+            }
+          ]
         },
         "/api/contact": {
           "method": "POST",

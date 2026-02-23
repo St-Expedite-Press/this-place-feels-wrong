@@ -4,6 +4,7 @@ type Env = {
   RESEND_API_KEY: string;
   FROM_EMAIL: string;
   TO_EMAIL: string;
+  FOURTH_WALL_API_KEY?: string;
   DB?: unknown;
   TURNSTILE_SECRET?: string;
   RATE_LIMIT_MAX?: string;
@@ -303,6 +304,28 @@ function pickTurnstileToken(body: JsonRecord | null) {
   return String(raw ?? "").trim();
 }
 
+function normalizeDomain(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
+  return `https://${trimmed}`;
+}
+
+async function fetchFourthwallJson(token: string, path: string) {
+  const qs = new URLSearchParams({ storefront_token: token });
+  const resp = await fetch(`https://storefront-api.fourthwall.com${path}?${qs.toString()}`, {
+    method: "GET",
+    headers: { accept: "application/json" },
+  });
+
+  if (!resp.ok) {
+    const body = await resp.text().catch(() => "");
+    throw new Error(`Fourthwall error (${resp.status}): ${body.slice(0, 400)}`);
+  }
+
+  return (await resp.json()) as JsonRecord;
+}
+
 async function verifyTurnstile(request: Request, env: Env, token: string) {
   const secret = String(env.TURNSTILE_SECRET ?? "").trim();
   if (!secret) return true;
@@ -349,6 +372,97 @@ export default {
             { status: 200 },
           ),
         );
+      }
+
+      if (url.pathname === "/api/storefront" && request.method === "GET") {
+        const token = String(env.FOURTH_WALL_API_KEY ?? "").trim();
+        if (!token) {
+          return withCors(
+            request,
+            json({ ok: false, error: "Storefront not configured" }, { status: 500 }),
+          );
+        }
+
+        try {
+          const requestedCollection = normalizeText(url.searchParams.get("collection"), 120);
+          const [shopData, collectionsData] = await Promise.all([
+            fetchFourthwallJson(token, "/v1/shop"),
+            fetchFourthwallJson(token, "/v1/collections"),
+          ]);
+
+          const shop = shopData as {
+            id?: string;
+            name?: string;
+            domain?: string;
+            publicDomain?: string;
+          };
+          const collections = ((collectionsData as { results?: unknown[] }).results ?? [])
+            .map((raw) => raw as { name?: string; slug?: string })
+            .filter((c) => c?.slug)
+            .map((c) => ({
+              name: String(c.name ?? c.slug ?? "Collection"),
+              slug: String(c.slug ?? ""),
+            }));
+          const selectedCollection = requestedCollection
+            || collections.find((c) => c.slug === "all")?.slug
+            || collections[0]?.slug
+            || "all";
+          const productsData = await fetchFourthwallJson(
+            token,
+            `/v1/collections/${encodeURIComponent(selectedCollection)}/products`,
+          );
+          const rawProducts = ((productsData as { results?: unknown[] }).results ?? [])
+            .map((raw) => raw as {
+              id?: string;
+              name?: string;
+              slug?: string;
+              description?: string;
+              images?: Array<{ url?: string; transformedUrl?: string }>;
+              variants?: Array<{ unitPrice?: { value?: number; currency?: string } }>;
+            });
+
+          const products = rawProducts.map((p) => {
+            const firstImage = p.images?.[0];
+            const firstPrice = p.variants?.[0]?.unitPrice;
+            const priceValue = typeof firstPrice?.value === "number"
+              ? firstPrice.value.toFixed(2)
+              : "";
+            return {
+              id: String(p.id ?? ""),
+              name: String(p.name ?? "Product"),
+              slug: String(p.slug ?? ""),
+              description: String(p.description ?? ""),
+              image: String(firstImage?.transformedUrl ?? firstImage?.url ?? ""),
+              priceValue,
+              priceCurrency: String(firstPrice?.currency ?? ""),
+            };
+          });
+
+          const shopUrl = normalizeDomain(String(shop.publicDomain ?? shop.domain ?? ""));
+          return withCors(
+            request,
+            json({
+              ok: true,
+              shop: {
+                id: String(shop.id ?? ""),
+                name: String(shop.name ?? "Store"),
+                domain: String(shop.publicDomain ?? shop.domain ?? ""),
+                url: shopUrl,
+              },
+              collection: selectedCollection,
+              collections,
+              products,
+            }, { status: 200 }),
+          );
+        } catch (error) {
+          console.error("Storefront fetch failed", {
+            message: error instanceof Error ? error.message : String(error),
+          });
+          return withCors(
+            request,
+            json({ ok: false, error: "Storefront unavailable" }, { status: 502 }),
+          );
+        }
       }
 
       if (request.method === "OPTIONS") {
