@@ -45,7 +45,8 @@ Environment variables (set in `wrangler.toml` or Cloudflare dashboard):
 Secret:
 - `RESEND_API_KEY`
 - `TURNSTILE_SECRET` (optional; when set, POST routes require a valid token)
-- `FOURTH_WALL_API_KEY` (required for `GET /api/storefront`; Fourthwall storefront token)
+- `FOURTH_WALL_API_KEY` (preferred for `GET /api/storefront`; Fourthwall storefront token)
+- `FW_STOREFRONT_TOKEN` (fallback alias for storefront token)
 
 D1 (optional, for `/api/updates`):
 - Create a D1 database (Cloudflare dashboard or `wrangler d1 create ...`).

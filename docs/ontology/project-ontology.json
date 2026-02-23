@@ -1131,7 +1131,7 @@
           "method": "GET",
           "purpose": "Expose normalized Fourthwall storefront catalog data to gallery UI",
           "requires": [
-            "FOURTH_WALL_API_KEY"
+            "FOURTH_WALL_API_KEY or FW_STOREFRONT_TOKEN"
           ],
           "request": {
             "query": {

@@ -5,6 +5,7 @@ type Env = {
   FROM_EMAIL: string;
   TO_EMAIL: string;
   FOURTH_WALL_API_KEY?: string;
+  FW_STOREFRONT_TOKEN?: string;
   DB?: unknown;
   TURNSTILE_SECRET?: string;
   RATE_LIMIT_MAX?: string;
@@ -360,6 +361,7 @@ export default {
       // Lightweight runtime probe for deploy validation and monitoring checks.
       if (url.pathname === "/api/health" && request.method === "GET") {
         const db = (env as unknown as { DB?: any }).DB;
+        const storefrontToken = String(env.FOURTH_WALL_API_KEY ?? env.FW_STOREFRONT_TOKEN ?? "").trim();
         return withCors(
           request,
           json(
@@ -367,6 +369,8 @@ export default {
               ok: true,
               service: "communications-worker",
               dbConfigured: Boolean(db?.prepare),
+              resendConfigured: Boolean(String(env.RESEND_API_KEY ?? "").trim()),
+              storefrontConfigured: Boolean(storefrontToken),
               now: new Date().toISOString(),
             },
             { status: 200 },
@@ -375,7 +379,7 @@ export default {
       }
 
       if (url.pathname === "/api/storefront" && request.method === "GET") {
-        const token = String(env.FOURTH_WALL_API_KEY ?? "").trim();
+        const token = String(env.FOURTH_WALL_API_KEY ?? env.FW_STOREFRONT_TOKEN ?? "").trim();
         if (!token) {
           return withCors(
             request,
