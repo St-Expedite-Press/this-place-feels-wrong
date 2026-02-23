@@ -25,7 +25,7 @@ Cloudflare:
 
 Worker runtime configuration:
 - Secret: `RESEND_API_KEY`
-- Secret: `FOURTH_WALL_API_KEY` (for `GET /api/storefront`)
+- Secret: `FOURTH_WALL_API_KEY` (preferred) or `FW_STOREFRONT_TOKEN` (fallback alias) for `GET /api/storefront`
 - Optional secret: `TURNSTILE_SECRET` (enforces Turnstile verification on POST routes)
 - Vars: `FROM_EMAIL`, `TO_EMAIL` (from `workers/communications/wrangler.toml`)
 - Rate-limit vars: `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`

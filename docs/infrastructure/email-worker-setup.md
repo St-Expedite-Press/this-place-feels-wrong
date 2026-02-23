@@ -178,7 +178,7 @@ Operational monitor:
   - synthetic negative probes for `POST /api/updates`, `POST /api/contact`, and `POST /api/submit`
 
 Storefront dependency:
-- `GET /api/storefront` requires Worker secret `FOURTH_WALL_API_KEY` (Fourthwall storefront token).
+- `GET /api/storefront` requires Worker secret `FOURTH_WALL_API_KEY` (preferred) or `FW_STOREFRONT_TOKEN` (fallback alias) with the Fourthwall storefront token.
 
 ## 5) Filesystem reference
 
