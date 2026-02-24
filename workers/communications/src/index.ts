@@ -163,15 +163,16 @@ const BRAND = {
   name: "St. Expedite Press",
   siteUrl: "https://stexpedite.press",
   logoUrl: "https://stexpedite.press/assets/img/favicon.svg",
-  accent: "#d8c27a",
-  accentSoft: "#a58f4a",
-  bg: "#070808",
-  panel: "#111315",
-  panelAlt: "#0b0c0d",
-  border: "#2a2d31",
-  text: "#efefef",
-  textMuted: "#b4bac2",
-  textSubtle: "#9198a1",
+  accent: "#2aff8a",
+  accentSoft: "rgba(42, 255, 138, 0.55)",
+  bg: "#050807",
+  panel: "rgba(5, 8, 7, 0.95)",
+  panelAlt: "rgba(4, 7, 6, 0.96)",
+  border: "rgba(42, 255, 138, 0.24)",
+  text: "#d6ffe8",
+  textMuted: "rgba(42, 255, 138, 0.86)",
+  textSubtle: "rgba(42, 255, 138, 0.72)",
+  relief: "#d96aff",
 };
 
 function renderEmailShell(params: {
@@ -193,16 +194,16 @@ function renderEmailShell(params: {
   return [
     "<!doctype html>",
     '<html lang="en">',
-    "  <body style=\"margin:0;padding:0;background:#050606;color:#f6f6f6;font-family:Georgia,'Times New Roman',serif;\">",
+    `  <body style="margin:0;padding:0;background:${BRAND.bg};color:${BRAND.text};font-family:'Cormorant Garamond', Georgia, 'Times New Roman', serif;">`,
     `    <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${preheader}</div>`,
-    `    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:${BRAND.bg};padding:24px 0;">`,
+    `    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:radial-gradient(circle at 50% 12%, rgba(42,255,138,0.10), ${BRAND.bg} 62%);padding:24px 0;">`,
     "      <tr>",
     '        <td align="center">',
-    `          <table role="presentation" width="640" cellspacing="0" cellpadding="0" style="width:640px;max-width:92%;background:${BRAND.panel};border:1px solid ${BRAND.border};border-radius:14px;overflow:hidden;">`,
+    `          <table role="presentation" width="640" cellspacing="0" cellpadding="0" style="width:640px;max-width:92%;background:${BRAND.panel};border:1px solid ${BRAND.border};border-radius:14px;overflow:hidden;box-shadow:0 0 26px rgba(42,255,138,0.16),0 0 48px rgba(42,255,138,0.10);">`,
     "            <tr>",
-    `              <td style="padding:24px 28px;background:linear-gradient(120deg,${BRAND.panelAlt} 0%,#171a1e 45%,#111315 100%);border-bottom:1px solid ${BRAND.border};">`,
+    `              <td style="padding:24px 28px;background:linear-gradient(120deg, ${BRAND.panelAlt} 0%, rgba(42,255,138,0.08) 45%, rgba(5,8,7,0.98) 100%);border-bottom:1px solid ${BRAND.border};">`,
     `                <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td valign="middle" style="width:40px;padding:0 12px 0 0;"><img src="${BRAND.logoUrl}" alt="${BRAND.name}" width="32" height="32" style="display:block;border:0;max-width:32px;height:auto;" /></td><td valign="middle"><div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:${BRAND.textMuted};">${BRAND.name}</div></td></tr></table>`,
-    `                <h1 style="margin:14px 0 0;font-size:29px;line-height:1.18;color:${BRAND.text};font-weight:600;">${title}</h1>`,
+    `                <h1 style="margin:14px 0 0;font-size:29px;line-height:1.18;color:${BRAND.text};font-weight:600;letter-spacing:1.1px;text-transform:uppercase;font-family:'Cinzel','Cormorant Garamond',Georgia,serif;text-shadow:0 0 12px rgba(42,255,138,0.35),0 0 22px rgba(42,255,138,0.24);">${title}</h1>`,
     subtitle
       ? `                <p style="margin:9px 0 0;font-size:14px;line-height:1.55;color:${BRAND.textMuted};">${subtitle}</p>`
       : "",
@@ -220,7 +221,7 @@ function renderEmailShell(params: {
       ? `              <td style="padding:0 28px 20px;">`
       : "",
     ctaLabel && ctaUrl
-      ? `                <a href="${ctaUrl}" style="display:inline-block;background:${BRAND.accent};color:#141414;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.3px;padding:11px 16px;border-radius:8px;">${ctaLabel}</a>`
+      ? `                <a href="${ctaUrl}" style="display:inline-block;background:rgba(42,255,138,0.12);border:1px solid rgba(42,255,138,0.62);color:${BRAND.text};text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;padding:11px 16px;border-radius:999px;text-shadow:0 0 8px rgba(42,255,138,0.4);box-shadow:0 0 18px rgba(42,255,138,0.24);font-family:'Cinzel','Cormorant Garamond',Georgia,serif;">${ctaLabel}</a>`
       : "",
     ctaLabel && ctaUrl
       ? "              </td>"
@@ -231,7 +232,7 @@ function renderEmailShell(params: {
     "            <tr>",
     `              <td style="padding:18px 28px;border-top:1px solid ${BRAND.border};font-size:12px;line-height:1.55;color:${BRAND.textSubtle};">`,
     `                <div>${footerNote}</div>`,
-    `                <div style="margin-top:6px;color:${BRAND.accentSoft};">${BRAND.name} // New Orleans, LA</div>`,
+    `                <div style="margin-top:6px;color:${BRAND.accentSoft};text-shadow:0 0 8px rgba(42,255,138,0.32), 0 0 12px ${BRAND.relief};">${BRAND.name} // New Orleans, LA</div>`,
     "              </td>",
     "            </tr>",
     "          </table>",
