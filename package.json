@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "bootstrap:venv": "sh agent/tools/bootstrap-python-venv.sh",
+    "assets:sync": "sh agent/tools/sync-assets.sh",
+    "assets:check": "sh agent/tools/check-assets-sync.sh",
     "lint:html": "npx -y htmlhint \"site/**/*.html\"",
     "test:worker": "npm --prefix workers/communications run test",
     "check": "npm run lint:html && npm run test:worker",

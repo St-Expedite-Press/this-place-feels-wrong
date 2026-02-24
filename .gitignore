@@ -1,6 +1,7 @@
 # Environment files
 .env
 .env.*
+!.env.example
 
 # OS/editor junk
 .DS_Store
@@ -8,17 +9,27 @@ Thumbs.db
 *.swp
 *.swo
 
-# Node/Python (future tooling)
+# Python/Node caches and virtualenvs
 node_modules/
 .venv/
-.cache/
-dist/
-build/
 __pycache__/
 *.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
 
-# Local scripts/tools
-/scripts/
+# Build and report artifacts
+dist/
+build/
+coverage/
+.reports/
+tmp/
+
+# Local IDE and bundler artifacts
+.vscode/
+.idea/
+.parcel-cache/
 
 # Logs
 npm-debug.log*
@@ -26,19 +37,20 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Local server artifacts
-.vscode/
-.idea/
-.parcel-cache/
-
-# Generated archives
-*.zip
-*.tar
-
-# Cloudflare Workers (local artifacts)
+# Cloudflare Workers local artifacts
 workers/**/.wrangler/
 .wrangler/
 .dev.vars
 .dev.vars.*
 *.sqlite
 *.sqlite3
+
+# Asset pipeline scratch space (generated locally)
+assets/.cache/
+assets/staging/
+assets/*.tmp
+assets/manifest.tmp
+
+# Generated archives
+*.zip
+*.tar
