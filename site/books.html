@@ -507,302 +507,25 @@
       <div class="filter-bar" id="filterBar">
         <!-- data-filter values correspond to book-card data-series attributes -->
         <button class="filter-button is-active" type="button" data-filter="all">All</button>
-        <button class="filter-button" type="button" data-filter="sexp">SEXP (Flagship / Originals)</button>
-        <button class="filter-button" type="button" data-filter="southern-civilization">Library of the Southern Civilization</button>
-        <button class="filter-button" type="button" data-filter="european-classics">European Classics &amp; Modernists</button>
-        <button class="filter-button" type="button" data-filter="english-minicanon">English Minicanon</button>
+        <button class="filter-button" type="button" data-filter="sexp-originals">SEXP (Flagship / Originals)</button>
+        <button class="filter-button" type="button" data-filter="library-of-the-southern-civilization">Library of the Southern Civilization</button>
+        <button class="filter-button" type="button" data-filter="european-classics-modernists">European Classics &amp; Modernists</button>
       </div>
     </section>
 
     <!-- TEMPLATE-SLOT: primary grid (.books-grid) -->
     <!-- BOOK GRID -->
     <section class="books-grid" id="booksGrid">
-
-      <!-- New: Les Fi&egrave;vres et les Humeurs -->
-      <article
-        class="book-card"
-        data-live="true"
-        data-series="sexp"
-        data-title="Les Fi&egrave;vres et les Humeurs"
-        data-author="C. Sandbatch"
-        data-series-label="SEXP (Flagship / Originals)"
-        data-description="What if a single emotion strained itself to breaking? Would it yield? Can words and thought transmute to music&mdash;can coal&rsquo;s obsession crystallize into the hardness of desire?&#10;&#10;Les Fi&egrave;vres et les Humeurs is a sequence in three parts, written deliberately under pressure. Its poems attend to fever, fixation, and desire as formal problems rather than narrative events, favoring compression, fracture, and controlled repetition.&#10;&#10;This book is concerned with how intensity reshapes language; with what remains when heat dissipates."
-        data-buy-url="#"
-      >
+      <article class="book-card" id="booksLoadingCard">
         <div class="book-cover-wrap">
-          <img
-            class="book-cover-img"
-            src="assets/img/les-fievres-cover.svg"
-            alt="Cover art for Les Fi&egrave;vres et les Humeurs"
-            loading="lazy"
-            decoding="async"
-          />
-          <div class="book-series-pill">SEXP</div>
+          <div class="book-cover-placeholder">Loading</div>
+          <div class="book-series-pill">Catalog</div>
         </div>
         <div class="book-meta">
-          <div class="book-title">Les Fi&egrave;vres et les Humeurs</div>
-          <div class="book-author">C. Sandbatch</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
+          <div class="book-title">Loading Oncoming Projects</div>
+          <div class="book-author">Fetching canonical catalog...</div>
         </div>
       </article>
-
-      <!-- Known project: Lift Wind / Love Heat: Symphony No. 1 in C Minor -->
-      <article
-        class="book-card"
-        data-live="true"
-        data-series="sexp"
-        data-title="Lift Wind / Love Heat: Symphony No. 1 in C Minor"
-        data-author="C. Sandbatch"
-        data-series-label="SEXP (Flagship / Originals)"
-        data-description="Known book project (in development)."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">SEXP</div>
-          <div class="book-series-pill">SEXP</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">Lift Wind / Love Heat: Symphony No. 1 in C Minor</div>
-          <div class="book-author">C. Sandbatch</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-        </div>
-      </article>
-
-      <!-- Known project: Commit to Blue -->
-      <article
-        class="book-card"
-        data-live="true"
-        data-series="sexp"
-        data-title="Commit to Blue"
-        data-author="C. Sandbatch"
-        data-series-label="SEXP (Flagship / Originals)"
-        data-description="Known book project (in development)."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">SEXP</div>
-          <div class="book-series-pill">SEXP</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">Commit to Blue</div>
-          <div class="book-author">C. Sandbatch</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-        </div>
-      </article>
-
-      <!-- Known project: The Hollowing Engine -->
-      <article
-        class="book-card"
-        data-live="true"
-        data-series="sexp"
-        data-title="The Hollowing Engine"
-        data-author="C. Sandbatch"
-        data-series-label="SEXP (Flagship / Originals)"
-        data-description="Known book project (in development)."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">SEXP</div>
-          <div class="book-series-pill">SEXP</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">The Hollowing Engine</div>
-          <div class="book-author">C. Sandbatch</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-        </div>
-      </article>
-
-      <!-- Example SEXP title -->
-      <article
-        class="book-card"
-        data-series="sexp"
-        data-title="Something Awful and Beautiful Is Coming"
-        data-author="C. Sandbatch"
-        data-series-label="SEXP (Flagship / Originals)"
-        data-description="A Gulf Noir cantata set in a spiritually scorched New Orleans, following a wayward musician whose life fractures into visions, liturgy, and heresy. SEXP&rsquo;s signature novel: metaphysical, region-soaked, fiercely postpolitical."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <!-- Replace with actual <img src="..."> when you have covers -->
-          <div class="book-cover-placeholder">SEXP</div>
-          <div class="book-series-pill">SEXP</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">Something Awful and Beautiful Is Coming</div>
-          <div class="book-author">C. Sandbatch</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
-            Buy
-          </a>
-        </div>
-      </article>
-
-      <!-- Another SEXP title -->
-      <article
-        class="book-card"
-        data-series="sexp"
-        data-title="Gulf Noir Canticles"
-        data-author="Various Authors"
-        data-series-label="SEXP (Flagship / Originals)"
-        data-description="An anthology of SEXP authors: twelve stories of bayou hauntings, parish scandals, and mystical breakdowns. A field guide to St. Expedite&rsquo;s night-minded fiction aesthetic."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">SEXP</div>
-          <div class="book-series-pill">SEXP</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">Gulf Noir Canticles</div>
-          <div class="book-author">Various Authors</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
-            Buy
-          </a>
-        </div>
-      </article>
-
-
-
-      <!-- Library of the Southern Civilization - Title 1 -->
-      <article
-        class="book-card"
-        data-live="true"
-        data-series="southern-civilization"
-        data-title="Early Works of John Gould Fletcher"
-        data-author="John G. Fletcher"
-        data-series-label="Library of the Southern Civilization"
-        data-description="Known book project (in development)."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">LSC</div>
-          <div class="book-series-pill">Southern Civ.</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">Early Works of John Gould Fletcher</div>
-          <div class="book-author">John G. Fletcher</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-        </div>
-      </article>
-
-      <!-- Library of the Southern Civilization - Title 2 -->
-      <article
-        class="book-card"
-        data-series="southern-civilization"
-        data-title="Haunts of the Delta"
-        data-author="M. J. LaCour (1953)"
-        data-series-label="Library of the Southern Civilization"
-        data-description="A reprint of a 1953 Gulf South ghost-story collection, back in print for the first time in decades. River spirits, parish haints, and bayou visitations annotated for contemporary readers."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">LSC</div>
-          <div class="book-series-pill">Southern Civ.</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">Haunts of the Delta</div>
-          <div class="book-author">M. J. LaCour (1953)</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
-            Buy
-          </a>
-        </div>
-      </article>
-
-      <!-- Library of the Southern Civilization - Title 3 -->
-      <article
-        class="book-card"
-        data-series="southern-civilization"
-        data-title="The Haints of St. Roch"
-        data-author="Anonymous (1907)"
-        data-series-label="Library of the Southern Civilization"
-        data-description="Collected miracle stories, graveyard legends, and folk Catholic vignettes from a vanished New Orleans neighborhood. Includes a new foreword on St. Roch and Gulf South folk piety."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">LSC</div>
-          <div class="book-series-pill">Southern Civ.</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">The Haints of St. Roch</div>
-          <div class="book-author">Anonymous (1907)</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
-            Buy
-          </a>
-        </div>
-      </article>
-
-      <!-- European Classics & Modernists - Title 1 -->
-      <article
-        class="book-card"
-        data-series="european-classics"
-        data-title="Night Procession in Castile"
-        data-author="Ram&oacute;n del Valle-Incl&aacute;n (trans. St. Expedite)"
-        data-series-label="European Classics & Modernists"
-        data-description="Baroque processions, miracles, and political heresies in a Spanish village on the brink of modernity. A new English translation of Valle-Incl&aacute;n&rsquo;s mystical grotesque."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">EURO</div>
-          <div class="book-series-pill">EURO</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">Night Procession in Castile</div>
-          <div class="book-author">Ram&oacute;n del Valle-Incl&aacute;n (trans. St. Expedite)</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
-            Buy
-          </a>
-        </div>
-      </article>
-
-      <!-- European Classics & Modernists - Title 2 -->
-      <article
-        class="book-card"
-        data-series="european-classics"
-        data-title="The Icon and the Fire"
-        data-author="Unknown Russian Modernist"
-        data-series-label="European Classics & Modernists"
-        data-description="A lost Russian modernist novella about an icon painter, a secret heresy, and the collapse of a village world. For readers of Bernanos, Akhmatova, and the Orthodox mystic line."
-        data-buy-url="#"
-      >
-        <div class="book-cover-wrap">
-          <div class="book-cover-placeholder">EURO</div>
-          <div class="book-series-pill">EURO</div>
-        </div>
-        <div class="book-meta">
-          <div class="book-title">The Icon and the Fire</div>
-          <div class="book-author">Unknown Russian Modernist</div>
-        </div>
-        <div class="book-actions">
-          <button class="book-btn" type="button" data-role="details">More Info</button>
-          <a class="book-btn book-btn--primary" data-role="buy" href="#" target="_blank" rel="noopener noreferrer">
-            Buy
-          </a>
-        </div>
-      </article>
-
     </section>
 
     <!-- TEMPLATE-SLOT: footer -->
@@ -838,22 +561,115 @@
   <script src="assets/js/modal-utils.js"></script>
   <script src="assets/js/cursor-glow.js"></script>
   <script>
-  /***********************************************************************
-   * LIVE SURFACE - OPTIONAL CATALOG PRUNING
-   *
-   * If a card has data-live="false", it is removed from the DOM.
-   * (Cards without data-live are treated as live by default.)
-   **********************************************************************/
-  (function() {
+  function escapeHtml(value) {
+    return String(value || '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  function renderBooksCatalog(projects) {
     const booksGrid = document.getElementById('booksGrid');
     if (!booksGrid) return;
 
-    const cards = Array.from(booksGrid.querySelectorAll('.book-card'));
-    cards.forEach(card => {
-      if (card.getAttribute('data-live') === 'false') {
-        card.remove();
+    const seriesShort = {
+      'sexp-originals': 'SEXP',
+      'library-of-the-southern-civilization': 'LSC',
+      'european-classics-modernists': 'EURO'
+    };
+
+    const items = Array.isArray(projects) ? projects : [];
+    if (!items.length) {
+      booksGrid.innerHTML = `
+        <article class="book-card">
+          <div class="book-cover-wrap">
+            <div class="book-cover-placeholder">Empty</div>
+            <div class="book-series-pill">Catalog</div>
+          </div>
+          <div class="book-meta">
+            <div class="book-title">No Projects Found</div>
+            <div class="book-author">The projects catalog is currently empty.</div>
+          </div>
+        </article>
+      `;
+      return;
+    }
+
+    booksGrid.innerHTML = items.map((project) => {
+      const seriesKey = String(project.series_key || '');
+      const seriesTitle = String(project.series_title || 'Program');
+      const shortCode = seriesShort[seriesKey] || 'BOOK';
+      let title = String(project.title || 'Untitled');
+      if (project.project_slug === 'les-fievres-et-les-humeurs') {
+        title = 'Les Fièvres et les Humeurs';
       }
-    });
+      const subtitle = String(project.subtitle || '').trim();
+      const author = String(project.author || 'Unknown');
+      const status = String(project.status || 'planned');
+      const publicationYear = project.publication_year ? String(project.publication_year) : '';
+      const notes = String(project.notes || '').trim();
+
+      const descriptionParts = [];
+      if (subtitle) descriptionParts.push(subtitle);
+      if (publicationYear) descriptionParts.push(`Year: ${publicationYear}`);
+      descriptionParts.push(`Status: ${status}`);
+      if (notes) descriptionParts.push(notes);
+      const description = descriptionParts.join('\n\n');
+
+      return `
+        <article
+          class="book-card"
+          data-series="${escapeHtml(seriesKey)}"
+          data-title="${escapeHtml(title)}"
+          data-author="${escapeHtml(author)}"
+          data-series-label="${escapeHtml(seriesTitle)}"
+          data-description="${escapeHtml(description)}"
+          data-buy-url="#"
+        >
+          <div class="book-cover-wrap">
+            <div class="book-cover-placeholder">${escapeHtml(shortCode)}</div>
+            <div class="book-series-pill">${escapeHtml(shortCode)}</div>
+          </div>
+          <div class="book-meta">
+            <div class="book-title">${escapeHtml(title)}</div>
+            <div class="book-author">${escapeHtml(author)}</div>
+          </div>
+          <div class="book-actions">
+            <button class="book-btn" type="button" data-role="details">More Info</button>
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  (function() {
+    fetch('/api/projects', { method: 'GET', cache: 'no-store' })
+      .then((res) => res.json().catch(() => ({})))
+      .then((body) => {
+        if (!body || !body.ok) {
+          throw new Error((body && body.error) || 'Projects unavailable');
+        }
+        renderBooksCatalog(body.projects);
+      })
+      .catch((err) => {
+        const booksGrid = document.getElementById('booksGrid');
+        if (!booksGrid) return;
+        const message = (err && err.message) ? err.message : 'Could not load projects catalog.';
+        booksGrid.innerHTML = `
+          <article class="book-card">
+            <div class="book-cover-wrap">
+              <div class="book-cover-placeholder">Error</div>
+              <div class="book-series-pill">Catalog</div>
+            </div>
+            <div class="book-meta">
+              <div class="book-title">Could Not Load Books</div>
+              <div class="book-author">${escapeHtml(message)}</div>
+            </div>
+          </article>
+        `;
+      });
   })();
 
   /***********************************************************************
@@ -868,9 +684,9 @@
     if (!filterBar || !booksGrid) return;
 
     const buttons = Array.from(filterBar.querySelectorAll('.filter-button'));
-    const cards   = Array.from(booksGrid.querySelectorAll('.book-card'));
 
     function applyFilter(filter) {
+      const cards = Array.from(booksGrid.querySelectorAll('.book-card'));
       cards.forEach(card => {
         const series = card.getAttribute('data-series');
         const match = (filter === 'all') || (series === filter);
@@ -927,7 +743,13 @@
       authorEl.textContent = author;
       seriesEl.textContent = series;
       descEl.textContent   = desc;
-      buyEl.setAttribute('href', buyUrl);
+      if (buyUrl && buyUrl !== '#') {
+        buyEl.setAttribute('href', buyUrl);
+        buyEl.style.display = '';
+      } else {
+        buyEl.setAttribute('href', '#');
+        buyEl.style.display = 'none';
+      }
 
       backdrop.classList.add('is-visible');
       backdrop.setAttribute('aria-hidden', 'false');
