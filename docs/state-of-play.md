@@ -141,6 +141,7 @@ Contract and schema files:
 - OpenAPI contract: `workers/communications/openapi.yaml` (`openapi: 3.1.0`, `info.version: 1.4.0`)
 - D1 migrations:
   - `workers/communications/migrations/0001_updates_signups.sql`
+  - `workers/communications/migrations/0006_updates_signups_substack_schema.sql`
   - `workers/communications/migrations/0002_oncoming_projects.sql`
   - `workers/communications/migrations/0003_oncoming_projects_presentation.sql`
 
