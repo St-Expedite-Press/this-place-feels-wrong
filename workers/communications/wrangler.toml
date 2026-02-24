@@ -1,6 +1,10 @@
 name = "stexpedite-communications"
 main = "src/index.ts"
 compatibility_date = "2026-02-05"
+routes = [
+  { pattern = "stexpedite.press/api/*", zone_name = "stexpedite.press" },
+  { pattern = "www.stexpedite.press/api/*", zone_name = "stexpedite.press" },
+]
 
 [vars]
 # Use a verified sender domain in Resend.

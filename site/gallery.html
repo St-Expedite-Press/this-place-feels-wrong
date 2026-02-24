@@ -287,6 +287,9 @@
 
       let currentCollection = '';
       let shopUrl = '';
+      const storefrontEndpoints = [
+        '/api/storefront',
+      ];
 
       function setStatus(text) {
         status.textContent = text;
@@ -364,10 +367,26 @@
         grid.innerHTML = '';
 
         try {
-          const res = await fetch(`/api/storefront${query}`, { method: 'GET' });
-          const data = await res.json().catch(() => ({}));
-          if (!res.ok || !data.ok) {
-            throw new Error(String(data.error || `HTTP ${res.status}`));
+          let data = null;
+          let lastError = 'Storefront unavailable';
+
+          for (const endpoint of storefrontEndpoints) {
+            try {
+              const res = await fetch(`${endpoint}${query}`, { method: 'GET', cache: 'no-store' });
+              const body = await res.json().catch(() => ({}));
+              if (res.ok && body && body.ok) {
+                data = body;
+                break;
+              }
+              lastError = String(body && body.error ? body.error : `HTTP ${res.status}`);
+            } catch (fetchErr) {
+              const message = fetchErr && fetchErr.message ? fetchErr.message : 'Failed to fetch';
+              lastError = `${endpoint} -> ${message}`;
+            }
+          }
+
+          if (!data) {
+            throw new Error(lastError);
           }
 
           currentCollection = String(data.collection || collectionSlug || '');

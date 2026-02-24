@@ -22,6 +22,7 @@ function withCors(request: Request, response: Response) {
   const origin = request.headers.get("origin") ?? "";
   const allowedOrigins = new Set([
     "https://stexpedite.press",
+    "https://www.stexpedite.press",
     "http://localhost:8787",
     "http://127.0.0.1:8787",
   ]);

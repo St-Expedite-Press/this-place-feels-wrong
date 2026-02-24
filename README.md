@@ -150,7 +150,7 @@ Start here for maintenance and agent work:
 - Email pipeline: `docs/infrastructure/email-worker-setup.md`
 - Ontology (machine-readable): `docs/ontology/project-ontology.json`
 - Ontology (human summary): `docs/ontology/project-ontology.md`
-- Agent protocols: `AGENTS.md`
+- Agent protocols: `agent/AGENTS.md`
 
 ## Contributing
 

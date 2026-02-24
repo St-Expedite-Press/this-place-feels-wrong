@@ -18,6 +18,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/hero-bar.css" />
   <link rel="stylesheet" href="assets/css/footer.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/effects.css" />
+  <link rel="stylesheet" href="assets/css/a11y.css" />
+  <link rel="stylesheet" href="assets/css/content-shell.css" />
 
   <style>
   :root {
@@ -78,79 +82,9 @@
     opacity: 0.9;
   }
 
-  .page {
-    position: relative;
-    z-index: 1;
-    padding: calc(5vh + var(--hero-bar-height)) 8vw 8vh;
-  }
-
-  .site-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 2rem;
-    margin-bottom: 5vh;
-  }
-
-  .site-eyebrow {
-    font-family: "Cinzel", serif;
-    letter-spacing: .22em;
-    opacity: .78;
-    font-size: 0.8rem;
-  }
-
-  .site-title {
-    font-family: "Cinzel", serif;
-    font-size: 2.3rem;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    text-shadow:
-      -1px -1px 0 var(--relief-base),
-      0 0 10px var(--green-1),
-      0 0 22px var(--green-2);
-  }
-
-  .site-subtitle {
-    margin-top: 0.4rem;
-    font-size: 1.05rem;
-    opacity: .92;
-    max-width: 36rem;
-  }
-
-  .site-header-divider {
-    height: 2px;
-    width: 100%;
-    margin-top: 1.1rem;
-    background: linear-gradient(90deg, rgba(42,255,138,0.0), rgba(42,255,138,0.55), rgba(217,106,255,0.55), rgba(42,255,138,0.0));
-    box-shadow: 0 0 18px var(--green-2);
-  }
-
-  .header-nav {
-    display: flex;
-    gap: 1.25rem;
-    font-family: "Cinzel", serif;
-    font-size: 0.82rem;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    opacity: .78;
-  }
-
-  .header-nav a {
-    color: var(--green-base);
-    text-decoration: none;
-    text-shadow: 0 0 8px var(--green-2);
-  }
-
-  .header-nav a:hover {
-    opacity: 1;
-    filter: brightness(1.18);
-    text-shadow:
-      0 0 10px var(--green-hot-2),
-      0 0 20px var(--green-2);
-  }
-
   .lab-card {
     max-width: 46rem;
+    margin: 0 auto;
     background: rgba(0,0,0,0.72);
     border: 1px solid rgba(42,255,138,0.22);
     border-radius: 20px;
@@ -177,9 +111,6 @@
 
   @media (max-width: 800px) {
     .page { padding: calc(4vh + var(--hero-bar-height)) 6vw 7vh; }
-    .site-header { flex-direction: column; align-items: flex-start; }
-    .site-title { font-size: 1.8rem; }
-    .header-nav { flex-wrap: wrap; gap: 0.8rem 1rem; opacity: .86; }
   }
   </style>
 </head>
@@ -192,7 +123,7 @@
     <header class="site-header">
       <div class="site-brand">
         <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
-        <div class="site-title">LAB</div>
+        <h1 class="site-title">LAB</h1>
         <div class="site-subtitle">Experiments, drafts, and works-in-progress</div>
         <div class="site-header-divider"></div>
       </div>

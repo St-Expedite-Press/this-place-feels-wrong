@@ -11,12 +11,16 @@
 .page {
   position: relative;
   z-index: 1;
+  --page-gutter: 5vw;
   padding: calc(2.5vh + var(--hero-bar-height)) 5vw 5vh;
 }
 
 .site-header {
-  max-width: 1120px;
-  margin: 0 auto 2.2vh;
+  width: calc(100vw - (var(--page-gutter) * 2));
+  max-width: none;
+  margin: 0 0 2.2vh;
+  margin-left: calc(50% - 50vw + var(--page-gutter));
+  margin-right: calc(50% - 50vw + var(--page-gutter));
   padding: 0.95rem 1.1rem;
   position: relative;
   overflow: hidden;
@@ -125,6 +129,13 @@
   text-shadow: 0 0 10px var(--green-hot-1), 0 0 24px var(--green-hot-2);
 }
 
+.header-nav a:focus-visible {
+  border-color: rgba(42, 255, 138, 0.48);
+  background: rgba(42, 255, 138, 0.08);
+  filter: brightness(1.2) contrast(1.05);
+  text-shadow: 0 0 10px var(--green-hot-1), 0 0 24px var(--green-hot-2);
+}
+
 @media (max-width: 780px) {
   .site-brand {
     min-width: 100%;
@@ -143,6 +154,7 @@
   }
 
   .page {
+    --page-gutter: 6vw;
     padding: calc(3vh + var(--hero-bar-height)) 6vw 8vh;
   }
 
