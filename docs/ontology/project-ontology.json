@@ -1070,7 +1070,8 @@
       "bindings": {
         "d1_optional": {
           "binding": "DB",
-          "migration": "workers/communications/migrations/0001_updates_signups.sql"
+          "migration": "workers/communications/migrations/0001_updates_signups.sql",
+          "additional_migration": "workers/communications/migrations/0002_oncoming_projects.sql"
         },
         "secrets": [
           "RESEND_API_KEY"
@@ -1090,6 +1091,16 @@
           "primary_key": "email",
           "table": "updates_signups",
           "unsubscribed_at": "nullable timestamp; non-null means opted out"
+        },
+        "oncoming_projects": {
+          "table": "oncoming_projects",
+          "primary_key": "id",
+          "program_key": "master-canon-structure",
+          "series_keys": [
+            "sexp-originals",
+            "library-of-the-southern-civilization",
+            "european-classics-modernists"
+          ]
         }
       },
       "entry": "workers/communications/src/index.ts",
@@ -1138,9 +1149,45 @@
               "collection": {
                 "type": "string",
                 "required": false
-              }
             }
-          },
+          }
+        },
+        "/api/projects": {
+          "method": "GET",
+          "purpose": "Expose canonical project program list from D1",
+          "requires": [
+            "DB (D1 binding)",
+            "oncoming_projects table"
+          ],
+          "response": {
+            "success": {
+              "status": 200,
+              "body": {
+                "ok": true,
+                "program": {
+                  "key": "master-canon-structure",
+                  "title": "Master Canon Structure"
+                },
+                "totals": {
+                  "volumes": 19,
+                  "series": 3
+                },
+                "series": [],
+                "projects": []
+              }
+            },
+            "errors": [
+              {
+                "status": 500,
+                "when": "No D1 binding is configured as DB, or oncoming_projects table is unavailable",
+                "body": {
+                  "ok": false,
+                  "error": "Projects list not configured|Projects list unavailable"
+                }
+              }
+            ]
+          }
+        },
           "response": {
             "success": {
               "status": 200,

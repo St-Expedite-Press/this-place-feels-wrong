@@ -120,6 +120,80 @@ describe("communications worker", () => {
     expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 
+  it("returns 500 when projects catalog DB is not configured", async () => {
+    const req = new Request("https://stexpedite.press/api/projects", {
+      method: "GET",
+      headers: { origin: "https://stexpedite.press" },
+    });
+    const res = await worker.fetch(req, baseEnv as never);
+    const body = (await res.json()) as { ok: boolean; error: string };
+
+    expect(res.status).toBe(500);
+    expect(body.ok).toBe(false);
+    expect(body.error).toBe("Projects list not configured");
+  });
+
+  it("returns projects catalog payload when DB is configured", async () => {
+    const mockDb = {
+      prepare: vi.fn(() => ({
+        all: vi.fn(async () => ({
+          results: [
+            {
+              project_slug: "les-fievres-et-les-humeurs",
+              program_key: "master-canon-structure",
+              series_key: "sexp-originals",
+              series_title: "SEXP - Flagship Original Works",
+              cluster_key: null,
+              cluster_title: null,
+              author: "C. Sandbatch",
+              title: "Les Fievres et les humeurs",
+              subtitle: null,
+              publication_year: 2026,
+              status: "published",
+              sort_order: 20,
+              notes: "Keep French title as canonical.",
+            },
+            {
+              project_slug: "lost-southern-lyricists-1890-1915",
+              program_key: "master-canon-structure",
+              series_key: "library-of-the-southern-civilization",
+              series_title: "Library of the Southern Civilization",
+              cluster_key: "anthology",
+              cluster_title: "Anthology Volume",
+              author: "St. Expedite Press (Curated)",
+              title: "Lost Southern Lyricists, 1890-1915",
+              subtitle: "Minor Voices Before the Agrarians",
+              publication_year: 1915,
+              status: "planned",
+              sort_order: 310,
+              notes: "Single curated anthology volume.",
+            },
+          ],
+        })),
+      })),
+    };
+
+    const req = new Request("https://stexpedite.press/api/projects", {
+      method: "GET",
+      headers: { origin: "https://stexpedite.press" },
+    });
+
+    const res = await worker.fetch(req, { ...baseEnv, DB: mockDb } as never);
+    const body = (await res.json()) as {
+      ok: boolean;
+      totals: { volumes: number; series: number };
+      series: Array<{ key: string; count: number }>;
+      projects: Array<{ project_slug: string }>;
+    };
+
+    expect(res.status).toBe(200);
+    expect(body.ok).toBe(true);
+    expect(body.totals.volumes).toBe(2);
+    expect(body.totals.series).toBe(2);
+    expect(body.projects[0]?.project_slug).toBe("les-fievres-et-les-humeurs");
+    expect(body.series.find((s) => s.key === "sexp-originals")?.count).toBe(1);
+  });
+
   it("accepts contact request and sends two emails", async () => {
     fetchMock.mockResolvedValue(new Response("{}", { status: 200 }));
     const req = makeJsonRequest("/api/contact", {

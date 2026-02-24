@@ -4,6 +4,7 @@ Cloudflare Worker that powers form submissions for this site:
 
 - `GET /api/health` - lightweight runtime status probe
 - `GET /api/storefront` - reads a normalized Fourthwall storefront catalog snapshot
+- `GET /api/projects` - reads canonical oncoming project catalog from D1
 - `POST /api/contact` - contact form submissions (sends branded HTML + plain-text fallback via Resend)
 - `POST /api/submit` - submissions/inquiries (sends branded HTML + plain-text fallback via Resend)
 - `POST /api/updates` - capture an updates/signup email list (stores in D1 if configured; does not send email)
@@ -51,7 +52,9 @@ Secret:
 D1 (optional, for `/api/updates`):
 - Create a D1 database (Cloudflare dashboard or `wrangler d1 create ...`).
 - Bind it to the Worker with binding name `DB`.
-- Apply the migration in `migrations/0001_updates_signups.sql`.
+- Apply migrations in `migrations/`.
+  - `0001_updates_signups.sql` (updates list capture)
+  - `0002_oncoming_projects.sql` (canonical projects catalog)
 
 ## Notes
 

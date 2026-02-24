@@ -22,6 +22,11 @@ jobs:
           test "$storefront_code" = "200"
           grep -q '"ok":true' /tmp/storefront.json
 
+          projects_code="$(curl -sS -o /tmp/projects.json -w "%{http_code}" \
+            https://stexpedite.press/api/projects)"
+          test "$projects_code" = "200"
+          grep -q '"ok":true' /tmp/projects.json
+
           updates_code="$(curl -sS -o /tmp/updates.json -w "%{http_code}" \
             -X POST https://stexpedite.press/api/updates \
             -H "content-type: application/json" \

@@ -53,7 +53,7 @@ All public site files live under `site/`, but they are served from the domain ro
   - `site/assets/img/`, `site/assets/gif/` - media
   - `site/CNAME`, `site/.nojekyll`, `site/robots.txt`, `site/sitemap.xml` - Pages + indexing helpers
 - `workers/` - Cloudflare Worker(s)
-  - `workers/communications/` - `stexpedite-communications` (all `/api/*` endpoints)
+- `workers/communications/` - `stexpedite-communications` (all `/api/*` endpoints)
 - `docs/` - internal documentation
 - `tools/` - release/tooling scripts (auth bootstrap, hooks, runtime checks, release orchestration)
 - `.githooks/` - tracked git hooks (pre-push guardrails)
@@ -174,6 +174,10 @@ If the Worker route is missing or fails, both pages fall back to opening a `mail
 3) Merch/storefront
 - `site/gallery.html` now renders a live Fourthwall catalog by calling `GET /api/storefront`.
 - Product cards link out to `shop.stexpedite.press` product pages.
+
+4) Canon/oncoming projects catalog
+- `GET /api/projects` returns a structured program list backed by D1 table `oncoming_projects`.
+- This list is seeded from `workers/communications/migrations/0002_oncoming_projects.sql`.
 
 ## Updates List
 

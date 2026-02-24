@@ -9,10 +9,13 @@ Canonical reference for the Cloudflare D1 database used by the communications Wo
 - Worker binding name: `DB`
 - Binding location: `workers/communications/wrangler.toml`
 - Related non-D1 Worker vars in the same config: `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`
-- Migration file: `workers/communications/migrations/0001_updates_signups.sql`
+- Migration files:
+  - `workers/communications/migrations/0001_updates_signups.sql`
+  - `workers/communications/migrations/0002_oncoming_projects.sql`
 
 Worker behavior dependency:
 - `POST /api/updates` writes to D1 when `DB` is bound.
+- `GET /api/projects` reads from D1 table `oncoming_projects`.
 - If `DB` is missing/unbound, Worker returns:
   - status `500`
   - `{ "ok": false, "error": "Updates list not configured" }`
@@ -21,6 +24,7 @@ Worker behavior dependency:
 
 Application table:
 - `updates_signups`
+- `oncoming_projects`
 
 Columns:
 - `email` (`TEXT PRIMARY KEY`)
@@ -29,6 +33,24 @@ Columns:
 - `source` (`TEXT`)
 - `user_agent` (`TEXT`)
 - `unsubscribed_at` (`TEXT`)
+
+Project catalog columns:
+- `id` (`INTEGER PRIMARY KEY AUTOINCREMENT`)
+- `project_slug` (`TEXT NOT NULL UNIQUE`)
+- `program_key` (`TEXT NOT NULL`)
+- `series_key` (`TEXT NOT NULL`)
+- `series_title` (`TEXT NOT NULL`)
+- `cluster_key` (`TEXT`)
+- `cluster_title` (`TEXT`)
+- `author` (`TEXT NOT NULL`)
+- `title` (`TEXT NOT NULL`)
+- `subtitle` (`TEXT`)
+- `publication_year` (`INTEGER`)
+- `status` (`TEXT NOT NULL`, one of `planned`, `in_progress`, `published`)
+- `sort_order` (`INTEGER NOT NULL`)
+- `notes` (`TEXT`)
+- `created_at` (`TEXT NOT NULL`)
+- `updated_at` (`TEXT NOT NULL`)
 
 ## 3) Verification commands
 
