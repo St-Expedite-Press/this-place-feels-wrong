@@ -1,6 +1,6 @@
 # State of Play (Repo + Deployment)
 
-Repo-verified snapshot as of **2026-02-23**.
+Repo-verified snapshot as of **2026-02-24**.
 
 Baseline checked:
 - Branch: `main`
@@ -88,6 +88,9 @@ Current HTML pages in `site/`:
 - Store flow:
   - UI: `site/gallery.html`
   - Endpoint: `GET /api/storefront`
+  - Projects flow:
+    - API: `GET /api/projects`
+    - Storage: D1 table `oncoming_projects`
   - Source of catalog truth: Fourthwall Storefront API via Worker secret `FOURTH_WALL_API_KEY`
 
 Index behavior:
@@ -135,8 +138,10 @@ Cross-cutting behavior:
 - OPTIONS preflight is supported.
 
 Contract and schema files:
-- OpenAPI contract: `workers/communications/openapi.yaml` (`openapi: 3.1.0`, `info.version: 1.3.0`)
-- D1 migration: `workers/communications/migrations/0001_updates_signups.sql`
+- OpenAPI contract: `workers/communications/openapi.yaml` (`openapi: 3.1.0`, `info.version: 1.4.0`)
+- D1 migrations:
+  - `workers/communications/migrations/0001_updates_signups.sql`
+  - `workers/communications/migrations/0002_oncoming_projects.sql`
 
 ## 4) Deploy pipeline snapshot
 

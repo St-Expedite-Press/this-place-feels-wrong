@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: St. Expedite Press Communications API
-  version: 1.3.0
+  version: 1.4.0
   description: |
     Cloudflare Worker API for contact, submission, and updates signup flows.
     Source implementation: workers/communications/src/index.ts
@@ -58,6 +58,24 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
         "502":
           description: Upstream Fourthwall API request failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/projects:
+    get:
+      tags: [projects]
+      summary: Read the canonical projects program list
+      operationId: getProjects
+      responses:
+        "200":
+          description: Program and project list from D1
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectsSuccess"
+        "500":
+          description: DB binding missing or projects table unavailable
           content:
             application/json:
               schema:
@@ -353,6 +371,94 @@ components:
         now:
           type: string
           format: date-time
+    ProjectEntry:
+      type: object
+      additionalProperties: false
+      required:
+        - project_slug
+        - program_key
+        - series_key
+        - series_title
+        - author
+        - title
+        - status
+        - sort_order
+      properties:
+        project_slug:
+          type: string
+        program_key:
+          type: string
+        series_key:
+          type: string
+        series_title:
+          type: string
+        cluster_key:
+          type: string
+          nullable: true
+        cluster_title:
+          type: string
+          nullable: true
+        author:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+          nullable: true
+        publication_year:
+          type: integer
+          nullable: true
+        status:
+          type: string
+          enum: [planned, in_progress, published]
+        sort_order:
+          type: integer
+        notes:
+          type: string
+          nullable: true
+    ProjectsSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, program, totals, series, projects]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        program:
+          type: object
+          additionalProperties: false
+          required: [key, title]
+          properties:
+            key:
+              type: string
+            title:
+              type: string
+        totals:
+          type: object
+          additionalProperties: false
+          required: [volumes, series]
+          properties:
+            volumes:
+              type: integer
+            series:
+              type: integer
+        series:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [key, title, count]
+            properties:
+              key:
+                type: string
+              title:
+                type: string
+              count:
+                type: integer
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProjectEntry"
     StorefrontCollection:
       type: object
       additionalProperties: false
@@ -417,6 +523,8 @@ tags:
     description: Runtime probe operations
   - name: storefront
     description: Fourthwall storefront catalog operations
+  - name: projects
+    description: Canonical projects program operations
   - name: contact
     description: Contact form operations
   - name: submit
