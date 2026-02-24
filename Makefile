@@ -1,10 +1,11 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help bootstrap-git-auth install-hooks lint-html test-worker check-all deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo
+.PHONY: help bootstrap-python-venv bootstrap-git-auth install-hooks lint-html test-worker check-all deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo
 
 help:
 	@echo "Available targets:"
 	@echo "  bootstrap-git-auth  Configure repo-local GitHub auth from .env"
+	@echo "  bootstrap-python-venv  Create/update local Python virtualenv at .venv"
 	@echo "  install-hooks       Install tracked git hooks (.githooks)"
 	@echo "  lint-html           Run htmlhint for site pages"
 	@echo "  test-worker         Run worker test suite"
@@ -18,6 +19,9 @@ help:
 	@echo "  release             Run release orchestration"
 	@echo "  release-dry-run     Print release actions without mutating"
 	@echo "  check-seo           Run advisory SEO structure checks"
+
+bootstrap-python-venv:
+	sh tools/bootstrap-python-venv.sh
 
 bootstrap-git-auth:
 	sh tools/bootstrap-git-auth.sh

@@ -71,6 +71,13 @@ python -m http.server 8000
 
 Visit `http://localhost:8000/`.
 
+Create/update local Python virtual environment for tooling:
+
+```bash
+sh tools/bootstrap-python-venv.sh
+. .venv/bin/activate
+```
+
 Optional: develop the Worker locally (Wrangler required; see `workers/communications/README.md`):
 
 ```bash
@@ -125,6 +132,7 @@ sh tools/release.sh
 Optional helpers:
 
 ```bash
+make bootstrap-python-venv
 make check-all
 make runtime-config
 make release-dry-run
