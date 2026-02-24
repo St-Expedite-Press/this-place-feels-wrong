@@ -7,6 +7,9 @@ Operational scripts for local checks, release flow, and git ergonomics.
 - `bootstrap-git-auth.sh`
   - Reads `GITHUB_PAT_WRITE` and optional `GITHUB_REPO_URL` from `.env`
   - Configures repo-local git credential storage (`.git/credentials`)
+- `bootstrap-python-venv.sh`
+  - Creates/updates `.venv` for local Python tooling
+  - Falls back to `--without-pip` + `get-pip.py` when `ensurepip` is unavailable
 - `install-hooks.sh`
   - Enables tracked hooks with `core.hooksPath=.githooks`
 - `check-runtime-config.sh`
@@ -30,6 +33,7 @@ From repo root:
 
 ```bash
 sh tools/bootstrap-git-auth.sh
+sh tools/bootstrap-python-venv.sh
 sh tools/install-hooks.sh
 sh tools/check-runtime-config.sh
 sh tools/check-site-seo.sh
