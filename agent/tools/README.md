@@ -16,6 +16,13 @@ Operational scripts for local checks, release flow, and git ergonomics.
   - Validates Wrangler auth, required secrets, D1 presence, and health endpoint
 - `check-site-seo.sh`
   - Advisory scan for one-`h1` and canonical tags (`--strict` for failing mode)
+- `sync-assets.sh`
+  - Syncs canonical media from `assets/source/` into `site/assets/`
+  - Regenerates `assets/manifest.txt` with checksums and file sizes
+  - Generates `.webp` siblings from raster images when `cwebp` is installed
+- `check-assets-sync.sh`
+  - Verifies `assets/source/` and `site/assets/` are in sync
+  - Verifies `assets/manifest.txt` matches current `site/assets/` content
 - `release.sh`
   - Release orchestration:
     - HTML lint
@@ -37,6 +44,8 @@ sh agent/tools/bootstrap-python-venv.sh
 sh agent/tools/install-hooks.sh
 sh agent/tools/check-runtime-config.sh
 sh agent/tools/check-site-seo.sh
+sh agent/tools/sync-assets.sh
+sh agent/tools/check-assets-sync.sh
 sh agent/tools/release.sh --dry-run
 sh agent/tools/release.sh
 ```

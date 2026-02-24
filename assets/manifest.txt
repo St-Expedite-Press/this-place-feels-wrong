@@ -1,0 +1,20 @@
+# Asset Manifest
+# Generated: 2026-02-24T23:06:53Z
+# sha256  bytes  path
+eea3674cf6c954b79c4848f64e7fbddfee5d4f6350e3cbaee001662337557ea0  760  site/assets/css/a11y.css
+71fab77f15788b9afaa9ac38318c03f192a5a867058acb3e706406add3ec2ea3  2028  site/assets/css/base.css
+fc4e843f974decf3508a142862416a794c46374cd89b85e9039a72ebbaeb4eaa  4133  site/assets/css/content-shell.css
+42b2ed2fd72615c328018d035f80dec22165006733a6160ed9b1195b693fa456  859  site/assets/css/effects.css
+a1d94cdf7fbee38696a20561763d31d7d81c46c60e2dafa6309c07b0ec99caf8  1616  site/assets/css/footer.css
+19be76ec50366ce08b13d8413edab3b24b4fcfcb2212e65988ca4119813f0442  4139  site/assets/css/hero-bar.css
+c7b24780442ecfbeb54d4bd2a095cc7d0992fe5e456af7bef9f549c069f91fd1  2513938  site/assets/gif/crow_glitch_text.gif
+2f33d5ced6fa66bc486f9864d7c2e365d4d34b69f15a55da0e6cdd5540f577f8  838278  site/assets/img/crow_glitch_text.webp
+53153b4b2f81480d002fb402da0c6332e073d7bdb5f5c16bd06baedd38a24ee2  1243283  site/assets/img/crow_glitch_text_still.png
+6fe43ab83e8f008d0fe2a86bc74c2c2cc56a3b6ce8485a16144fb5bfed6283a8  122370  site/assets/img/crow_glitch_text_still.webp
+574f63d5545857d80d0172d15cf1a4a3c92567403ab91e04a4f67e3e8a636fe8  338  site/assets/img/favicon.svg
+13f355a4c8a0b842c62647fb3285a6b1f13554403a9563754a4112356a3f5ee0  708827  site/assets/img/les-fievres-cover.svg
+d6de1ea2b692023ef272d2323fae852e7dfa0358c7e6dd9e0acb5e4edaf06f15  2094346  site/assets/img/void_engine_twinkle_green.png
+719aaa227dc10401fae3b3074207ce65e4a640ea33c4a5329229a5b1da780846  143826  site/assets/img/void_engine_twinkle_green.webp
+ac198da645b3831a5ee7885aaa85602e9445ddabe0489b9d99f44a25fe917d12  736  site/assets/js/cursor-glow.js
+e998760339cb06b6a40d7d93a5b530d1de33cb8c9016caeea4818902813df090  1441  site/assets/js/index-effects.js
+2f9153fef95e80cabcfebf21ea8f9a7dd65e17b392dc3d8e37d2ab586d535021  1918  site/assets/js/modal-utils.js

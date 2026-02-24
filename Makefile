@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help bootstrap-python-venv bootstrap-git-auth install-hooks lint-html test-worker check-all deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo
+.PHONY: help bootstrap-python-venv bootstrap-git-auth install-hooks lint-html test-worker check-all deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync check-assets
 
 help:
 	@echo "Available targets:"
@@ -19,6 +19,8 @@ help:
 	@echo "  release             Run release orchestration"
 	@echo "  release-dry-run     Print release actions without mutating"
 	@echo "  check-seo           Run advisory SEO structure checks"
+	@echo "  assets-sync         Sync source assets -> site/assets and regenerate manifest"
+	@echo "  check-assets        Verify source/published assets and manifest are in sync"
 
 bootstrap-python-venv:
 	sh agent/tools/bootstrap-python-venv.sh
@@ -63,3 +65,9 @@ release-dry-run:
 
 check-seo:
 	sh agent/tools/check-site-seo.sh
+
+assets-sync:
+	sh agent/tools/sync-assets.sh
+
+check-assets:
+	sh agent/tools/check-assets-sync.sh

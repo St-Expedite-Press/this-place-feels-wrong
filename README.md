@@ -55,6 +55,9 @@ All public site files live under `site/`, but they are served from the domain ro
 - `workers/` - Cloudflare Worker(s)
 - `workers/communications/` - `stexpedite-communications` (all `/api/*` endpoints)
 - `docs/` - internal documentation
+- `assets/` - canonical source media + generated asset manifest
+  - `assets/source/img/`, `assets/source/gif/` - source-of-truth media
+  - `assets/manifest.txt` - checksum/size manifest generated from `site/assets/`
 - `agent/` - consolidated agent hub (protocols, tooling, skills, reusable stack)
   - `agent/tools/` - release/tooling scripts (auth bootstrap, hooks, runtime checks, release orchestration)
   - `agent/skills/` - operational skills and runbook-grade scripts
@@ -123,6 +126,14 @@ Core local checks:
 npm run check
 sh agent/tools/check-runtime-config.sh
 sh agent/tools/check-site-seo.sh
+npm run assets:check
+```
+
+Asset sync pipeline:
+
+```bash
+sh agent/tools/sync-assets.sh
+# or: npm run assets:sync
 ```
 
 Release orchestration:

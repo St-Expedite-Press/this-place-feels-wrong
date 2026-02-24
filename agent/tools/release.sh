@@ -51,6 +51,7 @@ while [ "$#" -gt 0 ]; do
 done
 
 echo "[release] repo checks"
+run_step "cd \"$repo_root\" && sh agent/tools/check-assets-sync.sh"
 run_step "cd \"$repo_root\" && npx -y htmlhint \"site/**/*.html\""
 run_step "cd \"$repo_root\" && npm --prefix workers/communications run test"
 
