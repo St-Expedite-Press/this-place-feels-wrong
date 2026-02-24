@@ -1,0 +1,45 @@
+{
+  "name": "agent-static-web-stack",
+  "version": "1.1.0",
+  "description": "Project-agnostic static web toolkit for scaffolding, quality checks, content utilities, and deploy adapters.",
+  "entrypoints": {
+    "scaffold": "agent/AGENT/scripts/scaffold-static.sh",
+    "dev": "agent/AGENT/scripts/dev.sh",
+    "build": "agent/AGENT/scripts/build.sh",
+    "preview": "agent/AGENT/scripts/preview.sh",
+    "check_all": "agent/AGENT/scripts/check-all.sh"
+  },
+  "paths": {
+    "scripts": "agent/AGENT/scripts",
+    "templates": "agent/AGENT/templates/static-basic",
+    "makefile": "agent/AGENT/Makefile"
+  },
+  "capabilities": {
+    "scaffolding": true,
+    "dev_server": true,
+    "build_preview": true,
+    "link_check": true,
+    "a11y_check": true,
+    "lighthouse_check": true,
+    "sitemap_generation": true,
+    "feed_generation": true,
+    "image_optimization": true,
+    "deploy_adapters": [
+      "github-pages",
+      "cloudflare-pages",
+      "netlify",
+      "vercel",
+      "s3"
+    ]
+  },
+  "requires": {
+    "shell": "sh",
+    "python3": "required for local dev/preview and lighthouse server",
+    "node": "optional for lighthouse via npx",
+    "cwebp": "optional for image optimization",
+    "wrangler": "optional for Cloudflare Pages deploy",
+    "netlify": "optional for Netlify deploy",
+    "vercel": "optional for Vercel deploy",
+    "aws": "optional for S3 deploy"
+  }
+}
