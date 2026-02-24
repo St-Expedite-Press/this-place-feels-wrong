@@ -44,6 +44,44 @@
     text-align: center;
   }
 
+  .books-intro {
+    max-width: 1024px;
+    margin: 1.2vh auto 2vh;
+    text-align: center;
+    line-height: 1.55;
+    opacity: 0.95;
+    text-shadow: 0 0 8px var(--green-3);
+  }
+
+  .books-intro__actions {
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  .books-intro__cta {
+    border: 1px solid var(--green-2);
+    background: rgba(0,0,0,0.72);
+    color: var(--green-base);
+    border-radius: 999px;
+    padding: 0.5rem 0.95rem;
+    font-family: "Cinzel", serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.74rem;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 14px var(--green-3);
+    transition: 0.2s ease;
+  }
+
+  .books-intro__cta:hover,
+  .books-intro__cta:focus-visible {
+    border-color: var(--green-hot-2);
+    box-shadow: 0 0 12px var(--green-hot-2), 0 0 22px var(--green-hot-3);
+  }
+
   .filter-heading {
     font-size: 1.1rem;
     letter-spacing: .14em;
@@ -252,12 +290,14 @@
     letter-spacing: .07em;
     text-transform: uppercase;
     text-shadow: 0 0 7px var(--green-1);
+    min-height: 2.8em;
   }
 
   .book-author {
     font-size: 0.85rem;
     opacity: .9;
     letter-spacing: .04em;
+    min-height: 1.3em;
   }
 
   .book-actions {
@@ -269,7 +309,8 @@
   }
 
   .book-btn {
-    flex: 1;
+    flex: 1 1 auto;
+    width: 100%;
     font-family: "Cinzel", serif;
     font-size: 0.78rem;
     letter-spacing: .14em;
@@ -494,7 +535,7 @@
 
       <nav class="header-nav">
         <a href="index.html">Portal</a>
-        <a href="books.html">Books</a>
+        <a href="books.html" aria-current="page">Books</a>
         <a href="gallery.html">Merch</a>
         <a href="under-construction.html">Lab</a>
         <a href="mission.html">Mission</a>
@@ -512,6 +553,17 @@
         <button class="filter-button" type="button" data-filter="sexp-originals">SEXP (Flagship / Originals)</button>
         <button class="filter-button" type="button" data-filter="library-of-the-southern-civilization">Library of the Southern Civilization</button>
         <button class="filter-button" type="button" data-filter="european-classics-modernists">European Classics &amp; Modernists</button>
+      </div>
+    </section>
+
+    <section class="books-intro" aria-label="Books purchase and contact actions">
+      <p>
+        Catalog data loads live from the press database. Open any title for details, then use
+        <strong>Purchase</strong> to jump straight to current marketplace listings.
+      </p>
+      <div class="books-intro__actions">
+        <a class="books-intro__cta" href="https://www.amazon.com/s?k=C.+Sandbatch" target="_blank" rel="noopener noreferrer">Find on Amazon</a>
+        <a class="books-intro__cta" href="contact.html">Bulk / Rights Inquiries</a>
       </div>
     </section>
 
@@ -614,6 +666,7 @@
       const notes = String(project.notes || '').trim();
       const popupDescription = String(project.popup_description || '').trim();
       const coverImage = String(project.cover_image || '').trim();
+      const buyUrl = String(project.buy_url || '').trim() || `https://www.amazon.com/s?k=${encodeURIComponent(`${title} ${author}`)}`;
 
       const descriptionParts = [];
       if (popupDescription) {
@@ -634,7 +687,7 @@
           data-author="${escapeHtml(author)}"
           data-series-label="${escapeHtml(seriesTitle)}"
           data-description="${escapeHtml(description)}"
-          data-buy-url="#"
+          data-buy-url="${escapeHtml(buyUrl)}"
         >
           <div class="book-cover-wrap">
             ${coverImage ? `<img class="book-cover-img" src="${escapeHtml(coverImage)}" alt="Cover art for ${escapeHtml(title)}" loading="lazy" decoding="async" />` : `<div class="book-cover-placeholder">${escapeHtml(shortCode)}</div>`}
@@ -753,9 +806,11 @@
       descEl.textContent   = desc;
       if (buyUrl && buyUrl !== '#') {
         buyEl.setAttribute('href', buyUrl);
+        buyEl.textContent = /amazon\./i.test(buyUrl) ? 'Find on Amazon' : 'Purchase';
         buyEl.style.display = '';
       } else {
         buyEl.setAttribute('href', '#');
+        buyEl.textContent = 'Purchase';
         buyEl.style.display = 'none';
       }
 
