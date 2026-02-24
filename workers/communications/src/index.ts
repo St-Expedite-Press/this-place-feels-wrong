@@ -496,7 +496,9 @@ export default {
                 publication_year,
                 status,
                 sort_order,
-                notes
+                notes,
+                cover_image,
+                popup_description
               FROM oncoming_projects
               ORDER BY sort_order ASC
             `,
@@ -515,6 +517,8 @@ export default {
               status: string;
               sort_order: number;
               notes: string | null;
+              cover_image: string | null;
+              popup_description: string | null;
             }>();
 
           const projects = Array.isArray(queryResult?.results) ? queryResult.results : [];
