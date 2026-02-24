@@ -91,6 +91,31 @@
       min-height: 1.5rem;
     }
 
+    .store-trust {
+      max-width: 1080px;
+      margin: 0 auto 1rem;
+      display: grid;
+      gap: 0.8rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (max-width: 860px) {
+      .store-trust {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .store-trust__item {
+      border: 1px solid rgba(42,255,138,0.2);
+      border-radius: 14px;
+      padding: 0.7rem 0.8rem;
+      background: rgba(0,0,0,0.62);
+      text-align: center;
+      font-size: 0.86rem;
+      letter-spacing: 0.06em;
+      opacity: 0.95;
+    }
+
     .store-grid {
       max-width: 1160px;
       margin: 0 auto 4rem;
@@ -262,6 +287,11 @@
     </section>
 
     <section aria-label="Store controls">
+      <div class="store-trust" aria-label="Store trust signals">
+        <div class="store-trust__item">Secure checkout is handled offsite by Fourthwall.</div>
+        <div class="store-trust__item">Inventory and price data are loaded live from the catalog.</div>
+        <div class="store-trust__item">For order support, use <a href="contact.html">Contact</a>.</div>
+      </div>
       <div id="store-toolbar" class="store-toolbar"></div>
       <div id="store-status" class="store-status" role="status" aria-live="polite"></div>
     </section>
@@ -286,7 +316,7 @@
       if (!toolbar || !status || !grid || !footerStoreWrap || !footerStoreLink) return;
 
       let currentCollection = '';
-      let shopUrl = '';
+      let shopUrl = 'https://shop.stexpedite.press';
       const storefrontEndpoints = [
         '/api/storefront',
       ];
@@ -391,13 +421,8 @@
 
           currentCollection = String(data.collection || collectionSlug || '');
           shopUrl = normalizeShopUrl(data?.shop?.url || data?.shop?.domain || '');
-          if (shopUrl) {
-            footerStoreWrap.hidden = false;
-            footerStoreLink.setAttribute('href', shopUrl);
-          } else {
-            footerStoreWrap.hidden = true;
-            footerStoreLink.setAttribute('href', '#');
-          }
+          footerStoreWrap.hidden = false;
+          footerStoreLink.setAttribute('href', shopUrl);
           renderToolbar(Array.isArray(data.collections) ? data.collections : []);
           renderProducts(Array.isArray(data.products) ? data.products : []);
 
@@ -406,15 +431,9 @@
         } catch (err) {
           const message = err && err.message ? err.message : 'Storefront unavailable';
           setStatus(`Could not load storefront right now (${message}).`);
-          if (shopUrl) {
-            footerStoreWrap.hidden = false;
-            footerStoreLink.setAttribute('href', shopUrl);
-            grid.innerHTML = `<div class="empty-state"><a class="store-link" href="${shopUrl}" target="_blank" rel="noopener noreferrer">Open Store Directly</a></div>`;
-          } else {
-            footerStoreWrap.hidden = true;
-            footerStoreLink.setAttribute('href', '#');
-            grid.innerHTML = '<div class="empty-state">Try again shortly.</div>';
-          }
+          footerStoreWrap.hidden = false;
+          footerStoreLink.setAttribute('href', shopUrl);
+          grid.innerHTML = `<div class="empty-state"><p>Could not load the live catalog from API.</p><p><a class="store-link" href="${shopUrl}" target="_blank" rel="noopener noreferrer">Open Store Directly</a></p></div>`;
         }
       }
 
