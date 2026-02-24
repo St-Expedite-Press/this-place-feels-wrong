@@ -41,20 +41,20 @@ Important DNS/proxy rule:
 One-command orchestration (recommended after one-time setup):
 
 ```bash
-sh tools/release.sh
+sh agent/tools/release.sh
 ```
 
 Dry-run preview:
 
 ```bash
-sh tools/release.sh --dry-run
+sh agent/tools/release.sh --dry-run
 ```
 
 One-time local setup:
 
 ```bash
-sh tools/bootstrap-git-auth.sh
-sh tools/install-hooks.sh
+sh agent/tools/bootstrap-git-auth.sh
+sh agent/tools/install-hooks.sh
 ```
 
 ### A) Deploy static Pages content
@@ -146,14 +146,15 @@ Expected:
 Repo-local automation (recommended):
 
 ```bash
-bash tools/check-runtime-config.sh
-bash skills/ops/cloudflare-stability/scripts/runtime-audit.sh
-bash skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
-bash skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
+bash agent/tools/check-runtime-config.sh
+bash agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh
+bash agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
+bash agent/skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
 ```
 
 ## 6) Reference docs
 
+- Agent hub (tools + skills + protocols): `agent/`
 - Infrastructure details: `docs/infrastructure/email-worker-setup.md`
 - D1 database reference: `docs/infrastructure/d1-database.md`
 - Incident runbook: `docs/operations/incident-runbook.md`
@@ -161,5 +162,5 @@ bash skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
 - Current snapshot + verification matrix: `docs/state-of-play.md`
 - Ontology (machine): `docs/ontology/project-ontology.json`
 - Ontology (human): `docs/ontology/project-ontology.md`
-- Ops skill tooling: `skills/ops/cloudflare-stability/`
+- Ops skill tooling: `agent/skills/ops/cloudflare-stability/`
 - Scheduled runtime monitor workflow: `.github/workflows/api-health-monitor.yml` (health + synthetic POST route checks)

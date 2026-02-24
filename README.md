@@ -55,7 +55,10 @@ All public site files live under `site/`, but they are served from the domain ro
 - `workers/` - Cloudflare Worker(s)
 - `workers/communications/` - `stexpedite-communications` (all `/api/*` endpoints)
 - `docs/` - internal documentation
-- `tools/` - release/tooling scripts (auth bootstrap, hooks, runtime checks, release orchestration)
+- `agent/` - consolidated agent hub (protocols, tooling, skills, reusable stack)
+  - `agent/tools/` - release/tooling scripts (auth bootstrap, hooks, runtime checks, release orchestration)
+  - `agent/skills/` - operational skills and runbook-grade scripts
+  - `agent/AGENT/` - project-agnostic static web stack kit
 - `.githooks/` - tracked git hooks (pre-push guardrails)
 - `.github/workflows/deploy-pages.yml` - GitHub Pages deploy workflow
 - `.env` - local-only configuration (gitignored; never commit secrets)
@@ -74,7 +77,7 @@ Visit `http://localhost:8000/`.
 Create/update local Python virtual environment for tooling:
 
 ```bash
-sh tools/bootstrap-python-venv.sh
+sh agent/tools/bootstrap-python-venv.sh
 . .venv/bin/activate
 ```
 
@@ -98,7 +101,7 @@ npm run test
 If this shell cannot push to GitHub, run:
 
 ```bash
-bash tools/bootstrap-git-auth.sh
+bash agent/tools/bootstrap-git-auth.sh
 ```
 
 This reads `GITHUB_PAT_WRITE` (and optionally `GITHUB_REPO_URL`) from `.env`, configures repo-local git credentials, and verifies remote access so future `git push origin main` works without re-entering credentials.
@@ -110,23 +113,23 @@ Unified command surfaces are available through either `make` or root npm scripts
 One-time setup:
 
 ```bash
-sh tools/bootstrap-git-auth.sh
-sh tools/install-hooks.sh
+sh agent/tools/bootstrap-git-auth.sh
+sh agent/tools/install-hooks.sh
 ```
 
 Core local checks:
 
 ```bash
 npm run check
-sh tools/check-runtime-config.sh
-sh tools/check-site-seo.sh
+sh agent/tools/check-runtime-config.sh
+sh agent/tools/check-site-seo.sh
 ```
 
 Release orchestration:
 
 ```bash
-sh tools/release.sh --dry-run
-sh tools/release.sh
+sh agent/tools/release.sh --dry-run
+sh agent/tools/release.sh
 ```
 
 Optional helpers:
@@ -212,6 +215,7 @@ Start here for maintenance and agent work:
 - Email pipeline: `docs/infrastructure/email-worker-setup.md`
 - Ontology (machine-readable): `docs/ontology/project-ontology.json`
 - Ontology (human summary): `docs/ontology/project-ontology.md`
+- Agent hub index: `agent/README.md`
 - Agent protocols: `agent/AGENTS.md`
 
 ## Contributing

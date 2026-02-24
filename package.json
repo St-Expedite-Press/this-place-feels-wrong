@@ -2,7 +2,7 @@
   "name": "this-place-feels-wrong-tooling",
   "private": true,
   "scripts": {
-    "bootstrap:venv": "sh tools/bootstrap-python-venv.sh",
+    "bootstrap:venv": "sh agent/tools/bootstrap-python-venv.sh",
     "lint:html": "npx -y htmlhint \"site/**/*.html\"",
     "test:worker": "npm --prefix workers/communications run test",
     "check": "npm run lint:html && npm run test:worker",

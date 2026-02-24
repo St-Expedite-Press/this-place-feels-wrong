@@ -153,8 +153,8 @@ Expected:
 Automated equivalent checks:
 
 ```bash
-bash skills/ops/cloudflare-stability/scripts/runtime-audit.sh
-bash skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
+bash agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh
+bash agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
 ```
 
 Worker test suite (repo-local contract checks):
@@ -192,6 +192,6 @@ Storefront dependency:
 - `docs/infrastructure/d1-database.md`
 - `docs/operations/incident-runbook.md`
 - `docs/operations/release-ops-log.md`
-- `skills/ops/cloudflare-stability/`
+- `agent/skills/ops/cloudflare-stability/`
 - `docs/state-of-play.md`
 - `DEPLOYMENT.md`

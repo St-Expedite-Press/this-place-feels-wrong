@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/../../../.." && pwd)"
+ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/../../../../.." && pwd)"
 LOG_FILE="$ROOT_DIR/docs/operations/release-ops-log.md"
 
 mkdir -p "$(dirname "$LOG_FILE")"

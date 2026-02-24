@@ -40,6 +40,7 @@ Use it to map a request to the exact files/endpoints involved. Only open additio
 
 ## 5) Quick map
 
+- Agent hub index: `agent/README.md`
 - Public site: `site/`
 - Deploy workflow: `.github/workflows/deploy-pages.yml`
 - Worker: `workers/communications/src/index.ts`
@@ -47,7 +48,7 @@ Use it to map a request to the exact files/endpoints involved. Only open additio
 - D1 database doc: `docs/infrastructure/d1-database.md`
 - Incident runbook: `docs/operations/incident-runbook.md`
 - Release ops log: `docs/operations/release-ops-log.md`
-- Ops skills: `skills/ops/cloudflare-stability/`
+- Ops skills: `agent/skills/ops/cloudflare-stability/`
 - State of play: `docs/state-of-play.md`
 
 ## 6) Context engineering + token budget rules

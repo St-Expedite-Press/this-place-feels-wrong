@@ -8,7 +8,7 @@ Scope: Repository tooling needed to improve development speed, deployment reliab
 What already exists and is useful:
 - CI for static deploy and test gates: `.github/workflows/deploy-pages.yml`
 - Scheduled API checks: `.github/workflows/api-health-monitor.yml`
-- Runtime ops scripts: `skills/ops/cloudflare-stability/scripts/*.sh`
+- Runtime ops scripts: `agent/skills/ops/cloudflare-stability/scripts/*.sh`
 - Repo guidance docs: `README.md`, `DEPLOYMENT.md`, `docs/state-of-play.md`, `agent/AGENTS.md`
 
 Primary constraints today:
@@ -35,12 +35,12 @@ Primary constraints today:
 
 2. Release orchestration script
 - Why: Current release spans Pages push + Worker deploy + runtime smoke + evidence log.
-- Add `tools/release.sh` to run the full sequence with clear stop-on-fail behavior.
+- Add `agent/tools/release.sh` to run the full sequence with clear stop-on-fail behavior.
 - Impact: One command to reach a reproducible “release complete” state.
 
 3. Pre-push guardrails
 - Why: Catch failures before CI cycle time.
-- Add lightweight hook (`tools/install-hooks.sh`) and `pre-push` checks:
+- Add lightweight hook (`agent/tools/install-hooks.sh`) and `pre-push` checks:
   - `npx -y htmlhint "site/**/*.html"`
   - `npm --prefix workers/communications run test`
 - Impact: Fewer broken pushes and less CI churn.
@@ -54,7 +54,7 @@ Primary constraints today:
 
 2. Secrets/config health checker
 - Why: Runtime failures often come from missing secrets (`FOURTH_WALL_API_KEY`, etc.).
-- Add `tools/check-runtime-config.sh`:
+- Add `agent/tools/check-runtime-config.sh`:
   - verifies required Wrangler auth
   - validates secret presence
   - validates route attachments
@@ -90,7 +90,7 @@ Primary constraints today:
 ## Suggested Implementation Sequence
 
 1. Add `Makefile` (or `justfile`) and normalize commands.
-2. Add `tools/release.sh` to chain push/deploy/smoke/log.
+2. Add `agent/tools/release.sh` to chain push/deploy/smoke/log.
 3. Add hook installer + pre-push checks.
 4. Add root `package.json` script façade.
 5. Add runtime config checker and sitemap/meta checker.

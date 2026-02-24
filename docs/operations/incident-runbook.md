@@ -9,8 +9,8 @@ Use this for production API outages/degradation affecting `/api/contact`, `/api/
 
 ## First 15 minutes
 
-1. Run `bash skills/ops/cloudflare-stability/scripts/runtime-audit.sh`.
-2. Run `bash skills/ops/cloudflare-stability/scripts/smoke-api.sh`.
+1. Run `bash agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh`.
+2. Run `bash agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh`.
 3. Confirm Cloudflare route attachment for `stexpedite.press/api/*`.
 4. Confirm Worker secret `RESEND_API_KEY` exists.
 5. If Turnstile is enabled, confirm Worker secret `TURNSTILE_SECRET` exists.
@@ -35,6 +35,6 @@ Use this for production API outages/degradation affecting `/api/contact`, `/api/
 
 ## Recovery proof
 
-1. Run `bash skills/ops/cloudflare-stability/scripts/smoke-api.sh --full`.
-2. Run `bash skills/ops/cloudflare-stability/scripts/log-release-evidence.sh`.
+1. Run `bash agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh --full`.
+2. Run `bash agent/skills/ops/cloudflare-stability/scripts/log-release-evidence.sh`.
 3. Update `docs/state-of-play.md` verification date/head if infra changed.

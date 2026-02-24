@@ -32,11 +32,11 @@ Operational scripts for local checks, release flow, and git ergonomics.
 From repo root:
 
 ```bash
-sh tools/bootstrap-git-auth.sh
-sh tools/bootstrap-python-venv.sh
-sh tools/install-hooks.sh
-sh tools/check-runtime-config.sh
-sh tools/check-site-seo.sh
-sh tools/release.sh --dry-run
-sh tools/release.sh
+sh agent/tools/bootstrap-git-auth.sh
+sh agent/tools/bootstrap-python-venv.sh
+sh agent/tools/install-hooks.sh
+sh agent/tools/check-runtime-config.sh
+sh agent/tools/check-site-seo.sh
+sh agent/tools/release.sh --dry-run
+sh agent/tools/release.sh
 ```
