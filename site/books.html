@@ -610,12 +610,18 @@
       const status = String(project.status || 'planned');
       const publicationYear = project.publication_year ? String(project.publication_year) : '';
       const notes = String(project.notes || '').trim();
+      const popupDescription = String(project.popup_description || '').trim();
+      const coverImage = String(project.cover_image || '').trim();
 
       const descriptionParts = [];
-      if (subtitle) descriptionParts.push(subtitle);
-      if (publicationYear) descriptionParts.push(`Year: ${publicationYear}`);
-      descriptionParts.push(`Status: ${status}`);
-      if (notes) descriptionParts.push(notes);
+      if (popupDescription) {
+        descriptionParts.push(popupDescription);
+      } else {
+        if (subtitle) descriptionParts.push(subtitle);
+        if (publicationYear) descriptionParts.push(`Year: ${publicationYear}`);
+        descriptionParts.push(`Status: ${status}`);
+        if (notes) descriptionParts.push(notes);
+      }
       const description = descriptionParts.join('\n\n');
 
       return `
@@ -629,7 +635,7 @@
           data-buy-url="#"
         >
           <div class="book-cover-wrap">
-            <div class="book-cover-placeholder">${escapeHtml(shortCode)}</div>
+            ${coverImage ? `<img class="book-cover-img" src="${escapeHtml(coverImage)}" alt="Cover art for ${escapeHtml(title)}" loading="lazy" decoding="async" />` : `<div class="book-cover-placeholder">${escapeHtml(shortCode)}</div>`}
             <div class="book-series-pill">${escapeHtml(shortCode)}</div>
           </div>
           <div class="book-meta">

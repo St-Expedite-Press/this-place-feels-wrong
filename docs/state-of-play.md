@@ -142,6 +142,7 @@ Contract and schema files:
 - D1 migrations:
   - `workers/communications/migrations/0001_updates_signups.sql`
   - `workers/communications/migrations/0002_oncoming_projects.sql`
+  - `workers/communications/migrations/0003_oncoming_projects_presentation.sql`
 
 ## 4) Deploy pipeline snapshot
 

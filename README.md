@@ -178,6 +178,7 @@ If the Worker route is missing or fails, both pages fall back to opening a `mail
 4) Canon/oncoming projects catalog
 - `GET /api/projects` returns a structured program list backed by D1 table `oncoming_projects`.
 - This list is seeded from `workers/communications/migrations/0002_oncoming_projects.sql`.
+- Book presentation metadata (cover image + popup description) is applied by `workers/communications/migrations/0003_oncoming_projects_presentation.sql`.
 
 ## Updates List
 

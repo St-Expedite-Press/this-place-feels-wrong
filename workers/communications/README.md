@@ -55,6 +55,7 @@ D1 (optional, for `/api/updates`):
 - Apply migrations in `migrations/`.
   - `0001_updates_signups.sql` (updates list capture)
   - `0002_oncoming_projects.sql` (canonical projects catalog)
+  - `0003_oncoming_projects_presentation.sql` (cover image + popup description fields)
 
 ## Notes
 

@@ -93,6 +93,7 @@ Current configured database:
 - Binding: `DB`
 - Migration applied: `workers/communications/migrations/0001_updates_signups.sql`
   - Also apply `workers/communications/migrations/0002_oncoming_projects.sql` for canonical project catalog.
+  - Also apply `workers/communications/migrations/0003_oncoming_projects_presentation.sql` for cover image + popup description fields.
 
 Check current D1 status:
 

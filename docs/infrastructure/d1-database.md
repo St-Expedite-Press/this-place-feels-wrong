@@ -12,6 +12,7 @@ Canonical reference for the Cloudflare D1 database used by the communications Wo
 - Migration files:
   - `workers/communications/migrations/0001_updates_signups.sql`
   - `workers/communications/migrations/0002_oncoming_projects.sql`
+  - `workers/communications/migrations/0003_oncoming_projects_presentation.sql`
 
 Worker behavior dependency:
 - `POST /api/updates` writes to D1 when `DB` is bound.
@@ -49,6 +50,8 @@ Project catalog columns:
 - `status` (`TEXT NOT NULL`, one of `planned`, `in_progress`, `published`)
 - `sort_order` (`INTEGER NOT NULL`)
 - `notes` (`TEXT`)
+- `cover_image` (`TEXT`)
+- `popup_description` (`TEXT`)
 - `created_at` (`TEXT NOT NULL`)
 - `updated_at` (`TEXT NOT NULL`)
 
