@@ -41,7 +41,7 @@ INSERT OR REPLACE INTO oncoming_projects (
   notes
 ) VALUES
   ('lift-wind-love-heat-symphony-no-1-in-c-minor', 'master-canon-structure', 'sexp-originals', 'SEXP - Flagship Original Works', NULL, NULL, 'C. Sandbatch', 'Lift Wind / Love Heat: Symphony No. 1 in C Minor', NULL, 2025, 'published', 10, 'Flagship original work.'),
-  ('les-fievres-et-les-humeurs', 'master-canon-structure', 'sexp-originals', 'SEXP - Flagship Original Works', NULL, NULL, 'C. Sandbatch', 'Les Fievres et les humeurs', NULL, 2026, 'published', 20, 'Keep French title as canonical.'),
+  ('les-fievres-et-les-humeurs', 'master-canon-structure', 'sexp-originals', 'SEXP - Flagship Original Works', NULL, NULL, 'C. Sandbatch', 'Les Fièvres et les Humeurs', NULL, 2026, 'published', 20, 'Keep French title as canonical.'),
   ('the-hollowing-engine', 'master-canon-structure', 'sexp-originals', 'SEXP - Flagship Original Works', NULL, NULL, 'C. Sandbatch', 'The Hollowing Engine', 'Compression vs. Acceleration in History', NULL, 'planned', 30, 'Flagship original work.'),
   ('the-early-works-of-john-gould-fletcher', 'master-canon-structure', 'sexp-originals', 'SEXP - Flagship Original Works', NULL, NULL, 'C. Sandbatch', 'The Early Works of John Gould Fletcher', 'Scholarly monograph; historical-critical reconstruction', NULL, 'planned', 40, 'Intellectual hinge between scholarship and Southern canon reprints.'),
 
