@@ -17,20 +17,20 @@ Reusable, project-agnostic toolkit for static web projects.
 
 ```bash
 # Scaffold a new site
-sh agent/AGENT/scripts/scaffold-static.sh /tmp/my-site "My Site"
+sh agent/kits/static-web/scripts/scaffold-static.sh /tmp/my-site "My Site"
 
 # Build and run checks
-sh agent/AGENT/scripts/check-all.sh /tmp/my-site
+sh agent/kits/static-web/scripts/check-all.sh /tmp/my-site
 
 # Serve source and built outputs
-sh agent/AGENT/scripts/dev.sh /tmp/my-site
-sh agent/AGENT/scripts/preview.sh /tmp/my-site
+sh agent/kits/static-web/scripts/dev.sh /tmp/my-site
+sh agent/kits/static-web/scripts/preview.sh /tmp/my-site
 ```
 
-## Make targets (from `agent/AGENT`)
+## Make targets (from `agent/kits/static-web`)
 
 ```bash
-cd agent/AGENT
+cd agent/kits/static-web
 make scaffold NAME=/tmp/my-site
 make build TARGET=/tmp/my-site
 make check-all TARGET=/tmp/my-site

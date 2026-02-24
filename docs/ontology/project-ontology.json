@@ -17,7 +17,7 @@
   },
   "docs": {
     "agent_hub": "agent/README.md",
-    "agent_protocols": "agent/AGENTS.md",
+    "agent_protocols": "agent/docs/AGENTS.md",
     "deployment": "DEPLOYMENT.md",
     "d1_database": "docs/infrastructure/d1-database.md",
     "email_pipeline": "docs/infrastructure/email-worker-setup.md",
@@ -122,7 +122,7 @@
       "also_review": [
         "docs/state-of-play.md",
         "DEPLOYMENT.md",
-        "agent/AGENTS.md"
+        "agent/docs/AGENTS.md"
       ]
     }
   },
@@ -221,7 +221,7 @@
     {
       "id": "no_secrets_committed",
       "rule": "Never commit secrets; .env is local-only; Worker secrets belong in Cloudflare",
-      "source": "agent/AGENTS.md"
+      "source": "agent/docs/AGENTS.md"
     },
     {
       "id": "worker_routes_require_proxied_dns",

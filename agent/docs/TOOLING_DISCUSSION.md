@@ -9,7 +9,7 @@ What already exists and is useful:
 - CI for static deploy and test gates: `.github/workflows/deploy-pages.yml`
 - Scheduled API checks: `.github/workflows/api-health-monitor.yml`
 - Runtime ops scripts: `agent/skills/ops/cloudflare-stability/scripts/*.sh`
-- Repo guidance docs: `README.md`, `DEPLOYMENT.md`, `docs/state-of-play.md`, `agent/AGENTS.md`
+- Repo guidance docs: `README.md`, `DEPLOYMENT.md`, `docs/state-of-play.md`, `agent/docs/AGENTS.md`
 
 Primary constraints today:
 - No unified local developer command surface (`make`, `just`, or npm task runner at repo root).

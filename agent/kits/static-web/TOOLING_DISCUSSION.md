@@ -13,7 +13,7 @@ Provide an agent-ready static web development stack that is reusable outside thi
 - No portable deploy wrappers for common static hosts.
 - No machine-readable contract declaring toolkit capabilities.
 
-## What is now implemented in `agent/AGENT`
+## What is now implemented in `agent/kits/static-web`
 
 - Reusable shell script suite for scaffold/dev/build/preview/check/deploy.
 - Starter template project (`templates/static-basic`) with content and assets.

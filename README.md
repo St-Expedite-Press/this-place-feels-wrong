@@ -58,7 +58,7 @@ All public site files live under `site/`, but they are served from the domain ro
 - `agent/` - consolidated agent hub (protocols, tooling, skills, reusable stack)
   - `agent/tools/` - release/tooling scripts (auth bootstrap, hooks, runtime checks, release orchestration)
   - `agent/skills/` - operational skills and runbook-grade scripts
-  - `agent/AGENT/` - project-agnostic static web stack kit
+  - `agent/kits/static-web/` - project-agnostic static web stack kit
 - `.githooks/` - tracked git hooks (pre-push guardrails)
 - `.github/workflows/deploy-pages.yml` - GitHub Pages deploy workflow
 - `.env` - local-only configuration (gitignored; never commit secrets)
@@ -216,7 +216,7 @@ Start here for maintenance and agent work:
 - Ontology (machine-readable): `docs/ontology/project-ontology.json`
 - Ontology (human summary): `docs/ontology/project-ontology.md`
 - Agent hub index: `agent/README.md`
-- Agent protocols: `agent/AGENTS.md`
+- Agent protocols: `agent/docs/AGENTS.md`
 
 ## Contributing
 
