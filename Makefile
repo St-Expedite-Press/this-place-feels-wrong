@@ -21,13 +21,13 @@ help:
 	@echo "  check-seo           Run advisory SEO structure checks"
 
 bootstrap-python-venv:
-	sh tools/bootstrap-python-venv.sh
+	sh agent/tools/bootstrap-python-venv.sh
 
 bootstrap-git-auth:
-	sh tools/bootstrap-git-auth.sh
+	sh agent/tools/bootstrap-git-auth.sh
 
 install-hooks:
-	sh tools/install-hooks.sh
+	sh agent/tools/install-hooks.sh
 
 lint-html:
 	npx -y htmlhint "site/**/*.html"
@@ -38,28 +38,28 @@ test-worker:
 check-all: lint-html test-worker
 
 runtime-config:
-	sh tools/check-runtime-config.sh
+	sh agent/tools/check-runtime-config.sh
 
 runtime-audit:
-	sh skills/ops/cloudflare-stability/scripts/runtime-audit.sh
+	sh agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh
 
 smoke-api:
-	sh skills/ops/cloudflare-stability/scripts/smoke-api.sh
+	sh agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh
 
 smoke-api-full:
-	sh skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
+	sh agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
 
 deploy-worker:
 	npm --prefix workers/communications run deploy
 
 release-log:
-	sh skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
+	sh agent/skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
 
 release:
-	sh tools/release.sh
+	sh agent/tools/release.sh
 
 release-dry-run:
-	sh tools/release.sh --dry-run
+	sh agent/tools/release.sh --dry-run
 
 check-seo:
-	sh tools/check-site-seo.sh
+	sh agent/tools/check-site-seo.sh

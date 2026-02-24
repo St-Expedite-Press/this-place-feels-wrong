@@ -16,6 +16,7 @@
     }
   },
   "docs": {
+    "agent_hub": "agent/README.md",
     "agent_protocols": "agent/AGENTS.md",
     "deployment": "DEPLOYMENT.md",
     "d1_database": "docs/infrastructure/d1-database.md",
@@ -23,7 +24,7 @@
     "incident_runbook": "docs/operations/incident-runbook.md",
     "ontology": "docs/ontology/project-ontology.json",
     "release_ops_log": "docs/operations/release-ops-log.md",
-    "skills_taxonomy": "skills/README.md",
+    "skills_taxonomy": "agent/skills/README.md",
     "state_of_play": "docs/state-of-play.md",
     "workers_openapi": "workers/communications/openapi.yaml"
   },

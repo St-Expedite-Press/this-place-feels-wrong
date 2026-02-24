@@ -135,4 +135,4 @@ npx -y wrangler d1 execute stexpedite-updates --remote --command "SELECT email, 
 ```
 
 Automation helper:
-- Use `skills/ops/cloudflare-stability/scripts/runtime-audit.sh` before/after D1 maintenance tasks.
+- Use `agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh` before/after D1 maintenance tasks.

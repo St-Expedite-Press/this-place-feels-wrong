@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
 env_file="${1:-"$repo_root/.env"}"
 
 if [ ! -f "$env_file" ]; then

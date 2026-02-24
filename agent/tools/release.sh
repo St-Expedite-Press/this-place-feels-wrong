@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
 dry_run=0
 skip_push=0
 skip_deploy=0
@@ -10,7 +10,7 @@ skip_log=0
 
 usage() {
   cat <<'EOF'
-Usage: sh tools/release.sh [options]
+Usage: sh agent/tools/release.sh [options]
 
 Options:
   --dry-run      Print commands without executing.
@@ -55,7 +55,7 @@ run_step "cd \"$repo_root\" && npx -y htmlhint \"site/**/*.html\""
 run_step "cd \"$repo_root\" && npm --prefix workers/communications run test"
 
 echo "[release] runtime config checks"
-run_step "cd \"$repo_root\" && sh tools/check-runtime-config.sh"
+run_step "cd \"$repo_root\" && sh agent/tools/check-runtime-config.sh"
 
 if [ "$skip_push" -eq 0 ]; then
   echo "[release] push main"
@@ -69,12 +69,12 @@ fi
 
 if [ "$skip_smoke" -eq 0 ]; then
   echo "[release] smoke api"
-  run_step "cd \"$repo_root\" && sh skills/ops/cloudflare-stability/scripts/smoke-api.sh"
+  run_step "cd \"$repo_root\" && sh agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh"
 fi
 
 if [ "$skip_log" -eq 0 ]; then
   echo "[release] log evidence"
-  run_step "cd \"$repo_root\" && sh skills/ops/cloudflare-stability/scripts/log-release-evidence.sh"
+  run_step "cd \"$repo_root\" && sh agent/skills/ops/cloudflare-stability/scripts/log-release-evidence.sh"
 fi
 
 echo "[release] COMPLETE"

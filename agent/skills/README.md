@@ -4,16 +4,16 @@ This folder contains repo-local operational skills and tools.
 
 ## Taxonomy
 
-- `skills/ops/`
+- `agent/skills/ops/`
   - Runbooks, automation, and checks for deployment/runtime stability.
-- `skills/security/`
+- `agent/skills/security/`
   - Reserved for abuse controls and security response tooling.
-- `skills/content/`
+- `agent/skills/content/`
   - Reserved for editorial/site content workflows.
 
 ## Active skills
 
-- `skills/ops/cloudflare-stability/`
+- `agent/skills/ops/cloudflare-stability/`
   - Purpose: keep Cloudflare Worker + D1 + API runtime stable and verifiable.
   - Includes executable scripts and reference thresholds/runbooks.
 

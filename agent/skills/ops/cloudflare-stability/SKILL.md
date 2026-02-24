@@ -40,13 +40,13 @@ Operational skill for maintaining stable runtime behavior on:
 From repo root:
 
 ```bash
-bash skills/ops/cloudflare-stability/scripts/runtime-audit.sh
-bash skills/ops/cloudflare-stability/scripts/smoke-api.sh
-bash skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
+bash agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh
+bash agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh
+bash agent/skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
 ```
 
 Full smoke (includes contact/submit test payloads):
 
 ```bash
-bash skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
+bash agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
 ```

@@ -95,4 +95,5 @@ Same pattern as Contact, but endpoint is `/api/submit`.
 2. Use `files.<path>.anchors` for in-file jumps.
 3. Use `workers.communications.routes` and `workers.communications.openapi` before opening worker code.
 4. For shared UI changes, consult `site.asset_bundles` and `site.duplication_clusters`.
-5. For stability operations, use repo-local tooling under `skills/ops/cloudflare-stability/`.
+5. For stability operations, use repo-local tooling under `agent/skills/ops/cloudflare-stability/`.
+6. For all agent-facing entrypoints (protocols, tooling, skills), start at `agent/README.md`.
