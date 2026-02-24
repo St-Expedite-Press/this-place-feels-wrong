@@ -37,6 +37,25 @@ Important DNS/proxy rule:
 
 ## 3) Deploy sequence (operator runbook)
 
+One-command orchestration (recommended after one-time setup):
+
+```bash
+sh tools/release.sh
+```
+
+Dry-run preview:
+
+```bash
+sh tools/release.sh --dry-run
+```
+
+One-time local setup:
+
+```bash
+sh tools/bootstrap-git-auth.sh
+sh tools/install-hooks.sh
+```
+
 ### A) Deploy static Pages content
 
 1. Push changes to `main`.
@@ -124,6 +143,7 @@ Expected:
 Repo-local automation (recommended):
 
 ```bash
+bash tools/check-runtime-config.sh
 bash skills/ops/cloudflare-stability/scripts/runtime-audit.sh
 bash skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
 bash skills/ops/cloudflare-stability/scripts/log-release-evidence.sh

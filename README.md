@@ -9,6 +9,7 @@ Static neon portal + interior pages. The site is deployed on GitHub Pages (stati
 - [Architecture](#architecture)
 - [Repository Layout](#repository-layout)
 - [Local Development](#local-development)
+- [Tooling](#tooling)
 - [Deployment](#deployment)
 - [Forms and Email](#forms-and-email)
 - [Updates List](#updates-list)
@@ -54,6 +55,8 @@ All public site files live under `site/`, but they are served from the domain ro
 - `workers/` - Cloudflare Worker(s)
   - `workers/communications/` - `stexpedite-communications` (all `/api/*` endpoints)
 - `docs/` - internal documentation
+- `tools/` - release/tooling scripts (auth bootstrap, hooks, runtime checks, release orchestration)
+- `.githooks/` - tracked git hooks (pre-push guardrails)
 - `.github/workflows/deploy-pages.yml` - GitHub Pages deploy workflow
 - `.env` - local-only configuration (gitignored; never commit secrets)
 
@@ -92,6 +95,42 @@ bash tools/bootstrap-git-auth.sh
 ```
 
 This reads `GITHUB_PAT_WRITE` (and optionally `GITHUB_REPO_URL`) from `.env`, configures repo-local git credentials, and verifies remote access so future `git push origin main` works without re-entering credentials.
+
+## Tooling
+
+Unified command surfaces are available through either `make` or root npm scripts.
+
+One-time setup:
+
+```bash
+sh tools/bootstrap-git-auth.sh
+sh tools/install-hooks.sh
+```
+
+Core local checks:
+
+```bash
+npm run check
+sh tools/check-runtime-config.sh
+sh tools/check-site-seo.sh
+```
+
+Release orchestration:
+
+```bash
+sh tools/release.sh --dry-run
+sh tools/release.sh
+```
+
+Optional helpers:
+
+```bash
+make check-all
+make runtime-config
+make release-dry-run
+make release
+npm run deploy:worker
+```
 
 ## Deployment
 
