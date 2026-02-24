@@ -83,6 +83,16 @@ npm install
 npm run test
 ```
 
+### Git Push Auth Bootstrap
+
+If this shell cannot push to GitHub, run:
+
+```bash
+bash tools/bootstrap-git-auth.sh
+```
+
+This reads `GITHUB_PAT_WRITE` (and optionally `GITHUB_REPO_URL`) from `.env`, configures repo-local git credentials, and verifies remote access so future `git push origin main` works without re-entering credentials.
+
 ## Deployment
 
 ### GitHub Pages
