@@ -17,6 +17,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/hero-bar.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/effects.css" />
+<link rel="stylesheet" href="assets/css/a11y.css" />
+<link rel="stylesheet" href="assets/css/content-shell.css" />
 <style>
 :root {
   --green: #2aff8a;
@@ -30,16 +34,19 @@
 body {
   margin: 0;
   min-height: 100vh;
-  display: grid;
-  place-items: center;
   background: radial-gradient(circle at 50% 40%, rgba(42,255,138,0.08), rgba(5,8,7,0.96)), #040607;
   color: var(--green);
   font-family: "Cormorant Garamond", serif;
+  overflow-x: hidden;
+}
+
+.page {
   text-align: center;
 }
 
 .card {
   position: relative;
+  margin: 0 auto;
   padding: clamp(2rem, 6vw, 3rem);
   border: 1px solid var(--green-soft);
   background: rgba(5,8,7,0.72);
@@ -48,7 +55,7 @@ body {
   width: min(92vw, 680px);
 }
 
-h1 {
+.card h2 {
   margin: 0 0 0.5rem;
   font-family: "Cinzel", serif;
   letter-spacing: 0.14em;
@@ -113,6 +120,7 @@ p {
 </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="hero-bar" role="navigation" aria-label="Social media">
     <div class="hero-bar__inner">
       <a class="hero-bar__icon" href="https://x.com/stex_press" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
@@ -139,15 +147,35 @@ p {
     </div>
   </div>
   <div class="texture" aria-hidden="true"></div>
-  <main class="card">
-    <h1>Under Construction</h1>
-    <div class="divider"></div>
-    <p>These coordinates are still wiring themselves together. The portal is live; other surfaces return soon.</p>
-    <a class="button" href="index.html">
-      <span class="glyph">△</span>
-      Return to Portal
-      <span class="glyph">△</span>
-    </a>
+
+  <main id="main" class="page">
+    <header class="site-header">
+      <div class="site-brand">
+        <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
+        <h1 class="site-title">LAB</h1>
+        <div class="site-subtitle">Experiments, drafts, and works-in-progress</div>
+        <div class="site-header-divider"></div>
+      </div>
+      <nav class="header-nav">
+        <a href="index.html">Portal</a>
+        <a href="books.html">Books</a>
+        <a href="gallery.html">Merch</a>
+        <a href="under-construction.html">Lab</a>
+        <a href="mission.html">Mission</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2>Under Construction</h2>
+      <div class="divider"></div>
+      <p>These coordinates are still wiring themselves together. The portal is live; other surfaces return soon.</p>
+      <a class="button" href="index.html">
+        <span class="glyph">△</span>
+        Return to Portal
+        <span class="glyph">△</span>
+      </a>
+    </section>
   </main>
 </body>
 </html>
