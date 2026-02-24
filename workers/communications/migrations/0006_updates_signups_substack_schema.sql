@@ -1,0 +1,45 @@
+-- Expands updates_signups to align with Substack subscriber export schema.
+-- Existing columns are preserved; new fields are optional and backfilled over time.
+
+ALTER TABLE updates_signups ADD COLUMN name TEXT;
+ALTER TABLE updates_signups ADD COLUMN stripe_plan TEXT;
+ALTER TABLE updates_signups ADD COLUMN cancel_date TEXT;
+ALTER TABLE updates_signups ADD COLUMN start_date TEXT;
+ALTER TABLE updates_signups ADD COLUMN paid_upgrade_date TEXT;
+ALTER TABLE updates_signups ADD COLUMN bestseller INTEGER;
+ALTER TABLE updates_signups ADD COLUMN emails_received_6mo INTEGER;
+ALTER TABLE updates_signups ADD COLUMN emails_dropped_6mo INTEGER;
+ALTER TABLE updates_signups ADD COLUMN num_emails_opened INTEGER;
+ALTER TABLE updates_signups ADD COLUMN emails_opened_6mo INTEGER;
+ALTER TABLE updates_signups ADD COLUMN emails_opened_7d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN emails_opened_30d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN last_email_open TEXT;
+ALTER TABLE updates_signups ADD COLUMN links_clicked INTEGER;
+ALTER TABLE updates_signups ADD COLUMN last_clicked_at TEXT;
+ALTER TABLE updates_signups ADD COLUMN unique_emails_seen_6mo INTEGER;
+ALTER TABLE updates_signups ADD COLUMN unique_emails_seen_7d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN unique_emails_seen_30d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN post_views INTEGER;
+ALTER TABLE updates_signups ADD COLUMN post_views_7d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN post_views_30d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN unique_posts_seen INTEGER;
+ALTER TABLE updates_signups ADD COLUMN unique_posts_seen_7d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN unique_posts_seen_30d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN comments INTEGER;
+ALTER TABLE updates_signups ADD COLUMN comments_7d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN comments_30d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN shares INTEGER;
+ALTER TABLE updates_signups ADD COLUMN shares_7d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN shares_30d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN subscriptions_gifted INTEGER;
+ALTER TABLE updates_signups ADD COLUMN first_paid_date TEXT;
+ALTER TABLE updates_signups ADD COLUMN revenue TEXT;
+ALTER TABLE updates_signups ADD COLUMN subscription_source_free TEXT;
+ALTER TABLE updates_signups ADD COLUMN subscription_source_paid TEXT;
+ALTER TABLE updates_signups ADD COLUMN days_active_30d INTEGER;
+ALTER TABLE updates_signups ADD COLUMN activity INTEGER;
+ALTER TABLE updates_signups ADD COLUMN country TEXT;
+ALTER TABLE updates_signups ADD COLUMN state_province TEXT;
+ALTER TABLE updates_signups ADD COLUMN expiration_date TEXT;
+ALTER TABLE updates_signups ADD COLUMN type TEXT;
+ALTER TABLE updates_signups ADD COLUMN sections TEXT;

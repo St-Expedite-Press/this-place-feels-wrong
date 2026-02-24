@@ -94,6 +94,7 @@ Current configured database:
 - Migration applied: `workers/communications/migrations/0001_updates_signups.sql`
   - Also apply `workers/communications/migrations/0002_oncoming_projects.sql` for canonical project catalog.
   - Also apply `workers/communications/migrations/0003_oncoming_projects_presentation.sql` for cover image + popup description fields.
+  - Also apply `workers/communications/migrations/0006_updates_signups_substack_schema.sql` for expanded subscriber profile/analytics fields.
 
 Check current D1 status:
 

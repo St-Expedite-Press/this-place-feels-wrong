@@ -146,6 +146,26 @@ function normalizeText(value: unknown, maxLen: number) {
   return text.length > maxLen ? text.slice(0, maxLen) : text;
 }
 
+function normalizeNullableText(value: unknown, maxLen: number) {
+  const text = normalizeText(value, maxLen);
+  return text || null;
+}
+
+function normalizeNullableInt(value: unknown) {
+  if (value === null || value === undefined || value === "") return null;
+  const parsed = Number.parseInt(String(value), 10);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function pickField(body: JsonRecord, ...keys: string[]) {
+  for (const key of keys) {
+    if (Object.prototype.hasOwnProperty.call(body, key)) {
+      return body[key];
+    }
+  }
+  return undefined;
+}
+
 function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")
@@ -651,6 +671,154 @@ export default {
           )
           .bind(canonicalEmail, source || null, ua.slice(0, 400))
           .run();
+
+        const enrichedRecord = {
+          name: normalizeNullableText(pickField(body, "name"), 200),
+          stripePlan: normalizeNullableText(pickField(body, "stripe_plan", "stripePlan"), 120),
+          cancelDate: normalizeNullableText(pickField(body, "cancel_date", "cancelDate"), 40),
+          startDate: normalizeNullableText(pickField(body, "start_date", "startDate"), 40),
+          paidUpgradeDate: normalizeNullableText(pickField(body, "paid_upgrade_date", "paidUpgradeDate"), 40),
+          bestseller: normalizeNullableInt(pickField(body, "bestseller")),
+          emailsReceived6mo: normalizeNullableInt(pickField(body, "emails_received_6mo", "emailsReceived6mo")),
+          emailsDropped6mo: normalizeNullableInt(pickField(body, "emails_dropped_6mo", "emailsDropped6mo")),
+          numEmailsOpened: normalizeNullableInt(pickField(body, "num_emails_opened", "numEmailsOpened")),
+          emailsOpened6mo: normalizeNullableInt(pickField(body, "emails_opened_6mo", "emailsOpened6mo")),
+          emailsOpened7d: normalizeNullableInt(pickField(body, "emails_opened_7d", "emailsOpened7d")),
+          emailsOpened30d: normalizeNullableInt(pickField(body, "emails_opened_30d", "emailsOpened30d")),
+          lastEmailOpen: normalizeNullableText(pickField(body, "last_email_open", "lastEmailOpen"), 40),
+          linksClicked: normalizeNullableInt(pickField(body, "links_clicked", "linksClicked")),
+          lastClickedAt: normalizeNullableText(pickField(body, "last_clicked_at", "lastClickedAt"), 40),
+          uniqueEmailsSeen6mo: normalizeNullableInt(pickField(body, "unique_emails_seen_6mo", "uniqueEmailsSeen6mo")),
+          uniqueEmailsSeen7d: normalizeNullableInt(pickField(body, "unique_emails_seen_7d", "uniqueEmailsSeen7d")),
+          uniqueEmailsSeen30d: normalizeNullableInt(pickField(body, "unique_emails_seen_30d", "uniqueEmailsSeen30d")),
+          postViews: normalizeNullableInt(pickField(body, "post_views", "postViews")),
+          postViews7d: normalizeNullableInt(pickField(body, "post_views_7d", "postViews7d")),
+          postViews30d: normalizeNullableInt(pickField(body, "post_views_30d", "postViews30d")),
+          uniquePostsSeen: normalizeNullableInt(pickField(body, "unique_posts_seen", "uniquePostsSeen")),
+          uniquePostsSeen7d: normalizeNullableInt(pickField(body, "unique_posts_seen_7d", "uniquePostsSeen7d")),
+          uniquePostsSeen30d: normalizeNullableInt(pickField(body, "unique_posts_seen_30d", "uniquePostsSeen30d")),
+          comments: normalizeNullableInt(pickField(body, "comments")),
+          comments7d: normalizeNullableInt(pickField(body, "comments_7d", "comments7d")),
+          comments30d: normalizeNullableInt(pickField(body, "comments_30d", "comments30d")),
+          shares: normalizeNullableInt(pickField(body, "shares")),
+          shares7d: normalizeNullableInt(pickField(body, "shares_7d", "shares7d")),
+          shares30d: normalizeNullableInt(pickField(body, "shares_30d", "shares30d")),
+          subscriptionsGifted: normalizeNullableInt(pickField(body, "subscriptions_gifted", "subscriptionsGifted")),
+          firstPaidDate: normalizeNullableText(pickField(body, "first_paid_date", "firstPaidDate"), 40),
+          revenue: normalizeNullableText(pickField(body, "revenue"), 40),
+          subscriptionSourceFree: normalizeNullableText(pickField(body, "subscription_source_free", "subscriptionSourceFree"), 120),
+          subscriptionSourcePaid: normalizeNullableText(pickField(body, "subscription_source_paid", "subscriptionSourcePaid"), 120),
+          daysActive30d: normalizeNullableInt(pickField(body, "days_active_30d", "daysActive30d")),
+          activity: normalizeNullableInt(pickField(body, "activity")),
+          country: normalizeNullableText(pickField(body, "country"), 12),
+          stateProvince: normalizeNullableText(pickField(body, "state_province", "stateProvince"), 80),
+          expirationDate: normalizeNullableText(pickField(body, "expiration_date", "expirationDate"), 40),
+          type: normalizeNullableText(pickField(body, "type"), 80),
+          sections: normalizeNullableText(pickField(body, "sections"), 400),
+        };
+
+        try {
+          await db
+            .prepare(
+              `
+              UPDATE updates_signups
+              SET
+                name = COALESCE(?, name),
+                stripe_plan = COALESCE(?, stripe_plan),
+                cancel_date = COALESCE(?, cancel_date),
+                start_date = COALESCE(start_date, ?, first_seen_at),
+                paid_upgrade_date = COALESCE(?, paid_upgrade_date),
+                bestseller = COALESCE(?, bestseller),
+                emails_received_6mo = COALESCE(?, emails_received_6mo),
+                emails_dropped_6mo = COALESCE(?, emails_dropped_6mo),
+                num_emails_opened = COALESCE(?, num_emails_opened),
+                emails_opened_6mo = COALESCE(?, emails_opened_6mo),
+                emails_opened_7d = COALESCE(?, emails_opened_7d),
+                emails_opened_30d = COALESCE(?, emails_opened_30d),
+                last_email_open = COALESCE(?, last_email_open),
+                links_clicked = COALESCE(?, links_clicked),
+                last_clicked_at = COALESCE(?, last_clicked_at),
+                unique_emails_seen_6mo = COALESCE(?, unique_emails_seen_6mo),
+                unique_emails_seen_7d = COALESCE(?, unique_emails_seen_7d),
+                unique_emails_seen_30d = COALESCE(?, unique_emails_seen_30d),
+                post_views = COALESCE(?, post_views),
+                post_views_7d = COALESCE(?, post_views_7d),
+                post_views_30d = COALESCE(?, post_views_30d),
+                unique_posts_seen = COALESCE(?, unique_posts_seen),
+                unique_posts_seen_7d = COALESCE(?, unique_posts_seen_7d),
+                unique_posts_seen_30d = COALESCE(?, unique_posts_seen_30d),
+                comments = COALESCE(?, comments),
+                comments_7d = COALESCE(?, comments_7d),
+                comments_30d = COALESCE(?, comments_30d),
+                shares = COALESCE(?, shares),
+                shares_7d = COALESCE(?, shares_7d),
+                shares_30d = COALESCE(?, shares_30d),
+                subscriptions_gifted = COALESCE(?, subscriptions_gifted),
+                first_paid_date = COALESCE(?, first_paid_date),
+                revenue = COALESCE(?, revenue),
+                subscription_source_free = COALESCE(?, subscription_source_free, source),
+                subscription_source_paid = COALESCE(?, subscription_source_paid),
+                days_active_30d = COALESCE(?, days_active_30d),
+                activity = COALESCE(?, activity),
+                country = COALESCE(?, country),
+                state_province = COALESCE(?, state_province),
+                expiration_date = COALESCE(?, expiration_date),
+                type = COALESCE(?, type),
+                sections = COALESCE(?, sections)
+              WHERE lower(email) = lower(?)
+            `,
+            )
+            .bind(
+              enrichedRecord.name,
+              enrichedRecord.stripePlan,
+              enrichedRecord.cancelDate,
+              enrichedRecord.startDate,
+              enrichedRecord.paidUpgradeDate,
+              enrichedRecord.bestseller,
+              enrichedRecord.emailsReceived6mo,
+              enrichedRecord.emailsDropped6mo,
+              enrichedRecord.numEmailsOpened,
+              enrichedRecord.emailsOpened6mo,
+              enrichedRecord.emailsOpened7d,
+              enrichedRecord.emailsOpened30d,
+              enrichedRecord.lastEmailOpen,
+              enrichedRecord.linksClicked,
+              enrichedRecord.lastClickedAt,
+              enrichedRecord.uniqueEmailsSeen6mo,
+              enrichedRecord.uniqueEmailsSeen7d,
+              enrichedRecord.uniqueEmailsSeen30d,
+              enrichedRecord.postViews,
+              enrichedRecord.postViews7d,
+              enrichedRecord.postViews30d,
+              enrichedRecord.uniquePostsSeen,
+              enrichedRecord.uniquePostsSeen7d,
+              enrichedRecord.uniquePostsSeen30d,
+              enrichedRecord.comments,
+              enrichedRecord.comments7d,
+              enrichedRecord.comments30d,
+              enrichedRecord.shares,
+              enrichedRecord.shares7d,
+              enrichedRecord.shares30d,
+              enrichedRecord.subscriptionsGifted,
+              enrichedRecord.firstPaidDate,
+              enrichedRecord.revenue,
+              enrichedRecord.subscriptionSourceFree,
+              enrichedRecord.subscriptionSourcePaid,
+              enrichedRecord.daysActive30d,
+              enrichedRecord.activity,
+              enrichedRecord.country,
+              enrichedRecord.stateProvince,
+              enrichedRecord.expirationDate,
+              enrichedRecord.type,
+              enrichedRecord.sections,
+              canonicalEmail,
+            )
+            .run();
+        } catch (error) {
+          console.warn("Updates enrichment skipped (schema not yet migrated?)", {
+            message: error instanceof Error ? error.message : String(error),
+          });
+        }
 
         return withCors(request, json({ ok: true, alreadySignedUp }, { status: 200 }));
       }

@@ -89,12 +89,12 @@ DNS mode checks:
 If first-party updates storage is required:
 1. D1 database exists.
 2. Worker has binding `DB`.
-3. Migration `workers/communications/migrations/0001_updates_signups.sql` is applied.
+3. Migrations `workers/communications/migrations/0001_updates_signups.sql` and `workers/communications/migrations/0006_updates_signups_substack_schema.sql` are applied.
 
 Current expected state:
 - Database name: `stexpedite-updates`
 - Binding name: `DB`
-- Migration `0001_updates_signups.sql` already applied remotely
+- Migrations `0001_updates_signups.sql` and `0006_updates_signups_substack_schema.sql` already applied remotely
 
 ## 3) Runtime smoke tests
 
@@ -189,6 +189,7 @@ Storefront dependency:
 - `workers/communications/src/index.ts`
 - `workers/communications/openapi.yaml`
 - `workers/communications/migrations/0001_updates_signups.sql`
+- `workers/communications/migrations/0006_updates_signups_substack_schema.sql`
 - `docs/infrastructure/d1-database.md`
 - `docs/operations/incident-runbook.md`
 - `docs/operations/release-ops-log.md`

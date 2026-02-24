@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: St. Expedite Press Communications API
-  version: 1.4.0
+  version: 1.5.0
   description: |
     Cloudflare Worker API for contact, submission, and updates signup flows.
     Source implementation: workers/communications/src/index.ts
@@ -171,6 +171,8 @@ paths:
       operationId: captureUpdatesSignup
       description: |
         Writes to D1 (`updates_signups`) when DB binding is configured.
+        Supports base signup capture (`email`, `source`) and optional Substack-style
+        subscriber analytics/profile fields using either snake_case or camelCase keys.
       requestBody:
         required: true
         content:
@@ -277,6 +279,98 @@ components:
           type: string
           maxLength: 80
           example: index
+        name:
+          type: string
+          maxLength: 200
+        stripe_plan:
+          type: string
+          maxLength: 120
+        cancel_date:
+          type: string
+        start_date:
+          type: string
+        paid_upgrade_date:
+          type: string
+        bestseller:
+          type: integer
+        emails_received_6mo:
+          type: integer
+        emails_dropped_6mo:
+          type: integer
+        num_emails_opened:
+          type: integer
+        emails_opened_6mo:
+          type: integer
+        emails_opened_7d:
+          type: integer
+        emails_opened_30d:
+          type: integer
+        last_email_open:
+          type: string
+        links_clicked:
+          type: integer
+        last_clicked_at:
+          type: string
+        unique_emails_seen_6mo:
+          type: integer
+        unique_emails_seen_7d:
+          type: integer
+        unique_emails_seen_30d:
+          type: integer
+        post_views:
+          type: integer
+        post_views_7d:
+          type: integer
+        post_views_30d:
+          type: integer
+        unique_posts_seen:
+          type: integer
+        unique_posts_seen_7d:
+          type: integer
+        unique_posts_seen_30d:
+          type: integer
+        comments:
+          type: integer
+        comments_7d:
+          type: integer
+        comments_30d:
+          type: integer
+        shares:
+          type: integer
+        shares_7d:
+          type: integer
+        shares_30d:
+          type: integer
+        subscriptions_gifted:
+          type: integer
+        first_paid_date:
+          type: string
+        revenue:
+          type: string
+        subscription_source_free:
+          type: string
+          maxLength: 120
+        subscription_source_paid:
+          type: string
+          maxLength: 120
+        days_active_30d:
+          type: integer
+        activity:
+          type: integer
+        country:
+          type: string
+          maxLength: 12
+        state_province:
+          type: string
+          maxLength: 80
+        expiration_date:
+          type: string
+        type:
+          type: string
+          maxLength: 80
+        sections:
+          type: string
+          maxLength: 400
         website:
           type: string
           description: Honeypot field (leave empty)

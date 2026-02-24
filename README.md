@@ -209,6 +209,7 @@ To actually store the list, you must:
 1. Create a Cloudflare D1 database.
 2. Bind it to the Worker as `DB`.
 3. Apply the migration: `workers/communications/migrations/0001_updates_signups.sql`.
+4. Apply `workers/communications/migrations/0006_updates_signups_substack_schema.sql` to enable Substack-style subscriber profile/analytics fields.
 
 ## SEO
 

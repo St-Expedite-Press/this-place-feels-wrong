@@ -13,6 +13,7 @@ Canonical reference for the Cloudflare D1 database used by the communications Wo
   - `workers/communications/migrations/0001_updates_signups.sql`
   - `workers/communications/migrations/0002_oncoming_projects.sql`
   - `workers/communications/migrations/0003_oncoming_projects_presentation.sql`
+  - `workers/communications/migrations/0006_updates_signups_substack_schema.sql`
 
 Worker behavior dependency:
 - `POST /api/updates` writes to D1 when `DB` is bound.
@@ -29,6 +30,48 @@ Application table:
 
 Columns:
 - `email` (`TEXT PRIMARY KEY`)
+- `name` (`TEXT`)
+- `stripe_plan` (`TEXT`)
+- `cancel_date` (`TEXT`)
+- `start_date` (`TEXT`)
+- `paid_upgrade_date` (`TEXT`)
+- `bestseller` (`INTEGER`)
+- `emails_received_6mo` (`INTEGER`)
+- `emails_dropped_6mo` (`INTEGER`)
+- `num_emails_opened` (`INTEGER`)
+- `emails_opened_6mo` (`INTEGER`)
+- `emails_opened_7d` (`INTEGER`)
+- `emails_opened_30d` (`INTEGER`)
+- `last_email_open` (`TEXT`)
+- `links_clicked` (`INTEGER`)
+- `last_clicked_at` (`TEXT`)
+- `unique_emails_seen_6mo` (`INTEGER`)
+- `unique_emails_seen_7d` (`INTEGER`)
+- `unique_emails_seen_30d` (`INTEGER`)
+- `post_views` (`INTEGER`)
+- `post_views_7d` (`INTEGER`)
+- `post_views_30d` (`INTEGER`)
+- `unique_posts_seen` (`INTEGER`)
+- `unique_posts_seen_7d` (`INTEGER`)
+- `unique_posts_seen_30d` (`INTEGER`)
+- `comments` (`INTEGER`)
+- `comments_7d` (`INTEGER`)
+- `comments_30d` (`INTEGER`)
+- `shares` (`INTEGER`)
+- `shares_7d` (`INTEGER`)
+- `shares_30d` (`INTEGER`)
+- `subscriptions_gifted` (`INTEGER`)
+- `first_paid_date` (`TEXT`)
+- `revenue` (`TEXT`)
+- `subscription_source_free` (`TEXT`)
+- `subscription_source_paid` (`TEXT`)
+- `days_active_30d` (`INTEGER`)
+- `activity` (`INTEGER`)
+- `country` (`TEXT`)
+- `state_province` (`TEXT`)
+- `expiration_date` (`TEXT`)
+- `type` (`TEXT`)
+- `sections` (`TEXT`)
 - `first_seen_at` (`TEXT NOT NULL`)
 - `last_seen_at` (`TEXT NOT NULL`)
 - `source` (`TEXT`)
