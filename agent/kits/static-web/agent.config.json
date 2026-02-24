@@ -3,16 +3,16 @@
   "version": "1.1.0",
   "description": "Project-agnostic static web toolkit for scaffolding, quality checks, content utilities, and deploy adapters.",
   "entrypoints": {
-    "scaffold": "agent/AGENT/scripts/scaffold-static.sh",
-    "dev": "agent/AGENT/scripts/dev.sh",
-    "build": "agent/AGENT/scripts/build.sh",
-    "preview": "agent/AGENT/scripts/preview.sh",
-    "check_all": "agent/AGENT/scripts/check-all.sh"
+    "scaffold": "agent/kits/static-web/scripts/scaffold-static.sh",
+    "dev": "agent/kits/static-web/scripts/dev.sh",
+    "build": "agent/kits/static-web/scripts/build.sh",
+    "preview": "agent/kits/static-web/scripts/preview.sh",
+    "check_all": "agent/kits/static-web/scripts/check-all.sh"
   },
   "paths": {
-    "scripts": "agent/AGENT/scripts",
-    "templates": "agent/AGENT/templates/static-basic",
-    "makefile": "agent/AGENT/Makefile"
+    "scripts": "agent/kits/static-web/scripts",
+    "templates": "agent/kits/static-web/templates/static-basic",
+    "makefile": "agent/kits/static-web/Makefile"
   },
   "capabilities": {
     "scaffolding": true,

@@ -4,12 +4,13 @@ All agent-facing material is consolidated under this directory.
 
 ## Structure
 
-- `AGENTS.md` - repo-wide agent operating protocol.
-- `SEO_AGENT.md` - SEO-oriented agent guidance.
-- `TOOLING_DISCUSSION.md` - repo tooling assessment history.
+- `docs/` - agent documentation and policy references.
+  - `docs/AGENTS.md` - repo-wide agent operating protocol.
+  - `docs/SEO_AGENT.md` - SEO-oriented agent guidance.
+  - `docs/TOOLING_DISCUSSION.md` - repo tooling assessment history.
 - `tools/` - operational scripts (release flow, auth/bootstrap, runtime/SEO checks).
 - `skills/` - reusable operational skills and references.
-- `AGENT/` - project-agnostic static web toolkit (scaffold/build/check/deploy wrappers).
+- `kits/static-web/` - project-agnostic static web toolkit (scaffold/build/check/deploy wrappers).
 
 ## Primary entrypoints
 
@@ -25,6 +26,6 @@ sh agent/tools/release.sh
 Static toolkit (project-agnostic):
 
 ```bash
-sh agent/AGENT/scripts/scaffold-static.sh /tmp/my-site "My Site"
-sh agent/AGENT/scripts/check-all.sh /tmp/my-site
+sh agent/kits/static-web/scripts/scaffold-static.sh /tmp/my-site "My Site"
+sh agent/kits/static-web/scripts/check-all.sh /tmp/my-site
 ```
