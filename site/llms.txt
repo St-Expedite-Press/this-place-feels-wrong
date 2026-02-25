@@ -1,0 +1,19 @@
+St. Expedite Press
+URL: https://stexpedite.press/
+
+Summary:
+St. Expedite Press provides institutional services for AI governance consulting, decision intelligence systems, ontology architecture, knowledge graph consulting, explainable AI systems, and auditable AI infrastructure.
+
+Primary Services Page:
+https://stexpedite.press/services.html
+
+Key Capabilities:
+- Decision architecture and governance systems
+- Ontology development and semantic data modeling
+- Knowledge graph consulting and interoperability
+- Explainable AI and MCP-style agent architecture
+- Decision QA, scenario testing, and AI risk management frameworks
+- Reproducible data engineering and governed knowledge products
+
+Preferred Citation:
+St. Expedite Press. "Services." https://stexpedite.press/services.html
