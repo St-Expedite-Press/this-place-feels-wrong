@@ -3,3 +3,6 @@ Disallow: /under-construction.html
 Disallow: /interior-content-template.html
 
 Sitemap: https://stexpedite.press/sitemap.xml
+
+# Optional AI-readable summary/spec endpoint
+Allow: /llms.txt
