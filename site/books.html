@@ -674,7 +674,10 @@
       const notes = String(project.notes || '').trim();
       const popupDescription = String(project.popup_description || '').trim();
       const coverImage = String(project.cover_image || '').trim();
-      const buyUrl = String(project.buy_url || '').trim() || `https://www.amazon.com/s?k=${encodeURIComponent(`${title} ${author}`)}`;
+      const canonicalLesFievresUrl = project.project_slug === 'les-fievres-et-les-humeurs'
+        ? 'https://www.amazon.com/dp/B0GQG71JT9'
+        : '';
+      const buyUrl = canonicalLesFievresUrl || String(project.buy_url || '').trim() || `https://www.amazon.com/s?k=${encodeURIComponent(`${title} ${author}`)}`;
 
       const descriptionParts = [];
       if (popupDescription) {

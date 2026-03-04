@@ -500,10 +500,29 @@ export default {
           );
         }
 
-        try {
-          const queryResult = await db
-            .prepare(
-              `
+        const projectsSelectWithBuyUrl = `
+              SELECT
+                project_slug,
+                program_key,
+                series_key,
+                series_title,
+                cluster_key,
+                cluster_title,
+                author,
+                title,
+                subtitle,
+                publication_year,
+                status,
+                sort_order,
+                notes,
+                cover_image,
+                popup_description,
+                buy_url
+              FROM oncoming_projects
+              ORDER BY sort_order ASC
+            `;
+
+        const projectsSelectWithoutBuyUrl = `
               SELECT
                 project_slug,
                 program_key,
@@ -522,25 +541,45 @@ export default {
                 popup_description
               FROM oncoming_projects
               ORDER BY sort_order ASC
-            `,
-            )
-            .all<{
-              project_slug: string;
-              program_key: string;
-              series_key: string;
-              series_title: string;
-              cluster_key: string | null;
-              cluster_title: string | null;
-              author: string;
-              title: string;
-              subtitle: string | null;
-              publication_year: number | null;
-              status: string;
-              sort_order: number;
-              notes: string | null;
-              cover_image: string | null;
-              popup_description: string | null;
-            }>();
+            `;
+
+        try {
+          let queryResult: { results?: Array<{
+            project_slug: string;
+            program_key: string;
+            series_key: string;
+            series_title: string;
+            cluster_key: string | null;
+            cluster_title: string | null;
+            author: string;
+            title: string;
+            subtitle: string | null;
+            publication_year: number | null;
+            status: string;
+            sort_order: number;
+            notes: string | null;
+            cover_image: string | null;
+            popup_description: string | null;
+            buy_url: string | null;
+          }> };
+
+          try {
+            queryResult = await db.prepare(projectsSelectWithBuyUrl).all();
+          } catch (queryError) {
+            const message = queryError instanceof Error ? queryError.message : String(queryError);
+            if (!message.includes("no such column: buy_url")) {
+              throw queryError;
+            }
+
+            const legacyResult = await db.prepare(projectsSelectWithoutBuyUrl).all();
+            const legacyProjects = Array.isArray(legacyResult?.results) ? legacyResult.results : [];
+            queryResult = {
+              results: legacyProjects.map((project: any) => ({
+                ...project,
+                buy_url: null,
+              })),
+            };
+          }
 
           const projects = Array.isArray(queryResult?.results) ? queryResult.results : [];
           const seriesCount = new Map<string, { key: string; title: string; count: number }>();
