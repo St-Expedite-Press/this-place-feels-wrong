@@ -13,37 +13,82 @@ jobs:
         run: |
           set -euo pipefail
 
-          health="$(curl -fsS https://stexpedite.press/api/health)"
-          echo "$health"
-          echo "$health" | grep -q '"ok":true'
+          run_probe() {
+            name="$1"
+            expected_codes="$2"
+            expected_pattern="$3"
+            output_file="$4"
+            shift 4
 
-          storefront_code="$(curl -sS -o /tmp/storefront.json -w "%{http_code}" \
-            https://stexpedite.press/api/storefront)"
-          test "$storefront_code" = "200"
-          grep -q '"ok":true' /tmp/storefront.json
+            status_code="$(curl -sS -o "$output_file" -w "%{http_code}" "$@")"
+            body="$(cat "$output_file")"
 
-          projects_code="$(curl -sS -o /tmp/projects.json -w "%{http_code}" \
-            https://stexpedite.press/api/projects)"
-          test "$projects_code" = "200"
-          grep -q '"ok":true' /tmp/projects.json
+            echo "[$name] status: $status_code"
+            echo "[$name] body: $body"
 
-          updates_code="$(curl -sS -o /tmp/updates.json -w "%{http_code}" \
+            status_ok=1
+            for expected_code in $expected_codes; do
+              if [ "$status_code" = "$expected_code" ]; then
+                status_ok=0
+                break
+              fi
+            done
+
+            if [ "$status_ok" -ne 0 ]; then
+              echo "[$name] unexpected status. Expected one of: $expected_codes" >&2
+              exit 1
+            fi
+
+            if ! grep -q "$expected_pattern" "$output_file"; then
+              echo "[$name] response body did not match expected pattern: $expected_pattern" >&2
+              exit 1
+            fi
+          }
+
+          run_probe \
+            "health" \
+            "200" \
+            '"ok":true' \
+            /tmp/health.json \
+            https://stexpedite.press/api/health
+
+          run_probe \
+            "storefront" \
+            "200" \
+            '"ok":true' \
+            /tmp/storefront.json \
+            https://stexpedite.press/api/storefront
+
+          run_probe \
+            "projects" \
+            "200" \
+            '"ok":true' \
+            /tmp/projects.json \
+            https://stexpedite.press/api/projects
+
+          run_probe \
+            "updates" \
+            "400" \
+            '"ok":false' \
+            /tmp/updates.json \
             -X POST https://stexpedite.press/api/updates \
             -H "content-type: application/json" \
-            --data '{"email":"","source":"monitor"}')"
-          test "$updates_code" = "400"
-          grep -q '"ok":false' /tmp/updates.json
+            --data '{"email":"","source":"monitor"}'
 
-          contact_code="$(curl -sS -o /tmp/contact.json -w "%{http_code}" \
+          run_probe \
+            "contact" \
+            "400 500" \
+            '"ok":false' \
+            /tmp/contact.json \
             -X POST https://stexpedite.press/api/contact \
             -H "content-type: application/json" \
-            --data '{"email":"","message":""}')"
-          test "$contact_code" = "400" || test "$contact_code" = "500"
-          grep -q '"ok":false' /tmp/contact.json
+            --data '{"email":"","message":""}'
 
-          submit_code="$(curl -sS -o /tmp/submit.json -w "%{http_code}" \
+          run_probe \
+            "submit" \
+            "400 500" \
+            '"ok":false' \
+            /tmp/submit.json \
             -X POST https://stexpedite.press/api/submit \
             -H "content-type: application/json" \
-            --data '{"email":"","note":""}')"
-          test "$submit_code" = "400" || test "$submit_code" = "500"
-          grep -q '"ok":false' /tmp/submit.json
+            --data '{"email":"","note":""}'
