@@ -34,6 +34,7 @@ Configured in repo:
 - Endpoints:
   - `GET /api/health`
   - `GET /api/storefront`
+  - `GET /api/projects`
   - `POST /api/contact`
   - `POST /api/submit`
   - `POST /api/updates`
@@ -91,10 +92,13 @@ If first-party updates storage is required:
 2. Worker has binding `DB`.
 3. Migrations `workers/communications/migrations/0001_updates_signups.sql` and `workers/communications/migrations/0006_updates_signups_substack_schema.sql` are applied.
 
+### Optional D1 checks for projects/books catalog
+
 Current expected state:
 - Database name: `stexpedite-updates`
 - Binding name: `DB`
 - Migrations `0001_updates_signups.sql` and `0006_updates_signups_substack_schema.sql` already applied remotely
+- Migrations `0002_oncoming_projects.sql`, `0003_oncoming_projects_presentation.sql`, and `0007_oncoming_projects_buy_url.sql` applied for `/api/projects`
 
 ## 3) Runtime smoke tests
 
@@ -178,6 +182,7 @@ Operational monitor:
 - `.github/workflows/api-health-monitor.yml` runs every 15 minutes and checks:
   - `GET /api/health` success payload
   - `GET /api/storefront` success payload
+  - `GET /api/projects` success payload
   - synthetic negative probes for `POST /api/updates`, `POST /api/contact`, and `POST /api/submit`
 
 Storefront dependency:
@@ -189,7 +194,10 @@ Storefront dependency:
 - `workers/communications/src/index.ts`
 - `workers/communications/openapi.yaml`
 - `workers/communications/migrations/0001_updates_signups.sql`
+- `workers/communications/migrations/0002_oncoming_projects.sql`
+- `workers/communications/migrations/0003_oncoming_projects_presentation.sql`
 - `workers/communications/migrations/0006_updates_signups_substack_schema.sql`
+- `workers/communications/migrations/0007_oncoming_projects_buy_url.sql`
 - `docs/infrastructure/d1-database.md`
 - `docs/operations/incident-runbook.md`
 - `docs/operations/release-ops-log.md`

@@ -56,6 +56,7 @@ D1 (optional, for `/api/updates`):
   - `0001_updates_signups.sql` (updates list capture)
   - `0002_oncoming_projects.sql` (canonical projects catalog)
   - `0003_oncoming_projects_presentation.sql` (cover image + popup description fields)
+  - `0007_oncoming_projects_buy_url.sql` (direct buy-link metadata, including Les Fievres Amazon URL)
 
 ## Notes
 

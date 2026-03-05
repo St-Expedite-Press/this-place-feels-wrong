@@ -24,7 +24,7 @@ All public site files live under `site/`, but they are served from the domain ro
 - Entry point: `site/index.html` (published at `/`)
 - Pages:
   - `site/books.html` (Books)
-- `site/gallery.html` (Store)
+  - `site/gallery.html` (Store)
   - `site/services.html` (Services; currently linked to the holding page from nav)
   - `site/mission.html` (Mission)
   - `site/lab.html` (Lab; currently linked to the holding page from nav)
@@ -193,6 +193,8 @@ If the Worker route is missing or fails, both pages fall back to opening a `mail
 - `GET /api/projects` returns a structured program list backed by D1 table `oncoming_projects`.
 - This list is seeded from `workers/communications/migrations/0002_oncoming_projects.sql`.
 - Book presentation metadata (cover image + popup description) is applied by `workers/communications/migrations/0003_oncoming_projects_presentation.sql`.
+- Direct purchase URL metadata is applied by `workers/communications/migrations/0007_oncoming_projects_buy_url.sql`.
+- `site/books.html` includes a canonical Les Fievres fallback URL (`https://www.amazon.com/dp/B0GQG71JT9`) even if `buy_url` is absent in runtime data.
 
 ## Updates List
 

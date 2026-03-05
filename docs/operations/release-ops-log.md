@@ -2,6 +2,16 @@
 
 Deployment and runtime verification evidence entries.
 
+## 2026-03-05T00:31:00Z
+- Commit: `4bee96e`
+- Checks:
+  - `npm run check` (root)
+  - `GET https://stexpedite.press/api/health` -> `200` / `ok:true`
+  - `GET https://stexpedite.press/api/storefront` -> `200` / `ok:true`
+  - `GET https://stexpedite.press/api/projects` -> `200` / `ok:true`
+  - synthetic negative probes for `POST /api/updates`, `POST /api/contact`, `POST /api/submit` -> `400` / `ok:false`
+- Scope: stabilization deploy verification + books/projects wiring confirmation
+
 ## 2026-02-21T01:56:13Z
 - Commit: `249c45e`
 - Checks:

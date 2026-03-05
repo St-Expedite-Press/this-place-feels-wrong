@@ -41,7 +41,7 @@
     "origin": "GitHub Pages",
     "primary": "stexpedite.press"
   },
-  "generated_at": "2026-02-23",
+  "generated_at": "2026-03-05",
   "generated_from_commit": "1c47708",
   "ontology_version": "1",
   "intents": {
@@ -185,22 +185,24 @@
       }
     },
     ".github/workflows/api-health-monitor.yml": {
-      "role": "Scheduled production runtime probe for /api/health and synthetic POST route checks (15-minute cadence)",
+      "role": "Scheduled production runtime probe for /api/health, /api/storefront, /api/projects, and synthetic POST route checks (15-minute cadence)",
       "anchors": {
         "schedule": "cron: \"*/15 * * * *\"",
         "health_probe": "curl -fsS https://stexpedite.press/api/health",
         "storefront_probe": "https://stexpedite.press/api/storefront",
+        "projects_probe": "https://stexpedite.press/api/projects",
         "updates_probe": "-X POST https://stexpedite.press/api/updates",
         "contact_probe": "-X POST https://stexpedite.press/api/contact",
         "submit_probe": "-X POST https://stexpedite.press/api/submit"
       }
     },
     "workers/communications/openapi.yaml": {
-      "role": "Machine-readable API contract for /api/health, /api/storefront, /api/contact, /api/submit, /api/updates",
+      "role": "Machine-readable API contract for /api/health, /api/storefront, /api/projects, /api/contact, /api/submit, /api/updates",
       "anchors": {
         "openapi_version": "openapi: 3.1.0",
         "health_path": "/api/health:",
         "storefront_path": "/api/storefront:",
+        "projects_path": "/api/projects:",
         "contact_path": "/api/contact:",
         "submit_path": "/api/submit:",
         "updates_path": "/api/updates:"
@@ -1072,7 +1074,9 @@
         "d1_optional": {
           "binding": "DB",
           "migration": "workers/communications/migrations/0001_updates_signups.sql",
-          "additional_migration": "workers/communications/migrations/0002_oncoming_projects.sql"
+          "additional_migration": "workers/communications/migrations/0002_oncoming_projects.sql",
+          "presentation_migration": "workers/communications/migrations/0003_oncoming_projects_presentation.sql",
+          "buy_url_migration": "workers/communications/migrations/0007_oncoming_projects_buy_url.sql"
         },
         "secrets": [
           "RESEND_API_KEY"
@@ -1170,7 +1174,7 @@
                   "title": "Master Canon Structure"
                 },
                 "totals": {
-                  "volumes": 19,
+                  "volumes": 17,
                   "series": 3
                 },
                 "series": [],

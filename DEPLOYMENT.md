@@ -13,7 +13,6 @@ GitHub Pages publishes static site assets only:
 Cloudflare Worker handles dynamic API endpoints only:
 - Worker project: `workers/communications/`
 - Worker name: `stexpedite-communications`
-- API surface: `GET /api/health`, `GET /api/storefront`, `POST /api/contact`, `POST /api/submit`, `POST /api/updates`
 - API surface: `GET /api/health`, `GET /api/storefront`, `GET /api/projects`, `POST /api/contact`, `POST /api/submit`, `POST /api/updates`
 - Cross-cutting controls: per-IP rate limiting on POST routes, optional Turnstile validation when `TURNSTILE_SECRET` is configured
 
@@ -94,6 +93,7 @@ Current configured database:
 - Migration applied: `workers/communications/migrations/0001_updates_signups.sql`
   - Also apply `workers/communications/migrations/0002_oncoming_projects.sql` for canonical project catalog.
   - Also apply `workers/communications/migrations/0003_oncoming_projects_presentation.sql` for cover image + popup description fields.
+  - Also apply `workers/communications/migrations/0007_oncoming_projects_buy_url.sql` for direct buy-link metadata.
   - Also apply `workers/communications/migrations/0006_updates_signups_substack_schema.sql` for expanded subscriber profile/analytics fields.
 
 Check current D1 status:
@@ -164,4 +164,4 @@ bash agent/skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
 - Ontology (machine): `docs/ontology/project-ontology.json`
 - Ontology (human): `docs/ontology/project-ontology.md`
 - Ops skill tooling: `agent/skills/ops/cloudflare-stability/`
-- Scheduled runtime monitor workflow: `.github/workflows/api-health-monitor.yml` (health + synthetic POST route checks)
+- Scheduled runtime monitor workflow: `.github/workflows/api-health-monitor.yml` (health + storefront + projects + synthetic POST route checks)

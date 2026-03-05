@@ -13,6 +13,7 @@ Canonical reference for the Cloudflare D1 database used by the communications Wo
   - `workers/communications/migrations/0001_updates_signups.sql`
   - `workers/communications/migrations/0002_oncoming_projects.sql`
   - `workers/communications/migrations/0003_oncoming_projects_presentation.sql`
+  - `workers/communications/migrations/0007_oncoming_projects_buy_url.sql`
   - `workers/communications/migrations/0006_updates_signups_substack_schema.sql`
 
 Worker behavior dependency:
@@ -95,6 +96,7 @@ Project catalog columns:
 - `notes` (`TEXT`)
 - `cover_image` (`TEXT`)
 - `popup_description` (`TEXT`)
+- `buy_url` (`TEXT`)
 - `created_at` (`TEXT NOT NULL`)
 - `updated_at` (`TEXT NOT NULL`)
 
