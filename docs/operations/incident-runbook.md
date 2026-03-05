@@ -1,6 +1,6 @@
 # Incident Runbook (Cloudflare Worker + D1)
 
-Use this for production API outages/degradation affecting `/api/contact`, `/api/submit`, or `/api/updates`.
+Use this for production API outages/degradation affecting `/api/health`, `/api/storefront`, `/api/projects`, `/api/contact`, `/api/submit`, or `/api/updates`.
 
 ## Severity
 
@@ -13,7 +13,8 @@ Use this for production API outages/degradation affecting `/api/contact`, `/api/
 2. Run `bash agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh`.
 3. Confirm Cloudflare route attachment for `stexpedite.press/api/*`.
 4. Confirm Worker secret `RESEND_API_KEY` exists.
-5. If Turnstile is enabled, confirm Worker secret `TURNSTILE_SECRET` exists.
+5. Confirm Worker secret `FOURTH_WALL_API_KEY` (or `FW_STOREFRONT_TOKEN`) exists for storefront/merch flows.
+6. If Turnstile is enabled, confirm Worker secret `TURNSTILE_SECRET` exists.
 
 ## Mitigation playbook
 

@@ -22,7 +22,7 @@ This ontology is meant to be:
    - Flows + dependencies: `site.flows`, `site.dependency_structure`
    - Shared styling: `site.asset_bundles`, `site.duplication_clusters`
    - Deployment: `deploy.github_pages`
-   - Forms + email: `workers.communications.routes`
+   - APIs (forms + storefront + projects): `workers.communications.routes`
    - OpenAPI contract: `workers.communications.openapi`
 
 5. Open only the files referenced by ontology fields.

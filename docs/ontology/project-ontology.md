@@ -26,7 +26,7 @@ Even though pages are stored under `site/`, they are published at domain root UR
 ### Deployment (GitHub Pages)
 - Workflow: `.github/workflows/deploy-pages.yml`
 - Publish model: run HTML + Worker tests, then copy `site/` -> `dist/` -> upload Pages artifact.
-- Runtime monitor: `.github/workflows/api-health-monitor.yml` probes `/api/health` plus synthetic POST route checks every 15 minutes.
+- Runtime monitor: `.github/workflows/api-health-monitor.yml` probes `/api/health`, `/api/storefront`, `/api/projects`, plus synthetic POST route checks every 15 minutes.
 
 ### Communications Worker (Cloudflare)
 - Code: `workers/communications/src/index.ts`
@@ -41,6 +41,9 @@ Endpoints:
 - `GET /api/storefront`
   - Called by: `site/gallery.html`
   - Reads Fourthwall shop + collections + products and returns normalized catalog JSON
+- `GET /api/projects`
+  - Called by: `site/books.html`
+  - Reads canonical projects program list from D1 (`oncoming_projects`)
 - `POST /api/contact`
   - Called by: `site/contact.html`
   - Sends 2 emails via Resend:

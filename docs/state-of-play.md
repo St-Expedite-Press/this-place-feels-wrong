@@ -1,18 +1,18 @@
 # State of Play (Repo + Deployment)
 
-Repo-verified snapshot as of **2026-02-24**.
+Repo-verified snapshot as of **2026-03-05**.
 
 Baseline checked:
 - Branch: `main`
-- HEAD: `52e242d`
-- Working tree: repository under active maintenance updates
+- HEAD: `4bee96e`
+- Working tree: clean
 
 This document reflects what is present in the repository. Runtime/production status that cannot be observed from code is marked as configuration intent.
 
 ## 1) Cloudflare verification matrix
 
 Verification timestamp:
-- Date: **2026-02-23**
+- Date: **2026-03-05**
 - Method: local command checks + source inspection (`wrangler`, `rg`, `sed`)
 
 | Check | Evidence | Status |
@@ -31,7 +31,7 @@ Verification timestamp:
 | Pages publish scope | `.github/workflows/deploy-pages.yml` runs `rsync -a --delete site/ dist/` | Repo-verified |
 | Worker abuse controls | `src/index.ts` enforces per-IP POST rate limiting and optional Turnstile verification when `TURNSTILE_SECRET` is set | Repo-verified |
 | Worker automated tests | `workers/communications/test/index.test.ts` validates health, success, failure, Turnstile-required, and 429 behavior | Repo-verified |
-| Scheduled runtime monitor | `.github/workflows/api-health-monitor.yml` checks `/api/health`, `/api/storefront`, and synthetic POST-route behavior every 15 minutes | Repo-verified |
+| Scheduled runtime monitor | `.github/workflows/api-health-monitor.yml` checks `/api/health`, `/api/storefront`, `/api/projects`, and synthetic POST-route behavior every 15 minutes | Repo-verified |
 
 Operator verification commands:
 
@@ -138,12 +138,13 @@ Cross-cutting behavior:
 - OPTIONS preflight is supported.
 
 Contract and schema files:
-- OpenAPI contract: `workers/communications/openapi.yaml` (`openapi: 3.1.0`, `info.version: 1.4.0`)
+- OpenAPI contract: `workers/communications/openapi.yaml` (`openapi: 3.1.0`, `info.version: 1.5.0`)
 - D1 migrations:
   - `workers/communications/migrations/0001_updates_signups.sql`
   - `workers/communications/migrations/0006_updates_signups_substack_schema.sql`
   - `workers/communications/migrations/0002_oncoming_projects.sql`
   - `workers/communications/migrations/0003_oncoming_projects_presentation.sql`
+  - `workers/communications/migrations/0007_oncoming_projects_buy_url.sql`
 
 ## 4) Deploy pipeline snapshot
 
