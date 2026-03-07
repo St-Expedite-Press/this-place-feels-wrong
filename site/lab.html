@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="St. Expedite Press lab: experiments, drafts, and works-in-progress." />
+  <meta name="description" content="St. Expedite Press lab: interactive experiments, including the American Anglossic Compass." />
   <meta name="theme-color" content="#050807" />
   <meta name="color-scheme" content="dark" />
   <meta property="og:site_name" content="St. Expedite Press" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Lab &mdash; St. Expedite Press" />
-  <meta property="og:description" content="Experiments, drafts, and works-in-progress." />
+  <meta property="og:description" content="Interactive experiments, drafts, and works-in-progress." />
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 <meta property="og:url" content="https://stexpedite.press/lab.html" />
 <meta property="og:image" content="https://stexpedite.press/assets/img/crow_glitch_text_still.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Lab &mdash; St. Expedite Press" />
-<meta name="twitter:description" content="Experiments, drafts, and works-in-progress." />
+<meta name="twitter:description" content="Interactive experiments, drafts, and works-in-progress." />
 <meta name="twitter:image" content="https://stexpedite.press/assets/img/crow_glitch_text_still.png" />
 <link rel="canonical" href="https://stexpedite.press/lab.html" />
   <title>Lab &mdash; St. Expedite Press</title>
@@ -90,8 +90,15 @@
     opacity: 0.9;
   }
 
-  .lab-card {
-    max-width: 46rem;
+  .lab-page {
+    display: grid;
+    gap: 1.35rem;
+  }
+
+  .lab-card,
+  .compass-shell,
+  .compass-results {
+    width: min(1100px, 100%);
     margin: 0 auto;
     background: rgba(0,0,0,0.72);
     border: 1px solid rgba(42,255,138,0.22);
@@ -117,8 +124,411 @@
     opacity: .96;
   }
 
+  .lab-card__eyebrow,
+  .compass-result__eyebrow,
+  .compass-archetype__label {
+    display: inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  .lab-card__actions,
+  .compass-controls,
+  .compass-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .lab-card__actions {
+    margin-top: 1rem;
+  }
+
+  .lab-chip,
+  .compass-button,
+  .chip {
+    border: 1px solid rgba(42,255,138,0.22);
+    background: rgba(42,255,138,0.06);
+    color: inherit;
+    border-radius: 999px;
+    padding: 0.55rem 0.9rem;
+    font: inherit;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+  }
+
+  .compass-button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  .lab-card__actions a,
+  .compass-button {
+    text-decoration: none;
+  }
+
+  .compass-shell {
+    padding: 1.5rem;
+  }
+
+  .compass-shell__header {
+    display: grid;
+    gap: 0.9rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .compass-shell__header h2,
+  .compass-results h3 {
+    margin: 0;
+    font-family: "Cinzel", serif;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .compass-shell__header p {
+    margin: 0;
+    max-width: 70ch;
+    line-height: 1.55;
+  }
+
+  .compass-meta {
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+
+  .compass-meta p {
+    margin: 0;
+    opacity: 0.82;
+  }
+
+  .compass-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.95fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .compass-card,
+  .compass-panel {
+    background: rgba(0, 0, 0, 0.42);
+    border: 1px solid rgba(42,255,138,0.18);
+    border-radius: 18px;
+    padding: 1rem;
+    box-shadow: inset 0 0 0 1px rgba(42,255,138,0.04);
+  }
+
+  .compass-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .compass-stat {
+    padding: 0.85rem 0.9rem;
+    border-radius: 14px;
+    background: rgba(42,255,138,0.05);
+    border: 1px solid rgba(42,255,138,0.14);
+  }
+
+  .compass-stat__label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  .compass-stat__value {
+    display: block;
+    margin-top: 0.35rem;
+    font-family: "Cinzel", serif;
+    font-size: 1.2rem;
+  }
+
+  .compass-question__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 0.85rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.78;
+  }
+
+  .compass-question__prompt {
+    margin: 0 0 1rem;
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    line-height: 1.3;
+  }
+
+  .compass-choice-list {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .compass-choice {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.9rem;
+    align-items: start;
+    width: 100%;
+    text-align: left;
+    border-radius: 18px;
+    border: 1px solid rgba(42,255,138,0.2);
+    background: rgba(42,255,138,0.045);
+    color: inherit;
+    padding: 0.95rem 1rem;
+    font: inherit;
+    cursor: pointer;
+    transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+  }
+
+  .compass-choice:hover,
+  .compass-choice:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(42,255,138,0.46);
+    background: rgba(42,255,138,0.09);
+  }
+
+  .compass-choice.is-selected {
+    border-color: rgba(42,255,138,0.7);
+    background: rgba(42,255,138,0.15);
+    box-shadow: 0 0 20px rgba(42,255,138,0.1);
+  }
+
+  .compass-choice__key {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(42,255,138,0.28);
+    font-family: "Cinzel", serif;
+  }
+
+  .compass-question__hint,
+  .compass-panel h3 + p,
+  .compass-empty,
+  .compass-result__summary,
+  .compass-result__tension p,
+  .compass-archetype p,
+  .compass-archetype__citation,
+  .compass-result__arc {
+    margin: 0.85rem 0 0;
+    line-height: 1.55;
+    opacity: 0.9;
+  }
+
+  .compass-sidebar {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .compass-panel h3 {
+    margin: 0;
+    font-family: "Cinzel", serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .compass-jump {
+    width: 100%;
+    margin-top: 0.65rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.7rem;
+    text-align: left;
+  }
+
+  .chip--skipped {
+    border-radius: 16px;
+  }
+
+  .compass-index {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
+    gap: 0.45rem;
+    margin-top: 0.85rem;
+  }
+
+  .compass-index__item {
+    border-radius: 12px;
+    min-height: 42px;
+    border: 1px solid rgba(42,255,138,0.16);
+    background: rgba(255,255,255,0.02);
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .compass-index__item.is-answered {
+    background: rgba(42,255,138,0.14);
+  }
+
+  .compass-index__item.is-skipped {
+    background: rgba(217,106,255,0.14);
+    border-color: rgba(217,106,255,0.34);
+  }
+
+  .compass-index__item.is-active {
+    box-shadow: 0 0 0 2px rgba(42,255,138,0.55);
+  }
+
+  .compass-results {
+    margin-top: 1rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .compass-result__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.9fr);
+    gap: 1rem;
+  }
+
+  .compass-result__tension {
+    padding: 1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(217,106,255,0.24);
+    background: rgba(217,106,255,0.08);
+  }
+
+  .compass-result__tension-label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .compass-blend {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .compass-blend__card {
+    padding: 1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(42,255,138,0.16);
+    background: rgba(42,255,138,0.05);
+  }
+
+  .compass-blend__percent {
+    font-family: "Cinzel", serif;
+    font-size: 1.45rem;
+  }
+
+  .compass-blend__name {
+    margin-top: 0.35rem;
+    font-weight: 600;
+  }
+
+  .compass-blend__tagline {
+    margin-top: 0.45rem;
+    opacity: 0.82;
+    line-height: 1.45;
+  }
+
+  .compass-axes {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .compass-axis__head,
+  .compass-axis__poles,
+  .compass-archetype__genealogy {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .compass-axis__head {
+    font-size: 0.9rem;
+  }
+
+  .compass-axis__rail {
+    margin-top: 0.35rem;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    overflow: hidden;
+  }
+
+  .compass-axis__fill {
+    height: 100%;
+    border-radius: inherit;
+    background: rgba(217,106,255,0.5);
+  }
+
+  .compass-axis__fill.is-positive {
+    background: rgba(42,255,138,0.65);
+  }
+
+  .compass-axis__poles {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    opacity: 0.74;
+  }
+
+  .compass-result__codex {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .compass-archetype {
+    border-radius: 16px;
+    border: 1px solid rgba(42,255,138,0.16);
+    background: rgba(0,0,0,0.34);
+    padding: 0.9rem 1rem;
+  }
+
+  .compass-archetype summary {
+    cursor: pointer;
+    font-family: "Cinzel", serif;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .compass-archetype__genealogy {
+    margin-top: 0.85rem;
+    align-items: flex-start;
+  }
+
+  .compass-archetype__genealogy > div {
+    flex: 1;
+  }
+
+  .compass-archetype__quote {
+    margin: 0.9rem 0 0;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(42,255,138,0.26);
+    opacity: 0.94;
+  }
+
   @media (max-width: 800px) {
     .page { padding: calc(4vh + var(--hero-bar-height)) 6vw 7vh; }
+    .compass-layout,
+    .compass-result__header,
+    .compass-blend,
+    .compass-stats,
+    .compass-archetype__genealogy {
+      grid-template-columns: 1fr;
+      display: grid;
+    }
+
+    .compass-meta,
+    .compass-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
   }
   </style>
 </head>
@@ -127,12 +537,12 @@
   <div class="texture--grain"></div>
   <div class="cursor-glow"></div>
 
-  <div class="page">
+  <main class="page lab-page" id="main">
     <header class="site-header">
       <div class="site-brand">
         <div class="site-eyebrow">ST. EXPEDITE PRESS</div>
         <h1 class="site-title">LAB</h1>
-        <div class="site-subtitle">Experiments, drafts, and works-in-progress</div>
+        <div class="site-subtitle">Interactive experiments, drafts, and works-in-progress</div>
         <div class="site-header-divider"></div>
       </div>
 
@@ -140,21 +550,73 @@
         <a href="index.html">Portal</a>
         <a href="books.html">Books</a>
         <a href="gallery.html">Merch</a>
-        <a href="under-construction.html">Lab</a>
+        <a href="lab.html">Lab</a>
         <a href="mission.html">Mission</a>
         <a href="contact.html">Contact</a>
       </nav>
     </header>
 
     <section class="lab-card">
-      <h2>In Progress</h2>
+      <span class="lab-card__eyebrow">Active Module</span>
+      <h2>The American Anglossic Compass</h2>
       <p>
-        The Lab is a holding chamber for works-in-progress: drafts, prototypes, and small experiments in form.
-        This page will evolve as new public-facing pieces come online.
+        The Lab now hosts public-facing experimental modules. The Compass is a non-linear, weighted quiz that maps the respondent across five metaphysical axes and resolves them into a blended archetypal field.
       </p>
       <p>
-        For submissions and editorial correspondence, use the Submission or Contact page.
+        Questions are intentionally delivered out of canonical order. You can skip any prompt, return later, and only unlock the final result once every question has been answered.
       </p>
+      <div class="lab-card__actions">
+        <span class="lab-chip">55 questions</span>
+        <span class="lab-chip">14 archetypes</span>
+        <span class="lab-chip">Saved locally in this browser</span>
+      </div>
+    </section>
+
+    <section class="compass-shell" aria-labelledby="compassHeading">
+      <div class="compass-shell__header">
+        <span class="lab-card__eyebrow">Quiz Engine</span>
+        <h2 id="compassHeading">American Anglossic Compass</h2>
+        <p>
+          This module uses a shuffled session order, stable question ids, skip-for-now state, and completion-gated scoring. Move through the prompts in whatever sequence you need; use the skipped queue and question index to return at will.
+        </p>
+      </div>
+
+      <div class="compass-meta">
+        <div class="compass-controls">
+          <button class="compass-button" id="compassPrev" type="button">Previous</button>
+          <button class="compass-button" id="compassSkip" type="button">Skip for now</button>
+          <button class="compass-button" id="compassNext" type="button">Next open</button>
+          <button class="compass-button" id="compassReview" type="button">Review skipped</button>
+          <button class="compass-button" id="compassReset" type="button">Reset and reshuffle</button>
+        </div>
+        <p>Canonical authoring order is preserved in the content model, but the live session uses a shuffled path.</p>
+      </div>
+
+      <div class="compass-layout">
+        <div class="compass-main">
+          <section class="compass-card">
+            <div class="compass-stats" id="compassStats"></div>
+          </section>
+
+          <section class="compass-card" id="compassQuestionCard" aria-live="polite"></section>
+
+          <section class="compass-results" id="compassResults" aria-live="polite"></section>
+        </div>
+
+        <aside class="compass-sidebar">
+          <section class="compass-panel">
+            <h3>Skipped Queue</h3>
+            <p>Questions left open stay here until answered.</p>
+            <div id="compassSkippedList"></div>
+          </section>
+
+          <section class="compass-panel">
+            <h3>Question Index</h3>
+            <p>Jump directly to any question without breaking the shuffled session.</p>
+            <div class="compass-index" id="compassIndex"></div>
+          </section>
+        </aside>
+      </div>
     </section>
 
     <footer class="sep-footer">
@@ -165,17 +627,9 @@
         <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
       </div>
     </footer>
-  </div>
+  </main>
 
-  <script>
-  (function() {
-    const glow = document.querySelector('.cursor-glow');
-    if (!glow) return;
-    document.addEventListener('mousemove', e => {
-      glow.style.left = (e.clientX - 60) + 'px';
-      glow.style.top  = (e.clientY - 60) + 'px';
-    });
-  })();
-  </script>
+  <script src="assets/js/cursor-glow.js"></script>
+  <script src="assets/js/lab-anglossic-compass.js"></script>
 </body>
 </html>

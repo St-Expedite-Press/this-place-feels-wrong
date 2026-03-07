@@ -68,8 +68,8 @@ Current HTML pages in `site/`:
 
 ### Navigation and page intent
 - User-facing nav labels `gallery.html` as **Merch** on primary pages.
-- Nav items labeled **Lab** currently link to `under-construction.html` across production-facing pages.
-- `lab.html` still exists as a standalone page but is not the primary linked Lab destination.
+- Nav items labeled **Lab** now point to `lab.html` across production-facing pages.
+- `lab.html` now hosts the live interactive Lab surface.
 - Footer utility links are consistently `Services // Submission // Contact` across main pages.
 
 ### Forms and messaging flows
@@ -96,7 +96,7 @@ Current HTML pages in `site/`:
 Index behavior:
 - Desktop hero bar includes an inline updates form (`#hero-updates-form`).
 - Mobile portal stack includes an inline updates form (`#index-updates-form`).
-- Desktop nav surfaces `BOOKS`, `STORE` (`gallery.html`), `MISSION`, and `LAB` (`under-construction.html`).
+- Desktop nav surfaces `BOOKS`, `STORE` (`gallery.html`), `MISSION`, and `LAB` (`lab.html`).
 
 ## 3) Worker/API snapshot
 

@@ -25,9 +25,9 @@ All public site files live under `site/`, but they are served from the domain ro
 - Pages:
   - `site/books.html` (Books)
   - `site/gallery.html` (Store)
-  - `site/services.html` (Services; currently linked to the holding page from nav)
+  - `site/services.html` (Services)
   - `site/mission.html` (Mission)
-  - `site/lab.html` (Lab; currently linked to the holding page from nav)
+  - `site/lab.html` (Lab; interactive module host page)
   - `site/contact.html` (Contact)
   - `site/submit.html` (Submission)
   - `site/under-construction.html` (holding page)
