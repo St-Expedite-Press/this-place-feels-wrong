@@ -174,8 +174,84 @@
     text-decoration: none;
   }
 
+  .lab-card--module {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(700px 220px at 10% 0%, rgba(217,106,255,0.12), rgba(0,0,0,0) 58%),
+      radial-gradient(720px 260px at 88% 0%, rgba(42,255,138,0.1), rgba(0,0,0,0) 58%),
+      rgba(0,0,0,0.78);
+  }
+
+  .lab-card--module::after {
+    content: "";
+    position: absolute;
+    inset: auto -10% -35% auto;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217,106,255,0.14), rgba(217,106,255,0) 72%);
+    pointer-events: none;
+  }
+
+  .lab-card__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 1.2rem;
+    align-items: start;
+  }
+
   .compass-shell {
     padding: 1.5rem;
+  }
+
+  .compass-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 24;
+    display: grid;
+    place-items: center;
+    padding: 1.2rem;
+    background: rgba(0,0,0,0.78);
+    backdrop-filter: blur(10px);
+  }
+
+  .compass-modal[hidden] {
+    display: none;
+  }
+
+  .compass-modal__dialog {
+    width: min(1320px, 100%);
+    max-height: calc(100vh - 2.4rem);
+    overflow: auto;
+    position: relative;
+    border-radius: 24px;
+  }
+
+  .compass-modal__close {
+    position: sticky;
+    top: 0.9rem;
+    z-index: 3;
+    margin-left: auto;
+    margin-right: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(42,255,138,0.24);
+    background: rgba(0,0,0,0.7);
+    color: inherit;
+    font: inherit;
+    padding: 0.55rem 0.9rem;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+
+  .compass-modal__close:hover,
+  .compass-modal__close:focus-visible {
+    border-color: rgba(42,255,138,0.5);
+    box-shadow: 0 0 16px rgba(42,255,138,0.14);
   }
 
   .compass-shell__header {
@@ -705,6 +781,16 @@
       flex-direction: column;
       align-items: stretch;
     }
+
+    .compass-modal {
+      padding: 0;
+    }
+
+    .compass-modal__dialog {
+      width: 100%;
+      max-height: 100vh;
+      border-radius: 0;
+    }
   }
   </style>
 </head>
@@ -732,23 +818,40 @@
       </nav>
     </header>
 
-    <section class="lab-card">
-      <span class="lab-card__eyebrow">Active Module</span>
-      <h2>The American Anglossic Compass</h2>
-      <p>
-        The Compass is not a personality quiz in lighter dress. It is a reading instrument: a way of tracing how you instinctively lean across five metaphysical axes until a historical pattern begins to show itself.
-      </p>
-      <p>
-        The prompts arrive out of order by design. Answer in one sitting or circle back later; anything you set aside will wait for you, and the reading only opens once the pattern is complete.
-      </p>
-      <div class="lab-card__actions">
-        <span class="lab-chip">55 questions</span>
-        <span class="lab-chip">14 archetypes</span>
-        <span class="lab-chip">Saved locally in this browser</span>
+    <section class="lab-card lab-card--module">
+      <div class="lab-card__grid">
+        <div>
+          <span class="lab-card__eyebrow">Active Module</span>
+          <h2>The American Anglossic Compass</h2>
+          <p>
+            The Compass is not a personality quiz in lighter dress. It is a reading instrument: a way of tracing how you instinctively lean across five metaphysical axes until a historical pattern begins to show itself.
+          </p>
+          <p>
+            Open the card to enter the full field. The prompts arrive out of order by design, anything set aside will wait, and the reading does not disclose itself until the pattern is complete.
+          </p>
+          <div class="lab-card__actions">
+            <button class="compass-button" id="compassLaunch" type="button">Open the Compass</button>
+            <span class="lab-chip">55 questions</span>
+            <span class="lab-chip">14 archetypes</span>
+            <span class="lab-chip">Saved locally in this browser</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="compass-shell" aria-labelledby="compassHeading">
+    <footer class="sep-footer">
+      <p class="sep-footer__coords">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+      <p class="sep-footer__lede">...in the key of Night.</p>
+      <div class="sep-footer__divider">&#9651; &#10013; &#9651;</div>
+      <div class="sep-footer__links">
+        <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
+      </div>
+    </footer>
+  </main>
+
+  <div class="compass-modal" id="compassModal" hidden>
+    <div class="compass-modal__dialog compass-shell" id="compassDialog" role="dialog" aria-modal="true" aria-labelledby="compassHeading">
+      <button class="compass-modal__close" id="compassClose" type="button" aria-label="Close the American Anglossic Compass">Close</button>
       <div class="compass-shell__header">
         <span class="lab-card__eyebrow">Field Instrument</span>
         <h2 id="compassHeading">American Anglossic Compass</h2>
@@ -793,17 +896,8 @@
           </section>
         </aside>
       </div>
-    </section>
-
-    <footer class="sep-footer">
-      <p class="sep-footer__coords">29.9511&deg; N &mdash; 90.0715&deg; W</p>
-      <p class="sep-footer__lede">...in the key of Night.</p>
-      <div class="sep-footer__divider">&#9651; &#10013; &#9651;</div>
-      <div class="sep-footer__links">
-        <a href="services.html">Services</a> // <a href="submit.html">Submission</a> // <a href="contact.html">Contact</a>
-      </div>
-    </footer>
-  </main>
+    </div>
+  </div>
 
   <div class="compass-lead-modal" id="compassLeadModal" hidden>
     <div class="compass-lead-modal__dialog" id="compassLeadDialog" role="dialog" aria-modal="true" aria-labelledby="compassLeadTitle">
