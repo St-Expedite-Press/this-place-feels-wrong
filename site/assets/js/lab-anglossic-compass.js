@@ -990,6 +990,10 @@
   }
 
   function mountCompass() {
+    const moduleLaunch = document.getElementById('compassLaunch');
+    const moduleModal = document.getElementById('compassModal');
+    const moduleDialog = document.getElementById('compassDialog');
+    const moduleClose = document.getElementById('compassClose');
     const questionCard = document.getElementById('compassQuestionCard');
     const stats = document.getElementById('compassStats');
     const skippedList = document.getElementById('compassSkippedList');
@@ -1008,30 +1012,84 @@
     const leadSkip = document.getElementById('compassLeadSkip');
     const leadClose = document.getElementById('compassLeadClose');
 
-    if (!questionCard || !stats || !skippedList || !indexGrid || !resultPanel || !prevButton || !skipButton || !nextButton || !reviewButton || !resetButton) {
+    if (!moduleLaunch || !moduleModal || !moduleDialog || !moduleClose || !questionCard || !stats || !skippedList || !indexGrid || !resultPanel || !prevButton || !skipButton || !nextButton || !reviewButton || !resetButton) {
       return;
     }
 
     let state = loadState();
+    let moduleOpen = false;
+    let moduleCleanup = null;
+    let moduleReturnFocus = null;
     let gateOpen = false;
     let gateAutoPrompted = false;
     let gateCleanup = null;
     let gateReturnFocus = null;
+
+    function syncBodyModalState() {
+      document.body.classList.toggle('is-modal-open', moduleOpen || gateOpen);
+    }
+
+    function releaseModuleTrap() {
+      if (typeof moduleCleanup === 'function') {
+        moduleCleanup();
+      }
+      moduleCleanup = null;
+    }
+
+    function activateModuleTrap() {
+      if (!moduleOpen || !moduleDialog) return;
+      releaseModuleTrap();
+      moduleCleanup = window.SEP && window.SEP.modal && typeof window.SEP.modal.trap === 'function'
+        ? window.SEP.modal.trap(moduleDialog, { initialFocusEl: prevButton || moduleClose, onEscape: closeCompass })
+        : null;
+    }
 
     function setGateMessage(message) {
       if (!leadHelper) return;
       leadHelper.textContent = message;
     }
 
+    function openCompass(triggerEl) {
+      if (!moduleModal || !moduleDialog || moduleOpen) return;
+      moduleOpen = true;
+      moduleReturnFocus = triggerEl || document.activeElement;
+      moduleModal.hidden = false;
+      syncBodyModalState();
+      activateModuleTrap();
+      render();
+    }
+
+    function closeCompass() {
+      if (!moduleModal || !moduleOpen) return;
+      closeResultGate();
+      moduleOpen = false;
+      moduleModal.hidden = true;
+      releaseModuleTrap();
+      syncBodyModalState();
+      if (moduleReturnFocus && typeof moduleReturnFocus.focus === 'function') {
+        try {
+          moduleReturnFocus.focus();
+        } catch {
+          // ignore focus restoration failures
+        }
+      }
+      moduleReturnFocus = null;
+    }
+
     function closeResultGate() {
       if (!leadModal || !leadDialog || !gateOpen) return;
       gateOpen = false;
       leadModal.hidden = true;
-      document.body.classList.remove('is-modal-open');
       if (typeof gateCleanup === 'function') {
         gateCleanup();
       }
       gateCleanup = null;
+      if (moduleOpen) {
+        activateModuleTrap();
+      } else {
+        releaseModuleTrap();
+      }
+      syncBodyModalState();
       if (gateReturnFocus && typeof gateReturnFocus.focus === 'function') {
         try {
           gateReturnFocus.focus();
@@ -1046,8 +1104,9 @@
       if (!leadModal || !leadDialog || gateOpen || canRevealResults(state)) return;
       gateOpen = true;
       gateReturnFocus = triggerEl || document.activeElement;
+      releaseModuleTrap();
       leadModal.hidden = false;
-      document.body.classList.add('is-modal-open');
+      syncBodyModalState();
       if (leadEmail) {
         leadEmail.value = state.resultGate.email || '';
       }
@@ -1278,7 +1337,7 @@
           gateButton.addEventListener('click', () => openResultGate(gateButton));
         }
 
-        if (!gateAutoPrompted && !gateOpen) {
+        if (!gateAutoPrompted && !gateOpen && moduleOpen) {
           gateAutoPrompted = true;
           window.requestAnimationFrame(() => openResultGate(gateButton));
         }
@@ -1389,6 +1448,18 @@
     });
 
     resetButton.addEventListener('click', resetSession);
+
+    moduleLaunch.addEventListener('click', () => {
+      openCompass(moduleLaunch);
+    });
+
+    moduleClose.addEventListener('click', closeCompass);
+
+    moduleModal.addEventListener('click', (event) => {
+      if (event.target === moduleModal) {
+        closeCompass();
+      }
+    });
 
     if (leadModal && leadDialog) {
       leadModal.addEventListener('click', (event) => {
