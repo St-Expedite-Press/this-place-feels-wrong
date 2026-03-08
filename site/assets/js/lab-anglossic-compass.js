@@ -1,6 +1,7 @@
 (function () {
-  const STORAGE_KEY = 'sep-anglossic-compass-v1';
+  const STORAGE_KEY = 'sep-anglossic-compass-v2';
   const TOTAL_QUESTIONS = 55;
+  const UPDATES_ENDPOINT = '/api/updates';
 
   const AXES = {
     F: {
@@ -255,11 +256,469 @@
     return copy;
   }
 
+  function buildChoiceOrder() {
+    const choiceOrder = {};
+    QUESTION_MAP.forEach((question, id) => {
+      choiceOrder[String(id)] = shuffleIds(question.choices.map((choice) => choice.key));
+    });
+    return choiceOrder;
+  }
+
+  function normalizeChoiceOrder(rawChoiceOrder) {
+    const normalized = {};
+    QUESTION_MAP.forEach((question, id) => {
+      const questionKey = String(id);
+      const expectedKeys = question.choices.map((choice) => choice.key);
+      const candidate = rawChoiceOrder && Array.isArray(rawChoiceOrder[questionKey])
+        ? rawChoiceOrder[questionKey].filter((key) => expectedKeys.includes(key))
+        : [];
+
+      if (candidate.length !== expectedKeys.length) {
+        normalized[questionKey] = shuffleIds(expectedKeys);
+        return;
+      }
+
+      normalized[questionKey] = candidate;
+    });
+    return normalized;
+  }
+
+  function getOrderedChoices(question, state) {
+    const choiceOrder = state.choiceOrder[String(question.id)] || question.choices.map((choice) => choice.key);
+    return choiceOrder
+      .map((key) => question.choices.find((choice) => choice.key === key))
+      .filter(Boolean);
+  }
+
+  const CHOICE_DISPLAY_OVERRIDES = {
+    1: {
+      A: 'Failure is usually providential correction, not mere defeat.',
+      B: 'Failure usually shows how little mastery we really have over circumstance.',
+      C: 'Failure often shows that our institutions or preparations were unequal to the moment.',
+      D: 'Failure is the resistance by which the will discovers a stronger form.',
+      E: 'Failure is one more revelation by which the soul is led onward.',
+    },
+    2: {
+      A: 'Freedom is right action in accord with a higher law.',
+      B: 'Freedom is the room to act effectively within the limits of necessity.',
+      C: 'Freedom is the space preserved for judgment within law and duty.',
+      D: 'Freedom is the power to author a life from within.',
+      E: 'Freedom is the soul awakening to its divine source.',
+    },
+    3: {
+      A: 'Misfortune is providence correcting pride and schooling virtue.',
+      B: 'Misfortune is what happens in a world moved more by force than by justice.',
+      C: 'Misfortune is part of mortal life, and decent institutions are meant to bear it.',
+      D: 'Misfortune is the trial through which meaning is made.',
+      E: 'Misfortune is a hidden summons toward transformation.',
+    },
+    4: {
+      A: 'It is true, because providence wastes nothing.',
+      B: 'It is often a consoling phrase laid over events we barely understand.',
+      C: 'It is sometimes a useful saying, but not one that explains the world.',
+      D: 'It is too quickly used to spare us the burden of judgment.',
+      E: 'It is true only if reason is deeper than sequence and nearer to love.',
+    },
+    5: {
+      A: 'To repent is to return to the order one was made for.',
+      B: 'To repent is to accept the limits of the world and live more soberly.',
+      C: 'To repent is to amend one\'s conduct and resume one\'s duties.',
+      D: 'To repent is to redirect the will toward a better life.',
+      E: 'To repent is to wake from separation into unity.',
+    },
+    6: {
+      A: 'Freedom is most real when obedience and grace become one act.',
+      B: 'Freedom is most real when the boundaries of action are clear and manageable.',
+      C: 'Freedom is most real when law and choice coincide.',
+      D: 'Freedom is most real when desire can shape its own course.',
+      E: 'Freedom is most real when the self moves without division.',
+    },
+    7: {
+      A: 'Fate is the moral texture of a created order.',
+      B: 'Fate is the chain of causes that cares nothing for our wishes.',
+      C: 'Fate is the name we give events once they have hardened into history.',
+      D: 'Fate is a field of possibility that answers to courage.',
+      E: 'Fate is the divine imagination moving through time.',
+    },
+    8: {
+      A: 'Freedom\'s greatest enemy is sin, which disorders the will.',
+      B: 'Freedom\'s greatest enemy is domination by powers one cannot answer.',
+      C: 'Freedom\'s greatest enemy is ignorance of oneself and one\'s obligations.',
+      D: 'Freedom\'s greatest enemy is fear, which teaches self-betrayal.',
+      E: 'Freedom\'s greatest enemy is forgetfulness of our deeper unity.',
+    },
+    9: {
+      A: 'Beauty teaches that order is a likeness of heaven.',
+      B: 'Beauty teaches how often polish is used to conceal decay.',
+      C: 'Beauty teaches the discipline by which harmony trains the affections.',
+      D: 'Beauty teaches that form lives only when it carries sincerity.',
+      E: 'Beauty teaches that spirit can shine through any worthy form.',
+    },
+    10: {
+      A: 'Liturgy and ritual bind a people to order across time.',
+      B: 'Liturgy and ritual are techniques by which authority steadies conduct.',
+      C: 'Liturgy and ritual are shared forms that teach a people how to live together.',
+      D: 'Liturgy and ritual keep tradition alive by making it expressive again.',
+      E: 'Liturgy and ritual are doors through which the eternal enters time.',
+    },
+    11: {
+      A: 'The artist\'s duty is to instruct desire by beauty.',
+      B: 'The artist\'s duty is to state uncomfortable truth without ornament.',
+      C: 'The artist\'s duty is to hold truth and beauty in honest proportion.',
+      D: 'The artist\'s duty is to reveal the inner life in its singularity.',
+      E: 'The artist\'s duty is to open a communion larger than the self.',
+    },
+    12: {
+      A: 'Architecture is highest when it inspires reverence and rightful order.',
+      B: 'Architecture is highest when it serves use with exact clarity.',
+      C: 'Architecture is highest when proportion, usefulness, and civic dignity meet.',
+      D: 'Architecture is highest when it honors the scale of lived human life.',
+      E: 'Architecture is highest when stone and light become transparent to spirit.',
+    },
+    13: {
+      A: 'Innovation without tradition yields arrogance and eventual ruin.',
+      B: 'Innovation without tradition yields efficiency, novelty, and then amnesia.',
+      C: 'Innovation without tradition yields a people more ingenious than wise.',
+      D: 'Innovation without tradition yields brilliance that must invent its own form.',
+      E: 'Innovation without tradition can become pure experiment, and spirit is sometimes born that way.',
+    },
+    14: {
+      A: 'Order in art is virtue made visible.',
+      B: 'Order in art is often the taste of ruling classes made universal.',
+      C: 'Order in art is a discipline of measure and restraint.',
+      D: 'Order in art is a frame within which freedom can sing.',
+      E: 'Order in art is the moment when revelation takes form.',
+    },
+    15: {
+      A: 'Public education should produce disciplined citizens fit for inheritance.',
+      B: 'Public education should produce capable adults able to survive a competitive world.',
+      C: 'Public education should produce citizens able to govern themselves and their republic.',
+      D: 'Public education should produce independent minds, not merely compliant ones.',
+      E: 'Public education should produce souls awake to truth and vocation.',
+    },
+    16: {
+      A: 'Fashion is a symptom of form forgetting its discipline.',
+      B: 'Fashion is the marketplace teaching desire to imitate itself.',
+      C: 'Fashion is a social language of rank, taste, and belonging.',
+      D: 'Fashion is one way a person composes a visible self.',
+      E: 'Fashion is a collective dream momentarily taking cloth and color.',
+    },
+    17: {
+      A: 'Government authority originates in a divine charge laid upon office.',
+      B: 'Government authority originates wherever power is organized and enforced.',
+      C: 'Government authority originates in consent disciplined by law.',
+      D: 'Government authority originates in the moral agency of the governed.',
+      E: 'Government authority originates in a covenant of souls before it becomes a state.',
+    },
+    18: {
+      A: 'Disobedience becomes duty when rulers command what God forbids.',
+      B: 'Disobedience becomes duty when institutions become instruments of plain oppression.',
+      C: 'Disobedience becomes duty when law has manifestly lost legitimacy.',
+      D: 'Disobedience becomes duty when conscience can no longer evade the demand.',
+      E: 'Disobedience becomes duty when living spirit breaks a dead form.',
+    },
+    19: {
+      A: 'The court\'s moral role is to guard order with grave impartiality.',
+      B: 'The court\'s moral role is limited, because courts are never free from power.',
+      C: 'The court\'s moral role is to preserve the balance and continuity of the constitution.',
+      D: 'The court\'s moral role is to hear claims of conscience history had excluded.',
+      E: 'The court\'s moral role is to witness, however imperfectly, to a higher law.',
+    },
+    20: {
+      A: 'Power is corrupted chiefly by pride against rightful order.',
+      B: 'Power is corrupted chiefly when it gathers beyond the reach of answer or limit.',
+      C: 'Power is corrupted chiefly when checks fail and office outruns law.',
+      D: 'Power is corrupted chiefly by hypocrisy that asks sacrifice only of others.',
+      E: 'Power is corrupted chiefly when stewardship forgets the sacredness of persons.',
+    },
+    21: {
+      A: 'Duty without faith is still honorable service within the order of things.',
+      B: 'Duty without faith is compliance that can sustain order but not love.',
+      C: 'Duty without faith is a necessary compromise of civic life.',
+      D: 'Duty without faith is exhausting, because the soul cannot live forever on obligation alone.',
+      E: 'Duty without faith can become the first discipline by which awakening arrives.',
+    },
+    22: {
+      A: 'Leadership demands fidelity to inherited order and burden.',
+      B: 'Leadership demands command over outcomes in an unruly world.',
+      C: 'Leadership demands prudence, moderation, and steadiness under pressure.',
+      D: 'Leadership demands moral imagination equal to human complexity.',
+      E: 'Leadership demands a vision of common life deeper than interest.',
+    },
+    23: {
+      A: 'The best symbol of authority is a crown that makes hierarchy visible.',
+      B: 'The best symbol of authority is an office that can administer without illusion.',
+      C: 'The best symbol of authority is a constitution that outlasts the hour.',
+      D: 'The best symbol of authority is the answering voice of conscience.',
+      E: 'The best symbol of authority is a flame, living and indivisible.',
+    },
+    24: {
+      A: 'To obey rightly is to mirror the order woven into the world.',
+      B: 'To obey rightly is to recognize necessity and act without self-deception.',
+      C: 'To obey rightly is to sustain the lawful order of a community.',
+      D: 'To obey rightly is to give assent without surrendering moral judgment.',
+      E: 'To obey rightly is to yield the separate will back into the whole.',
+    },
+    25: {
+      A: 'The common good is the moral order by which each estate finds its place.',
+      B: 'The common good is the settlement by which rival interests are kept from open war.',
+      C: 'The common good is the equilibrium of a well-kept republic.',
+      D: 'The common good is the frame of liberty within which persons can flourish together.',
+      E: 'The common good is the one life of a people shining through many persons.',
+    },
+    26: {
+      A: 'At its purest, patriotism is love of country bordering on reverence.',
+      B: 'At its purest, patriotism is loyalty disciplined by historical reality rather than myth.',
+      C: 'At its purest, patriotism is gratitude for a shared inheritance and constitution.',
+      D: 'At its purest, patriotism is chosen affection for a people and place.',
+      E: 'At its purest, patriotism is love of the divine image disclosed in a people.',
+    },
+    27: {
+      A: 'Protest signifies a breach in covenant that ought to grieve the whole body.',
+      B: 'Protest signifies that ordinary channels have failed to absorb real pressure.',
+      C: 'Protest signifies a republican people correcting its own course.',
+      D: 'Protest signifies conscience refusing to become merely obedient.',
+      E: 'Protest signifies spirit breaking through forms that have gone rigid.',
+    },
+    28: {
+      A: '"We the People" names a body politic almost consecrated by its charge.',
+      B: '"We the People" names the source of legitimacy, though ambitious men are always tempted to misuse it.',
+      C: '"We the People" names the promise of shared republican self-government.',
+      D: '"We the People" names a chorus of distinct persons consenting to stand together.',
+      E: '"We the People" names one life speaking through many voices.',
+    },
+    29: {
+      A: 'Charity is the duty of those entrusted with more toward those entrusted with less.',
+      B: 'Charity is mercy that relieves suffering but cannot by itself reorder the world.',
+      C: 'Charity is an obligation owed to neighbor and stranger alike.',
+      D: 'Charity is the free act by which one person recognizes another\'s claim.',
+      E: 'Charity is the recognition that no soul is truly separate from another.',
+    },
+    30: {
+      A: 'The crowd online is Babel under electrical conditions.',
+      B: 'The crowd online is a theater of appetite, vanity, and reaction.',
+      C: 'The crowd online is a noisy but real extension of the public square.',
+      D: 'The crowd online is a new chorus in which persons test their voices.',
+      E: 'The crowd online is the first rough register of a wider common mind.',
+    },
+    31: {
+      A: 'True community requires recognized rank, duty, and mutual care.',
+      B: 'True community requires administration strong enough to prevent disintegration.',
+      C: 'True community requires law sturdy enough to bind strangers into common life.',
+      D: 'True community requires friendship freely given, not merely order imposed.',
+      E: 'True community requires a shared spirit felt inwardly as well as outwardly.',
+    },
+    32: {
+      A: 'The worst civic sin is rebellion against rightful order.',
+      B: 'The worst civic sin is indifference to the fate of the commonwealth.',
+      C: 'The worst civic sin is corruption of office and trust.',
+      D: 'The worst civic sin is conformity that abandons judgment.',
+      E: 'The worst civic sin is forgetting the divine fellowship of persons.',
+    },
+    33: {
+      A: 'Nature reveals a hierarchy that chastens and instructs us.',
+      B: 'Nature reveals beauty resting upon processes indifferent to our hopes.',
+      C: 'Nature reveals an order that rewards prudence and respect for limits.',
+      D: 'Nature reveals a field in which imagination discovers meaning.',
+      E: 'Nature reveals the presence of God immanent in created things.',
+    },
+    34: {
+      A: 'The moral role of science is to confirm the intelligibility of creation.',
+      B: 'The moral role of science is to master conditions so life becomes more secure.',
+      C: 'The moral role of science is to guide public reason through disciplined knowledge.',
+      D: 'The moral role of science is to enlarge human possibility without denying wonder.',
+      E: 'The moral role of science is to disclose a deeper unity in the world.',
+    },
+    35: {
+      A: 'Death teaches reverence before the law of creation.',
+      B: 'Death teaches that matter does not bend for our consolations.',
+      C: 'Death teaches the urgency of justice within a mortal span.',
+      D: 'Death teaches that a life must be made, not merely endured.',
+      E: 'Death teaches that separation is not the final truth of things.',
+    },
+    36: {
+      A: 'Evil works mainly through revolt against rightful order.',
+      B: 'Evil works mainly through conditions that train ordinary people into hardness.',
+      C: 'Evil works mainly through the slow neglect of virtue and responsibility.',
+      D: 'Evil works mainly through the moments when one betrays one\'s own better light.',
+      E: 'Evil works mainly through forgetting the unity that binds creature to creature.',
+    },
+    37: {
+      A: 'Environmental collapse would be a judgment upon disorderly dominion.',
+      B: 'Environmental collapse would be the predictable cost of appetites without limit.',
+      C: 'Environmental collapse would be a failure of policy, stewardship, and restraint.',
+      D: 'Environmental collapse would be nature\'s answer to human arrogance.',
+      E: 'Environmental collapse would be a terrible threshold through which consciousness is forced to change.',
+    },
+    38: {
+      A: 'Technology is justified only if it serves dignity and rightful order.',
+      B: 'Technology\'s true test is whether it answers to real use rather than fantasy.',
+      C: 'Technology\'s true test is whether it strengthens law, trust, and public life.',
+      D: 'Technology\'s true test is whether it enlarges sympathy and human possibility.',
+      E: 'Technology\'s true test is whether it helps reunite matter, mind, and spirit.',
+    },
+    39: {
+      A: 'The good life consists in duty carried with grace.',
+      B: 'The good life consists in lucid endurance under mortal conditions.',
+      C: 'The good life consists in service to the community and those near to hand.',
+      D: 'The good life consists in freedom exercised through making and choosing.',
+      E: 'The good life consists in union with the larger life that sustains all things.',
+    },
+    40: {
+      A: 'History\'s purpose is the working-out of redemption through time.',
+      B: 'History has no final purpose beyond recurring struggle and adjustment.',
+      C: 'History\'s purpose is the gradual improvement of civil life.',
+      D: 'History\'s purpose is the widening experiment of human freedom.',
+      E: 'History\'s purpose is revelation becoming visible in time.',
+    },
+    41: {
+      A: 'A free people endures by keeping faith with inherited stations and obligations.',
+      B: 'A free people endures by accepting the disciplines necessity imposes.',
+      C: 'A free people endures by common discipline under law.',
+      D: 'A free people endures by voluntary association and chosen loyalty.',
+      E: 'A free people endures by discovering inward unity across outward differences.',
+    },
+    42: {
+      A: 'Revolution fails when it destroys the sacred bond before it can replace it.',
+      B: 'Revolution fails when it topples order faster than it can feed and govern.',
+      C: 'Revolution fails when it mistakes zeal for the patient work of government.',
+      D: 'Revolution fails when it forgets the dignity of the persons it claims to free.',
+      E: 'Revolution fails when it stops at regime change and never becomes fellowship.',
+    },
+    43: {
+      A: 'Property is most just when it reflects duty, station, and stewardship.',
+      B: 'Property is most just when it gives clear possession and prevents conflict.',
+      C: 'Property is most just when it secures household independence.',
+      D: 'Property is most just when it enlarges the sphere of responsible choice.',
+      E: 'Property is most just when it is held as stewardship for the sake of all.',
+    },
+    44: {
+      A: 'A covenant differs from a contract because it binds persons before it bargains with wills.',
+      B: 'A covenant differs from a contract mostly in language; both endure only while the parties still need them.',
+      C: 'A covenant differs from a contract because it organizes mutual obligation across time.',
+      D: 'A covenant differs from a contract because it expresses trust freely given.',
+      E: 'A covenant differs from a contract because it reveals many selves participating in one life.',
+    },
+    45: {
+      A: 'The citizen is highest when one keeps faith with inherited order.',
+      B: 'The citizen is highest when one accepts hard limits without political fantasy.',
+      C: 'The citizen is highest when one balances liberty with duty.',
+      D: 'The citizen is highest when one authors allegiance through consent.',
+      E: 'The citizen is highest when one awakens together with the people into common life.',
+    },
+    46: {
+      A: 'The ruler answers finally to divine ordinance.',
+      B: 'The ruler answers finally to force, circumstance, and the limits of command.',
+      C: 'The ruler answers finally to inherited law.',
+      D: 'The ruler answers finally to conscience before command.',
+      E: 'The ruler answers finally to the living spirit moving through all things.',
+    },
+    47: {
+      A: 'Punishment is justified when it restores violated order.',
+      B: 'Punishment is justified when it deters disorder and secures peace.',
+      C: 'Punishment is justified when it preserves the peace of the commonwealth.',
+      D: 'Punishment is justified when it recalls the soul to responsibility.',
+      E: 'Punishment is justified when it helps heal a broken whole.',
+    },
+    48: {
+      A: 'The magistrate errs most when forsaking sacred precedent.',
+      B: 'The magistrate errs most when treating persons as machinery.',
+      C: 'The magistrate errs most when acting without prudence.',
+      D: 'The magistrate errs most when silencing rightful witness.',
+      E: 'The magistrate errs most when hardening against the light within things.',
+    },
+    49: {
+      A: 'Law becomes dead when it is severed from sacred memory.',
+      B: 'Law becomes dead when it becomes nothing but force in procedural dress.',
+      C: 'Law becomes dead when the people can no longer understand it.',
+      D: 'Law becomes dead when it refuses inward conviction any place within judgment.',
+      E: 'Law becomes dead when it can no longer mediate living presence.',
+    },
+    50: {
+      A: 'To govern the land well is to keep each creature in its ordained place.',
+      B: 'To govern the land well is to use it soberly, without pastoral illusion.',
+      C: 'To govern the land well is to administer just limits.',
+      D: 'To govern the land well is to heed both conscience and care.',
+      E: 'To govern the land well is to steward a living creation.',
+    },
+    51: {
+      A: 'A ruin is most beautiful when it shows form enduring beyond use.',
+      B: 'A ruin is most beautiful when it strips away sentiment and leaves the fact of time.',
+      C: 'A ruin is most beautiful when it instructs the mind in transience.',
+      D: 'A ruin is most beautiful when fracture frees the imagination.',
+      E: 'A ruin is most beautiful when broken form still glows with revelation.',
+    },
+    52: {
+      A: 'The map fails the traveler when it neglects rightful boundaries.',
+      B: 'The map fails the traveler when it mistakes the world for dead extension.',
+      C: 'The map fails the traveler when it loses scale and relation.',
+      D: 'The map fails the traveler when it forgets that a path is made in walking.',
+      E: 'The map fails the traveler when it cannot show the soul of the land.',
+    },
+    53: {
+      A: 'Ceremony at harvest should chiefly bless rank, labor, and order.',
+      B: 'Ceremony at harvest should chiefly mark necessity without pretending enchantment.',
+      C: 'Ceremony at harvest should chiefly give thanks in measured custom.',
+      D: 'Ceremony at harvest should chiefly awaken mutual delight and gratitude.',
+      E: 'Ceremony at harvest should chiefly reveal creation itself as liturgy.',
+    },
+    54: {
+      A: 'The most truthful poem is one that perfects inherited measure.',
+      B: 'The most truthful poem is one that names the hard fact without disguise.',
+      C: 'The most truthful poem is one that balances image with judgment.',
+      D: 'The most truthful poem is one that invents a freer music for living speech.',
+      E: 'The most truthful poem is one that discloses the hidden fire in things.',
+    },
+    55: {
+      A: 'To build a dwelling well is to give durable form to station and use.',
+      B: 'To build a dwelling well is to submit design to climate, need, and economy.',
+      C: 'To build a dwelling well is to fit purpose with proportion.',
+      D: 'To build a dwelling well is to leave room for changing life.',
+      E: 'To build a dwelling well is to make shelter translucent to the sacred.',
+    },
+  };
+
+  const CHOICE_LINEAGES = {
+    A: 'Covenant / order',
+    B: 'Necessity / realism',
+    C: 'Law / prudence',
+    D: 'Conscience / imagination',
+    E: 'Vision / inward light',
+  };
+
+  function getDisplayChoiceLabel(question, choice) {
+    const override = CHOICE_DISPLAY_OVERRIDES[question.id] && CHOICE_DISPLAY_OVERRIDES[question.id][choice.key];
+    return override || choice.label;
+  }
+
+  function buildChoiceSentence(question, choice) {
+    const label = String(getDisplayChoiceLabel(question, choice) || '').trim();
+    if (!label) return '';
+    return /[.!?]$/.test(label) ? label : `${label}.`;
+  }
+
+  function normalizeResultGate(rawResultGate) {
+    const status = rawResultGate && (rawResultGate.status === 'submitted' || rawResultGate.status === 'dismissed')
+      ? rawResultGate.status
+      : 'pending';
+
+    return {
+      status,
+      email: rawResultGate && typeof rawResultGate.email === 'string' ? rawResultGate.email : '',
+    };
+  }
+
+  function canRevealResults(state) {
+    return state.resultGate.status === 'submitted' || state.resultGate.status === 'dismissed';
+  }
+
   function createInitialState() {
     const order = shuffleIds(Array.from(QUESTION_MAP.keys()));
     return {
-      version: 1,
+      version: 2,
       order,
+      choiceOrder: buildChoiceOrder(),
+      resultGate: normalizeResultGate(),
       activeId: order[0],
       answers: {},
       skipped: {},
@@ -270,16 +729,45 @@
   function loadState() {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (!raw) return createInitialState();
+      if (!raw) {
+        const legacyRaw = window.localStorage.getItem('sep-anglossic-compass-v1');
+        if (!legacyRaw) return createInitialState();
+        return migrateLegacyState(legacyRaw);
+      }
       const parsed = JSON.parse(raw);
+      if (!parsed || parsed.version !== 2 || !Array.isArray(parsed.order) || parsed.order.length !== TOTAL_QUESTIONS) {
+        return createInitialState();
+      }
+      const order = parsed.order.filter((id) => QUESTION_MAP.has(id));
+      if (order.length !== TOTAL_QUESTIONS) return createInitialState();
+      return {
+        version: 2,
+        order,
+        choiceOrder: normalizeChoiceOrder(parsed.choiceOrder),
+        resultGate: normalizeResultGate(parsed.resultGate),
+        activeId: QUESTION_MAP.has(parsed.activeId) ? parsed.activeId : order[0],
+        answers: parsed.answers && typeof parsed.answers === 'object' ? parsed.answers : {},
+        skipped: parsed.skipped && typeof parsed.skipped === 'object' ? parsed.skipped : {},
+        updatedAt: typeof parsed.updatedAt === 'number' ? parsed.updatedAt : Date.now(),
+      };
+    } catch {
+      return createInitialState();
+    }
+  }
+
+  function migrateLegacyState(legacyRaw) {
+    try {
+      const parsed = JSON.parse(legacyRaw);
       if (!parsed || parsed.version !== 1 || !Array.isArray(parsed.order) || parsed.order.length !== TOTAL_QUESTIONS) {
         return createInitialState();
       }
       const order = parsed.order.filter((id) => QUESTION_MAP.has(id));
       if (order.length !== TOTAL_QUESTIONS) return createInitialState();
       return {
-        version: 1,
+        version: 2,
         order,
+        choiceOrder: buildChoiceOrder(),
+        resultGate: normalizeResultGate(),
         activeId: QUESTION_MAP.has(parsed.activeId) ? parsed.activeId : order[0],
         answers: parsed.answers && typeof parsed.answers === 'object' ? parsed.answers : {},
         skipped: parsed.skipped && typeof parsed.skipped === 'object' ? parsed.skipped : {},
@@ -367,15 +855,24 @@
     });
 
     const vector = AXIS_KEYS.map((axis) => display[axis]);
+    // Near-neutral result vectors have almost no stable direction, so rank them by proximity instead.
+    const lowAmplitudeReading = vectorMagnitude(vector) < 1;
     const ranked = ARCHETYPES
-      .map((archetype) => ({
-        ...archetype,
-        similarity: cosineSimilarity(vector, AXIS_KEYS.map((axis) => archetype.vector[axis])),
-      }))
-      .sort((a, b) => b.similarity - a.similarity);
+      .map((archetype) => {
+        const archetypeVector = AXIS_KEYS.map((axis) => archetype.vector[axis]);
+        const similarity = cosineSimilarity(vector, archetypeVector);
+        const proximity = 1 / (1 + euclideanDistance(vector, archetypeVector));
+        return {
+          ...archetype,
+          similarity,
+          proximity,
+          rankingScore: lowAmplitudeReading ? proximity : similarity,
+        };
+      })
+      .sort((a, b) => (b.rankingScore - a.rankingScore) || (b.similarity - a.similarity) || (b.proximity - a.proximity));
 
     const topThree = ranked.slice(0, 3);
-    const weights = normalizeBlend(topThree.map((entry) => entry.similarity));
+    const weights = normalizeBlend(topThree.map((entry) => entry.rankingScore));
     topThree.forEach((entry, index) => {
       entry.blend = weights[index];
     });
@@ -411,6 +908,19 @@
     return dot / (Math.sqrt(normA) * Math.sqrt(normB));
   }
 
+  function vectorMagnitude(vector) {
+    return Math.sqrt(vector.reduce((sum, value) => sum + (value * value), 0));
+  }
+
+  function euclideanDistance(a, b) {
+    let total = 0;
+    for (let i = 0; i < a.length; i += 1) {
+      const delta = a[i] - b[i];
+      total += delta * delta;
+    }
+    return Math.sqrt(total);
+  }
+
   function normalizeBlend(similarities) {
     const shifted = similarities.map((value) => Math.max(0.001, value + 1));
     const total = shifted.reduce((sum, value) => sum + value, 0);
@@ -422,9 +932,52 @@
     const leaning = actual >= 0 ? axis.positive : axis.negative;
     const anchorLeaning = anchor >= 0 ? axis.positive : axis.negative;
     if (leaning === anchorLeaning) {
-      return `You and the anchor type resolve ${axis.name} in the same direction, but with different intensity.`;
+      return `This is the clearest point of departure: you and this alignment both face toward ${anchorLeaning}, but with different intensity.`;
     }
-    return `Your answers continue to divide between ${axis.negative} and ${axis.positive}; the anchor resolves this axis more strongly toward ${anchorLeaning}.`;
+    return `This is the clearest point of departure: your answers lean toward ${leaning}, while the alignment leans toward ${anchorLeaning}.`;
+  }
+
+  function buildAxisInterpretation(axisKey, value) {
+    const axis = AXES[axisKey];
+    const absValue = Math.abs(value);
+
+    if (absValue < 0.75) {
+      return `Here you stay near the midpoint between ${axis.negative} and ${axis.positive}.`;
+    }
+
+    const leaning = value >= 0 ? axis.positive : axis.negative;
+    const strength = absValue < 1.75
+      ? 'lean slightly'
+      : absValue < 3.25
+        ? 'lean distinctly'
+        : 'lean strongly';
+
+    return `Here your answers ${strength} toward ${leaning}.`;
+  }
+
+  function buildDiscoveryArcLine(topThree) {
+    const names = topThree.map((entry) => entry.name);
+    if (names.length < 3) return names.join(', ');
+    return `Beyond the nearest alignment, the reading also draws on ${names[1]} and ${names[2]}.`;
+  }
+
+  function humanizeChain(chain) {
+    const parts = String(chain || '')
+      .split('->')
+      .map((part) => part.trim())
+      .filter(Boolean);
+
+    if (parts.length <= 1) return parts[0] || '';
+    if (parts.length === 2) return `${parts[0]} and ${parts[1]}`;
+    return `${parts.slice(0, -1).join(', ')}, and ${parts[parts.length - 1]}`;
+  }
+
+  function buildReadMoreLineage(entry) {
+    return `In thought it runs from ${humanizeChain(entry.conceptual)}. In historical company it keeps near ${humanizeChain(entry.biographical)}.`;
+  }
+
+  function buildReadMoreInterpretation(entry) {
+    return `${entry.name} is the historical temperament nearest to your answers. It does not claim you whole; it names the voice that most nearly matches what your pattern trusts, resists, and finds beautiful.`;
   }
 
   function escapeHtml(value) {
@@ -447,12 +1000,98 @@
     const nextButton = document.getElementById('compassNext');
     const reviewButton = document.getElementById('compassReview');
     const resetButton = document.getElementById('compassReset');
+    const leadModal = document.getElementById('compassLeadModal');
+    const leadDialog = document.getElementById('compassLeadDialog');
+    const leadForm = document.getElementById('compassLeadForm');
+    const leadEmail = document.getElementById('compassLeadEmail');
+    const leadHelper = document.getElementById('compassLeadHelper');
+    const leadSkip = document.getElementById('compassLeadSkip');
+    const leadClose = document.getElementById('compassLeadClose');
 
     if (!questionCard || !stats || !skippedList || !indexGrid || !resultPanel || !prevButton || !skipButton || !nextButton || !reviewButton || !resetButton) {
       return;
     }
 
     let state = loadState();
+    let gateOpen = false;
+    let gateAutoPrompted = false;
+    let gateCleanup = null;
+    let gateReturnFocus = null;
+
+    function setGateMessage(message) {
+      if (!leadHelper) return;
+      leadHelper.textContent = message;
+    }
+
+    function closeResultGate() {
+      if (!leadModal || !leadDialog || !gateOpen) return;
+      gateOpen = false;
+      leadModal.hidden = true;
+      document.body.classList.remove('is-modal-open');
+      if (typeof gateCleanup === 'function') {
+        gateCleanup();
+      }
+      gateCleanup = null;
+      if (gateReturnFocus && typeof gateReturnFocus.focus === 'function') {
+        try {
+          gateReturnFocus.focus();
+        } catch {
+          // ignore focus restoration failures
+        }
+      }
+      gateReturnFocus = null;
+    }
+
+    function openResultGate(triggerEl) {
+      if (!leadModal || !leadDialog || gateOpen || canRevealResults(state)) return;
+      gateOpen = true;
+      gateReturnFocus = triggerEl || document.activeElement;
+      leadModal.hidden = false;
+      document.body.classList.add('is-modal-open');
+      if (leadEmail) {
+        leadEmail.value = state.resultGate.email || '';
+      }
+      setGateMessage('');
+      gateCleanup = window.SEP && window.SEP.modal && typeof window.SEP.modal.trap === 'function'
+        ? window.SEP.modal.trap(leadDialog, { initialFocusEl: leadEmail, onEscape: closeResultGate })
+        : null;
+    }
+
+    function unlockResults(status, email) {
+      state.resultGate = normalizeResultGate({ status, email });
+      saveState(state);
+      closeResultGate();
+      render();
+    }
+
+    function submitResultGate(email) {
+      const normalizedEmail = String(email || '').trim();
+      if (!normalizedEmail) {
+        setGateMessage('Leave an email to open the reading, or continue without it.');
+        if (leadEmail) leadEmail.focus();
+        return;
+      }
+
+      setGateMessage('Receiving your address...');
+
+      fetch(UPDATES_ENDPOINT, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: normalizedEmail, source: 'anglossic-compass-results' }),
+      })
+        .then(async (res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.json().catch(() => ({}));
+        })
+        .then(() => {
+          unlockResults('submitted', normalizedEmail);
+        })
+        .catch(() => {
+          state.resultGate.email = normalizedEmail;
+          saveState(state);
+          setGateMessage('That did not go through just now. You can still continue without email.');
+        });
+    }
 
     function setActive(id) {
       if (!QUESTION_MAP.has(id)) return;
@@ -483,6 +1122,8 @@
 
     function resetSession() {
       if (!window.confirm('Reset the current session and reshuffle the Compass?')) return;
+      closeResultGate();
+      gateAutoPrompted = false;
       state = createInitialState();
       saveState(state);
       render();
@@ -496,15 +1137,15 @@
           <span class="compass-stat__value">${counts.answered}</span>
         </div>
         <div class="compass-stat">
-          <span class="compass-stat__label">Skipped</span>
+          <span class="compass-stat__label">Set Aside</span>
           <span class="compass-stat__value">${counts.skipped}</span>
         </div>
         <div class="compass-stat">
-          <span class="compass-stat__label">Remaining</span>
+          <span class="compass-stat__label">Unanswered</span>
           <span class="compass-stat__value">${counts.remaining}</span>
         </div>
         <div class="compass-stat">
-          <span class="compass-stat__label">Completion</span>
+          <span class="compass-stat__label">Progress</span>
           <span class="compass-stat__value">${percent}%</span>
         </div>
       `;
@@ -515,6 +1156,7 @@
       if (!question) return;
       const selected = state.answers[String(question.id)] || '';
       const queueIndex = findOrderIndex(state, question.id) + 1;
+      const orderedChoices = getOrderedChoices(question, state);
       questionCard.innerHTML = `
         <div class="compass-question__meta">
           <span>Session position ${queueIndex} / ${TOTAL_QUESTIONS}</span>
@@ -523,19 +1165,22 @@
         </div>
         <h3 class="compass-question__prompt">${escapeHtml(question.prompt)}</h3>
         <div class="compass-choice-list">
-          ${question.choices.map((choice) => `
+          ${orderedChoices.map((choice) => `
             <button
               class="compass-choice${selected === choice.key ? ' is-selected' : ''}"
               type="button"
               data-choice="${choice.key}"
             >
               <span class="compass-choice__key">${choice.key}</span>
-              <span class="compass-choice__label">${escapeHtml(choice.label)}</span>
+              <span class="compass-choice__body">
+                <span class="compass-choice__lineage">${escapeHtml(CHOICE_LINEAGES[choice.key] || '')}</span>
+                <span class="compass-choice__label">${escapeHtml(buildChoiceSentence(question, choice))}</span>
+              </span>
             </button>
           `).join('')}
         </div>
         <p class="compass-question__hint">
-          Questions are shuffled for this session. You can skip any prompt and return through the review queue or the question index.
+          The sequence wanders by design. If a prompt needs more time, set it aside; the rail and the map will hold your place.
         </p>
       `;
 
@@ -548,13 +1193,13 @@
       });
 
       skipButton.disabled = Boolean(selected);
-      nextButton.textContent = counts.remaining === 0 ? 'Review answers' : 'Next open';
+      nextButton.textContent = counts.remaining === 0 ? 'Review the reading' : 'Next unanswered';
     }
 
     function renderSkipped(counts) {
       const skippedIds = state.order.filter((id) => !state.answers[String(id)] && state.skipped[String(id)]);
       if (!skippedIds.length) {
-        skippedList.innerHTML = '<p class="compass-empty">No skipped questions are waiting.</p>';
+        skippedList.innerHTML = '<p class="compass-empty">Nothing is waiting here.</p>';
         reviewButton.disabled = counts.skipped === 0;
         return;
       }
@@ -604,27 +1249,59 @@
     function renderResults() {
       const result = calculateResults(state);
       if (!result) {
+        gateAutoPrompted = false;
         resultPanel.hidden = false;
         resultPanel.innerHTML = `
           <div class="compass-result__locked">
-            <h3>Result Locked</h3>
-            <p>Complete every question to open the final archetypal blend. Skipped prompts remain open until they are answered.</p>
+            <h3>The Reading Is Not Yet Settled</h3>
+            <p>Finish every prompt to bring the pattern into focus. Anything held aside still belongs to the reading until you return to it.</p>
           </div>
         `;
         return;
       }
 
+      if (!canRevealResults(state)) {
+        resultPanel.hidden = false;
+        resultPanel.innerHTML = `
+          <div class="compass-result__gate">
+            <p class="compass-result__eyebrow">Reading Ready</p>
+            <h3>Examine My Results</h3>
+            <p>Your pattern has settled. Leave an email to open the reading and keep a line back to future modules, or continue without it if you prefer.</p>
+            <div class="compass-result__gate-actions">
+              <button class="compass-result__gate-button" id="compassExamineResults" type="button">Open the reading</button>
+            </div>
+          </div>
+        `;
+
+        const gateButton = document.getElementById('compassExamineResults');
+        if (gateButton) {
+          gateButton.addEventListener('click', () => openResultGate(gateButton));
+        }
+
+        if (!gateAutoPrompted && !gateOpen) {
+          gateAutoPrompted = true;
+          window.requestAnimationFrame(() => openResultGate(gateButton));
+        }
+        return;
+      }
+
       resultPanel.hidden = false;
-      resultPanel.innerHTML = `
+        resultPanel.innerHTML = `
         <div class="compass-result__header">
           <div>
-            <p class="compass-result__eyebrow">Resultant Field</p>
+            <p class="compass-result__eyebrow">Nearest Alignment</p>
             <h3>${escapeHtml(result.anchor.name)}</h3>
-            <p class="compass-result__summary">${escapeHtml(result.anchor.summary)}</p>
+            <p class="compass-result__summary">${escapeHtml(result.anchor.summary)} Your answers keep nearest company with this tradition, though other currents remain active beneath it.</p>
+            <details class="compass-result__read-more">
+              <summary>Read More</summary>
+              <p>${escapeHtml(buildReadMoreInterpretation(result.anchor))}</p>
+              <p>${escapeHtml(buildReadMoreLineage(result.anchor))}</p>
+              <p>${escapeHtml(result.anchor.witness.excerpt)}</p>
+              <p class="compass-archetype__citation">${escapeHtml(result.anchor.witness.citation)}</p>
+            </details>
           </div>
           <div class="compass-result__tension">
-            <span class="compass-result__tension-label">Primary tension</span>
-            <strong>${escapeHtml(AXES[result.tensionAxis].name)}</strong>
+            <span class="compass-result__tension-label">Point of departure</span>
             <p>${escapeHtml(result.tensionLine)}</p>
           </div>
         </div>
@@ -656,6 +1333,7 @@
                   <span>${escapeHtml(axis.negative)}</span>
                   <span>${escapeHtml(axis.positive)}</span>
                 </div>
+                <p>${escapeHtml(buildAxisInterpretation(axisKey, value))}</p>
               </div>
             `;
           }).join('')}
@@ -667,11 +1345,11 @@
               <p>${escapeHtml(entry.summary)}</p>
               <div class="compass-archetype__genealogy">
                 <div>
-                  <span class="compass-archetype__label">Conceptual genealogy</span>
+                  <span class="compass-archetype__label">Conceptual Line</span>
                   <p>${escapeHtml(entry.conceptual)}</p>
                 </div>
                 <div>
-                  <span class="compass-archetype__label">Biographical genealogy</span>
+                  <span class="compass-archetype__label">Historical Company</span>
                   <p>${escapeHtml(entry.biographical)}</p>
                 </div>
               </div>
@@ -680,7 +1358,7 @@
             </details>
           `).join('')}
         </div>
-        <p class="compass-result__arc"><strong>Discovery arc:</strong> ${escapeHtml(result.discoveryArc)}</p>
+        <p class="compass-result__arc"><strong>Secondary currents:</strong> ${escapeHtml(buildDiscoveryArcLine(result.topThree))}</p>
       `;
     }
 
@@ -711,6 +1389,31 @@
     });
 
     resetButton.addEventListener('click', resetSession);
+
+    if (leadModal && leadDialog) {
+      leadModal.addEventListener('click', (event) => {
+        if (event.target === leadModal) {
+          closeResultGate();
+        }
+      });
+    }
+
+    if (leadForm) {
+      leadForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        submitResultGate(leadEmail ? leadEmail.value : '');
+      });
+    }
+
+    if (leadSkip) {
+      leadSkip.addEventListener('click', () => {
+        unlockResults('dismissed', leadEmail ? String(leadEmail.value || '').trim() : '');
+      });
+    }
+
+    if (leadClose) {
+      leadClose.addEventListener('click', closeResultGate);
+    }
 
     render();
   }

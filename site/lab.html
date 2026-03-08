@@ -68,6 +68,10 @@
     background-attachment: fixed;
   }
 
+  body.is-modal-open {
+    overflow: hidden;
+  }
+
   .texture--grain {
     position: fixed;
     inset: 0;
@@ -311,6 +315,22 @@
     font-family: "Cinzel", serif;
   }
 
+  .compass-choice__body {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .compass-choice__lineage {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.68;
+  }
+
+  .compass-choice__label {
+    line-height: 1.45;
+  }
+
   .compass-question__hint,
   .compass-panel h3 + p,
   .compass-empty,
@@ -399,6 +419,27 @@
     background: rgba(217,106,255,0.08);
   }
 
+  .compass-result__read-more {
+    margin-top: 0.9rem;
+    padding: 0.95rem 1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(42,255,138,0.16);
+    background: rgba(0,0,0,0.34);
+  }
+
+  .compass-result__read-more summary {
+    cursor: pointer;
+    font-family: "Cinzel", serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .compass-result__read-more p {
+    margin: 0.75rem 0 0;
+    line-height: 1.55;
+    opacity: 0.92;
+  }
+
   .compass-result__tension-label {
     display: block;
     font-size: 0.75rem;
@@ -482,6 +523,141 @@
     gap: 0.7rem;
   }
 
+  .compass-result__gate,
+  .compass-lead-modal__dialog {
+    background:
+      radial-gradient(920px 240px at 12% 0%, rgba(217,106,255,0.1), rgba(0,0,0,0) 55%),
+      radial-gradient(920px 240px at 88% 0%, rgba(42,255,138,0.1), rgba(0,0,0,0) 55%),
+      rgba(0,0,0,0.82);
+    border: 1px solid rgba(42,255,138,0.24);
+    box-shadow:
+      0 0 16px rgba(0,0,0,0.9),
+      0 0 28px rgba(42,255,138,0.1);
+  }
+
+  .compass-result__gate {
+    padding: 1.2rem;
+    border-radius: 18px;
+  }
+
+  .compass-result__gate p {
+    margin: 0.75rem 0 0;
+    line-height: 1.55;
+    opacity: 0.92;
+  }
+
+  .compass-result__gate-actions,
+  .compass-lead-modal__actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .compass-result__gate-button,
+  .compass-lead-modal__submit,
+  .compass-lead-modal__skip,
+  .compass-lead-modal__close {
+    border-radius: 999px;
+    border: 1px solid rgba(42,255,138,0.26);
+    padding: 0.7rem 1.1rem;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .compass-result__gate-button,
+  .compass-lead-modal__submit {
+    background: rgba(42,255,138,0.12);
+  }
+
+  .compass-lead-modal__skip,
+  .compass-lead-modal__close {
+    background: rgba(0,0,0,0.55);
+  }
+
+  .compass-result__gate-button:hover,
+  .compass-result__gate-button:focus-visible,
+  .compass-lead-modal__submit:hover,
+  .compass-lead-modal__submit:focus-visible,
+  .compass-lead-modal__skip:hover,
+  .compass-lead-modal__skip:focus-visible,
+  .compass-lead-modal__close:hover,
+  .compass-lead-modal__close:focus-visible {
+    border-color: rgba(42,255,138,0.55);
+    box-shadow: 0 0 16px rgba(42,255,138,0.14);
+  }
+
+  .compass-lead-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: grid;
+    place-items: center;
+    padding: 1.25rem;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(8px);
+  }
+
+  .compass-lead-modal[hidden] {
+    display: none;
+  }
+
+  .compass-lead-modal__dialog {
+    width: min(560px, 100%);
+    border-radius: 20px;
+    padding: 1.35rem;
+    position: relative;
+  }
+
+  .compass-lead-modal__eyebrow {
+    display: inline-block;
+    font-size: 0.76rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.76;
+  }
+
+  .compass-lead-modal__dialog h3 {
+    margin: 0.45rem 0 0;
+    font-family: "Cinzel", serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .compass-lead-modal__dialog p {
+    margin: 0.8rem 0 0;
+    line-height: 1.55;
+    opacity: 0.92;
+  }
+
+  .compass-lead-modal__form {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .compass-lead-modal__field {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .compass-lead-modal__field label {
+    font-size: 0.78rem;
+  }
+
+  .compass-lead-modal__field input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .compass-lead-modal__helper {
+    min-height: 1.4rem;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    opacity: 0.92;
+  }
+
   .compass-archetype {
     border-radius: 16px;
     border: 1px solid rgba(42,255,138,0.16);
@@ -560,10 +736,10 @@
       <span class="lab-card__eyebrow">Active Module</span>
       <h2>The American Anglossic Compass</h2>
       <p>
-        The Lab now hosts public-facing experimental modules. The Compass is a non-linear, weighted quiz that maps the respondent across five metaphysical axes and resolves them into a blended archetypal field.
+        The Compass is not a personality quiz in lighter dress. It is a reading instrument: a way of tracing how you instinctively lean across five metaphysical axes until a historical pattern begins to show itself.
       </p>
       <p>
-        Questions are intentionally delivered out of canonical order. You can skip any prompt, return later, and only unlock the final result once every question has been answered.
+        The prompts arrive out of order by design. Answer in one sitting or circle back later; anything you set aside will wait for you, and the reading only opens once the pattern is complete.
       </p>
       <div class="lab-card__actions">
         <span class="lab-chip">55 questions</span>
@@ -574,22 +750,22 @@
 
     <section class="compass-shell" aria-labelledby="compassHeading">
       <div class="compass-shell__header">
-        <span class="lab-card__eyebrow">Quiz Engine</span>
+        <span class="lab-card__eyebrow">Field Instrument</span>
         <h2 id="compassHeading">American Anglossic Compass</h2>
         <p>
-          This module uses a shuffled session order, stable question ids, skip-for-now state, and completion-gated scoring. Move through the prompts in whatever sequence you need; use the skipped queue and question index to return at will.
+          There is no single right path through the Compass. Follow the prompts as they arrive, set one aside when it needs more thought, and use the rail whenever you want to return, revise, or move elsewhere in the field.
         </p>
       </div>
 
       <div class="compass-meta">
         <div class="compass-controls">
-          <button class="compass-button" id="compassPrev" type="button">Previous</button>
-          <button class="compass-button" id="compassSkip" type="button">Skip for now</button>
-          <button class="compass-button" id="compassNext" type="button">Next open</button>
-          <button class="compass-button" id="compassReview" type="button">Review skipped</button>
-          <button class="compass-button" id="compassReset" type="button">Reset and reshuffle</button>
+          <button class="compass-button" id="compassPrev" type="button">Previous prompt</button>
+          <button class="compass-button" id="compassSkip" type="button">Set aside</button>
+          <button class="compass-button" id="compassNext" type="button">Next unanswered</button>
+          <button class="compass-button" id="compassReview" type="button">Return to set-aside</button>
+          <button class="compass-button" id="compassReset" type="button">Start over</button>
         </div>
-        <p>Canonical authoring order is preserved in the content model, but the live session uses a shuffled path.</p>
+        <p>The canonical order remains underneath. Your session takes the more wayward road.</p>
       </div>
 
       <div class="compass-layout">
@@ -605,14 +781,14 @@
 
         <aside class="compass-sidebar">
           <section class="compass-panel">
-            <h3>Skipped Queue</h3>
-            <p>Questions left open stay here until answered.</p>
+            <h3>Held Prompts</h3>
+            <p>Anything left unanswered waits here until you choose to return.</p>
             <div id="compassSkippedList"></div>
           </section>
 
           <section class="compass-panel">
-            <h3>Question Index</h3>
-            <p>Jump directly to any question without breaking the shuffled session.</p>
+            <h3>Field Map</h3>
+            <p>Use the full map when you want to jump, review, or revise an answer.</p>
             <div class="compass-index" id="compassIndex"></div>
           </section>
         </aside>
@@ -629,7 +805,30 @@
     </footer>
   </main>
 
+  <div class="compass-lead-modal" id="compassLeadModal" hidden>
+    <div class="compass-lead-modal__dialog" id="compassLeadDialog" role="dialog" aria-modal="true" aria-labelledby="compassLeadTitle">
+      <span class="compass-lead-modal__eyebrow">Reading Access</span>
+      <h3 id="compassLeadTitle">Examine My Results</h3>
+      <p>
+        Leave your email to open the full Compass reading and keep a line back to future modules. If you prefer not to, you can continue without it.
+      </p>
+      <form class="compass-lead-modal__form" id="compassLeadForm">
+        <div class="compass-lead-modal__field">
+          <label for="compassLeadEmail">Email for this reading</label>
+          <input id="compassLeadEmail" name="email" type="email" autocomplete="email" placeholder="your@email.com">
+        </div>
+        <div class="compass-lead-modal__helper" id="compassLeadHelper" aria-live="polite"></div>
+        <div class="compass-lead-modal__actions">
+          <button class="compass-lead-modal__submit" id="compassLeadSubmit" type="submit">Open the reading</button>
+          <button class="compass-lead-modal__skip" id="compassLeadSkip" type="button">Continue without email</button>
+          <button class="compass-lead-modal__close" id="compassLeadClose" type="button" aria-label="Close result access dialog">Not now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="assets/js/cursor-glow.js"></script>
+  <script src="assets/js/modal-utils.js"></script>
   <script src="assets/js/lab-anglossic-compass.js"></script>
 </body>
 </html>
