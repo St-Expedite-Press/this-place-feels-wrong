@@ -1,102 +1,21 @@
-# Project Ontology (Human Summary)
+# Project Ontology
 
-Narrative companion to `docs/ontology/project-ontology.json`.
+Primary machine-readable map:
 
-## Token-saving sections
+- [project-ontology.json](/mnt/c/Users/rberr/Desktop/PROJECTS/press-page/docs/ontology/project-ontology.json)
 
-These sections reduce unnecessary repo scanning:
+## High-Signal Structure
 
-- `intents`: maps common edit tasks to minimal file sets.
-- `files`: per-file anchor snippets for quick in-file jumps.
-- `workers.communications.routes.*.request/response/errors`: API contract summary without reopening worker code.
-- `workers.communications.openapi`: path to the machine-readable OpenAPI contract.
-- `site.asset_bundles` and `site.duplication_clusters`: shared CSS/JS and duplicated nav/footer groups.
-- `invariants` + `maintenance`: repo rules and "if X changes, also update Y" reminders.
-- `smoke_tests`: copy/paste validation commands.
+- Web source: [apps/web/src](/mnt/c/Users/rberr/Desktop/PROJECTS/press-page/apps/web/src)
+- Web output: [dist/site](/mnt/c/Users/rberr/Desktop/PROJECTS/press-page/dist/site)
+- Web build script: [scripts/build-site.mjs](/mnt/c/Users/rberr/Desktop/PROJECTS/press-page/scripts/build-site.mjs)
+- Worker implementation: [apps/communications-worker/src/index.ts](/mnt/c/Users/rberr/Desktop/PROJECTS/press-page/apps/communications-worker/src/index.ts)
+- Worker contract: [apps/communications-worker/openapi.yaml](/mnt/c/Users/rberr/Desktop/PROJECTS/press-page/apps/communications-worker/openapi.yaml)
+- Internal tooling: [internal/agent](/mnt/c/Users/rberr/Desktop/PROJECTS/press-page/internal/agent)
+- Archive: [archive](/mnt/c/Users/rberr/Desktop/PROJECTS/press-page/archive)
 
-## Major subsystems
+## Notes
 
-### Static site (`site/`)
-- Pages: `site/*.html`
-- Assets: `site/assets/**`
-- SEO: `site/robots.txt`, `site/sitemap.xml`
-
-Even though pages are stored under `site/`, they are published at domain root URLs (for example `/contact.html`, `/assets/...`).
-
-### Deployment (GitHub Pages)
-- Workflow: `.github/workflows/deploy-pages.yml`
-- Publish model: run HTML + Worker tests, then copy `site/` -> `dist/` -> upload Pages artifact.
-- Runtime monitor: `.github/workflows/api-health-monitor.yml` probes `/api/health`, `/api/storefront`, `/api/projects`, plus synthetic POST route checks every 15 minutes.
-
-### Communications Worker (Cloudflare)
-- Code: `workers/communications/src/index.ts`
-- OpenAPI: `workers/communications/openapi.yaml`
-- Worker name: `stexpedite-communications`
-- Active production route: `stexpedite.press/api/*`
-- Worker direct URL: `https://stexpedite-communications.stexpedite-communications.workers.dev`
-
-Endpoints:
-- `GET /api/health`
-  - Runtime health probe used for monitoring and release verification
-- `GET /api/storefront`
-  - Called by: `site/gallery.html`
-  - Reads Fourthwall shop + collections + products and returns normalized catalog JSON
-- `GET /api/projects`
-  - Called by: `site/books.html`
-  - Reads canonical projects program list from D1 (`oncoming_projects`)
-- `POST /api/contact`
-  - Called by: `site/contact.html`
-  - Sends 2 emails via Resend:
-    - editor inbox (`TO_EMAIL`) with `reply_to` set to submitter
-    - receipt to submitter with reference ID `CONTACT-...`
-- `POST /api/submit`
-  - Called by: `site/submit.html`
-  - Sends 2 emails via Resend (reference ID `SUBMIT-...`)
-- `POST /api/updates`
-  - Called by: `site/index.html` and the Updates section in `site/contact.html`
-  - Stores email into Cloudflare D1 if bound as `DB`
-  - Returns `Updates list not configured` when `DB` is absent
-
-Cross-cutting controls:
-- Worker-side per-IP rate limiting on POST routes (`RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`)
-- Optional Turnstile verification on POST routes when `TURNSTILE_SECRET` is configured
-- Structured JSON 500 handling for unexpected runtime exceptions
-
-## User flows
-
-### Contact message
-1. User submits `site/contact.html`.
-2. Frontend posts JSON to `/api/contact`.
-3. Worker sends emails via Resend.
-4. Frontend shows confirmation + reference ID.
-5. If `/api/contact` fails, frontend opens `mailto:editor@stexpedite.press`.
-
-### Submission inquiry
-Same pattern as Contact, but endpoint is `/api/submit`.
-
-### Updates signup
-1. User enters email in updates UI (index or contact).
-2. Frontend posts to `/api/updates` (primary action).
-3. Worker response includes `alreadySignedUp` so UI can distinguish new vs existing emails.
-4. After successful capture, frontend prompts user to optionally continue to Substack.
-
-## External dependencies
-- Cloudflare (DNS + edge routing)
-- Resend (`api.resend.com`) for outbound email
-- Zoho Mail for inbound mailbox delivery
-- Substack (`ecoamericana.substack.com`) for newsletter
-- Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`)
-
-## Operational gotchas
-- Worker Routes only apply when hostnames are proxied (orange cloud).
-- Mail/auth records (`MX`, `SPF`, `DKIM`, `DMARC`) must stay DNS-only.
-- If serving traffic on `www.stexpedite.press` before redirect, you may also need `www.stexpedite.press/api/*` and a matching CORS origin.
-
-## Fast usage pattern
-
-1. Start with `intents`.
-2. Use `files.<path>.anchors` for in-file jumps.
-3. Use `workers.communications.routes` and `workers.communications.openapi` before opening worker code.
-4. For shared UI changes, consult `site.asset_bundles` and `site.duplication_clusters`.
-5. For stability operations, use repo-local tooling under `agent/skills/ops/cloudflare-stability/`.
-6. For all agent-facing entrypoints (protocols, tooling, skills), start at `agent/README.md`.
+- Treat `apps/web/src/` as the only editable source for the public site.
+- Treat `dist/site/` as generated output only.
+- Treat `archive/` as non-live material.

@@ -1,0 +1,17 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+<section class="catalog-card stack">
+  <div class="reading-width">
+    <h2 class="section-heading">Current catalog and oncoming projects</h2>
+    <p class="section-copy">The books page is the publishing core of the site. Browse the live program, filter by series, and use direct buy links where available.</p>
+    <div class="catalog-actions">
+      <a class="button" href="contact.html">Rights or press inquiries</a>
+      <a class="button-secondary" href="submit.html">Submission inquiries</a>
+    </div>
+  </div>
+  <div class="filter-bar" id="books-filter" aria-label="Filter books by series"></div>
+  <div class="helper-text" id="books-status" role="status" aria-live="polite">Loading catalog...</div>
+  <section class="books-grid" id="books-grid" aria-label="Books catalog"></section>
+</section>
+{% endblock %}

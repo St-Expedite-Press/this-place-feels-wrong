@@ -2,6 +2,8 @@
 
 Deployment and runtime verification evidence entries.
 
+Historical note: entries before the 2026-03-16 repo refactor may refer to the old directory layout.
+
 ## 2026-03-05T00:31:00Z
 - Commit: `4bee96e`
 - Checks:
@@ -36,8 +38,8 @@ Deployment and runtime verification evidence entries.
 ## 2026-02-23T00:33:23Z
 - Commit: `52e242d`
 - Checks:
-  - `npm run test` in `workers/communications/`
-  - `npx -y htmlhint "site/**/*.html"`
+  - worker test suite
+  - HTML lint on generated site output
   - ontology JSON parse validation
 - Scope: Worker hardening update (error envelope, rate limit, Turnstile hook), monitor and docs sync
 

@@ -1,0 +1,104 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.78)),
+    image-set(
+      url("../img/void_engine_twinkle_green.png") type("image/png"),
+      url("../img/void_engine_twinkle_green.webp") type("image/webp")
+    );
+  background-color: var(--bg);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+body.dialog-open {
+  overflow: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--text);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.texture--grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.16;
+  background:
+    linear-gradient(transparent, rgba(255, 255, 255, 0.02)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.20' /%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 0.9rem;
+  z-index: 300;
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.92);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  text-decoration: none;
+  transform: translateY(-180%);
+  transition: transform 140ms ease;
+  box-shadow: 0 0 12px var(--green-2);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(42, 255, 138, 0.08);
+}
+
+@media (max-width: 900px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

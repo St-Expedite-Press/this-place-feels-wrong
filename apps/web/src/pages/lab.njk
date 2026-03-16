@@ -1,0 +1,89 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+<section class="lab-overview">
+  <article class="card stack">
+    <h2 class="section-heading">American Anglossic Compass</h2>
+    <p class="section-copy">The Compass remains available as a reading instrument: a sequence of prompts across five axes that resolves into an interpretive profile at the end.</p>
+    <div class="tag-row">
+      <span class="tag">Local save state</span>
+      <span class="tag">Held prompts</span>
+      <span class="tag">Result gate optional</span>
+    </div>
+    <div class="actions">
+      <button class="button" id="compass-launch" type="button">Open the Compass</button>
+    </div>
+  </article>
+  <aside class="card stack">
+    <h2 class="section-heading">What to expect</h2>
+    <ul class="meta-list">
+      <li>The order is intentionally shuffled for each fresh run.</li>
+      <li>You can hold prompts aside and return to them later.</li>
+      <li>Results open after completion, with an optional email gate.</li>
+    </ul>
+  </aside>
+</section>
+{% endblock %}
+
+{% block afterMain %}
+<div class="lab-modal" id="compass-modal" hidden>
+  <div class="card lab-dialog" id="compass-dialog" role="dialog" aria-modal="true" aria-labelledby="compass-title" tabindex="-1">
+    <div class="lab-shell">
+      <div class="lab-meta">
+        <div>
+          <p class="page-intro__kicker">Field instrument</p>
+          <h2 class="section-heading" id="compass-title">American Anglossic Compass</h2>
+        </div>
+        <button class="button-secondary" id="compass-close" type="button">Close</button>
+      </div>
+      <div class="lab-controls">
+        <button class="lab-button" id="compass-prev" type="button">Previous</button>
+        <button class="lab-button" id="compass-hold" type="button">Hold prompt</button>
+        <button class="lab-button" id="compass-next" type="button">Next unanswered</button>
+        <button class="lab-button" id="compass-reset" type="button">Start over</button>
+      </div>
+      <div class="lab-layout">
+        <section class="stack">
+          <div class="card" id="compass-progress" aria-live="polite"></div>
+          <div class="card" id="compass-question"></div>
+          <div class="card" id="compass-results" aria-live="polite" hidden></div>
+        </section>
+        <aside class="stack">
+          <section class="card">
+            <h3 class="section-heading">Held prompts</h3>
+            <div class="lab-skipped" id="compass-held"></div>
+          </section>
+          <section class="card">
+            <h3 class="section-heading">Question map</h3>
+            <div class="lab-index" id="compass-index"></div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lab-modal" id="compass-gate" hidden>
+  <div class="card lab-dialog" id="compass-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="compass-gate-title" tabindex="-1">
+    <div class="stack">
+      <div>
+        <p class="page-intro__kicker">Reading access</p>
+        <h2 class="section-heading" id="compass-gate-title">Open the result reading</h2>
+        <p class="section-copy">Leave an email to save your place on the updates list, or continue without it.</p>
+      </div>
+      <div class="field">
+        <label for="compass-gate-email">Email for this reading</label>
+        <input class="input" id="compass-gate-email" type="email" autocomplete="email" placeholder="your@email.com" />
+      </div>
+      <div class="actions">
+        <button class="button" id="compass-gate-submit" type="button">Open the reading</button>
+        <button class="button-secondary" id="compass-gate-skip" type="button">Continue without email</button>
+        <button class="button-secondary" id="compass-gate-close" type="button">Not now</button>
+      </div>
+      <div class="status-panel" id="compass-gate-helper" role="status" aria-live="polite" hidden>
+        <div data-status-text></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -6,19 +6,19 @@ This directory is the canonical storage location for media source files used by 
 
 - `assets/source/img/` - canonical image files (png, jpg, webp, svg)
 - `assets/source/gif/` - canonical gif files
-- `assets/manifest.txt` - generated checksum/size inventory of published assets
+- `assets/manifest.txt` - generated checksum/size inventory of authored web assets
 
-Published site assets remain in `site/assets/` because GitHub Pages serves from `site/`.
+Authored site assets live in `apps/web/src/assets/`. The generated public output is written to `dist/site/assets/` during build.
 
 ## Workflow
 
 1. Add or update source media in `assets/source/img/` or `assets/source/gif/`.
 2. Run:
-   - `sh agent/tools/sync-assets.sh`
-3. Commit source files, updated `site/assets/*`, and `assets/manifest.txt`.
+   - `npm run assets:sync`
+3. Commit source files, updated `apps/web/src/assets/*`, and `assets/manifest.txt`.
 
 ## Notes
 
-- `sync-assets.sh` mirrors source -> published paths using `rsync --delete`.
+- `sync-assets.sh` mirrors source -> authored asset paths and clears removed files before copying.
 - If `cwebp` is installed, `.webp` siblings are generated for raster files (`png/jpg/jpeg`).
-- Do not edit `site/assets/img/*` and `site/assets/gif/*` directly; treat them as generated publish artifacts.
+- Do not edit `apps/web/src/assets/img/*` and `apps/web/src/assets/gif/*` directly; treat them as synchronized authored assets derived from `assets/source/`.
