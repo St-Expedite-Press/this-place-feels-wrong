@@ -13,7 +13,19 @@ async function ensureDir(dir) {
 
 async function copyDirContents(fromDir, toDir) {
   await ensureDir(toDir);
-  await fs.cp(fromDir, toDir, { recursive: true, force: true });
+  const entries = await fs.readdir(fromDir, { withFileTypes: true });
+  await Promise.all(entries.map(async (entry) => {
+    const sourcePath = path.join(fromDir, entry.name);
+    const targetPath = path.join(toDir, entry.name);
+
+    if (entry.isDirectory()) {
+      await copyDirContents(sourcePath, targetPath);
+      return;
+    }
+
+    await ensureDir(path.dirname(targetPath));
+    await fs.copyFile(sourcePath, targetPath);
+  }));
 }
 
 function xmlEscape(value) {

@@ -21,7 +21,7 @@ function renderBookCard(project) {
   const completionPercent = Number.isFinite(Number(project.completion_percent))
     ? Math.max(0, Math.min(100, Math.round(Number(project.completion_percent))))
     : 0;
-  const cover = completionPercent === 100 ? String(project.cover_image || "").trim() : "";
+  const cover = String(project.cover_image || "").trim();
   const buyUrl = String(project.buy_url || "").trim()
     || (project.project_slug === "les-fievres-et-les-humeurs" ? "https://www.amazon.com/dp/B0GQG71JT9" : "");
   const stageLabel = completionPercent === 100

@@ -1,5 +1,5 @@
 # Asset Manifest
-# Generated: 2026-03-16T21:03:08Z
+# Generated: 2026-03-16T21:51:07Z
 # sha256  bytes  path
 9afeb4a0a9ceb9350c034eb09276344b55d9482126fe94b65aa2b78a7b266cbd  213  apps/web/src/assets/README.md
 798ac48b1b9f3e97e06de7ca0a3ec275733a860e3a14d2923e5bdf12f86d7769  294  apps/web/src/assets/css/README.md
@@ -31,7 +31,7 @@ d6de1ea2b692023ef272d2323fae852e7dfa0358c7e6dd9e0acb5e4edaf06f15  2094346  apps/
 719aaa227dc10401fae3b3074207ce65e4a640ea33c4a5329229a5b1da780846  143826  apps/web/src/assets/img/void_engine_twinkle_green.webp
 5dfc20b0022a6f50548da0b663323d7ca74bd9a31ad9bf5a9b28c3ca79fd301f  209  apps/web/src/assets/js/README.md
 4c84917609ea27f2754cde8e1170bba496409dd040c34bdc3524c311acab2edf  2274  apps/web/src/assets/js/api-client.js
-7bcd7cadb82b2099bdfa70b56f8724ceeb4625815405accc3f58fafd017f9ca4  4396  apps/web/src/assets/js/books-page.js
+37373164ce56eb5a4560afdf42991339f5ea0645d4fd5d4447afd30c5c5913f9  4363  apps/web/src/assets/js/books-page.js
 c1b7cb849cee08635b096eb37888bb7269ae97b324de571cda6f9101dcad3739  3016  apps/web/src/assets/js/contact-page.js
 5b26a041248919bd675d859c33cb11ca47a954d89eb84fe533e009159d7a3604  1865  apps/web/src/assets/js/dialog.js
 4b3c334a34606aadab812e8d051bbdd850276db1324b309d5f673e219097a337  1114  apps/web/src/assets/js/form-utils.js
