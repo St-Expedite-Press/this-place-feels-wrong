@@ -1,0 +1,15 @@
+{
+  "name": "stexpedite-communications-worker",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --keep-vars",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.18",
+    "wrangler": "^4.68.0"
+  }
+}

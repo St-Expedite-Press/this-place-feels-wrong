@@ -1,0 +1,220 @@
+{
+  "site": {
+    "name": "St. Expedite Press",
+    "origin": "https://stexpedite.press",
+    "themeColor": "#050807",
+    "ogImage": "https://stexpedite.press/assets/img/crow_glitch_text_still.png",
+    "favicon": "assets/img/favicon.svg",
+    "fontStylesheet": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap",
+    "lastmod": "2026-03-14",
+    "social": [
+      {
+        "name": "X",
+        "href": "https://x.com/stex_press",
+        "title": "X",
+        "icon": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\"><path d=\"M6 6l12 12M18 6L6 18\" /></svg>"
+      },
+      {
+        "name": "Substack",
+        "href": "https://ecoamericana.substack.com/s/ephemera",
+        "title": "Substack",
+        "icon": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M7 7h10M7 12h10M7 17h10\" /></svg>"
+      },
+      {
+        "name": "Telegram",
+        "href": "https://t.me/joinchat/vvALfKUrw0k5NjYx",
+        "title": "Telegram",
+        "icon": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M21 5 3 12l7 2 2 7 9-16Z\" /><path d=\"M10 14 21 5\" /></svg>"
+      },
+      {
+        "name": "GitHub",
+        "href": "https://github.com/orgs/St-Expedite-Press/repositories",
+        "title": "GitHub",
+        "icon": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22\" /></svg>"
+      }
+    ],
+    "nav": [
+      { "label": "Portal", "href": "index.html" },
+      { "label": "Books", "href": "books.html" },
+      { "label": "Mission", "href": "mission.html" },
+      { "label": "Contact", "href": "contact.html" },
+      { "label": "Submit", "href": "submit.html" },
+      { "label": "Lab", "href": "lab.html" },
+      { "label": "Store", "href": "gallery.html" },
+      { "label": "Services", "href": "services.html" }
+    ],
+    "footerLinks": [
+      { "label": "Books", "href": "books.html" },
+      { "label": "Mission", "href": "mission.html" },
+      { "label": "Contact", "href": "contact.html" }
+    ]
+  },
+  "pages": {
+    "index": {
+      "output": "index.html",
+      "title": "Portal",
+      "description": "St. Expedite Press portal — books, merch, mission, lab, services, and contact.",
+      "canonical": "https://stexpedite.press/",
+      "includeInSitemap": true
+    },
+    "books": {
+      "output": "books.html",
+      "title": "Books",
+      "description": "Books, current publications, and oncoming projects from St. Expedite Press.",
+      "subtitle": "Publications and current program",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Publishing catalog",
+      "introTitle": "Books built for rereading, not disposal.",
+      "introText": "This page is the clearest view of the press itself: current books, the developing program, and direct paths to reading or purchase.",
+      "canonical": "https://stexpedite.press/books.html",
+      "currentNav": "books.html",
+      "styles": [
+        "assets/css/tokens.css",
+        "assets/css/interior-base.css",
+        "assets/css/layout.css",
+        "assets/css/components.css",
+        "assets/css/books.css"
+      ],
+      "scripts": [
+        { "src": "assets/js/site-shell.js", "module": true },
+        { "src": "assets/js/books-page.js", "module": true }
+      ]
+    },
+    "mission": {
+      "output": "mission.html",
+      "title": "Mission",
+      "description": "Mission, editorial orientation, and publishing commitments of St. Expedite Press.",
+      "subtitle": "Editorial orientation",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "What the press is for",
+      "introTitle": "A small press with long-form standards.",
+      "introText": "St. Expedite Press publishes books that ask for stewardship: durable editorial attention, deliberate pacing, and a bias toward work meant to endure.",
+      "canonical": "https://stexpedite.press/mission.html",
+      "currentNav": "mission.html",
+      "styles": [
+        "assets/css/tokens.css",
+        "assets/css/interior-base.css",
+        "assets/css/layout.css",
+        "assets/css/components.css",
+        "assets/css/mission.css"
+      ],
+      "scripts": [
+        { "src": "assets/js/site-shell.js", "module": true }
+      ]
+    },
+    "contact": {
+      "output": "contact.html",
+      "title": "Contact",
+      "description": "General contact for St. Expedite Press, including editorial questions and updates signup.",
+      "subtitle": "General inquiries and updates",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "General contact",
+      "introTitle": "Use this page for conversations, not manuscripts.",
+      "introText": "Reach the press for general correspondence, rights, collaborations, or editorial questions. For manuscript inquiries, use the dedicated submission page.",
+      "canonical": "https://stexpedite.press/contact.html",
+      "currentNav": "contact.html",
+      "styles": [
+        "assets/css/tokens.css",
+        "assets/css/interior-base.css",
+        "assets/css/layout.css",
+        "assets/css/components.css",
+        "assets/css/forms.css"
+      ],
+      "scripts": [
+        { "src": "assets/js/site-shell.js", "module": true },
+        { "src": "assets/js/contact-page.js", "module": true }
+      ]
+    },
+    "submit": {
+      "output": "submit.html",
+      "title": "Submission",
+      "description": "Submission inquiries for St. Expedite Press, with confirmation and email fallback.",
+      "subtitle": "Manuscript and project inquiries",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Submission inquiry",
+      "introTitle": "Start with a concise inquiry, then send materials by reply.",
+      "introText": "Use this page for manuscript and project inquiries. After submission you will receive a reference email; if materials are needed, reply to that thread with attachments.",
+      "canonical": "https://stexpedite.press/submit.html",
+      "currentNav": "submit.html",
+      "styles": [
+        "assets/css/tokens.css",
+        "assets/css/interior-base.css",
+        "assets/css/layout.css",
+        "assets/css/components.css",
+        "assets/css/forms.css"
+      ],
+      "scripts": [
+        { "src": "assets/js/site-shell.js", "module": true },
+        { "src": "assets/js/submit-page.js", "module": true }
+      ]
+    },
+    "lab": {
+      "output": "lab.html",
+      "title": "Lab",
+      "description": "Interactive experiments and ongoing instruments, including the American Anglossic Compass.",
+      "subtitle": "Experimental instruments",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Experimental work",
+      "introTitle": "The Lab holds instruments, drafts, and live tests.",
+      "introText": "This page is explicitly experimental. The American Anglossic Compass remains available here as a field instrument rather than part of the main publishing catalog.",
+      "canonical": "https://stexpedite.press/lab.html",
+      "currentNav": "lab.html",
+      "styles": [
+        "assets/css/tokens.css",
+        "assets/css/interior-base.css",
+        "assets/css/layout.css",
+        "assets/css/components.css",
+        "assets/css/lab.css"
+      ],
+      "scripts": [
+        { "src": "assets/js/site-shell.js", "module": true },
+        { "src": "assets/js/lab-anglossic-entry.js", "module": true }
+      ]
+    },
+    "gallery": {
+      "output": "gallery.html",
+      "title": "Store",
+      "description": "Merchandise storefront for St. Expedite Press, loaded live from the external shop catalog.",
+      "subtitle": "Merchandise and external storefront",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Storefront",
+      "introTitle": "Merchandise is sold through the external shop.",
+      "introText": "Prices and inventory on this page are loaded live from the store catalog. Checkout and order support continue on the dedicated shop domain.",
+      "canonical": "https://stexpedite.press/gallery.html",
+      "currentNav": "gallery.html",
+      "styles": [
+        "assets/css/tokens.css",
+        "assets/css/interior-base.css",
+        "assets/css/layout.css",
+        "assets/css/components.css",
+        "assets/css/gallery.css"
+      ],
+      "scripts": [
+        { "src": "assets/js/site-shell.js", "module": true },
+        { "src": "assets/js/gallery-page.js", "module": true }
+      ]
+    },
+    "services": {
+      "output": "services.html",
+      "title": "Services",
+      "description": "Advisory, editorial, and decision-intelligence services offered through St. Expedite Press.",
+      "subtitle": "Advisory and editorial work",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Professional services",
+      "introTitle": "Selected advisory work for institutions that need careful judgment.",
+      "introText": "The press also undertakes a small amount of external advisory work: editorial strategy, ontology and decision-intelligence systems, and governance-minded AI consulting.",
+      "canonical": "https://stexpedite.press/services.html",
+      "currentNav": "services.html",
+      "styles": [
+        "assets/css/tokens.css",
+        "assets/css/interior-base.css",
+        "assets/css/layout.css",
+        "assets/css/components.css",
+        "assets/css/services.css"
+      ],
+      "scripts": [
+        { "src": "assets/js/site-shell.js", "module": true }
+      ]
+    }
+  }
+}

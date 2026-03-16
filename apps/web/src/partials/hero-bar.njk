@@ -1,0 +1,9 @@
+<div class="hero-bar" role="navigation" aria-label="Social media">
+  <div class="hero-bar__inner">
+    {% for item in site.social %}
+    <a class="hero-bar__icon" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" aria-label="{{ item.name }}" title="{{ item.title }}">
+      {{ item.icon | safe }}
+    </a>
+    {% endfor %}
+  </div>
+</div>

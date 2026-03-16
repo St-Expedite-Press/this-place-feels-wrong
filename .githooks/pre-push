@@ -4,10 +4,7 @@ set -eu
 repo_root="$(git rev-parse --show-toplevel)"
 cd "$repo_root"
 
-echo "[pre-push] html lint"
-npx -y htmlhint "site/**/*.html"
-
-echo "[pre-push] worker tests"
-npm --prefix workers/communications run test
+echo "[pre-push] repo checks"
+npm run check
 
 echo "[pre-push] PASS"

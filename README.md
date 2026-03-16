@@ -1,243 +1,80 @@
-# St. Expedite Press Portal
+# St. Expedite Press
 
-_St. Expedite Press Website_ (`this-place-feels-wrong`)
+Proprietary repository for the St. Expedite Press web presence and communications API.
 
-Static neon portal + interior pages. The site is deployed on GitHub Pages (static), with Cloudflare in front. All `/api/*` requests are handled by a Cloudflare Worker to send email (Resend) and (optionally) capture a first-party updates list (D1).
+## Layout
 
-## Contents
-- [What is Live](#what-is-live)
-- [Architecture](#architecture)
-- [Repository Layout](#repository-layout)
-- [Local Development](#local-development)
-- [Tooling](#tooling)
-- [Deployment](#deployment)
-- [Forms and Email](#forms-and-email)
-- [Updates List](#updates-list)
-- [SEO](#seo)
-- [Docs and Ontology](#docs-and-ontology)
-- [Contributing](#contributing)
+- `apps/web/src/`
+  - authoritative source for the public site
+  - Nunjucks templates, static files, CSS, and JS
+- `apps/communications-worker/`
+  - Cloudflare Worker for `/api/*`
+  - D1 migrations, OpenAPI contract, tests, and Wrangler config
+- `dist/site/`
+  - generated static artifact
+  - produced by `npm run build`
+- `internal/agent/`
+  - internal maintenance tooling, release scripts, skills, and reusable scaffolding
+- `archive/`
+  - non-live legacy material, including the former checked-in site output and archived quiz content
 
-## What is Live
+## Commands
 
-All public site files live under `site/`, but they are served from the domain root (e.g. `/contact.html`, `/assets/...`) because the Pages workflow publishes `site/` as the site artifact.
-
-- Entry point: `site/index.html` (published at `/`)
-- Pages:
-  - `site/books.html` (Books)
-  - `site/gallery.html` (Store)
-  - `site/services.html` (Services)
-  - `site/mission.html` (Mission)
-  - `site/lab.html` (Lab; interactive module host page)
-  - `site/contact.html` (Contact)
-  - `site/submit.html` (Submission)
-  - `site/under-construction.html` (holding page)
-- Assets: `site/assets/` (CSS/JS/images)
-
-## Architecture
-
-### Static site (GitHub Pages)
-- HTML/CSS/JS only; no build step.
-- GitHub Actions deploys on every push to `main`.
-- Deploy step copies `site/` -> `dist/` and publishes the artifact.
-
-### Edge and APIs (Cloudflare)
-- Cloudflare proxies the site hostname(s).
-- `/api/*` is routed to a Worker (so GitHub Pages never runs server code).
-- Worker POST routes apply per-IP rate limiting and can enforce Turnstile when configured.
-
-## Repository Layout
-
-- `site/` - deployable static site (this is what GitHub Pages publishes)
-  - `site/assets/css/` - shared theme + layout
-  - `site/assets/js/` - small JS modules
-  - `site/assets/img/`, `site/assets/gif/` - media
-  - `site/CNAME`, `site/.nojekyll`, `site/robots.txt`, `site/sitemap.xml` - Pages + indexing helpers
-- `workers/` - Cloudflare Worker(s)
-- `workers/communications/` - `stexpedite-communications` (all `/api/*` endpoints)
-- `docs/` - internal documentation
-- `assets/` - canonical source media + generated asset manifest
-  - `assets/source/img/`, `assets/source/gif/` - source-of-truth media
-  - `assets/manifest.txt` - checksum/size manifest generated from `site/assets/`
-- `agent/` - consolidated agent hub (protocols, tooling, skills, reusable stack)
-  - `agent/tools/` - release/tooling scripts (auth bootstrap, hooks, runtime checks, release orchestration)
-  - `agent/skills/` - operational skills and runbook-grade scripts
-  - `agent/kits/static-web/` - project-agnostic static web stack kit
-- `.githooks/` - tracked git hooks (pre-push guardrails)
-- `.github/workflows/deploy-pages.yml` - GitHub Pages deploy workflow
-- `.env` - local-only configuration (gitignored; never commit secrets)
-
-## Local Development
-
-Serve the static site:
+From repo root:
 
 ```bash
-cd site
-python -m http.server 8000
-```
-
-Visit `http://localhost:8000/`.
-
-Create/update local Python virtual environment for tooling:
-
-```bash
-sh agent/tools/bootstrap-python-venv.sh
-. .venv/bin/activate
-```
-
-Optional: develop the Worker locally (Wrangler required; see `workers/communications/README.md`):
-
-```bash
-cd workers/communications
-wrangler dev
-```
-
-Run Worker tests:
-
-```bash
-cd workers/communications
-npm install
-npm run test
-```
-
-### Git Push Auth Bootstrap
-
-If this shell cannot push to GitHub, run:
-
-```bash
-bash agent/tools/bootstrap-git-auth.sh
-```
-
-This reads `GITHUB_PAT_WRITE` (and optionally `GITHUB_REPO_URL`) from `.env`, configures repo-local git credentials, and verifies remote access so future `git push origin main` works without re-entering credentials.
-
-## Tooling
-
-Unified command surfaces are available through either `make` or root npm scripts.
-
-One-time setup:
-
-```bash
-sh agent/tools/bootstrap-git-auth.sh
-sh agent/tools/install-hooks.sh
-```
-
-Core local checks:
-
-```bash
+npm run build
+npm run dev:web
+npm run dev:worker
 npm run check
-sh agent/tools/check-runtime-config.sh
-sh agent/tools/check-site-seo.sh
-npm run assets:check
-```
-
-Asset sync pipeline:
-
-```bash
-sh agent/tools/sync-assets.sh
-# or: npm run assets:sync
-```
-
-Release orchestration:
-
-```bash
-sh agent/tools/release.sh --dry-run
-sh agent/tools/release.sh
-```
-
-Optional helpers:
-
-```bash
-make bootstrap-python-venv
-make check-all
-make runtime-config
-make release-dry-run
-make release
+npm run deploy:web
 npm run deploy:worker
 ```
 
-## Deployment
+Supporting commands:
 
-### GitHub Pages
-- Workflow: `.github/workflows/deploy-pages.yml`
-- Trigger: push to `main`
-- Published content: `site/` only
+```bash
+npm run assets:sync
+npm run assets:check
+make dev-web
+make dev-worker
+make release
+```
 
-### Cloudflare Worker
-- Worker: `workers/communications/` (name: `stexpedite-communications`)
-- Expected route: `stexpedite.press/api/*` -> Worker `stexpedite-communications`
-- Note: Worker Routes only apply if the hostname is proxied (orange cloud).
+## Runtime Surface
 
-See `DEPLOYMENT.md` and `docs/infrastructure/email-worker-setup.md`.
+Public pages remain stable at the domain root, including:
 
-## Forms and Email
+- `/`
+- `/books.html`
+- `/mission.html`
+- `/contact.html`
+- `/submit.html`
+- `/gallery.html`
+- `/lab.html`
+- `/services.html`
 
-There are two "email-ish" flows:
+Worker routes remain stable:
 
-1) Contact/submission forms (server-side send via Worker + Resend)
-- `site/contact.html` -> `POST /api/contact`
-- `site/submit.html` -> `POST /api/submit`
+- `GET /api/health`
+- `GET /api/storefront`
+- `GET /api/projects`
+- `POST /api/contact`
+- `POST /api/submit`
+- `POST /api/updates`
+- `POST /api/updates/import`
 
-If the Worker route is missing or fails, both pages fall back to opening a `mailto:` compose window addressed to `editor@stexpedite.press`.
+## Deployment Model
 
-2) Newsletter/updates signup
-- The "Get updates" UI first posts to `/api/updates` to store the email in the first-party list.
-- On success, the UI thanks the user and offers an optional continue action to Substack (`ecoamericana.substack.com`).
-- Index page placement:
-  - Desktop: in the hero bar (left side)
-  - Mobile: embedded in the portal stack
+- GitHub Pages publishes the generated artifact from `dist/site/`
+- Cloudflare fronts the domain and routes `/api/*` to `apps/communications-worker/`
+- Resend handles outgoing mail
+- D1 stores the updates list and books/program data
+- Fourthwall provides storefront data for the merch page
 
-3) Merch/storefront
-- `site/gallery.html` now renders a live Fourthwall catalog by calling `GET /api/storefront`.
-- Product cards link out to `shop.stexpedite.press` product pages.
+## Notes
 
-4) Canon/oncoming projects catalog
-- `GET /api/projects` returns a structured program list backed by D1 table `oncoming_projects`.
-- This list is seeded from `workers/communications/migrations/0002_oncoming_projects.sql`.
-- Book presentation metadata (cover image + popup description) is applied by `workers/communications/migrations/0003_oncoming_projects_presentation.sql`.
-- Direct purchase URL metadata is applied by `workers/communications/migrations/0007_oncoming_projects_buy_url.sql`.
-- `site/books.html` includes a canonical Les Fievres fallback URL (`https://www.amazon.com/dp/B0GQG71JT9`) even if `buy_url` is absent in runtime data.
-
-## Updates List
-
-If you want a first-party list you control, the Worker supports:
-
-- `POST /api/updates` - stores an email into D1 (no email is sent)
-  - Returns `alreadySignedUp` so frontend can show when the email already exists.
-
-This is called from:
-- `site/index.html` (desktop hero bar + mobile portal stack)
-- the Updates section in `site/contact.html`
-
-To actually store the list, you must:
-1. Create a Cloudflare D1 database.
-2. Bind it to the Worker as `DB`.
-3. Apply the migration: `workers/communications/migrations/0001_updates_signups.sql`.
-4. Apply `workers/communications/migrations/0006_updates_signups_substack_schema.sql` to enable Substack-style subscriber profile/analytics fields.
-
-## SEO
-
-- Robots: `site/robots.txt`
-- Sitemap: `site/sitemap.xml`
-
-Note: `site/robots.txt` currently disallows indexing of:
-- `/under-construction.html`
-- `/interior-content-template.html`
-
-## Docs and Ontology
-
-Start here for maintenance and agent work:
-- Current checklist: `docs/state-of-play.md`
-- Email pipeline: `docs/infrastructure/email-worker-setup.md`
-- Ontology (machine-readable): `docs/ontology/project-ontology.json`
-- Ontology (human summary): `docs/ontology/project-ontology.md`
-- Agent hub index: `agent/README.md`
-- Agent protocols: `agent/docs/AGENTS.md`
-
-## Contributing
-
-Rules that keep deploy stable:
-- Public site changes belong under `site/`.
-- Worker/API changes belong under `workers/communications/`.
-- Do not commit secrets (API keys, Cloudflare tokens, etc.). `.env` is ignored intentionally.
-- If you add/rename pages, assets, or endpoints, update:
-  - `docs/ontology/project-ontology.json`
-  - `docs/state-of-play.md`
+- The homepage is now generated from `apps/web/src/pages/index.njk`; it is no longer a copied static exception.
+- The checked-in `site/` tree has been retired to `archive/site-legacy/`.
+- `archive/anglossic_quiz/` is preserved as historical product material and is not part of the live build.
+- This repository is not licensed for public redistribution or reuse.

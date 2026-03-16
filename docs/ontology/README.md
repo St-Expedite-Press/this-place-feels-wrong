@@ -29,7 +29,7 @@ This ontology is meant to be:
 
 ## How to update
 
-If you move/rename pages or assets under `site/`, or add/change worker endpoints, update the ontology immediately.
+If you move/rename source pages or assets under `apps/web/src/`, or add/change worker endpoints, update the ontology immediately.
 
 Use these built-in reminders:
 - `maintenance.when_changing_site_pages_or_assets`

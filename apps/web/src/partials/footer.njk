@@ -1,0 +1,8 @@
+<footer class="site-footer">
+  <p class="site-footer__lede">St. Expedite Press // New Orleans, LA</p>
+  <div class="site-footer__links">
+    {% for item in site.footerLinks %}
+    <a href="{{ item.href }}">{{ item.label }}</a>{% if not loop.last %}<span aria-hidden="true">//</span>{% endif %}
+    {% endfor %}
+  </div>
+</footer>
