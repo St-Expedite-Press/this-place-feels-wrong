@@ -2,6 +2,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
+  margin-bottom: 1.5rem;
+}
+
+.store-footer {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  opacity: 0.65;
 }
 
 .collection-pill {
