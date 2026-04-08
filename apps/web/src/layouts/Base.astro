@@ -1,0 +1,57 @@
+---
+import Head from '../components/Head.astro';
+import HeroBar from '../components/HeroBar.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  subtitle?: string;
+  eyebrow?: string;
+  introKicker?: string;
+  introTitle?: string;
+  introText?: string;
+  currentNav?: string;
+  pageClass?: string;
+  styles: string[];
+}
+
+const {
+  title, description, canonical, subtitle, eyebrow,
+  introKicker, introTitle, introText, currentNav, pageClass,
+  styles,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<Head
+  title={title}
+  description={description}
+  canonical={canonical}
+  styles={styles}
+/>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <HeroBar />
+  <div class="texture--grain" aria-hidden="true"></div>
+  <main id="main" class={`page${pageClass ? ` ${pageClass}` : ''}`}>
+    <SiteHeader
+      title={title}
+      subtitle={subtitle}
+      eyebrow={eyebrow}
+      currentNav={currentNav}
+    />
+    <section class="page-intro">
+      <p class="page-intro__kicker">{introKicker}</p>
+      <h2 class="page-intro__title">{introTitle}</h2>
+      <p class="page-intro__text">{introText}</p>
+    </section>
+    <slot />
+    <Footer />
+  </main>
+  <slot name="afterMain" />
+  <slot name="scripts" />
+</body>
+</html>

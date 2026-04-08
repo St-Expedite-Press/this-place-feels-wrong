@@ -4,25 +4,20 @@
   "license": "UNLICENSED",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-site.mjs",
+    "build": "npm --prefix apps/web run build",
+    "dev:web": "npm --prefix apps/web run dev",
+    "dev:worker": "node scripts/dev-worker.mjs",
     "run:bash": "node scripts/run-bash.mjs",
     "sync:worker-dev-vars": "node scripts/sync-worker-dev-vars.mjs",
-    "dev:web": "node scripts/dev-web.mjs",
-    "dev:worker": "node scripts/dev-worker.mjs",
     "bootstrap:venv": "node scripts/run-bash.mjs internal/agent/tools/bootstrap-python-venv.sh",
     "assets:sync": "node scripts/run-bash.mjs internal/agent/tools/sync-assets.sh",
-    "assets:check": "node scripts/run-bash.mjs internal/agent/tools/check-assets-sync.sh",
-    "lint:html": "npx -y htmlhint \"dist/site/**/*.html\"",
+    "lint:html": "npx -y htmlhint \"apps/web/dist/**/*.html\"",
     "check:links": "node scripts/check-links.mjs",
     "check:a11y": "node scripts/check-a11y.mjs",
-    "check:generated-site": "node scripts/check-generated-site.mjs",
     "check:lighthouse": "node scripts/check-lighthouse.mjs",
     "test:worker": "npm --prefix apps/communications-worker run test",
-    "check": "npm run build && npm run assets:check && npm run check:generated-site && npm run lint:html && npm run check:links && npm run check:a11y && npm run test:worker",
+    "check": "npm run build && npm run lint:html && npm run check:links && npm run check:a11y && npm run test:worker",
     "deploy:web": "node scripts/deploy-web.mjs",
     "deploy:worker": "npm --prefix apps/communications-worker run deploy"
-  },
-  "dependencies": {
-    "nunjucks": "^3.2.4"
   }
 }

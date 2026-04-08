@@ -1,32 +1,31 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html test-worker check-all deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync check-assets
+.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html test-worker check-all deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync
 
 help:
 	@echo "Available targets:"
-	@echo "  dev-web             Build and serve dist/site locally"
+	@echo "  dev-web             Run Astro dev server"
 	@echo "  dev-worker          Start the communications worker in Wrangler dev mode"
 	@echo "  bootstrap-git-auth  Configure repo-local GitHub auth from .env"
 	@echo "  bootstrap-python-venv  Create/update local Python virtualenv at .venv"
 	@echo "  install-hooks       Install tracked git hooks (.githooks)"
-	@echo "  lint-html           Run htmlhint for generated HTML in dist/site"
+	@echo "  lint-html           Run htmlhint for generated HTML in apps/web/dist"
 	@echo "  test-worker         Run worker test suite"
 	@echo "  check-all           Run lint + tests"
 	@echo "  runtime-config      Verify Cloudflare runtime prerequisites"
 	@echo "  runtime-audit       Run runtime audit checks"
 	@echo "  smoke-api           Run production API smoke checks"
 	@echo "  smoke-api-full      Run full production API smoke checks"
-	@echo "  deploy-web          Push main to trigger GitHub Pages"
+	@echo "  deploy-web          Build and deploy to Cloudflare Pages"
 	@echo "  deploy-worker       Deploy Cloudflare worker with keep-vars"
 	@echo "  release-log         Append release evidence entry"
 	@echo "  release             Run release orchestration"
 	@echo "  release-dry-run     Print release actions without mutating"
 	@echo "  check-seo           Run advisory SEO structure checks"
-	@echo "  assets-sync         Sync source assets -> apps/web/src/assets and regenerate manifest"
-	@echo "  check-assets        Verify source/authored assets and manifest are in sync"
+	@echo "  assets-sync         Sync source assets -> apps/web/public/assets and regenerate manifest"
 
 dev-web:
-	npm run dev:web
+	npm --prefix apps/web run dev
 
 dev-worker:
 	npm run dev:worker
@@ -41,7 +40,7 @@ install-hooks:
 	sh internal/agent/tools/install-hooks.sh
 
 lint-html:
-	npx -y htmlhint "dist/site/**/*.html"
+	npx -y htmlhint "apps/web/dist/**/*.html"
 
 test-worker:
 	npm --prefix apps/communications-worker run test
@@ -82,5 +81,3 @@ check-seo:
 assets-sync:
 	sh internal/agent/tools/sync-assets.sh
 
-check-assets:
-	sh internal/agent/tools/check-assets-sync.sh

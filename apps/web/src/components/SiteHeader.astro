@@ -1,0 +1,25 @@
+---
+import siteData from '../data/site.json';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  eyebrow?: string;
+  currentNav?: string;
+}
+
+const { title, subtitle, eyebrow, currentNav } = Astro.props;
+const { site } = siteData;
+---
+<header class="site-header">
+  <div class="site-brand">
+    <div class="site-eyebrow">{eyebrow}</div>
+    <h1 class="site-title">{title}</h1>
+    <p class="site-subtitle">{subtitle}</p>
+  </div>
+  <nav class="site-nav" aria-label="Primary">
+    {site.nav.map(item => (
+      <a href={item.href} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
+    ))}
+  </nav>
+</header>

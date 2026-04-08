@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import siteData from '../data/site.json';
+
+const page = siteData.pages.books;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/books.css',
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  canonical={page.canonical}
+  subtitle={page.subtitle}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  currentNav={page.currentNav}
+  styles={styles}
+>
+  <section class="catalog-card stack">
+    <div class="reading-width">
+      <h2 class="section-heading">Current catalog and oncoming projects</h2>
+      <p class="section-copy">The books page is the publishing core of the site. Browse the live program, filter by series, and use direct buy links where available.</p>
+      <div class="catalog-actions">
+        <a class="button" href="/contact">Rights or press inquiries</a>
+        <a class="button-secondary" href="/submit">Submission inquiries</a>
+      </div>
+    </div>
+    <div class="filter-bar" id="books-filter" aria-label="Filter books by series"></div>
+    <div class="helper-text" id="books-status" role="status" aria-live="polite">Loading catalog...</div>
+    <section class="books-grid" id="books-grid" aria-label="Books catalog"></section>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/books-page.js" type="module"></script>
+  </Fragment>
+</Base>
