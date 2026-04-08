@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import siteData from '../data/site.json';
+
+const page = siteData.pages.gallery;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/gallery.css',
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  canonical={page.canonical}
+  subtitle={page.subtitle}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  currentNav={page.currentNav}
+  styles={styles}
+>
+  <section class="split-grid">
+    <article class="catalog-card stack">
+      <h2 class="section-heading">Live external storefront</h2>
+      <p class="section-copy">Inventory and price data are loaded live from the shop catalog. Checkout happens on the shop domain rather than on this site.</p>
+      <div class="store-toolbar" id="store-toolbar" aria-label="Store collections"></div>
+      <div class="helper-text" id="store-status" role="status" aria-live="polite">Loading storefront...</div>
+    </article>
+    <aside class="card stack">
+      <h2 class="section-heading">Before you click through</h2>
+      <ul class="meta-list">
+        <li>Purchases continue on <strong>shop.stexpedite.press</strong>.</li>
+        <li>Inventory and prices may change independently of the static site.</li>
+        <li>Use <a href="/contact">Contact</a> for general support questions.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <section class="store-grid" id="store-grid" aria-label="Store products"></section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/gallery-page.js" type="module"></script>
+  </Fragment>
+</Base>

@@ -3,7 +3,7 @@ set -eu
 
 repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../../.." && pwd)"
 source_root="$repo_root/assets/source"
-publish_root="$repo_root/apps/web/src/assets"
+publish_root="$repo_root/apps/web/public/assets"
 manifest_file="$repo_root/assets/manifest.txt"
 
 dry_run=0
@@ -66,5 +66,5 @@ fi
   done
 } > "$manifest_file"
 
-echo "[sync-assets] synced source assets to apps/web/src/assets"
+echo "[sync-assets] synced source assets to apps/web/public/assets"
 echo "[sync-assets] wrote manifest: $manifest_file"

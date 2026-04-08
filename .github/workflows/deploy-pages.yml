@@ -1,17 +1,12 @@
-name: Deploy to GitHub Pages
+name: Validate
 
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 concurrency:
-  group: "pages"
+  group: "validate"
   cancel-in-progress: true
 
 jobs:
@@ -19,30 +14,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Install root dependencies
         run: npm install
+
+      - name: Install web dependencies
+        run: npm --prefix apps/web install
+
       - name: Install worker dependencies
         run: npm --prefix apps/communications-worker install
-      - name: Run full check suite
-        run: npm run check
+
+      - name: Build site
+        run: npm run build
+
+      - name: Lint HTML
+        run: npm run lint:html
+
+      - name: Check links
+        run: npm run check:links
+
+      - name: Check a11y
+        run: npm run check:a11y
+
+      - name: Test worker
+        run: npm run test:worker
 
   deploy:
     needs: [validate]
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install root dependencies
-        run: npm install
-      - name: Build generated site
-        run: npm run build
-      - uses: actions/configure-pages@v5
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist/site
+      - name: Install web dependencies
+        run: npm --prefix apps/web install
 
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Build site
+        run: npm --prefix apps/web run build
+
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_GLOBAL_API }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+        run: npx wrangler pages deploy apps/web/dist --project-name stexpedite-press --commit-dirty=true

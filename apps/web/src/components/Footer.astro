@@ -1,0 +1,16 @@
+---
+import siteData from '../data/site.json';
+
+const { site } = siteData;
+---
+<footer class="site-footer">
+  <p class="site-footer__lede">St. Expedite Press // New Orleans, LA</p>
+  <div class="site-footer__links">
+    {site.footerLinks.map((item, i) => (
+      <>
+        <a href={item.href}>{item.label}</a>
+        {i < site.footerLinks.length - 1 && <span aria-hidden="true">//</span>}
+      </>
+    ))}
+  </div>
+</footer>

@@ -3,7 +3,7 @@ set -eu
 
 repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../../.." && pwd)"
 source_root="$repo_root/assets/source"
-publish_root="$repo_root/apps/web/src/assets"
+publish_root="$repo_root/apps/web/public/assets"
 manifest_file="$repo_root/assets/manifest.txt"
 
 [ -d "$source_root" ] || { echo "Missing: $source_root" >&2; exit 1; }
@@ -22,7 +22,7 @@ find "$source_root/gif" -type f | sed "s#^$source_root/gif/##" | sort > "$source
 find "$publish_root/gif" -type f | sed "s#^$publish_root/gif/##" | sort > "$publish_gif_list"
 
 if ! diff -u "$source_img_list" "$publish_img_list" > "$diff_log" 2>&1 || ! diff -u "$source_gif_list" "$publish_gif_list" >> "$diff_log" 2>&1; then
-  echo "Asset drift detected between assets/source and apps/web/src/assets:" >&2
+  echo "Asset drift detected between assets/source and apps/web/public/assets:" >&2
   cat "$diff_log" >&2
   rm -f "$diff_log" "$source_img_list" "$publish_img_list" "$source_gif_list" "$publish_gif_list"
   echo "Run: sh internal/agent/tools/sync-assets.sh" >&2

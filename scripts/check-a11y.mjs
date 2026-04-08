@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const ROOT = process.cwd();
-const SITE = path.join(ROOT, "dist", "site");
+const SITE = path.join(ROOT, "apps", "web", "dist");
 
 async function walk(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });

@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import siteData from '../data/site.json';
+
+const page = siteData.pages.submit;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/forms.css',
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  canonical={page.canonical}
+  subtitle={page.subtitle}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  currentNav={page.currentNav}
+  styles={styles}
+>
+  <section class="form-trust">
+    <div class="trust-card"><strong>Best use</strong>Query letters, manuscript introductions, and project summaries.</div>
+    <div class="trust-card"><strong>What happens next</strong>You receive a reference email. If attachments are needed, reply to that message so the thread stays intact.</div>
+    <div class="trust-card"><strong>Faster review</strong>Include genre, approximate length, and current stage of completion in the note.</div>
+  </section>
+
+  <section class="split-card-grid">
+    <article class="form-card form-shell">
+      <div>
+        <h2 class="section-heading">Submission inquiry</h2>
+        <p class="section-copy">A concise inquiry is enough here. Use the note to explain the project and what you are looking for from the press.</p>
+      </div>
+      <form class="form-grid" id="submit-form">
+        <input id="submit-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
+        <div class="field">
+          <label for="submit-email">Email</label>
+          <input class="input" id="submit-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required />
+        </div>
+        <div class="field">
+          <label for="submit-note">Project note</label>
+          <textarea class="textarea" id="submit-note" name="note" placeholder="Project type, length, stage, and what you are asking for."></textarea>
+        </div>
+        <div class="actions">
+          <button class="button" id="submit-button" type="submit">Send inquiry</button>
+        </div>
+      </form>
+      <div class="status-panel" id="submit-helper" role="status" aria-live="polite" hidden>
+        <div data-status-text></div>
+        <div class="status-panel__actions">
+          <a class="status-action" id="submit-mailto-fallback" href="mailto:editor@stexpedite.press">Open email</a>
+          <button class="status-action" id="submit-copy" type="button">Copy fallback</button>
+        </div>
+      </div>
+    </article>
+
+    <aside class="form-card stack">
+      <h2 class="section-heading">Use Contact instead when</h2>
+      <ul class="meta-list">
+        <li>You are writing about rights, press, or collaborations.</li>
+        <li>You need operational help with the site or store.</li>
+        <li>You are not pitching a manuscript or editorial project.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/submit-page.js" type="module"></script>
+  </Fragment>
+</Base>
