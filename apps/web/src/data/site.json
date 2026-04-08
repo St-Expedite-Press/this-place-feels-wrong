@@ -112,12 +112,12 @@
     },
     "gallery": {
       "title": "Store",
-      "description": "Merchandise storefront for St. Expedite Press, loaded live from the external shop catalog.",
-      "subtitle": "Merchandise and external storefront",
+      "description": "Books, prints, and objects from St. Expedite Press — inventory loaded live from the shop.",
+      "subtitle": "Books, prints, and objects",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "Storefront",
-      "introTitle": "Merchandise is sold through the external shop.",
-      "introText": "Prices and inventory on this page are loaded live from the store catalog. Checkout and order support continue on the dedicated shop domain.",
+      "introKicker": "The Vault",
+      "introTitle": "Objects made to outlast the people who own them.",
+      "introText": "Made in small runs, finished by hand, priced for what they actually are. Inventory pulled live. Checkout continues on the shop domain. Some of this will not come back.",
       "canonical": "https://stexpedite.press/gallery",
       "currentNav": "/gallery"
     },
