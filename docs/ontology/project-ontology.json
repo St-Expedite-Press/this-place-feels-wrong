@@ -11,8 +11,7 @@
       "entrypoints": [
         "index.html",
         "books.html",
-        "mission.html",
-        "contact.html",
+        "about.html",
         "submit.html",
         "gallery.html",
         "lab.html",

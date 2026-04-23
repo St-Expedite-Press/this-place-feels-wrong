@@ -2,13 +2,14 @@
 import Base from '../layouts/Base.astro';
 import siteData from '../data/site.json';
 
-const page = siteData.pages.contact;
+const page = siteData.pages.about;
 const styles = [
   'assets/css/tokens.css',
   'assets/css/interior-base.css',
   'assets/css/layout.css',
   'assets/css/components.css',
   'assets/css/forms.css',
+  'assets/css/mission.css',
 ];
 ---
 <Base
@@ -23,17 +24,23 @@ const styles = [
   currentNav={page.currentNav}
   styles={styles}
 >
+  <section class="card mission-copy">
+    <p><strong>St. Expedite Press</strong> is a micropress based in New Orleans. We publish books that merit preservation: work with density, consequence, and enough formal integrity to deserve return.</p>
+    <p>Publishing here means custodianship rather than throughput. We prefer patient editorial development, careful production, and books that can keep their force after the immediate cycle of release has passed.</p>
+    <p>The press remains small on purpose. That scale lets us decide deliberately, work closely, and avoid treating literature like content inventory.</p>
+  </section>
+
   <section class="form-trust">
     <div class="trust-card"><strong>Use this page for</strong>General questions, rights inquiries, collaborations, press, and editorial correspondence.</div>
-    <div class="trust-card"><strong>Response pattern</strong>Messages arrive through the site and are acknowledged by email when delivery succeeds.</div>
+    <div class="trust-card"><strong>Editorial standards</strong>We favor durable prose, careful editing, explicit standards, and books that justify their physical form.</div>
     <div class="trust-card"><strong>Not for manuscripts</strong>If you are pitching a manuscript or project, use the submission inquiry page instead.</div>
   </section>
 
   <section class="split-card-grid">
     <article class="form-card form-shell">
       <div>
-        <h2 class="section-heading">General contact</h2>
-        <p class="section-copy">Tell us what you need and include enough context to route the message quickly.</p>
+        <h2 class="section-heading">General inquiry</h2>
+        <p class="section-copy">Use this form for rights, press, collaborations, editorial questions, and operational support.</p>
       </div>
       <form class="form-grid" id="contact-form">
         <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
@@ -87,7 +94,7 @@ const styles = [
           <button class="status-action" id="contact-updates-dismiss" type="button">Dismiss</button>
         </div>
       </div>
-      <p class="aside-note">For manuscript and project approaches, use <a href="/submit">Submission</a> instead of general contact.</p>
+      <p class="aside-note">For manuscript and project approaches, use <a href="/submit">Submit</a> instead of the general inquiry form.</p>
     </aside>
   </section>
 

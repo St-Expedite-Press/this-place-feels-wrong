@@ -49,8 +49,7 @@ Public pages remain stable at the domain root, including:
 
 - `/`
 - `/books`
-- `/mission`
-- `/contact`
+- `/about`
 - `/submit`
 - `/gallery`
 - `/lab`
