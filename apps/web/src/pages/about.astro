@@ -24,23 +24,35 @@ const styles = [
   currentNav={page.currentNav}
   styles={styles}
 >
-  <section class="card mission-copy">
-    <p><strong>St. Expedite Press</strong> is a micropress based in New Orleans. We publish books that merit preservation: work with density, consequence, and enough formal integrity to deserve return.</p>
-    <p>Publishing here means custodianship rather than throughput. We prefer patient editorial development, careful production, and books that can keep their force after the immediate cycle of release has passed.</p>
-    <p>The press remains small on purpose. That scale lets us decide deliberately, work closely, and avoid treating literature like content inventory.</p>
+  <section class="card mission-copy lede-card">
+    <p><strong>St. Expedite Press</strong> is a small press built for durable books. We publish selectively, edit carefully, and keep correspondence direct.</p>
+    <p>The scale is deliberate. It protects judgment, production quality, and the time required for work that deserves return.</p>
   </section>
 
-  <section class="form-trust">
-    <div class="trust-card"><strong>Use this page for</strong>General questions, rights inquiries, collaborations, press, and editorial correspondence.</div>
-    <div class="trust-card"><strong>Editorial standards</strong>We favor durable prose, careful editing, explicit standards, and books that justify their physical form.</div>
-    <div class="trust-card"><strong>Not for manuscripts</strong>If you are pitching a manuscript or project, use the submission inquiry page instead.</div>
+  <section class="form-trust form-trust--two">
+    <div class="trust-card trust-card--center">
+      <strong>Use About for</strong>
+      Rights, press, collaborations, editorial questions, and general correspondence.
+    </div>
+    <div class="trust-card trust-card--center">
+      <strong>Sending work?</strong>
+      Manuscripts and project inquiries belong on <a href="/submit">Submit</a>.
+    </div>
   </section>
 
-  <section class="split-card-grid">
-    <article class="form-card form-shell">
+  <section class="card">
+    <div class="actions">
+      <a class="button" href="/donate">Support the press</a>
+      <a class="button-secondary" href="/submit">Submission inquiry</a>
+    </div>
+  </section>
+
+  <section class="split-card-grid split-card-grid--balanced">
+    <article class="form-card form-shell form-card--tall">
       <div>
+        <p class="card-kicker">Primary channel</p>
         <h2 class="section-heading">General inquiry</h2>
-        <p class="section-copy">Use this form for rights, press, collaborations, editorial questions, and operational support.</p>
+        <p class="section-copy section-copy--large">Short note, direct reply.</p>
       </div>
       <form class="form-grid" id="contact-form">
         <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
@@ -74,17 +86,20 @@ const styles = [
       </div>
     </article>
 
-    <aside class="form-card stack">
+    <aside class="form-card stack form-card--tall form-card--split">
       <div>
+        <p class="card-kicker">Secondary channel</p>
         <h2 class="section-heading">Updates signup</h2>
-        <p class="section-copy">Save your address to the first-party list, then continue to the hosted feed if you want that channel as well.</p>
+        <p class="section-copy section-copy--large">Leave an address here, then continue to the hosted feed if you want it.</p>
       </div>
-      <div class="field">
-        <label for="contact-updates-email">Email for updates</label>
-        <input class="input" id="contact-updates-email" type="email" autocomplete="email" placeholder="you@example.com" />
-      </div>
-      <div class="actions">
-        <button class="button-secondary" id="contact-updates-submit" type="button">Save email</button>
+      <div class="stack">
+        <div class="field">
+          <label for="contact-updates-email">Email for updates</label>
+          <input class="input" id="contact-updates-email" type="email" autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="actions">
+          <button class="button-secondary" id="contact-updates-submit" type="button">Save email</button>
+        </div>
       </div>
       <div class="status-panel" id="contact-updates-helper" role="status" aria-live="polite" hidden>
         <div data-status-text></div>
@@ -94,7 +109,7 @@ const styles = [
           <button class="status-action" id="contact-updates-dismiss" type="button">Dismiss</button>
         </div>
       </div>
-      <p class="aside-note">For manuscript and project approaches, use <a href="/submit">Submit</a> instead of the general inquiry form.</p>
+      <p class="aside-note">For manuscripts and project approaches, use <a href="/submit">Submit</a>.</p>
     </aside>
   </section>
 

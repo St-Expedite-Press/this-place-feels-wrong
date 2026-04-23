@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import siteData from '../../data/site.json';
+
+const page = siteData.pages.donateThanks;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/forms.css',
+  'assets/css/donate.css',
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  canonical={page.canonical}
+  subtitle={page.subtitle}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  currentNav={page.currentNav}
+  styles={styles}
+>
+  <section class="donate-shell">
+    <article class="card donate-lede">
+      <p>Your support has been handed off to Stripe and the donation flow is complete.</p>
+      <p>Thank you for helping keep the press small, deliberate, and durable.</p>
+    </article>
+
+    <section class="split-grid">
+      <article class="card stack">
+        <div>
+          <p class="card-kicker">Next step</p>
+          <h2 class="section-heading">Return to the site</h2>
+          <p class="section-copy section-copy--large">You can go back to the portal, read about the press, or continue browsing books and store inventory.</p>
+        </div>
+        <div class="actions">
+          <a class="button" href="/">Portal</a>
+          <a class="button-secondary" href="/about">About</a>
+          <a class="button-secondary" href="/books">Books</a>
+        </div>
+      </article>
+
+      <aside class="card stack">
+        <div>
+          <p class="card-kicker">Receipt</p>
+          <h2 class="section-heading">Payment details</h2>
+        </div>
+        <p class="section-copy">Stripe handles payment processing and receipts. If you need help with anything else, use <a href="/about">About</a>.</p>
+      </aside>
+    </section>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+  </Fragment>
+</Base>

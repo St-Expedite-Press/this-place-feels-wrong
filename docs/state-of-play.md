@@ -17,6 +17,7 @@ Public pages remain rooted at the site domain:
 - `/`
 - `/books`
 - `/about`
+- `/donate`
 - `/submit`
 - `/gallery`
 - `/lab`

@@ -37,6 +37,7 @@
       { "label": "Portal", "href": "/" },
       { "label": "Books", "href": "/books" },
       { "label": "About", "href": "/about" },
+      { "label": "Donate", "href": "/donate" },
       { "label": "Submit", "href": "/submit" },
       { "label": "Lab", "href": "/lab" },
       { "label": "Store", "href": "/gallery" },
@@ -45,13 +46,14 @@
     "footerLinks": [
       { "label": "Books", "href": "/books" },
       { "label": "About", "href": "/about" },
+      { "label": "Donate", "href": "/donate" },
       { "label": "Submit", "href": "/submit" }
     ]
   },
   "pages": {
     "index": {
       "title": "Portal",
-      "description": "St. Expedite Press portal — books, about, submissions, lab, services, and store.",
+      "description": "St. Expedite Press portal — books, about, donations, submissions, lab, services, and store.",
       "canonical": "https://stexpedite.press/"
     },
     "books": {
@@ -67,14 +69,36 @@
     },
     "about": {
       "title": "About",
-      "description": "Editorial orientation, general contact, and updates signup for St. Expedite Press.",
-      "subtitle": "Editorial orientation and inquiries",
+      "description": "About St. Expedite Press, with general contact and updates signup.",
+      "subtitle": "About and general correspondence",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "What the press is for",
-      "introTitle": "Small press. Exacting standards. Direct correspondence.",
-      "introText": "St. Expedite Press publishes books that hold up under return and handles rights, press, collaborations, and editorial correspondence directly.",
+      "introKicker": "About the press",
+      "introTitle": "Small press. Direct correspondence.",
+      "introText": "Use this page for rights, press, collaborations, editorial questions, and updates.",
       "canonical": "https://stexpedite.press/about",
       "currentNav": "/about"
+    },
+    "donate": {
+      "title": "Donate",
+      "description": "One-time donations to support St. Expedite Press through Stripe-hosted checkout.",
+      "subtitle": "Support the press",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "One-time support",
+      "introTitle": "Support the press directly.",
+      "introText": "Choose an amount and continue to Stripe-hosted checkout for a one-time donation.",
+      "canonical": "https://stexpedite.press/donate",
+      "currentNav": "/donate"
+    },
+    "donateThanks": {
+      "title": "Donation Complete",
+      "description": "Donation confirmation for St. Expedite Press.",
+      "subtitle": "Support received",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Donation complete",
+      "introTitle": "Thank you for supporting the press.",
+      "introText": "Stripe handles payment processing and receipts. The site is ready when you want to continue.",
+      "canonical": "https://stexpedite.press/donate/thanks",
+      "currentNav": "/donate"
     },
     "submit": {
       "title": "Submission",
@@ -82,8 +106,8 @@
       "subtitle": "Manuscript and project inquiries",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Send a project",
-      "introTitle": "One concise inquiry, then materials by reply.",
-      "introText": "Lead with the work. Genre, length, and stage are useful. After your note arrives, you'll get a reference by email — attach files to that thread.",
+      "introTitle": "One concise inquiry.",
+      "introText": "Send the project note first. If files are needed, attach them by replying to the reference email.",
       "canonical": "https://stexpedite.press/submit",
       "currentNav": "/submit"
     },
