@@ -6,8 +6,8 @@
   "apps": {
     "web": {
       "source_dir": "apps/web/src/",
-      "build_script": "scripts/build-site.mjs",
-      "output_dir": "dist/site/",
+      "build_script": "npm run build",
+      "output_dir": "apps/web/dist/",
       "entrypoints": [
         "index.html",
         "books.html",

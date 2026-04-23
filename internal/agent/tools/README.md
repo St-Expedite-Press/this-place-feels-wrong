@@ -15,8 +15,8 @@ Operational scripts for repo maintenance.
 
 ## Current Path Assumptions
 
-- authored web assets: `apps/web/src/assets/`
-- generated web output: `dist/site/`
+- authored web assets: `apps/web/public/assets/`
+- generated web output: `apps/web/dist/`
 - worker project: `apps/communications-worker/`
 
 ## Common Usage

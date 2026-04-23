@@ -2,18 +2,18 @@
 
 This repository deploys in two parts:
 
-- static Pages artifact from `dist/site/`
+- static Pages artifact from `apps/web/dist/`
 - Cloudflare Worker from `apps/communications-worker/`
 
 ## Static Site
 
 - Source: `apps/web/src/`
 - Build command: `npm run build`
-- Output artifact: `dist/site/`
+- Output artifact: `apps/web/dist/`
 - Workflow: `.github/workflows/deploy-pages.yml`
 - Trigger: push to `main` or manual dispatch
 
-GitHub Pages now uploads `dist/site/` directly. The old checked-in `site/` tree is archived and not part of deployment.
+Cloudflare Pages deploys `apps/web/dist/` directly. The old checked-in `site/` tree is archived and not part of deployment.
 
 ## Communications Worker
 

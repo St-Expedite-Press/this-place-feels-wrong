@@ -9,7 +9,7 @@ if [ "${1:-}" = "--strict" ]; then
 fi
 
 issues=0
-files="$(find "$repo_root/dist/site" -maxdepth 1 -type f -name '*.html' ! -name 'interior-content-template.html' | sort)"
+files="$(find "$repo_root/apps/web/dist" -maxdepth 1 -type f -name '*.html' | sort)"
 
 old_ifs="$IFS"
 IFS='

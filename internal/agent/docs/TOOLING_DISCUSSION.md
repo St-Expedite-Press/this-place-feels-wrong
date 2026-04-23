@@ -11,7 +11,7 @@ What already exists and is useful:
 - Runtime ops scripts: `internal/agent/skills/ops/cloudflare-stability/scripts/*.sh`
 - Repo guidance docs: `README.md`, `DEPLOYMENT.md`, `docs/state-of-play.md`, `internal/agent/docs/AGENTS.md`
 - Root operator command surface: `npm run build`, `npm run check`, `npm run dev:web`, `npm run dev:worker`, `npm run deploy:web`, `npm run deploy:worker`
-- Clean generated web artifact at `dist/site/`
+- Clean generated web artifact at `apps/web/dist/`
 
 Primary constraints today:
 - Push/deploy auth is still environment-sensitive unless bootstrapped.
@@ -35,7 +35,7 @@ Primary constraints today:
 
 4. Runtime config and asset integrity checks
 - `internal/agent/tools/check-runtime-config.sh` verifies deploy prerequisites.
-- `internal/agent/tools/check-assets-sync.sh` validates `assets/source/` against `apps/web/src/assets/`.
+- `internal/agent/tools/check-assets-sync.sh` validates `assets/source/` against `apps/web/public/assets/`.
 - Impact: catches deploy and content drift earlier.
 
 ## Recommended Next Upgrades

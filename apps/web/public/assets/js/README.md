@@ -1,6 +1,6 @@
 # Site Source JS
 
-Source JavaScript modules for interior pages and shared frontend behavior.
+Source JavaScript modules for the site shell, interior pages, and shared frontend behavior.
 
 Major responsibilities:
 - shared API and form helpers

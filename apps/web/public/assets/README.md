@@ -1,5 +1,5 @@
 # Site Source Assets
 
-Source CSS and JS copied into the generated `dist/site/assets/` tree during build.
+Authored CSS, JS, images, and GIFs consumed directly by the web app.
 
-Use this directory for interior-site asset changes rather than editing the generated output tree directly.
+Use this directory for site asset changes rather than editing the generated build output directly.
