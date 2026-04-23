@@ -3,12 +3,16 @@
 }
 
 body.donate-portal-page {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .donate-page-shell {
   min-height: 100vh;
   min-height: 100svh;
+  padding: clamp(1rem, 2vh, 1.6rem) 5vw clamp(1.4rem, 3vh, 2rem);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(0.9rem, 2vh, 1.5rem);
 }
 
 .donate-sr-only {
@@ -28,7 +32,8 @@ body.donate-portal-page {
   letter-spacing: .18em;
   font-size: clamp(2rem, 4vw, 3.2rem);
   text-align: center;
-  margin-top: calc(2.5vh + var(--hero-bar-height, 0px));
+  margin: 0;
+  line-height: 1;
   color: var(--green-base);
   text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
   animation: title-breathe 12s ease-in-out infinite;
@@ -40,49 +45,35 @@ body.donate-portal-page {
 }
 
 .donate-stage {
-  position: relative;
-  min-height: calc(100vh - 10rem);
-  min-height: calc(100svh - 10rem);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2.6vh, 1.8rem);
 }
 
 .donate-portal-frame {
-  position: absolute;
-  top: 46%;
-  left: 50%;
-  width: min(40vh, 380px);
-  height: min(40vh, 380px);
-  transform: translate(-50%, -50%);
+  position: relative;
+  width: clamp(240px, 31vh, 360px);
+  height: clamp(240px, 31vh, 360px);
   border-radius: 50%;
   overflow: hidden;
-  z-index: 10;
+  z-index: 1;
   border: 3px solid var(--green-base);
   box-shadow:
     0 0 16px var(--green-1),
     0 0 36px var(--green-2),
     0 0 72px var(--green-3);
   backdrop-filter: blur(4px) brightness(1.2) contrast(1.3);
-  will-change: transform;
   animation:
     portal-drift 22s ease-in-out infinite,
-    portal-glitch-cycle 2.2s steps(2, end) infinite,
     portal-twinkle-sync 6.3s ease-in-out infinite alternate;
 }
 
 @keyframes portal-drift {
-  0%, 100% { transform: translate(-50%, -50%) rotate(calc(var(--scan-warp) * -1)); }
-  50% { transform: translate(-50%, -50%) rotate(calc(var(--scan-warp) * 1)); }
-}
-
-@keyframes portal-glitch-cycle {
-  0%, 95% { }
-  96% {
-    border-color: rgba(42,255,138,0.35);
-    transform: translate(calc(-50% + 2px), calc(-50% - 1px)) skew(.4deg,-.6deg);
-    box-shadow: 0 0 6px var(--green-hot-2), 0 0 20px var(--green-hot-3);
-  }
-  98% {
-    transform: translate(calc(-50% - 3px), calc(-50% + 2px)) skew(-.3deg,.6deg);
-  }
+  0%, 100% { transform: rotate(calc(var(--scan-warp) * -1)); }
+  50% { transform: rotate(calc(var(--scan-warp) * 1)); }
 }
 
 @keyframes portal-twinkle-sync {
@@ -129,14 +120,10 @@ body.donate-portal-page {
 }
 
 .donate-surface {
-  position: absolute;
-  top: 64%;
-  left: 50%;
-  transform: translateX(-50%);
   width: min(720px, 88vw);
   display: grid;
   gap: .8rem;
-  z-index: 12;
+  z-index: 2;
 }
 
 .donate-presets {
@@ -212,6 +199,7 @@ body.donate-portal-page {
   font-size: .95rem;
   letter-spacing: .05em;
   opacity: .9;
+  margin-top: -0.15rem;
 }
 
 .donate-status[hidden] {
@@ -219,12 +207,10 @@ body.donate-portal-page {
 }
 
 .splash {
-  position: absolute;
-  bottom: 3.3vh;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   text-align: center;
   z-index: 5;
+  width: 100%;
 }
 
 .splash__eyebrow {
@@ -272,47 +258,26 @@ body.donate-portal-page {
 
 @media (max-width: 900px) {
   body.donate-portal-page {
-    overflow-x: hidden;
     overflow-y: auto;
   }
 
   .donate-page-shell {
-    min-height: auto;
-    padding: 1.4rem 5vw 3rem;
-    display: grid;
+    min-height: 100svh;
+    padding: 1.2rem 5vw 2rem;
     gap: 1rem;
   }
 
   .header-title {
     font-size: clamp(1.6rem, 3.2vw, 3rem);
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  .donate-stage {
-    min-height: 0;
-    display: grid;
-    gap: 1rem;
   }
 
   .donate-portal-frame {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
     width: min(72vw, 340px);
     height: min(72vw, 340px);
-    margin: 0 auto;
-    animation: none;
   }
 
   .donate-surface {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
     width: min(520px, 100%);
-    margin: 0 auto;
   }
 
   .donate-presets {
