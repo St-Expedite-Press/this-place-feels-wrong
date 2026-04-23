@@ -83,9 +83,9 @@
       "description": "One-time donations to support St. Expedite Press through Stripe-hosted checkout.",
       "subtitle": "Support the press",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "One-time support",
-      "introTitle": "Support the press directly.",
-      "introText": "Choose an amount and continue to Stripe-hosted checkout for a one-time donation.",
+      "introKicker": "Direct support",
+      "introTitle": "This work continues because of this.",
+      "introText": "A one-time contribution enters the ongoing work of publication, archive, and continuity.",
       "canonical": "https://stexpedite.press/donate",
       "currentNav": "/donate"
     },
@@ -95,8 +95,8 @@
       "subtitle": "Support received",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Donation complete",
-      "introTitle": "Thank you for supporting the press.",
-      "introText": "Stripe handles payment processing and receipts. The site is ready when you want to continue.",
+      "introTitle": "Contribution received.",
+      "introText": "Work continues through this.",
       "canonical": "https://stexpedite.press/donate/thanks",
       "currentNav": "/donate"
     },

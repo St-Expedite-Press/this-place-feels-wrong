@@ -24,47 +24,62 @@ const styles = [
   currentNav={page.currentNav}
   styles={styles}
 >
-  <section class="card donate-lede">
-    <p>Support keeps the press small, deliberate, and able to work on books that need time rather than throughput.</p>
-    <p>This is a one-time contribution through Stripe-hosted checkout.</p>
+  <section class="donate-altar" aria-labelledby="donate-altar-title">
+    <p class="donate-altar__glyph" aria-hidden="true">&#9651; &#10013; &#9651;</p>
+    <h2 class="donate-altar__title" id="donate-altar-title">St. Expedite Press</h2>
+    <p class="donate-altar__coords">29.9511&deg; N / 90.0715&deg; W</p>
   </section>
 
-  <section class="donate-grid">
-    <article class="form-card donate-card form-shell">
+  <section class="card donate-orientation" aria-label="Donation orientation">
+    <p>This press operates on direct support.</p>
+    <p>Each contribution sustains:</p>
+    <ul>
+      <li>Publication</li>
+      <li>Archive</li>
+      <li>Ongoing work</li>
+    </ul>
+  </section>
+
+  <section class="donate-grid" aria-label="Donation form">
+    <article class="form-card donate-seal form-shell">
       <div>
-        <p class="card-kicker">Choose an amount</p>
-        <h2 class="section-heading">Support the press</h2>
-        <p class="section-copy section-copy--large">Pick a preset or enter your own amount, then continue to secure checkout.</p>
+        <p class="card-kicker">Offering surface</p>
+        <h2 class="section-heading">Choose the signal</h2>
+        <p class="section-copy section-copy--large">Select an amount or enter one directly. Checkout opens through Stripe.</p>
       </div>
 
       <div class="donate-amount-grid" role="group" aria-label="Suggested donation amounts">
         <button class="donate-amount-button" type="button" data-donation-amount="10">
           <strong>$10</strong>
-          <span>Reader support</span>
+          <span>Signal</span>
         </button>
         <button class="donate-amount-button" type="button" data-donation-amount="25">
           <strong>$25</strong>
-          <span>Production support</span>
+          <span>Archive</span>
         </button>
         <button class="donate-amount-button" type="button" data-donation-amount="50">
           <strong>$50</strong>
-          <span>Editorial support</span>
+          <span>Publication</span>
         </button>
         <button class="donate-amount-button" type="button" data-donation-amount="100">
           <strong>$100</strong>
-          <span>Program support</span>
+          <span>Continuity</span>
         </button>
       </div>
 
       <form class="form-grid" id="donate-form">
-        <div class="field">
+        <div class="field donate-field">
           <label for="donate-amount">Custom amount (USD)</label>
-          <input class="input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" placeholder="25" required />
+          <input class="input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="25" required />
           <p class="donate-field-note">Minimum $5. Maximum $1,000.</p>
         </div>
-        <p class="donate-selected" id="donate-selected-amount">Choose an amount to continue.</p>
+        <p class="donate-selected" id="donate-selected-amount">Choose an amount to seal.</p>
+        <div class="donate-commitment">
+          <button class="button donate-cta" id="donate-submit" type="submit">Seal contribution</button>
+          <p class="donate-checkout-note">Secure checkout opens through Stripe.</p>
+          <p class="donate-continuity">Work continues through this.</p>
+        </div>
         <div class="donate-actions">
-          <button class="button" id="donate-submit" type="submit">Continue to Stripe</button>
           <a class="button-secondary" href="/about">About the press</a>
         </div>
       </form>
@@ -74,20 +89,20 @@ const styles = [
       </div>
     </article>
 
-    <aside class="form-card donate-card donate-summary">
+    <aside class="form-card donate-summary">
       <div class="stack">
         <div>
-          <p class="card-kicker">What support does</p>
+          <p class="card-kicker">Continuity</p>
           <h2 class="section-heading">What this sustains</h2>
         </div>
         <ul class="donate-support-list">
-          <li>Slow editorial work and deliberate production.</li>
-          <li>Program continuity outside inventory logic.</li>
-          <li>Operational room for books worth preserving.</li>
+          <li>Publication</li>
+          <li>Archive</li>
+          <li>Ongoing work</li>
         </ul>
       </div>
 
-      <p class="donate-fine-print">Checkout is hosted by Stripe. Donations are one-time contributions in USD for this first release.</p>
+      <p class="donate-fine-print">The press remains small by design. Support keeps that scale possible.</p>
     </aside>
   </section>
 

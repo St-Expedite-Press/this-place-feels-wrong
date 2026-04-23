@@ -28,7 +28,7 @@ function syncPresetState() {
 
   if (!amountLabel) return;
   if (!numeric || !Number.isFinite(numeric)) {
-    amountLabel.textContent = "Choose an amount to continue.";
+    amountLabel.textContent = "Choose an amount to seal.";
     return;
   }
   amountLabel.textContent = `Selected amount: ${formatUsd(numeric)}`;
@@ -36,6 +36,8 @@ function syncPresetState() {
 
 if (amountInput) {
   amountInput.addEventListener("input", syncPresetState);
+  window.addEventListener("load", syncPresetState, { once: true });
+  window.addEventListener("pageshow", syncPresetState);
 }
 
 for (const button of presetButtons) {
@@ -58,8 +60,8 @@ if (form && helper && submitButton && amountInput) {
       return;
     }
 
-    setPendingState(submitButton, true, "Redirecting...");
-    setStatus(helper, "Creating secure checkout...", "info");
+    setPendingState(submitButton, true, "Sealing...");
+    setStatus(helper, "Opening the secure checkout surface...", "info");
 
     try {
       const data = await requestJson("/api/donate/session", {
@@ -71,7 +73,7 @@ if (form && helper && submitButton && amountInput) {
         throw new Error("Missing checkout URL");
       }
 
-      setStatus(helper, "Redirecting to Stripe Checkout...", "success");
+      setStatus(helper, "Opening Stripe Checkout...", "success");
       window.location.assign(String(data.url));
     } catch {
       setStatus(helper, "Donation checkout is unavailable right now. Please try again shortly.", "error");

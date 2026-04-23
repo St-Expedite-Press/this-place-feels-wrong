@@ -25,9 +25,15 @@ const styles = [
   styles={styles}
 >
   <section class="donate-shell">
-    <article class="card donate-lede">
-      <p>Your support has been handed off to Stripe and the donation flow is complete.</p>
-      <p>Thank you for helping keep the press small, deliberate, and durable.</p>
+    <section class="donate-altar donate-altar--compact" aria-labelledby="donate-thanks-anchor">
+      <p class="donate-altar__glyph" aria-hidden="true">&#9651; &#10013; &#9651;</p>
+      <h2 class="donate-altar__title" id="donate-thanks-anchor">Contribution received.</h2>
+      <p class="donate-altar__coords">Work continues through this.</p>
+    </section>
+
+    <article class="card donate-orientation donate-orientation--thanks">
+      <p>Your support has been handed off to Stripe.</p>
+      <p>The press remains small, deliberate, and in motion.</p>
     </article>
 
     <section class="split-grid">
@@ -35,11 +41,11 @@ const styles = [
         <div>
           <p class="card-kicker">Next step</p>
           <h2 class="section-heading">Return to the site</h2>
-          <p class="section-copy section-copy--large">You can go back to the portal, read about the press, or continue browsing books and store inventory.</p>
+          <p class="section-copy section-copy--large">Go back to the portal, read about the press, or continue through the catalog.</p>
         </div>
         <div class="actions">
-          <a class="button" href="/">Portal</a>
-          <a class="button-secondary" href="/about">About</a>
+          <a class="button" href="/">Return to Portal</a>
+          <a class="button-secondary" href="/about">About the Press</a>
           <a class="button-secondary" href="/books">Books</a>
         </div>
       </article>
@@ -49,7 +55,7 @@ const styles = [
           <p class="card-kicker">Receipt</p>
           <h2 class="section-heading">Payment details</h2>
         </div>
-        <p class="section-copy">Stripe handles payment processing and receipts. If you need help with anything else, use <a href="/about">About</a>.</p>
+        <p class="section-copy">Stripe handles payment processing and receipts. For anything else, use <a href="/about">About</a>.</p>
       </aside>
     </section>
   </section>
