@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import siteData from '../data/site.json';
+
+const page = siteData.pages.donate;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/forms.css',
+  'assets/css/donate.css',
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  canonical={page.canonical}
+  subtitle={page.subtitle}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  currentNav={page.currentNav}
+  styles={styles}
+>
+  <section class="card donate-lede">
+    <p>Support keeps the press small, deliberate, and able to work on books that need time rather than throughput.</p>
+    <p>This is a one-time contribution through Stripe-hosted checkout.</p>
+  </section>
+
+  <section class="donate-grid">
+    <article class="form-card donate-card form-shell">
+      <div>
+        <p class="card-kicker">Choose an amount</p>
+        <h2 class="section-heading">Support the press</h2>
+        <p class="section-copy section-copy--large">Pick a preset or enter your own amount, then continue to secure checkout.</p>
+      </div>
+
+      <div class="donate-amount-grid" role="group" aria-label="Suggested donation amounts">
+        <button class="donate-amount-button" type="button" data-donation-amount="10">
+          <strong>$10</strong>
+          <span>Reader support</span>
+        </button>
+        <button class="donate-amount-button" type="button" data-donation-amount="25">
+          <strong>$25</strong>
+          <span>Production support</span>
+        </button>
+        <button class="donate-amount-button" type="button" data-donation-amount="50">
+          <strong>$50</strong>
+          <span>Editorial support</span>
+        </button>
+        <button class="donate-amount-button" type="button" data-donation-amount="100">
+          <strong>$100</strong>
+          <span>Program support</span>
+        </button>
+      </div>
+
+      <form class="form-grid" id="donate-form">
+        <div class="field">
+          <label for="donate-amount">Custom amount (USD)</label>
+          <input class="input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" placeholder="25" required />
+          <p class="donate-field-note">Minimum $5. Maximum $1,000.</p>
+        </div>
+        <p class="donate-selected" id="donate-selected-amount">Choose an amount to continue.</p>
+        <div class="donate-actions">
+          <button class="button" id="donate-submit" type="submit">Continue to Stripe</button>
+          <a class="button-secondary" href="/about">About the press</a>
+        </div>
+      </form>
+
+      <div class="status-panel" id="donate-helper" role="status" aria-live="polite" hidden>
+        <div data-status-text></div>
+      </div>
+    </article>
+
+    <aside class="form-card donate-card donate-summary">
+      <div class="stack">
+        <div>
+          <p class="card-kicker">What support does</p>
+          <h2 class="section-heading">What this sustains</h2>
+        </div>
+        <ul class="donate-support-list">
+          <li>Slow editorial work and deliberate production.</li>
+          <li>Program continuity outside inventory logic.</li>
+          <li>Operational room for books worth preserving.</li>
+        </ul>
+      </div>
+
+      <p class="donate-fine-print">Checkout is hosted by Stripe. Donations are one-time contributions in USD for this first release.</p>
+    </aside>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/donate-page.js" type="module"></script>
+  </Fragment>
+</Base>

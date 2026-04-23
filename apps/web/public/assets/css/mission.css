@@ -5,7 +5,12 @@
 .mission-copy p {
   margin: 0 0 1rem;
   color: var(--text-soft);
-  font-size: 1.08rem;
+  font-size: 1.14rem;
+  max-width: 42rem;
+}
+
+.mission-copy p:last-child {
+  margin-bottom: 0;
 }
 
 .principles {

@@ -23,17 +23,23 @@ const styles = [
   currentNav={page.currentNav}
   styles={styles}
 >
-  <section class="form-trust">
-    <div class="trust-card"><strong>Best use</strong>Query letters, manuscript introductions, and project summaries.</div>
-    <div class="trust-card"><strong>What happens next</strong>You receive a reference email. If attachments are needed, reply to that message so the thread stays intact.</div>
-    <div class="trust-card"><strong>Faster review</strong>Include genre, approximate length, and current stage of completion in the note.</div>
+  <section class="form-trust form-trust--two">
+    <div class="trust-card trust-card--center">
+      <strong>Use Submit for</strong>
+      Manuscripts, project inquiries, and query letters.
+    </div>
+    <div class="trust-card trust-card--center">
+      <strong>After you send</strong>
+      You get a reference email. Attach files by replying to that thread.
+    </div>
   </section>
 
-  <section class="split-card-grid">
-    <article class="form-card form-shell">
+  <section class="split-card-grid split-card-grid--balanced">
+    <article class="form-card form-shell form-card--tall">
       <div>
+        <p class="card-kicker">Primary channel</p>
         <h2 class="section-heading">Submission inquiry</h2>
-        <p class="section-copy">A concise inquiry is enough here. Use the note to explain the project and what you are looking for from the press.</p>
+        <p class="section-copy section-copy--large">Keep it concise. Project type, length, stage, and ask.</p>
       </div>
       <form class="form-grid" id="submit-form">
         <input id="submit-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
@@ -58,13 +64,19 @@ const styles = [
       </div>
     </article>
 
-    <aside class="form-card stack">
-      <h2 class="section-heading">Use About instead when</h2>
+    <aside class="form-card stack form-card--tall form-card--split">
+      <div>
+        <p class="card-kicker">Not a submission</p>
+        <h2 class="section-heading">Use About instead</h2>
+      </div>
       <ul class="meta-list">
-        <li>You are writing about rights, press, or collaborations.</li>
-        <li>You need operational help with the site or store.</li>
-        <li>You are not pitching a manuscript or editorial project.</li>
+        <li>Rights, press, and collaborations.</li>
+        <li>Operational help with the site or store.</li>
+        <li>Anything that is not a manuscript or editorial project.</li>
       </ul>
+      <div class="actions">
+        <a class="pill-link" href="/about">Go to About</a>
+      </div>
     </aside>
   </section>
 

@@ -19,6 +19,7 @@ type Env = {
   RESEND_API_KEY: string;
   FROM_EMAIL: string;
   TO_EMAIL: string;
+  STRIPE_SECRET_KEY?: string;
   FOURTH_WALL_API_KEY?: string;
   FW_STOREFRONT_TOKEN?: string;
   DB?: D1Database;
@@ -171,6 +172,70 @@ function escapeHtml(value: string) {
 
 function nlToBr(value: string) {
   return escapeHtml(value).replaceAll("\n", "<br />");
+}
+
+const STRIPE_API_VERSION = "2026-02-25.clover";
+const DONATION_MIN_CENTS = 500;
+const DONATION_MAX_CENTS = 100000;
+
+function parseDonationAmountCents(body: JsonRecord) {
+  const rawCents = pickField(body, "amountCents", "amount_cents");
+  if (rawCents !== undefined && rawCents !== null && rawCents !== "") {
+    const parsed = Number.parseInt(String(rawCents), 10);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  const rawAmount = pickField(body, "amount");
+  const normalized = String(rawAmount ?? "").replace(/[$,\s]/g, "").trim();
+  if (!normalized) return null;
+  if (!/^\d+(?:\.\d{1,2})?$/.test(normalized)) return null;
+
+  const amount = Number(normalized);
+  if (!Number.isFinite(amount)) return null;
+  return Math.round(amount * 100);
+}
+
+async function createStripeCheckoutSession(env: Env, params: { amountCents: number }) {
+  const secret = String(env.STRIPE_SECRET_KEY ?? "").trim();
+  if (!secret) {
+    throw new Error("Stripe not configured");
+  }
+
+  const body = new URLSearchParams();
+  body.set("mode", "payment");
+  body.set("submit_type", "donate");
+  body.set("success_url", `${BRAND.siteUrl}/donate/thanks?session_id={CHECKOUT_SESSION_ID}`);
+  body.set("cancel_url", `${BRAND.siteUrl}/donate`);
+  body.set("line_items[0][quantity]", "1");
+  body.set("line_items[0][price_data][currency]", "usd");
+  body.set("line_items[0][price_data][unit_amount]", String(params.amountCents));
+  body.set("line_items[0][price_data][product_data][name]", "Donation");
+  body.set("line_items[0][price_data][product_data][description]", "Support St. Expedite Press");
+  body.set("payment_intent_data[metadata][source]", "site_donate");
+  body.set("payment_intent_data[metadata][amount_cents]", String(params.amountCents));
+  body.set("metadata[source]", "site_donate");
+  body.set("metadata[amount_cents]", String(params.amountCents));
+
+  const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${secret}`,
+      "content-type": "application/x-www-form-urlencoded",
+      "stripe-version": STRIPE_API_VERSION,
+    },
+    body: body.toString(),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => "");
+    throw new Error(`Stripe error (${response.status}): ${errorBody.slice(0, 500)}`);
+  }
+
+  const data = (await response.json().catch(() => ({}))) as { id?: string; url?: string };
+  return {
+    id: String(data.id ?? ""),
+    url: String(data.url ?? ""),
+  };
 }
 
 async function sendEmail(env: Env, params: { to: string; subject: string; text: string; html?: string; replyTo?: string }): Promise<string> {
@@ -840,6 +905,7 @@ export default {
             dbConfigured,
             dbReachable,
             resendConfigured: Boolean(String(env.RESEND_API_KEY ?? "").trim()),
+            stripeConfigured: Boolean(String(env.STRIPE_SECRET_KEY ?? "").trim()),
             storefrontConfigured: Boolean(String(env.FOURTH_WALL_API_KEY ?? env.FW_STOREFRONT_TOKEN ?? "").trim()),
             importConfigured: Boolean(String(env.UPDATES_IMPORT_TOKEN ?? "").trim()),
             now: new Date().toISOString(),
@@ -1004,6 +1070,29 @@ export default {
           receiptEmailId,
         });
         return withCors(request, ok({ id }));
+      }
+
+      if (url.pathname === "/api/donate/session") {
+        const amountCents = parseDonationAmountCents(body);
+        if (amountCents === null) {
+          return withCors(request, errorResponse("Invalid donation amount", 400));
+        }
+        if (amountCents < DONATION_MIN_CENTS) {
+          return withCors(request, errorResponse("Donation amount below minimum", 400));
+        }
+        if (amountCents > DONATION_MAX_CENTS) {
+          return withCors(request, errorResponse("Donation amount above maximum", 400));
+        }
+        if (!String(env.STRIPE_SECRET_KEY ?? "").trim()) {
+          return withCors(request, errorResponse("Stripe not configured", 500));
+        }
+
+        const session = await createStripeCheckoutSession(env, { amountCents });
+        if (!session.url) {
+          return withCors(request, errorResponse("Stripe session unavailable", 502));
+        }
+
+        return withCors(request, ok({ amountCents, sessionId: session.id, url: session.url }));
       }
 
       if (url.pathname === "/api/updates/unsubscribe") {

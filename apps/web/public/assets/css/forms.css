@@ -9,8 +9,18 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.form-trust--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .trust-card {
   padding: 0.9rem;
+}
+
+.trust-card--center {
+  min-height: 7.5rem;
+  display: grid;
+  align-content: center;
 }
 
 .trust-card strong {
@@ -28,6 +38,38 @@
   gap: 1rem;
 }
 
+.split-card-grid--balanced {
+  align-items: stretch;
+}
+
+.form-card--tall {
+  min-height: 32rem;
+}
+
+.form-card--split {
+  align-content: space-between;
+}
+
+.lede-card {
+  min-height: clamp(12rem, 26vh, 16rem);
+  display: grid;
+  align-content: end;
+}
+
+.card-kicker {
+  margin: 0 0 0.55rem;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.section-copy--large {
+  max-width: 28rem;
+  font-size: 1.05rem;
+}
+
 .aside-note {
   color: var(--text-soft);
 }
@@ -36,5 +78,11 @@
   .split-card-grid,
   .form-trust {
     grid-template-columns: 1fr;
+  }
+
+  .trust-card--center,
+  .form-card--tall,
+  .lede-card {
+    min-height: 0;
   }
 }

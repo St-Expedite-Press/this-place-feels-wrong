@@ -5,6 +5,7 @@ type TestEnv = {
   RESEND_API_KEY: string;
   FROM_EMAIL: string;
   TO_EMAIL: string;
+  STRIPE_SECRET_KEY?: string;
   TURNSTILE_SECRET?: string;
   RATE_LIMIT_MAX?: string;
   RATE_LIMIT_WINDOW_MS?: string;
@@ -21,6 +22,7 @@ const baseEnv: TestEnv = {
   FROM_EMAIL: "St. Expedite Press <no-reply@stexpedite.press>",
   TO_EMAIL: "editor@stexpedite.press",
   UPDATES_IMPORT_TOKEN: "import-secret",
+  STRIPE_SECRET_KEY: "sk_test_123",
 };
 
 function makeJsonRequest(path: string, body: Record<string, unknown>, headers?: HeadersInit) {
@@ -364,6 +366,49 @@ describe("communications worker", () => {
     expect(body.ok).toBe(true);
     expect(body.id.startsWith("CONTACT-")).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("creates a Stripe Checkout session for donations", async () => {
+    fetchMock.mockResolvedValue(
+      new Response(JSON.stringify({ id: "cs_test_123", url: "https://checkout.stripe.com/c/pay/cs_test_123" }), { status: 200 }),
+    );
+
+    const req = makeJsonRequest("/api/donate/session", { amount: "25" });
+    const res = await worker.fetch(req, baseEnv as never);
+    const body = (await res.json()) as { ok: boolean; amountCents: number; sessionId: string; url: string };
+
+    expect(res.status).toBe(200);
+    expect(body.ok).toBe(true);
+    expect(body.amountCents).toBe(2500);
+    expect(body.sessionId).toBe("cs_test_123");
+    expect(body.url).toContain("checkout.stripe.com");
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const stripeInit = fetchMock.mock.calls[0]?.[1] as RequestInit;
+    expect(String(stripeInit?.body ?? "")).toContain("submit_type=donate");
+    expect(String(stripeInit?.body ?? "")).toContain("line_items%5B0%5D%5Bprice_data%5D%5Bunit_amount%5D=2500");
+  });
+
+  it("rejects donations below the minimum", async () => {
+    const req = makeJsonRequest("/api/donate/session", { amount: "4" });
+    const res = await worker.fetch(req, baseEnv as never);
+    const body = (await res.json()) as { ok: boolean; error: string };
+
+    expect(res.status).toBe(400);
+    expect(body.ok).toBe(false);
+    expect(body.error).toBe("Donation amount below minimum");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("returns a structured 500 when Stripe session creation fails", async () => {
+    fetchMock.mockRejectedValue(new Error("stripe offline"));
+    const req = makeJsonRequest("/api/donate/session", { amount: "25" });
+
+    const res = await worker.fetch(req, baseEnv as never);
+    const body = (await res.json()) as { ok: boolean; error: string };
+
+    expect(res.status).toBe(500);
+    expect(body.ok).toBe(false);
+    expect(body.error).toBe("Internal server error");
   });
 
   it("logs contact submission to D1 when DB is configured", async () => {

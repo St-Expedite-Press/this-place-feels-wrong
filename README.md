@@ -50,6 +50,7 @@ Public pages remain stable at the domain root, including:
 - `/`
 - `/books`
 - `/about`
+- `/donate`
 - `/submit`
 - `/gallery`
 - `/lab`
