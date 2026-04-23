@@ -28,8 +28,6 @@ type Env = {
   UPDATES_IMPORT_TOKEN?: string;
 };
 
-const MEMORY_RATE_LIMIT_STATE = new Map<string, { count: number; resetAt: number }>();
-
 function json(data: JsonRecord, init?: ResponseInit) {
   const headers = new Headers(init?.headers);
   headers.set("content-type", "application/json; charset=utf-8");
@@ -175,7 +173,7 @@ function nlToBr(value: string) {
   return escapeHtml(value).replaceAll("\n", "<br />");
 }
 
-async function sendEmail(env: Env, params: { to: string; subject: string; text: string; html?: string; replyTo?: string }) {
+async function sendEmail(env: Env, params: { to: string; subject: string; text: string; html?: string; replyTo?: string }): Promise<string> {
   const payload: Record<string, unknown> = {
     from: env.FROM_EMAIL,
     to: [params.to],
@@ -198,6 +196,35 @@ async function sendEmail(env: Env, params: { to: string; subject: string; text: 
   if (!resp.ok) {
     const body = await resp.text().catch(() => "");
     throw new Error(`Resend error (${resp.status}): ${body.slice(0, 500)}`);
+  }
+
+  const data = (await resp.json().catch(() => ({}))) as { id?: string };
+  return String(data?.id ?? "");
+}
+
+async function logSubmission(db: D1Database | undefined, params: {
+  id: string;
+  type: "contact" | "submit";
+  email: string;
+  reason: string | null;
+  message: string | null;
+  editorEmailId: string;
+  receiptEmailId: string;
+}) {
+  if (!db?.prepare) return;
+  try {
+    await db
+      .prepare(
+        `INSERT INTO contact_submissions (id, type, email, reason, message, received_at, editor_email_id, receipt_email_id)
+         VALUES (?, ?, ?, ?, ?, datetime('now'), ?, ?)`,
+      )
+      .bind(params.id, params.type, params.email, params.reason, params.message, params.editorEmailId, params.receiptEmailId)
+      .run();
+  } catch (error) {
+    console.warn("Failed to log submission to D1", {
+      id: params.id,
+      message: error instanceof Error ? error.message : String(error),
+    });
   }
 }
 
@@ -397,32 +424,11 @@ function enrichUpdatesRecord(body: JsonRecord) {
   };
 }
 
-function checkRateLimitInMemory(request: Request, env: Env) {
-  const ip = clientIp(request);
-  if (!ip) return { allowed: true as const, retryAfterSec: 0, mode: "memory" };
-  const max = intOrDefault(env.RATE_LIMIT_MAX, 20);
-  const windowMs = intOrDefault(env.RATE_LIMIT_WINDOW_MS, 60_000);
-  const key = `${request.method}:${new URL(request.url).pathname}:${ip}`;
-  const now = Date.now();
-  const current = MEMORY_RATE_LIMIT_STATE.get(key);
-  if (!current || now >= current.resetAt) {
-    MEMORY_RATE_LIMIT_STATE.set(key, { count: 1, resetAt: now + windowMs });
-    return { allowed: true as const, retryAfterSec: 0, mode: "memory" };
-  }
-  if (current.count >= max) {
-    const retryAfterMs = Math.max(0, current.resetAt - now);
-    return { allowed: false as const, retryAfterSec: Math.max(1, Math.ceil(retryAfterMs / 1000)), mode: "memory" };
-  }
-  current.count += 1;
-  MEMORY_RATE_LIMIT_STATE.set(key, current);
-  return { allowed: true as const, retryAfterSec: 0, mode: "memory" };
-}
-
 async function checkRateLimit(request: Request, env: Env) {
   const ip = clientIp(request);
   const db = env.DB;
   if (!ip || !db?.prepare) {
-    return checkRateLimitInMemory(request, env);
+    return { allowed: true as const, retryAfterSec: 0, mode: "open" };
   }
 
   const max = intOrDefault(env.RATE_LIMIT_MAX, 20);
@@ -464,10 +470,10 @@ async function checkRateLimit(request: Request, env: Env) {
     await db.prepare("UPDATE api_rate_limits SET count = count + 1 WHERE bucket_key = ?").bind(bucketKey).run();
     return { allowed: true as const, retryAfterSec: 0, mode: "d1" };
   } catch (error) {
-    console.warn("D1 rate limit unavailable; falling back to memory", {
+    console.warn("D1 rate limit unavailable; allowing request", {
       message: error instanceof Error ? error.message : String(error),
     });
-    return checkRateLimitInMemory(request, env);
+    return { allowed: true as const, retryAfterSec: 0, mode: "open" };
   }
 }
 
@@ -816,11 +822,22 @@ export default {
       }
 
       if (url.pathname === "/api/health" && request.method === "GET") {
+        const dbConfigured = Boolean(env.DB?.prepare);
+        let dbReachable = false;
+        if (dbConfigured) {
+          try {
+            await env.DB!.prepare("SELECT 1").bind().first();
+            dbReachable = true;
+          } catch {
+            dbReachable = false;
+          }
+        }
         return withCors(
           request,
           ok({
             service: "communications-worker",
-            dbConfigured: Boolean(env.DB?.prepare),
+            dbConfigured,
+            dbReachable,
             resendConfigured: Boolean(String(env.RESEND_API_KEY ?? "").trim()),
             storefrontConfigured: Boolean(String(env.FOURTH_WALL_API_KEY ?? env.FW_STOREFRONT_TOKEN ?? "").trim()),
             importConfigured: Boolean(String(env.UPDATES_IMPORT_TOKEN ?? "").trim()),
@@ -912,14 +929,14 @@ export default {
           return withCors(request, errorResponse("Missing fields", 400));
         }
         const id = refId("CONTACT");
-        await sendEmail(env, {
+        const editorEmailId = await sendEmail(env, {
           to: env.TO_EMAIL,
           subject: `St. Expedite Press — Contact${reason ? ` (${reason})` : ""} — ${id}`,
           text: ["Contact form submission", "", `Ref: ${id}`, reason ? `Reason: ${reason}` : null, `From: ${fromEmail}`, "", message].filter(Boolean).join("\n"),
           html: renderContactEditorHtml({ id, reason, fromEmail, message }),
           replyTo: fromEmail,
         });
-        await sendEmail(env, {
+        const receiptEmailId = await sendEmail(env, {
           to: fromEmail,
           subject: `Received — ${id}`,
           text: [
@@ -932,6 +949,15 @@ export default {
           ].join("\n"),
           html: renderReceiptHtml({ id, heading: "Contact Message Received", detail: "Your message to St. Expedite Press has been received." }),
           replyTo: env.TO_EMAIL,
+        });
+        await logSubmission(env.DB, {
+          id,
+          type: "contact",
+          email: fromEmail,
+          reason: reason || null,
+          message,
+          editorEmailId,
+          receiptEmailId,
         });
         return withCors(request, ok({ id }));
       }
@@ -946,14 +972,14 @@ export default {
           return withCors(request, errorResponse("Missing fields", 400));
         }
         const id = refId("SUBMIT");
-        await sendEmail(env, {
+        const editorEmailId = await sendEmail(env, {
           to: env.TO_EMAIL,
           subject: `St. Expedite Press — Submission — ${id}`,
           text: ["Submission / inquiry", "", `Ref: ${id}`, `From: ${fromEmail}`, "", note || "(no note)"].join("\n"),
           html: renderSubmitEditorHtml({ id, fromEmail, note }),
           replyTo: fromEmail,
         });
-        await sendEmail(env, {
+        const receiptEmailId = await sendEmail(env, {
           to: fromEmail,
           subject: `Received — ${id}`,
           text: [
@@ -967,7 +993,32 @@ export default {
           html: renderReceiptHtml({ id, heading: "Submission Inquiry Received", detail: "Your submission inquiry has been received." }),
           replyTo: env.TO_EMAIL,
         });
+        await logSubmission(env.DB, {
+          id,
+          type: "submit",
+          email: fromEmail,
+          reason: null,
+          message: note || null,
+          editorEmailId,
+          receiptEmailId,
+        });
         return withCors(request, ok({ id }));
+      }
+
+      if (url.pathname === "/api/updates/unsubscribe") {
+        const db = env.DB;
+        const fromEmail = normalizeText(body.email, 320);
+        if (!isProbablyEmail(fromEmail)) {
+          return withCors(request, errorResponse("Missing fields", 400));
+        }
+        if (!db?.prepare) {
+          return withCors(request, errorResponse("Updates list not configured", 500));
+        }
+        await db
+          .prepare(`UPDATE updates_signups SET unsubscribed_at = datetime('now') WHERE lower(email) = lower(?)`)
+          .bind(fromEmail)
+          .run();
+        return withCors(request, ok({ unsubscribed: true }));
       }
 
       return withCors(request, errorResponse("Not found", 404));
@@ -984,6 +1035,6 @@ export default {
 
 export const __testing = {
   clearRateLimitState() {
-    MEMORY_RATE_LIMIT_STATE.clear();
+    // No-op: in-memory rate-limit fallback removed; D1 is authoritative.
   },
 };

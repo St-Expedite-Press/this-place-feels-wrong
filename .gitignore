@@ -54,3 +54,7 @@ assets/manifest.tmp
 # Generated archives
 *.zip
 *.tar
+
+# Claude Code local files
+CLAUDE.md
+.claude/

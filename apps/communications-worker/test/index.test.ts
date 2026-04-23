@@ -38,16 +38,19 @@ function makeJsonRequest(path: string, body: Record<string, unknown>, headers?: 
 function makeMockDb() {
   const updates = new Map<string, Record<string, unknown>>();
   const rateLimits = new Map<string, { count: number; reset_at: number }>();
+  const submissions = new Map<string, Record<string, unknown>>();
 
   return {
     updates,
     rateLimits,
+    submissions,
     prepare(query: string) {
       const sql = query.replace(/\s+/g, " ").trim();
       return {
         bind(...values: unknown[]) {
           return {
             async first<T>() {
+              if (sql === "SELECT 1") return { 1: 1 } as T;
               if (sql.includes("FROM updates_signups")) {
                 const email = String(values[0] ?? "").toLowerCase();
                 for (const [key, value] of updates.entries()) {
@@ -75,6 +78,15 @@ function makeMockDb() {
                 });
                 return {};
               }
+              if (sql.includes("UPDATE updates_signups SET unsubscribed_at")) {
+                const email = String(values[0] ?? "").toLowerCase();
+                for (const [key, value] of updates.entries()) {
+                  if (key.toLowerCase() === email) {
+                    updates.set(key, { ...value, unsubscribed_at: new Date().toISOString() });
+                  }
+                }
+                return {};
+              }
               if (sql.includes("UPDATE updates_signups SET")) {
                 const email = String(values[values.length - 1] ?? "");
                 const existing = updates.get(email) ?? { email };
@@ -99,6 +111,11 @@ function makeMockDb() {
                 for (const [key, value] of rateLimits.entries()) {
                   if (value.reset_at < threshold) rateLimits.delete(key);
                 }
+                return {};
+              }
+              if (sql.includes("INSERT INTO contact_submissions")) {
+                const [id, type, email, reason, message, editorEmailId, receiptEmailId] = values;
+                submissions.set(String(id), { id, type, email, reason, message, editorEmailId, receiptEmailId });
                 return {};
               }
               return {};
@@ -187,18 +204,32 @@ afterEach(() => {
 });
 
 describe("communications worker", () => {
-  it("returns health payload", async () => {
+  it("returns health payload without DB", async () => {
     const req = new Request("https://stexpedite.press/api/health", {
       method: "GET",
       headers: { origin: "https://stexpedite.press" },
     });
     const res = await worker.fetch(req, baseEnv as never);
-    const body = (await res.json()) as { ok: boolean; service: string; dbConfigured: boolean };
+    const body = (await res.json()) as { ok: boolean; service: string; dbConfigured: boolean; dbReachable: boolean };
 
     expect(res.status).toBe(200);
     expect(body.ok).toBe(true);
     expect(body.service).toBe("communications-worker");
     expect(body.dbConfigured).toBe(false);
+    expect(body.dbReachable).toBe(false);
+  });
+
+  it("health check reports dbReachable when D1 responds to SELECT 1", async () => {
+    const req = new Request("https://stexpedite.press/api/health", {
+      method: "GET",
+      headers: { origin: "https://stexpedite.press" },
+    });
+    const res = await worker.fetch(req, { ...baseEnv, DB: makeMockDb() } as never);
+    const body = (await res.json()) as { ok: boolean; dbConfigured: boolean; dbReachable: boolean };
+
+    expect(res.status).toBe(200);
+    expect(body.dbConfigured).toBe(true);
+    expect(body.dbReachable).toBe(true);
   });
 
   it("returns storefront catalog payload with cache headers when configured", async () => {
@@ -319,7 +350,7 @@ describe("communications worker", () => {
   });
 
   it("accepts contact request and sends two emails", async () => {
-    fetchMock.mockResolvedValue(new Response("{}", { status: 200 }));
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ id: "resend-abc" }), { status: 200 }));
     const req = makeJsonRequest("/api/contact", {
       reason: "General",
       email: "person@example.com",
@@ -333,6 +364,49 @@ describe("communications worker", () => {
     expect(body.ok).toBe(true);
     expect(body.id.startsWith("CONTACT-")).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("logs contact submission to D1 when DB is configured", async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ id: "resend-xyz" }), { status: 200 }));
+    const db = makeMockDb();
+    const req = makeJsonRequest("/api/contact", {
+      reason: "Rights",
+      email: "author@example.com",
+      message: "Inquiry about rights.",
+    });
+
+    const res = await worker.fetch(req, { ...baseEnv, DB: db } as never);
+    const body = (await res.json()) as { ok: boolean; id: string };
+
+    expect(res.status).toBe(200);
+    expect(db.submissions.size).toBe(1);
+    const logged = db.submissions.get(body.id);
+    expect(logged?.type).toBe("contact");
+    expect(logged?.email).toBe("author@example.com");
+    expect(logged?.editorEmailId).toBe("resend-xyz");
+  });
+
+  it("unsubscribes a known email", async () => {
+    const db = makeMockDb();
+    db.updates.set("reader@example.com", { email: "reader@example.com" });
+
+    const req = makeJsonRequest("/api/updates/unsubscribe", { email: "reader@example.com" });
+    const res = await worker.fetch(req, { ...baseEnv, DB: db } as never);
+    const body = (await res.json()) as { ok: boolean; unsubscribed: boolean };
+
+    expect(res.status).toBe(200);
+    expect(body.ok).toBe(true);
+    expect(body.unsubscribed).toBe(true);
+    expect(db.updates.get("reader@example.com")?.unsubscribed_at).toBeTruthy();
+  });
+
+  it("rejects unsubscribe with invalid email", async () => {
+    const req = makeJsonRequest("/api/updates/unsubscribe", { email: "not-an-email" });
+    const res = await worker.fetch(req, { ...baseEnv, DB: makeMockDb() } as never);
+    const body = (await res.json()) as { ok: boolean };
+
+    expect(res.status).toBe(400);
+    expect(body.ok).toBe(false);
   });
 
   it("returns a structured 500 on unexpected runtime errors", async () => {

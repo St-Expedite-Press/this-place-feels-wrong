@@ -1,14 +1,37 @@
 ---
 import siteData from '../data/site.json';
-
 const { site } = siteData;
 ---
-<div class="hero-bar" role="navigation" aria-label="Social media">
-  <div class="hero-bar__inner">
+<div class="hero-bar">
+  <a class="hero-bar__mark" href="/" aria-label="St. Expedite Press — home">ST.EXP</a>
+
+  <form class="hero-bar__updates" id="hero-updates-form" novalidate>
+    <input
+      class="hero-bar__updates-input"
+      id="hero-updates-email"
+      name="email"
+      type="email"
+      autocomplete="email"
+      placeholder="your@email.com"
+      aria-label="Email for press updates"
+    />
+    <button class="hero-bar__updates-btn" id="hero-updates-btn" type="submit">Subscribe</button>
+  </form>
+
+  <nav class="hero-bar__inner" aria-label="Social media">
     {site.social.map(item => (
       <a class="hero-bar__icon" href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.name} title={item.title}>
         <Fragment set:html={item.icon} />
       </a>
     ))}
+  </nav>
+
+  <div class="hero-bar__updates-helper" id="hero-updates-helper" aria-live="polite" hidden>
+    <div data-status-text></div>
+    <div class="hero-bar__updates-actions">
+      <a class="hero-bar__updates-link" id="hero-updates-open" href="https://ecoamericana.substack.com/s/ephemera" target="_blank" rel="noopener noreferrer">Substack</a>
+      <button class="hero-bar__updates-copy" id="hero-updates-copy" type="button">Copy</button>
+      <button class="hero-bar__updates-copy" id="hero-updates-dismiss" type="button">Dismiss</button>
+    </div>
   </div>
 </div>
