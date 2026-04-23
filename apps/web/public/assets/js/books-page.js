@@ -73,7 +73,10 @@ function applyFilter(seriesKey) {
 }
 
 async function init() {
-  if (!list || !statusEl) return;
+  if (!list) {
+    if (statusEl) statusEl.textContent = "Catalog unavailable.";
+    return;
+  }
   try {
     const data = await requestJson("/api/projects", { cache: "no-store" });
     const projects = Array.isArray(data.projects) ? data.projects : [];
