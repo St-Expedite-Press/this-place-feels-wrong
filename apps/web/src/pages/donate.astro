@@ -62,37 +62,21 @@ const page = pages.donate;
       </div>
     </div>
 
-    <div class="donate-orbit donate-orbit--top">
-      <p>Direct support sustains the work.</p>
-      <p>Publication / Archive / Ongoing</p>
-    </div>
-
     <form class="donate-offering" id="donate-form">
       <div class="donate-amount-ring" role="group" aria-label="Suggested donation amounts">
-        <button class="donate-amount-button donate-amount-button--nw" type="button" data-donation-amount="10">
-          <strong>$10</strong>
-          <span>Signal</span>
-        </button>
-        <button class="donate-amount-button donate-amount-button--ne" type="button" data-donation-amount="25">
-          <strong>$25</strong>
-          <span>Archive</span>
-        </button>
-        <button class="donate-amount-button donate-amount-button--sw" type="button" data-donation-amount="50">
-          <strong>$50</strong>
-          <span>Publication</span>
-        </button>
-        <button class="donate-amount-button donate-amount-button--se" type="button" data-donation-amount="100">
-          <strong>$100</strong>
-          <span>Continuity</span>
-        </button>
+        <button class="donate-amount-button donate-amount-button--nw" type="button" data-donation-amount="10" aria-label="Donate 10 dollars">$10</button>
+        <button class="donate-amount-button donate-amount-button--ne" type="button" data-donation-amount="25" aria-label="Donate 25 dollars">$25</button>
+        <button class="donate-amount-button donate-amount-button--sw" type="button" data-donation-amount="50" aria-label="Donate 50 dollars">$50</button>
+        <button class="donate-amount-button donate-amount-button--se" type="button" data-donation-amount="100" aria-label="Donate 100 dollars">$100</button>
       </div>
 
       <div class="donate-console">
-        <label for="donate-amount">Enter an amount.</label>
-        <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="25" required />
-        <p class="donate-selected" id="donate-selected-amount">Choose an amount. Seal it.</p>
-        <button class="donate-submit" id="donate-submit" type="submit">Seal the contribution</button>
-        <p class="donate-checkout-note">Secure checkout via Stripe. Work continues through this.</p>
+        <p class="donate-console__intro">Direct support sustains the work.</p>
+        <label class="donate-sr-only" for="donate-amount">Donation amount in US dollars</label>
+        <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Custom amount" required />
+        <p class="donate-selected" id="donate-selected-amount">Choose an amount.</p>
+        <button class="donate-submit" id="donate-submit" type="submit">Donate</button>
+        <p class="donate-checkout-note">Secure checkout via Stripe.</p>
         <div class="donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
           <div data-status-text></div>
         </div>
@@ -101,14 +85,19 @@ const page = pages.donate;
   </section>
 
   <footer class="donate-footer">
-    <nav class="donate-footer__nav" aria-label="Footer">
+    <p class="donate-footer__line">
       <a href="/">Portal</a>
+      <span>//</span>
       <a href="/about">About</a>
+      <span>//</span>
       <a href="/books">Books</a>
+      <span>//</span>
       <a href="/submit">Submit</a>
-    </nav>
-    <p class="donate-footer__coords">29.9511&deg; N &mdash; 90.0715&deg; W</p>
-    <div class="donate-footer__divider" aria-hidden="true">&#9651; &#10013; &#9651;</div>
+      <span>//</span>
+      <span>29.9511&deg; N &mdash; 90.0715&deg; W</span>
+      <span>//</span>
+      <span aria-hidden="true">&#9651; &#10013; &#9651;</span>
+    </p>
   </footer>
 </main>
 
