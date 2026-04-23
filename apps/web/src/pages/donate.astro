@@ -35,7 +35,7 @@ const page = pages.donate;
 <link rel="stylesheet" href="/assets/css/base.css" />
 <link rel="stylesheet" href="/assets/css/effects.css" />
 <link rel="stylesheet" href="/assets/css/a11y.css" />
-<link rel="stylesheet" href="/assets/css/donate.css" />
+<link rel="stylesheet" href="/assets/css/donate-portal.css" />
 <ViewTransitions />
 </head>
 
@@ -45,35 +45,34 @@ const page = pages.donate;
 <div class="texture--grain"></div>
 <div class="cursor-glow"></div>
 
-<main id="main" class="donate-portal" tabindex="-1">
+<main id="main" class="donate-page-shell" tabindex="-1">
   <h1 class="header-title">DONATE</h1>
 
   <section class="donate-stage" aria-label="Donation portal">
-    <form class="donate-offering" id="donate-form">
-      <div class="donate-portal-frame" aria-hidden="true">
-        <div class="donate-portal-noise"></div>
-        <picture class="donate-portal-media">
+    <div class="donate-portal-frame" aria-hidden="true">
+      <div class="donate-portal-noise"></div>
+      <picture class="donate-portal-media">
           <source srcset="/assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
           <img src="/assets/img/crow_glitch_text_still.png" alt="">
-        </picture>
-      </div>
+      </picture>
+    </div>
 
-      <div class="donate-amount-ring" role="group" aria-label="Suggested donation amounts">
-        <button class="donate-amount-button" type="button" data-donation-amount="10" aria-label="Donate 10 dollars">$10</button>
-        <button class="donate-amount-button" type="button" data-donation-amount="25" aria-label="Donate 25 dollars">$25</button>
-        <button class="donate-amount-button" type="button" data-donation-amount="50" aria-label="Donate 50 dollars">$50</button>
-        <button class="donate-amount-button" type="button" data-donation-amount="100" aria-label="Donate 100 dollars">$100</button>
+    <form class="donate-surface" id="donate-form">
+      <div class="donate-presets" role="group" aria-label="Suggested donation amounts">
+        <button class="donate-preset" type="button" data-donation-amount="10" aria-label="Donate 10 dollars">$10</button>
+        <button class="donate-preset" type="button" data-donation-amount="25" aria-label="Donate 25 dollars">$25</button>
+        <button class="donate-preset" type="button" data-donation-amount="50" aria-label="Donate 50 dollars">$50</button>
+        <button class="donate-preset" type="button" data-donation-amount="100" aria-label="Donate 100 dollars">$100</button>
       </div>
 
       <div class="donate-console">
         <label class="donate-sr-only" for="donate-amount">Donation amount in US dollars</label>
-        <div class="donate-console__row">
-          <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Amount (USD)" required />
-          <button class="donate-submit" id="donate-submit" type="submit">Donate</button>
-        </div>
-        <div class="donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
-          <div data-status-text></div>
-        </div>
+        <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Amount (USD)" required />
+        <button class="donate-submit" id="donate-submit" type="submit">Donate</button>
+      </div>
+
+      <div class="donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
+        <div data-status-text></div>
       </div>
     </form>
   </section>
