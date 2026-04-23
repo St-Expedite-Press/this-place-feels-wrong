@@ -34,15 +34,15 @@
 
 .hero-bar__mark {
   font-family: "Cinzel", serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.24em;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--green-base, #2aff8a);
-  opacity: 0.52;
+  opacity: 0.72;
   margin-right: auto;
   padding: 0 0.25rem;
-  text-shadow: 0 0 8px rgba(42, 255, 138, 0.28);
+  text-shadow: -1px -1px 0 rgba(217, 106, 255, 0.45), 0 0 8px rgba(42, 255, 138, 0.28);
   transition: opacity 150ms ease, text-shadow 150ms ease;
   white-space: nowrap;
 }
@@ -50,7 +50,7 @@
 .hero-bar__mark:hover,
 .hero-bar__mark:focus-visible {
   opacity: 1;
-  text-shadow: 0 0 14px rgba(42, 255, 138, 0.55);
+  text-shadow: -1px -1px 0 rgba(217, 106, 255, 0.55), 0 0 14px rgba(42, 255, 138, 0.55);
 }
 
 .hero-bar__mark:focus-visible {
@@ -101,7 +101,7 @@
 .hero-bar__updates-helper {
   position: fixed;
   top: calc(var(--hero-bar-height) + 10px);
-  left: var(--hero-bar-pad-x);
+  left: var(--gutter, var(--hero-bar-pad-x));
   width: min(560px, calc(100vw - (var(--hero-bar-pad-x) * 2)));
   padding: 0.7rem 0.9rem;
   border-radius: 16px;
