@@ -5,7 +5,7 @@ Reference for the production communications stack behind `stexpedite.press`.
 ## Topology
 
 - public site source: `apps/web/src/`
-- public build artifact: `dist/site/`
+- public build artifact: `apps/web/dist/`
 - Worker/API implementation: `apps/communications-worker/`
 - runtime edge: Cloudflare
 - email delivery: Resend

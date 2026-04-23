@@ -6,11 +6,13 @@ Proprietary repository for the St. Expedite Press web presence and communication
 
 - `apps/web/src/`
   - authoritative source for the public site
-  - Nunjucks templates, static files, CSS, and JS
+  - Astro pages, layouts, components, data, and route-specific source files
+- `apps/web/public/assets/`
+  - authored CSS, JS, images, and GIFs served by the site
 - `apps/communications-worker/`
   - Cloudflare Worker for `/api/*`
   - D1 migrations, OpenAPI contract, tests, and Wrangler config
-- `dist/site/`
+- `apps/web/dist/`
   - generated static artifact
   - produced by `npm run build`
 - `internal/agent/`
@@ -46,13 +48,13 @@ make release
 Public pages remain stable at the domain root, including:
 
 - `/`
-- `/books.html`
-- `/mission.html`
-- `/contact.html`
-- `/submit.html`
-- `/gallery.html`
-- `/lab.html`
-- `/services.html`
+- `/books`
+- `/mission`
+- `/contact`
+- `/submit`
+- `/gallery`
+- `/lab`
+- `/services`
 
 Worker routes remain stable:
 
@@ -66,7 +68,7 @@ Worker routes remain stable:
 
 ## Deployment Model
 
-- GitHub Pages publishes the generated artifact from `dist/site/`
+- Cloudflare Pages publishes the generated artifact from `apps/web/dist/`
 - Cloudflare fronts the domain and routes `/api/*` to `apps/communications-worker/`
 - Resend handles outgoing mail
 - D1 stores the updates list and books/program data
@@ -74,7 +76,7 @@ Worker routes remain stable:
 
 ## Notes
 
-- The homepage is now generated from `apps/web/src/pages/index.njk`; it is no longer a copied static exception.
+- The homepage is now generated from `apps/web/src/pages/index.astro`; it is no longer a copied static exception.
 - The checked-in `site/` tree has been retired to `archive/site-legacy/`.
 - `archive/anglossic_quiz/` is preserved as historical product material and is not part of the live build.
 - This repository is not licensed for public redistribution or reuse.

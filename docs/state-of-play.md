@@ -5,7 +5,7 @@ Repo snapshot updated for the `apps/` refactor.
 ## Active Layout
 
 - Web source: `apps/web/src/`
-- Web build output: `dist/site/`
+- Web build output: `apps/web/dist/`
 - Communications Worker: `apps/communications-worker/`
 - Internal maintenance tooling: `internal/agent/`
 - Archived legacy material: `archive/`
@@ -15,13 +15,13 @@ Repo snapshot updated for the `apps/` refactor.
 Public pages remain rooted at the site domain:
 
 - `/`
-- `/books.html`
-- `/mission.html`
-- `/contact.html`
-- `/submit.html`
-- `/gallery.html`
-- `/lab.html`
-- `/services.html`
+- `/books`
+- `/mission`
+- `/contact`
+- `/submit`
+- `/gallery`
+- `/lab`
+- `/services`
 
 API routes remain unchanged:
 
@@ -37,7 +37,7 @@ API routes remain unchanged:
 
 - Primary build: `npm run build`
 - Primary validation: `npm run check`
-- Build artifact is generated into `dist/site/` from source in `apps/web/src/`
+- Build artifact is generated into `apps/web/dist/` from source in `apps/web/src/`
 - Generated output is cleaned on each build to prevent stale files from persisting
 
 ## Notable Refactor Outcomes
