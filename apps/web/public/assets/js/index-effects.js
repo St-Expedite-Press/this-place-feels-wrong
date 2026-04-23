@@ -9,7 +9,7 @@
   if (!window.matchMedia('(pointer: fine)').matches) return;
 
   const glow = document.querySelector('.cursor-glow');
-  const portal = document.querySelector('.portal-frame');
+  const portal = document.querySelector('.portal-frame, .donate-portal-frame');
   if (!glow && !portal) return;
 
   let x = 0;
@@ -27,6 +27,7 @@
       // If the portal is currently hidden (e.g. narrow viewport showing mobile layout),
       // skip expensive geometry work.
       if (portal.offsetParent === null) return;
+      if (portal.classList.contains('donate-portal-frame') && window.matchMedia('(max-width: 900px)').matches) return;
 
       const rect = portal.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
