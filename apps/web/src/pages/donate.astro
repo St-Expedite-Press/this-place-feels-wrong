@@ -1,6 +1,5 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
-import HeroBar from '../components/HeroBar.astro';
 import siteData from '../data/site.json';
 
 const { site, pages } = siteData;
@@ -36,7 +35,6 @@ const page = pages.donate;
 <link rel="stylesheet" href="/assets/css/base.css" />
 <link rel="stylesheet" href="/assets/css/effects.css" />
 <link rel="stylesheet" href="/assets/css/a11y.css" />
-<link rel="stylesheet" href="/assets/css/hero-bar.css" />
 <link rel="stylesheet" href="/assets/css/donate.css" />
 <ViewTransitions />
 </head>
@@ -47,15 +45,16 @@ const page = pages.donate;
 <div class="texture--grain"></div>
 <div class="cursor-glow"></div>
 
-<HeroBar />
-
 <main id="main" class="donate-portal" tabindex="-1">
   <div class="donate-flash"></div>
 
   <header class="donate-portal__header" aria-labelledby="donate-title">
     <a class="donate-portal__home" href="/">ST.EXP</a>
-    <h1 class="donate-portal__title" id="donate-title">Donate</h1>
-    <p class="donate-portal__line">This work continues because of this.</p>
+    <h1 class="donate-portal__title" id="donate-title">
+      <span>Southern Letters will rise again.</span>
+      <span>This is how it happens.</span>
+    </h1>
+    <div class="donate-portal__hinge" aria-hidden="true">&#9651; &#10013; &#9651;</div>
   </header>
 
   <section class="donate-stage" aria-label="Donation portal">
@@ -73,8 +72,8 @@ const page = pages.donate;
     </div>
 
     <div class="donate-orbit donate-orbit--top">
-      <p>Direct support</p>
-      <p>Publication / Archive / Ongoing work</p>
+      <p>Direct support sustains the work.</p>
+      <p>Publication / Archive / Ongoing</p>
     </div>
 
     <form class="donate-offering" id="donate-form">
@@ -98,11 +97,11 @@ const page = pages.donate;
       </div>
 
       <div class="donate-console">
-        <label for="donate-amount">Custom amount (USD)</label>
+        <label for="donate-amount">Enter an amount.</label>
         <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="25" required />
-        <p class="donate-selected" id="donate-selected-amount">Choose an amount to seal.</p>
-        <button class="donate-submit" id="donate-submit" type="submit">Seal contribution</button>
-        <p class="donate-checkout-note">Secure checkout opens through Stripe. Work continues through this.</p>
+        <p class="donate-selected" id="donate-selected-amount">Choose an amount. Seal it.</p>
+        <button class="donate-submit" id="donate-submit" type="submit">Seal the contribution</button>
+        <p class="donate-checkout-note">Secure checkout via Stripe. Work continues through this.</p>
         <div class="donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
           <div data-status-text></div>
         </div>
@@ -110,16 +109,15 @@ const page = pages.donate;
     </form>
   </section>
 
-  <nav class="donate-portal-nav" aria-label="Donation page navigation">
-    <a href="/">Portal</a>
-    <a href="/about">About</a>
-    <a href="/books">Books</a>
-    <a href="/submit">Submit</a>
-  </nav>
-
-  <footer class="donate-portal__footer">
-    <p>29.9511&deg; N &mdash; 90.0715&deg; W</p>
-    <div aria-hidden="true">&#9651; &#10013; &#9651;</div>
+  <footer class="donate-footer">
+    <nav class="donate-footer__nav" aria-label="Footer">
+      <a href="/">Portal</a>
+      <a href="/about">About</a>
+      <a href="/books">Books</a>
+      <a href="/submit">Submit</a>
+    </nav>
+    <p class="donate-footer__coords">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+    <div class="donate-footer__divider" aria-hidden="true">&#9651; &#10013; &#9651;</div>
   </footer>
 </main>
 
