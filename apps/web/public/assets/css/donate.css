@@ -57,32 +57,33 @@
 
 .donate-portal__title {
   margin: 0;
-  font-family: "Cinzel", serif;
-  font-size: clamp(2rem, 5vw, 4.8rem);
-  letter-spacing: 0.08em;
-  line-height: 1.05;
-  text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1), 0 0 28px var(--green-2);
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: clamp(2.15rem, 5vw, 4.7rem);
+  letter-spacing: 0.015em;
+  line-height: 0.98;
+  max-width: 12ch;
+  text-wrap: balance;
+  text-shadow: 0 0 10px var(--green-1), 0 0 18px rgba(42, 255, 138, 0.12);
   animation: donate-title-breathe 12s ease-in-out infinite;
 }
 
-.donate-portal__title span {
-  display: block;
-}
-
-.donate-portal__title span + span {
-  margin-top: 0.2rem;
-  font-size: clamp(1.35rem, 3vw, 2.5rem);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.donate-portal__line {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.15rem, 2.2vw, 1.8rem);
+  line-height: 1.1;
+  opacity: 0.92;
+  text-shadow: 0 0 8px rgba(42, 255, 138, 0.18);
 }
 
 .donate-portal__hinge {
   color: var(--green-base);
   font-family: "Cinzel", serif;
-  font-size: clamp(1.1rem, 2vw, 1.6rem);
-  letter-spacing: 0.4em;
-  opacity: 0.8;
-  text-shadow: 0 0 10px var(--green-2);
+  font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+  letter-spacing: 0.28em;
+  opacity: 0.64;
+  text-shadow: 0 0 8px var(--green-2);
 }
 
 @keyframes donate-title-breathe {
@@ -438,12 +439,12 @@
   }
 
   .donate-portal__title {
-    font-size: clamp(1.7rem, 9vw, 3rem);
+    max-width: 10.5ch;
+    font-size: clamp(1.9rem, 9vw, 3.1rem);
   }
 
-  .donate-portal__title span + span {
-    font-size: clamp(1.05rem, 4vw, 1.6rem);
-    letter-spacing: 0.12em;
+  .donate-portal__line {
+    font-size: clamp(1rem, 4.5vw, 1.35rem);
   }
 
   .donate-stage,
@@ -531,6 +532,10 @@
 }
 
 @media (max-width: 520px) {
+  .donate-portal__title {
+    max-width: 9ch;
+  }
+
   .donate-orbit p:last-child,
   .donate-checkout-note {
     font-size: 1rem;
