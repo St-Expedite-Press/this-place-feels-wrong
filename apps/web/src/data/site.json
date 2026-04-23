@@ -36,8 +36,7 @@
     "nav": [
       { "label": "Portal", "href": "/" },
       { "label": "Books", "href": "/books" },
-      { "label": "Mission", "href": "/mission" },
-      { "label": "Contact", "href": "/contact" },
+      { "label": "About", "href": "/about" },
       { "label": "Submit", "href": "/submit" },
       { "label": "Lab", "href": "/lab" },
       { "label": "Store", "href": "/gallery" },
@@ -45,14 +44,14 @@
     ],
     "footerLinks": [
       { "label": "Books", "href": "/books" },
-      { "label": "Mission", "href": "/mission" },
-      { "label": "Contact", "href": "/contact" }
+      { "label": "About", "href": "/about" },
+      { "label": "Submit", "href": "/submit" }
     ]
   },
   "pages": {
     "index": {
       "title": "Portal",
-      "description": "St. Expedite Press portal — books, merch, mission, lab, services, and contact.",
+      "description": "St. Expedite Press portal — books, about, submissions, lab, services, and store.",
       "canonical": "https://stexpedite.press/"
     },
     "books": {
@@ -66,27 +65,16 @@
       "canonical": "https://stexpedite.press/books",
       "currentNav": "/books"
     },
-    "mission": {
-      "title": "Mission",
-      "description": "Mission, editorial orientation, and publishing commitments of St. Expedite Press.",
-      "subtitle": "Editorial orientation",
+    "about": {
+      "title": "About",
+      "description": "Editorial orientation, general contact, and updates signup for St. Expedite Press.",
+      "subtitle": "Editorial orientation and inquiries",
       "eyebrow": "St. Expedite Press",
       "introKicker": "What the press is for",
-      "introTitle": "Small press. Exacting standards.",
-      "introText": "St. Expedite Press publishes books that hold up under return: dense enough to reward rereading, edited closely enough to last past their moment.",
-      "canonical": "https://stexpedite.press/mission",
-      "currentNav": "/mission"
-    },
-    "contact": {
-      "title": "Contact",
-      "description": "General contact for St. Expedite Press, including editorial questions and updates signup.",
-      "subtitle": "General inquiries and updates",
-      "eyebrow": "St. Expedite Press",
-      "introKicker": "Write to the press",
-      "introTitle": "Rights, press, collaborations, and general correspondence.",
-      "introText": "Manuscripts go through the submission page. Everything else comes here.",
-      "canonical": "https://stexpedite.press/contact",
-      "currentNav": "/contact"
+      "introTitle": "Small press. Exacting standards. Direct correspondence.",
+      "introText": "St. Expedite Press publishes books that hold up under return and handles rights, press, collaborations, and editorial correspondence directly.",
+      "canonical": "https://stexpedite.press/about",
+      "currentNav": "/about"
     },
     "submit": {
       "title": "Submission",

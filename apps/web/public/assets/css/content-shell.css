@@ -2,8 +2,8 @@
   content-shell.css
 
   Canonical shell used by “content” pages and most interior pages:
-  - books.html, gallery.html, mission.html
-  - services.html, contact.html
+  - /books, /gallery, /about
+  - /services
 
   NOTE: lab.html and submit.html have their own layouts.
 */

@@ -23,8 +23,8 @@ if (form && submitButton && helper && fallbackLink && copyButton) {
       return;
     }
 
-    const subject = `St. Expedite Press — Contact${reason ? ` (${reason})` : ""}`;
-    const lines = ["Contact form submission", "", reason ? `Reason: ${reason}` : "", `From: ${email}`, "", message].filter(Boolean);
+    const subject = `St. Expedite Press — About Inquiry${reason ? ` (${reason})` : ""}`;
+    const lines = ["About page inquiry", "", reason ? `Reason: ${reason}` : "", `From: ${email}`, "", message].filter(Boolean);
     const mailto = buildMailto("editor@stexpedite.press", subject, lines.join("\n"));
     lastCopyText = `To: editor@stexpedite.press\nSubject: ${subject}\n\n${lines.join("\n")}`;
     fallbackLink.href = mailto;
@@ -66,5 +66,5 @@ mountUpdatesSignup({
   openLink: document.getElementById("contact-updates-open"),
   copyButton: document.getElementById("contact-updates-copy"),
   dismissButton: document.getElementById("contact-updates-dismiss"),
-  source: "contact",
+  source: "about",
 });
