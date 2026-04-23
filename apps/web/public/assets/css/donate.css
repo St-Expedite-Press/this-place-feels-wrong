@@ -13,94 +13,32 @@
   position: relative;
   min-height: 100vh;
   min-height: 100svh;
-  padding: 2rem 5vw 3.2vh;
+  padding: 1.2rem 5vw 3.2vh;
   isolation: isolate;
 }
 
-.donate-flash {
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  pointer-events: none;
-  background: #000;
-  animation: donate-flash 0.42s ease-out forwards;
-}
-
-@keyframes donate-flash {
-  0% { opacity: 1; }
-  55% { opacity: 0.82; background: radial-gradient(circle, rgba(42, 255, 138, 0.32), #000 74%); }
-  100% { opacity: 0; visibility: hidden; }
-}
-
-.donate-portal__header {
-  position: relative;
-  z-index: 12;
-  display: grid;
-  justify-items: center;
-  gap: 0.55rem;
-  text-align: center;
-}
-
-.donate-portal__home {
-  color: var(--green-base);
-  font-family: "Cinzel", serif;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.donate-portal__home {
-  font-size: 0.78rem;
-  letter-spacing: 0.28em;
-  opacity: 0.74;
-  text-shadow: 0 0 8px var(--green-2);
-}
-
-.donate-portal__title {
-  margin: 0;
-  font-family: "Cormorant Garamond", serif;
-  font-weight: 600;
-  font-size: clamp(2.15rem, 5vw, 4.7rem);
-  letter-spacing: 0.015em;
-  line-height: 0.98;
-  max-width: 12ch;
-  text-wrap: balance;
-  text-shadow: 0 0 10px var(--green-1), 0 0 18px rgba(42, 255, 138, 0.12);
-  animation: donate-title-breathe 12s ease-in-out infinite;
-}
-
-.donate-portal__line {
-  margin: 0;
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1.15rem, 2.2vw, 1.8rem);
-  line-height: 1.1;
-  opacity: 0.92;
-  text-shadow: 0 0 8px rgba(42, 255, 138, 0.18);
-}
-
-.donate-portal__hinge {
-  color: var(--green-base);
-  font-family: "Cinzel", serif;
-  font-size: clamp(0.9rem, 1.4vw, 1.2rem);
-  letter-spacing: 0.28em;
-  opacity: 0.64;
-  text-shadow: 0 0 8px var(--green-2);
-}
-
-@keyframes donate-title-breathe {
-  0%, 100% { filter: brightness(1.2) contrast(2); }
-  50% { filter: brightness(1.55) contrast(2.4); }
+.donate-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .donate-stage {
   position: relative;
   z-index: 2;
   min-height: var(--donate-stage-height);
-  margin: clamp(0.6rem, 2.4vh, 1.4rem) auto 0;
+  margin: 0 auto;
 }
 
 .donate-portal-frame {
   position: absolute;
-  top: 39%;
+  top: 41%;
   left: 50%;
   width: clamp(220px, 30vh, 360px);
   height: clamp(220px, 30vh, 360px);
@@ -182,7 +120,7 @@
 
 .donate-orbit {
   position: absolute;
-  top: 2%;
+  top: 5%;
   left: 50%;
   z-index: 5;
   transform: translateX(-50%);
@@ -435,16 +373,7 @@
 
   .donate-portal {
     min-height: auto;
-    padding: 1.35rem 4.5vw 4vh;
-  }
-
-  .donate-portal__title {
-    max-width: 10.5ch;
-    font-size: clamp(1.9rem, 9vw, 3.1rem);
-  }
-
-  .donate-portal__line {
-    font-size: clamp(1rem, 4.5vw, 1.35rem);
+    padding: 1rem 4.5vw 4vh;
   }
 
   .donate-stage,
@@ -532,10 +461,6 @@
 }
 
 @media (max-width: 520px) {
-  .donate-portal__title {
-    max-width: 9ch;
-  }
-
   .donate-orbit p:last-child,
   .donate-checkout-note {
     font-size: 1rem;
@@ -552,11 +477,7 @@
 
 @media (max-height: 760px) and (min-width: 901px) {
   .donate-portal {
-    padding-top: 1.1rem;
-  }
-
-  .donate-portal__title {
-    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    padding-top: 0.9rem;
   }
 
   .donate-stage,
@@ -571,8 +492,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .donate-flash,
-  .donate-portal__title,
   .donate-portal-frame,
   .donate-portal-noise {
     animation: none !important;
