@@ -1,9 +1,5 @@
 import { requestJson } from "./api-client.js";
 
-const filterBar = document.getElementById("books-filter");
-const list = document.getElementById("books-list");
-const statusEl = document.getElementById("books-status");
-
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -61,8 +57,7 @@ function renderBookRow(project) {
   `;
 }
 
-function applyFilter(seriesKey) {
-  if (!list) return;
+function applyFilter(seriesKey, list, filterBar) {
   list.querySelectorAll("[data-series]").forEach((row) => {
     const match = seriesKey === "all" || row.getAttribute("data-series") === seriesKey;
     row.hidden = !match;
@@ -73,17 +68,22 @@ function applyFilter(seriesKey) {
 }
 
 async function init() {
+  const list = document.getElementById("books-list");
+  const statusEl = document.getElementById("books-status");
+  const filterBar = document.getElementById("books-filter");
+
   if (!list) {
     if (statusEl) statusEl.textContent = "Catalog unavailable.";
     return;
   }
+
   try {
     const data = await requestJson("/api/projects", { cache: "no-store" });
     const projects = Array.isArray(data.projects) ? data.projects : [];
     const series = Array.isArray(data.series) ? data.series : [];
 
     list.innerHTML = projects.map(renderBookRow).join("");
-    statusEl.hidden = true;
+    if (statusEl) statusEl.hidden = true;
 
     if (filterBar && series.length > 1) {
       const buttons = [
@@ -94,13 +94,14 @@ async function init() {
       ];
       filterBar.innerHTML = buttons.join("");
       filterBar.querySelectorAll("button").forEach((btn) => {
-        btn.addEventListener("click", () => applyFilter(btn.dataset.series || "all"));
+        btn.addEventListener("click", () => applyFilter(btn.dataset.series || "all", list, filterBar));
       });
     }
-  } catch {
-    statusEl.textContent = "Catalog unavailable.";
+  } catch (err) {
+    console.error("books-page init failed", err);
+    if (statusEl) statusEl.textContent = "Catalog unavailable.";
     list.innerHTML = "";
   }
 }
 
-init();
+document.addEventListener("astro:page-load", init);
