@@ -690,9 +690,10 @@ async function handleProjects(request: Request, env: Env) {
       cover_image,
       popup_description,
       buy_url,
-      completion_percent
+      completion_percent,
+      published_at
     FROM oncoming_projects
-    ORDER BY sort_order ASC
+    ORDER BY (published_at IS NULL) ASC, published_at ASC, sort_order ASC
   `;
   const selectWithBuyLegacyProgress = `
     SELECT
@@ -746,20 +747,20 @@ async function handleProjects(request: Request, env: Env) {
         try {
           const partial = await db.prepare(selectWithBuyLegacyProgress).bind().all<Record<string, unknown>>();
           queryResult = {
-            results: (partial.results ?? []).map((project) => ({ ...project, completion_percent: 0 })),
+            results: (partial.results ?? []).map((project) => ({ ...project, completion_percent: 0, published_at: null })),
           };
         } catch (nestedError) {
           const nestedMessage = nestedError instanceof Error ? nestedError.message : String(nestedError);
           if (!nestedMessage.includes("no such column: buy_url")) throw nestedError;
           const legacy = await db.prepare(selectLegacy).bind().all<Record<string, unknown>>();
           queryResult = {
-            results: (legacy.results ?? []).map((project) => ({ ...project, buy_url: null, completion_percent: 0 })),
+            results: (legacy.results ?? []).map((project) => ({ ...project, buy_url: null, completion_percent: 0, published_at: null })),
           };
         }
       } else if (message.includes("no such column: buy_url")) {
         const legacy = await db.prepare(selectLegacy).bind().all<Record<string, unknown>>();
         queryResult = {
-          results: (legacy.results ?? []).map((project) => ({ ...project, buy_url: null, completion_percent: 0 })),
+          results: (legacy.results ?? []).map((project) => ({ ...project, buy_url: null, completion_percent: 0, published_at: null })),
         };
       } else {
         throw error;
