@@ -71,12 +71,9 @@ const page = pages.donate;
       </div>
 
       <div class="donate-console">
-        <p class="donate-console__intro">Direct support sustains the work.</p>
         <label class="donate-sr-only" for="donate-amount">Donation amount in US dollars</label>
-        <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Custom amount" required />
-        <p class="donate-selected" id="donate-selected-amount">Choose an amount.</p>
+        <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Amount (USD)" required />
         <button class="donate-submit" id="donate-submit" type="submit">Donate</button>
-        <p class="donate-checkout-note">Secure checkout via Stripe.</p>
         <div class="donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
           <div data-status-text></div>
         </div>
