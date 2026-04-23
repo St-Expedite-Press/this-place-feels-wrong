@@ -46,9 +46,9 @@ const page = pages.donate;
 <div class="cursor-glow"></div>
 
 <main id="main" class="donate-portal" tabindex="-1">
-  <section class="donate-stage" aria-label="Donation portal">
-    <h1 class="donate-sr-only">Donate to St. Expedite Press</h1>
+  <h1 class="header-title">DONATE</h1>
 
+  <section class="donate-stage" aria-label="Donation portal">
     <div class="donate-portal-frame" aria-hidden="true">
       <div class="donate-portal-noise"></div>
       <picture class="donate-portal-media">
@@ -84,21 +84,14 @@ const page = pages.donate;
     </form>
   </section>
 
-  <footer class="donate-footer">
-    <p class="donate-footer__line">
-      <a href="/">Portal</a>
-      <span>//</span>
-      <a href="/about">About</a>
-      <span>//</span>
-      <a href="/books">Books</a>
-      <span>//</span>
-      <a href="/submit">Submit</a>
-      <span>//</span>
-      <span>29.9511&deg; N &mdash; 90.0715&deg; W</span>
-      <span>//</span>
-      <span aria-hidden="true">&#9651; &#10013; &#9651;</span>
-    </p>
-  </footer>
+  <div class="splash">
+    <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+    <p class="lede">...in the key of Night.</p>
+    <div class="divider">&#9651; &#10013; &#9651;</div>
+    <div class="splash__foot">
+      <a href="/services">Services</a> // <a href="/submit">Submit</a> // <a href="/about">About</a> // <a href="/donate">Donate</a>
+    </div>
+  </div>
 </main>
 
 <script is:inline src="/assets/js/site-shell.js" type="module"></script>
