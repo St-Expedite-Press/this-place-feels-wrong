@@ -1,9 +1,7 @@
 .page {
   position: relative;
   z-index: 1;
-  width: min(calc(100% - (var(--gutter) * 2)), var(--page-width));
-  margin: 0 auto;
-  padding: calc(var(--hero-bar-height) + 1.4rem) 0 4rem;
+  padding: calc(var(--hero-bar-height) + 1.4rem) var(--gutter) 4rem;
 }
 
 .hero-bar {
