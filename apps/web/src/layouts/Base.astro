@@ -46,7 +46,7 @@ const {
     <section class="page-intro">
       <p class="page-intro__kicker">{introKicker}</p>
       <h2 class="page-intro__title">{introTitle}</h2>
-      <p class="page-intro__text">{introText}</p>
+      {introText && <p class="page-intro__text">{introText}</p>}
     </section>
     <slot />
     <Footer />
