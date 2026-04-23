@@ -38,7 +38,7 @@
 
 .donate-portal-frame {
   position: absolute;
-  top: 41%;
+  top: 39%;
   left: 50%;
   width: clamp(220px, 30vh, 360px);
   height: clamp(220px, 30vh, 360px);
@@ -118,33 +118,6 @@
   background: radial-gradient(circle, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.48) 72%);
 }
 
-.donate-orbit {
-  position: absolute;
-  top: 5%;
-  left: 50%;
-  z-index: 5;
-  transform: translateX(-50%);
-  text-align: center;
-  width: min(620px, 90vw);
-  text-shadow: 0 0 9px var(--green-1);
-}
-
-.donate-orbit p {
-  margin: 0;
-}
-
-.donate-orbit p:first-child {
-  font-size: 1.08rem;
-}
-
-.donate-orbit p:last-child {
-  margin-top: 0.35rem;
-  font-family: "Cinzel", serif;
-  font-size: 0.96rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
 .donate-offering {
   position: relative;
   min-height: var(--donate-stage-height);
@@ -159,60 +132,33 @@
 
 .donate-amount-button {
   position: absolute;
-  width: clamp(150px, 17vw, 240px);
-  min-height: clamp(84px, 10vh, 126px);
-  padding: 1rem 1.1rem;
-  border-radius: 18px;
+  min-width: 6rem;
+  min-height: 3rem;
+  padding: 0.65rem 1.05rem;
+  border-radius: 999px;
   border: 1px solid rgba(42, 255, 138, 0.18);
   background:
-    radial-gradient(240px 120px at 50% 0%, rgba(42, 255, 138, 0.08), transparent 72%),
+    radial-gradient(200px 100px at 50% 0%, rgba(42, 255, 138, 0.08), transparent 72%),
     rgba(0, 0, 0, 0.52);
   color: var(--green-base);
   cursor: pointer;
   pointer-events: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.85), 0 0 12px var(--green-3);
-  text-align: left;
+  font-family: "Cinzel", serif;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  letter-spacing: 0.14em;
+  text-align: center;
   transition: opacity 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
 }
 
 .donate-amount-button::after {
-  content: "";
-  position: absolute;
-  right: 0.9rem;
-  bottom: 0.8rem;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  border: 1px solid rgba(42, 255, 138, 0.28);
+  display: none;
 }
 
-.donate-amount-button strong,
-.donate-submit,
-.donate-console label {
-  font-family: "Cinzel", serif;
-  text-transform: uppercase;
-}
-
-.donate-amount-button strong {
-  display: block;
-  font-size: clamp(1.5rem, 3vw, 2.45rem);
-  letter-spacing: 0.12em;
-}
-
-.donate-amount-button span {
-  display: block;
-  margin-top: 0.25rem;
-  font-family: "Cinzel", serif;
-  font-size: 0.78rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0.82;
-}
-
-.donate-amount-button--nw { left: 7%; top: 17%; }
-.donate-amount-button--ne { right: 7%; top: 17%; }
-.donate-amount-button--sw { left: 10%; bottom: 14%; }
-.donate-amount-button--se { right: 10%; bottom: 14%; }
+.donate-amount-button--nw { left: 12%; top: 18%; }
+.donate-amount-button--ne { right: 12%; top: 18%; }
+.donate-amount-button--sw { left: 13%; bottom: 17%; }
+.donate-amount-button--se { right: 13%; bottom: 17%; }
 
 .donate-amount-button:hover,
 .donate-amount-button:focus-visible,
@@ -233,13 +179,13 @@
   left: 50%;
   bottom: 3%;
   z-index: 8;
-  width: min(560px, 92vw);
+  width: min(430px, 92vw);
   transform: translateX(-50%);
   display: grid;
-  gap: 0.5rem;
+  gap: 0.6rem;
   justify-items: center;
-  padding: 0.85rem 1.1rem;
-  border-radius: 22px;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
   border: 1px solid var(--donate-border);
   background: rgba(0, 0, 0, 0.66);
   box-shadow: 0 0 18px rgba(0, 0, 0, 0.86), 0 0 22px var(--green-3);
@@ -247,13 +193,21 @@
   text-align: center;
 }
 
-.donate-console label {
-  font-size: 0.72rem;
+.donate-console__intro,
+.donate-submit {
+  font-family: "Cinzel", serif;
+  text-transform: uppercase;
+}
+
+.donate-console__intro {
+  margin: 0;
+  font-size: 0.76rem;
   letter-spacing: 0.18em;
+  opacity: 0.82;
 }
 
 .donate-input {
-  width: min(240px, 70vw);
+  width: min(260px, 72vw);
   padding: 0.55rem 0.8rem;
   border-radius: 999px;
   border: 1px solid rgba(42, 255, 138, 0.26);
@@ -323,47 +277,27 @@
   color: var(--green-base);
 }
 
-.donate-footer__nav {
-  display: flex;
-  justify-content: center;
-  gap: 0.95rem 1.15rem;
-  flex-wrap: wrap;
+.donate-footer__line {
+  margin: 0;
   font-family: "Cinzel", serif;
-  font-size: 0.82rem;
-  letter-spacing: 0.18em;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  line-height: 1.9;
   text-transform: uppercase;
-  opacity: 0.72;
+  opacity: 0.62;
 }
 
-.donate-footer__nav a {
+.donate-footer__line a,
+.donate-footer__line span {
   color: var(--green-base);
   text-decoration: none;
-  text-shadow: 0 0 7px var(--green-1);
+  text-shadow: 0 0 6px var(--green-1);
 }
 
-.donate-footer__nav a:hover,
-.donate-footer__nav a:focus-visible {
+.donate-footer__line a:hover,
+.donate-footer__line a:focus-visible {
   opacity: 1;
   filter: brightness(1.2) contrast(1.1);
-}
-
-.donate-footer__coords {
-  margin: 0;
-  margin-top: 0.8rem;
-  font-size: 0.98rem;
-  letter-spacing: 0.12em;
-  opacity: 0.82;
-  text-shadow:
-    -1px -1px 0 var(--relief-base),
-    0 0 7px var(--green-1),
-    0 0 14px var(--green-2);
-}
-
-.donate-footer__divider {
-  margin-top: 0.35rem;
-  font-family: "Cinzel", serif;
-  opacity: 0.7;
-  text-shadow: 0 0 9px var(--green-2);
 }
 
 @media (max-width: 900px) {
@@ -384,11 +318,9 @@
   .donate-stage {
     display: grid;
     gap: 1rem;
-    margin-top: 1.2rem;
   }
 
   .donate-portal-frame,
-  .donate-orbit,
   .donate-amount-ring,
   .donate-console {
     position: relative;
@@ -412,11 +344,6 @@
     50% { transform: rotate(0.25deg); }
   }
 
-  .donate-orbit {
-    order: -1;
-    width: 100%;
-  }
-
   .donate-offering {
     display: grid;
     gap: 1rem;
@@ -425,7 +352,7 @@
   .donate-amount-ring {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.85rem;
+    gap: 0.7rem;
     pointer-events: auto;
   }
 
@@ -433,7 +360,7 @@
     position: relative;
     inset: auto;
     width: auto;
-    min-height: 5.6rem;
+    min-height: 3rem;
   }
 
   .donate-console {
@@ -444,24 +371,9 @@
   .donate-footer {
     margin-top: 1.3rem;
   }
-
-  .donate-footer__nav {
-    font-size: 0.76rem;
-    gap: 0.65rem 0.9rem;
-  }
-
-  .donate-footer__coords {
-    font-size: 0.9rem;
-    margin-top: 0.65rem;
-  }
-
-  .donate-footer__divider {
-    font-size: 0.95rem;
-  }
 }
 
 @media (max-width: 520px) {
-  .donate-orbit p:last-child,
   .donate-checkout-note {
     font-size: 1rem;
   }
@@ -471,7 +383,7 @@
   }
 
   .donate-amount-button {
-    min-height: 5.2rem;
+    min-height: 2.85rem;
   }
 }
 
