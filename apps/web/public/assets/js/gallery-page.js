@@ -62,8 +62,8 @@ async function loadCatalog(collection = "") {
       });
     }
   } catch {
-    status.textContent = "The live storefront could not be loaded. Use the direct shop link below.";
-    grid.innerHTML = `<div class="card"><p class="section-copy">Store inventory is temporarily unavailable from the API.</p></div>`;
+    status.textContent = "Inventory unavailable. Browse directly at the shop link below.";
+    grid.innerHTML = `<div class="card"><p class="section-copy">Store inventory could not be loaded from the API.</p></div>`;
   }
 }
 

@@ -47,7 +47,9 @@
       { "label": "Books", "href": "/books" },
       { "label": "About", "href": "/about" },
       { "label": "Donate", "href": "/donate" },
-      { "label": "Submit", "href": "/submit" }
+      { "label": "Submit", "href": "/submit" },
+      { "label": "Lab", "href": "/lab" },
+      { "label": "Services", "href": "/services" }
     ]
   },
   "pages": {
@@ -74,7 +76,7 @@
       "eyebrow": "St. Expedite Press",
       "introKicker": "About the press",
       "introTitle": "Small press. Direct correspondence.",
-      "introText": "Use this page for rights, press, collaborations, editorial questions, and updates.",
+      "introText": "",
       "canonical": "https://stexpedite.press/about",
       "currentNav": "/about"
     },
@@ -116,7 +118,7 @@
       "description": "Interactive experiments and ongoing instruments, including the American Anglossic Compass.",
       "subtitle": "Experimental instruments",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "Active instruments",
+      "introKicker": "Current instrument",
       "introTitle": "The Lab runs things that don't belong in the catalog yet.",
       "introText": "The American Anglossic Compass is the current instrument — a scored sequence of interpretive prompts that resolves into a placement.",
       "canonical": "https://stexpedite.press/lab",
@@ -129,7 +131,7 @@
       "eyebrow": "St. Expedite Press",
       "introKicker": "Objects from the press",
       "introTitle": "Books, prints, and editions.",
-      "introText": "Inventory pulls live from the shop at checkout.",
+      "introText": "Live inventory from the press shop. Checkout handled directly.",
       "canonical": "https://stexpedite.press/gallery",
       "currentNav": "/gallery"
     },
