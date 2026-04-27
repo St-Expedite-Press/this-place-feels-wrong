@@ -65,6 +65,12 @@ body.donate-portal-page {
   line-height: 1.6;
 }
 
+.donate-statement--note {
+  font-size: clamp(0.8rem, 1.1vw, 0.9rem);
+  opacity: 0.5;
+  margin-top: -0.5rem;
+}
+
 .donate-portal-frame {
   position: relative;
   width: clamp(240px, 31vh, 360px);
