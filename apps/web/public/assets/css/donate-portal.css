@@ -53,6 +53,18 @@ body.donate-portal-page {
   gap: clamp(1rem, 2.6vh, 1.8rem);
 }
 
+.donate-statement {
+  text-align: center;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  color: var(--green-base);
+  opacity: 0.72;
+  letter-spacing: 0.04em;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
 .donate-portal-frame {
   position: relative;
   width: clamp(240px, 31vh, 360px);

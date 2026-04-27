@@ -24,15 +24,15 @@ const styles = [
   styles={styles}
 >
   <div class="stack">
+    <nav class="filter-tabs" id="books-filter" aria-label="Filter by series"></nav>
+    <div class="helper-text" id="books-status" role="status" aria-live="polite">Loading catalog...</div>
+    <section class="books-list" id="books-list" aria-label="Books catalog"></section>
     <div class="reading-width">
       <div class="catalog-actions">
         <a class="button" href="/about">Rights or press inquiries</a>
         <a class="button-secondary" href="/submit">Submission inquiries</a>
       </div>
     </div>
-    <nav class="filter-tabs" id="books-filter" aria-label="Filter by series"></nav>
-    <div class="helper-text" id="books-status" role="status" aria-live="polite">Loading catalog...</div>
-    <section class="books-list" id="books-list" aria-label="Books catalog"></section>
   </div>
 
   <Fragment slot="scripts">
