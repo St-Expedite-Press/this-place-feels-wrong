@@ -63,9 +63,9 @@
       "description": "Books, current publications, and oncoming projects from St. Expedite Press.",
       "subtitle": "Publications and current program",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "Publishing catalog",
+      "introKicker": "Three programs",
       "introTitle": "The catalog is the program.",
-      "introText": "",
+      "introText": "SEXP publishes original fiction and novella. The Library of the Southern Civilization recovers Southern reprints and archival work. The translation series brings Spanish, French, and Russian works into English.",
       "canonical": "https://stexpedite.press/books",
       "currentNav": "/books"
     },
@@ -142,7 +142,7 @@
       "eyebrow": "St. Expedite Press",
       "introKicker": "Advisory work",
       "introTitle": "Selected engagements for institutions that need careful judgment.",
-      "introText": "The press takes a small number of external engagements: editorial strategy, knowledge and ontology design, and AI governance work.",
+      "introText": "A small number of external engagements, taken selectively. The same editorial discipline behind our catalog: formal precision, long-horizon thinking, and resistance to the convenient.",
       "canonical": "https://stexpedite.press/services",
       "currentNav": "/services"
     }
