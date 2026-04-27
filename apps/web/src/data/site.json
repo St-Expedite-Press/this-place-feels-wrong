@@ -61,7 +61,7 @@
     "books": {
       "title": "Books",
       "description": "Books, current publications, and oncoming projects from St. Expedite Press.",
-      "subtitle": "Publications and current program",
+      "subtitle": "The press catalog",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Three programs",
       "introTitle": "The catalog is the program.",
@@ -72,7 +72,7 @@
     "about": {
       "title": "About",
       "description": "About St. Expedite Press, with general contact and updates signup.",
-      "subtitle": "About and general correspondence",
+      "subtitle": "New Orleans, LA",
       "eyebrow": "St. Expedite Press",
       "introKicker": "About the press",
       "introTitle": "Small press. Direct correspondence.",
@@ -120,7 +120,7 @@
       "eyebrow": "St. Expedite Press",
       "introKicker": "Current instrument",
       "introTitle": "The Lab runs things that don't belong in the catalog yet.",
-      "introText": "The American Anglossic Compass is the current instrument — a scored sequence of interpretive prompts that resolves into a placement.",
+      "introText": "The American Anglossic Compass is the current instrument: a scored sequence of interpretive prompts that resolves into a placement.",
       "canonical": "https://stexpedite.press/lab",
       "currentNav": "/lab"
     },
