@@ -38,7 +38,7 @@
       { "label": "Books", "href": "/books" },
       { "label": "About", "href": "/about" },
       { "label": "Donate", "href": "/donate" },
-      { "label": "Submit", "href": "/submit" },
+      { "label": "Contact", "href": "/contact" },
       { "label": "Lab", "href": "/lab" },
       { "label": "Store", "href": "/gallery" },
       { "label": "Services", "href": "/services" }
@@ -47,7 +47,7 @@
       { "label": "Books", "href": "/books" },
       { "label": "About", "href": "/about" },
       { "label": "Donate", "href": "/donate" },
-      { "label": "Submit", "href": "/submit" },
+      { "label": "Contact", "href": "/contact" },
       { "label": "Lab", "href": "/lab" },
       { "label": "Services", "href": "/services" }
     ]
@@ -71,12 +71,12 @@
     },
     "about": {
       "title": "About",
-      "description": "About St. Expedite Press, with general contact and updates signup.",
+      "description": "The mission of St. Expedite Press: a non-institutional, post-corporate project to bootstrap Southern writing outside the approval systems that would contain it.",
       "subtitle": "New Orleans, LA",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "About the press",
-      "introTitle": "Small press. Direct correspondence.",
-      "introText": "",
+      "introKicker": "The project",
+      "introTitle": "Gather the Limbs of Osiris.",
+      "introText": "Osiris was killed by Set and scattered. Isis gathered his limbs and reconstituted him. The press takes the same disposition toward Southern writing.",
       "canonical": "https://stexpedite.press/about",
       "currentNav": "/about"
     },
@@ -134,6 +134,17 @@
       "introText": "Live inventory from the press shop. Checkout handled directly.",
       "canonical": "https://stexpedite.press/gallery",
       "currentNav": "/gallery"
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "General correspondence and submission inquiries for St. Expedite Press.",
+      "subtitle": "General and submission inquiries",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Write to the press",
+      "introTitle": "Direct correspondence.",
+      "introText": "",
+      "canonical": "https://stexpedite.press/contact",
+      "currentNav": "/contact"
     },
     "services": {
       "title": "Services",

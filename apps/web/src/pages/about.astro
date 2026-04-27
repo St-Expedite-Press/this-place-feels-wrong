@@ -8,7 +8,6 @@ const styles = [
   'assets/css/interior-base.css',
   'assets/css/layout.css',
   'assets/css/components.css',
-  'assets/css/forms.css',
   'assets/css/mission.css',
 ];
 ---
@@ -25,89 +24,30 @@ const styles = [
   styles={styles}
 >
   <section class="card mission-copy lede-card">
-    <p>Saint Expedite is the patron of urgent causes, the saint called on when it cannot wait. The press takes his name and his disposition. We publish from New Orleans, a light in the night of Southern letters: fiction, reprints, and translation that carry weight and refuse the convenient.</p>
-    <p>Three active arms: SEXP (original fiction and novella), the Library of the Southern Civilization (Southern reprints and archival work), and a European translation series in Spanish, French, and Russian.</p>
+    <p>Saint Expedite is the patron of urgent causes, the saint invoked when it cannot wait. The press takes his name and his economy: no institutional overhead, no board, no grants, no permissions required. We publish from New Orleans, outside the credentialing apparatus, in the conviction that Southern writing at its best has always operated past the approval systems that would contain it.</p>
+    <p>Three active arms: SEXP for original fiction and novella, the Library of the Southern Civilization for Southern reprints and archival work, and a European translation series across Spanish, French, and Russian.</p>
   </section>
 
-  <section class="form-trust form-trust--two">
-    <div class="trust-card trust-card--center">
-      <strong>Use About for</strong>
-      Rights, press, collaborations, editorial questions, and general correspondence.
+  <section class="form-trust" aria-label="Project phases">
+    <div class="trust-card">
+      <strong>Phase one — A presence</strong>
+      The catalog, the channel, the first books. Direct to the reader. No institutional apparatus. Proof that something is here before building the next thing.
     </div>
-    <div class="trust-card trust-card--center">
-      <strong>Sending work?</strong>
-      Manuscripts and project inquiries belong on <a href="/submit">Submit</a>.
+    <div class="trust-card">
+      <strong>Phase two — A magazine</strong>
+      A print journal for fiction, reprints, translation, and criticism. No academic board. No corporate backing. No interest in being convenient. The kind of journal Southern letters does not currently have. Distributed directly, sustained by the catalog.
+    </div>
+    <div class="trust-card">
+      <strong>Phase three — A fellowship</strong>
+      A foundation mechanism for Southern writers outside the university and the grant system. Money, time, and recognition without the credentialing apparatus. Self-sustaining through the press's own economics. No committee. No application form.
     </div>
   </section>
 
-  <section class="split-card-grid split-card-grid--balanced">
-    <article class="form-card form-shell form-card--tall">
-      <div>
-        <p class="card-kicker">Primary channel</p>
-        <h2 class="section-heading">General inquiry</h2>
-        <p class="section-copy section-copy--large">Short note, direct reply.</p>
-      </div>
-      <form class="form-grid" id="contact-form">
-        <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
-        <div class="field">
-          <label for="contact-reason">Reason</label>
-          <select class="select" id="contact-reason" name="reason">
-            <option value="General">General</option>
-            <option value="Rights">Rights</option>
-            <option value="Press">Press</option>
-            <option value="Collaboration">Collaboration</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="contact-email">Email</label>
-          <input class="input" id="contact-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required />
-        </div>
-        <div class="field">
-          <label for="contact-message">Message</label>
-          <textarea class="textarea" id="contact-message" name="message" placeholder="What should we know before replying?" required></textarea>
-        </div>
-        <div class="actions">
-          <button class="button" id="contact-submit" type="submit">Send message</button>
-        </div>
-      </form>
-      <div class="status-panel" id="contact-helper" role="status" aria-live="polite" hidden>
-        <div data-status-text></div>
-        <div class="status-panel__actions">
-          <a class="status-action" id="contact-mailto-fallback" href="mailto:editor@stexpedite.press">Open email</a>
-          <button class="status-action" id="contact-copy" type="button">Copy fallback</button>
-        </div>
-      </div>
-    </article>
-
-    <aside class="form-card stack form-card--tall form-card--split">
-      <div>
-        <p class="card-kicker">Secondary channel</p>
-        <h2 class="section-heading">Updates signup</h2>
-        <p class="section-copy section-copy--large">Leave an address. Continue to the hosted feed when you're ready.</p>
-      </div>
-      <div class="stack">
-        <div class="field">
-          <label for="contact-updates-email">Email for updates</label>
-          <input class="input" id="contact-updates-email" type="email" autocomplete="email" placeholder="you@example.com" />
-        </div>
-        <div class="actions">
-          <button class="button-secondary" id="contact-updates-submit" type="button">Save email</button>
-        </div>
-      </div>
-      <div class="status-panel" id="contact-updates-helper" role="status" aria-live="polite" hidden>
-        <div data-status-text></div>
-        <div class="status-panel__actions">
-          <a class="status-action" id="contact-updates-open" href="https://ecoamericana.substack.com/s/ephemera" target="_blank" rel="noopener noreferrer">Continue to Substack</a>
-          <button class="status-action" id="contact-updates-copy" type="button">Copy link</button>
-          <button class="status-action" id="contact-updates-dismiss" type="button">Dismiss</button>
-        </div>
-      </div>
-      <p class="aside-note">For manuscripts and project approaches, use <a href="/submit">Submit</a>.</p>
-    </aside>
+  <section class="card mission-copy">
+    <p>Zero guardrails. Non-institutional. Post-corporate. The press operates past the approval structures of literary commerce. Not in opposition to them, because opposition still requires acknowledgment. Past them.</p>
   </section>
 
   <Fragment slot="scripts">
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>
-    <script is:inline src="/assets/js/contact-page.js" type="module"></script>
   </Fragment>
 </Base>
