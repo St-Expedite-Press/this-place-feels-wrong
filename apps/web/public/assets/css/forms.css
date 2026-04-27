@@ -13,6 +13,10 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.form-trust--one {
+  grid-template-columns: 1fr;
+}
+
 .trust-card {
   padding: 0.9rem;
 }
