@@ -1,3 +1,35 @@
+.mission-essay {
+  max-width: 44rem;
+}
+
+.mission-essay p {
+  margin: 0 0 1.5rem;
+  color: var(--text-soft);
+  font-size: 1.13rem;
+  line-height: 1.8;
+}
+
+.mission-essay p:last-child {
+  margin-bottom: 0;
+}
+
+.essay-phase {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 2.8rem 0 1rem;
+}
+
+.mission-essay .mission-ethos {
+  margin-top: 2.8rem;
+  font-size: 1.26rem;
+  color: var(--text);
+  letter-spacing: 0.01em;
+  margin-bottom: 1.5rem;
+}
+
 .mission-copy {
   max-width: var(--reading-width);
 }
@@ -12,37 +44,6 @@
 
 .mission-copy p:last-child {
   margin-bottom: 0;
-}
-
-.mission-phase-grid {
-  display: grid;
-  gap: 0.8rem;
-}
-
-.phase-kicker {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 0.45rem;
-}
-
-.phase-heading {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text);
-  margin: 0 0 0.9rem;
-}
-
-.mission-copy .mission-ethos {
-  font-size: 1.28rem;
-  color: var(--text);
-  letter-spacing: 0.01em;
-  margin-bottom: 1.2rem;
 }
 
 .principles {
