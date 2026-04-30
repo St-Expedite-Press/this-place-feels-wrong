@@ -65,10 +65,14 @@ body.donate-portal-page {
   line-height: 1.6;
 }
 
-.donate-statement--note {
-  font-size: clamp(0.8rem, 1.1vw, 0.9rem);
-  opacity: 0.5;
-  margin-top: -0.5rem;
+.donate-copy {
+  width: min(640px, 90vw);
+  display: grid;
+  gap: 0.55rem;
+}
+
+.donate-copy .donate-statement {
+  max-width: none;
 }
 
 .donate-portal-frame {

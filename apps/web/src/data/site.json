@@ -54,18 +54,18 @@
   },
   "pages": {
     "index": {
-      "title": "Portal",
-      "description": "St. Expedite Press portal — books, about, donations, submissions, lab, services, and store.",
+      "title": "St. Expedite Press",
+      "description": "St. Expedite Press publishes original Southern fiction, archival reprints, & translation from New Orleans. A non-institutional press for Southern writing at its formal & spiritual extremity.",
       "canonical": "https://stexpedite.press/"
     },
     "books": {
       "title": "Books",
-      "description": "Books, current publications, and oncoming projects from St. Expedite Press.",
+      "description": "Books, current publications, and three publishing programs from St. Expedite Press.",
       "subtitle": "The press catalog",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Three programs",
       "introTitle": "The catalog is the program.",
-      "introText": "SEXP publishes original fiction and novella. The Library of the Southern Civilization recovers Southern reprints and archival work. The translation series brings Spanish, French, and Russian works into English.",
+      "introText": "Three arms, each making a different argument about what Southern writing is owed.",
       "canonical": "https://stexpedite.press/books",
       "currentNav": "/books"
     },
@@ -76,7 +76,7 @@
       "eyebrow": "St. Expedite Press",
       "introKicker": "The project",
       "introTitle": "Gather the Limbs of Osiris.",
-      "introText": "Osiris was killed by Set and scattered. Isis gathered his limbs and reconstituted him. The press takes the same disposition toward Southern writing.",
+      "introText": "Osiris was killed by Set and scattered. Isis gathered his limbs and reconstituted him. We take the same disposition toward Southern writing.",
       "canonical": "https://stexpedite.press/about",
       "currentNav": "/about"
     },
@@ -103,35 +103,35 @@
       "currentNav": "/donate"
     },
     "submit": {
-      "title": "Submission",
-      "description": "Submission inquiries for St. Expedite Press, with confirmation and email fallback.",
-      "subtitle": "Manuscript and project inquiries",
+      "title": "Submit",
+      "description": "Submission guidelines for St. Expedite Press: original Southern fiction, archival reprint proposals, and literary translation across Spanish, French, and Russian.",
+      "subtitle": "Manuscript inquiries",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "Send a project",
-      "introTitle": "One concise inquiry.",
-      "introText": "Send the project note first. If files are needed, attach them by replying to the reference email.",
+      "introKicker": "What the press publishes",
+      "introTitle": "Three programs, each with distinct criteria.",
+      "introText": "",
       "canonical": "https://stexpedite.press/submit",
       "currentNav": "/submit"
     },
     "lab": {
       "title": "Lab",
-      "description": "Interactive experiments and ongoing instruments, including the American Anglossic Compass.",
+      "description": "Experimental instruments from St. Expedite Press, including the American Anglossic Compass.",
       "subtitle": "Experimental instruments",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Current instrument",
-      "introTitle": "The Lab runs things that don't belong in the catalog yet.",
-      "introText": "The American Anglossic Compass is the current instrument: a scored sequence of interpretive prompts that resolves into a placement.",
+      "introTitle": "The Lab runs work that has not yet found its form in the catalog.",
+      "introText": "Instruments that require a different kind of attention than a book.",
       "canonical": "https://stexpedite.press/lab",
       "currentNav": "/lab"
     },
     "gallery": {
       "title": "Store",
-      "description": "Books, prints, and objects from St. Expedite Press — inventory loaded live from the shop.",
-      "subtitle": "Books, prints, and objects",
+      "description": "Books, prints, and objects from St. Expedite Press, loaded live from the shop.",
+      "subtitle": "Press objects. Direct.",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "Objects from the press",
-      "introTitle": "Books, prints, and editions.",
-      "introText": "Live inventory from the press shop. Checkout handled directly.",
+      "introKicker": "From the press",
+      "introTitle": "Books when they exist. Prints when they mean something.",
+      "introText": "Objects from the press's working life.",
       "canonical": "https://stexpedite.press/gallery",
       "currentNav": "/gallery"
     },
@@ -149,11 +149,11 @@
     "services": {
       "title": "Services",
       "description": "Advisory, editorial, and decision-intelligence services offered through St. Expedite Press.",
-      "subtitle": "Advisory and editorial work",
+      "subtitle": "Advisory & editorial work",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Advisory work",
       "introTitle": "Selected engagements for institutions that need careful judgment.",
-      "introText": "A small number of external engagements, taken selectively. The same editorial discipline behind our catalog: formal precision, long-horizon thinking, and resistance to the convenient.",
+      "introText": "A small number of external engagements, taken selectively. The number is small by design.",
       "canonical": "https://stexpedite.press/services",
       "currentNav": "/services"
     }

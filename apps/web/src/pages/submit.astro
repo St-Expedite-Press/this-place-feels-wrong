@@ -1,20 +1,81 @@
 ---
-// /submit redirects to /contact
+import Base from '../layouts/Base.astro';
+import siteData from '../data/site.json';
+
+const page = siteData.pages.submit;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/forms.css',
+];
 ---
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="refresh" content="0;url=/contact" />
-  <link rel="canonical" href="https://stexpedite.press/contact" />
-  <title>Redirecting — St. Expedite Press</title>
-  <style>
-    body { font-family: sans-serif; padding: 2rem; background: #050807; color: #2aff8a; }
-    h1 { font-size: 1rem; margin: 0 0 0.5rem; }
-  </style>
-</head>
-<body>
-  <h1>Redirecting</h1>
-  <p>Submissions have moved to <a href="/contact">Contact</a>.</p>
-</body>
-</html>
+<Base
+  title={page.title}
+  description={page.description}
+  canonical={page.canonical}
+  subtitle={page.subtitle}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  currentNav={page.currentNav}
+  styles={styles}
+>
+  <section class="reading-width stack">
+    <article class="card stack">
+      <h2 class="section-heading">SEXP &mdash; Original fiction, poetry, & novella</h2>
+      <p class="section-copy">Southern fiction, poetry, short stories, and novellas.</p>
+      <p class="section-copy">The press is interested in work that knows what tradition it is working in and why. Novella length (20,000-50,000 words) is preferred. Longer manuscripts considered when the length is earned. Short story collections considered only when the manuscript argues as a unified whole rather than assembling as a miscellany.</p>
+    </article>
+
+    <article class="card stack">
+      <h2 class="section-heading">Library of the Southern Civilization &mdash; Archival & reprint proposals</h2>
+      <p class="section-copy">The press is looking for Southern texts that deserve recovery: out of print, underpublished, or incorrectly categorized. If you know of such a text, write with a description and the case for it. The press will consider reprint rights proposals, archival introductions, and edition proposals.</p>
+    </article>
+
+    <article class="card stack">
+      <h2 class="section-heading">Translation &mdash; Spanish, French, & Russian</h2>
+      <p class="section-copy">Literary translation, contemporary and historical. The press selects for formal and spiritual register, not for cultural proximity or current marketability. Translators should have a stake in the text beyond professional assignment. Proposals should include a sample translation of at least ten pages and a statement of method.</p>
+    </article>
+  </section>
+
+  <section class="reading-width stack">
+    <article class="form-card form-shell">
+      <div>
+        <h2 class="section-heading">How to submit</h2>
+        <p class="section-copy section-copy--large">Use the form below. Keep the inquiry concise: program, project type, approximate length, stage of completion, and what you are asking. The press responds to every serious inquiry. Response time is typically two to four weeks.</p>
+        <p class="section-copy">No attachments in the initial inquiry. If the press is interested, it will ask for the manuscript. For general correspondence, use <a href="/contact">Contact</a>.</p>
+      </div>
+
+      <form class="form-grid" id="submit-form">
+        <input id="submit-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
+        <div class="field">
+          <label for="submit-email">Email</label>
+          <input class="input" id="submit-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required />
+        </div>
+        <div class="field">
+          <label for="submit-note">Project note</label>
+          <textarea class="textarea" id="submit-note" name="note" placeholder="Program, project type, approximate word count, stage of completion, and what you are asking."></textarea>
+        </div>
+        <div class="actions">
+          <button class="button" id="submit-button" type="submit">Send inquiry</button>
+        </div>
+      </form>
+
+      <div class="status-panel" id="submit-helper" role="status" aria-live="polite" hidden>
+        <div data-status-text></div>
+        <div class="status-panel__actions">
+          <a class="status-action" id="submit-mailto-fallback" href="mailto:editor@stexpedite.press">Open email</a>
+          <button class="status-action" id="submit-copy" type="button">Copy fallback</button>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/submit-page.js" type="module"></script>
+  </Fragment>
+</Base>
