@@ -26,6 +26,16 @@ coverage/
 .reports/
 tmp/
 
+# Local QA and browser automation artifacts
+.playwright-mcp/
+screenshot-*.png
+audit-*.png
+launch-*.png
+
+# Astro generated local cache (tracked type stubs live alongside these)
+apps/web/.astro/collections/
+apps/web/.astro/data-store.json
+
 # Local IDE and bundler artifacts
 .vscode/
 .idea/

@@ -5,28 +5,32 @@ import siteData from '../data/site.json';
 
 const { site, pages } = siteData;
 const page = pages.index;
+const homeMetaTitle = 'St. Expedite Press — Southern Fiction, Translation & Archive | New Orleans';
+const homeMetaDescription = 'St. Expedite Press publishes original Southern fiction, archival reprints, & translation from New Orleans. A non-institutional press for Southern writing at its formal & spiritual extremity.';
+const homeOgTitle = 'St. Expedite Press';
+const homeOgDescription = 'A New Orleans press for Southern writing at its formal & spiritual extremity. Fiction, archive, translation.';
 ---
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content={page.description} />
+<meta name="description" content={homeMetaDescription} />
 <meta name="theme-color" content={site.themeColor} />
 <meta name="color-scheme" content="dark" />
 <meta property="og:site_name" content={site.name} />
 <meta property="og:type" content="website" />
-<meta property="og:title" content={`${page.title} \u2014 ${site.name}`} />
-<meta property="og:description" content="Books, about, donations, submissions, lab, services, and store." />
+<meta property="og:title" content={homeOgTitle} />
+<meta property="og:description" content={homeOgDescription} />
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 <meta property="og:url" content={page.canonical} />
 <meta property="og:image" content={site.ogImage} />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={`${page.title} \u2014 ${site.name}`} />
-<meta name="twitter:description" content="Books, about, donations, submissions, lab, services, and store." />
+<meta name="twitter:title" content={homeOgTitle} />
+<meta name="twitter:description" content={homeOgDescription} />
 <meta name="twitter:image" content={site.ogImage} />
 <link rel="canonical" href={page.canonical} />
-<title>{page.title} &mdash; {site.name}</title>
+<title>{homeMetaTitle}</title>
 
 <link rel="icon" href={`/${site.favicon}`} type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -106,6 +110,16 @@ body {
   white-space: nowrap;
 }
 
+.portal-mobile .title-descriptor {
+  margin: 0.55rem auto 0;
+  max-width: 26rem;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  color: rgba(42, 255, 138, 0.85);
+  text-shadow: 0 0 8px var(--green-2);
+}
+
 .portal-mobile .portal {
   width: min(44vh, 380px);
   height: min(44vh, 380px);
@@ -173,6 +187,16 @@ body {
   background: transparent;
   box-shadow: none;
   backdrop-filter: none;
+}
+
+.portal-mobile .thin-copy {
+  margin: 0 0 0.5rem;
+  width: min(420px, 86vw);
+  color: rgba(42, 255, 138, 0.82);
+  font-size: 0.98rem;
+  line-height: 1.35;
+  text-align: center;
+  text-shadow: 0 0 8px var(--green-2);
 }
 
 .portal-mobile .thin-form {
@@ -393,6 +417,16 @@ body {
   color: var(--green-base);
   text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
   animation: title-breathe 12s ease-in-out infinite;
+}
+
+.header-descriptor {
+  margin: 0.6rem 0 0;
+  text-align: center;
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  color: rgba(42, 255, 138, 0.86);
+  text-shadow: 0 0 8px var(--green-2), 0 0 16px var(--green-3);
 }
 
 @keyframes title-breathe {
@@ -641,6 +675,11 @@ body {
        0 0 10px var(--green-2);
   }
 
+  .header-descriptor {
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+  }
+
   .portal-frame {
     position: relative;
     top: auto;
@@ -723,6 +762,7 @@ body {
     <div class="mobile-fit">
       <header>
         <h1 class="title">St. Expedite Press</h1>
+        <p class="title-descriptor">Southern fiction, archival recovery, & translation. New Orleans.</p>
       </header>
 
       <section class="portal-stack">
@@ -737,10 +777,11 @@ body {
 
         <a class="portal-link" href="/about">About</a>
 
-        <div class="thin-band" aria-label="Email updates">
+        <div class="thin-band" aria-label="Letters from the press">
+          <p class="thin-copy">Letters from the press. New titles, critical dispatches, & notes on the tradition.</p>
           <form class="thin-form" id="index-updates-form">
-            <input class="thin-input" id="index-updates-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for updates" required>
-            <button class="thin-button" type="submit">Get updates</button>
+            <input class="thin-input" id="index-updates-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" aria-label="Email for letters from the press" required>
+            <button class="thin-button" type="submit">Subscribe</button>
           </form>
           <div class="thin-helper" id="index-updates-helper" aria-live="polite" hidden>
             <div id="index-updates-helper-text"></div>
@@ -766,6 +807,7 @@ body {
   <div class="portal-flash"></div>
 
   <h1 class="header-title">ST. EXPEDITE PRESS</h1>
+  <p class="header-descriptor">Southern fiction, archival recovery, & translation. New Orleans.</p>
 
   <div class="portal-frame">
     <div class="portal-noise"></div>
@@ -777,9 +819,8 @@ body {
 
   <nav class="mobile-index-nav">
     <a href="/books">Books</a>
-    <a href="/gallery">Merch</a>
+    <a href="/gallery">Store</a>
     <a href="/about">About</a>
-    <a href="/donate">Donate</a>
     <a href="/lab">Lab</a>
   </nav>
 
@@ -798,7 +839,7 @@ body {
     <p class="lede">...in the key of Night.</p>
     <div class="divider">&#9651; &#10013; &#9651;</div>
     <div class="splash__foot">
-      <a href="/services">Services</a> // <a href="/submit">Submit</a> // <a href="/about">About</a> // <a href="/donate">Donate</a>
+      <a href="/books">Books</a> // <a href="/submit">Submit</a> // <a href="/about">About</a> // <a href="/donate">Donate</a>
     </div>
   </div>
 </div>
