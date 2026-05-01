@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html test-worker check-all deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync
+.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html check-links check-a11y check-lighthouse test-worker check-all deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync assets-check
 
 help:
 	@echo "Available targets:"
@@ -10,6 +10,9 @@ help:
 	@echo "  bootstrap-python-venv  Create/update local Python virtualenv at .venv"
 	@echo "  install-hooks       Install tracked git hooks (.githooks)"
 	@echo "  lint-html           Run htmlhint for generated HTML in apps/web/dist"
+	@echo "  check-links         Run generated-site link checks"
+	@echo "  check-a11y          Run generated-site accessibility checks"
+	@echo "  check-lighthouse    Run Lighthouse check when Chrome/Chromium is available"
 	@echo "  test-worker         Run worker test suite"
 	@echo "  check-all           Run lint + tests"
 	@echo "  runtime-config      Verify Cloudflare runtime prerequisites"
@@ -23,6 +26,7 @@ help:
 	@echo "  release-dry-run     Print release actions without mutating"
 	@echo "  check-seo           Run advisory SEO structure checks"
 	@echo "  assets-sync         Sync source assets -> apps/web/public/assets and regenerate manifest"
+	@echo "  assets-check        Verify source/public asset sync and manifest"
 
 dev-web:
 	npm --prefix apps/web run dev
@@ -41,6 +45,15 @@ install-hooks:
 
 lint-html:
 	npx -y htmlhint "apps/web/dist/**/*.html"
+
+check-links:
+	npm run check:links
+
+check-a11y:
+	npm run check:a11y
+
+check-lighthouse:
+	npm run check:lighthouse
 
 test-worker:
 	npm --prefix apps/communications-worker run test
@@ -81,3 +94,5 @@ check-seo:
 assets-sync:
 	sh internal/agent/tools/sync-assets.sh
 
+assets-check:
+	sh internal/agent/tools/check-assets-sync.sh

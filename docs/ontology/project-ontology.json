@@ -1,54 +1,126 @@
 {
   "repo": {
     "name": "stexpedite-press",
-    "license": "proprietary"
+    "license": "proprietary",
+    "agent_instructions": {
+      "canonical": "AGENTS.md",
+      "claude_entrypoint": "CLAUDE.md",
+      "repo_skills": ".agents/skills/",
+      "internal_agent_hub": "internal/agent/"
+    }
   },
   "apps": {
     "web": {
+      "dir": "apps/web/",
       "source_dir": "apps/web/src/",
-      "build_script": "npm run build",
+      "assets_dir": "apps/web/public/assets/",
       "output_dir": "apps/web/dist/",
-      "entrypoints": [
-        "index.html",
-        "books.html",
-        "about.html",
-        "submit.html",
-        "gallery.html",
-        "lab.html",
-        "services.html"
-      ]
+      "build_script": "npm run build",
+      "routes": {
+        "/": "apps/web/src/pages/index.astro",
+        "/books": "apps/web/src/pages/books.astro",
+        "/about": "apps/web/src/pages/about.astro",
+        "/contact": "apps/web/src/pages/contact.astro",
+        "/donate": "apps/web/src/pages/donate.astro",
+        "/donate/thanks": "apps/web/src/pages/donate/thanks.astro",
+        "/submit": "apps/web/src/pages/submit.astro",
+        "/gallery": "apps/web/src/pages/gallery.astro",
+        "/lab": "apps/web/src/pages/lab.astro",
+        "/services": "apps/web/src/pages/services.astro"
+      }
     },
     "communications_worker": {
       "dir": "apps/communications-worker/",
       "implementation": "apps/communications-worker/src/index.ts",
       "openapi": "apps/communications-worker/openapi.yaml",
       "wrangler_config": "apps/communications-worker/wrangler.toml",
-      "routes": [
-        "/api/health",
-        "/api/storefront",
-        "/api/projects",
-        "/api/contact",
-        "/api/submit",
-        "/api/updates",
-        "/api/updates/import"
-      ]
+      "migrations": "apps/communications-worker/migrations/",
+      "tests": "apps/communications-worker/test/index.test.ts",
+      "routes": {
+        "GET /api/health": "runtime health and dependency flags",
+        "GET /api/storefront": "Fourthwall storefront catalog",
+        "GET /api/projects": "D1-backed projects catalog",
+        "POST /api/contact": "contact form email and D1 log",
+        "POST /api/submit": "submission inquiry email and D1 log",
+        "POST /api/donate/session": "Stripe Checkout session creation",
+        "POST /api/updates": "updates signup capture",
+        "POST /api/updates/import": "token-gated updates enrichment import",
+        "POST /api/updates/unsubscribe": "updates unsubscribe marker"
+      }
     }
   },
-  "internal": {
-    "agent_dir": "internal/agent/"
+  "assets": {
+    "source": "assets/source/",
+    "published": "apps/web/public/assets/",
+    "manifest": "assets/manifest.txt",
+    "sync": "npm run assets:sync",
+    "check": "npm run assets:check"
   },
-  "archive": {
-    "dirs": [
-      "archive/site-legacy/",
-      "archive/anglossic_quiz/"
-    ]
+  "branding": {
+    "dir": "branding/",
+    "overview": "branding/README.md",
+    "assessment": "branding/ux-assessment.md",
+    "guidelines": "branding/brand-guidelines.md",
+    "web_elements": "branding/web-elements.md",
+    "tokens": [
+      "branding/tokens/brand-tokens.json",
+      "branding/tokens/brand-tokens.css"
+    ],
+    "asset_handoff": "branding/assets/README.md",
+    "export_manifest": "branding/export-manifest.json",
+    "scope": "exportable design-system documentation and token guidance; no runtime behavior"
   },
   "commands": {
     "build": "npm run build",
     "check": "npm run check",
     "dev_web": "npm run dev:web",
     "dev_worker": "npm run dev:worker",
+    "test_worker": "npm run test:worker",
     "deploy_web": "npm run deploy:web",
-    "deploy_worker": "npm run deploy:worker"
+    "deploy_worker": "npm run deploy:worker",
+    "runtime_config": "npm run runtime:config",
+    "runtime_audit": "npm run runtime:audit",
+    "smoke_api": "npm run smoke:api",
+    "release_dry_run": "npm run release:dry-run"
+  },
+  "docs": {
+    "root": "README.md",
+    "deployment": "DEPLOYMENT.md",
+    "state": "docs/state-of-play.md",
+    "operations": "docs/operations/",
+    "infrastructure": "docs/infrastructure/",
+    "ontology": "docs/ontology/"
+  },
+  "internal": {
+    "agent_dir": "internal/agent/",
+    "tools": "internal/agent/tools/",
+    "skills": "internal/agent/skills/",
+    "kits": "internal/agent/kits/"
+  },
+  "archive": {
+    "dirs": [
+      "archive/anglossic_quiz/"
+    ],
+    "status": "non-live historical product material; removed legacy static output is recoverable from git history"
+  },
+  "maintenance": {
+    "when_changing_site_routes_or_assets": [
+      "README.md",
+      "docs/state-of-play.md",
+      "docs/ontology/project-ontology.json",
+      "apps/web/src/README.pages.md"
+    ],
+    "when_changing_worker_routes_or_contracts": [
+      "apps/communications-worker/openapi.yaml",
+      "apps/communications-worker/README.md",
+      "docs/infrastructure/",
+      "docs/ontology/project-ontology.json"
+    ],
+    "when_changing_agent_workflows": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      ".agents/skills/",
+      "internal/agent/docs/"
+    ]
   }
 }

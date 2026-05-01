@@ -19,6 +19,9 @@
 
 .trust-card {
   padding: 0.9rem;
+  background:
+    linear-gradient(180deg, rgba(42, 255, 138, 0.04), rgba(0, 0, 0, 0)),
+    var(--mode-panel, var(--panel));
 }
 
 .trust-card--center {
@@ -76,6 +79,23 @@
 
 .aside-note {
   color: var(--text-soft);
+}
+
+.form-assurance {
+  margin: -0.2rem 0 0;
+  color: var(--mode-copy-muted, var(--text-muted));
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+[data-brand-mode="utility"] .form-card {
+  background:
+    linear-gradient(180deg, rgba(42, 255, 138, 0.035), rgba(0, 0, 0, 0) 42%),
+    var(--mode-panel-strong, var(--panel-strong));
+}
+
+[data-brand-mode="utility"] .trust-card {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.82);
 }
 
 @media (max-width: 900px) {

@@ -9,7 +9,9 @@ Reference for the production communications stack behind `stexpedite.press`.
 - Worker/API implementation: `apps/communications-worker/`
 - runtime edge: Cloudflare
 - email delivery: Resend
+- donation checkout: Stripe
 - data store: D1 (`stexpedite-updates`)
+- storefront data: Fourthwall
 
 ## Worker Source Of Truth
 
@@ -21,8 +23,11 @@ Reference for the production communications stack behind `stexpedite.press`.
 ## Expected Runtime
 
 - route `stexpedite.press/api/*` attached to `stexpedite-communications`
-- secret `RESEND_API_KEY` configured
-- D1 binding `DB` attached when updates/projects features are required
+- route `www.stexpedite.press/api/*` attached to `stexpedite-communications`
+- secret `RESEND_API_KEY` configured for contact and submit flows
+- secrets `FROM_EMAIL` and `TO_EMAIL` configured for email routing
+- secret `STRIPE_SECRET_KEY` configured for donations
+- D1 binding `DB` attached when updates/projects/rate-limit/logging features are required
 - optional secrets:
   - `FOURTH_WALL_API_KEY` or `FW_STOREFRONT_TOKEN`
   - `TURNSTILE_SECRET`
@@ -31,16 +36,13 @@ Reference for the production communications stack behind `stexpedite.press`.
 ## Verification
 
 ```bash
-cd apps/communications-worker
-npx -y wrangler whoami
-npx -y wrangler secret list
-npx -y wrangler d1 list
-npm run test
+npm run test:worker
+npm run runtime:config
 ```
 
 Runtime smoke:
 
 ```bash
-bash internal/agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh
-bash internal/agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
+npm run runtime:audit
+npm run smoke:api:full
 ```

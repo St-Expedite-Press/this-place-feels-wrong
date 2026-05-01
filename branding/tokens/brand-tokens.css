@@ -1,0 +1,58 @@
+:root {
+  /* Current core tokens mirrored from apps/web/public/assets/css/tokens.css. */
+  --brand-void-black: #050807;
+  --brand-panel: rgba(0, 0, 0, 0.76);
+  --brand-panel-strong: rgba(0, 0, 0, 0.86);
+  --brand-panel-soft: rgba(0, 0, 0, 0.64);
+  --brand-signal-green: #2aff8a;
+  --brand-signal-soft: rgba(42, 255, 138, 0.1);
+  --brand-signal-border: rgba(42, 255, 138, 0.24);
+  --brand-signal-border-strong: rgba(42, 255, 138, 0.46);
+  --brand-relief-magenta: #d96aff;
+
+  /* Recommended role aliases for future UX implementation. */
+  --brand-text-signal: #2aff8a;
+  --brand-text-soft: rgba(42, 255, 138, 0.88);
+  --brand-text-muted: rgba(42, 255, 138, 0.68);
+  --brand-text-readable: #e8f8ee;
+  --brand-status-warning: #ffa726;
+  --brand-status-error: #ff6f6f;
+
+  --brand-radius-xl: 28px;
+  --brand-radius-lg: 20px;
+  --brand-radius-md: 14px;
+  --brand-radius-pill: 999px;
+
+  --brand-font-display: "Cinzel", serif;
+  --brand-font-body: "Cormorant Garamond", serif;
+
+  --brand-page-width: 1120px;
+  --brand-reading-width: 760px;
+  --brand-gutter: clamp(1rem, 3vw, 2rem);
+  --brand-hero-bar-height: 58px;
+
+  --brand-shadow: 0 0 18px rgba(0, 0, 0, 0.9), 0 0 26px rgba(42, 255, 138, 0.06);
+  --brand-shadow-soft: 0 0 12px rgba(0, 0, 0, 0.9), 0 0 18px rgba(42, 255, 138, 0.06);
+}
+
+[data-brand-mode="ritual"] {
+  --brand-mode-surface: var(--brand-panel);
+  --brand-mode-text: var(--brand-text-signal);
+  --brand-mode-border: var(--brand-signal-border-strong);
+  --brand-mode-shadow: var(--brand-shadow);
+}
+
+[data-brand-mode="editorial"] {
+  --brand-mode-surface: var(--brand-panel-soft);
+  --brand-mode-text: var(--brand-text-readable);
+  --brand-mode-border: var(--brand-signal-border);
+  --brand-mode-shadow: var(--brand-shadow-soft);
+}
+
+[data-brand-mode="utility"] {
+  --brand-mode-surface: var(--brand-panel-strong);
+  --brand-mode-text: var(--brand-text-readable);
+  --brand-mode-border: rgba(42, 255, 138, 0.18);
+  --brand-mode-shadow: 0 0 10px rgba(0, 0, 0, 0.85);
+}
+

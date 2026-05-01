@@ -1,5 +1,5 @@
-# Source Images
+# Image Assets
 
-Canonical image assets before sync into the authored web asset tree.
+Image files mirrored between `assets/source/img/` and `apps/web/public/assets/img/`.
 
-Raster sources placed here are copied into `apps/web/public/assets/img/` and can be converted to `.webp` during asset sync.
+Edit the source copy, then run `npm run assets:sync` and `npm run assets:check`.

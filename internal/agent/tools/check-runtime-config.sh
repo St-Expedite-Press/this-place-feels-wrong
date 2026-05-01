@@ -19,17 +19,25 @@ for secret_name in RESEND_API_KEY; do
 done
 
 has_storefront_secret=0
-for secret_name in FOURTH_WALL_API_KEY FW_STOREFRONT_TOKEN TURNSTILE_SECRET; do
+has_stripe_secret=0
+for secret_name in FOURTH_WALL_API_KEY FW_STOREFRONT_TOKEN STRIPE_SECRET_KEY TURNSTILE_SECRET; do
   if printf "%s" "$secret_payload" | rg -q "\"name\":\\s*\"${secret_name}\""; then
     echo "[runtime-config] optional secret present: ${secret_name}"
     if [ "$secret_name" = "FOURTH_WALL_API_KEY" ] || [ "$secret_name" = "FW_STOREFRONT_TOKEN" ]; then
       has_storefront_secret=1
+    fi
+    if [ "$secret_name" = "STRIPE_SECRET_KEY" ]; then
+      has_stripe_secret=1
     fi
   fi
 done
 
 if [ "$has_storefront_secret" -eq 0 ]; then
   echo "Warning: storefront secret not found. /api/storefront is expected to fail until configured." >&2
+fi
+
+if [ "$has_stripe_secret" -eq 0 ]; then
+  echo "Warning: Stripe secret not found. /api/donate/session is expected to fail until configured." >&2
 fi
 
 echo "[runtime-config] d1 inventory"

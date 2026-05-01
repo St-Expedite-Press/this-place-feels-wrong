@@ -5,6 +5,42 @@
 */
 
 (function () {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reducedMotion) {
+    let animatedPortalsHydrated = false;
+
+    const hydrateAnimatedPortals = () => {
+      if (animatedPortalsHydrated) return;
+      animatedPortalsHydrated = true;
+      document.querySelectorAll('.portal-media[data-animated-src]').forEach((picture) => {
+        const animatedSrc = picture.getAttribute('data-animated-src');
+        const source = picture.querySelector('source[type="image/webp"]');
+        if (!animatedSrc || !source || source.getAttribute('srcset') === animatedSrc) return;
+        source.setAttribute('srcset', animatedSrc);
+      });
+    };
+
+    const scheduleHydration = () => {
+      window.setTimeout(() => {
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(hydrateAnimatedPortals, { timeout: 1800 });
+        } else {
+          hydrateAnimatedPortals();
+        }
+      }, 6000);
+    };
+
+    if (document.readyState === 'complete') {
+      scheduleHydration();
+    } else {
+      window.addEventListener('load', scheduleHydration, { once: true });
+    }
+
+    ['pointerdown', 'pointermove', 'keydown', 'touchstart'].forEach((eventName) => {
+      window.addEventListener(eventName, hydrateAnimatedPortals, { once: true, passive: true });
+    });
+  }
+
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!window.matchMedia('(pointer: fine)').matches) return;
 

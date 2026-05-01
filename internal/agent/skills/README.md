@@ -1,30 +1,37 @@
-# Skills Taxonomy (Repo-local)
+# Internal Skills Taxonomy
 
-This folder contains repo-local operational skills and tools.
+This folder contains internal operational skills and tools used by repo scripts and runbooks.
+
+Repo-scoped Codex skills for day-to-day agent invocation live under `.agents/skills/`.
 
 ## Taxonomy
 
 - `internal/agent/skills/ops/`
-  - Runbooks, automation, and checks for deployment/runtime stability.
+  - runbooks, automation, and checks for deployment/runtime stability
 - `internal/agent/skills/security/`
-  - Reserved for abuse controls and security response tooling.
+  - reserved for abuse controls and security response tooling
 - `internal/agent/skills/content/`
-  - Reserved for editorial/site content workflows.
+  - reserved for editorial/site content workflows
 
-## Active skills
+## Active Internal Skill
 
 - `internal/agent/skills/ops/cloudflare-stability/`
-  - Purpose: keep Cloudflare Worker + D1 + API runtime stable and verifiable.
+  - Purpose: keep Cloudflare Worker, D1, and API runtime stable and verifiable.
   - Includes executable scripts and reference thresholds/runbooks.
 
-## Structure contract
+## Repo-Scoped Codex Skills
 
-Every skill directory should include:
-- `SKILL.md` (frontmatter + usage guidance)
-- `scripts/` (automations; executable; idempotent where possible)
-- `references/` (policy thresholds, operating procedures)
+- `.agents/skills/docs-assay/`
+- `.agents/skills/static-site-qa/`
+- `.agents/skills/cloudflare-release-ops/`
+- `.agents/skills/worker-contract-review/`
 
-When adding or changing scripts:
-- Keep scripts shell-safe (`set -euo pipefail`).
-- Prefer read-only checks by default; explicit mutating actions should be opt-in.
-- Document inputs, outputs, and side effects in `SKILL.md`.
+## Structure Contract
+
+Every internal skill directory should include:
+
+- `SKILL.md` for usage guidance
+- `scripts/` for automations when needed
+- `references/` for policy thresholds or operating procedures when needed
+
+When adding or changing scripts, keep scripts shell-safe with `set -euo pipefail` where compatible, prefer read-only checks by default, and document inputs, outputs, and side effects in `SKILL.md`.

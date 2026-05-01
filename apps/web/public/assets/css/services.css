@@ -18,7 +18,8 @@
 
 .service-card p,
 .service-card li {
-  color: var(--text-soft);
+  color: var(--mode-copy, var(--text-soft));
+  text-shadow: var(--mode-text-shadow, none);
 }
 
 @media (max-width: 900px) {

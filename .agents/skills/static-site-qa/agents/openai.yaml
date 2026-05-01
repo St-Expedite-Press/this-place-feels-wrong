@@ -1,0 +1,4 @@
+interface:
+  display_name: "Static Site QA"
+  short_description: "Validate the Astro static site surface."
+  default_prompt: "Use static-site-qa to validate the web app after static site changes."

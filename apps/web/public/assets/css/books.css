@@ -41,27 +41,35 @@
 
 .book-row {
   display: grid;
-  grid-template-columns: 56px 1fr auto;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
   gap: 1rem;
   align-items: start;
-  padding: 0.9rem 1.1rem;
+  padding: 1rem 1.15rem;
   border-radius: var(--radius-lg);
-  background: rgba(0, 0, 0, 0.28);
-  border: 1px solid var(--border);
-  transition: border-color 150ms ease;
+  background:
+    linear-gradient(90deg, rgba(42, 255, 138, 0.045), rgba(0, 0, 0, 0) 34%),
+    rgba(0, 0, 0, 0.36);
+  border: 1px solid var(--mode-border, var(--border));
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.78);
+  transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
 }
 
 .book-row:hover {
-  border-color: rgba(42, 255, 138, 0.22);
+  border-color: var(--mode-border-strong, rgba(42, 255, 138, 0.34));
+  background:
+    linear-gradient(90deg, rgba(42, 255, 138, 0.065), rgba(0, 0, 0, 0) 34%),
+    rgba(0, 0, 0, 0.42);
 }
 
 .book-row__cover {
-  width: 56px;
-  height: 84px;
+  width: 72px;
+  height: 108px;
   border-radius: calc(var(--radius-lg) - 6px);
   overflow: hidden;
   flex-shrink: 0;
-  background: linear-gradient(135deg, rgba(42, 255, 138, 0.1), rgba(217, 106, 255, 0.08));
+  background: linear-gradient(135deg, rgba(42, 255, 138, 0.08), rgba(217, 106, 255, 0.06));
+  border: 1px solid rgba(42, 255, 138, 0.12);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8), 0 10px 24px rgba(0, 0, 0, 0.34);
 }
 
 .book-row__cover img {
@@ -101,13 +109,13 @@
 }
 
 .book-row__author {
-  color: var(--text-soft);
+  color: var(--mode-copy, var(--text-soft));
   font-size: 0.85rem;
 }
 
 .book-row__description {
   margin: 0.3rem 0 0;
-  color: var(--text-muted);
+  color: var(--mode-copy-muted, var(--text-muted));
   font-size: 0.82rem;
   line-height: 1.5;
 }
@@ -147,7 +155,7 @@
 .status--in-progress {
   background: rgba(255, 167, 38, 0.1);
   border-color: rgba(255, 167, 38, 0.28);
-  color: #ffa726;
+  color: var(--status-warning);
 }
 
 .status--forthcoming {
@@ -173,11 +181,12 @@
 .book-row__buy {
   font-size: 0.72rem;
   padding: 0.3rem 0.75rem;
+  min-height: 2.2rem;
 }
 
 @media (max-width: 680px) {
   .book-row {
-    grid-template-columns: 48px 1fr;
+    grid-template-columns: 58px 1fr;
     grid-template-rows: auto auto;
   }
 
@@ -189,7 +198,8 @@
   }
 
   .book-row__cover {
-    height: 72px;
+    width: 58px;
+    height: 87px;
   }
 }
 

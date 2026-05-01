@@ -8,11 +8,16 @@
   --text: #2aff8a;
   --text-soft: rgba(42, 255, 138, 0.88);
   --text-muted: rgba(42, 255, 138, 0.68);
+  --text-readable: #e8f8ee;
+  --text-readable-soft: rgba(232, 248, 238, 0.86);
+  --text-readable-muted: rgba(232, 248, 238, 0.64);
   --accent: #2aff8a;
   --accent-soft: rgba(42, 255, 138, 0.1);
   --accent-strong: rgba(42, 255, 138, 0.72);
   --accent-glow: rgba(42, 255, 138, 0.24);
   --relief: #d96aff;
+  --status-warning: #ffa726;
+  --status-error: #ff6f6f;
   --green-1: rgba(42, 255, 138, 0.22);
   --green-2: rgba(42, 255, 138, 0.12);
   --green-3: rgba(42, 255, 138, 0.06);
@@ -31,4 +36,49 @@
   --reading-width: 760px;
   --gutter: clamp(1rem, 3vw, 2rem);
   --hero-bar-height: 58px;
+  --mode-panel: var(--panel);
+  --mode-panel-strong: var(--panel-strong);
+  --mode-border: var(--border);
+  --mode-border-strong: var(--border-strong);
+  --mode-copy: var(--text-soft);
+  --mode-copy-muted: var(--text-muted);
+  --mode-heading-shadow: 0 0 10px var(--green-1), 0 0 20px var(--green-2);
+  --mode-shadow: var(--shadow-soft);
+  --mode-text-shadow: 0 0 7px var(--green-3);
+}
+
+[data-brand-mode="ritual"] {
+  --mode-panel: var(--panel);
+  --mode-panel-strong: var(--panel-strong);
+  --mode-border: var(--border);
+  --mode-border-strong: var(--border-strong);
+  --mode-copy: var(--text-soft);
+  --mode-copy-muted: var(--text-muted);
+  --mode-heading-shadow: 0 0 12px var(--green-1), 0 0 28px var(--green-2);
+  --mode-shadow: var(--shadow);
+  --mode-text-shadow: 0 0 8px var(--green-2);
+}
+
+[data-brand-mode="editorial"] {
+  --mode-panel: rgba(0, 0, 0, 0.7);
+  --mode-panel-strong: rgba(0, 0, 0, 0.8);
+  --mode-border: rgba(42, 255, 138, 0.18);
+  --mode-border-strong: rgba(42, 255, 138, 0.34);
+  --mode-copy: var(--text-readable-soft);
+  --mode-copy-muted: var(--text-readable-muted);
+  --mode-heading-shadow: 0 0 8px var(--green-3);
+  --mode-shadow: 0 0 14px rgba(0, 0, 0, 0.88), 0 0 14px rgba(42, 255, 138, 0.04);
+  --mode-text-shadow: none;
+}
+
+[data-brand-mode="utility"] {
+  --mode-panel: rgba(0, 0, 0, 0.82);
+  --mode-panel-strong: rgba(0, 0, 0, 0.9);
+  --mode-border: rgba(42, 255, 138, 0.16);
+  --mode-border-strong: rgba(42, 255, 138, 0.32);
+  --mode-copy: var(--text-readable-soft);
+  --mode-copy-muted: var(--text-readable-muted);
+  --mode-heading-shadow: 0 0 6px rgba(42, 255, 138, 0.08);
+  --mode-shadow: 0 0 12px rgba(0, 0, 0, 0.88);
+  --mode-text-shadow: none;
 }

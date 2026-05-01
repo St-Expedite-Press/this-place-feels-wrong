@@ -71,12 +71,22 @@
   background: rgba(0, 0, 0, 0.22);
   color: var(--text);
   cursor: pointer;
+  min-height: 2.75rem;
+  transition: background 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
 }
 
 .choice-button.is-selected,
 .lab-index button.is-active {
   border-color: var(--border-strong);
   background: var(--accent-soft);
+}
+
+.choice-button:hover,
+.choice-button:focus-visible,
+.lab-button:hover,
+.lab-button:focus-visible {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 12px rgba(42, 255, 138, 0.16);
 }
 
 .results-grid {
@@ -97,5 +107,12 @@
   .lab-overview,
   .lab-layout {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choice-button,
+  .lab-button {
+    transition: none;
   }
 }

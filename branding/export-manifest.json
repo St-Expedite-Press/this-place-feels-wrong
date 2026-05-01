@@ -1,0 +1,69 @@
+{
+  "package": "stexpedite-branding",
+  "version": "0.1.0",
+  "lastUpdated": "2026-05-01",
+  "description": "Exportable brand, UX, token, and web-element guidance for St. Expedite Press.",
+  "runtimeImpact": "none",
+  "contents": [
+    {
+      "path": "branding/README.md",
+      "role": "package overview"
+    },
+    {
+      "path": "branding/ux-assessment.md",
+      "role": "repo-wide aesthetic and UX assessment"
+    },
+    {
+      "path": "branding/brand-guidelines.md",
+      "role": "brand rules and creative direction"
+    },
+    {
+      "path": "branding/web-elements.md",
+      "role": "component and web-element creation guide"
+    },
+    {
+      "path": "branding/tokens/brand-tokens.json",
+      "role": "machine-readable design tokens"
+    },
+    {
+      "path": "branding/tokens/brand-tokens.css",
+      "role": "portable CSS custom properties"
+    },
+    {
+      "path": "branding/assets/README.md",
+      "role": "asset handoff notes"
+    }
+  ],
+  "sourceAssets": [
+    "assets/source/img/crow_glitch_text_still.png",
+    "assets/source/img/crow_glitch_text_still.webp",
+    "assets/source/img/crow_glitch_text.webp",
+    "assets/source/gif/crow_glitch_text.gif",
+    "assets/source/img/void_engine_twinkle_green.png",
+    "assets/source/img/void_engine_twinkle_green.webp",
+    "assets/source/img/favicon.svg",
+    "assets/source/img/les-fievres-cover.svg",
+    "assets/source/img/covers/lift-wind-cover.jpg"
+  ],
+  "liveSourceReferences": [
+    "apps/web/src/pages/index.astro",
+    "apps/web/src/components/",
+    "apps/web/src/data/site.json",
+    "apps/web/public/assets/css/tokens.css",
+    "apps/web/public/assets/css/base.css",
+    "apps/web/public/assets/css/components.css",
+    "apps/web/public/assets/css/layout.css",
+    "apps/web/public/assets/css/forms.css",
+    "apps/web/public/assets/css/books.css",
+    "apps/web/public/assets/css/gallery.css",
+    "apps/web/public/assets/css/donate.css",
+    "apps/web/public/assets/css/lab.css"
+  ],
+  "exportInstructions": [
+    "Zip the branding/ directory for documentation and tokens.",
+    "Copy sourceAssets from assets/source/ only when binary media is needed by the recipient.",
+    "Do not export apps/web/dist/ as design source.",
+    "If brand changes are implemented in the app, run npm run assets:check and npm run check."
+  ]
+}
+

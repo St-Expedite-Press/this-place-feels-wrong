@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cloudflare Release Ops"
+  short_description: "Run Cloudflare release and runtime checks."
+  default_prompt: "Use cloudflare-release-ops to prepare, validate, or investigate Cloudflare releases."

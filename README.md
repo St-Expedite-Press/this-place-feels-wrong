@@ -1,24 +1,29 @@
 # St. Expedite Press
 
-Proprietary repository for the St. Expedite Press web presence and communications API.
+Proprietary repository for the St. Expedite Press public site and communications API.
 
 ## Layout
 
-- `apps/web/src/`
-  - authoritative source for the public site
-  - Astro pages, layouts, components, data, and route-specific source files
-- `apps/web/public/assets/`
-  - authored CSS, JS, images, and GIFs served by the site
+- `apps/web/`
+  - Astro static site for Cloudflare Pages
+  - source: `apps/web/src/`
+  - authored assets: `apps/web/public/assets/`
+  - generated output: `apps/web/dist/`
 - `apps/communications-worker/`
   - Cloudflare Worker for `/api/*`
-  - D1 migrations, OpenAPI contract, tests, and Wrangler config
-- `apps/web/dist/`
-  - generated static artifact
-  - produced by `npm run build`
+  - implementation, OpenAPI contract, D1 migrations, tests, and Wrangler config
+- `assets/source/`
+  - canonical media sources synced into `apps/web/public/assets/`
+- `branding/`
+  - exportable brand package, UX assessment, design tokens, and web-element guidelines
+- `docs/`
+  - infrastructure, operations, ontology, and repo state documentation
 - `internal/agent/`
-  - internal maintenance tooling, release scripts, skills, and reusable scaffolding
+  - internal maintenance tooling, release scripts, operational skills, and reusable kits
+- `.agents/skills/`
+  - repo-scoped Codex skills for docs, static-site QA, Cloudflare ops, and Worker contract review
 - `archive/`
-  - non-live legacy material, including the former checked-in site output and archived quiz content
+  - non-live historical material
 
 ## Commands
 
@@ -33,50 +38,68 @@ npm run deploy:web
 npm run deploy:worker
 ```
 
-Supporting commands:
+Supporting checks and operations:
 
 ```bash
 npm run assets:sync
 npm run assets:check
-make dev-web
-make dev-worker
-make release
+npm run check:seo
+npm run runtime:config
+npm run runtime:audit
+npm run smoke:api
+npm run release:dry-run
+make check-all
+make assets-check
 ```
 
-## Runtime Surface
+## Public Routes
 
-Public pages remain stable at the domain root, including:
+Static site routes:
 
 - `/`
 - `/books`
 - `/about`
+- `/contact`
 - `/donate`
+- `/donate/thanks`
 - `/submit`
 - `/gallery`
 - `/lab`
 - `/services`
 
-Worker routes remain stable:
+Worker routes:
 
 - `GET /api/health`
 - `GET /api/storefront`
 - `GET /api/projects`
 - `POST /api/contact`
 - `POST /api/submit`
+- `POST /api/donate/session`
 - `POST /api/updates`
 - `POST /api/updates/import`
+- `POST /api/updates/unsubscribe`
 
 ## Deployment Model
 
-- Cloudflare Pages publishes the generated artifact from `apps/web/dist/`
-- Cloudflare fronts the domain and routes `/api/*` to `apps/communications-worker/`
-- Resend handles outgoing mail
-- D1 stores the updates list and books/program data
-- Fourthwall provides storefront data for the merch page
+- Cloudflare Pages publishes `apps/web/dist/`.
+- Cloudflare routes `stexpedite.press/api/*` and `www.stexpedite.press/api/*` to `apps/communications-worker/`.
+- Resend handles contact and submission email.
+- Stripe Checkout handles donations.
+- D1 stores updates, contact logs, project/catalog data, and API rate-limit state.
+- Fourthwall provides storefront data.
+- Turnstile can protect POST routes when configured.
+
+## Agent Workflow
+
+- `AGENTS.md` is the canonical shared agent instruction file.
+- `CLAUDE.md` imports `AGENTS.md` for Claude Code.
+- `.claude/` and `CLAUDE.local.md` are local-only and ignored.
+- Repo-scoped Codex skills live under `.agents/skills/`.
 
 ## Notes
 
-- The homepage is now generated from `apps/web/src/pages/index.astro`; it is no longer a copied static exception.
-- The checked-in `site/` tree has been retired to `archive/site-legacy/`.
-- `archive/anglossic_quiz/` is preserved as historical product material and is not part of the live build.
+- Do not edit `apps/web/dist/` by hand; regenerate it with `npm run build`.
+- D1 migrations are append-only numbered SQL files.
+- `archive/anglossic_quiz/` is preserved as historical product material.
+- The former checked-in static output snapshot was removed from `archive/site-legacy/`; recover it from git history if needed.
 - This repository is not licensed for public redistribution or reuse.

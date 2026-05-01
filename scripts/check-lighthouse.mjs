@@ -8,7 +8,7 @@ import { startStaticServer } from "./lib/static-server.mjs";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, "..");
-const distDir = path.join(repoRoot, "dist", "site");
+const distDir = path.join(repoRoot, "apps", "web", "dist");
 const reportsDir = path.join(repoRoot, ".reports");
 const host = process.env.HOST || "127.0.0.1";
 const port = Number.parseInt(process.env.PORT || "4175", 10);
@@ -23,9 +23,9 @@ async function exists(targetPath) {
   }
 }
 
-async function hasChrome() {
+async function findChromePath() {
   if (process.env.CHROME_PATH) {
-    return true;
+    return process.env.CHROME_PATH;
   }
 
   if (process.platform === "win32") {
@@ -36,9 +36,10 @@ async function hasChrome() {
     ];
 
     for (const [command, args] of browserCommands) {
-      const probe = spawnSync(command, args, { stdio: "ignore" });
+      const probe = spawnSync(command, args, { encoding: "utf8" });
       if (probe.status === 0) {
-        return true;
+        const [first] = probe.stdout.split(/\r?\n/).filter(Boolean);
+        if (first) return first;
       }
     }
   }
@@ -55,11 +56,11 @@ async function hasChrome() {
 
   for (const candidate of candidates) {
     if (candidate && (await exists(candidate))) {
-      return true;
+      return candidate;
     }
   }
 
-  return false;
+  return null;
 }
 
 if (!(await exists(distDir))) {
@@ -67,7 +68,8 @@ if (!(await exists(distDir))) {
   process.exit(1);
 }
 
-if (!(await hasChrome())) {
+const chromePath = await findChromePath();
+if (!chromePath) {
   console.log("Chrome/Chromium not found; set CHROME_PATH to enable Lighthouse");
   process.exit(0);
 }
@@ -93,7 +95,7 @@ try {
       "--chrome-flags=--headless --no-sandbox",
     ], {
       cwd: repoRoot,
-      env: process.env,
+      env: { ...process.env, CHROME_PATH: chromePath },
     });
   } catch (error) {
     if (!process.env.CHROME_PATH) {

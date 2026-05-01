@@ -9,8 +9,10 @@ Cloudflare Worker for the St. Expedite Press API surface.
 - `GET /api/projects`
 - `POST /api/contact`
 - `POST /api/submit`
+- `POST /api/donate/session`
 - `POST /api/updates`
 - `POST /api/updates/import`
+- `POST /api/updates/unsubscribe`
 
 ## Local Commands
 
@@ -32,8 +34,9 @@ npm run deploy
 
 ## Runtime Dependencies
 
-- Resend for email delivery
-- D1 for updates and projects data
+- Resend for contact and submission email delivery
+- Stripe Checkout for donations
+- D1 for updates, projects data, contact logs, and rate limiting
 - Optional Turnstile validation on POST routes
 - Fourthwall storefront API for merch data
 
@@ -43,3 +46,4 @@ npm run deploy
 - config: `apps/communications-worker/wrangler.toml`
 - contract: `apps/communications-worker/openapi.yaml`
 - migrations: `apps/communications-worker/migrations/`
+- tests: `apps/communications-worker/test/index.test.ts`

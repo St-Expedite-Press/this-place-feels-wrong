@@ -1,0 +1,4 @@
+interface:
+  display_name: "Worker Contract Review"
+  short_description: "Review Worker API routes, OpenAPI, migrations, and tests."
+  default_prompt: "Use worker-contract-review to validate communications-worker API contract changes."

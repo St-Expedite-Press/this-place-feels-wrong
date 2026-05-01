@@ -2,7 +2,5 @@
 
 Application code lives here.
 
-- `web/`
-  - public website source under `web/src/`
-- `communications-worker/`
-  - Cloudflare Worker for forms, updates signup, books data, and storefront APIs
+- `web/` - Astro static site source, authored assets, and generated `dist/` output.
+- `communications-worker/` - Cloudflare Worker for forms, donations, updates, books/projects data, and storefront APIs.

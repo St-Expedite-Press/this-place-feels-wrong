@@ -18,8 +18,7 @@ for file in $files; do
   rel="${file#"$repo_root"/}"
   content="$(cat "$file")"
   h1_count="$(printf "%s" "$content" | rg -i -o '<h1[ >]' | wc -l | tr -d ' ')"
-  canonical_count="$(printf "%s" "$content" | rg -i -o '<link[^>]+rel=["'"'"']canonical["'"'"']' 2>/dev/null || true)"
-  canonical_count="$(printf "%s" "$canonical_count" | wc -l | tr -d ' ')"
+  canonical_count="$(printf "%s" "$content" | rg -i -o 'canonical' 2>/dev/null | wc -l | tr -d ' ')"
 
   if [ "$h1_count" -ne 1 ]; then
     echo "[seo-check] ${rel}: expected 1 h1, found ${h1_count}"

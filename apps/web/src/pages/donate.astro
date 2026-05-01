@@ -39,7 +39,7 @@ const page = pages.donate;
 <ViewTransitions />
 </head>
 
-<body class="donate-portal-page">
+<body class="donate-portal-page" data-brand-mode="utility">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <div class="texture--grain"></div>
@@ -58,8 +58,8 @@ const page = pages.donate;
     <div class="donate-portal-frame" aria-hidden="true">
       <div class="donate-portal-noise"></div>
       <picture class="donate-portal-media">
-          <source srcset="/assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
-          <img src="/assets/img/crow_glitch_text_still.png" alt="">
+          <source srcset="/assets/img/crow_glitch_text_still.webp" type="image/webp">
+          <img src="/assets/img/crow_glitch_text_still.png" alt="" width="768" height="768" decoding="async">
       </picture>
     </div>
 
@@ -76,6 +76,7 @@ const page = pages.donate;
         <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Amount (USD)" required />
         <button class="donate-submit" id="donate-submit" type="submit">Donate</button>
       </div>
+      <p class="donate-assurance">Stripe handles checkout and receipts. Minimum contribution is $5.</p>
 
       <div class="donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
         <div data-status-text></div>
