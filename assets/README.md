@@ -15,6 +15,7 @@ Authored site assets live in `apps/web/public/assets/`. The generated public out
 1. Add or update source media in `assets/source/img/` or `assets/source/gif/`.
 2. Run:
    - `npm run assets:sync`
+   - `npm run assets:check`
 3. Commit source files, updated `apps/web/public/assets/*`, and `assets/manifest.txt`.
 
 ## Notes

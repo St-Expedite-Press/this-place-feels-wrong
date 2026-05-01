@@ -1,4 +1,5 @@
 import { spawn, spawnSync } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 
 const [, , scriptPath, ...args] = process.argv;
@@ -10,21 +11,53 @@ if (!scriptPath) {
 
 const resolvedScript = path.resolve(process.cwd(), scriptPath);
 
+function findWindowsShell() {
+  const candidates = [
+    process.env.BASH,
+    process.env.SH,
+    "C:\\Program Files\\Git\\bin\\bash.exe",
+    "C:\\Program Files\\Git\\usr\\bin\\sh.exe",
+    "C:\\Program Files (x86)\\Git\\bin\\bash.exe",
+    "C:\\Program Files (x86)\\Git\\usr\\bin\\sh.exe",
+  ].filter(Boolean);
+
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) return candidate;
+  }
+
+  for (const command of ["bash.exe", "sh.exe"]) {
+    const probe = spawnSync("where.exe", [command], { encoding: "utf8" });
+    if (probe.status === 0) {
+      const [first] = probe.stdout.split(/\r?\n/).filter(Boolean);
+      if (first) return first;
+    }
+  }
+
+  return null;
+}
+
 let runner;
 if (process.platform === "win32") {
   const translated = spawnSync("wsl.exe", ["wslpath", "-a", resolvedScript.replaceAll("\\", "/")], {
     encoding: "utf8",
   });
 
-  if (translated.status !== 0) {
-    console.error(translated.stderr || "Failed to translate Windows path for WSL");
-    process.exit(translated.status ?? 1);
+  if (translated.status === 0) {
+    runner = {
+      command: "wsl.exe",
+      args: ["sh", translated.stdout.trim(), ...args],
+    };
+  } else {
+    const shell = findWindowsShell();
+    if (!shell) {
+      console.error("No shell runner found. Install WSL or Git for Windows to run repo shell scripts.");
+      process.exit(1);
+    }
+    runner = {
+      command: shell,
+      args: [resolvedScript.replaceAll("\\", "/"), ...args],
+    };
   }
-
-  runner = {
-    command: "wsl.exe",
-    args: ["sh", translated.stdout.trim(), ...args],
-  };
 } else {
   runner = { command: "sh", args: [resolvedScript, ...args] };
 }

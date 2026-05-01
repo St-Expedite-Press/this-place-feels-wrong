@@ -15,11 +15,26 @@ Operational scripts for repo maintenance.
 
 ## Current Path Assumptions
 
+- canonical media sources: `assets/source/`
 - authored web assets: `apps/web/public/assets/`
 - generated web output: `apps/web/dist/`
 - worker project: `apps/communications-worker/`
+- release evidence: `docs/operations/release-ops-log.md`
 
 ## Common Usage
+
+Preferred npm aliases from repo root:
+
+```bash
+npm run assets:sync
+npm run assets:check
+npm run check:seo
+npm run runtime:config
+npm run release:dry-run
+npm run release
+```
+
+Direct shell usage:
 
 ```bash
 sh internal/agent/tools/check-runtime-config.sh

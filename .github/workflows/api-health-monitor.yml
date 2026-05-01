@@ -76,6 +76,24 @@ jobs:
             --data '{"email":"","source":"monitor"}'
 
           run_probe \
+            "donate-session" \
+            "400 403" \
+            '"ok":false' \
+            /tmp/donate-session.json \
+            -X POST https://stexpedite.press/api/donate/session \
+            -H "content-type: application/json" \
+            --data '{"amount":"4"}'
+
+          run_probe \
+            "updates-unsubscribe" \
+            "400 403" \
+            '"ok":false' \
+            /tmp/updates-unsubscribe.json \
+            -X POST https://stexpedite.press/api/updates/unsubscribe \
+            -H "content-type: application/json" \
+            --data '{"email":"not-an-email"}'
+
+          run_probe \
             "contact" \
             "400 500" \
             '"ok":false' \

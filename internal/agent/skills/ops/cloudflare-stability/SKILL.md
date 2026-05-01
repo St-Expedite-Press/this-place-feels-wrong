@@ -9,6 +9,7 @@ Operational skill for maintaining stable runtime behavior on:
 - Cloudflare Worker: `stexpedite-communications`
 - D1 database: `stexpedite-updates`
 - Production host: `https://stexpedite.press`
+- Stripe donation route: `/api/donate/session`
 
 ## Scripts
 
@@ -22,8 +23,12 @@ Operational skill for maintaining stable runtime behavior on:
 - `scripts/smoke-api.sh`
   - Runs production API smoke checks for:
     - `/api/health`
+    - `/api/storefront`
+    - `/api/projects`
+    - `/api/donate/session` negative probe
     - `/api/updates`
-    - optional contact/submit probe with explicit `--full` flag
+    - `/api/updates/unsubscribe` negative probe
+    - optional contact/submit negative probes with explicit `--full` flag
 - `scripts/log-release-evidence.sh`
   - Appends a timestamped release verification entry to:
     - `docs/operations/release-ops-log.md`
@@ -40,13 +45,13 @@ Operational skill for maintaining stable runtime behavior on:
 From repo root:
 
 ```bash
-bash internal/agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh
-bash internal/agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh
-bash internal/agent/skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
+npm run runtime:audit
+npm run smoke:api
+npm run release:log
 ```
 
 Full smoke (includes contact/submit test payloads):
 
 ```bash
-bash internal/agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
+npm run smoke:api:full
 ```

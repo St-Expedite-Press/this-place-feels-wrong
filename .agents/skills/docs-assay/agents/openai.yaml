@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs Assay"
+  short_description: "Audit and reconcile repo documentation."
+  default_prompt: "Use docs-assay to reconcile the repository docs with the current code and tooling."

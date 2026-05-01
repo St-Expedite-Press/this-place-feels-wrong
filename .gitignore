@@ -66,5 +66,5 @@ assets/manifest.tmp
 *.tar
 
 # Claude Code local files
-CLAUDE.md
+CLAUDE.local.md
 .claude/

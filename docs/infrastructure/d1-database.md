@@ -12,7 +12,10 @@ Canonical reference for the Cloudflare D1 database used by the communications Wo
 The Worker uses D1 for:
 
 - `POST /api/updates`
+- `POST /api/updates/import`
+- `POST /api/updates/unsubscribe`
 - `GET /api/projects`
+- best-effort contact/submission logging
 - shared API rate-limit state
 
 ## Verification
@@ -24,15 +27,16 @@ npx -y wrangler d1 list
 npx -y wrangler d1 execute stexpedite-updates --remote --command "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
 ```
 
+Repo helper:
+
+```bash
+npm run runtime:audit
+```
+
 ## Change Procedure
 
 1. Add a migration under `apps/communications-worker/migrations/`.
-2. Apply it remotely with Wrangler.
-3. Deploy the Worker.
-4. Run runtime audit and smoke checks.
-
-Operational helper:
-
-```bash
-bash internal/agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh
-```
+2. Update `apps/communications-worker/openapi.yaml` if route shapes change.
+3. Apply the migration remotely with Wrangler.
+4. Deploy the Worker.
+5. Run runtime audit and smoke checks.

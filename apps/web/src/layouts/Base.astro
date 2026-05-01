@@ -15,12 +15,14 @@ interface Props {
   introText?: string;
   currentNav?: string;
   pageClass?: string;
+  brandMode?: 'ritual' | 'editorial' | 'utility';
   styles: string[];
 }
 
 const {
   title, description, canonical, subtitle, eyebrow,
   introKicker, introTitle, introText, currentNav, pageClass,
+  brandMode = 'editorial',
   styles,
 } = Astro.props;
 ---
@@ -32,7 +34,7 @@ const {
   canonical={canonical}
   styles={styles}
 />
-<body>
+<body data-brand-mode={brandMode}>
   <a class="skip-link" href="#main">Skip to content</a>
   <HeroBar />
   <div class="texture--grain" aria-hidden="true"></div>

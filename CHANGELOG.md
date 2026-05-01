@@ -2,6 +2,12 @@
 
 This changelog is a human-readable summary of notable repo iterations.
 
+## 1.0.6 - Agent workflow and docs assay
+- Added root `AGENTS.md` as the canonical agent instruction file and replaced `CLAUDE.md` with a compact Claude import shim.
+- Added repo-scoped Codex skills under `.agents/skills/` for docs assay, static-site QA, Cloudflare release ops, and Worker contract review.
+- Reconciled docs, command aliases, OpenAPI route coverage, ontology, and internal agent references with the current Astro/Worker layout.
+- Added npm aliases for asset checks, SEO checks, runtime checks, smoke checks, and release orchestration.
+
 ## 1.0.5 - Deep structure + docs refresh
 - Moved deployable site files under `site/` without changing public URLs (GitHub Pages publishes `site/` as the artifact).
 - Refreshed docs to match current architecture (GitHub Pages + Cloudflare Worker + optional D1 updates list).

@@ -2,95 +2,87 @@
 
 This repository deploys in two parts:
 
-- static Pages artifact from `apps/web/dist/`
-- Cloudflare Worker from `apps/communications-worker/`
+- Cloudflare Pages publishes the static Astro artifact from `apps/web/dist/`.
+- Cloudflare Workers runs `apps/communications-worker/` for `/api/*`.
 
 ## Static Site
 
 - Source: `apps/web/src/`
+- Authored assets: `apps/web/public/assets/`
 - Build command: `npm run build`
 - Output artifact: `apps/web/dist/`
 - Workflow: `.github/workflows/deploy-pages.yml`
 - Trigger: push to `main` or manual dispatch
 
-Cloudflare Pages deploys `apps/web/dist/` directly. The old checked-in `site/` tree is archived and not part of deployment.
-
-## Communications Worker
-
-- Project: `apps/communications-worker/`
-- Worker name: `stexpedite-communications`
-- Routes:
-  - `stexpedite.press/api/*`
-  - `www.stexpedite.press/api/*`
-
-Required runtime pieces:
-
-- secret: `RESEND_API_KEY`
-- D1 binding: `DB`
-
-Optional runtime pieces:
-
-- `FOURTH_WALL_API_KEY` or `FW_STOREFRONT_TOKEN`
-- `TURNSTILE_SECRET`
-- `UPDATES_IMPORT_TOKEN`
-
-## Operator Commands
-
-One-time local setup:
-
-```bash
-sh internal/agent/tools/bootstrap-git-auth.sh
-sh internal/agent/tools/install-hooks.sh
-```
-
-Deploy Pages:
+Deploy manually:
 
 ```bash
 npm run deploy:web
 ```
 
-Deploy Worker:
+## Communications Worker
+
+- Project: `apps/communications-worker/`
+- Worker name: `stexpedite-communications`
+- Contract: `apps/communications-worker/openapi.yaml`
+- Routes:
+  - `stexpedite.press/api/*`
+  - `www.stexpedite.press/api/*`
+
+Runtime bindings and secrets:
+
+- `DB`: Cloudflare D1 binding for updates, projects, contact logs, and rate limits
+- `RESEND_API_KEY`, `FROM_EMAIL`, `TO_EMAIL`: contact and submission email
+- `STRIPE_SECRET_KEY`: donation Checkout sessions
+- `FOURTH_WALL_API_KEY` or `FW_STOREFRONT_TOKEN`: storefront data
+- `TURNSTILE_SECRET`: optional POST-route verification
+- `UPDATES_IMPORT_TOKEN`: authenticated updates import
+- `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`: optional rate-limit tuning
+
+Deploy manually:
 
 ```bash
 npm run deploy:worker
 ```
 
-Release orchestration:
+## Local Setup
 
 ```bash
-sh internal/agent/tools/release.sh --dry-run
-sh internal/agent/tools/release.sh
+sh internal/agent/tools/bootstrap-git-auth.sh
+sh internal/agent/tools/install-hooks.sh
+npm run sync:worker-dev-vars
 ```
+
+`npm run dev:worker` syncs supported root `.env` keys into `apps/communications-worker/.dev.vars` before starting Wrangler.
 
 ## Verification
 
 Repo verification:
 
 ```bash
+npm run assets:check
 npm run check
-sh internal/agent/tools/check-runtime-config.sh
+npm run runtime:config
 ```
 
-Runtime smoke:
+Runtime verification:
 
 ```bash
-sh internal/agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh
-sh internal/agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
-sh internal/agent/skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
+npm run runtime:audit
+npm run smoke:api
+npm run smoke:api:full
+npm run release:log
 ```
 
-## Local Development
-
-Web:
+Release orchestration:
 
 ```bash
-npm run dev:web
+npm run release:dry-run
+npm run release
 ```
 
-Worker:
+## Notes
 
-```bash
-npm run dev:worker
-```
-
-`npm run dev:worker` syncs supported keys from the repo root `.env` into `apps/communications-worker/.dev.vars` before starting Wrangler remote dev mode.
+- Wrangler uses `CLOUDFLARE_API_KEY` and `CLOUDFLARE_EMAIL` in this repo's current deploy pattern.
+- Do not commit `.env`, `.dev.vars`, `.wrangler/`, `.claude/`, or local release scratch output.
+- Existing D1 migration files are append-only history and should not be edited.

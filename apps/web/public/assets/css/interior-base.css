@@ -11,14 +11,14 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  color: var(--text);
+  color: var(--mode-copy, var(--text));
   font-family: var(--font-body);
   line-height: 1.6;
   background:
     linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.78)),
     image-set(
-      url("../img/void_engine_twinkle_green.png") type("image/png"),
-      url("../img/void_engine_twinkle_green.webp") type("image/webp")
+      url("../img/void_engine_twinkle_green.webp") type("image/webp"),
+      url("../img/void_engine_twinkle_green.png") type("image/png")
     );
   background-color: var(--bg);
   background-position: center;
@@ -28,6 +28,24 @@ body {
 
 body.dialog-open {
   overflow: hidden;
+}
+
+body[data-brand-mode="editorial"] {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.84)),
+    image-set(
+      url("../img/void_engine_twinkle_green.webp") type("image/webp"),
+      url("../img/void_engine_twinkle_green.png") type("image/png")
+    );
+}
+
+body[data-brand-mode="utility"] {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.74), rgba(0, 0, 0, 0.9)),
+    image-set(
+      url("../img/void_engine_twinkle_green.webp") type("image/webp"),
+      url("../img/void_engine_twinkle_green.png") type("image/png")
+    );
 }
 
 img {
@@ -57,6 +75,14 @@ select {
   mix-blend-mode: soft-light;
 }
 
+[data-brand-mode="editorial"] .texture--grain {
+  opacity: 0.1;
+}
+
+[data-brand-mode="utility"] .texture--grain {
+  opacity: 0.06;
+}
+
 .skip-link {
   position: fixed;
   left: 1rem;
@@ -81,7 +107,7 @@ select {
 :focus-visible {
   outline: 2px solid var(--accent-strong);
   outline-offset: 3px;
-  box-shadow: 0 0 0 4px rgba(42, 255, 138, 0.08);
+  box-shadow: 0 0 0 4px rgba(42, 255, 138, 0.1);
 }
 
 @media (max-width: 900px) {

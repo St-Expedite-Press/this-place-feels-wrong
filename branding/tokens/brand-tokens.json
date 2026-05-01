@@ -1,0 +1,175 @@
+{
+  "name": "stexpedite-brand-tokens",
+  "version": "0.1.0",
+  "lastUpdated": "2026-05-01",
+  "description": "Portable design tokens for the St. Expedite Press brand package. Values mirror the current site where possible and add role aliases for future UX work.",
+  "sourceFiles": [
+    "apps/web/public/assets/css/tokens.css",
+    "apps/web/public/assets/css/base.css",
+    "apps/web/public/assets/css/components.css",
+    "apps/web/public/assets/css/layout.css"
+  ],
+  "color": {
+    "void": {
+      "black": {
+        "$type": "color",
+        "$value": "#050807",
+        "$description": "Primary page background."
+      }
+    },
+    "signal": {
+      "green": {
+        "$type": "color",
+        "$value": "#2aff8a",
+        "$description": "Primary brand signal and action color."
+      },
+      "greenSoft": {
+        "$type": "color",
+        "$value": "rgba(42, 255, 138, 0.1)",
+        "$description": "Soft signal wash for quiet emphasis."
+      },
+      "greenBorder": {
+        "$type": "color",
+        "$value": "rgba(42, 255, 138, 0.24)",
+        "$description": "Default panel and card border."
+      },
+      "greenBorderStrong": {
+        "$type": "color",
+        "$value": "rgba(42, 255, 138, 0.46)",
+        "$description": "Active or emphasized border."
+      }
+    },
+    "relief": {
+      "magenta": {
+        "$type": "color",
+        "$value": "#d96aff",
+        "$description": "Secondary relief color for anomaly, heat, and contrast."
+      }
+    },
+    "surface": {
+      "panel": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.76)",
+        "$description": "Default black panel surface."
+      },
+      "panelStrong": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.86)",
+        "$description": "High-contrast panel for headers, forms, and overlays."
+      },
+      "panelSoft": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.64)",
+        "$description": "Quiet surface for editorial grouping."
+      }
+    },
+    "text": {
+      "signal": {
+        "$type": "color",
+        "$value": "#2aff8a",
+        "$description": "Current default text color."
+      },
+      "soft": {
+        "$type": "color",
+        "$value": "rgba(42, 255, 138, 0.88)",
+        "$description": "Softer green text."
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "rgba(42, 255, 138, 0.68)",
+        "$description": "Metadata and helper text."
+      },
+      "readable": {
+        "$type": "color",
+        "$value": "#e8f8ee",
+        "$description": "Recommended long-form body text tier for future implementation."
+      }
+    },
+    "status": {
+      "warning": {
+        "$type": "color",
+        "$value": "#ffa726",
+        "$description": "Pending or in-progress status."
+      },
+      "error": {
+        "$type": "color",
+        "$value": "#ff6f6f",
+        "$description": "Error and destructive state."
+      }
+    }
+  },
+  "font": {
+    "display": {
+      "$type": "fontFamily",
+      "$value": "\"Cinzel\", serif",
+      "$description": "Brand, headers, and ritual display type."
+    },
+    "body": {
+      "$type": "fontFamily",
+      "$value": "\"Cormorant Garamond\", serif",
+      "$description": "Editorial body and supporting text."
+    }
+  },
+  "radius": {
+    "xl": {
+      "$type": "dimension",
+      "$value": "28px",
+      "$description": "Large ritual/editorial panels."
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "20px",
+      "$description": "Cards and grouped sections."
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "14px",
+      "$description": "Inputs, smaller cards, and utility surfaces."
+    },
+    "pill": {
+      "$type": "dimension",
+      "$value": "999px",
+      "$description": "Pill controls and chips."
+    }
+  },
+  "layout": {
+    "pageWidth": {
+      "$type": "dimension",
+      "$value": "1120px"
+    },
+    "readingWidth": {
+      "$type": "dimension",
+      "$value": "760px"
+    },
+    "gutter": {
+      "$type": "dimension",
+      "$value": "clamp(1rem, 3vw, 2rem)"
+    },
+    "heroBarHeight": {
+      "$type": "dimension",
+      "$value": "58px"
+    }
+  },
+  "shadow": {
+    "default": {
+      "$type": "shadow",
+      "$value": "0 0 18px rgba(0, 0, 0, 0.9), 0 0 26px rgba(42, 255, 138, 0.06)"
+    },
+    "soft": {
+      "$type": "shadow",
+      "$value": "0 0 12px rgba(0, 0, 0, 0.9), 0 0 18px rgba(42, 255, 138, 0.06)"
+    }
+  },
+  "modes": {
+    "ritual": {
+      "description": "High-atmosphere, animated, portal-forward treatment for entry and spectacle."
+    },
+    "editorial": {
+      "description": "Readable literary treatment for books, mission, services, and long copy."
+    },
+    "utility": {
+      "description": "Low-friction task treatment for forms, donations, confirmations, and errors."
+    }
+  }
+}
+

@@ -36,6 +36,7 @@ const homeOgDescription = 'A New Orleans press for Southern writing at its forma
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href={site.fontStylesheet} rel="stylesheet" />
+<link rel="preload" as="image" href="/assets/img/crow_glitch_text_still.webp" type="image/webp" fetchpriority="high" />
 
 <link rel="stylesheet" href="/assets/css/base.css" />
 <link rel="stylesheet" href="/assets/css/effects.css" />
@@ -63,6 +64,18 @@ body {
 /* ====================================================================== */
 .portal-desktop { display: block; }
 .portal-mobile { display: none; }
+
+.home-heading-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 @media (max-width: 900px) {
   .portal-desktop { display: none; }
@@ -721,7 +734,7 @@ body {
 <ViewTransitions />
 </head>
 
-<body>
+<body data-brand-mode="ritual">
 
 <a class="skip-link" href="#main">Skip to content</a>
 
@@ -731,21 +744,22 @@ body {
 <HeroBar />
 
 <main id="main" class="page" tabindex="-1">
+<h1 class="home-heading-sr">St. Expedite Press</h1>
 
 <div class="portal-mobile">
   <div class="wrap">
     <div class="mobile-fit">
       <header>
-        <h1 class="title">St. Expedite Press</h1>
+        <p class="title" aria-hidden="true">St. Expedite Press</p>
       </header>
 
       <section class="portal-stack">
         <a class="portal-link" href="/books">Books</a>
 
         <div class="portal" aria-hidden="true">
-          <picture class="portal-media">
-            <source srcset="/assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
-            <img src="/assets/img/crow_glitch_text_still.png" alt="">
+          <picture class="portal-media" data-animated-src="/assets/img/crow_glitch_text.webp">
+            <source srcset="/assets/img/crow_glitch_text_still.webp" type="image/webp">
+            <img src="/assets/img/crow_glitch_text_still.png" alt="" width="768" height="768" fetchpriority="high" decoding="async">
           </picture>
         </div>
 
@@ -780,13 +794,13 @@ body {
 <div class="portal-desktop">
   <div class="portal-flash"></div>
 
-  <h1 class="header-title">ST. EXPEDITE PRESS</h1>
+  <p class="header-title" aria-hidden="true">ST. EXPEDITE PRESS</p>
 
   <div class="portal-frame">
     <div class="portal-noise"></div>
-    <picture class="portal-media">
-      <source srcset="/assets/gif/crow_glitch_text.gif" type="image/gif" media="(prefers-reduced-motion: no-preference)">
-      <img src="/assets/img/crow_glitch_text_still.png" alt="">
+    <picture class="portal-media" data-animated-src="/assets/img/crow_glitch_text.webp">
+      <source srcset="/assets/img/crow_glitch_text_still.webp" type="image/webp">
+      <img src="/assets/img/crow_glitch_text_still.png" alt="" width="768" height="768" fetchpriority="high" decoding="async">
     </picture>
   </div>
 

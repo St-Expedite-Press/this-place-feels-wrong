@@ -11,6 +11,7 @@
 1. If secret/config issue:
    - restore `RESEND_API_KEY`
    - verify `FROM_EMAIL`/`TO_EMAIL`
+   - restore `STRIPE_SECRET_KEY` if donation sessions fail
    - redeploy Worker
 2. If D1 issue:
    - verify `DB` binding and D1 availability
@@ -18,6 +19,9 @@
 3. If route issue:
    - verify `stexpedite.press/api/*` attachment in Cloudflare
    - verify proxied mode for API-serving host
+4. If donation issue:
+   - verify Stripe API status and `STRIPE_SECRET_KEY`
+   - confirm `/api/donate/session` returns a structured error rather than timing out
 
 ## Recovery actions
 

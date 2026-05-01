@@ -36,9 +36,23 @@
     radial-gradient(540px 220px at 16% 10%, rgba(217, 106, 255, 0.12), rgba(0, 0, 0, 0) 60%),
     radial-gradient(520px 220px at 82% 0%, rgba(42, 255, 138, 0.1), rgba(0, 0, 0, 0) 58%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.6));
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  border: 1px solid var(--mode-border, var(--border));
+  box-shadow: var(--mode-shadow, var(--shadow));
   backdrop-filter: blur(8px) saturate(1.15);
+}
+
+[data-brand-mode="editorial"] .site-header {
+  background:
+    radial-gradient(900px 200px at 8% 0%, rgba(42, 255, 138, 0.08), rgba(0, 0, 0, 0) 60%),
+    radial-gradient(520px 220px at 16% 10%, rgba(217, 106, 255, 0.08), rgba(0, 0, 0, 0) 60%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.76), rgba(0, 0, 0, 0.66));
+}
+
+[data-brand-mode="utility"] .site-header {
+  background:
+    radial-gradient(760px 190px at 10% 0%, rgba(42, 255, 138, 0.06), rgba(0, 0, 0, 0) 62%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0.74));
+  backdrop-filter: blur(6px) saturate(1.02);
 }
 
 .site-brand {
@@ -67,9 +81,9 @@
 
 .site-subtitle {
   margin: 0.35rem 0 0;
-  color: var(--text-soft);
+  color: var(--mode-copy, var(--text-soft));
   font-size: 1rem;
-  text-shadow: 0 0 6px var(--green-2);
+  text-shadow: var(--mode-text-shadow, 0 0 6px var(--green-2));
 }
 
 .site-nav {
@@ -90,15 +104,15 @@
   font-family: var(--font-display);
   font-size: clamp(1.45rem, 3vw, 2.2rem);
   line-height: 1.2;
-  text-shadow: 0 0 10px var(--green-1), 0 0 20px var(--green-2);
+  text-shadow: var(--mode-heading-shadow, 0 0 10px var(--green-1), 0 0 20px var(--green-2));
 }
 
 .page-intro__text {
   margin: 0.75rem 0 0;
-  color: var(--text-soft);
+  color: var(--mode-copy, var(--text-soft));
   font-size: 1.1rem;
   max-width: 40rem;
-  text-shadow: 0 0 8px var(--green-3);
+  text-shadow: var(--mode-text-shadow, 0 0 8px var(--green-3));
 }
 
 .page-grid {

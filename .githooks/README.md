@@ -13,4 +13,4 @@ sh internal/agent/tools/install-hooks.sh
 
 Current `pre-push` behavior:
 - runs `npm run check` from the repo root
-- validates the generated `dist/site/` output and worker test suite before push
+- validates the generated `apps/web/dist/` output and worker test suite before push

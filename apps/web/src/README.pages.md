@@ -1,13 +1,16 @@
 # Site Pages
 
-Per-page Astro sources for generated interior pages.
+Per-route Astro source files. This README intentionally stays outside `src/pages/` so Astro does not build it as a route.
 
-Current generated pages:
-- `books.astro`
-- `about.astro`
-- `donate.astro`
-- `gallery.astro`
-- `index.astro`
-- `lab.astro`
-- `services.astro`
-- `submit.astro`
+Current pages:
+
+- `/` - `pages/index.astro`
+- `/books` - `pages/books.astro`
+- `/about` - `pages/about.astro`
+- `/contact` - `pages/contact.astro`
+- `/donate` - `pages/donate.astro`
+- `/donate/thanks` - `pages/donate/thanks.astro`
+- `/submit` - `pages/submit.astro`
+- `/gallery` - `pages/gallery.astro`
+- `/lab` - `pages/lab.astro`
+- `/services` - `pages/services.astro`

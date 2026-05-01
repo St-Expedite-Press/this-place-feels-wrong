@@ -4,9 +4,10 @@
 
 .mission-essay p {
   margin: 0 0 1.5rem;
-  color: var(--text-soft);
+  color: var(--mode-copy, var(--text-soft));
   font-size: 1.13rem;
   line-height: 1.8;
+  text-shadow: var(--mode-text-shadow, none);
 }
 
 .mission-essay p:last-child {
@@ -36,10 +37,11 @@
 
 .mission-copy p {
   margin: 0 0 1rem;
-  color: var(--text-soft);
+  color: var(--mode-copy, var(--text-soft));
   font-size: 1.14rem;
   max-width: 46rem;
   line-height: 1.72;
+  text-shadow: var(--mode-text-shadow, none);
 }
 
 .mission-copy p:last-child {

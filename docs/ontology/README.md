@@ -1,41 +1,23 @@
 # Project Ontology
 
 Source of truth:
+
 - `docs/ontology/project-ontology.json`
 
-This ontology is meant to be:
-- Machine-usable (agents/tools can map concepts -> files/endpoints quickly)
-- Token-efficient (read this first; avoid scanning the repo unless needed)
+Use this directory when an agent or maintainer needs a quick map from repo concepts to files, routes, commands, and validation.
 
-## How to use (for agents)
+## Agent Use
 
 1. Open `docs/ontology/project-ontology.json`.
-2. If your prompt is an edit task (most are), start with `intents`:
-   - `intents.<name>.touch` = minimal files to open/edit
-   - `intents.<name>.related` = supporting context (open only if needed)
+2. Match the task to `apps`, `routes`, `commands`, `agent_workflow`, or `maintenance`.
+3. Open only the files referenced by that section unless the task requires deeper investigation.
 
-3. Use `files["<path>"].anchors` to jump inside large files:
-   - anchors are search snippets so you do not need to re-read entire HTML/TS files.
+## Update Rules
 
-4. Use subsystem sections only when no matching intent exists:
-   - Static site: `site.pages`, `site.assets`, `site.seo`
-   - Flows + dependencies: `site.flows`, `site.dependency_structure`
-   - Shared styling: `site.asset_bundles`, `site.duplication_clusters`
-   - Deployment: `deploy.github_pages`
-   - APIs (forms + storefront + projects): `workers.communications.routes`
-   - OpenAPI contract: `workers.communications.openapi`
+Update the ontology when changing:
 
-5. Open only the files referenced by ontology fields.
-
-## How to update
-
-If you move/rename source pages or assets under `apps/web/src/`, or add/change worker endpoints, update the ontology immediately.
-
-Use these built-in reminders:
-- `maintenance.when_changing_site_pages_or_assets`
-- `maintenance.when_changing_worker_routes_or_contracts`
-
-If you change API request/response shapes, also update:
-- `workers.communications.routes["/api/*"].request/response/errors`
-- `workers.communications.openapi`
-- `site.flows.*.frontend` selectors (if element IDs changed)
+- site routes or page files
+- Worker routes, OpenAPI, or migrations
+- root npm scripts or Make targets
+- deployment or runtime verification commands
+- agent instruction files or repo-scoped skills

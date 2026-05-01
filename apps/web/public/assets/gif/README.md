@@ -1,5 +1,5 @@
-# Source GIFs
+# GIF Assets
 
-Canonical GIF assets before sync into the authored web asset tree.
+GIF files mirrored between `assets/source/gif/` and `apps/web/public/assets/gif/`.
 
-Prefer editing source GIFs here instead of under `apps/web/public/assets/gif/`.
+Edit the source copy, then run `npm run assets:sync` and `npm run assets:check`.

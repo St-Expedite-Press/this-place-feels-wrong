@@ -1,9 +1,9 @@
 openapi: 3.1.0
 info:
   title: St. Expedite Press Communications API
-  version: 1.6.0
+  version: 1.7.0
   description: |
-    Cloudflare Worker API for contact, submission, and updates signup flows.
+    Cloudflare Worker API for contact, submission, donation, storefront, projects, and updates signup flows.
     Source implementation: apps/communications-worker/src/index.ts
   license:
     name: Proprietary
@@ -164,6 +164,54 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /api/donate/session:
+    post:
+      tags: [donations]
+      summary: Create a Stripe Checkout session for a one-time donation
+      operationId: createDonationSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DonationSessionRequest"
+      responses:
+        "200":
+          description: Stripe Checkout session created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DonationSessionSuccess"
+        "400":
+          description: Invalid JSON or donation amount outside accepted bounds
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Turnstile verification failed (only when configured)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RateLimitErrorResponse"
+        "500":
+          description: Stripe not configured, or unexpected runtime failure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: Stripe session response did not contain a checkout URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /api/updates:
     post:
       tags: [updates]
@@ -185,6 +233,48 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UpdatesSuccess"
+        "400":
+          description: Invalid JSON or missing fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Turnstile verification failed (only when configured)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RateLimitErrorResponse"
+        "500":
+          description: DB binding not configured, or unexpected runtime failure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/updates/unsubscribe:
+    post:
+      tags: [updates]
+      summary: Mark an updates signup as unsubscribed
+      operationId: unsubscribeUpdatesSignup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatesUnsubscribeRequest"
+      responses:
+        "200":
+          description: Email marked unsubscribed when present
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdatesUnsubscribeSuccess"
         "400":
           description: Invalid JSON or missing fields
           content:
@@ -510,6 +600,38 @@ components:
             sections:
               type: string
               maxLength: 400
+    UpdatesUnsubscribeRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 320
+          example: subscriber@example.com
+        turnstileToken:
+          type: string
+          description: Optional Turnstile token (`cf-turnstile-response` equivalent)
+    DonationSessionRequest:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: Dollar amount string. Minimum is 5.00 and maximum is 1000.00.
+          example: "25"
+        amountCents:
+          type: integer
+          description: Donation amount in cents. Minimum is 500 and maximum is 100000.
+          minimum: 500
+          maximum: 100000
+        amount_cents:
+          type: integer
+          description: Snake-case alias for `amountCents`.
+          minimum: 500
+          maximum: 100000
+        turnstileToken:
+          type: string
+          description: Optional Turnstile token (`cf-turnstile-response` equivalent)
     ContactSuccess:
       type: object
       additionalProperties: false
@@ -545,6 +667,35 @@ components:
         alreadySignedUp:
           type: boolean
           description: True when the email was already present before this request.
+    UpdatesUnsubscribeSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, unsubscribed]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        unsubscribed:
+          type: boolean
+          const: true
+    DonationSessionSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, amountCents, sessionId, url]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        amountCents:
+          type: integer
+          minimum: 500
+          maximum: 100000
+        sessionId:
+          type: string
+          example: cs_test_123
+        url:
+          type: string
+          format: uri
     ErrorResponse:
       type: object
       additionalProperties: false
@@ -579,7 +730,7 @@ components:
     HealthSuccess:
       type: object
       additionalProperties: false
-      required: [ok, service, dbConfigured, now]
+      required: [ok, service, dbConfigured, dbReachable, resendConfigured, stripeConfigured, storefrontConfigured, importConfigured, now]
       properties:
         ok:
           type: boolean
@@ -588,6 +739,16 @@ components:
           type: string
           const: communications-worker
         dbConfigured:
+          type: boolean
+        dbReachable:
+          type: boolean
+        resendConfigured:
+          type: boolean
+        stripeConfigured:
+          type: boolean
+        storefrontConfigured:
+          type: boolean
+        importConfigured:
           type: boolean
         now:
           type: string
@@ -631,7 +792,7 @@ components:
           nullable: true
         status:
           type: string
-          enum: [planned, in_progress, published]
+          enum: [concept, planned, in_progress, forthcoming, published]
         sort_order:
           type: integer
         notes:
@@ -650,6 +811,10 @@ components:
           type: integer
           minimum: 0
           maximum: 100
+        published_at:
+          type: string
+          nullable: true
+          description: Publication date when known.
     ProjectsSuccess:
       type: object
       additionalProperties: false
@@ -763,5 +928,7 @@ tags:
     description: Contact form operations
   - name: submit
     description: Submission inquiry operations
+  - name: donations
+    description: Stripe Checkout donation operations
   - name: updates
     description: Updates signup capture operations
