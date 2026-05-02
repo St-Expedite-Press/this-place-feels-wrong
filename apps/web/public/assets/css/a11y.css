@@ -12,7 +12,7 @@
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.9);
   border: 1px solid rgba(42, 255, 138, 0.55);
-  color: var(--green-base);
+  color: var(--text);
   text-decoration: none;
   letter-spacing: 0.12em;
   text-transform: uppercase;

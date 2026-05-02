@@ -30,7 +30,7 @@ body.donate-portal-page {
   text-align: center;
   margin: 0;
   line-height: 1;
-  color: var(--green-base, var(--text));
+  color: var(--text);
   text-shadow: -1px -1px 0 var(--relief-base, var(--relief)), 0 0 12px var(--green-1);
   animation: title-breathe 12s ease-in-out infinite;
 }
@@ -53,7 +53,7 @@ body.donate-portal-page {
   text-align: center;
   font-family: "Cormorant Garamond", serif;
   font-size: clamp(1rem, 1.4vw, 1.15rem);
-  color: rgba(232, 248, 238, 0.72);
+  color: var(--text-muted);
   letter-spacing: 0.06em;
   margin: 0 auto;
   line-height: 1.5;
@@ -90,7 +90,7 @@ body.donate-portal-page {
   border-radius: 999px;
   border: 1px solid rgba(42,255,138,0.26);
   background: rgba(0,0,0,0.5);
-  color: var(--green-base, var(--text));
+  color: var(--text);
   text-decoration: none;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -124,7 +124,7 @@ body.donate-portal-page {
   border-radius: 999px;
   border: 1px solid rgba(42,255,138,0.26);
   background: rgba(0,0,0,0.72);
-  color: #e8f8ee;
+  color: var(--text);
   font-family: "Cormorant Garamond", serif;
   font-size: 1.1rem;
   text-align: center;
@@ -152,7 +152,7 @@ body.donate-portal-page {
 
 .donate-assurance {
   margin: -0.2rem 0 0;
-  color: rgba(232, 248, 238, 0.68);
+  color: var(--text-muted);
   font-size: 0.92rem;
   line-height: 1.35;
   text-align: center;
@@ -201,7 +201,7 @@ body.donate-portal-page {
 }
 
 .splash__foot a {
-  color: var(--green-base, var(--text));
+  color: var(--text);
   margin: 0 .6rem;
   text-decoration: none;
   text-shadow: 0 0 8px var(--green-1);

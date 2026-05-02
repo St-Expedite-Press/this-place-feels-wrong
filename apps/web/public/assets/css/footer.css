@@ -1,5 +1,5 @@
 :root {
-  --sep-footer-fg: var(--green-base, #2aff8a);
+  --sep-footer-fg: var(--text);
   --sep-footer-glow-1: var(--green-1, rgba(42,255,138,0.22));
   --sep-footer-glow-2: var(--green-2, rgba(42,255,138,0.12));
   --sep-footer-glow-3: var(--green-3, rgba(42,255,138,0.06));

@@ -232,7 +232,7 @@
 
 .status-panel[data-tone="error"] {
   border-color: rgba(255, 111, 111, 0.42);
-  color: var(--text-readable);
+  color: var(--text);
 }
 
 .status-panel__actions {
