@@ -6,6 +6,8 @@
 
 ## Claude-Specific Workflow
 
+- Use `docs/ontology/project-ontology.json` as the repo navigation and constraint map before broad exploration. Start there for task classification, owning paths, command discovery, and agent/tooling contract checks.
+- Treat the ontology as a boundary, not just a reference: prefer files and commands it names; if you need to work outside that map, confirm the path is real and update the ontology when the new surface is intended to persist.
 - Use Claude project memory for stable facts only; put task-specific or local preferences in `CLAUDE.local.md`.
 - Keep `.claude/` local-only.
 - Skills are in `agent/skills/`; runbooks are in `agent/ops/`; tools are in `agent/tools/`.
