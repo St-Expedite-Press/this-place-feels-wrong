@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>St. Expedite Press — Color System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../apps/web/public/assets/css/tokens.css" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #050807;
+  color: #2aff8a;
+  font-family: "Cormorant Garamond", serif;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 3rem);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ── Layout ──────────────────────────────────────────────────────────── */
+
+.chart {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  gap: 3.5rem;
+}
+
+.chart-header {
+  border-bottom: 1px solid rgba(42, 255, 138, 0.18);
+  padding-bottom: 1.5rem;
+}
+
+.chart-header h1 {
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-shadow: -1px -1px 0 #d96aff, 0 0 12px rgba(42,255,138,0.22);
+}
+
+.chart-header p {
+  margin-top: .4rem;
+  font-size: 1rem;
+  opacity: .72;
+  letter-spacing: .05em;
+}
+
+.section-label {
+  font-family: "Cinzel", serif;
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  opacity: .55;
+  margin-bottom: 1rem;
+}
+
+/* ── Swatch grid ─────────────────────────────────────────────────────── */
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: .75rem;
+}
+
+.swatches--wide {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.swatch {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(42, 255, 138, 0.12);
+}
+
+.swatch__block {
+  height: 72px;
+}
+
+.swatch__meta {
+  padding: .55rem .7rem .6rem;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.swatch__name {
+  font-family: "Cinzel", serif;
+  font-size: .66rem;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: rgba(42, 255, 138, 0.88);
+}
+
+.swatch__value {
+  margin-top: .15rem;
+  font-size: .82rem;
+  opacity: .58;
+  letter-spacing: .03em;
+}
+
+/* ── Opacity tier bar ────────────────────────────────────────────────── */
+
+.tier-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: .75rem;
+}
+
+.tier {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(42, 255, 138, 0.10);
+}
+
+.tier__block {
+  height: 52px;
+  background: #050807;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier__inner {
+  width: 100%;
+  height: 100%;
+}
+
+.tier__meta {
+  padding: .4rem .55rem .45rem;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.tier__name {
+  font-family: "Cinzel", serif;
+  font-size: .62rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: rgba(42, 255, 138, 0.85);
+}
+
+.tier__value {
+  font-size: .75rem;
+  opacity: .52;
+  margin-top: .1rem;
+}
+
+/* ── Mode panels ─────────────────────────────────────────────────────── */
+
+.modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.mode-card {
+  border-radius: 20px;
+  padding: 1.25rem;
+  border: 1px solid;
+}
+
+.mode-card--ritual {
+  background: rgba(0, 0, 0, 0.76);
+  border-color: rgba(42, 255, 138, 0.24);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.9), 0 0 26px rgba(42,255,138,0.06);
+}
+
+.mode-card--editorial {
+  background: rgba(0, 0, 0, 0.70);
+  border-color: rgba(42, 255, 138, 0.18);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.88), 0 0 14px rgba(42,255,138,0.04);
+}
+
+.mode-card--utility {
+  background: rgba(0, 0, 0, 0.82);
+  border-color: rgba(42, 255, 138, 0.16);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.88);
+}
+
+.mode-card__label {
+  font-family: "Cinzel", serif;
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  opacity: .52;
+  margin-bottom: .6rem;
+}
+
+.mode-card__title {
+  font-family: "Cinzel", serif;
+  font-size: 1.05rem;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  margin-bottom: .4rem;
+}
+
+.mode-card--ritual   .mode-card__title { text-shadow: 0 0 12px rgba(42,255,138,0.22), 0 0 28px rgba(42,255,138,0.12); }
+.mode-card--editorial .mode-card__title { text-shadow: 0 0 8px rgba(42,255,138,0.06); }
+.mode-card--utility  .mode-card__title { text-shadow: 0 0 6px rgba(42,255,138,0.08); }
+
+.mode-card__copy {
+  color: rgba(42, 255, 138, 0.88);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin-bottom: .75rem;
+}
+
+.mode-card__muted {
+  color: rgba(42, 255, 138, 0.68);
+  font-size: .9rem;
+}
+
+.mode-card__border-swatch {
+  margin-top: .9rem;
+  height: 1px;
+}
+
+.mode-card--ritual   .mode-card__border-swatch { background: rgba(42, 255, 138, 0.24); }
+.mode-card--editorial .mode-card__border-swatch { background: rgba(42, 255, 138, 0.18); }
+.mode-card--utility  .mode-card__border-swatch { background: rgba(42, 255, 138, 0.16); }
+
+/* ── Relief row ──────────────────────────────────────────────────────── */
+
+.relief-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: .75rem;
+}
+</style>
+</head>
+<body>
+
+<div class="chart">
+
+  <header class="chart-header">
+    <h1>St. Expedite Press &mdash; Color System</h1>
+    <p>Signal green on void black. All tokens sourced from <code>tokens.css</code>.</p>
+  </header>
+
+  <!-- ── Backgrounds & Surfaces ──────────────────────────────────────── -->
+  <section>
+    <p class="section-label">Backgrounds &amp; Surfaces</p>
+    <div class="swatches">
+      <div class="swatch">
+        <div class="swatch__block" style="background:#050807; border-bottom:1px solid rgba(42,255,138,0.12);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--bg / --dark</div>
+          <div class="swatch__value">#050807</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:rgba(0,0,0,0.64); border-bottom:1px solid rgba(42,255,138,0.12);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--panel-soft</div>
+          <div class="swatch__value">rgba(0,0,0,.64)</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:rgba(0,0,0,0.76); border-bottom:1px solid rgba(42,255,138,0.12);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--panel</div>
+          <div class="swatch__value">rgba(0,0,0,.76)</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:rgba(0,0,0,0.86); border-bottom:1px solid rgba(42,255,138,0.12);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--panel-strong</div>
+          <div class="swatch__value">rgba(0,0,0,.86)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Signal Green — Base ─────────────────────────────────────────── -->
+  <section>
+    <p class="section-label">Signal Green — Base</p>
+    <div class="swatches">
+      <div class="swatch">
+        <div class="swatch__block" style="background:#2aff8a;"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--text</div>
+          <div class="swatch__value">#2aff8a</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:rgba(42,255,138,0.88);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--text-soft</div>
+          <div class="swatch__value">rgba(42,255,138,.88)</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:rgba(42,255,138,0.68);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--text-muted</div>
+          <div class="swatch__value">rgba(42,255,138,.68)</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:#2aff8a;"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--accent</div>
+          <div class="swatch__value">#2aff8a</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:rgba(42,255,138,0.72);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--accent-strong</div>
+          <div class="swatch__value">rgba(42,255,138,.72)</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:rgba(42,255,138,0.24);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--accent-glow</div>
+          <div class="swatch__value">rgba(42,255,138,.24)</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:rgba(42,255,138,0.10);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--accent-soft</div>
+          <div class="swatch__value">rgba(42,255,138,.10)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Green — Hot Tiers (hover / active) ─────────────────────────── -->
+  <section>
+    <p class="section-label">Green — Hot Tiers (hover / active)</p>
+    <div class="tier-bar">
+      <div class="tier">
+        <div class="tier__block"><div class="tier__inner" style="background:rgba(42,255,138,0.75);"></div></div>
+        <div class="tier__meta">
+          <div class="tier__name">--green-hot-1</div>
+          <div class="tier__value">75%</div>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__block"><div class="tier__inner" style="background:rgba(42,255,138,0.55);"></div></div>
+        <div class="tier__meta">
+          <div class="tier__name">--green-hot-2</div>
+          <div class="tier__value">55%</div>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__block"><div class="tier__inner" style="background:rgba(42,255,138,0.38);"></div></div>
+        <div class="tier__meta">
+          <div class="tier__name">--green-hot-3</div>
+          <div class="tier__value">38%</div>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__block"><div class="tier__inner" style="background:rgba(42,255,138,0.22);"></div></div>
+        <div class="tier__meta">
+          <div class="tier__name">--green-hot-4</div>
+          <div class="tier__value">22%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Green — Glow Tiers ─────────────────────────────────────────── -->
+  <section>
+    <p class="section-label">Green — Glow Tiers (shadows / atmosphere)</p>
+    <div class="tier-bar">
+      <div class="tier">
+        <div class="tier__block"><div class="tier__inner" style="background:rgba(42,255,138,0.22);"></div></div>
+        <div class="tier__meta">
+          <div class="tier__name">--green-1</div>
+          <div class="tier__value">22%</div>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__block"><div class="tier__inner" style="background:rgba(42,255,138,0.12);"></div></div>
+        <div class="tier__meta">
+          <div class="tier__name">--green-2</div>
+          <div class="tier__value">12%</div>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__block"><div class="tier__inner" style="background:rgba(42,255,138,0.06);"></div></div>
+        <div class="tier__meta">
+          <div class="tier__name">--green-3</div>
+          <div class="tier__value">6%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Borders ────────────────────────────────────────────────────── -->
+  <section>
+    <p class="section-label">Borders</p>
+    <div class="tier-bar">
+      <div class="tier">
+        <div class="tier__block" style="padding:12px;display:flex;align-items:center;justify-content:center;">
+          <div style="width:100%;height:1px;background:rgba(42,255,138,0.24);"></div>
+        </div>
+        <div class="tier__meta">
+          <div class="tier__name">--border</div>
+          <div class="tier__value">24%</div>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier__block" style="padding:12px;display:flex;align-items:center;justify-content:center;">
+          <div style="width:100%;height:1px;background:rgba(42,255,138,0.46);"></div>
+        </div>
+        <div class="tier__meta">
+          <div class="tier__name">--border-strong</div>
+          <div class="tier__value">46%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Relief & Status ────────────────────────────────────────────── -->
+  <section>
+    <p class="section-label">Relief &amp; Status</p>
+    <div class="relief-row">
+      <div class="swatch">
+        <div class="swatch__block" style="background:#d96aff;"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--relief</div>
+          <div class="swatch__value">#d96aff</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:#ffa726;"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--status-warning</div>
+          <div class="swatch__value">#ffa726</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:#ff6f6f;"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">--status-error</div>
+          <div class="swatch__value">#ff6f6f</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Mode System ────────────────────────────────────────────────── -->
+  <section>
+    <p class="section-label">Mode System — Panel &amp; Copy comparison</p>
+    <div class="modes">
+
+      <div class="mode-card mode-card--ritual">
+        <p class="mode-card__label">ritual &mdash; / &nbsp; /lab</p>
+        <h2 class="mode-card__title">Full Intensity</h2>
+        <p class="mode-card__copy">Body copy at --text-soft (88%). Panels at --panel (.76). Heavier heading glow.</p>
+        <p class="mode-card__muted">Muted copy at --text-muted (68%).</p>
+        <div class="mode-card__border-swatch"></div>
+      </div>
+
+      <div class="mode-card mode-card--editorial">
+        <p class="mode-card__label">editorial &mdash; /books &nbsp; /about &nbsp; /gallery &nbsp; /services</p>
+        <h2 class="mode-card__title">Measured</h2>
+        <p class="mode-card__copy">Body copy at --text-soft (88%). Panels at .70. Borders at 18%. Minimal heading shadow.</p>
+        <p class="mode-card__muted">Muted copy at --text-muted (68%). No text-shadow on body.</p>
+        <div class="mode-card__border-swatch"></div>
+      </div>
+
+      <div class="mode-card mode-card--utility">
+        <p class="mode-card__label">utility &mdash; /donate &nbsp; /contact &nbsp; /submit</p>
+        <h2 class="mode-card__title">Task-Focused</h2>
+        <p class="mode-card__copy">Body copy at --text-soft (88%). Panels at .82. Borders at 16%. Subdued glow.</p>
+        <p class="mode-card__muted">Muted copy at --text-muted (68%). No text-shadow on body.</p>
+        <div class="mode-card__border-swatch"></div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
