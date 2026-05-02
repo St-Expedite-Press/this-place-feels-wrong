@@ -7,7 +7,7 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 usage() {
   cat <<USAGE
 Usage:
-  sh internal/agent/kits/static-web/scripts/scaffold-static.sh <target-dir> [site-name]
+  sh agent/kits/static-web/scripts/scaffold-static.sh <target-dir> [site-name]
 USAGE
 }
 
@@ -39,4 +39,4 @@ else
 fi
 
 log "Scaffolded static project at $TARGET_DIR"
-log "Next: sh internal/agent/kits/static-web/scripts/dev.sh $TARGET_DIR"
+log "Next: sh agent/kits/static-web/scripts/dev.sh $TARGET_DIR"

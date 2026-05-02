@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 set -eu
 
-repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../../.." && pwd)"
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+. "$script_dir/../lib/repo-root.sh"
+
+repo_root="$(find_repo_root "$0")"
 hooks_dir="$repo_root/.githooks"
 
 if [ ! -d "$hooks_dir" ]; then

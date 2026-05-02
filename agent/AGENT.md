@@ -145,7 +145,7 @@ All in `apps/web/public/assets/js/` — loaded via `<script is:inline>` in page 
 | Cloudflare D1 | `DB` | `/api/projects`, `/api/updates*` |
 | Resend | `RESEND_API_KEY` (secret) | `/api/contact`, `/api/submit` |
 | Stripe | `STRIPE_SECRET_KEY` (secret) | `/api/donate/session` |
-| Fourthwall | `FOURTHWALL_STOREFRONT_TOKEN` (secret) | `/api/storefront` |
+| Fourthwall | `FOURTH_WALL_API_KEY` (secret; `FW_STOREFRONT_TOKEN` accepted as compatibility alias) | `/api/storefront` |
 | Cloudflare Turnstile | `TURNSTILE_SECRET` (secret) | form endpoints |
 
 ### 2.7 Key Config Files
@@ -190,6 +190,7 @@ npm run dev:worker       # Wrangler dev (Worker local)
 npm run check            # Full gate: links + a11y + HTML lint + worker tests
 npm run check:links      # Broken link check
 npm run check:a11y       # Accessibility heuristics
+npm run check:tooling-integrity # Validate agent/tooling path consistency
 npm run lint:html        # HTML validity
 npm run test:worker      # Worker unit tests
 npm run assets:sync      # Sync assets/source/ → apps/web/public/assets/

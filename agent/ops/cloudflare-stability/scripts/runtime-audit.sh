@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 set -eu
 
-ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/../../../../../.." && pwd)"
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+. "$script_dir/../../../lib/repo-root.sh"
+
+ROOT_DIR="$(find_repo_root "$0")"
 WORKER_DIR="$ROOT_DIR/apps/communications-worker"
 
 echo "[runtime-audit] worker auth"

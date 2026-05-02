@@ -95,6 +95,7 @@
     "deploy_worker": "npm run deploy:worker",
     "assets_sync": "npm run assets:sync",
     "assets_check": "npm run assets:check",
+    "tooling_integrity": "npm run check:tooling-integrity",
     "runtime_config": "npm run runtime:config",
     "runtime_audit": "npm run runtime:audit",
     "smoke_api": "npm run smoke:api",

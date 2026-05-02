@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 set -eu
 
-ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/../../../../../.." && pwd)"
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+. "$script_dir/../../../lib/repo-root.sh"
+
+ROOT_DIR="$(find_repo_root "$0")"
 LOG_FILE="$ROOT_DIR/docs/operations/release-ops-log.md"
 
 mkdir -p "$(dirname "$LOG_FILE")"

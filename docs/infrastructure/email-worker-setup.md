@@ -29,7 +29,7 @@ Reference for the production communications stack behind `stexpedite.press`.
 - secret `STRIPE_SECRET_KEY` configured for donations
 - D1 binding `DB` attached when updates/projects/rate-limit/logging features are required
 - optional secrets:
-  - `FOURTH_WALL_API_KEY` or `FW_STOREFRONT_TOKEN`
+  - `FOURTH_WALL_API_KEY`
   - `TURNSTILE_SECRET`
   - `UPDATES_IMPORT_TOKEN`
 

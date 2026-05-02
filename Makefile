@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html check-links check-a11y check-lighthouse test-worker check-all deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync assets-check
+.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html check-links check-a11y check-lighthouse test-worker check-all check-tooling-integrity deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync assets-check
 
 help:
 	@echo "Available targets:"
@@ -15,6 +15,7 @@ help:
 	@echo "  check-lighthouse    Run Lighthouse check when Chrome/Chromium is available"
 	@echo "  test-worker         Run worker test suite"
 	@echo "  check-all           Run lint + tests"
+	@echo "  check-tooling-integrity  Validate agent/tooling path consistency"
 	@echo "  runtime-config      Verify Cloudflare runtime prerequisites"
 	@echo "  runtime-audit       Run runtime audit checks"
 	@echo "  smoke-api           Run production API smoke checks"
@@ -35,13 +36,13 @@ dev-worker:
 	npm run dev:worker
 
 bootstrap-python-venv:
-	sh internal/agent/tools/bootstrap-python-venv.sh
+	sh agent/tools/bootstrap-python-venv.sh
 
 bootstrap-git-auth:
-	sh internal/agent/tools/bootstrap-git-auth.sh
+	sh agent/tools/bootstrap-git-auth.sh
 
 install-hooks:
-	sh internal/agent/tools/install-hooks.sh
+	sh agent/tools/install-hooks.sh
 
 lint-html:
 	npx -y htmlhint "apps/web/dist/**/*.html"
@@ -61,17 +62,20 @@ test-worker:
 check-all:
 	npm run check
 
+check-tooling-integrity:
+	npm run check:tooling-integrity
+
 runtime-config:
-	sh internal/agent/tools/check-runtime-config.sh
+	sh agent/tools/check-runtime-config.sh
 
 runtime-audit:
-	sh internal/agent/skills/ops/cloudflare-stability/scripts/runtime-audit.sh
+	sh agent/ops/cloudflare-stability/scripts/runtime-audit.sh
 
 smoke-api:
-	sh internal/agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh
+	sh agent/ops/cloudflare-stability/scripts/smoke-api.sh
 
 smoke-api-full:
-	sh internal/agent/skills/ops/cloudflare-stability/scripts/smoke-api.sh --full
+	sh agent/ops/cloudflare-stability/scripts/smoke-api.sh --full
 
 deploy-web:
 	npm run deploy:web
@@ -80,19 +84,19 @@ deploy-worker:
 	npm --prefix apps/communications-worker run deploy
 
 release-log:
-	sh internal/agent/skills/ops/cloudflare-stability/scripts/log-release-evidence.sh
+	sh agent/ops/cloudflare-stability/scripts/log-release-evidence.sh
 
 release:
-	sh internal/agent/tools/release.sh
+	sh agent/tools/release.sh
 
 release-dry-run:
-	sh internal/agent/tools/release.sh --dry-run
+	sh agent/tools/release.sh --dry-run
 
 check-seo:
-	sh internal/agent/tools/check-site-seo.sh
+	sh agent/tools/check-site-seo.sh
 
 assets-sync:
-	sh internal/agent/tools/sync-assets.sh
+	sh agent/tools/sync-assets.sh
 
 assets-check:
-	sh internal/agent/tools/check-assets-sync.sh
+	sh agent/tools/check-assets-sync.sh

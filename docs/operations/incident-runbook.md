@@ -14,7 +14,7 @@ Use this for production API outages or degradation affecting any route under `/a
 3. Confirm Cloudflare route attachment for `stexpedite.press/api/*` and `www.stexpedite.press/api/*`.
 4. Confirm Worker secret `RESEND_API_KEY` exists for contact/submit flows.
 5. Confirm Worker secret `STRIPE_SECRET_KEY` exists for donation flow.
-6. Confirm Worker secret `FOURTH_WALL_API_KEY` or `FW_STOREFRONT_TOKEN` exists for storefront flow.
+6. Confirm Worker secret `FOURTH_WALL_API_KEY` exists for storefront flow.
 7. If Turnstile is enabled, confirm Worker secret `TURNSTILE_SECRET` exists.
 8. If imports fail, confirm `UPDATES_IMPORT_TOKEN`.
 

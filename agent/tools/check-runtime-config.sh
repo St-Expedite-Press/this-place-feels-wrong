@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 set -eu
 
-repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../../.." && pwd)"
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+. "$script_dir/../lib/repo-root.sh"
+
+repo_root="$(find_repo_root "$0")"
 worker_dir="$repo_root/apps/communications-worker"
 base_url="${BASE_URL:-https://stexpedite.press}"
 
@@ -22,7 +25,11 @@ has_storefront_secret=0
 has_stripe_secret=0
 for secret_name in FOURTH_WALL_API_KEY FW_STOREFRONT_TOKEN STRIPE_SECRET_KEY TURNSTILE_SECRET; do
   if printf "%s" "$secret_payload" | rg -q "\"name\":\\s*\"${secret_name}\""; then
-    echo "[runtime-config] optional secret present: ${secret_name}"
+    if [ "$secret_name" = "FW_STOREFRONT_TOKEN" ]; then
+      echo "[runtime-config] compatibility storefront secret present: ${secret_name}"
+    else
+      echo "[runtime-config] optional secret present: ${secret_name}"
+    fi
     if [ "$secret_name" = "FOURTH_WALL_API_KEY" ] || [ "$secret_name" = "FW_STOREFRONT_TOKEN" ]; then
       has_storefront_secret=1
     fi
@@ -33,7 +40,7 @@ for secret_name in FOURTH_WALL_API_KEY FW_STOREFRONT_TOKEN STRIPE_SECRET_KEY TUR
 done
 
 if [ "$has_storefront_secret" -eq 0 ]; then
-  echo "Warning: storefront secret not found. /api/storefront is expected to fail until configured." >&2
+  echo "Warning: storefront secret FOURTH_WALL_API_KEY not found. /api/storefront is expected to fail until configured." >&2
 fi
 
 if [ "$has_stripe_secret" -eq 0 ]; then
