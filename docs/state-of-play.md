@@ -10,8 +10,7 @@ Repo snapshot for the current Astro app, Cloudflare Worker, and agent tooling la
 - Communications Worker: `apps/communications-worker/`
 - Canonical media sources: `assets/source/`
 - Exportable brand package: `branding/`
-- Internal maintenance tooling: `internal/agent/`
-- Repo-scoped Codex skills: `.agents/skills/`
+- All agent infrastructure: `agent/` (skills, ops, tools, kits, AGENT.md)
 - Archived product material: `archive/`
 
 ## Runtime Contract
@@ -53,15 +52,19 @@ API routes remain under `/api/*`:
 
 ## Agent Workflow
 
-- `AGENTS.md` is the canonical instruction file for Codex and other coding agents.
-- `CLAUDE.md` imports `AGENTS.md` and contains only Claude-specific notes.
+- `agent/AGENT.md` is the canonical instruction file for all agents.
+- `CLAUDE.md` imports `agent/AGENT.md` and contains only Claude-specific notes.
 - `.claude/` and `CLAUDE.local.md` remain local-only.
-- Repo-specific Codex skills live under `.agents/skills/`.
+- Repo-scoped Codex skills live under `agent/skills/`.
+- Operational runbooks live under `agent/ops/`.
+- Shell tools live under `agent/tools/`.
 
 ## Historical Notes
 
 - The homepage is generated from source instead of copied from a static exception.
 - The former checked-in public output snapshot was removed from `archive/site-legacy/`; recover it from git history if needed.
 - The former `workers/communications/` project lives in `apps/communications-worker/`.
-- The former `agent/` subtree lives in `internal/agent/`.
+- The former `agent/` subtree was at `internal/agent/` and is now at `agent/`.
+- The former `.agents/skills/` subtree is now at `agent/skills/`.
+- `AGENTS.md` at the root is replaced by `agent/AGENT.md`.
 - Repository licensing is proprietary.
