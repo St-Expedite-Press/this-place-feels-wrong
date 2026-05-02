@@ -164,6 +164,10 @@ All in `apps/web/public/assets/js/` — loaded via `<script is:inline>` in page 
 
 Before touching code:
 
+- Open `docs/ontology/project-ontology.json` first. It is the navigation and constraint map for repo structure, commands, agent surfaces, and maintenance rules.
+- Classify the task through the ontology before broad exploration. Treat `apps`, `commands`, `agent`, `agent_data_dictionary`, and `maintenance` as the primary routing surfaces.
+- Treat undocumented surfaces as suspect. If a path, command, or workflow is outside the ontology and not clearly historical or local-only, verify it before use and update the ontology if that surface should remain part of the maintained repo contract.
+
 1. **Classify** the task: `web`, `worker`, `docs`, `ops`, `assets`, `archive`, or `tooling`.
 2. **Read** `README.md`, `docs/state-of-play.md`, and the nearest domain README first.
 3. **Identify** the owning source files — read those before writing.
@@ -178,6 +182,8 @@ For `worker` tasks: read `openapi.yaml` and `src/index.ts` before editing. Updat
 For `assets` tasks: edit `assets/source/`, run `npm run assets:sync`, then `npm run assets:check`.
 
 For `css` tasks: all custom properties are in `tokens.css`. Never hardcode color values that have a token. Use `--mode-*` variables for mode-aware components.
+
+For `tooling` and agent-infra tasks: consult `agent_data_dictionary` in `docs/ontology/project-ontology.json` before changing `agent/`, root command aliases, validation scripts, or kit contracts. Prefer only the command aliases, scripts, and contracts declared there unless the ontology is being intentionally extended.
 
 ---
 

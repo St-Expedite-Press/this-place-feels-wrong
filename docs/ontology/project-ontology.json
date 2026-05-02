@@ -118,6 +118,95 @@
     "tools": "agent/tools/",
     "kits": "agent/kits/"
   },
+  "agent_data_dictionary": {
+    "purpose": "Machine-readable definitions for the repo's documentation-driven agent tooling surface.",
+    "contracts": {
+      "repo_ontology": {
+        "path": "docs/ontology/project-ontology.json",
+        "role": "Top-level repo and agent tooling map.",
+        "format": "json"
+      },
+      "agent_guide": {
+        "path": "agent/AGENT.md",
+        "role": "Canonical human-readable operating contract for all agents.",
+        "format": "markdown"
+      },
+      "kit_contract": {
+        "path": "agent/kits/static-web/agent.config.json",
+        "role": "Machine-readable capability contract for the static-web kit.",
+        "format": "json"
+      },
+      "worker_openapi": {
+        "path": "apps/communications-worker/openapi.yaml",
+        "role": "Machine-readable API contract for the communications worker.",
+        "format": "openapi"
+      }
+    },
+    "entities": {
+      "agent_instruction_surface": {
+        "owner": "agent/AGENT.md",
+        "fields": {
+          "canonical": "Primary instruction document path for agents.",
+          "claude_entrypoint": "Root shim that imports the canonical instructions.",
+          "repo_skills": "Directory containing repo-scoped agent workflows.",
+          "ops_runbooks": "Directory containing operational skills and references.",
+          "tools": "Directory containing repo-owned shell tooling.",
+          "kits": "Directory containing reusable agent-adjacent scaffolding."
+        }
+      },
+      "repo_skill": {
+        "owner": "agent/skills/*",
+        "required_artifacts": [
+          "SKILL.md"
+        ],
+        "optional_artifacts": [
+          "agents/openai.yaml"
+        ],
+        "fields": {
+          "name": "Stable skill identifier.",
+          "description": "When and why the skill should be used.",
+          "workflow": "Ordered operator or agent procedure.",
+          "guardrails": "Behavioral and safety constraints for the skill."
+        }
+      },
+      "ops_script": {
+        "owner": "agent/tools/ and agent/ops/cloudflare-stability/scripts/",
+        "fields": {
+          "path": "Executable shell path relative to repo root.",
+          "entrypoint": "Invocation form from repo root.",
+          "purpose": "Operational job the script performs.",
+          "repo_root_resolution": "Must resolve repo root dynamically through agent/lib/repo-root.sh."
+        }
+      },
+      "command_alias": {
+        "owner": "package.json scripts and Makefile targets",
+        "fields": {
+          "name": "Stable root command or make target name.",
+          "backing_path": "Underlying script or subproject command.",
+          "validation_scope": "What surface the command verifies or mutates."
+        }
+      },
+      "kit_capability": {
+        "owner": "agent/kits/static-web/agent.config.json",
+        "fields": {
+          "entrypoints": "Primary executable kit commands.",
+          "paths": "Canonical filesystem locations for kit assets.",
+          "capabilities": "Boolean or enumerated support matrix for the kit.",
+          "requires": "External tools or runtimes the kit may depend on."
+        }
+      }
+    },
+    "validation": {
+      "tooling_integrity_script": "scripts/check-tooling-integrity.mjs",
+      "checks": [
+        "JSON parse validation for project-ontology.json and agent.config.json",
+        "OpenAPI readability check for apps/communications-worker/openapi.yaml",
+        "Existence checks for shell-backed root scripts and Make targets",
+        "Existence checks for agent kit entrypoints and declared paths",
+        "Stale-reference scan for deprecated agent path conventions"
+      ]
+    }
+  },
   "archive": {
     "dirs": [
       "archive/anglossic_quiz/"
@@ -149,6 +238,11 @@
       "CLAUDE.md",
       "docs/state-of-play.md",
       "docs/ontology/project-ontology.json"
+    ],
+    "when_changing_agent_data_dictionary": [
+      "docs/ontology/project-ontology.json",
+      "docs/ontology/README.md",
+      "scripts/check-tooling-integrity.mjs"
     ]
   }
 }
