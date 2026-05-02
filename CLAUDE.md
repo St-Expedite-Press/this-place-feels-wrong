@@ -1,15 +1,15 @@
-@AGENTS.md
+@agent/AGENT.md
 
 # Claude Code Notes
 
-Claude should treat `AGENTS.md` as the shared project source of truth. Keep this file compact so it can be checked into git and loaded by Claude without duplicating the canonical instructions.
+`agent/AGENT.md` is the shared project source of truth. All agent instructions, ontology, command matrix, CSS design rules, and subagent policy live there.
 
 ## Claude-Specific Workflow
 
 - Use Claude project memory for stable facts only; put task-specific or local preferences in `CLAUDE.local.md`.
-- Keep `.claude/` local-only. Do not add project subagents or settings there unless the user explicitly changes that policy.
-- Use `@` imports sparingly. If a procedure is long or domain-specific, prefer the repo-scoped Codex skills in `.agents/skills/` or the runbooks in `internal/agent/`.
-- For broad work, first follow the task routing loop in `AGENTS.md`, then use Claude subagents for isolated read-only research or focused review when that saves context.
+- Keep `.claude/` local-only.
+- Skills are in `agent/skills/`; runbooks are in `agent/ops/`; tools are in `agent/tools/`.
+- For broad work, follow the task routing loop in `agent/AGENT.md` §3, then use subagents per §8.
 
 ## Local Files
 

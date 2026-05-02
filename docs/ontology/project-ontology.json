@@ -3,10 +3,12 @@
     "name": "stexpedite-press",
     "license": "proprietary",
     "agent_instructions": {
-      "canonical": "AGENTS.md",
+      "canonical": "agent/AGENT.md",
       "claude_entrypoint": "CLAUDE.md",
-      "repo_skills": ".agents/skills/",
-      "internal_agent_hub": "internal/agent/"
+      "repo_skills": "agent/skills/",
+      "ops_runbooks": "agent/ops/",
+      "tools": "agent/tools/",
+      "kits": "agent/kits/"
     }
   },
   "apps": {
@@ -16,17 +18,19 @@
       "assets_dir": "apps/web/public/assets/",
       "output_dir": "apps/web/dist/",
       "build_script": "npm run build",
+      "css_tokens": "apps/web/public/assets/css/tokens.css",
+      "site_data": "apps/web/src/data/site.json",
       "routes": {
-        "/": "apps/web/src/pages/index.astro",
-        "/books": "apps/web/src/pages/books.astro",
-        "/about": "apps/web/src/pages/about.astro",
-        "/contact": "apps/web/src/pages/contact.astro",
-        "/donate": "apps/web/src/pages/donate.astro",
-        "/donate/thanks": "apps/web/src/pages/donate/thanks.astro",
-        "/submit": "apps/web/src/pages/submit.astro",
-        "/gallery": "apps/web/src/pages/gallery.astro",
-        "/lab": "apps/web/src/pages/lab.astro",
-        "/services": "apps/web/src/pages/services.astro"
+        "/": { "file": "apps/web/src/pages/index.astro", "brand_mode": "ritual" },
+        "/books": { "file": "apps/web/src/pages/books.astro", "brand_mode": "editorial" },
+        "/about": { "file": "apps/web/src/pages/about.astro", "brand_mode": "editorial" },
+        "/contact": { "file": "apps/web/src/pages/contact.astro", "brand_mode": "utility" },
+        "/donate": { "file": "apps/web/src/pages/donate.astro", "brand_mode": "utility" },
+        "/donate/thanks": { "file": "apps/web/src/pages/donate/thanks.astro", "brand_mode": "utility" },
+        "/submit": { "file": "apps/web/src/pages/submit.astro", "brand_mode": "utility" },
+        "/gallery": { "file": "apps/web/src/pages/gallery.astro", "brand_mode": "editorial" },
+        "/lab": { "file": "apps/web/src/pages/lab.astro", "brand_mode": "ritual" },
+        "/services": { "file": "apps/web/src/pages/services.astro", "brand_mode": "editorial" }
       }
     },
     "communications_worker": {
@@ -54,7 +58,18 @@
     "published": "apps/web/public/assets/",
     "manifest": "assets/manifest.txt",
     "sync": "npm run assets:sync",
-    "check": "npm run assets:check"
+    "check": "npm run assets:check",
+    "files": {
+      "crow_glitch_text_still.webp": "portal still — primary OG image",
+      "crow_glitch_text_still.png": "PNG browser fallback",
+      "crow_glitch_text.webp": "animated portal (JS-swapped)",
+      "crow_glitch_text.gif": "source animated gif",
+      "void_engine_twinkle_green.webp": "background texture (preferred)",
+      "void_engine_twinkle_green.png": "background texture fallback",
+      "favicon.svg": "browser favicon",
+      "les-fievres-cover.svg": "book cover",
+      "covers/lift-wind-cover.jpg": "book cover — needs webp variant"
+    }
   },
   "branding": {
     "dir": "branding/",
@@ -68,7 +83,7 @@
     ],
     "asset_handoff": "branding/assets/README.md",
     "export_manifest": "branding/export-manifest.json",
-    "scope": "exportable design-system documentation and token guidance; no runtime behavior"
+    "scope": "exportable design-system documentation and token guidance; no runtime behavior; live tokens are in apps/web/public/assets/css/tokens.css"
   },
   "commands": {
     "build": "npm run build",
@@ -78,10 +93,13 @@
     "test_worker": "npm run test:worker",
     "deploy_web": "npm run deploy:web",
     "deploy_worker": "npm run deploy:worker",
+    "assets_sync": "npm run assets:sync",
+    "assets_check": "npm run assets:check",
     "runtime_config": "npm run runtime:config",
     "runtime_audit": "npm run runtime:audit",
     "smoke_api": "npm run smoke:api",
-    "release_dry_run": "npm run release:dry-run"
+    "release_dry_run": "npm run release:dry-run",
+    "release": "npm run release"
   },
   "docs": {
     "root": "README.md",
@@ -91,11 +109,13 @@
     "infrastructure": "docs/infrastructure/",
     "ontology": "docs/ontology/"
   },
-  "internal": {
-    "agent_dir": "internal/agent/",
-    "tools": "internal/agent/tools/",
-    "skills": "internal/agent/skills/",
-    "kits": "internal/agent/kits/"
+  "agent": {
+    "dir": "agent/",
+    "canonical_instructions": "agent/AGENT.md",
+    "skills": "agent/skills/",
+    "ops": "agent/ops/",
+    "tools": "agent/tools/",
+    "kits": "agent/kits/"
   },
   "archive": {
     "dirs": [
@@ -108,19 +128,26 @@
       "README.md",
       "docs/state-of-play.md",
       "docs/ontology/project-ontology.json",
+      "agent/AGENT.md",
       "apps/web/src/README.pages.md"
     ],
     "when_changing_worker_routes_or_contracts": [
       "apps/communications-worker/openapi.yaml",
       "apps/communications-worker/README.md",
       "docs/infrastructure/",
-      "docs/ontology/project-ontology.json"
+      "docs/ontology/project-ontology.json",
+      "agent/AGENT.md"
+    ],
+    "when_changing_css_tokens": [
+      "apps/web/public/assets/css/tokens.css",
+      "branding/tokens/",
+      "agent/AGENT.md"
     ],
     "when_changing_agent_workflows": [
-      "AGENTS.md",
+      "agent/AGENT.md",
       "CLAUDE.md",
-      ".agents/skills/",
-      "internal/agent/docs/"
+      "docs/state-of-play.md",
+      "docs/ontology/project-ontology.json"
     ]
   }
 }

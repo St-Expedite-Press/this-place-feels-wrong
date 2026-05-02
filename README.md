@@ -18,10 +18,8 @@ Proprietary repository for the St. Expedite Press public site and communications
   - exportable brand package, UX assessment, design tokens, and web-element guidelines
 - `docs/`
   - infrastructure, operations, ontology, and repo state documentation
-- `internal/agent/`
-  - internal maintenance tooling, release scripts, operational skills, and reusable kits
-- `.agents/skills/`
-  - repo-scoped Codex skills for docs, static-site QA, Cloudflare ops, and Worker contract review
+- `agent/`
+  - canonical agent instructions (`agent/AGENT.md`), maintenance tooling, release scripts, operational skills, and reusable kits
 - `archive/`
   - non-live historical material
 
@@ -91,10 +89,10 @@ Worker routes:
 
 ## Agent Workflow
 
-- `AGENTS.md` is the canonical shared agent instruction file.
-- `CLAUDE.md` imports `AGENTS.md` for Claude Code.
+- `agent/AGENT.md` is the canonical shared agent instruction file.
+- `CLAUDE.md` imports `agent/AGENT.md` for Claude Code.
 - `.claude/` and `CLAUDE.local.md` are local-only and ignored.
-- Repo-scoped Codex skills live under `.agents/skills/`.
+- Repo-scoped Codex skills live under `agent/skills/`.
 
 ## Notes
 

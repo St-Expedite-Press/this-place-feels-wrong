@@ -1,29 +1,50 @@
 :root {
+  /* ── Backgrounds ─────────────────────────────────────────────────── */
   --bg: #050807;
+  --dark: #050807;            /* alias for --bg */
+
+  /* ── Panels / Surfaces ───────────────────────────────────────────── */
   --panel: rgba(0, 0, 0, 0.76);
   --panel-strong: rgba(0, 0, 0, 0.86);
   --panel-soft: rgba(0, 0, 0, 0.64);
+
+  /* ── Borders ─────────────────────────────────────────────────────── */
   --border: rgba(42, 255, 138, 0.24);
   --border-strong: rgba(42, 255, 138, 0.46);
+
+  /* ── Text ────────────────────────────────────────────────────────── */
   --text: #2aff8a;
   --text-soft: rgba(42, 255, 138, 0.88);
   --text-muted: rgba(42, 255, 138, 0.68);
   --text-readable: #e8f8ee;
   --text-readable-soft: rgba(232, 248, 238, 0.86);
   --text-readable-muted: rgba(232, 248, 238, 0.64);
+
+  /* ── Accent / Action ─────────────────────────────────────────────── */
   --accent: #2aff8a;
   --accent-soft: rgba(42, 255, 138, 0.1);
   --accent-strong: rgba(42, 255, 138, 0.72);
   --accent-glow: rgba(42, 255, 138, 0.24);
+
+  /* ── Legacy aliases (consumed by base.css, index, donate) ───────── */
+  --green-base: #2aff8a;      /* canonical: --text / --accent */
+  --relief-base: #d96aff;     /* canonical: --relief */
+
+  /* ── Relief / Status ─────────────────────────────────────────────── */
   --relief: #d96aff;
   --status-warning: #ffa726;
   --status-error: #ff6f6f;
+
+  /* ── Green opacity tiers ─────────────────────────────────────────── */
   --green-1: rgba(42, 255, 138, 0.22);
   --green-2: rgba(42, 255, 138, 0.12);
   --green-3: rgba(42, 255, 138, 0.06);
+
+  /* ── Green hot tiers ─────────────────────────────────────────────── */
   --green-hot-1: rgba(42, 255, 138, 0.75);
   --green-hot-2: rgba(42, 255, 138, 0.55);
   --green-hot-3: rgba(42, 255, 138, 0.38);
+  --green-hot-4: rgba(42, 255, 138, 0.22);
   --shadow: 0 0 18px rgba(0, 0, 0, 0.9), 0 0 26px var(--green-3);
   --shadow-soft: 0 0 12px rgba(0, 0, 0, 0.9), 0 0 18px var(--green-3);
   --radius-xl: 28px;

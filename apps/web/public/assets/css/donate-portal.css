@@ -30,8 +30,8 @@ body.donate-portal-page {
   text-align: center;
   margin: 0;
   line-height: 1;
-  color: var(--green-base);
-  text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
+  color: var(--green-base, var(--text));
+  text-shadow: -1px -1px 0 var(--relief-base, var(--relief)), 0 0 12px var(--green-1);
   animation: title-breathe 12s ease-in-out infinite;
 }
 
@@ -90,7 +90,7 @@ body.donate-portal-page {
   border-radius: 999px;
   border: 1px solid rgba(42,255,138,0.26);
   background: rgba(0,0,0,0.5);
-  color: var(--green-base);
+  color: var(--green-base, var(--text));
   text-decoration: none;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -173,7 +173,7 @@ body.donate-portal-page {
   font-size: 1.1rem;
   letter-spacing: .15em;
   text-shadow:
-    -1px -1px 0 var(--relief-base),
+    -1px -1px 0 var(--relief-base, var(--relief)),
      0 0 8px var(--green-1),
      0 0 18px var(--green-2),
      0 0 28px var(--green-3);
@@ -201,7 +201,7 @@ body.donate-portal-page {
 }
 
 .splash__foot a {
-  color: var(--green-base);
+  color: var(--green-base, var(--text));
   margin: 0 .6rem;
   text-decoration: none;
   text-shadow: 0 0 8px var(--green-1);
