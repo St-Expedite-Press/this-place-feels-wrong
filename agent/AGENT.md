@@ -62,9 +62,11 @@ All custom properties are defined in **`tokens.css`** — load it first on every
 | Variable | Value | Notes |
 |---|---|---|
 | `--bg` / `--dark` | `#050807` | void black — same value, two names for legacy compat |
-| `--text` / `--green-base` / `--accent` | `#2aff8a` | signal green — canonical name is `--text` |
+| `--text` | `#2aff8a` | signal green — canonical name for all green text |
+| `--text-soft` | 88% opacity | body copy — default for `--mode-copy` in all modes |
+| `--text-muted` | 68% opacity | secondary/muted text — default for `--mode-copy-muted` |
+| `--accent` | `#2aff8a` | action/interactive green — used for buttons, focus, icons |
 | `--relief` / `--relief-base` | `#d96aff` | relief magenta — canonical name is `--relief` |
-| `--text-readable` | `#e8f8ee` | warm cream — use for body copy in editorial/utility |
 | `--green-1/2/3` | 22/12/6% opacity | glow tiers |
 | `--green-hot-1/2/3/4` | 75/55/38/22% opacity | active/hover tiers |
 
@@ -72,9 +74,9 @@ All custom properties are defined in **`tokens.css`** — load it first on every
 
 | Mode | Pages | Character | Copy color |
 |---|---|---|---|
-| `ritual` | `/`, `/lab` | full theatrical intensity | neon green |
-| `editorial` | `/books`, `/about`, `/gallery`, `/services` | readable, measured | warm cream |
-| `utility` | `/donate`, `/donate/thanks`, `/contact`, `/submit` | task-focused, calm | warm cream |
+| `ritual` | `/`, `/lab` | full theatrical intensity | signal green |
+| `editorial` | `/books`, `/about`, `/gallery`, `/services` | readable, measured | signal green (softer) |
+| `utility` | `/donate`, `/donate/thanks`, `/contact`, `/submit` | task-focused, calm | signal green (softer) |
 
 Mode-scoped variables: `--mode-copy`, `--mode-copy-muted`, `--mode-border`, `--mode-border-strong`, `--mode-panel`, `--mode-panel-strong`, `--mode-shadow`, `--mode-heading-shadow`, `--mode-text-shadow`.
 

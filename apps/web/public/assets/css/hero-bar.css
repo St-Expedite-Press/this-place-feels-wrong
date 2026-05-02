@@ -41,7 +41,7 @@
   border-radius: 999px;
   border: 1px solid var(--hero-bar-border);
   background: rgba(0, 0, 0, 0.32);
-  color: var(--green-base, #2aff8a);
+  color: var(--text);
   text-decoration: none;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset;
   transition: background 150ms ease, box-shadow 150ms ease, transform 150ms ease;
@@ -63,7 +63,7 @@
   background: rgba(42, 255, 138, 0.08);
   box-shadow: 0 0 12px rgba(42, 255, 138, 0.14);
   transform: translateY(-0.5px);
-  outline: 2px solid var(--green-base, #2aff8a);
+  outline: 2px solid var(--text);
   outline-offset: 2px;
 }
 

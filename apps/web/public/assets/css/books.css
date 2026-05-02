@@ -167,7 +167,7 @@
 .status--published {
   background: rgba(42, 255, 138, 0.14);
   border-color: rgba(42, 255, 138, 0.42);
-  color: var(--green-base, #2aff8a);
+  color: var(--text);
   box-shadow: 0 0 8px rgba(42, 255, 138, 0.12);
 }
 

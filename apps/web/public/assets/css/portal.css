@@ -88,7 +88,7 @@ body {
   margin: 0;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid var(--green-base);
+  border: 3px solid var(--text);
   box-shadow: 0 0 18px var(--green-1), 0 0 44px var(--green-2), 0 0 92px var(--green-3);
   backdrop-filter: blur(4px) brightness(1.15) contrast(1.25);
 }
@@ -120,7 +120,7 @@ body {
   letter-spacing: .22em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--green-base);
+  color: var(--text);
   opacity: .7;
   text-shadow: 0 0 10px var(--green-2), 0 0 22px var(--green-3);
   transition: opacity 150ms ease, filter 150ms ease, text-shadow 150ms ease;
@@ -176,7 +176,7 @@ body {
   border-radius: var(--radius-pill);
   border: 1px solid rgba(42, 255, 138, 0.26);
   background: rgba(0, 0, 0, 0.55);
-  color: var(--green-base);
+  color: var(--text);
   font-family: var(--font-body);
   font-size: 1.05rem;
   text-align: center;
@@ -201,7 +201,7 @@ body {
   border-radius: var(--radius-pill);
   border: 1px solid var(--green-hot-1);
   background: rgba(42, 255, 138, 0.10);
-  color: var(--green-base);
+  color: var(--text);
   text-decoration: none;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -237,7 +237,7 @@ body {
   border-radius: var(--radius-pill);
   border: 1px solid rgba(42, 255, 138, 0.26);
   background: rgba(0, 0, 0, 0.5);
-  color: var(--green-base);
+  color: var(--text);
   text-decoration: none;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -295,7 +295,7 @@ body {
 }
 
 .portal-mobile .splash__foot a {
-  color: var(--green-base);
+  color: var(--text);
   margin: 0 .6rem;
   text-decoration: none;
   text-shadow: 0 0 8px var(--green-1);
@@ -367,7 +367,7 @@ body {
   font-size: clamp(2rem, 4vw, 3.2rem);
   text-align: center;
   margin-top: calc(2.5vh + var(--hero-bar-height));
-  color: var(--green-base);
+  color: var(--text);
   text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
   animation: title-breathe 12s ease-in-out infinite;
 }
@@ -389,7 +389,7 @@ body {
   border-radius: 50%;
   overflow: hidden;
   z-index: 10;
-  border: 3px solid var(--green-base);
+  border: 3px solid var(--text);
   box-shadow:
     0 0 16px var(--green-1),
     0 0 36px var(--green-2),
@@ -492,7 +492,7 @@ body {
   font-family: var(--font-display);
   font-size: clamp(3rem, 7vw, 7rem);
   text-decoration: none;
-  color: var(--green-base);
+  color: var(--text);
   opacity: .42;
   align-self: center;
   justify-self: center;
@@ -559,7 +559,7 @@ body {
 }
 
 .splash__foot a {
-  color: var(--green-base);
+  color: var(--text);
   margin: 0 .6rem;
   text-decoration: none;
   text-shadow: 0 0 8px var(--green-1);
@@ -640,7 +640,7 @@ body {
     letter-spacing: .18em;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--green-base);
+    color: var(--text);
     text-shadow:
       0 0 6px var(--green-2),
       0 0 12px var(--green-3);
