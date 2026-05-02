@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 set -eu
 
-repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../../.." && pwd)"
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+. "$script_dir/../lib/repo-root.sh"
+
+repo_root="$(find_repo_root "$0")"
 strict=0
 
 if [ "${1:-}" = "--strict" ]; then
@@ -9,7 +12,7 @@ if [ "${1:-}" = "--strict" ]; then
 fi
 
 issues=0
-files="$(find "$repo_root/apps/web/dist" -maxdepth 1 -type f -name '*.html' | sort)"
+files="$(find "$repo_root/apps/web/dist" -type f -name '*.html' | sort)"
 
 old_ifs="$IFS"
 IFS='

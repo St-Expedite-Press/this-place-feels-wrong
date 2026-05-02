@@ -24,6 +24,9 @@ jobs:
       - name: Install worker dependencies
         run: npm --prefix apps/communications-worker install
 
+      - name: Check tooling integrity
+        run: npm run check:tooling-integrity
+
       - name: Build site
         run: npm run build
 

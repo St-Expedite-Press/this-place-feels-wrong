@@ -28,6 +28,7 @@ Preferred npm aliases from repo root:
 ```bash
 npm run assets:sync
 npm run assets:check
+npm run check:tooling-integrity
 npm run check:seo
 npm run runtime:config
 npm run release:dry-run
@@ -37,10 +38,10 @@ npm run release
 Direct shell usage:
 
 ```bash
-sh internal/agent/tools/check-runtime-config.sh
-sh internal/agent/tools/check-site-seo.sh
-sh internal/agent/tools/sync-assets.sh
-sh internal/agent/tools/check-assets-sync.sh
-sh internal/agent/tools/release.sh --dry-run
-sh internal/agent/tools/release.sh
+sh agent/tools/check-runtime-config.sh
+sh agent/tools/check-site-seo.sh
+sh agent/tools/sync-assets.sh
+sh agent/tools/check-assets-sync.sh
+sh agent/tools/release.sh --dry-run
+sh agent/tools/release.sh
 ```

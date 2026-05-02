@@ -42,6 +42,7 @@ Supporting checks and operations:
 npm run assets:sync
 npm run assets:check
 npm run check:seo
+npm run check:tooling-integrity
 npm run runtime:config
 npm run runtime:audit
 npm run smoke:api

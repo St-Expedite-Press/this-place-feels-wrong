@@ -9,6 +9,7 @@ const workerDevVarsPath = path.join(workerDir, ".dev.vars");
 const REQUIRED_KEYS = [
   "RESEND_API_KEY",
   "FOURTH_WALL_API_KEY",
+  "STRIPE_SECRET_KEY",
   "TURNSTILE_SECRET",
   "UPDATES_IMPORT_TOKEN",
 ];
@@ -44,6 +45,10 @@ const outputLines = [
   "# Generated from repo root .env by scripts/sync-worker-dev-vars.mjs",
   "# Do not commit secrets.",
 ];
+
+if (!rootEnv.has("FOURTH_WALL_API_KEY") && rootEnv.has("FW_STOREFRONT_TOKEN")) {
+  rootEnv.set("FOURTH_WALL_API_KEY", rootEnv.get("FW_STOREFRONT_TOKEN"));
+}
 
 for (const [key, fallback] of Object.entries(OPTIONAL_DEFAULTS)) {
   const value = rootEnv.get(key) ?? fallback;

@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 set -eu
 
-repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../../.." && pwd)"
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+. "$script_dir/../lib/repo-root.sh"
+
+repo_root="$(find_repo_root "$0")"
 source_root="$repo_root/assets/source"
 publish_root="$repo_root/apps/web/public/assets"
 manifest_file="$repo_root/assets/manifest.txt"
@@ -25,7 +28,7 @@ if ! diff -u "$source_img_list" "$publish_img_list" > "$diff_log" 2>&1 || ! diff
   echo "Asset drift detected between assets/source and apps/web/public/assets:" >&2
   cat "$diff_log" >&2
   rm -f "$diff_log" "$source_img_list" "$publish_img_list" "$source_gif_list" "$publish_gif_list"
-  echo "Run: sh internal/agent/tools/sync-assets.sh" >&2
+  echo "Run: sh agent/tools/sync-assets.sh" >&2
   exit 1
 fi
 
@@ -75,7 +78,7 @@ sed '2s|.*|# Generated: CHECK|' "$manifest_file" > "$normalized_manifest"
 
 if ! diff -u "$normalized_manifest" "$tmp_manifest" >/dev/null 2>&1; then
   rm -f "$tmp_manifest" "$normalized_manifest"
-  echo "Asset manifest is out of date. Run: sh internal/agent/tools/sync-assets.sh" >&2
+  echo "Asset manifest is out of date. Run: sh agent/tools/sync-assets.sh" >&2
   exit 1
 fi
 

@@ -34,7 +34,7 @@ Runtime bindings and secrets:
 - `DB`: Cloudflare D1 binding for updates, projects, contact logs, and rate limits
 - `RESEND_API_KEY`, `FROM_EMAIL`, `TO_EMAIL`: contact and submission email
 - `STRIPE_SECRET_KEY`: donation Checkout sessions
-- `FOURTH_WALL_API_KEY` or `FW_STOREFRONT_TOKEN`: storefront data
+- `FOURTH_WALL_API_KEY`: storefront data
 - `TURNSTILE_SECRET`: optional POST-route verification
 - `UPDATES_IMPORT_TOKEN`: authenticated updates import
 - `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`: optional rate-limit tuning
@@ -48,8 +48,8 @@ npm run deploy:worker
 ## Local Setup
 
 ```bash
-sh internal/agent/tools/bootstrap-git-auth.sh
-sh internal/agent/tools/install-hooks.sh
+sh agent/tools/bootstrap-git-auth.sh
+sh agent/tools/install-hooks.sh
 npm run sync:worker-dev-vars
 ```
 
@@ -60,6 +60,7 @@ npm run sync:worker-dev-vars
 Repo verification:
 
 ```bash
+npm run check:tooling-integrity
 npm run assets:check
 npm run check
 npm run runtime:config

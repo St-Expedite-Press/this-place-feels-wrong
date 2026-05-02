@@ -23,13 +23,13 @@ description: Audit and reconcile this repository's Markdown, OpenAPI, ontology, 
 
 - If site routes, assets, or build paths changed, update `README.md`, `docs/state-of-play.md`, `docs/ontology/project-ontology.*`, and nearest app READMEs.
 - If Worker routes or payloads changed, update `apps/communications-worker/openapi.yaml`, `apps/communications-worker/README.md`, and infrastructure docs.
-- If agent workflows changed, update `AGENTS.md`, `CLAUDE.md`, `.agents/skills/**`, and `internal/agent/docs/**`.
+- If agent workflows changed, update `agent/AGENT.md`, `CLAUDE.md`, `agent/skills/**`, and relevant docs under `docs/` and `agent/`.
 
 ## Validation
 
 Run targeted searches after edits:
 
 ```bash
-rg -n "dist/site|build-site|check-generated-site|dev-web\\.sh|dev-worker\\.sh|deploy-web\\.sh" README.md DEPLOYMENT.md docs internal apps scripts .github .githooks
+rg -n "dist/site|build-site|check-generated-site|dev-web\\.sh|dev-worker\\.sh|deploy-web\\.sh|internal/agent|\\.agents/skills|AGENTS\\.md" README.md DEPLOYMENT.md docs agent apps scripts .github .githooks
 npm run check:links
 ```
