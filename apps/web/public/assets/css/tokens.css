@@ -17,6 +17,7 @@
   --text-soft: rgba(42, 255, 138, 0.88);
   --text-muted: rgba(42, 255, 138, 0.68);
   --text-readable: #e8f8ee;
+  --text-readable-muted: rgba(232, 248, 238, 0.62);
 
   /* ── Accent / Action ─────────────────────────────────────────────── */
   --accent: #2aff8a;
@@ -71,7 +72,7 @@
   --mode-border: var(--border);
   --mode-border-strong: var(--border-strong);
   --mode-copy: var(--text-readable);
-  --mode-copy-muted: var(--text-muted);
+  --mode-copy-muted: var(--text-readable-muted);
   --mode-heading-shadow: 0 0 12px var(--green-1), 0 0 28px var(--green-2);
   --mode-shadow: var(--shadow);
   --mode-text-shadow: 0 0 8px var(--green-2);
@@ -83,7 +84,7 @@
   --mode-border: rgba(42, 255, 138, 0.18);
   --mode-border-strong: rgba(42, 255, 138, 0.34);
   --mode-copy: var(--text-readable);
-  --mode-copy-muted: var(--text-muted);
+  --mode-copy-muted: var(--text-readable-muted);
   --mode-heading-shadow: 0 0 8px var(--green-3);
   --mode-shadow: 0 0 14px rgba(0, 0, 0, 0.88), 0 0 14px rgba(42, 255, 138, 0.04);
   --mode-text-shadow: none;
@@ -95,7 +96,7 @@
   --mode-border: rgba(42, 255, 138, 0.16);
   --mode-border-strong: rgba(42, 255, 138, 0.32);
   --mode-copy: var(--text-readable);
-  --mode-copy-muted: var(--text-muted);
+  --mode-copy-muted: var(--text-readable-muted);
   --mode-heading-shadow: 0 0 6px rgba(42, 255, 138, 0.08);
   --mode-shadow: 0 0 12px rgba(0, 0, 0, 0.88);
   --mode-text-shadow: none;

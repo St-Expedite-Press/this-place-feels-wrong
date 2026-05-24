@@ -93,7 +93,7 @@
 }
 
 .book-row__series {
-  color: var(--text-muted);
+  color: var(--mode-copy-muted, var(--text-muted));
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -173,7 +173,7 @@
 
 .book-row__date {
   font-size: 0.72rem;
-  color: var(--text-muted);
+  color: var(--mode-copy-muted, var(--text-muted));
   letter-spacing: 0.06em;
   white-space: nowrap;
 }
