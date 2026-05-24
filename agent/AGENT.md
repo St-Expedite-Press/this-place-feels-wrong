@@ -335,7 +335,6 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 |---|---|---|
 | Turnstile not configured | High | `TURNSTILE_SECRET` not set → all POST endpoints bypass bot check. Add `wrangler secret put TURNSTILE_SECRET` + Turnstile widget on all forms. Or reduce `RATE_LIMIT_MAX` to 5 for POST endpoints as interim mitigation. |
 | `lift-wind` buy_url null | Medium | Published 2026-05-10, `buy_url = null`. Set when Amazon/vendor link is available: `UPDATE oncoming_projects SET buy_url = '…' WHERE project_slug = 'lift-wind-…'` + new migration. |
-| Stripe webhook endpoint not registered in Stripe | Medium | Handler live at `/api/stripe/webhook`. `donations` D1 table exists (migration 0014). `STRIPE_WEBHOOK_SECRET` set via wrangler. Still needs one step: create the endpoint in Stripe dashboard → Developers → Webhooks → Add endpoint → `https://server.stexpedite.press/api/stripe/webhook`, select `checkout.session.completed`. Until then, donations are not logged or receipted but checkout still works. |
 | Rate limit generous for form endpoints | Low | `RATE_LIMIT_MAX=20` per IP per path/minute is high for contact/submit. Consider per-route override at 5 for POST mutation endpoints. |
 | `contact_submissions` has no admin read endpoint | Low | Submit/contact submissions stored in D1 but only accessible via `wrangler d1 execute … --command "SELECT * FROM contact_submissions …"`. Add token-protected `/api/admin/submissions` if Resend reliability degrades. |
 
@@ -366,5 +365,5 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 - ~~Ritual mode `--mode-copy` was signal green~~ — changed to `--text-readable` (warm cream) for prose readability
 - ~~/submit project note textarea not required~~ — `required` attribute added
 - ~~No sitemap.xml~~ — `@astrojs/sitemap` integration added; `sitemap-index.xml` generated on every build
-- ~~Stripe webhook missing~~ — handler deployed at `/api/stripe/webhook`; `donations` D1 table (migration 0014); `STRIPE_WEBHOOK_SECRET` set; HMAC-SHA256 verification + D1 log + email receipt + editor notification
+- ~~Stripe webhook missing~~ — fully automated: handler at `/api/stripe/webhook` (HMAC-SHA256, D1 log, email receipt + editor notification); `donations` table (migration 0014); endpoint created via Stripe REST API; `STRIPE_WEBHOOK_SECRET` set via `wrangler secret put`
 - ~~`--mode-copy-muted` resolved to signal green in brand modes~~ — `--text-readable-muted` token added; all three brand modes now use it for `--mode-copy-muted`; `.card-kicker`, `.aside-note`, `.book-row__series`, `.book-row__date` wired through `--mode-copy-muted`
