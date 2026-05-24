@@ -53,7 +53,7 @@ async function loadCatalog(collection = "") {
     const collections = Array.isArray(data.collections) ? data.collections : [];
     const products = Array.isArray(data.products) ? data.products : [];
     renderProducts(products, shopUrl);
-    status.textContent = `Loaded ${products.length} products from the live shop catalog.`;
+    status.hidden = true;
     if (footerLink) footerLink.href = shopUrl;
     if (toolbar) {
       toolbar.innerHTML = collections.map((item) => `<button class="collection-pill${item.slug === data.collection ? " is-active" : ""}" type="button" data-collection="${escapeHtml(item.slug)}">${escapeHtml(item.name)}</button>`).join("");

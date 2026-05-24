@@ -7,7 +7,8 @@ body.donate-portal-page {
   min-height: 100svh;
   padding: clamp(1rem, 2vh, 1.6rem) 5vw clamp(1.4rem, 3vh, 2rem);
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto auto;
+  align-content: space-between;
   gap: clamp(0.9rem, 2vh, 1.5rem);
 }
 
@@ -36,8 +37,8 @@ body.donate-portal-page {
 }
 
 @keyframes title-breathe {
-  0%, 100% { filter: brightness(1.2) contrast(2); }
-  50% { filter: brightness(1.6) contrast(2.6); }
+  0%, 100% { filter: brightness(1.1); }
+  50% { filter: brightness(1.4); }
 }
 
 .donate-stage {

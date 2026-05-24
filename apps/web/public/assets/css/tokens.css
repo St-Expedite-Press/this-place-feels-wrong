@@ -70,7 +70,7 @@
   --mode-panel-strong: var(--panel-strong);
   --mode-border: var(--border);
   --mode-border-strong: var(--border-strong);
-  --mode-copy: var(--text-soft);
+  --mode-copy: var(--text-readable);
   --mode-copy-muted: var(--text-muted);
   --mode-heading-shadow: 0 0 12px var(--green-1), 0 0 28px var(--green-2);
   --mode-shadow: var(--shadow);

@@ -28,7 +28,7 @@ function renderBookRow(project) {
   const title = escapeHtml(project.title || "Untitled");
   const author = escapeHtml(project.author || "St. Expedite Press");
   const series = escapeHtml(project.series_title || "");
-  const description = escapeHtml(project.popup_description || project.notes || "");
+  const description = escapeHtml(project.popup_description || "");
   const cover = String(project.cover_image || "").trim();
   const buyUrl = String(project.buy_url || "").trim();
   const statusKey = String(project.status || "planned");
