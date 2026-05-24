@@ -14,7 +14,6 @@ const historicalAllowlist = new Set([
 const stalePatterns = [
   { label: "internal/agent", regex: /internal\/agent/g },
   { label: ".agents/skills", regex: /\.agents\/skills/g },
-  { label: "AGENTS.md", regex: /\bAGENTS\.md\b/g },
 ];
 
 const textExtensions = new Set([

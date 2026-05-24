@@ -63,8 +63,9 @@ All custom properties are defined in **`tokens.css`** — load it first on every
 |---|---|---|
 | `--bg` / `--dark` | `#050807` | void black — same value, two names for legacy compat |
 | `--text` | `#2aff8a` | signal green — canonical name for all green text |
-| `--text-soft` | 88% opacity | body copy — default for `--mode-copy` in all modes |
+| `--text-soft` | 88% opacity | near-signal green |
 | `--text-muted` | 68% opacity | secondary/muted text — default for `--mode-copy-muted` |
+| `--text-readable` | `#e8f8ee` | warm cream — body copy in editorial + utility modes; use via `--mode-copy` |
 | `--accent` | `#2aff8a` | action/interactive green — used for buttons, focus, icons |
 | `--relief` / `--relief-base` | `#d96aff` | relief magenta — canonical name is `--relief` |
 | `--green-1/2/3` | 22/12/6% opacity | glow tiers |
@@ -74,9 +75,9 @@ All custom properties are defined in **`tokens.css`** — load it first on every
 
 | Mode | Pages | Character | Copy color |
 |---|---|---|---|
-| `ritual` | `/`, `/lab` | full theatrical intensity | signal green |
-| `editorial` | `/books`, `/about`, `/gallery`, `/services` | readable, measured | signal green (softer) |
-| `utility` | `/donate`, `/donate/thanks`, `/contact`, `/submit` | task-focused, calm | signal green (softer) |
+| `ritual` | `/`, `/lab` | full theatrical intensity | signal green (`--text-soft`) |
+| `editorial` | `/books`, `/about`, `/gallery`, `/services` | readable, measured | warm cream (`--text-readable`) |
+| `utility` | `/donate`, `/donate/thanks`, `/contact`, `/submit` | task-focused, calm | warm cream (`--text-readable`) |
 
 Mode-scoped variables: `--mode-copy`, `--mode-copy-muted`, `--mode-border`, `--mode-border-strong`, `--mode-panel`, `--mode-panel-strong`, `--mode-shadow`, `--mode-heading-shadow`, `--mode-text-shadow`.
 
@@ -316,10 +317,36 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 
 ## 10. Known Gaps and Future Work
 
+### Site
+
 | Item | Priority | Notes |
 |---|---|---|
-| `lift-wind-cover.jpg` needs webp | Medium | Run cwebp in `assets/source/img/covers/`, then assets:sync |
+| `lift-wind-cover.jpg` needs webp | Medium | Run `cwebp -q 85 lift-wind-cover.jpg -o lift-wind-cover.webp` in `assets/source/img/covers/`, then `npm run assets:sync` |
+| Lab dialog: `<div role="dialog">` not native `<dialog>` | Low | Audit `dialog.js` for complete focus trap (move-in, trap, return-on-close). Migrate to native `<dialog>` if trap is incomplete. |
+| Mobile interior nav: 8 pills wrap to 3 rows at 390px | Low | Consider hamburger/drawer pattern for mobile nav once catalog grows. |
 | Google Fonts CDN dependency | Low | Consider self-hosting Cinzel + Cormorant Garamond for offline/perf resilience |
-| No 404 page | Low | Add `apps/web/src/pages/404.astro` with ritual mode |
-| No `@media print` styles | Low | Not currently needed |
-| `branding/tokens/` and `tokens.css` are two token systems | Tracked | `branding/tokens/` is documentation/export only; `tokens.css` is the live system. They share values but use different naming conventions. Consolidation deferred. |
+| `branding/tokens/` and `tokens.css` are two token systems | Tracked | `branding/tokens/` is documentation/export only; `tokens.css` is the live system. Consolidation deferred. |
+
+### Cloudflare Infrastructure
+
+| Item | Priority | Notes |
+|---|---|---|
+| Turnstile not configured | High | `TURNSTILE_SECRET` not set → all POST endpoints bypass bot check. Add `wrangler secret put TURNSTILE_SECRET` + Turnstile widget on all forms. Or reduce `RATE_LIMIT_MAX` to 5 for POST endpoints as interim mitigation. |
+| `lift-wind` buy_url null | Medium | Published 2026-05-10, `buy_url = null`. Set when Amazon/vendor link is available: `UPDATE oncoming_projects SET buy_url = '…' WHERE project_slug = 'lift-wind-…'` + new migration. |
+| Stripe webhook missing | Medium | `/api/donate/session` creates Checkout sessions but no `/api/donate/webhook` handles `checkout.session.completed`. Donations are not recorded in D1. Add webhook endpoint + `donation_sessions` table in a new migration. |
+| Rate limit generous for form endpoints | Low | `RATE_LIMIT_MAX=20` per IP per path/minute is high for contact/submit. Consider per-route override at 5 for POST mutation endpoints. |
+| `contact_submissions` has no admin read endpoint | Low | Submit/contact submissions stored in D1 but only accessible via `wrangler d1 execute … --command "SELECT * FROM contact_submissions …"`. Add token-protected `/api/admin/submissions` if Resend reliability degrades. |
+
+### Closed / Resolved (2026-05-24)
+
+- ~~`--text-readable` token missing~~ — added to `tokens.css`; `--mode-copy` updated in editorial + utility modes
+- ~~Mobile portal nav unreachable~~ — Books/Submit/Donate/Contact added to portal mobile footer
+- ~~X/Substack icons wrong~~ — corrected in `site.json`
+- ~~Duplicate submission form on /contact~~ — removed; single general inquiry form
+- ~~No 404 page~~ — `404.astro` created in ritual mode
+- ~~`check:seo` false positives on Windows (ripgrep missing)~~ — grep fallback added
+- ~~`smoke-api.sh` fails on Windows (ripgrep missing)~~ — grep fallback added (2026-05-24)
+- ~~`BRAND.text` in Worker diverged from frontend token~~ — aligned to `#e8f8ee` (2026-05-24)
+- ~~`compatibility_date` stale at 2026-02-05~~ — bumped to 2026-05-01 (2026-05-24)
+- ~~`completion_percent` type mismatch (INTEGER in OpenAPI vs REAL in SQLite)~~ — changed to `number` in openapi.yaml (2026-05-24)
+- ~~lift-wind status stuck at `forthcoming` past published_at~~ — migration 0013 sets `published` + `completion_percent = 100` (2026-05-24)

@@ -58,30 +58,46 @@ post_expect_status() {
   printf "%s\n" "$body"
 }
 
+_grep_ok_true() {
+  if command -v rg >/dev/null 2>&1; then
+    rg '"ok":true'
+  else
+    grep -q '"ok":true' && cat
+  fi
+}
+
+_grep_ok_false() {
+  if command -v rg >/dev/null 2>&1; then
+    rg '"ok":false'
+  else
+    grep -q '"ok":false' && cat
+  fi
+}
+
 echo "[smoke-api] health"
-curl -fsS "$BASE_URL/api/health" | rg '"ok":true'
+curl -fsS "$BASE_URL/api/health" | _grep_ok_true
 
 echo "[smoke-api] storefront"
-curl -fsS "$BASE_URL/api/storefront" | rg '"ok":true'
+curl -fsS "$BASE_URL/api/storefront" | _grep_ok_true
 
 echo "[smoke-api] projects"
-curl -fsS "$BASE_URL/api/projects" | rg '"ok":true'
+curl -fsS "$BASE_URL/api/projects" | _grep_ok_true
 
 echo "[smoke-api] donate negative"
-post_expect_status "$BASE_URL/api/donate/session" '{"amount":"4"}' "400 403" | rg '"ok":false'
+post_expect_status "$BASE_URL/api/donate/session" '{"amount":"4"}' "400 403" | _grep_ok_false
 
 echo "[smoke-api] updates"
-post_with_retry "$BASE_URL/api/updates" "{\"email\":\"smoke+$ts@example.com\",\"source\":\"skill-smoke\"}" | rg '"ok":true'
+post_with_retry "$BASE_URL/api/updates" "{\"email\":\"smoke+$ts@example.com\",\"source\":\"skill-smoke\"}" | _grep_ok_true
 
 echo "[smoke-api] unsubscribe negative"
-post_expect_status "$BASE_URL/api/updates/unsubscribe" '{"email":"not-an-email"}' "400 403" | rg '"ok":false'
+post_expect_status "$BASE_URL/api/updates/unsubscribe" '{"email":"not-an-email"}' "400 403" | _grep_ok_false
 
 if [ "$FULL_MODE" -eq 1 ]; then
   echo "[smoke-api] contact"
-  post_with_retry "$BASE_URL/api/contact" "{\"reason\":\"Smoke\",\"email\":\"smoke+$ts@example.com\",\"message\":\"contact smoke\"}" | rg '"ok":true'
+  post_with_retry "$BASE_URL/api/contact" "{\"reason\":\"Smoke\",\"email\":\"smoke+$ts@example.com\",\"message\":\"contact smoke\"}" | _grep_ok_true
 
   echo "[smoke-api] submit"
-  post_with_retry "$BASE_URL/api/submit" "{\"email\":\"smoke+$ts@example.com\",\"note\":\"submit smoke\"}" | rg '"ok":true'
+  post_with_retry "$BASE_URL/api/submit" "{\"email\":\"smoke+$ts@example.com\",\"note\":\"submit smoke\"}" | _grep_ok_true
 fi
 
 echo "[smoke-api] PASS"

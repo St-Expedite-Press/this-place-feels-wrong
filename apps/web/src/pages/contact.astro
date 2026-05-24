@@ -31,11 +31,11 @@ const styles = [
     </div>
     <div class="trust-card trust-card--center">
       <strong>Submission inquiry</strong>
-      SEXP, Library, or Translation. Project type, approximate word count, stage, and ask. No attachments in the first message.
+      Use the <a href="/submit">Submit</a> page. Program, project type, approximate word count, stage, and ask. No attachments in the first message.
     </div>
   </section>
 
-  <section class="split-card-grid split-card-grid--balanced">
+  <section class="reading-width">
     <article class="form-card form-shell form-card--tall">
       <div>
         <p class="card-kicker">General</p>
@@ -63,6 +63,7 @@ const styles = [
         </div>
         <div class="actions">
           <button class="button" id="contact-submit" type="submit">Send message</button>
+          <a class="button-secondary" href="/submit">Submission inquiry &rarr;</a>
         </div>
         <p class="form-assurance">Replies route to the editor. If the API is unavailable, the fallback email tools appear here.</p>
       </form>
@@ -71,36 +72,6 @@ const styles = [
         <div class="status-panel__actions">
           <a class="status-action" id="contact-mailto-fallback" href="mailto:editor@stexpedite.press">Open email</a>
           <button class="status-action" id="contact-copy" type="button">Copy fallback</button>
-        </div>
-      </div>
-    </article>
-
-    <article class="form-card form-shell form-card--tall">
-      <div>
-        <p class="card-kicker">Submissions</p>
-        <h2 class="section-heading">Submission inquiry</h2>
-        <p class="section-copy section-copy--large">Program (SEXP, Library, or Translation), project type, approximate word count, stage of completion, and what you are asking. No attachments in the first message.</p>
-      </div>
-      <form class="form-grid" id="submit-form">
-        <input id="submit-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
-        <div class="field">
-          <label for="submit-email">Email</label>
-          <input class="input" id="submit-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required />
-        </div>
-        <div class="field">
-          <label for="submit-note">Project note</label>
-          <textarea class="textarea" id="submit-note" name="note" placeholder="Program, project type, approximate word count, stage of completion, and what you are asking."></textarea>
-        </div>
-        <div class="actions">
-          <button class="button" id="submit-button" type="submit">Send inquiry</button>
-        </div>
-        <p class="form-assurance">No attachments are sent by this form. If the press wants pages, it will ask.</p>
-      </form>
-      <div class="status-panel" id="submit-helper" role="status" aria-live="polite" hidden>
-        <div data-status-text></div>
-        <div class="status-panel__actions">
-          <a class="status-action" id="submit-mailto-fallback" href="mailto:editor@stexpedite.press">Open email</a>
-          <button class="status-action" id="submit-copy" type="button">Copy fallback</button>
         </div>
       </div>
     </article>
