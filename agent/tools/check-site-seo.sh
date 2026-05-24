@@ -20,8 +20,13 @@ IFS='
 for file in $files; do
   rel="${file#"$repo_root"/}"
   content="$(cat "$file")"
-  h1_count="$(printf "%s" "$content" | rg -i -o '<h1[ >]' | wc -l | tr -d ' ')"
-  canonical_count="$(printf "%s" "$content" | rg -i -o 'canonical' 2>/dev/null | wc -l | tr -d ' ')"
+  if command -v rg >/dev/null 2>&1; then
+    h1_count="$(printf "%s" "$content" | rg -i -o '<h1[ >]' | wc -l | tr -d ' ')"
+    canonical_count="$(printf "%s" "$content" | rg -i -o 'canonical' 2>/dev/null | wc -l | tr -d ' ')"
+  else
+    h1_count="$(printf "%s" "$content" | grep -i -o '<h1[ >]' | wc -l | tr -d ' ')"
+    canonical_count="$(printf "%s" "$content" | grep -i -o 'canonical' 2>/dev/null | wc -l | tr -d ' ')"
+  fi
 
   if [ "$h1_count" -ne 1 ]; then
     echo "[seo-check] ${rel}: expected 1 h1, found ${h1_count}"

@@ -338,7 +338,7 @@ const BRAND = {
   panel: "rgba(5, 8, 7, 0.95)",
   panelAlt: "rgba(4, 7, 6, 0.96)",
   border: "rgba(42, 255, 138, 0.24)",
-  text: "#d6ffe8",
+  text: "#e8f8ee",
   textMuted: "rgba(42, 255, 138, 0.86)",
   textSubtle: "rgba(42, 255, 138, 0.72)",
   relief: "#d96aff",

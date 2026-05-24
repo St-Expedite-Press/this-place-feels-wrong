@@ -6,19 +6,19 @@
     "ogImage": "https://stexpedite.press/assets/img/crow_glitch_text_still.webp",
     "favicon": "assets/img/favicon.svg",
     "fontStylesheet": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap",
-    "lastmod": "2026-03-14",
+    "lastmod": "2026-05-24",
     "social": [
       {
         "name": "X",
         "href": "https://x.com/stex_press",
         "title": "X",
-        "icon": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\"><path d=\"M6 6l12 12M18 6L6 18\" /></svg>"
+        "icon": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\" fill=\"currentColor\"><path d=\"M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z\"/></svg>"
       },
       {
         "name": "Substack",
         "href": "https://ecoamericana.substack.com/s/ephemera",
         "title": "Substack",
-        "icon": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M7 7h10M7 12h10M7 17h10\" /></svg>"
+        "icon": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M7 7h10M7 12h10M7 17h7\" /></svg>"
       },
       {
         "name": "Telegram",

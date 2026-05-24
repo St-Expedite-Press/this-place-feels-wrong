@@ -808,7 +808,7 @@ components:
           type: string
           nullable: true
         completion_percent:
-          type: integer
+          type: number
           minimum: 0
           maximum: 100
         published_at:

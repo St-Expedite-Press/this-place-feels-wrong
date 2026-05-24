@@ -1,6 +1,6 @@
 name = "stexpedite-communications"
 main = "src/index.ts"
-compatibility_date = "2026-02-05"
+compatibility_date = "2026-05-01"
 routes = [
   { pattern = "stexpedite.press/api/*", zone_name = "stexpedite.press" },
   { pattern = "www.stexpedite.press/api/*", zone_name = "stexpedite.press" },
