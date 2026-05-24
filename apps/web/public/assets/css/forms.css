@@ -65,7 +65,7 @@
 
 .card-kicker {
   margin: 0 0 0.55rem;
-  color: var(--text-muted);
+  color: var(--mode-copy-muted, var(--text-muted));
   font-family: var(--font-display);
   font-size: 0.76rem;
   letter-spacing: 0.16em;
@@ -78,7 +78,7 @@
 }
 
 .aside-note {
-  color: var(--text-soft);
+  color: var(--mode-copy, var(--text-soft));
 }
 
 .form-assurance {
