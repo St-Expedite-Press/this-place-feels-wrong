@@ -35,6 +35,7 @@ launch-*.png
 # Astro generated local cache (tracked type stubs live alongside these)
 apps/web/.astro/collections/
 apps/web/.astro/data-store.json
+apps/web/.astro/settings.json
 
 # Local IDE and bundler artifacts
 .vscode/
