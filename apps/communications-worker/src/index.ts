@@ -23,6 +23,7 @@ type Env = {
   FOURTH_WALL_API_KEY?: string;
   FW_STOREFRONT_TOKEN?: string;
   DB?: D1Database;
+  STRIPE_WEBHOOK_SECRET?: string;
   TURNSTILE_SECRET?: string;
   RATE_LIMIT_MAX?: string;
   RATE_LIMIT_WINDOW_MS?: string;
@@ -267,6 +268,32 @@ async function sendEmail(env: Env, params: { to: string; subject: string; text: 
   return String(data?.id ?? "");
 }
 
+async function logDonation(db: D1Database | undefined, params: {
+  id: string;
+  stripeSessionId: string;
+  amountCents: number;
+  email: string;
+  paymentStatus: string;
+  receiptEmailId: string;
+}) {
+  if (!db?.prepare) return;
+  try {
+    await db
+      .prepare(
+        `INSERT INTO donations (id, stripe_session_id, amount_cents, email, payment_status, receipt_email_id, received_at)
+         VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
+         ON CONFLICT(stripe_session_id) DO NOTHING`,
+      )
+      .bind(params.id, params.stripeSessionId, params.amountCents, params.email, params.paymentStatus, params.receiptEmailId)
+      .run();
+  } catch (error) {
+    console.warn("Failed to log donation to D1", {
+      id: params.id,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  }
+}
+
 async function logSubmission(db: D1Database | undefined, params: {
   id: string;
   type: "contact" | "submit";
@@ -439,6 +466,131 @@ function renderReceiptHtml(params: { id: string; heading: string; detail: string
     ctaLabel: "Visit St. Expedite Press",
     ctaUrl: BRAND.siteUrl,
     footerNote: "This is an automated transactional receipt.",
+  });
+}
+
+async function verifyStripeSignature(rawBody: string, sigHeader: string, secret: string): Promise<boolean> {
+  const parts = sigHeader.split(",");
+  let timestamp = "";
+  const v1Sigs: string[] = [];
+  for (const part of parts) {
+    const eq = part.indexOf("=");
+    if (eq < 0) continue;
+    const key = part.slice(0, eq).trim();
+    const val = part.slice(eq + 1).trim();
+    if (key === "t") timestamp = val;
+    else if (key === "v1") v1Sigs.push(val);
+  }
+  if (!timestamp || v1Sigs.length === 0) return false;
+  if (Math.abs(Date.now() - Number(timestamp) * 1000) > 300_000) return false;
+
+  const enc = new TextEncoder();
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const sig = await crypto.subtle.sign("HMAC", cryptoKey, enc.encode(`${timestamp}.${rawBody}`));
+  const computedHex = Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+  return v1Sigs.some((v1) => v1 === computedHex);
+}
+
+function renderDonationEditorHtml(params: { id: string; amountDisplay: string; email: string; sessionId: string }) {
+  return renderEmailShell({
+    preheader: `Donation received ${params.id}`,
+    title: "Donation Received",
+    subtitle: params.id,
+    bodyHtml: [
+      `<p style="margin:0 0 8px;"><strong>Amount:</strong> ${escapeHtml(params.amountDisplay)}</p>`,
+      params.email ? `<p style="margin:0 0 8px;"><strong>Email:</strong> ${escapeHtml(params.email)}</p>` : "",
+      `<p style="margin:0 0 8px;"><strong>Session:</strong> ${escapeHtml(params.sessionId)}</p>`,
+    ].join("\n"),
+    footerNote: "Donation confirmed via Stripe webhook.",
+  });
+}
+
+async function handleStripeWebhook(request: Request, env: Env): Promise<Response> {
+  const webhookSecret = String(env.STRIPE_WEBHOOK_SECRET ?? "").trim();
+  if (!webhookSecret || webhookSecret.startsWith("whsec_xxx")) {
+    return new Response(JSON.stringify({ ok: false, error: "Webhook not configured" }), {
+      status: 500,
+      headers: { "content-type": "application/json; charset=utf-8" },
+    });
+  }
+
+  const sigHeader = request.headers.get("stripe-signature") ?? "";
+  const rawBody = await request.text();
+
+  const valid = await verifyStripeSignature(rawBody, sigHeader, webhookSecret);
+  if (!valid) {
+    return new Response(JSON.stringify({ ok: false, error: "Invalid signature" }), {
+      status: 400,
+      headers: { "content-type": "application/json; charset=utf-8" },
+    });
+  }
+
+  let event: { type?: string; data?: { object?: JsonRecord } };
+  try {
+    event = JSON.parse(rawBody) as { type?: string; data?: { object?: JsonRecord } };
+  } catch {
+    return new Response(JSON.stringify({ ok: false, error: "Invalid payload" }), {
+      status: 400,
+      headers: { "content-type": "application/json; charset=utf-8" },
+    });
+  }
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data?.object ?? {};
+    const amountTotal = Number(session.amount_total ?? 0);
+    const paymentStatus = String(session.payment_status ?? "");
+    const sessionId = String(session.id ?? "");
+    const customerDetails = session.customer_details as JsonRecord | null;
+    const customerEmail = String(customerDetails?.email ?? session.customer_email ?? "").trim();
+    const id = refId("DONATE");
+    const amountDisplay = `$${(amountTotal / 100).toFixed(2)}`;
+    let receiptEmailId = "";
+
+    if (customerEmail && env.RESEND_API_KEY && env.FROM_EMAIL && paymentStatus === "paid") {
+      try {
+        receiptEmailId = await sendEmail(env, {
+          to: customerEmail,
+          subject: `Thank you — ${id}`,
+          text: ["Thank you for supporting St. Expedite Press.", "", `Amount: ${amountDisplay}`, `Reference: ${id}`, "", "— St. Expedite Press"].join("\n"),
+          html: renderReceiptHtml({
+            id,
+            heading: "Thank You",
+            detail: `Your donation of ${amountDisplay} to St. Expedite Press has been received.`,
+          }),
+          replyTo: env.TO_EMAIL,
+        });
+      } catch (err) {
+        console.warn("Donation receipt email failed", { id, message: err instanceof Error ? err.message : String(err) });
+      }
+    }
+
+    if (env.RESEND_API_KEY && env.FROM_EMAIL && env.TO_EMAIL) {
+      try {
+        await sendEmail(env, {
+          to: env.TO_EMAIL,
+          subject: `Donation received — ${id}`,
+          text: [`Donation: ${amountDisplay}`, `Email: ${customerEmail || "(no email)"}`, `Session: ${sessionId}`, `Ref: ${id}`].join("\n"),
+          html: renderDonationEditorHtml({ id, amountDisplay, email: customerEmail, sessionId }),
+        });
+      } catch (err) {
+        console.warn("Donation editor notification failed", { id, message: err instanceof Error ? err.message : String(err) });
+      }
+    }
+
+    await logDonation(env.DB, { id, stripeSessionId: sessionId, amountCents: amountTotal, email: customerEmail, paymentStatus, receiptEmailId });
+  }
+
+  return new Response(JSON.stringify({ ok: true, received: true }), {
+    status: 200,
+    headers: { "content-type": "application/json; charset=utf-8" },
   });
 }
 
@@ -919,6 +1071,10 @@ export default {
 
       if (url.pathname === "/api/projects" && request.method === "GET") {
         return withCors(request, await handleProjects(request, env));
+      }
+
+      if (url.pathname === "/api/stripe/webhook" && request.method === "POST") {
+        return handleStripeWebhook(request, env);
       }
 
       if (request.method !== "POST") {
