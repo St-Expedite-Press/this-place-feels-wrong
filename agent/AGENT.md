@@ -333,7 +333,7 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 |---|---|---|
 | Turnstile not configured | High | `TURNSTILE_SECRET` not set → all POST endpoints bypass bot check. Add `wrangler secret put TURNSTILE_SECRET` + Turnstile widget on all forms. Or reduce `RATE_LIMIT_MAX` to 5 for POST endpoints as interim mitigation. |
 | `lift-wind` buy_url null | Medium | Published 2026-05-10, `buy_url = null`. Set when Amazon/vendor link is available: `UPDATE oncoming_projects SET buy_url = '…' WHERE project_slug = 'lift-wind-…'` + new migration. |
-| Stripe webhook missing | Medium | `/api/donate/session` creates Checkout sessions but no `/api/donate/webhook` handles `checkout.session.completed`. Donations are not recorded in D1. Add webhook endpoint + `donation_sessions` table in a new migration. |
+| Stripe webhook pending activation | Medium | Handler live at `/api/stripe/webhook`. `donations` table exists (migration 0014). Needs two manual steps: (1) Create endpoint at dashboard.stripe.com → Developers → Webhooks → Add endpoint → `https://server.stexpedite.press/api/stripe/webhook`, select `checkout.session.completed`; (2) `wrangler secret put STRIPE_WEBHOOK_SECRET` and paste the `whsec_…` signing secret. |
 | Rate limit generous for form endpoints | Low | `RATE_LIMIT_MAX=20` per IP per path/minute is high for contact/submit. Consider per-route override at 5 for POST mutation endpoints. |
 | `contact_submissions` has no admin read endpoint | Low | Submit/contact submissions stored in D1 but only accessible via `wrangler d1 execute … --command "SELECT * FROM contact_submissions …"`. Add token-protected `/api/admin/submissions` if Resend reliability degrades. |
 
