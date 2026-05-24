@@ -32,7 +32,7 @@ This is the **single source of truth** for every coding agent (Claude Code, Code
 | `/books` | `apps/web/src/pages/books.astro` | editorial | tokens + interior-base + layout + components + books |
 | `/about` | `apps/web/src/pages/about.astro` | editorial | tokens + interior-base + layout + components + mission |
 | `/contact` | `apps/web/src/pages/contact.astro` | utility | tokens + interior-base + layout + components + forms |
-| `/donate` | `apps/web/src/pages/donate.astro` | utility | tokens + interior-base + effects + donate-portal |
+| `/donate` | `apps/web/src/pages/donate.astro` | utility | tokens + interior-base + effects + hero-bar + donate-portal |
 | `/donate/thanks` | `apps/web/src/pages/donate/thanks.astro` | utility | tokens + interior-base + layout + components + forms |
 | `/submit` | `apps/web/src/pages/submit.astro` | utility | tokens + interior-base + layout + components + forms |
 | `/gallery` | `apps/web/src/pages/gallery.astro` | editorial | tokens + interior-base + layout + components + gallery |
@@ -49,6 +49,7 @@ This is the **single source of truth** for every coding agent (Claude Code, Code
 | POST | `/api/contact` | General inquiry → Resend |
 | POST | `/api/submit` | Manuscript submission inquiry → Resend |
 | POST | `/api/donate/session` | Stripe checkout session |
+| POST | `/api/stripe/webhook` | Stripe webhook — `checkout.session.completed` → D1 log + email receipt |
 | POST | `/api/updates` | Newsletter signup |
 | POST | `/api/updates/import` | Bulk import (protected) |
 | POST | `/api/updates/unsubscribe` | Unsubscribe |
@@ -64,8 +65,9 @@ All custom properties are defined in **`tokens.css`** — load it first on every
 | `--bg` / `--dark` | `#050807` | void black — same value, two names for legacy compat |
 | `--text` | `#2aff8a` | signal green — canonical name for all green text |
 | `--text-soft` | 88% opacity | near-signal green |
-| `--text-muted` | 68% opacity | secondary/muted text — default for `--mode-copy-muted` |
-| `--text-readable` | `#e8f8ee` | warm cream — body copy in editorial + utility modes; use via `--mode-copy` |
+| `--text-muted` | 68% opacity | secondary/muted green — used for status badges and intentional green accents; NOT the default `--mode-copy-muted` |
+| `--text-readable` | `#e8f8ee` | warm cream — body copy in ritual/editorial/utility modes; use via `--mode-copy` |
+| `--text-readable-muted` | 62% cream | muted cream — used by `--mode-copy-muted` in all brand modes |
 | `--accent` | `#2aff8a` | action/interactive green — used for buttons, focus, icons |
 | `--relief` / `--relief-base` | `#d96aff` | relief magenta — canonical name is `--relief` |
 | `--green-1/2/3` | 22/12/6% opacity | glow tiers |
@@ -75,7 +77,7 @@ All custom properties are defined in **`tokens.css`** — load it first on every
 
 | Mode | Pages | Character | Copy color |
 |---|---|---|---|
-| `ritual` | `/`, `/lab` | full theatrical intensity | signal green (`--text-soft`) |
+| `ritual` | `/`, `/lab` | full theatrical intensity | warm cream (`--text-readable`) |
 | `editorial` | `/books`, `/about`, `/gallery`, `/services` | readable, measured | warm cream (`--text-readable`) |
 | `utility` | `/donate`, `/donate/thanks`, `/contact`, `/submit` | task-focused, calm | warm cream (`--text-readable`) |
 
@@ -333,20 +335,36 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 |---|---|---|
 | Turnstile not configured | High | `TURNSTILE_SECRET` not set → all POST endpoints bypass bot check. Add `wrangler secret put TURNSTILE_SECRET` + Turnstile widget on all forms. Or reduce `RATE_LIMIT_MAX` to 5 for POST endpoints as interim mitigation. |
 | `lift-wind` buy_url null | Medium | Published 2026-05-10, `buy_url = null`. Set when Amazon/vendor link is available: `UPDATE oncoming_projects SET buy_url = '…' WHERE project_slug = 'lift-wind-…'` + new migration. |
-| Stripe webhook pending activation | Medium | Handler live at `/api/stripe/webhook`. `donations` table exists (migration 0014). Needs two manual steps: (1) Create endpoint at dashboard.stripe.com → Developers → Webhooks → Add endpoint → `https://server.stexpedite.press/api/stripe/webhook`, select `checkout.session.completed`; (2) `wrangler secret put STRIPE_WEBHOOK_SECRET` and paste the `whsec_…` signing secret. |
+| Stripe webhook endpoint not registered in Stripe | Medium | Handler live at `/api/stripe/webhook`. `donations` D1 table exists (migration 0014). `STRIPE_WEBHOOK_SECRET` set via wrangler. Still needs one step: create the endpoint in Stripe dashboard → Developers → Webhooks → Add endpoint → `https://server.stexpedite.press/api/stripe/webhook`, select `checkout.session.completed`. Until then, donations are not logged or receipted but checkout still works. |
 | Rate limit generous for form endpoints | Low | `RATE_LIMIT_MAX=20` per IP per path/minute is high for contact/submit. Consider per-route override at 5 for POST mutation endpoints. |
 | `contact_submissions` has no admin read endpoint | Low | Submit/contact submissions stored in D1 but only accessible via `wrangler d1 execute … --command "SELECT * FROM contact_submissions …"`. Add token-protected `/api/admin/submissions` if Resend reliability degrades. |
 
 ### Closed / Resolved (2026-05-24)
 
+**Session 1 — Infrastructure + Doc restructure**
 - ~~`--text-readable` token missing~~ — added to `tokens.css`; `--mode-copy` updated in editorial + utility modes
 - ~~Mobile portal nav unreachable~~ — Books/Submit/Donate/Contact added to portal mobile footer
 - ~~X/Substack icons wrong~~ — corrected in `site.json`
 - ~~Duplicate submission form on /contact~~ — removed; single general inquiry form
 - ~~No 404 page~~ — `404.astro` created in ritual mode
 - ~~`check:seo` false positives on Windows (ripgrep missing)~~ — grep fallback added
-- ~~`smoke-api.sh` fails on Windows (ripgrep missing)~~ — grep fallback added (2026-05-24)
-- ~~`BRAND.text` in Worker diverged from frontend token~~ — aligned to `#e8f8ee` (2026-05-24)
-- ~~`compatibility_date` stale at 2026-02-05~~ — bumped to 2026-05-01 (2026-05-24)
-- ~~`completion_percent` type mismatch (INTEGER in OpenAPI vs REAL in SQLite)~~ — changed to `number` in openapi.yaml (2026-05-24)
-- ~~lift-wind status stuck at `forthcoming` past published_at~~ — migration 0013 sets `published` + `completion_percent = 100` (2026-05-24)
+- ~~`smoke-api.sh` fails on Windows (ripgrep missing)~~ — grep fallback added
+- ~~`BRAND.text` in Worker diverged from frontend token~~ — aligned to `#e8f8ee`
+- ~~`compatibility_date` stale at 2026-02-05~~ — bumped to 2026-05-01
+- ~~`completion_percent` type mismatch (INTEGER in OpenAPI vs REAL in SQLite)~~ — changed to `number` in openapi.yaml
+- ~~lift-wind status stuck at `forthcoming` past published_at~~ — migration 0013: `published` + `completion_percent = 100`
+
+**Session 2 — MCP audit fixes + Stripe webhook + text color standardization**
+- ~~Donate page: cyan heading (contrast() in keyframe animation)~~ — removed contrast() from `title-breathe`, clean green glow now
+- ~~Donate page: ~400px dead space around form~~ — grid `auto 1fr auto` → `auto auto auto` + `align-content: space-between`
+- ~~Donate page: HeroBar missing~~ — `HeroBar` component + `hero-bar.css` added to `donate.astro`
+- ~~/books renders editorial notes in production~~ — `project.notes` fallback removed from `books-page.js`
+- ~~/contact shows "If the API is unavailable…" always~~ — implementation copy removed from `form-assurance`
+- ~~/gallery shows "Loaded N products" debug string~~ — status element hidden after load
+- ~~/services has duplicate introText paragraph~~ — removed hardcoded duplicate from `services.astro`
+- ~~`--hero-bar-height` duplicate token (48px vs 58px)~~ — 48px removed from `hero-bar.css`; 58px in `tokens.css` canonical
+- ~~Ritual mode `--mode-copy` was signal green~~ — changed to `--text-readable` (warm cream) for prose readability
+- ~~/submit project note textarea not required~~ — `required` attribute added
+- ~~No sitemap.xml~~ — `@astrojs/sitemap` integration added; `sitemap-index.xml` generated on every build
+- ~~Stripe webhook missing~~ — handler deployed at `/api/stripe/webhook`; `donations` D1 table (migration 0014); `STRIPE_WEBHOOK_SECRET` set; HMAC-SHA256 verification + D1 log + email receipt + editor notification
+- ~~`--mode-copy-muted` resolved to signal green in brand modes~~ — `--text-readable-muted` token added; all three brand modes now use it for `--mode-copy-muted`; `.card-kicker`, `.aside-note`, `.book-row__series`, `.book-row__date` wired through `--mode-copy-muted`
