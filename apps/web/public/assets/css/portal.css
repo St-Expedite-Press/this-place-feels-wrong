@@ -151,16 +151,6 @@ body {
   backdrop-filter: none;
 }
 
-.portal-mobile .thin-copy {
-  margin: 0 0 0.5rem;
-  width: min(420px, 86vw);
-  color: rgba(42, 255, 138, 0.82);
-  font-size: 0.98rem;
-  line-height: 1.35;
-  text-align: center;
-  text-shadow: 0 0 8px var(--green-2);
-}
-
 .portal-mobile .thin-form {
   display: flex;
   align-items: center;

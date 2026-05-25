@@ -222,7 +222,7 @@ paths:
         Verifies the `Stripe-Signature` header using HMAC-SHA256.
         Handles `checkout.session.completed` — sends receipt to donor, sends notification to editor, logs to D1 `donations` table.
         Requires `STRIPE_WEBHOOK_SECRET` worker secret.
-        Configure at: dashboard.stripe.com → Developers → Webhooks → Add endpoint → `https://server.stexpedite.press/api/stripe/webhook`.
+        Configure at: dashboard.stripe.com → Developers → Webhooks → Add endpoint → `https://stexpedite.press/api/stripe/webhook`.
         Events to send: `checkout.session.completed`.
       requestBody:
         required: true

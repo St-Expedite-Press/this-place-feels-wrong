@@ -3,6 +3,7 @@
 Source of truth:
 
 - `docs/ontology/project-ontology.json`
+- `docs/ontology/ontology.md`
 
 Use this directory when an agent or maintainer needs a quick map from repo concepts to files, routes, commands, validation, and the documentation-driven agent tooling model.
 
@@ -10,7 +11,8 @@ Use this directory when an agent or maintainer needs a quick map from repo conce
 
 1. Open `docs/ontology/project-ontology.json`.
 2. Match the task to `apps`, `commands`, `agent`, `agent_data_dictionary`, or `maintenance`.
-3. Open only the files referenced by that section unless the task requires deeper investigation.
+3. Open `docs/ontology/ontology.md` when a human-readable route or surface summary is needed.
+4. Open only the files referenced by that section unless the task requires deeper investigation.
 
 ## Update Rules
 
@@ -22,3 +24,5 @@ Update the ontology when changing:
 - deployment or runtime verification commands
 - agent instruction files or repo-scoped skills
 - machine-readable agent tooling contracts or validation rules
+
+Keep `project-ontology.json` and `ontology.md` aligned in the same change.

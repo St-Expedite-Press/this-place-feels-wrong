@@ -47,6 +47,7 @@
         "POST /api/contact": "contact form email and D1 log",
         "POST /api/submit": "submission inquiry email and D1 log",
         "POST /api/donate/session": "Stripe Checkout session creation",
+        "POST /api/stripe/webhook": "Stripe checkout completion webhook receiver",
         "POST /api/updates": "updates signup capture",
         "POST /api/updates/import": "token-gated updates enrichment import",
         "POST /api/updates/unsubscribe": "updates unsubscribe marker"
@@ -96,6 +97,7 @@
     "assets_sync": "npm run assets:sync",
     "assets_check": "npm run assets:check",
     "tooling_integrity": "npm run check:tooling-integrity",
+    "audit": "npm run check:audit",
     "runtime_config": "npm run runtime:config",
     "runtime_audit": "npm run runtime:audit",
     "smoke_api": "npm run smoke:api",
@@ -108,7 +110,8 @@
     "state": "docs/state-of-play.md",
     "operations": "docs/operations/",
     "infrastructure": "docs/infrastructure/",
-    "ontology": "docs/ontology/"
+    "ontology": "docs/ontology/",
+    "ontology_human": "docs/ontology/ontology.md"
   },
   "agent": {
     "dir": "agent/",
@@ -125,6 +128,11 @@
         "path": "docs/ontology/project-ontology.json",
         "role": "Top-level repo and agent tooling map.",
         "format": "json"
+      },
+      "repo_ontology_human": {
+        "path": "docs/ontology/ontology.md",
+        "role": "Human-readable companion to the machine ontology; update with ontology changes.",
+        "format": "markdown"
       },
       "agent_guide": {
         "path": "agent/AGENT.md",
@@ -200,6 +208,8 @@
       "tooling_integrity_script": "scripts/check-tooling-integrity.mjs",
       "checks": [
         "JSON parse validation for project-ontology.json and agent.config.json",
+        "Existence check for ontology.md",
+        "API route parity checks across Worker source, OpenAPI, docs, and ontology",
         "OpenAPI readability check for apps/communications-worker/openapi.yaml",
         "Existence checks for shell-backed root scripts and Make targets",
         "Existence checks for agent kit entrypoints and declared paths",
@@ -217,6 +227,7 @@
     "when_changing_site_routes_or_assets": [
       "README.md",
       "docs/state-of-play.md",
+      "docs/ontology/ontology.md",
       "docs/ontology/project-ontology.json",
       "agent/AGENT.md",
       "apps/web/src/README.pages.md"
@@ -225,6 +236,7 @@
       "apps/communications-worker/openapi.yaml",
       "apps/communications-worker/README.md",
       "docs/infrastructure/",
+      "docs/ontology/ontology.md",
       "docs/ontology/project-ontology.json",
       "agent/AGENT.md"
     ],
@@ -237,10 +249,12 @@
       "agent/AGENT.md",
       "CLAUDE.md",
       "docs/state-of-play.md",
+      "docs/ontology/ontology.md",
       "docs/ontology/project-ontology.json"
     ],
     "when_changing_agent_data_dictionary": [
       "docs/ontology/project-ontology.json",
+      "docs/ontology/ontology.md",
       "docs/ontology/README.md",
       "scripts/check-tooling-integrity.mjs"
     ]

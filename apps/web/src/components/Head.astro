@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import siteData from '../data/site.json';
 
 interface Props {
@@ -37,5 +37,5 @@ const { site } = siteData;
   <link href={site.fontStylesheet} rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/hero-bar.css" />
   {styles.map(href => <link rel="stylesheet" href={`/${href}`} />)}
-  <ViewTransitions />
+  <ClientRouter />
 </head>

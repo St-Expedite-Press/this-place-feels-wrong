@@ -10,6 +10,7 @@ Cloudflare Worker for the St. Expedite Press API surface.
 - `POST /api/contact`
 - `POST /api/submit`
 - `POST /api/donate/session`
+- `POST /api/stripe/webhook`
 - `POST /api/updates`
 - `POST /api/updates/import`
 - `POST /api/updates/unsubscribe`

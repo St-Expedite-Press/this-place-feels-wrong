@@ -7,7 +7,7 @@ description: Audit and reconcile this repository's Markdown, OpenAPI, ontology, 
 
 ## Workflow
 
-1. Start from `README.md`, `docs/state-of-play.md`, and `docs/ontology/project-ontology.json`.
+1. Start from `README.md`, `docs/state-of-play.md`, `docs/ontology/project-ontology.json`, and `docs/ontology/ontology.md`.
 2. Inventory docs with `rg --files -g '*.md' -g '!node_modules' -g '!apps/web/dist'`.
 3. Search for stale path and command patterns before editing:
    - `dist/site`
@@ -18,12 +18,13 @@ description: Audit and reconcile this repository's Markdown, OpenAPI, ontology, 
 4. Reconcile route lists against `apps/communications-worker/src/index.ts` and `apps/communications-worker/openapi.yaml`.
 5. Update source-of-truth docs first, then small directory READMEs.
 6. Verify every referenced local path exists unless it is explicitly historical archive material.
+7. Close with tool-call logging, validation outcomes, and a short tooling/skills scrum.
 
 ## Required Follow-Up
 
-- If site routes, assets, or build paths changed, update `README.md`, `docs/state-of-play.md`, `docs/ontology/project-ontology.*`, and nearest app READMEs.
+- If site routes, assets, or build paths changed, update `README.md`, `docs/state-of-play.md`, `docs/ontology/project-ontology.json`, `docs/ontology/ontology.md`, and nearest app READMEs.
 - If Worker routes or payloads changed, update `apps/communications-worker/openapi.yaml`, `apps/communications-worker/README.md`, and infrastructure docs.
-- If agent workflows changed, update `agent/AGENT.md`, `CLAUDE.md`, `agent/skills/**`, and relevant docs under `docs/` and `agent/`.
+- If agent workflows changed, update `agent/AGENT.md`, `AGENTS.md`, `CLAUDE.md`, `agent/skills/**`, `docs/ontology/project-ontology.json`, `docs/ontology/ontology.md`, and relevant docs under `docs/` and `agent/`.
 
 ## Validation
 

@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html check-links check-a11y check-lighthouse test-worker check-all check-tooling-integrity deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync assets-check
+.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html check-links check-a11y check-lighthouse check-audit test-worker check-all check-tooling-integrity deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync assets-check
 
 help:
 	@echo "Available targets:"
@@ -13,6 +13,7 @@ help:
 	@echo "  check-links         Run generated-site link checks"
 	@echo "  check-a11y          Run generated-site accessibility checks"
 	@echo "  check-lighthouse    Run Lighthouse check when Chrome/Chromium is available"
+	@echo "  check-audit         Run npm audit across root, web, and worker packages"
 	@echo "  test-worker         Run worker test suite"
 	@echo "  check-all           Run lint + tests"
 	@echo "  check-tooling-integrity  Validate agent/tooling path consistency"
@@ -55,6 +56,9 @@ check-a11y:
 
 check-lighthouse:
 	npm run check:lighthouse
+
+check-audit:
+	npm run check:audit
 
 test-worker:
 	npm --prefix apps/communications-worker run test
