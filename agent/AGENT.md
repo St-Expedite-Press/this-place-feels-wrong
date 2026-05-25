@@ -168,6 +168,7 @@ All in `apps/web/public/assets/js/` — loaded via `<script is:inline>` in page 
 Before touching code:
 
 - Open `docs/ontology/project-ontology.json` first. It is the navigation and constraint map for repo structure, commands, agent surfaces, and maintenance rules.
+- Use `docs/ontology/ontology.md` as the human-readable companion map. When one ontology file changes, update the other in the same task.
 - Classify the task through the ontology before broad exploration. Treat `apps`, `commands`, `agent`, `agent_data_dictionary`, and `maintenance` as the primary routing surfaces.
 - Treat undocumented surfaces as suspect. If a path, command, or workflow is outside the ontology and not clearly historical or local-only, verify it before use and update the ontology if that surface should remain part of the maintained repo contract.
 
@@ -177,6 +178,7 @@ Before touching code:
 4. **Keep edit surface narrow.** Behavior-preserving unless user explicitly requests a change.
 5. **Update docs** in the same change when paths, commands, routes, or assets move (see §6 Source of Truth).
 6. **Run the narrowest meaningful validation**, escalating to `npm run check` for broad changes.
+7. **Close out with evidence**: summarize tool calls, validation results, and a short tooling/skills scrum for future improvements.
 
 For `web` tasks: read the target `.astro` file, the CSS it loads, and any JS it references before editing.
 
@@ -199,6 +201,7 @@ npm run dev:worker       # Wrangler dev (Worker local)
 npm run check            # Full gate: links + a11y + HTML lint + worker tests
 npm run check:links      # Broken link check
 npm run check:a11y       # Accessibility heuristics
+npm run check:audit      # Dependency audit across root, web, and worker packages
 npm run check:tooling-integrity # Validate agent/tooling path consistency
 npm run lint:html        # HTML validity
 npm run test:worker      # Worker unit tests
@@ -234,6 +237,8 @@ On Windows, root scripts that invoke shell files route through `scripts/run-bash
 
 Update these together when their surfaces change:
 
+When changing routes, commands, validation scripts, deployment/runtime surfaces, agent workflows, skills, runbooks, or maintained path ownership, update both `docs/ontology/project-ontology.json` and `docs/ontology/ontology.md` in the same task.
+
 | What changed | Update |
 |---|---|
 | Site routes or assets | `README.md`, `docs/state-of-play.md`, `apps/web/src/README.pages.md`, `agent/AGENT.md` §2 |
@@ -242,6 +247,16 @@ Update these together when their surfaces change:
 | Agent workflows | `agent/AGENT.md`, `agent/skills/**`, `CLAUDE.md` |
 | CSS tokens or structure | `apps/web/public/assets/css/tokens.css`, `branding/tokens/`, `agent/AGENT.md` §2.3 |
 | D1 schema | New migration file + `apps/communications-worker/README.md` |
+
+---
+
+## 6.1 Task Closeout
+
+Every task that changes files or performs repo investigation must end with:
+
+- **Tool calls**: concise list of commands, scripts, and repo tools used, grouped by purpose.
+- **Checks**: validation commands and outcomes.
+- **Tooling/skills scrum**: one to three notes on how to improve future tooling, skills, runbooks, or ontology rules.
 
 ---
 

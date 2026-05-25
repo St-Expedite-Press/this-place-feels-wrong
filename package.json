@@ -17,6 +17,7 @@
     "check:a11y": "node scripts/check-a11y.mjs",
     "check:lighthouse": "node scripts/check-lighthouse.mjs",
     "check:seo": "node scripts/run-bash.mjs agent/tools/check-site-seo.sh",
+    "check:audit": "npm audit --audit-level=high && npm --prefix apps/web audit --audit-level=high && npm --prefix apps/communications-worker audit --audit-level=high",
     "check:tooling-integrity": "node scripts/check-tooling-integrity.mjs",
     "runtime:config": "node scripts/run-bash.mjs agent/tools/check-runtime-config.sh",
     "runtime:audit": "node scripts/run-bash.mjs agent/ops/cloudflare-stability/scripts/runtime-audit.sh",
@@ -26,7 +27,7 @@
     "release:dry-run": "node scripts/run-bash.mjs agent/tools/release.sh --dry-run",
     "release:log": "node scripts/run-bash.mjs agent/ops/cloudflare-stability/scripts/log-release-evidence.sh",
     "test:worker": "npm --prefix apps/communications-worker run test",
-    "check": "npm run check:tooling-integrity && npm run build && npm run lint:html && npm run check:links && npm run check:a11y && npm run test:worker",
+    "check": "npm run check:tooling-integrity && npm run build && npm run lint:html && npm run check:links && npm run check:a11y && npm run test:worker && npm run check:audit",
     "deploy:web": "node scripts/deploy-web.mjs",
     "deploy:worker": "npm --prefix apps/communications-worker run deploy"
   },

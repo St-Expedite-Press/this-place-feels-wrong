@@ -24,9 +24,20 @@ function formatMoney(value, currency) {
   }
 }
 
+function safeStoreUrl(value) {
+  const raw = String(value || "").trim();
+  try {
+    const url = new URL(raw || "https://shop.stexpedite.press");
+    return url.protocol === "https:" || url.protocol === "http:" ? url.href : "https://shop.stexpedite.press/";
+  } catch {
+    return "https://shop.stexpedite.press/";
+  }
+}
+
 function renderProducts(products, shopUrl) {
   grid.innerHTML = products.map((product) => {
-    const href = shopUrl && product.slug ? `${shopUrl.replace(/\/$/, "")}/products/${encodeURIComponent(product.slug)}` : shopUrl;
+    const safeShopUrl = safeStoreUrl(shopUrl);
+    const href = product.slug ? `${safeShopUrl.replace(/\/$/, "")}/products/${encodeURIComponent(product.slug)}` : safeShopUrl;
     return `
       <article class="card product-card">
         <a class="product-link" href="${escapeHtml(href || "#")}" target="_blank" rel="noopener noreferrer">
@@ -49,7 +60,7 @@ async function loadCatalog(collection = "") {
   const query = collection ? `?collection=${encodeURIComponent(collection)}` : "";
   try {
     const data = await requestJson(`/api/storefront${query}`, { cache: "no-store" });
-    const shopUrl = String(data?.shop?.url || "https://shop.stexpedite.press");
+    const shopUrl = safeStoreUrl(data?.shop?.url);
     const collections = Array.isArray(data.collections) ? data.collections : [];
     const products = Array.isArray(data.products) ? data.products : [];
     renderProducts(products, shopUrl);

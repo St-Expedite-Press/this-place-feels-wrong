@@ -24,13 +24,24 @@ function formatDate(dateStr) {
   return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
 }
 
+function safeExternalUrl(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  try {
+    const url = new URL(raw);
+    return url.protocol === "https:" || url.protocol === "http:" ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
 function renderBookRow(project) {
   const title = escapeHtml(project.title || "Untitled");
   const author = escapeHtml(project.author || "St. Expedite Press");
   const series = escapeHtml(project.series_title || "");
   const description = escapeHtml(project.popup_description || "");
   const cover = String(project.cover_image || "").trim();
-  const buyUrl = String(project.buy_url || "").trim();
+  const buyUrl = safeExternalUrl(project.buy_url);
   const statusKey = String(project.status || "planned");
   const meta = STATUS_META[statusKey] || STATUS_META.planned;
   const dateStr = formatDate(project.published_at);

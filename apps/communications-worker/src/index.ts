@@ -268,27 +268,47 @@ async function sendEmail(env: Env, params: { to: string; subject: string; text: 
   return String(data?.id ?? "");
 }
 
-async function logDonation(db: D1Database | undefined, params: {
+async function claimDonation(db: D1Database | undefined, params: {
   id: string;
   stripeSessionId: string;
   amountCents: number;
   email: string;
   paymentStatus: string;
-  receiptEmailId: string;
 }) {
-  if (!db?.prepare) return;
+  if (!db?.prepare) return { claimed: true, duplicate: false };
   try {
-    await db
+    const result = await db
       .prepare(
         `INSERT INTO donations (id, stripe_session_id, amount_cents, email, payment_status, receipt_email_id, received_at)
          VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
          ON CONFLICT(stripe_session_id) DO NOTHING`,
       )
-      .bind(params.id, params.stripeSessionId, params.amountCents, params.email, params.paymentStatus, params.receiptEmailId)
+      .bind(params.id, params.stripeSessionId, params.amountCents, params.email, params.paymentStatus, "")
+      .run() as { meta?: { changes?: number } };
+    const changes = Number(result?.meta?.changes);
+    if (Number.isFinite(changes)) {
+      return { claimed: changes > 0, duplicate: changes === 0 };
+    }
+    return { claimed: true, duplicate: false };
+  } catch (error) {
+    console.warn("Failed to claim donation in D1", {
+      id: params.id,
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return { claimed: true, duplicate: false };
+  }
+}
+
+async function updateDonationReceipt(db: D1Database | undefined, params: { stripeSessionId: string; receiptEmailId: string }) {
+  if (!db?.prepare || !params.receiptEmailId) return;
+  try {
+    await db
+      .prepare("UPDATE donations SET receipt_email_id = ? WHERE stripe_session_id = ?")
+      .bind(params.receiptEmailId, params.stripeSessionId)
       .run();
   } catch (error) {
-    console.warn("Failed to log donation to D1", {
-      id: params.id,
+    console.warn("Failed to update donation receipt in D1", {
+      stripeSessionId: params.stripeSessionId,
       message: error instanceof Error ? error.message : String(error),
     });
   }
@@ -554,6 +574,21 @@ async function handleStripeWebhook(request: Request, env: Env): Promise<Response
     const amountDisplay = `$${(amountTotal / 100).toFixed(2)}`;
     let receiptEmailId = "";
 
+    if (!sessionId) {
+      return new Response(JSON.stringify({ ok: false, error: "Invalid payload" }), {
+        status: 400,
+        headers: { "content-type": "application/json; charset=utf-8" },
+      });
+    }
+
+    const donationClaim = await claimDonation(env.DB, { id, stripeSessionId: sessionId, amountCents: amountTotal, email: customerEmail, paymentStatus });
+    if (!donationClaim.claimed) {
+      return new Response(JSON.stringify({ ok: true, received: true, duplicate: true }), {
+        status: 200,
+        headers: { "content-type": "application/json; charset=utf-8" },
+      });
+    }
+
     if (customerEmail && env.RESEND_API_KEY && env.FROM_EMAIL && paymentStatus === "paid") {
       try {
         receiptEmailId = await sendEmail(env, {
@@ -585,7 +620,7 @@ async function handleStripeWebhook(request: Request, env: Env): Promise<Response
       }
     }
 
-    await logDonation(env.DB, { id, stripeSessionId: sessionId, amountCents: amountTotal, email: customerEmail, paymentStatus, receiptEmailId });
+    await updateDonationReceipt(env.DB, { stripeSessionId: sessionId, receiptEmailId });
   }
 
   return new Response(JSON.stringify({ ok: true, received: true }), {

@@ -36,6 +36,7 @@ API routes remain under `/api/*`:
 - `POST /api/contact`
 - `POST /api/submit`
 - `POST /api/donate/session`
+- `POST /api/stripe/webhook`
 - `POST /api/updates`
 - `POST /api/updates/import`
 - `POST /api/updates/unsubscribe`

@@ -86,6 +86,108 @@ async function assertOpenApiReadable(filePath) {
   }
 }
 
+function collectWorkerRoutes(source) {
+  const routes = new Set();
+  const matches = source.matchAll(/url\.pathname\s*===\s*"([^"]+)"/g);
+  for (const match of matches) {
+    const lineStart = source.lastIndexOf("\n", match.index) + 1;
+    const lineEnd = source.indexOf("\n", match.index);
+    const line = source.slice(lineStart, lineEnd === -1 ? source.length : lineEnd);
+    const methodMatch = /request\.method\s*===\s*"([A-Z]+)"/.exec(line);
+    routes.add(`${methodMatch?.[1] ?? "POST"} ${match[1]}`);
+  }
+  return routes;
+}
+
+function collectOpenApiRoutes(source) {
+  const routes = new Set();
+  let currentPath = "";
+  const methodNames = new Set(["get", "post", "put", "patch", "delete", "options"]);
+  for (const line of source.split(/\r?\n/)) {
+    const pathMatch = /^  (\/api\/[^:]+):\s*$/.exec(line);
+    if (pathMatch) {
+      currentPath = pathMatch[1];
+      continue;
+    }
+    const methodMatch = /^    ([a-z]+):\s*$/.exec(line);
+    if (currentPath && methodMatch && methodNames.has(methodMatch[1])) {
+      routes.add(`${methodMatch[1].toUpperCase()} ${currentPath}`);
+    }
+  }
+  return routes;
+}
+
+function collectJsonOntologyRoutes(ontology) {
+  return new Set(Object.keys(ontology?.apps?.communications_worker?.routes ?? {}));
+}
+
+function collectBacktickRoutes(source) {
+  const routes = new Set();
+  const matches = source.matchAll(/`(GET|POST|PUT|PATCH|DELETE|OPTIONS) (\/api\/[^`]+)`/g);
+  for (const match of matches) {
+    routes.add(`${match[1]} ${match[2]}`);
+  }
+  return routes;
+}
+
+function collectTableRoutes(source) {
+  const routes = new Set();
+  const matches = source.matchAll(/\|\s*(GET|POST|PUT|PATCH|DELETE|OPTIONS)\s*\|\s*`(\/api\/[^`]+)`/g);
+  for (const match of matches) {
+    routes.add(`${match[1]} ${match[2]}`);
+  }
+  return routes;
+}
+
+async function assertApiRouteParity() {
+  const workerSource = await fs.readFile(path.join(repoRoot, "apps", "communications-worker", "src", "index.ts"), "utf8");
+  const expected = collectWorkerRoutes(workerSource);
+  const failures = [];
+
+  const checks = [
+    {
+      label: "apps/communications-worker/openapi.yaml",
+      routes: collectOpenApiRoutes(await fs.readFile(path.join(repoRoot, "apps", "communications-worker", "openapi.yaml"), "utf8")),
+    },
+    {
+      label: "docs/ontology/project-ontology.json",
+      routes: collectJsonOntologyRoutes(JSON.parse(await fs.readFile(path.join(repoRoot, "docs", "ontology", "project-ontology.json"), "utf8"))),
+    },
+    {
+      label: "docs/ontology/ontology.md",
+      routes: collectBacktickRoutes(await fs.readFile(path.join(repoRoot, "docs", "ontology", "ontology.md"), "utf8")),
+    },
+    {
+      label: "README.md",
+      routes: collectBacktickRoutes(await fs.readFile(path.join(repoRoot, "README.md"), "utf8")),
+    },
+    {
+      label: "docs/state-of-play.md",
+      routes: collectBacktickRoutes(await fs.readFile(path.join(repoRoot, "docs", "state-of-play.md"), "utf8")),
+    },
+    {
+      label: "apps/communications-worker/README.md",
+      routes: collectBacktickRoutes(await fs.readFile(path.join(repoRoot, "apps", "communications-worker", "README.md"), "utf8")),
+    },
+    {
+      label: "agent/AGENT.md",
+      routes: collectTableRoutes(await fs.readFile(path.join(repoRoot, "agent", "AGENT.md"), "utf8")),
+    },
+  ];
+
+  for (const check of checks) {
+    for (const route of expected) {
+      if (!check.routes.has(route)) {
+        failures.push(`${check.label}: missing API route ${route}`);
+      }
+    }
+  }
+
+  if (failures.length) {
+    throw new Error(failures.join("\n"));
+  }
+}
+
 async function assertRootScriptTargetsExist() {
   const pkg = JSON.parse(await fs.readFile(path.join(repoRoot, "package.json"), "utf8"));
   for (const [name, command] of Object.entries(pkg.scripts ?? {})) {
@@ -156,8 +258,10 @@ async function assertNoStaleReferences() {
 }
 
 await assertJson(path.join(repoRoot, "docs", "ontology", "project-ontology.json"));
+await fs.access(path.join(repoRoot, "docs", "ontology", "ontology.md"));
 await assertJson(path.join(repoRoot, "agent", "kits", "static-web", "agent.config.json"));
 await assertOpenApiReadable(path.join(repoRoot, "apps", "communications-worker", "openapi.yaml"));
+await assertApiRouteParity();
 await assertRootScriptTargetsExist();
 await assertMakeTargetsExist();
 await assertAgentKitConfigTargetsExist();

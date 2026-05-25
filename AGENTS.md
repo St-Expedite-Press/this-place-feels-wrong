@@ -9,10 +9,10 @@ This file governs how agents decompose and route work in this repository. It is 
 Every task entering this repo passes through three lenses before any file is touched:
 
 1. **Classify** — what domain does this belong to? (`web`, `worker`, `docs`, `ops`, `assets`, `tooling`)
-2. **Consult** — read `docs/ontology/project-ontology.json` to identify owning paths, valid commands, and contract surfaces
+2. **Consult** — read `docs/ontology/project-ontology.json` to identify owning paths, valid commands, and contract surfaces; use `docs/ontology/ontology.md` for the human-readable surface map
 3. **Route** — assign to the narrowest responsible subagent below
 
-The main agent does not write code. It decomposes tasks, routes to subagents, reviews results, and updates docs.
+The main agent may complete narrow blocking work inline. For broader work, it decomposes tasks, routes independent work to subagents, reviews results, and updates docs.
 
 ---
 
@@ -99,6 +99,18 @@ Shell scripts invoked through `npm run` aliases defined in `package.json` and `M
 | Update docs | Affected docs + ontology JSON | `docs-curator` | `npm run check:tooling-integrity` |
 | Release | `docs/state-of-play.md`, last migration | `ops-release` | `npm run release:dry-run` then `npm run release` |
 | Add media | `assets/source/` | `assets` | `npm run assets:sync && npm run assets:check` |
+
+---
+
+## Task Closeout
+
+At the end of each task that changes files or performs repo investigation, include:
+
+- `Tool calls` — concise list of commands, scripts, and repo tools used, grouped by purpose.
+- `Checks` — validation commands and outcomes.
+- `Tooling/skills scrum` — one to three notes on what would improve future agent work, including whether a repo skill, runbook, or ontology rule should change.
+
+When any maintained surface changes, update both `docs/ontology/project-ontology.json` and `docs/ontology/ontology.md`.
 
 ---
 

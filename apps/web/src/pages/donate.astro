@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import HeroBar from '../components/HeroBar.astro';
 import siteData from '../data/site.json';
 
@@ -39,7 +39,7 @@ const page = pages.donate;
 <link rel="stylesheet" href="/assets/css/a11y.css" />
 <link rel="stylesheet" href="/assets/css/hero-bar.css" />
 <link rel="stylesheet" href="/assets/css/donate-portal.css" />
-<ViewTransitions />
+  <ClientRouter />
 </head>
 
 <body class="donate-portal-page" data-brand-mode="utility">

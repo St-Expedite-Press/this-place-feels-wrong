@@ -6,6 +6,7 @@ type TestEnv = {
   FROM_EMAIL: string;
   TO_EMAIL: string;
   STRIPE_SECRET_KEY?: string;
+  STRIPE_WEBHOOK_SECRET?: string;
   TURNSTILE_SECRET?: string;
   RATE_LIMIT_MAX?: string;
   RATE_LIMIT_WINDOW_MS?: string;
@@ -23,6 +24,7 @@ const baseEnv: TestEnv = {
   TO_EMAIL: "editor@stexpedite.press",
   UPDATES_IMPORT_TOKEN: "import-secret",
   STRIPE_SECRET_KEY: "sk_test_123",
+  STRIPE_WEBHOOK_SECRET: "whsec_test",
 };
 
 function makeJsonRequest(path: string, body: Record<string, unknown>, headers?: HeadersInit) {
@@ -41,11 +43,13 @@ function makeMockDb() {
   const updates = new Map<string, Record<string, unknown>>();
   const rateLimits = new Map<string, { count: number; reset_at: number }>();
   const submissions = new Map<string, Record<string, unknown>>();
+  const donations = new Map<string, Record<string, unknown>>();
 
   return {
     updates,
     rateLimits,
     submissions,
+    donations,
     prepare(query: string) {
       const sql = query.replace(/\s+/g, " ").trim();
       return {
@@ -118,6 +122,20 @@ function makeMockDb() {
               if (sql.includes("INSERT INTO contact_submissions")) {
                 const [id, type, email, reason, message, editorEmailId, receiptEmailId] = values;
                 submissions.set(String(id), { id, type, email, reason, message, editorEmailId, receiptEmailId });
+                return {};
+              }
+              if (sql.includes("INSERT INTO donations")) {
+                const [id, stripeSessionId, amountCents, email, paymentStatus, receiptEmailId] = values;
+                const key = String(stripeSessionId);
+                if (donations.has(key)) return { meta: { changes: 0 } };
+                donations.set(key, { id, stripeSessionId, amountCents, email, paymentStatus, receiptEmailId });
+                return { meta: { changes: 1 } };
+              }
+              if (sql.includes("UPDATE donations SET receipt_email_id")) {
+                const [receiptEmailId, stripeSessionId] = values;
+                const key = String(stripeSessionId);
+                const existing = donations.get(key);
+                if (existing) donations.set(key, { ...existing, receiptEmailId });
                 return {};
               }
               return {};
@@ -193,6 +211,30 @@ function makeMockDb() {
       };
     },
   };
+}
+
+async function makeStripeWebhookRequest(event: Record<string, unknown>, secret = "whsec_test") {
+  const rawBody = JSON.stringify(event);
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(`${timestamp}.${rawBody}`));
+  const hex = Array.from(new Uint8Array(sig)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
+
+  return new Request("https://stexpedite.press/api/stripe/webhook", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "stripe-signature": `t=${timestamp},v1=${hex}`,
+    },
+    body: rawBody,
+  });
 }
 
 beforeEach(() => {
@@ -386,6 +428,33 @@ describe("communications worker", () => {
     const stripeInit = fetchMock.mock.calls[0]?.[1] as RequestInit;
     expect(String(stripeInit?.body ?? "")).toContain("submit_type=donate");
     expect(String(stripeInit?.body ?? "")).toContain("line_items%5B0%5D%5Bprice_data%5D%5Bunit_amount%5D=2500");
+  });
+
+  it("does not resend donation emails for duplicate Stripe webhook deliveries", async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ id: "resend-donation" }), { status: 200 }));
+    const db = makeMockDb();
+    const event = {
+      type: "checkout.session.completed",
+      data: {
+        object: {
+          id: "cs_test_duplicate",
+          amount_total: 2500,
+          payment_status: "paid",
+          customer_details: { email: "donor@example.com" },
+        },
+      },
+    };
+
+    const first = await worker.fetch(await makeStripeWebhookRequest(event), { ...baseEnv, DB: db } as never);
+    const second = await worker.fetch(await makeStripeWebhookRequest(event), { ...baseEnv, DB: db } as never);
+    const secondBody = (await second.json()) as { ok: boolean; duplicate?: boolean };
+
+    expect(first.status).toBe(200);
+    expect(second.status).toBe(200);
+    expect(secondBody.ok).toBe(true);
+    expect(secondBody.duplicate).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(db.donations.size).toBe(1);
   });
 
   it("rejects donations below the minimum", async () => {

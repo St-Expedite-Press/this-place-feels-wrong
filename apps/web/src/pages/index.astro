@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import HeroBar from '../components/HeroBar.astro';
 import siteData from '../data/site.json';
 
@@ -45,7 +45,7 @@ const homeOgDescription = 'A New Orleans press for Southern writing at its forma
 <link rel="stylesheet" href="/assets/css/hero-bar.css" />
 <link rel="stylesheet" href="/assets/css/footer.css" />
 <link rel="stylesheet" href="/assets/css/portal.css" />
-<ViewTransitions />
+  <ClientRouter />
 </head>
 
 <body data-brand-mode="ritual">
