@@ -151,6 +151,14 @@ All in `apps/web/public/assets/js/` — loaded via `<script is:inline>` in page 
 | Fourthwall | `FOURTH_WALL_API_KEY` (secret; `FW_STOREFRONT_TOKEN` accepted as compatibility alias) | `/api/storefront` |
 | Cloudflare Turnstile | `TURNSTILE_SECRET` (secret) | form endpoints |
 
+### 2.6.1 Pages Deploy Auth
+
+Cloudflare Pages deploys use token-based Wrangler auth:
+
+- Required env or CI secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
+- Optional override for `npm run deploy:web`: `CF_PAGES_PROJECT`
+- Legacy `CLOUDFLARE_API_KEY` + `CLOUDFLARE_EMAIL` is not a supported Pages deploy path in this repo
+
 ### 2.7 Key Config Files
 
 | File | Purpose |
@@ -210,7 +218,7 @@ npm run assets:check     # Verify no asset drift
 npm run runtime:config   # Check Cloudflare runtime bindings
 npm run runtime:audit    # Read-only Worker/D1/schema audit
 npm run smoke:api        # Production API smoke tests
-npm run deploy:web       # Deploy Pages
+npm run deploy:web       # Deploy Pages (requires CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID)
 npm run deploy:worker    # Deploy Worker
 npm run release:dry-run  # Dry-run release check
 npm run release          # Full release

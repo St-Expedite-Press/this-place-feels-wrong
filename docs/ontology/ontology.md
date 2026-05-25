@@ -12,6 +12,13 @@ Human-readable companion to `project-ontology.json`. Keep this file aligned when
 | Docs | `README.md`, `docs/`, app READMEs | Human-facing project state, deployment, operations, and infrastructure docs. |
 | Agent infrastructure | `agent/`, `AGENTS.md`, `CLAUDE.md` | Shared agent operating guide, repo skills, runbooks, tools, and reusable kits. |
 
+## Deployment Auth
+
+- Pages deploy contract: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`
+- Optional local override for `npm run deploy:web`: `CF_PAGES_PROJECT`
+- GitHub Actions Pages deploy secret names match the env vars exactly
+- Legacy `CLOUDFLARE_API_KEY` and `CLOUDFLARE_EMAIL` are not part of the maintained Pages deploy surface
+
 ## Public Web Routes
 
 | Route | Source |
