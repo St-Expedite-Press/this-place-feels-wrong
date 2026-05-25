@@ -36,6 +36,13 @@ npm run deploy:web
 npm run deploy:worker
 ```
 
+Pages deploy auth:
+
+```bash
+CLOUDFLARE_API_TOKEN=...
+CLOUDFLARE_ACCOUNT_ID=...
+```
+
 Supporting checks and operations:
 
 ```bash
@@ -82,6 +89,7 @@ Worker routes:
 ## Deployment Model
 
 - Cloudflare Pages publishes `apps/web/dist/`.
+- `npm run deploy:web` and the GitHub Pages workflow use `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`.
 - Cloudflare routes `stexpedite.press/api/*` and `www.stexpedite.press/api/*` to `apps/communications-worker/`.
 - Resend handles contact and submission email.
 - Stripe Checkout handles donations.
@@ -99,6 +107,7 @@ Worker routes:
 ## Notes
 
 - Do not edit `apps/web/dist/` by hand; regenerate it with `npm run build`.
+- Legacy Cloudflare global API key/email auth is not part of the supported Pages deploy path.
 - D1 migrations are append-only numbered SQL files.
 - `archive/anglossic_quiz/` is preserved as historical product material.
 - The former checked-in static output snapshot was removed from `archive/site-legacy/`; recover it from git history if needed.

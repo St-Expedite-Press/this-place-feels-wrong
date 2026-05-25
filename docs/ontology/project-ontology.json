@@ -18,6 +18,20 @@
       "assets_dir": "apps/web/public/assets/",
       "output_dir": "apps/web/dist/",
       "build_script": "npm run build",
+      "deploy_script": "npm run deploy:web",
+      "deploy_auth": {
+        "required_env": [
+          "CLOUDFLARE_API_TOKEN",
+          "CLOUDFLARE_ACCOUNT_ID"
+        ],
+        "optional_env": [
+          "CF_PAGES_PROJECT"
+        ],
+        "ci_secrets": [
+          "CLOUDFLARE_API_TOKEN",
+          "CLOUDFLARE_ACCOUNT_ID"
+        ]
+      },
       "css_tokens": "apps/web/public/assets/css/tokens.css",
       "site_data": "apps/web/src/data/site.json",
       "routes": {

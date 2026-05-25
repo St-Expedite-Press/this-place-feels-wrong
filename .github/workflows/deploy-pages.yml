@@ -13,7 +13,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install root dependencies
         run: npm ci
@@ -48,8 +48,11 @@ jobs:
   deploy:
     needs: [validate]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install web dependencies
         run: npm --prefix apps/web ci
@@ -58,7 +61,10 @@ jobs:
         run: npm --prefix apps/web run build
 
       - name: Deploy to Cloudflare Pages
-        env:
-          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_GLOBAL_API }}
-          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
-        run: npx wrangler pages deploy apps/web/dist --project-name stexpedite-press --commit-dirty=true
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: "4.94.0"
+          command: pages deploy apps/web/dist --project-name=stexpedite-press --commit-dirty=true

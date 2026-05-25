@@ -13,6 +13,8 @@ This repository deploys in two parts:
 - Output artifact: `apps/web/dist/`
 - Workflow: `.github/workflows/deploy-pages.yml`
 - Trigger: push to `main` or manual dispatch
+- Deploy auth: `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`
+- GitHub Actions secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
 
 Deploy manually:
 
@@ -84,6 +86,7 @@ npm run release
 
 ## Notes
 
-- Wrangler uses `CLOUDFLARE_API_KEY` and `CLOUDFLARE_EMAIL` in this repo's current deploy pattern.
+- Legacy Cloudflare global API key/email auth is removed from the supported Pages deploy path.
+- Use a token with at least `Pages Write` for Pages deploys. If the same token is reused for Worker deploy/runtime commands, keep the required Worker/D1 permissions as well.
 - Do not commit `.env`, `.dev.vars`, `.wrangler/`, `.claude/`, or local release scratch output.
 - Existing D1 migration files are append-only history and should not be edited.
