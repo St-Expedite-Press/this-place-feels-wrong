@@ -6,7 +6,7 @@
     "ogImage": "https://stexpedite.press/assets/img/crow_glitch_text_still.webp",
     "favicon": "assets/img/favicon.svg",
     "fontStylesheet": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap",
-    "lastmod": "2026-05-24",
+    "lastmod": "2026-05-25",
     "social": [
       {
         "name": "X",
@@ -55,23 +55,23 @@
   "pages": {
     "index": {
       "title": "St. Expedite Press",
-      "description": "St. Expedite Press publishes original Southern fiction, archival reprints, & translation from New Orleans. A non-institutional press for Southern writing at its formal & spiritual extremity.",
+      "description": "Night-minded books from New Orleans: original Southern fiction, archival recovery, translation, and experimental literary instruments from St. Expedite Press.",
       "canonical": "https://stexpedite.press/"
     },
     "books": {
       "title": "Books",
-      "description": "Books, current publications, and three publishing programs from St. Expedite Press.",
+      "description": "The St. Expedite Press catalog: original work, Southern recovery editions, and translation selected for formal and spiritual pressure.",
       "subtitle": "The press catalog",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Three programs",
       "introTitle": "The catalog is the program.",
-      "introText": "Three arms, each making a different argument about what Southern writing is owed.",
+      "introText": "Three arms, each making a different argument about memory, difficulty, and what Southern writing is owed.",
       "canonical": "https://stexpedite.press/books",
       "currentNav": "/books"
     },
     "about": {
       "title": "About",
-      "description": "The mission of St. Expedite Press: a non-institutional, post-corporate project to bootstrap Southern writing outside the approval systems that would contain it.",
+      "description": "The mission of St. Expedite Press: gather the scattered limbs of Southern writing and rebuild a literary institution outside the approval systems that flatten it.",
       "subtitle": "New Orleans, LA",
       "eyebrow": "St. Expedite Press",
       "introKicker": "The project",
@@ -104,12 +104,12 @@
     },
     "submit": {
       "title": "Submit",
-      "description": "Submission guidelines for St. Expedite Press: original Southern fiction, archival reprint proposals, and literary translation across Spanish, French, and Russian.",
+      "description": "Submission guidelines for St. Expedite Press: original work, archival recovery proposals, and literary translation selected by formal seriousness rather than market fit.",
       "subtitle": "Manuscript inquiries",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "What the press publishes",
-      "introTitle": "Three programs, each with distinct criteria.",
-      "introText": "",
+      "introKicker": "Send a project",
+      "introTitle": "One concise inquiry, then materials by reply.",
+      "introText": "Lead with the work. Genre, length, and stage are useful. If attachments are needed, they come later in the thread.",
       "canonical": "https://stexpedite.press/submit",
       "currentNav": "/submit"
     },
@@ -137,23 +137,23 @@
     },
     "contact": {
       "title": "Contact",
-      "description": "General correspondence and submission inquiries for St. Expedite Press.",
-      "subtitle": "General and submission inquiries",
+      "description": "General correspondence for St. Expedite Press: rights, press, collaborations, and editorial questions.",
+      "subtitle": "General inquiries and updates",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Write to the press",
-      "introTitle": "Direct correspondence.",
-      "introText": "",
+      "introTitle": "Rights, press, collaborations, and general correspondence.",
+      "introText": "Manuscripts go through Submit. Everything else comes here.",
       "canonical": "https://stexpedite.press/contact",
       "currentNav": "/contact"
     },
     "services": {
       "title": "Services",
-      "description": "Advisory, editorial, and decision-intelligence services offered through St. Expedite Press.",
+      "description": "Selective advisory and editorial engagements from St. Expedite Press for institutions that need careful judgment, explicit structure, and long-horizon clarity.",
       "subtitle": "Advisory & editorial work",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Advisory work",
       "introTitle": "Selected engagements for institutions that need careful judgment.",
-      "introText": "A small number of external engagements, taken selectively. The number is small by design.",
+      "introText": "A small number of external engagements, taken selectively. The number is small by design because attention is the product.",
       "canonical": "https://stexpedite.press/services",
       "currentNav": "/services"
     }
