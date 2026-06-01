@@ -1,13 +1,5 @@
 import { requestJson } from "./api-client.js";
-
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
+import { escapeHtml } from "./form-utils.js";
 
 const STATUS_META = {
   concept:     { label: "Concept",     cls: "status--concept" },

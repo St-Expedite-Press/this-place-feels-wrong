@@ -10,6 +10,12 @@ export function createDialogController({ trigger, container, dialog, closeButton
 
   let lastFocused = null;
 
+  function setBackgroundInert(value) {
+    document.querySelectorAll("body > *").forEach((el) => {
+      if (!el.contains(container)) el.inert = value;
+    });
+  }
+
   function trapFocus(event) {
     if (event.key === "Escape") {
       event.preventDefault();
@@ -35,6 +41,7 @@ export function createDialogController({ trigger, container, dialog, closeButton
     container.hidden = false;
     document.body.classList.add("dialog-open");
     document.addEventListener("keydown", trapFocus);
+    setBackgroundInert(true);
     if (trigger instanceof HTMLElement) trigger.setAttribute("aria-expanded", "true");
     (initialFocus || getFocusable(dialog)[0] || dialog).focus();
     onOpen?.();
@@ -44,6 +51,7 @@ export function createDialogController({ trigger, container, dialog, closeButton
     container.hidden = true;
     document.body.classList.remove("dialog-open");
     document.removeEventListener("keydown", trapFocus);
+    setBackgroundInert(false);
     if (trigger instanceof HTMLElement) trigger.setAttribute("aria-expanded", "false");
     if (lastFocused instanceof HTMLElement) lastFocused.focus();
     onClose?.();

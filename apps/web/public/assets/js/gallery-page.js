@@ -1,13 +1,5 @@
 import { requestJson } from "./api-client.js";
-
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
+import { escapeHtml } from "./form-utils.js";
 
 function formatMoney(value, currency) {
   const amount = Number(value);
@@ -70,7 +62,7 @@ async function loadCatalog(collection = "") {
     const products = Array.isArray(data.products) ? data.products : [];
     renderProducts(products, shopUrl, grid, toolbar);
     status.hidden = true;
-    if (fallbackCopy) fallbackCopy.hidden = true;
+    if (fallbackCopy) fallbackCopy.hidden = products.length >= 3;
     if (footerLink) footerLink.href = shopUrl;
     if (toolbar) {
       toolbar.innerHTML = collections.map((item) => `<button class="collection-pill${item.slug === data.collection ? " is-active" : ""}" type="button" data-collection="${escapeHtml(item.slug)}">${escapeHtml(item.name)}</button>`).join("");
