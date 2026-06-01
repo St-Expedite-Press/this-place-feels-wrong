@@ -310,7 +310,7 @@ Use subagents when work can proceed in parallel without blocking the main path.
 
 Give each subagent: explicit file scope, read/write ownership, expected output format. Do not delegate the immediately blocking task.
 
-Each skill in `agent/skills/` is a self-contained agent definition:
+Each skill in `skills/` is a self-contained agent definition:
 
 | Skill | When to invoke |
 |-------|---------------|
@@ -321,7 +321,42 @@ Each skill in `agent/skills/` is a self-contained agent definition:
 
 ---
 
-## 9. Tooling Layout
+## 9. MCP Tools
+
+MCP servers are configured in the workspace root `.mcp.json` and are available to any agent working in this repository.
+
+| Server | Use for this project |
+|--------|---------------------|
+| `playwright` | Visual testing of the live or dev site; interaction testing (nav, forms, dialogs); screenshot at specific viewports; console error capture |
+| `playwright-ea` | API endpoint testing for Worker routes (`/api/*`) — fire POST/GET requests and assert responses alongside browser |
+| `screenshot-fast` | Full-page screenshots of the live site (pass an HTTPS URL) or the dev server (pass `http://localhost:4321/...`) |
+| `firecrawl` | Content extraction and crawl of stexpedite.press — extract page copy, structured data, and link inventory for audits |
+| `page-design-guide` | Consult 2024–2026 design trends, typography, layout patterns, and accessibility guidance when evaluating or proposing design changes |
+
+**Not typically needed for this project** (more relevant to design-iteration projects): `crawl4ai`, `web-cloner`, `design-copier`, `claude-design`.
+
+### When to use MCP vs. npm scripts
+
+| Task | Use |
+|------|-----|
+| Check the live site visually | `playwright` → navigate → screenshot |
+| Audit all live pages at once | `firecrawl` scrape or `playwright` multi-page loop |
+| Take full-page screenshots for design review | `screenshot-fast` with live URL |
+| Test a Worker API endpoint manually | `playwright-ea` POST/GET |
+| Check design direction before proposing changes | `page-design-guide` |
+| Run automated HTML/links/a11y checks | `npm run check` (faster, no browser needed) |
+
+### Viewports to test
+
+| Viewport | Width | When |
+|----------|-------|------|
+| Desktop | 1280px | Always |
+| Tablet | 768px | Layout breakpoints |
+| Mobile | 390px | Nav scroll, form usability, portal layout |
+
+---
+
+## 10. Tooling Layout
 
 ```
 scripts/            ← all operational shell scripts + Node.js scripts
@@ -363,7 +398,7 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 
 ---
 
-## 10. Known Gaps and Future Work
+## 11. Known Gaps and Future Work
 
 ### Site
 
