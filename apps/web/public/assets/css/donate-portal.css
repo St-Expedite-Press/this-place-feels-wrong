@@ -8,8 +8,8 @@ body.donate-portal-page {
   padding: clamp(1rem, 2vh, 1.6rem) 5vw clamp(1.4rem, 3vh, 2rem);
   display: grid;
   grid-template-rows: auto auto auto;
-  align-content: space-between;
-  gap: clamp(0.9rem, 2vh, 1.5rem);
+  align-content: center;
+  gap: clamp(1.8rem, 4vh, 2.8rem);
 }
 
 .donate-sr-only {
@@ -25,7 +25,7 @@ body.donate-portal-page {
 }
 
 .header-title {
-  font-family: "Cinzel", serif;
+  font-family: var(--font-display);
   letter-spacing: .18em;
   font-size: clamp(2rem, 4vw, 3.2rem);
   text-align: center;
@@ -52,12 +52,22 @@ body.donate-portal-page {
 
 .donate-statement {
   text-align: center;
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--font-body);
   font-size: clamp(1rem, 1.4vw, 1.15rem);
   color: var(--text-muted);
   letter-spacing: 0.06em;
   margin: 0 auto;
   line-height: 1.5;
+}
+
+.donate-context {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  color: var(--text-readable-muted, rgba(232, 248, 238, 0.62));
+  max-width: 44rem;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 .donate-surface {
@@ -95,7 +105,7 @@ body.donate-portal-page {
   text-decoration: none;
   letter-spacing: .14em;
   text-transform: uppercase;
-  font-family: "Cinzel", serif;
+  font-family: var(--font-display);
   font-size: .88rem;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
@@ -126,7 +136,7 @@ body.donate-portal-page {
   border: 1px solid rgba(42,255,138,0.26);
   background: rgba(0,0,0,0.72);
   color: var(--text);
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--font-body);
   font-size: 1.1rem;
   text-align: center;
   outline: none;
@@ -190,7 +200,7 @@ body.donate-portal-page {
 
 .divider {
   margin-top: .4rem;
-  font-family: "Cinzel", serif;
+  font-family: var(--font-display);
   opacity: .7;
   text-shadow: 0 0 9px var(--green-2);
 }

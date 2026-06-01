@@ -1,96 +1,61 @@
 ---
-import { ClientRouter } from 'astro:transitions';
-import HeroBar from '../components/HeroBar.astro';
+import BasePortal from '../layouts/BasePortal.astro';
 import siteData from '../data/site.json';
 
 const { site, pages } = siteData;
 const page = pages.donate;
 ---
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content={page.description} />
-<meta name="theme-color" content={site.themeColor} />
-<meta name="color-scheme" content="dark" />
-<meta property="og:site_name" content={site.name} />
-<meta property="og:type" content="website" />
-<meta property="og:title" content={`${page.title} \u2014 ${site.name}`} />
-<meta property="og:description" content={page.description} />
-<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-<meta property="og:url" content={page.canonical} />
-<meta property="og:image" content={site.ogImage} />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={`${page.title} \u2014 ${site.name}`} />
-<meta name="twitter:description" content={page.description} />
-<meta name="twitter:image" content={site.ogImage} />
-<link rel="canonical" href={page.canonical} />
-<title>{page.title} &mdash; {site.name}</title>
+<BasePortal
+  title={page.title}
+  description={page.description}
+  canonical={page.canonical}
+  brandMode="utility"
+  bodyClass="donate-portal-page"
+  styles={['assets/css/donate-portal.css']}
+>
+  <main id="main" class="donate-page-shell" tabindex="-1">
+    <h1 class="header-title">DONATE</h1>
 
-<link rel="icon" href={`/${site.favicon}`} type="image/svg+xml" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href={site.fontStylesheet} rel="stylesheet" />
+    <section class="donate-stage" aria-label="Donation portal">
+      <p class="donate-statement">The money goes to the work.</p>
+      <p class="donate-context">The catalog, the archive editions, the translation program, RICE Magazine, and the fellowship — direct support makes each of these possible without a grant committee or an institution's approval.</p>
 
-<link rel="stylesheet" href="/assets/css/tokens.css" />
-<link rel="stylesheet" href="/assets/css/interior-base.css" />
-<link rel="stylesheet" href="/assets/css/effects.css" />
-<link rel="stylesheet" href="/assets/css/a11y.css" />
-<link rel="stylesheet" href="/assets/css/hero-bar.css" />
-<link rel="stylesheet" href="/assets/css/donate-portal.css" />
-  <ClientRouter />
-</head>
+      <form class="donate-surface" id="donate-form">
+        <div class="donate-presets" role="group" aria-label="Suggested donation amounts">
+          <button class="donate-preset" type="button" data-donation-amount="10" aria-label="Donate 10 dollars">$10</button>
+          <button class="donate-preset" type="button" data-donation-amount="25" aria-label="Donate 25 dollars">$25</button>
+          <button class="donate-preset" type="button" data-donation-amount="50" aria-label="Donate 50 dollars">$50</button>
+          <button class="donate-preset" type="button" data-donation-amount="100" aria-label="Donate 100 dollars">$100</button>
+        </div>
 
-<body class="donate-portal-page" data-brand-mode="utility">
-<a class="skip-link" href="#main">Skip to content</a>
+        <div class="donate-console">
+          <label class="donate-sr-only" for="donate-amount">Donation amount in US dollars</label>
+          <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Amount (USD)" required />
+          <button class="donate-submit" id="donate-submit" type="submit">Donate</button>
+        </div>
+        <p class="donate-assurance">Stripe handles checkout and receipts. Minimum contribution is $5.</p>
 
-<HeroBar />
+        <div class="donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
+          <div data-status-text></div>
+        </div>
+      </form>
+    </section>
 
-<div class="texture--grain"></div>
-<div class="cursor-glow"></div>
-
-<main id="main" class="donate-page-shell" tabindex="-1">
-  <h1 class="header-title">DONATE</h1>
-
-  <section class="donate-stage" aria-label="Donation portal">
-    <p class="donate-statement">The money goes to the work.</p>
-
-    <form class="donate-surface" id="donate-form">
-      <div class="donate-presets" role="group" aria-label="Suggested donation amounts">
-        <button class="donate-preset" type="button" data-donation-amount="10" aria-label="Donate 10 dollars">$10</button>
-        <button class="donate-preset" type="button" data-donation-amount="25" aria-label="Donate 25 dollars">$25</button>
-        <button class="donate-preset" type="button" data-donation-amount="50" aria-label="Donate 50 dollars">$50</button>
-        <button class="donate-preset" type="button" data-donation-amount="100" aria-label="Donate 100 dollars">$100</button>
+    <div class="splash">
+      <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
+      <p class="lede">...in the key of Night.</p>
+      <div class="divider">&#9651; &#10013; &#9651;</div>
+      <div class="splash__foot">
+        <a href="/">Portal</a>
+        {site.footerLinks.filter(item => item.href !== '/donate').map(item => (
+          <> // <a href={item.href}>{item.label}</a></>
+        ))}
       </div>
-
-      <div class="donate-console">
-        <label class="donate-sr-only" for="donate-amount">Donation amount in US dollars</label>
-        <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Amount (USD)" required />
-        <button class="donate-submit" id="donate-submit" type="submit">Donate</button>
-      </div>
-      <p class="donate-assurance">Stripe handles checkout and receipts. Minimum contribution is $5.</p>
-
-      <div class="donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
-        <div data-status-text></div>
-      </div>
-    </form>
-  </section>
-
-  <div class="splash">
-    <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
-    <p class="lede">...in the key of Night.</p>
-    <div class="divider">&#9651; &#10013; &#9651;</div>
-    <div class="splash__foot">
-      <a href="/">Portal</a>
-      {site.footerLinks.filter(item => item.href !== '/donate').map(item => (
-        <> // <a href={item.href}>{item.label}</a></>
-      ))}
     </div>
-  </div>
-</main>
+  </main>
 
-<script is:inline src="/assets/js/site-shell.js" type="module"></script>
-<script is:inline src="/assets/js/donate-page.js" type="module"></script>
-</body>
-</html>
+  <Fragment slot="scripts">
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/donate-page.js" type="module"></script>
+  </Fragment>
+</BasePortal>

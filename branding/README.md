@@ -10,7 +10,7 @@ This directory is documentation and design-system source material only. It does 
 - `brand-guidelines.md` - brand premise, palette, typography, imagery, layout, motion, and accessibility rules.
 - `web-elements.md` - reusable recipes for creating more site components and branded web surfaces.
 - `tokens/brand-tokens.json` - machine-readable design tokens for external tools and design handoff.
-- `tokens/brand-tokens.css` - portable CSS custom properties derived from the current site tokens plus proposed role aliases.
+- `tokens/brand-tokens.css` - two-vocabulary token file: `--brand-*` names for design tools and mockups, with implementation aliases (`--bg`, `--panel`, `--mode-*`, etc.) declared as `var(--brand-*)` references so both name sets work when this file is loaded alone. Source of truth for all values; `tokens.css` in the live site should mirror these.
 - `assets/README.md` - asset handoff notes and source paths for exported image/gif material.
 - `export-manifest.json` - package manifest for handoff or zipping.
 
@@ -30,20 +30,22 @@ The first implementation pass is active in the app:
 - Homepage portal media loads a still WebP first and progressively hydrates animation after user intent or post-load idle time.
 - The homepage now exposes one document `h1`; visible portal titles are presentation text.
 
-## Recommended Implementation Order
+## Implementation Status
 
-1. Create visual intensity tiers: `ritual`, `editorial`, and `utility`.
-2. Add readable text tiers for long-form body copy and dense forms.
-3. Normalize CTA, navigation, card, and status states across pages.
-4. Bring book and product imagery forward with calmer frames and clearer metadata.
-5. Extract homepage portal patterns into reusable documented primitives before making large visual changes.
+- ✅ Visual intensity tiers — `ritual`, `editorial`, `utility` modes implemented via `data-brand-mode` + `tokens.css`
+- ✅ Readable text tiers — `--text-readable` / `--text-readable-muted` in use on all editorial/utility pages
+- ✅ CTA, nav pill, card, and form states normalized across all pages
+- ✅ Fonts self-hosted (Cinzel + Cormorant Garamond, 12 woff2 files, no Google Fonts CDN)
+- ✅ BasePortal.astro — shared layout for portal pages (index, donate, 404)
+- ⬜ Book and product imagery — Lift Wind cover pending; store has one product
+- ⬜ Scroll-reveal animations on interior page cards (IntersectionObserver, prefers-reduced-motion gated)
 
 ## Source Of Truth
 
 - Live CSS tokens: `apps/web/public/assets/css/tokens.css`
-- Shared CSS: `apps/web/public/assets/css/base.css`, `components.css`, `layout.css`
-- Homepage portal: `apps/web/src/pages/index.astro`
-- Shared layout components: `apps/web/src/components/`
+- Shared CSS: `apps/web/public/assets/css/interior-base.css`, `components.css`, `layout.css`
+- Homepage portal: `apps/web/src/pages/index.astro` (uses `BasePortal.astro` layout)
+- Shared layout components: `apps/web/src/layouts/` (Base.astro, BasePortal.astro), `apps/web/src/components/`
 - Site metadata and navigation: `apps/web/src/data/site.json`
 - Canonical source assets: `assets/source/`
 

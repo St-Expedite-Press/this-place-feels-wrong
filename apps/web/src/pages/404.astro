@@ -1,95 +1,82 @@
 ---
-import HeroBar from '../components/HeroBar.astro';
+import BasePortal from '../layouts/BasePortal.astro';
 import siteData from '../data/site.json';
 const { site } = siteData;
 ---
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex" />
-  <link rel="canonical" href={`${site.origin}/404`} />
-  <title>404 &mdash; {site.name}</title>
-  <link rel="icon" href={`/${site.favicon}`} type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href={site.fontStylesheet} rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/css/tokens.css" />
-  <link rel="stylesheet" href="/assets/css/interior-base.css" />
-  <link rel="stylesheet" href="/assets/css/effects.css" />
-  <link rel="stylesheet" href="/assets/css/a11y.css" />
-  <link rel="stylesheet" href="/assets/css/hero-bar.css" />
-  <style>
-    .not-found-shell {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 2rem var(--gutter);
-      gap: 1.2rem;
-    }
-    .not-found-glyph {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      letter-spacing: .22em;
-      color: var(--text-muted);
-      margin: 0;
-      text-shadow: 0 0 10px var(--green-2);
-    }
-    .not-found-code {
-      font-family: var(--font-display);
-      font-size: clamp(4rem, 14vw, 9rem);
-      letter-spacing: .12em;
-      color: var(--text);
-      margin: 0;
-      text-shadow:
-        -1px -1px 0 var(--relief-base),
-        0 0 18px var(--green-1),
-        0 0 40px var(--green-2);
-    }
-    .not-found-lede {
-      font-family: var(--font-body);
-      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-      color: var(--text-soft);
-      margin: 0;
-      max-width: 440px;
-    }
-    .not-found-return {
-      display: inline-flex;
-      align-items: center;
-      padding: .7rem 1.6rem;
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius-pill);
-      font-family: var(--font-display);
-      font-size: .78rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--text);
-      text-decoration: none;
-      background: rgba(0,0,0,.48);
-      transition: border-color 140ms ease, box-shadow 140ms ease;
-    }
-    .not-found-return:hover,
-    .not-found-return:focus-visible {
-      border-color: var(--green-hot-2);
-      box-shadow: 0 0 14px var(--green-hot-3);
-    }
-  </style>
-</head>
-<body data-brand-mode="ritual">
-  <a class="skip-link" href="#main">Skip to content</a>
-  <div class="texture--grain" aria-hidden="true"></div>
-  <div class="cursor-glow"></div>
-  <HeroBar />
+<BasePortal
+  title="404"
+  description="Page not found"
+  canonical={`${site.origin}/404`}
+  robots="noindex"
+  brandMode="ritual"
+>
   <main id="main" class="not-found-shell" tabindex="-1">
     <p class="not-found-glyph" aria-hidden="true">&#9651; &#10013; &#9651;</p>
     <h1 class="not-found-code">404</h1>
     <p class="not-found-lede">This page has scattered. The press remains.</p>
     <a class="not-found-return" href="/">Return to Portal</a>
   </main>
-  <script is:inline src="/assets/js/site-shell.js" type="module"></script>
-</body>
-</html>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+  </Fragment>
+</BasePortal>
+
+<style>
+  .not-found-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 2rem var(--gutter);
+    gap: 1.2rem;
+  }
+  .not-found-glyph {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: .22em;
+    color: var(--text-muted);
+    margin: 0;
+    text-shadow: 0 0 10px var(--green-2);
+  }
+  .not-found-code {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 14vw, 9rem);
+    letter-spacing: .12em;
+    color: var(--text);
+    margin: 0;
+    text-shadow:
+      -1px -1px 0 var(--relief-base),
+      0 0 18px var(--green-1),
+      0 0 40px var(--green-2);
+  }
+  .not-found-lede {
+    font-family: var(--font-body);
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    color: var(--text-soft);
+    margin: 0;
+    max-width: 440px;
+  }
+  .not-found-return {
+    display: inline-flex;
+    align-items: center;
+    padding: .7rem 1.6rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-size: .78rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    background: rgba(0,0,0,.48);
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+  }
+  .not-found-return:hover,
+  .not-found-return:focus-visible {
+    border-color: var(--green-hot-2);
+    box-shadow: 0 0 14px var(--green-hot-3);
+  }
+</style>

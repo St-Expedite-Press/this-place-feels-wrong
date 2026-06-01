@@ -2,6 +2,35 @@
 
 This changelog is a human-readable summary of notable repo iterations.
 
+## 1.0.7 - Full audit pass and professional refactor
+
+**Fixes (audit-driven):**
+- Self-hosted Cinzel + Cormorant Garamond (12 woff2 files in `assets/fonts/`, `fonts.css` with unicode-range splitting). Google Fonts CDN dependency removed.
+- `BasePortal.astro` — new shared layout for portal pages (`index`, `donate`, `404`). Eliminated ~120 lines of duplicated `<head>` boilerplate. `Head.astro` extended with `ogTitle`, `ogDescription`, `pageTitle`, `head-extra` slot.
+- Fixed critical ViewTransitions bug in `gallery-page.js` — module-scope DOM queries now inside `astro:page-load` handler.
+- Stripe webhook "not configured" response changed from 500 → 200 (prevents Stripe retry flood).
+- `SiteHeader.astro` — `subtitle` and `eyebrow` now conditionally rendered; empty values suppress the element.
+- `donate-portal.css` — layout changed from `align-content: space-between` to `center` to close the ~350px vertical void on the donate page.
+- `books.css` — `.book-row__title` now uses `var(--font-body)` weight 600 instead of Cinzel uppercase, for correct literary title rendering.
+- `mission.css` — `.mission-essay` constrained to `65ch`; `.essay-phase` headings increased to 0.8rem / `var(--text-soft)`.
+- `components.css` — nav pill font-size 0.72rem → 0.8rem (Cinzel below legibility floor at 11.5px).
+- `books.astro` — removed duplicate intro sentence; swapped button priority (Submission → primary).
+- `about.astro` — removed duplicate Osiris opening paragraph.
+- `dialog.js` — open/close now toggles `aria-expanded` on trigger element.
+- `lab.astro` — `aria-expanded` + `aria-controls` added to compass launch button.
+- `index.astro` — `aria-label="Primary"` on mobile-index-nav.
+- All font literals in `donate-portal.css` and `a11y.css` replaced with `var(--font-display)` / `var(--font-body)`.
+- `wrangler.toml` — required secrets documented.
+- `site.json` — donate description rewritten in press voice; `donateThanks` intro text de-duplicated; Submit added to footerLinks; "The press catalog" and "Experimental instruments" subtitles removed.
+- `donate/thanks.astro` — `robots: noindex,nofollow`.
+- `gallery.astro` / `gallery-page.js` — fallback text hidden after products load.
+- `layout.css` — nav pills switch to `overflow-x: auto; flex-wrap: nowrap` at ≤480px.
+- `branding/web-elements.md` — stale `content-shell.css` reference updated.
+- `docs/state-of-play.md` — layout architecture and font delivery sections added.
+- `apps/web/src/layouts/README.md` — full layout prop documentation added.
+
+**New files:** `BasePortal.astro`, `fonts.css`, `assets/fonts/` (12 woff2), `lift-wind-cover.webp`, migration `0015_buy_url_lift_wind.sql`.
+
 ## 1.0.6 - Agent workflow and docs assay
 - Added root `AGENTS.md` as the canonical agent instruction file and replaced `CLAUDE.md` with a compact Claude import shim.
 - Added repo-scoped Codex skills under `.agents/skills/` for docs assay, static-site QA, Cloudflare release ops, and Worker contract review.

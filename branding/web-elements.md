@@ -101,7 +101,7 @@ Guidance:
 Implementation source:
 
 - `apps/web/src/components/Base.astro`
-- `apps/web/public/assets/css/content-shell.css`
+- `apps/web/public/assets/css/interior-base.css`
 - `apps/web/public/assets/css/mission.css`
 - `apps/web/public/assets/css/services.css`
 

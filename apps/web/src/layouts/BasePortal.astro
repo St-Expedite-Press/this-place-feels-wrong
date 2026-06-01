@@ -1,0 +1,61 @@
+---
+import Head from '../components/Head.astro';
+import HeroBar from '../components/HeroBar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  robots?: string;
+  brandMode?: 'ritual' | 'editorial' | 'utility';
+  bodyClass?: string;
+  styles?: string[];
+  ogTitle?: string;
+  ogDescription?: string;
+  pageTitle?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  robots = 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1',
+  brandMode = 'ritual',
+  bodyClass,
+  styles = [],
+  ogTitle,
+  ogDescription,
+  pageTitle,
+} = Astro.props;
+
+const baseStyles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/effects.css',
+  'assets/css/a11y.css',
+];
+const allStyles = [...baseStyles, ...styles];
+---
+<!doctype html>
+<html lang="en">
+<Head
+  title={title}
+  description={description}
+  canonical={canonical}
+  styles={allStyles}
+  robots={robots}
+  ogTitle={ogTitle}
+  ogDescription={ogDescription}
+  pageTitle={pageTitle}
+>
+  <slot name="head-extra" slot="head-extra" />
+</Head>
+<body data-brand-mode={brandMode} class={bodyClass}>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <HeroBar />
+  <div class="texture--grain" aria-hidden="true"></div>
+  <div class="cursor-glow"></div>
+  <slot />
+  <slot name="scripts" />
+</body>
+</html>

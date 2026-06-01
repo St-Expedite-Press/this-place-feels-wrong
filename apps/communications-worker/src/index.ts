@@ -536,8 +536,8 @@ function renderDonationEditorHtml(params: { id: string; amountDisplay: string; e
 async function handleStripeWebhook(request: Request, env: Env): Promise<Response> {
   const webhookSecret = String(env.STRIPE_WEBHOOK_SECRET ?? "").trim();
   if (!webhookSecret || webhookSecret.startsWith("whsec_xxx")) {
-    return new Response(JSON.stringify({ ok: false, error: "Webhook not configured" }), {
-      status: 500,
+    return new Response(JSON.stringify({ ok: true, skipped: "Webhook not configured" }), {
+      status: 200,
       headers: { "content-type": "application/json; charset=utf-8" },
     });
   }
