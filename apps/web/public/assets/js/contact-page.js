@@ -1,5 +1,5 @@
 import { requestJson } from "./api-client.js";
-import { buildMailto, copyText, setPendingState, setStatus } from "./form-utils.js";
+import { buildMailto, copyText, getTurnstileToken, resetTurnstile, setPendingState, setStatus } from "./form-utils.js";
 
 // --- General inquiry ---
 const contactForm = document.getElementById("contact-form");
@@ -35,7 +35,7 @@ if (contactForm && contactSubmit && contactHelper && contactFallback && contactC
     try {
       const data = await requestJson("/api/contact", {
         method: "POST",
-        body: { reason, email, message, website },
+        body: { reason, email, message, website, turnstileToken: getTurnstileToken() },
       });
       setStatus(
         contactHelper,
@@ -47,6 +47,7 @@ if (contactForm && contactSubmit && contactHelper && contactFallback && contactC
       contactForm.reset();
     } catch {
       setStatus(contactHelper, "Automatic sending failed. Use the prepared email fallback below.", "error");
+      resetTurnstile();
     } finally {
       setPendingState(contactSubmit, false);
     }

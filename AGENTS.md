@@ -413,7 +413,7 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 
 | Item | Priority | Notes |
 |---|---|---|
-| Turnstile not configured | High | `TURNSTILE_SECRET` not set → all POST endpoints bypass bot check. Add `wrangler secret put TURNSTILE_SECRET` + widget on all forms. Confirmed via audit: no widget present on any page. |
+| ~~Turnstile~~ | ~~High~~ | ~~Resolved in v1.0.9~~ — `TURNSTILE_SECRET` live in Worker; widget on contact/submit/donate/updates; token sent in all POST bodies |
 | `lift-wind` buy_url null | Medium | Migration `0015_buy_url_lift_wind.sql` ready — update placeholder and run once Amazon/vendor URL is confirmed |
 | Rate limit generous for form endpoints | Low | `RATE_LIMIT_MAX=20` per IP/minute — consider 5 for POST mutation endpoints |
 | `contact_submissions` no admin read endpoint | Low | Accessible only via wrangler CLI — add `/api/admin/submissions` if Resend reliability degrades |
@@ -427,9 +427,10 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 **Session 2 — MCP audit fixes + Stripe webhook + text color (2026-05-24)**
 - ~~Donate page cyan heading~~ · ~~Donate page dead space~~ · ~~HeroBar missing on donate~~ · ~~/books shows editorial notes~~ · ~~/contact shows "If API unavailable…"~~ · ~~/gallery debug string~~ · ~~/services duplicate introText~~ · ~~`--hero-bar-height` duplicate~~ · ~~Ritual mode `--mode-copy` was signal green~~ · ~~/submit textarea not required~~ · ~~No sitemap.xml~~ · ~~Stripe webhook missing~~ · ~~`--mode-copy-muted` resolved to signal green~~
 
-**Session 4 — agent/ dissolution, MCP skills, full site audit + v1.0.8 fixes (2026-06-01)**
+**Session 4 — agent/ dissolution, MCP skills, full site audit + v1.0.8 + v1.0.9 Turnstile (2026-06-01)**
 - ~~`agent/AGENT.md` dissolved into root `AGENTS.md`~~ · ~~`agent/` directory fully dissolved — tools→scripts/, ops/→ops/, skills/→skills/, kits/→kits/~~ · ~~All 4 skills updated with MCP capabilities~~ · ~~`AGENTS.md §9` MCP Tools section added~~ · ~~`docs/ontology/*` and `project-ontology.json` updated for new paths~~ · ~~stale `agent/*` patterns added to docs-assay allowlist~~
 - ~~`donate-page.js` amountLabel null — `<p id="donate-selected-amount">` added to donate.astro~~ · ~~`escapeHtml` dedup — extracted to `form-utils.js`, imported in books/gallery/lab~~ · ~~`@astrojs/cloudflare` dead dep removed~~ · ~~`--relief-base` alias removed from tokens.css; all usages → `--relief`~~ · ~~`--dark` alias removed from tokens.css~~ · ~~Lab dialog `inert` — `setBackgroundInert()` added to `dialog.js`~~ · ~~Gallery sparse fix — fallback copy shows when products.length < 3~~ · ~~Scroll-reveal animations — `reveal-up` keyframes + `@media (prefers-reduced-motion)` on `.card` and `.page-intro`~~ · ~~Lab dialog glassmorphism — `backdrop-filter: blur(8px)` + border on `.lab-dialog`~~ · ~~Interior heading scale — `page-intro__title` pushed to `clamp(1.9rem, 4.5vw, 3.2rem)`~~ · ~~Donate preset micro-interaction — `preset-seal` keyframe on `data-selected="true"`~~ · ~~donate-portal.css `--relief-base` fallbacks → `--relief`~~
+- ~~Turnstile wired: `TURNSTILE_SECRET` set in Worker via `wrangler secret put`; `.cf-turnstile` widget on contact/submit/donate/index-updates; `getTurnstileToken()` + `resetTurnstile()` added to `form-utils.js`; token included in all 4 POST request bodies~~
 
 **Session 3 — Full audit + refactor v1.0.7 (2026-05-31–2026-06-01)**
 - ~~BasePortal.astro~~ · ~~Head.astro OG props + head-extra slot~~ · ~~Self-hosted fonts (12 woff2 subsets, fonts.css)~~ · ~~Token bridge (brand-tokens.css two-vocabulary)~~ · ~~Overexplaining subtitles removed (books, lab)~~ · ~~Nav font-size legibility fix~~ · ~~Mobile nav horizontal scroll overflow~~ · ~~gallery-page.js ViewTransitions bug~~ · ~~Stripe webhook 500→200 when unconfigured~~ · ~~lift-wind-cover.webp created~~ · ~~Google Fonts CDN dependency removed (self-hosted)~~ · ~~books.astro / about.astro duplicate content~~ · ~~aria-expanded on dialog + lab button~~

@@ -28,6 +28,8 @@ const page = pages.donate;
           <button class="donate-preset" type="button" data-donation-amount="100" aria-label="Donate 100 dollars">$100</button>
         </div>
 
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark"></div>
+
         <p class="donate-feedback" id="donate-selected-amount" aria-live="polite"></p>
 
         <div class="donate-console">
@@ -57,6 +59,7 @@ const page = pages.donate;
   </main>
 
   <Fragment slot="scripts">
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>
     <script is:inline src="/assets/js/donate-page.js" type="module"></script>
   </Fragment>
