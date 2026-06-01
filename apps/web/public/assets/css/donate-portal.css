@@ -65,7 +65,7 @@ body.donate-portal-page {
   font-family: var(--font-body);
   font-size: clamp(0.9rem, 1.2vw, 1rem);
   color: var(--text-readable-muted, rgba(232, 248, 238, 0.62));
-  max-width: 44rem;
+  width: min(44rem, calc(100% - 2rem));
   margin: 0 auto;
   line-height: 1.6;
 }

@@ -77,7 +77,7 @@ body {
   letter-spacing: clamp(0.10em, 0.8vw, 0.18em);
   font-size: clamp(1.6rem, 3.2vw, 3rem);
   text-transform: uppercase;
-  text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
+  text-shadow: -1px -1px 0 var(--relief), 0 0 12px var(--green-1);
   margin: 0;
   white-space: nowrap;
 }
@@ -257,7 +257,7 @@ body {
   font-size: 1.1rem;
   letter-spacing: .15em;
   text-shadow:
-    -1px -1px 0 var(--relief-base),
+    -1px -1px 0 var(--relief),
      0 0 8px var(--green-1),
      0 0 18px var(--green-2),
      0 0 28px var(--green-3);
@@ -358,7 +358,7 @@ body {
   text-align: center;
   margin-top: calc(2.5vh + var(--hero-bar-height));
   color: var(--text);
-  text-shadow: -1px -1px 0 var(--relief-base), 0 0 12px var(--green-1);
+  text-shadow: -1px -1px 0 var(--relief), 0 0 12px var(--green-1);
   animation: title-breathe 12s ease-in-out infinite;
 }
 
@@ -521,7 +521,7 @@ body {
   font-size: 1.1rem;
   letter-spacing: .15em;
   text-shadow:
-    -1px -1px 0 var(--relief-base),
+    -1px -1px 0 var(--relief),
      0 0 8px var(--green-1),
      0 0 18px var(--green-2),
      0 0 28px var(--green-3);
@@ -590,7 +590,7 @@ body {
     margin-top: 4vh;
     margin-bottom: 2vh;
     text-shadow:
-      -1px -1px 0 var(--relief-base),
+      -1px -1px 0 var(--relief),
        0 0 6px var(--green-1),
        0 0 10px var(--green-2);
   }
