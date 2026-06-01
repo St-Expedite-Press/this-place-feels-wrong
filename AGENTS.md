@@ -324,40 +324,40 @@ Each skill in `agent/skills/` is a self-contained agent definition:
 ## 9. Tooling Layout
 
 ```
-agent/
-├── tools/          ← shell scripts invoked via npm run / make
-│   ├── sync-assets.sh
-│   ├── check-assets-sync.sh
-│   ├── check-runtime-config.sh
-│   ├── check-site-seo.sh
-│   ├── release.sh
-│   ├── bootstrap-git-auth.sh
-│   ├── bootstrap-python-venv.sh
-│   └── install-hooks.sh
-├── ops/            ← operational runbooks
-│   └── cloudflare-stability/
-│       ├── SKILL.md
-│       ├── references/
-│       └── scripts/    ← smoke-api.sh, runtime-audit.sh, log-release-evidence.sh
-├── skills/         ← repo-scoped agent skills (each has SKILL.md + openai.yaml)
-│   ├── cloudflare-release-ops/
-│   ├── docs-assay/
-│   ├── static-site-qa/
-│   └── worker-contract-review/
-├── kits/           ← reusable scaffolding templates
-│   └── static-web/
-└── lib/
-    └── repo-root.sh
-
-scripts/            ← Node.js scripts (invoked by npm run)
-    run-bash.mjs    ← WSL/Git Bash router for .sh scripts
+scripts/            ← all operational shell scripts + Node.js scripts
+    lib/
+        repo-root.sh        ← shared path resolution helper
+    sync-assets.sh
+    check-assets-sync.sh
+    check-runtime-config.sh
+    check-site-seo.sh
+    release.sh
+    bootstrap-git-auth.sh
+    bootstrap-python-venv.sh
+    install-hooks.sh
+    run-bash.mjs            ← WSL/Git Bash router for .sh scripts
     check-tooling-integrity.mjs
     check-links.mjs
     check-a11y.mjs
     …
+
+ops/                ← operational runbooks
+    cloudflare-stability/
+        SKILL.md
+        references/
+        scripts/    ← smoke-api.sh, runtime-audit.sh, log-release-evidence.sh
+
+skills/             ← repo-scoped agent skills (each has SKILL.md + openai.yaml)
+    cloudflare-release-ops/
+    docs-assay/
+    static-site-qa/
+    worker-contract-review/
+
+kits/               ← reusable scaffolding templates
+    static-web/
 ```
 
-Never invoke `agent/tools/*.sh` directly — always use `npm run` or `make` wrappers (they handle WSL/Git Bash routing on Windows).
+Never invoke shell scripts directly — always use `npm run` or `make` wrappers (they handle WSL/Git Bash routing on Windows).
 
 Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `.wrangler/`, `.reports/`
 

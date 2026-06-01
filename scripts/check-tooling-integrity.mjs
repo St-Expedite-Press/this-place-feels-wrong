@@ -6,8 +6,8 @@ const repoRoot = process.cwd();
 const historicalAllowlist = new Set([
   "CHANGELOG.md",
   "docs/state-of-play.md",
-  "agent/kits/static-web/TOOLING_DISCUSSION.md",
-  "agent/skills/docs-assay/SKILL.md",
+  "kits/static-web/TOOLING_DISCUSSION.md",
+  "skills/docs-assay/SKILL.md",
   "scripts/check-tooling-integrity.mjs",
 ]);
 
@@ -214,7 +214,7 @@ async function assertMakeTargetsExist() {
 }
 
 async function assertAgentKitConfigTargetsExist() {
-  const configPath = path.join(repoRoot, "agent", "kits", "static-web", "agent.config.json");
+  const configPath = path.join(repoRoot, "kits", "static-web", "agent.config.json");
   const config = JSON.parse(await fs.readFile(configPath, "utf8"));
   const candidatePaths = [
     ...Object.values(config.entrypoints ?? {}),
@@ -259,7 +259,7 @@ async function assertNoStaleReferences() {
 
 await assertJson(path.join(repoRoot, "docs", "ontology", "project-ontology.json"));
 await fs.access(path.join(repoRoot, "docs", "ontology", "ontology.md"));
-await assertJson(path.join(repoRoot, "agent", "kits", "static-web", "agent.config.json"));
+await assertJson(path.join(repoRoot, "kits", "static-web", "agent.config.json"));
 await assertOpenApiReadable(path.join(repoRoot, "apps", "communications-worker", "openapi.yaml"));
 await assertApiRouteParity();
 await assertRootScriptTargetsExist();

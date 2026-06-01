@@ -7,7 +7,7 @@ description: Prepare, validate, release, or investigate the Cloudflare Pages and
 
 ## Workflow
 
-1. Read `DEPLOYMENT.md`, `docs/infrastructure/README.md`, and `agent/ops/cloudflare-stability/SKILL.md`.
+1. Read `DEPLOYMENT.md`, `docs/infrastructure/README.md`, and `ops/cloudflare-stability/SKILL.md`.
 2. For pre-release checks:
    ```bash
    npm run assets:check
@@ -28,7 +28,7 @@ description: Prepare, validate, release, or investigate the Cloudflare Pages and
 
 ## Existing Tooling
 
-Use the existing scripts under `agent/tools/` and `agent/ops/cloudflare-stability/scripts/`. Do not duplicate shell logic in this skill.
+Use the existing scripts under `scripts/` and `ops/cloudflare-stability/scripts/`. Do not duplicate shell logic in this skill.
 
 ## Guardrails
 
