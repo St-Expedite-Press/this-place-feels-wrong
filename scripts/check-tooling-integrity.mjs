@@ -170,8 +170,8 @@ async function assertApiRouteParity() {
       routes: collectBacktickRoutes(await fs.readFile(path.join(repoRoot, "apps", "communications-worker", "README.md"), "utf8")),
     },
     {
-      label: "agent/AGENT.md",
-      routes: collectTableRoutes(await fs.readFile(path.join(repoRoot, "agent", "AGENT.md"), "utf8")),
+      label: "AGENTS.md",
+      routes: collectTableRoutes(await fs.readFile(path.join(repoRoot, "AGENTS.md"), "utf8")),
     },
   ];
 
