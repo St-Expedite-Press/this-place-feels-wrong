@@ -26,6 +26,22 @@ description: Prepare, validate, release, or investigate the Cloudflare Pages and
    npm run release:log
    ```
 
+## MCP API Testing
+
+Use `playwright-ea` to test Worker API endpoints manually alongside browser automation:
+
+- Fire `POST /api/contact`, `POST /api/submit`, `POST /api/updates` with test payloads and assert response shape
+- Test `GET /api/health`, `GET /api/storefront`, `GET /api/projects` and verify they return expected structure
+- Check `POST /api/donate/session` returns a Stripe checkout URL in the expected format
+- Useful for verifying Worker behavior after a deploy without running the full smoke script
+
+Use `playwright` to:
+- Verify the live site loads correctly after a Pages deploy
+- Check for any post-deploy console errors
+- Confirm the portal animation and hero bar render at 1280px and 390px
+
+**Note:** `playwright-ea` fires real requests to the live Worker. Use test-mode payloads; do not send real emails or trigger real Stripe charges.
+
 ## Existing Tooling
 
 Use the existing scripts under `scripts/` and `ops/cloudflare-stability/scripts/`. Do not duplicate shell logic in this skill.
