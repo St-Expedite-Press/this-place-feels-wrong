@@ -1,58 +1,192 @@
+/*
+  brand-tokens.css
+  Publishable design artifact — the canonical brand token vocabulary.
+
+  Two naming layers, one file:
+
+  1. --brand-* names  — the semantic brand vocabulary used in design tools,
+                        mockups, and the brand package. Defined here as source.
+
+  2. Implementation aliases (bottom of file) — the shorter names used by the
+     live site's CSS (apps/web/public/assets/css/tokens.css). Declared as
+     var(--brand-*) aliases so this file can be dropped into any prototype
+     and both name sets work.
+
+  If you change a value here, update the corresponding value in tokens.css.
+  If you add a token here, add the implementation alias below and the var in tokens.css.
+*/
+
 :root {
-  /* Current core tokens mirrored from apps/web/public/assets/css/tokens.css. */
+  /* ── Backgrounds ────────────────────────────────────── impl: --bg */
   --brand-void-black: #050807;
+
+  /* ── Panels / Surfaces ──────────────────────────────── impl: --panel, --panel-strong, --panel-soft */
   --brand-panel: rgba(0, 0, 0, 0.76);
   --brand-panel-strong: rgba(0, 0, 0, 0.86);
   --brand-panel-soft: rgba(0, 0, 0, 0.64);
-  --brand-signal-green: #2aff8a;
-  --brand-signal-soft: rgba(42, 255, 138, 0.1);
+
+  /* ── Borders ─────────────────────────────────────────── impl: --border, --border-strong */
   --brand-signal-border: rgba(42, 255, 138, 0.24);
   --brand-signal-border-strong: rgba(42, 255, 138, 0.46);
-  --brand-relief-magenta: #d96aff;
 
-  /* Recommended role aliases for future UX implementation. */
+  /* ── Accent / Action ─────────────────────────────────── impl: --accent, --accent-soft, --accent-strong */
+  --brand-signal-green: #2aff8a;
+  --brand-signal-soft: rgba(42, 255, 138, 0.1);
+  --brand-signal-strong: rgba(42, 255, 138, 0.72);
+  --brand-signal-glow: rgba(42, 255, 138, 0.24);
+
+  /* ── Text ────────────────────────────────────────────── impl: --text, --text-soft, --text-muted, --text-readable, --text-readable-muted */
   --brand-text-signal: #2aff8a;
   --brand-text-soft: rgba(42, 255, 138, 0.88);
   --brand-text-muted: rgba(42, 255, 138, 0.68);
   --brand-text-readable: #e8f8ee;
+  --brand-text-readable-muted: rgba(232, 248, 238, 0.62);
+
+  /* ── Relief / Status ─────────────────────────────────── impl: --relief, --status-warning, --status-error */
+  --brand-relief-magenta: #d96aff;
   --brand-status-warning: #ffa726;
   --brand-status-error: #ff6f6f;
 
+  /* ── Green opacity tiers ─────────────────────────────── impl: --green-1, --green-2, --green-3 */
+  --brand-green-1: rgba(42, 255, 138, 0.22);
+  --brand-green-2: rgba(42, 255, 138, 0.12);
+  --brand-green-3: rgba(42, 255, 138, 0.06);
+
+  /* ── Green hot tiers ─────────────────────────────────── impl: --green-hot-1 through --green-hot-4 */
+  --brand-green-hot-1: rgba(42, 255, 138, 0.75);
+  --brand-green-hot-2: rgba(42, 255, 138, 0.55);
+  --brand-green-hot-3: rgba(42, 255, 138, 0.38);
+  --brand-green-hot-4: rgba(42, 255, 138, 0.22);
+
+  /* ── Shadows ─────────────────────────────────────────── impl: --shadow, --shadow-soft */
+  --brand-shadow: 0 0 18px rgba(0, 0, 0, 0.9), 0 0 26px var(--brand-green-3);
+  --brand-shadow-soft: 0 0 12px rgba(0, 0, 0, 0.9), 0 0 18px var(--brand-green-3);
+
+  /* ── Radii ───────────────────────────────────────────── impl: --radius-xl, --radius-lg, --radius-md, --radius-pill */
   --brand-radius-xl: 28px;
   --brand-radius-lg: 20px;
   --brand-radius-md: 14px;
   --brand-radius-pill: 999px;
 
+  /* ── Typography ──────────────────────────────────────── impl: --font-display, --font-body */
   --brand-font-display: "Cinzel", serif;
   --brand-font-body: "Cormorant Garamond", serif;
 
+  /* ── Layout ──────────────────────────────────────────── impl: --page-width, --reading-width, --gutter, --hero-bar-height */
   --brand-page-width: 1120px;
   --brand-reading-width: 760px;
   --brand-gutter: clamp(1rem, 3vw, 2rem);
   --brand-hero-bar-height: 58px;
 
-  --brand-shadow: 0 0 18px rgba(0, 0, 0, 0.9), 0 0 26px rgba(42, 255, 138, 0.06);
-  --brand-shadow-soft: 0 0 12px rgba(0, 0, 0, 0.9), 0 0 18px rgba(42, 255, 138, 0.06);
+  /* ────────────────────────────────────────────────────────────────────
+     Implementation aliases
+     These are the shorthand names used in apps/web/public/assets/css/tokens.css.
+     Declared here as var(--brand-*) references so prototypes that load only
+     this file get both vocabulary sets.
+  ──────────────────────────────────────────────────────────────────── */
+  --bg:                  var(--brand-void-black);
+  --dark:                var(--brand-void-black);
+  --panel:               var(--brand-panel);
+  --panel-strong:        var(--brand-panel-strong);
+  --panel-soft:          var(--brand-panel-soft);
+  --border:              var(--brand-signal-border);
+  --border-strong:       var(--brand-signal-border-strong);
+  --text:                var(--brand-text-signal);
+  --text-soft:           var(--brand-text-soft);
+  --text-muted:          var(--brand-text-muted);
+  --text-readable:       var(--brand-text-readable);
+  --text-readable-muted: var(--brand-text-readable-muted);
+  --accent:              var(--brand-signal-green);
+  --accent-soft:         var(--brand-signal-soft);
+  --accent-strong:       var(--brand-signal-strong);
+  --accent-glow:         var(--brand-signal-glow);
+  --relief:              var(--brand-relief-magenta);
+  --relief-base:         var(--brand-relief-magenta);
+  --status-warning:      var(--brand-status-warning);
+  --status-error:        var(--brand-status-error);
+  --green-1:             var(--brand-green-1);
+  --green-2:             var(--brand-green-2);
+  --green-3:             var(--brand-green-3);
+  --green-hot-1:         var(--brand-green-hot-1);
+  --green-hot-2:         var(--brand-green-hot-2);
+  --green-hot-3:         var(--brand-green-hot-3);
+  --green-hot-4:         var(--brand-green-hot-4);
+  --shadow:              var(--brand-shadow);
+  --shadow-soft:         var(--brand-shadow-soft);
+  --radius-xl:           var(--brand-radius-xl);
+  --radius-lg:           var(--brand-radius-lg);
+  --radius-md:           var(--brand-radius-md);
+  --radius-pill:         var(--brand-radius-pill);
+  --font-display:        var(--brand-font-display);
+  --font-body:           var(--brand-font-body);
+  --page-width:          var(--brand-page-width);
+  --reading-width:       var(--brand-reading-width);
+  --gutter:              var(--brand-gutter);
+  --hero-bar-height:     var(--brand-hero-bar-height);
+
+  /* Default mode tokens (no data-brand-mode set) */
+  --brand-mode-surface:  var(--brand-panel);
+  --brand-mode-text:     var(--brand-text-soft);
+  --brand-mode-border:   var(--brand-signal-border);
+  --brand-mode-shadow:   var(--brand-shadow-soft);
+  --mode-panel:          var(--brand-panel);
+  --mode-panel-strong:   var(--brand-panel-strong);
+  --mode-border:         var(--brand-signal-border);
+  --mode-border-strong:  var(--brand-signal-border-strong);
+  --mode-copy:           var(--brand-text-soft);
+  --mode-copy-muted:     var(--brand-text-muted);
+  --mode-shadow:         var(--brand-shadow-soft);
+  --mode-text-shadow:    0 0 7px var(--brand-green-3);
+  --mode-heading-shadow: 0 0 10px var(--brand-green-1), 0 0 20px var(--brand-green-2);
 }
 
+/* ── Ritual mode ───────────────────────────────────────────────────── */
 [data-brand-mode="ritual"] {
-  --brand-mode-surface: var(--brand-panel);
-  --brand-mode-text: var(--brand-text-signal);
-  --brand-mode-border: var(--brand-signal-border-strong);
-  --brand-mode-shadow: var(--brand-shadow);
+  --brand-mode-surface:  var(--brand-panel);
+  --brand-mode-text:     var(--brand-text-signal);
+  --brand-mode-border:   var(--brand-signal-border-strong);
+  --brand-mode-shadow:   var(--brand-shadow);
+  --mode-panel:          var(--brand-panel);
+  --mode-panel-strong:   var(--brand-panel-strong);
+  --mode-border:         var(--brand-signal-border);
+  --mode-border-strong:  var(--brand-signal-border-strong);
+  --mode-copy:           var(--brand-text-readable);
+  --mode-copy-muted:     var(--brand-text-readable-muted);
+  --mode-heading-shadow: 0 0 12px var(--brand-green-1), 0 0 28px var(--brand-green-2);
+  --mode-shadow:         var(--brand-shadow);
+  --mode-text-shadow:    0 0 8px var(--brand-green-2);
 }
 
+/* ── Editorial mode ────────────────────────────────────────────────── */
 [data-brand-mode="editorial"] {
-  --brand-mode-surface: var(--brand-panel-soft);
-  --brand-mode-text: var(--brand-text-readable);
-  --brand-mode-border: var(--brand-signal-border);
-  --brand-mode-shadow: var(--brand-shadow-soft);
+  --brand-mode-surface:  var(--brand-panel-soft);
+  --brand-mode-text:     var(--brand-text-readable);
+  --brand-mode-border:   var(--brand-signal-border);
+  --brand-mode-shadow:   var(--brand-shadow-soft);
+  --mode-panel:          rgba(0, 0, 0, 0.7);
+  --mode-panel-strong:   rgba(0, 0, 0, 0.8);
+  --mode-border:         rgba(42, 255, 138, 0.18);
+  --mode-border-strong:  rgba(42, 255, 138, 0.34);
+  --mode-copy:           var(--brand-text-readable);
+  --mode-copy-muted:     var(--brand-text-readable-muted);
+  --mode-heading-shadow: 0 0 8px var(--brand-green-3);
+  --mode-shadow:         0 0 14px rgba(0, 0, 0, 0.88), 0 0 14px rgba(42, 255, 138, 0.04);
+  --mode-text-shadow:    none;
 }
 
+/* ── Utility mode ──────────────────────────────────────────────────── */
 [data-brand-mode="utility"] {
-  --brand-mode-surface: var(--brand-panel-strong);
-  --brand-mode-text: var(--brand-text-readable);
-  --brand-mode-border: rgba(42, 255, 138, 0.18);
-  --brand-mode-shadow: 0 0 10px rgba(0, 0, 0, 0.85);
+  --brand-mode-surface:  var(--brand-panel-strong);
+  --brand-mode-text:     var(--brand-text-readable);
+  --brand-mode-border:   rgba(42, 255, 138, 0.18);
+  --brand-mode-shadow:   0 0 10px rgba(0, 0, 0, 0.85);
+  --mode-panel:          rgba(0, 0, 0, 0.82);
+  --mode-panel-strong:   rgba(0, 0, 0, 0.9);
+  --mode-border:         rgba(42, 255, 138, 0.16);
+  --mode-border-strong:  rgba(42, 255, 138, 0.32);
+  --mode-copy:           var(--brand-text-readable);
+  --mode-copy-muted:     var(--brand-text-readable-muted);
+  --mode-heading-shadow: 0 0 6px rgba(42, 255, 138, 0.08);
+  --mode-shadow:         0 0 12px rgba(0, 0, 0, 0.88);
+  --mode-text-shadow:    none;
 }
-

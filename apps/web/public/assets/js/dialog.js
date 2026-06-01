@@ -35,6 +35,7 @@ export function createDialogController({ trigger, container, dialog, closeButton
     container.hidden = false;
     document.body.classList.add("dialog-open");
     document.addEventListener("keydown", trapFocus);
+    if (trigger instanceof HTMLElement) trigger.setAttribute("aria-expanded", "true");
     (initialFocus || getFocusable(dialog)[0] || dialog).focus();
     onOpen?.();
   }
@@ -43,6 +44,7 @@ export function createDialogController({ trigger, container, dialog, closeButton
     container.hidden = true;
     document.body.classList.remove("dialog-open");
     document.removeEventListener("keydown", trapFocus);
+    if (trigger instanceof HTMLElement) trigger.setAttribute("aria-expanded", "false");
     if (lastFocused instanceof HTMLElement) lastFocused.focus();
     onClose?.();
   }

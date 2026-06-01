@@ -13,6 +13,14 @@ TO_EMAIL = "editor@stexpedite.press"
 RATE_LIMIT_MAX = "20"
 RATE_LIMIT_WINDOW_MS = "60000"
 
+# Secrets (set via `wrangler secret put <NAME>` — NOT in this file):
+#   STRIPE_SECRET_KEY      — Stripe API key for checkout session creation
+#   STRIPE_WEBHOOK_SECRET  — Stripe webhook signing secret (whsec_...)
+#   RESEND_API_KEY         — Resend API key for transactional email
+#   FOURTHWALL_API_KEY     — Fourthwall storefront API key
+#   TURNSTILE_SECRET_KEY   — Cloudflare Turnstile secret (optional; skipped if unset)
+#   IMPORT_AUTH_TOKEN      — Bearer token for /api/admin/import
+
 [[d1_databases]]
 binding = "DB"
 database_name = "stexpedite-updates"

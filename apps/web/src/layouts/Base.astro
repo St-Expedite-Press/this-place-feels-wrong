@@ -17,6 +17,7 @@ interface Props {
   pageClass?: string;
   brandMode?: 'ritual' | 'editorial' | 'utility';
   styles: string[];
+  robots?: string;
 }
 
 const {
@@ -24,6 +25,7 @@ const {
   introKicker, introTitle, introText, currentNav, pageClass,
   brandMode = 'editorial',
   styles,
+  robots,
 } = Astro.props;
 ---
 <!doctype html>
@@ -33,6 +35,7 @@ const {
   description={description}
   canonical={canonical}
   styles={styles}
+  robots={robots}
 />
 <body data-brand-mode={brandMode}>
   <a class="skip-link" href="#main">Skip to content</a>

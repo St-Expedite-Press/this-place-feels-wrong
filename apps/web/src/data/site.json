@@ -5,7 +5,7 @@
     "themeColor": "#050807",
     "ogImage": "https://stexpedite.press/assets/img/crow_glitch_text_still.webp",
     "favicon": "assets/img/favicon.svg",
-    "fontStylesheet": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;600&display=swap",
+    "fontStylesheet": "/assets/css/fonts.css",
     "lastmod": "2026-05-25",
     "social": [
       {
@@ -48,6 +48,7 @@
       { "label": "About", "href": "/about" },
       { "label": "Donate", "href": "/donate" },
       { "label": "Contact", "href": "/contact" },
+      { "label": "Submit", "href": "/submit" },
       { "label": "Lab", "href": "/lab" },
       { "label": "Services", "href": "/services" }
     ]
@@ -61,7 +62,7 @@
     "books": {
       "title": "Books",
       "description": "The St. Expedite Press catalog: original work, Southern recovery editions, and translation selected for formal and spiritual pressure.",
-      "subtitle": "The press catalog",
+      "subtitle": "",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Three programs",
       "introTitle": "The catalog is the program.",
@@ -82,7 +83,7 @@
     },
     "donate": {
       "title": "Donate",
-      "description": "One-time donations to support St. Expedite Press through Stripe-hosted checkout.",
+      "description": "Support the press directly. One-time contributions sustain the catalog, the archive work, and what comes next.",
       "subtitle": "Support the press",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Direct support",
@@ -97,8 +98,8 @@
       "subtitle": "Support received",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Donation complete",
-      "introTitle": "Contribution received.",
-      "introText": "Work continues through this.",
+      "introTitle": "The press continues.",
+      "introText": "Your support enters the ongoing work directly.",
       "canonical": "https://stexpedite.press/donate/thanks",
       "currentNav": "/donate"
     },
@@ -116,7 +117,7 @@
     "lab": {
       "title": "Lab",
       "description": "Experimental instruments from St. Expedite Press, including the American Anglossic Compass.",
-      "subtitle": "Experimental instruments",
+      "subtitle": "",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Current instrument",
       "introTitle": "The Lab runs work that has not yet found its form in the catalog.",

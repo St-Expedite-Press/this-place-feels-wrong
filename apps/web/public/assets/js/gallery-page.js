@@ -1,10 +1,5 @@
 import { requestJson } from "./api-client.js";
 
-const toolbar = document.getElementById("store-toolbar");
-const status = document.getElementById("store-status");
-const grid = document.getElementById("store-grid");
-const footerLink = document.getElementById("store-direct-link");
-
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -34,7 +29,7 @@ function safeStoreUrl(value) {
   }
 }
 
-function renderProducts(products, shopUrl) {
+function renderProducts(products, shopUrl, grid, toolbar) {
   grid.innerHTML = products.map((product) => {
     const safeShopUrl = safeStoreUrl(shopUrl);
     const href = product.slug ? `${safeShopUrl.replace(/\/$/, "")}/products/${encodeURIComponent(product.slug)}` : safeShopUrl;
@@ -52,9 +47,19 @@ function renderProducts(products, shopUrl) {
       </article>
     `;
   }).join("");
+
+  if (toolbar) {
+    // collection filter buttons need re-binding after renderProducts is called from loadCatalog
+  }
 }
 
 async function loadCatalog(collection = "") {
+  const toolbar = document.getElementById("store-toolbar");
+  const status = document.getElementById("store-status");
+  const grid = document.getElementById("store-grid");
+  const footerLink = document.getElementById("store-direct-link");
+  const fallbackCopy = document.getElementById("store-fallback-copy");
+
   if (!status || !grid) return;
   status.textContent = "Loading storefront...";
   const query = collection ? `?collection=${encodeURIComponent(collection)}` : "";
@@ -63,8 +68,9 @@ async function loadCatalog(collection = "") {
     const shopUrl = safeStoreUrl(data?.shop?.url);
     const collections = Array.isArray(data.collections) ? data.collections : [];
     const products = Array.isArray(data.products) ? data.products : [];
-    renderProducts(products, shopUrl);
+    renderProducts(products, shopUrl, grid, toolbar);
     status.hidden = true;
+    if (fallbackCopy) fallbackCopy.hidden = true;
     if (footerLink) footerLink.href = shopUrl;
     if (toolbar) {
       toolbar.innerHTML = collections.map((item) => `<button class="collection-pill${item.slug === data.collection ? " is-active" : ""}" type="button" data-collection="${escapeHtml(item.slug)}">${escapeHtml(item.name)}</button>`).join("");
@@ -78,4 +84,4 @@ async function loadCatalog(collection = "") {
   }
 }
 
-loadCatalog();
+document.addEventListener("astro:page-load", () => loadCatalog());

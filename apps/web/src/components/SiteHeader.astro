@@ -13,9 +13,9 @@ const { site } = siteData;
 ---
 <header class="site-header">
   <div class="site-brand">
-    <div class="site-eyebrow">{eyebrow}</div>
+    {eyebrow && <div class="site-eyebrow">{eyebrow}</div>}
     <h1 class="site-title">{title}</h1>
-    <p class="site-subtitle">{subtitle}</p>
+    {subtitle && <p class="site-subtitle">{subtitle}</p>}
   </div>
   <nav class="site-nav" aria-label="Primary">
     {site.nav.map(item => (

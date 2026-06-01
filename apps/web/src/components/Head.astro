@@ -7,10 +7,26 @@ interface Props {
   description: string;
   canonical: string;
   styles?: string[];
+  robots?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  pageTitle?: string;
 }
 
-const { title, description, canonical, styles = [] } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  styles = [],
+  robots = 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1',
+  ogTitle,
+  ogDescription,
+  pageTitle,
+} = Astro.props;
 const { site } = siteData;
+const resolvedOgTitle = ogTitle ?? `${title} \u2014 ${site.name}`;
+const resolvedOgDescription = ogDescription ?? description;
+const resolvedPageTitle = pageTitle ?? `${title} \u2014 ${site.name}`;
 ---
 <head>
   <meta charset="utf-8" />
@@ -20,22 +36,21 @@ const { site } = siteData;
   <meta name="color-scheme" content="dark" />
   <meta property="og:site_name" content={site.name} />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content={`${title} \u2014 ${site.name}`} />
-  <meta property="og:description" content={description} />
+  <meta property="og:title" content={resolvedOgTitle} />
+  <meta property="og:description" content={resolvedOgDescription} />
   <meta property="og:url" content={canonical} />
   <meta property="og:image" content={site.ogImage} />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={`${title} \u2014 ${site.name}`} />
-  <meta name="twitter:description" content={description} />
+  <meta name="twitter:title" content={resolvedOgTitle} />
+  <meta name="twitter:description" content={resolvedOgDescription} />
   <meta name="twitter:image" content={site.ogImage} />
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="robots" content={robots} />
   <link rel="canonical" href={canonical} />
-  <title>{title} &mdash; {site.name}</title>
+  <title>{resolvedPageTitle}</title>
   <link rel="icon" href={`/${site.favicon}`} type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href={site.fontStylesheet} rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/hero-bar.css" />
   {styles.map(href => <link rel="stylesheet" href={`/${href}`} />)}
+  <slot name="head-extra" />
   <ClientRouter />
 </head>
