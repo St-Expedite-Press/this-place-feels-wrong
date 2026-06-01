@@ -2,7 +2,7 @@
 set -eu
 
 script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-. "$script_dir/../lib/repo-root.sh"
+. "$script_dir/lib/repo-root.sh"
 
 repo_root="$(find_repo_root "$0")"
 dry_run=0
@@ -13,7 +13,7 @@ skip_log=0
 
 usage() {
   cat <<'EOF'
-Usage: sh agent/tools/release.sh [options]
+Usage: sh scripts/release.sh [options]
 
 Options:
   --dry-run      Print commands without executing.
@@ -54,11 +54,11 @@ while [ "$#" -gt 0 ]; do
 done
 
 echo "[release] repo checks"
-run_step "cd \"$repo_root\" && sh agent/tools/check-assets-sync.sh"
+run_step "cd \"$repo_root\" && sh scripts/check-assets-sync.sh"
 run_step "cd \"$repo_root\" && npm run check"
 
 echo "[release] runtime config checks"
-run_step "cd \"$repo_root\" && sh agent/tools/check-runtime-config.sh"
+run_step "cd \"$repo_root\" && sh scripts/check-runtime-config.sh"
 
 if [ "$skip_push" -eq 0 ]; then
   echo "[release] push main"
@@ -72,12 +72,12 @@ fi
 
 if [ "$skip_smoke" -eq 0 ]; then
   echo "[release] smoke api"
-  run_step "cd \"$repo_root\" && sh agent/ops/cloudflare-stability/scripts/smoke-api.sh"
+  run_step "cd \"$repo_root\" && sh ops/cloudflare-stability/scripts/smoke-api.sh"
 fi
 
 if [ "$skip_log" -eq 0 ]; then
   echo "[release] log evidence"
-  run_step "cd \"$repo_root\" && sh agent/ops/cloudflare-stability/scripts/log-release-evidence.sh"
+  run_step "cd \"$repo_root\" && sh ops/cloudflare-stability/scripts/log-release-evidence.sh"
 fi
 
 echo "[release] COMPLETE"

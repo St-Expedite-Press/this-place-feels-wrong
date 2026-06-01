@@ -16,7 +16,7 @@ help:
 	@echo "  check-audit         Run npm audit across root, web, and worker packages"
 	@echo "  test-worker         Run worker test suite"
 	@echo "  check-all           Run lint + tests"
-	@echo "  check-tooling-integrity  Validate agent/tooling path consistency"
+	@echo "  check-tooling-integrity  Validate tooling path consistency"
 	@echo "  runtime-config      Verify Cloudflare runtime prerequisites"
 	@echo "  runtime-audit       Run runtime audit checks"
 	@echo "  smoke-api           Run production API smoke checks"
@@ -37,13 +37,13 @@ dev-worker:
 	npm run dev:worker
 
 bootstrap-python-venv:
-	sh agent/tools/bootstrap-python-venv.sh
+	sh scripts/bootstrap-python-venv.sh
 
 bootstrap-git-auth:
-	sh agent/tools/bootstrap-git-auth.sh
+	sh scripts/bootstrap-git-auth.sh
 
 install-hooks:
-	sh agent/tools/install-hooks.sh
+	sh scripts/install-hooks.sh
 
 lint-html:
 	npx -y htmlhint "apps/web/dist/**/*.html"
@@ -70,16 +70,16 @@ check-tooling-integrity:
 	npm run check:tooling-integrity
 
 runtime-config:
-	sh agent/tools/check-runtime-config.sh
+	sh scripts/check-runtime-config.sh
 
 runtime-audit:
-	sh agent/ops/cloudflare-stability/scripts/runtime-audit.sh
+	sh ops/cloudflare-stability/scripts/runtime-audit.sh
 
 smoke-api:
-	sh agent/ops/cloudflare-stability/scripts/smoke-api.sh
+	sh ops/cloudflare-stability/scripts/smoke-api.sh
 
 smoke-api-full:
-	sh agent/ops/cloudflare-stability/scripts/smoke-api.sh --full
+	sh ops/cloudflare-stability/scripts/smoke-api.sh --full
 
 deploy-web:
 	npm run deploy:web
@@ -88,19 +88,19 @@ deploy-worker:
 	npm --prefix apps/communications-worker run deploy
 
 release-log:
-	sh agent/ops/cloudflare-stability/scripts/log-release-evidence.sh
+	sh ops/cloudflare-stability/scripts/log-release-evidence.sh
 
 release:
-	sh agent/tools/release.sh
+	sh scripts/release.sh
 
 release-dry-run:
-	sh agent/tools/release.sh --dry-run
+	sh scripts/release.sh --dry-run
 
 check-seo:
-	sh agent/tools/check-site-seo.sh
+	sh scripts/check-site-seo.sh
 
 assets-sync:
-	sh agent/tools/sync-assets.sh
+	sh scripts/sync-assets.sh
 
 assets-check:
-	sh agent/tools/check-assets-sync.sh
+	sh scripts/check-assets-sync.sh

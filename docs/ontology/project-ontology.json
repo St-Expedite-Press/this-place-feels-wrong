@@ -3,12 +3,12 @@
     "name": "stexpedite-press",
     "license": "proprietary",
     "agent_instructions": {
-      "canonical": "agent/AGENT.md",
+      "canonical": "AGENTS.md",
       "claude_entrypoint": "CLAUDE.md",
-      "repo_skills": "agent/skills/",
-      "ops_runbooks": "agent/ops/",
-      "tools": "agent/tools/",
-      "kits": "agent/kits/"
+      "repo_skills": "skills/",
+      "ops_runbooks": "ops/",
+      "tools": "scripts/",
+      "kits": "kits/"
     }
   },
   "apps": {
@@ -128,12 +128,12 @@
     "ontology_human": "docs/ontology/ontology.md"
   },
   "agent": {
-    "dir": "agent/",
-    "canonical_instructions": "agent/AGENT.md",
-    "skills": "agent/skills/",
-    "ops": "agent/ops/",
-    "tools": "agent/tools/",
-    "kits": "agent/kits/"
+    "dir": "ops/",
+    "canonical_instructions": "AGENTS.md",
+    "skills": "skills/",
+    "ops": "ops/",
+    "tools": "scripts/",
+    "kits": "kits/"
   },
   "agent_data_dictionary": {
     "purpose": "Machine-readable definitions for the repo's documentation-driven agent tooling surface.",
@@ -149,12 +149,12 @@
         "format": "markdown"
       },
       "agent_guide": {
-        "path": "agent/AGENT.md",
+        "path": "AGENTS.md",
         "role": "Canonical human-readable operating contract for all agents.",
         "format": "markdown"
       },
       "kit_contract": {
-        "path": "agent/kits/static-web/agent.config.json",
+        "path": "kits/static-web/agent.config.json",
         "role": "Machine-readable capability contract for the static-web kit.",
         "format": "json"
       },
@@ -166,7 +166,7 @@
     },
     "entities": {
       "agent_instruction_surface": {
-        "owner": "agent/AGENT.md",
+        "owner": "AGENTS.md",
         "fields": {
           "canonical": "Primary instruction document path for agents.",
           "claude_entrypoint": "Root shim that imports the canonical instructions.",
@@ -177,7 +177,7 @@
         }
       },
       "repo_skill": {
-        "owner": "agent/skills/*",
+        "owner": "skills/*",
         "required_artifacts": [
           "SKILL.md"
         ],
@@ -192,12 +192,12 @@
         }
       },
       "ops_script": {
-        "owner": "agent/tools/ and agent/ops/cloudflare-stability/scripts/",
+        "owner": "scripts/ and ops/cloudflare-stability/scripts/",
         "fields": {
           "path": "Executable shell path relative to repo root.",
           "entrypoint": "Invocation form from repo root.",
           "purpose": "Operational job the script performs.",
-          "repo_root_resolution": "Must resolve repo root dynamically through agent/lib/repo-root.sh."
+          "repo_root_resolution": "Must resolve repo root dynamically through scripts/lib/repo-root.sh."
         }
       },
       "command_alias": {
@@ -209,7 +209,7 @@
         }
       },
       "kit_capability": {
-        "owner": "agent/kits/static-web/agent.config.json",
+        "owner": "kits/static-web/agent.config.json",
         "fields": {
           "entrypoints": "Primary executable kit commands.",
           "paths": "Canonical filesystem locations for kit assets.",
@@ -243,7 +243,7 @@
       "docs/state-of-play.md",
       "docs/ontology/ontology.md",
       "docs/ontology/project-ontology.json",
-      "agent/AGENT.md",
+      "AGENTS.md",
       "apps/web/src/README.pages.md"
     ],
     "when_changing_worker_routes_or_contracts": [
@@ -252,15 +252,15 @@
       "docs/infrastructure/",
       "docs/ontology/ontology.md",
       "docs/ontology/project-ontology.json",
-      "agent/AGENT.md"
+      "AGENTS.md"
     ],
     "when_changing_css_tokens": [
       "apps/web/public/assets/css/tokens.css",
       "branding/tokens/",
-      "agent/AGENT.md"
+      "AGENTS.md"
     ],
     "when_changing_agent_workflows": [
-      "agent/AGENT.md",
+      "AGENTS.md",
       "CLAUDE.md",
       "docs/state-of-play.md",
       "docs/ontology/ontology.md",

@@ -10,7 +10,7 @@ Human-readable companion to `project-ontology.json`. Keep this file aligned when
 | Communications Worker | `apps/communications-worker/` | Cloudflare Worker for `/api/*`, OpenAPI contract, D1 migrations, and tests. |
 | Assets | `assets/source/` | Canonical media sources; sync into `apps/web/public/assets/`. |
 | Docs | `README.md`, `docs/`, app READMEs | Human-facing project state, deployment, operations, and infrastructure docs. |
-| Agent infrastructure | `agent/`, `AGENTS.md`, `CLAUDE.md` | Shared agent operating guide, repo skills, runbooks, tools, and reusable kits. |
+| Agent infrastructure | `scripts/`, `ops/`, `skills/`, `kits/`, `AGENTS.md`, `CLAUDE.md` | Shell scripts, runbooks, repo skills, scaffolding kits, and agent doctrine. |
 
 ## Deployment Auth
 

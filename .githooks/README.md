@@ -8,7 +8,7 @@ Current hook:
 Enable the tracked hooks with:
 
 ```bash
-sh agent/tools/install-hooks.sh
+sh scripts/install-hooks.sh
 ```
 
 Current `pre-push` behavior:
