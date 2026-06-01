@@ -404,17 +404,26 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 
 | Item | Priority | Notes |
 |---|---|---|
-| Lab dialog: `<div role="dialog">` not native `<dialog>` | Low | Audit `dialog.js` for complete focus trap (move-in, trap, return-on-close). Migrate to native `<dialog>` if incomplete. |
-| `updates-signup.js` duplication | Low | `index.astro` has inline 80-line `wireUpdatesForm` that duplicates `updates-signup.js` — extract to shared module |
+| Turnstile missing from all forms | High | All POST forms (contact, submit, donate, updates, lab gate) have no Turnstile widget. No bot protection on any form. |
+| `donate-page.js` amountLabel null | Medium | `getElementById("donate-selected-amount")` always returns null — no element with that id in donate.astro. "X selected. Seal it." copy never renders. Add the element or remove dead code. |
+| Scroll-reveal animations | Medium | `opacity`/`translateY` on `.card` and `.page-intro` via IntersectionObserver, gated on `prefers-reduced-motion`. Highest visual return per unit of work. |
+| Gallery sparse (1 product live) | Medium | When Fourthwall has &lt;3 products, the fallback copy disappears on API success — page looks abandoned. Show framing copy alongside products when count &lt; 3. |
+| Lab dialog `inert` gap | Low | `dialog.js` focus trap is complete (Tab/Shift+Tab, Escape, focus restore, aria-expanded). Remaining gap: background DOM is not `inert`, so screen readers can still reach content outside the open modal. Fix: set `inert` on non-dialog content while open, or migrate to native `<dialog>`. |
+| `updates-signup.js` duplication | Low | `index.astro` has inline 80-line `wireUpdatesForm` that duplicates `updates-signup.js` — also duplicates `copyText` from `form-utils.js`. Extract to shared modules. |
 | `escapeHtml` deduplication | Low | Same function in `books-page.js`, `gallery-page.js`, `lab-anglossic-ui.js` — extract to `form-utils.js` |
-| `@astrojs/cloudflare` dead dep | Low | Unused adapter in `apps/web/package.json` with `output: 'static'` — can remove |
-| Scroll-reveal animations | Medium | `opacity`/`translateY` on `.card` and `.page-intro` via IntersectionObserver, gated on `prefers-reduced-motion` |
+| `@astrojs/cloudflare` dead dep | Low | Unused adapter in `apps/web/package.json` with `output: 'static'` — `npm uninstall @astrojs/cloudflare` in `apps/web/` |
+| `--relief-base` alias inconsistency | Low | `404.astro` scoped style uses `--relief-base` instead of canonical `--relief`. One-line fix. |
+| `--dark` alias redundancy | Low | `--dark` aliases `--bg` (both `#050807`). Confirm nothing uses `--dark`, then remove from `tokens.css`. |
+| Lab dialog glassmorphism | Low | `.lab-dialog` background is `var(--panel)` (already semi-transparent). Adding `backdrop-filter: blur(12px)` deepens the void-glass aesthetic. 5-minute win. |
+| Oversized interior heading scale | Low | `page-intro__title` on interior pages is ~2rem. Push to `clamp(2.5rem, 6vw, 4.5rem)` for stronger visual presence on landing. |
+| `donate/thanks` accessible without Stripe session | Low | Page is `noindex` but fully navigable without completing a donation. Low cosmetic trust risk. |
+| OG image identical across all pages | Low | All 11 pages share the same crow OG image. Per-page OG images (book covers for `/books`) would improve social sharing differentiation. |
 
 ### Cloudflare Infrastructure
 
 | Item | Priority | Notes |
 |---|---|---|
-| Turnstile not configured | High | `TURNSTILE_SECRET` not set → all POST endpoints bypass bot check. Add `wrangler secret put TURNSTILE_SECRET` + widget on all forms |
+| Turnstile not configured | High | `TURNSTILE_SECRET` not set → all POST endpoints bypass bot check. Add `wrangler secret put TURNSTILE_SECRET` + widget on all forms. Confirmed via audit: no widget present on any page. |
 | `lift-wind` buy_url null | Medium | Migration `0015_buy_url_lift_wind.sql` ready — update placeholder and run once Amazon/vendor URL is confirmed |
 | Rate limit generous for form endpoints | Low | `RATE_LIMIT_MAX=20` per IP/minute — consider 5 for POST mutation endpoints |
 | `contact_submissions` no admin read endpoint | Low | Accessible only via wrangler CLI — add `/api/admin/submissions` if Resend reliability degrades |
@@ -427,6 +436,9 @@ Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `
 
 **Session 2 — MCP audit fixes + Stripe webhook + text color (2026-05-24)**
 - ~~Donate page cyan heading~~ · ~~Donate page dead space~~ · ~~HeroBar missing on donate~~ · ~~/books shows editorial notes~~ · ~~/contact shows "If API unavailable…"~~ · ~~/gallery debug string~~ · ~~/services duplicate introText~~ · ~~`--hero-bar-height` duplicate~~ · ~~Ritual mode `--mode-copy` was signal green~~ · ~~/submit textarea not required~~ · ~~No sitemap.xml~~ · ~~Stripe webhook missing~~ · ~~`--mode-copy-muted` resolved to signal green~~
+
+**Session 4 — agent/ dissolution, MCP skills, full site audit (2026-06-01)**
+- ~~`agent/AGENT.md` dissolved into root `AGENTS.md`~~ · ~~`agent/` directory fully dissolved — tools→scripts/, ops/→ops/, skills/→skills/, kits/→kits/~~ · ~~All 4 skills updated with MCP capabilities~~ · ~~`AGENTS.md §9` MCP Tools section added~~ · ~~`docs/ontology/*` and `project-ontology.json` updated for new paths~~ · ~~`check-tooling-integrity.mjs` updated for new paths~~ · ~~stale `agent/*` patterns added to docs-assay allowlist~~
 
 **Session 3 — Full audit + refactor v1.0.7 (2026-05-31–2026-06-01)**
 - ~~BasePortal.astro~~ · ~~Head.astro OG props + head-extra slot~~ · ~~Self-hosted fonts (12 woff2 subsets, fonts.css)~~ · ~~Token bridge (brand-tokens.css two-vocabulary)~~ · ~~Overexplaining subtitles removed (books, lab)~~ · ~~Nav font-size legibility fix~~ · ~~Mobile nav horizontal scroll overflow~~ · ~~gallery-page.js ViewTransitions bug~~ · ~~Stripe webhook 500→200 when unconfigured~~ · ~~lift-wind-cover.webp created~~ · ~~Google Fonts CDN dependency removed (self-hosted)~~ · ~~books.astro / about.astro duplicate content~~ · ~~aria-expanded on dialog + lab button~~
