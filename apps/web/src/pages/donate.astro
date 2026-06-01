@@ -28,6 +28,8 @@ const page = pages.donate;
           <button class="donate-preset" type="button" data-donation-amount="100" aria-label="Donate 100 dollars">$100</button>
         </div>
 
+        <p class="donate-feedback" id="donate-selected-amount" aria-live="polite"></p>
+
         <div class="donate-console">
           <label class="donate-sr-only" for="donate-amount">Donation amount in US dollars</label>
           <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Amount (USD)" required />

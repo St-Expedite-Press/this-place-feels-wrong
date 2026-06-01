@@ -2,18 +2,9 @@ import { AXES, QUESTIONS } from "./lab-anglossic-data.js";
 import { calculateResults, computeAxisMax } from "./lab-anglossic-scoring.js";
 import { getAnsweredCount, getCurrentQuestion, getNextUnanswered, getPreviousQuestionId, getQuestionById, saveState } from "./lab-anglossic-state.js";
 import { requestJson } from "./api-client.js";
-import { setPendingState, setStatus } from "./form-utils.js";
+import { escapeHtml, setPendingState, setStatus } from "./form-utils.js";
 
 const AXIS_MAX = computeAxisMax();
-
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
 
 export function mountCompassUI(elements, state, controllers) {
   const {

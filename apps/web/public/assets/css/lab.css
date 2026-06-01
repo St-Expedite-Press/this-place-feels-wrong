@@ -24,6 +24,11 @@
   max-height: calc(100vh - 2rem);
   overflow: auto;
   padding: 1rem;
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md, 10px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.6), 0 0 24px rgba(42, 255, 138, 0.04);
 }
 
 .lab-shell {
