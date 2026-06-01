@@ -45,6 +45,14 @@ export async function copyText(text) {
   }
 }
 
+export function getTurnstileToken() {
+  return String(document.querySelector('[name="cf-turnstile-response"]')?.value ?? "").trim();
+}
+
+export function resetTurnstile() {
+  try { window.turnstile?.reset(); } catch { /* ignore */ }
+}
+
 export function buildMailto(to, subject, body) {
   return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }

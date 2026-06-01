@@ -1,5 +1,5 @@
 import { requestJson } from "./api-client.js";
-import { setPendingState, setStatus } from "./form-utils.js";
+import { getTurnstileToken, resetTurnstile, setPendingState, setStatus } from "./form-utils.js";
 
 const form = document.getElementById("donate-form");
 const helper = document.getElementById("donate-helper");
@@ -66,7 +66,7 @@ if (form && helper && submitButton && amountInput) {
     try {
       const data = await requestJson("/api/donate/session", {
         method: "POST",
-        body: { amount },
+        body: { amount, turnstileToken: getTurnstileToken() },
       });
 
       if (!data?.url) {
@@ -77,6 +77,7 @@ if (form && helper && submitButton && amountInput) {
       window.location.assign(String(data.url));
     } catch {
       setStatus(helper, "Secure checkout is unavailable right now. Please try again shortly.", "error");
+      resetTurnstile();
       setPendingState(submitButton, false);
     }
   });

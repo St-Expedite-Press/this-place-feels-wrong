@@ -1,5 +1,5 @@
 import { requestJson } from "./api-client.js";
-import { buildMailto, copyText, setPendingState, setStatus } from "./form-utils.js";
+import { buildMailto, copyText, getTurnstileToken, resetTurnstile, setPendingState, setStatus } from "./form-utils.js";
 
 const form = document.getElementById("submit-form");
 const submitButton = document.getElementById("submit-button");
@@ -33,7 +33,7 @@ if (form && submitButton && helper && fallbackLink && copyButton) {
     try {
       const data = await requestJson("/api/submit", {
         method: "POST",
-        body: { email, note, website },
+        body: { email, note, website, turnstileToken: getTurnstileToken() },
       });
       setStatus(
         helper,
@@ -45,6 +45,7 @@ if (form && submitButton && helper && fallbackLink && copyButton) {
       form.reset();
     } catch {
       setStatus(helper, "Automatic sending failed. Use the prepared email fallback below.", "error");
+      resetTurnstile();
     } finally {
       setPendingState(submitButton, false);
     }
