@@ -63,14 +63,14 @@ body {
 .portal-mobile .mobile-fit {
   width: 100%;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 1fr auto;
   gap: clamp(.35rem, 1.2svh, .75rem);
   transform: scale(var(--mobile-fit-scale, 1));
   transform-origin: center center;
   will-change: transform;
 }
 
-.portal-mobile header { margin: 0; }
+.portal-mobile header { display: none; }
 
 .portal-mobile .title {
   font-family: var(--font-display);
