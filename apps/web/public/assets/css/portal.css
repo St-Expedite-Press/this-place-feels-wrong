@@ -264,7 +264,7 @@ body {
 }
 
 .portal-mobile .lede {
-  margin: 0.3rem auto;
+  margin: 0.5rem auto;
   font-size: 1.45rem;
   max-width: 520px;
   opacity: .92;
@@ -272,13 +272,14 @@ body {
 }
 
 .portal-mobile .divider {
-  margin-top: .4rem;
+  margin-top: .65rem;
   font-family: var(--font-display);
   opacity: .7;
   text-shadow: 0 0 9px var(--green-2);
 }
 
 .portal-mobile .splash__foot {
+  margin-top: 0.65rem;
   font-size: 1rem;
   opacity: .9;
   letter-spacing: .12em;
@@ -310,9 +311,9 @@ body {
   .portal-mobile .thin-button { padding: .52rem .85rem; font-size: .74rem; }
   .portal-mobile .foot { font-size: .85rem; letter-spacing: .10em; }
   .portal-mobile .splash__eyebrow { font-size: 0.95rem; }
-  .portal-mobile .lede { font-size: 1.05rem; margin: 0.2rem auto; }
-  .portal-mobile .divider { margin-top: .25rem; font-size: .9rem; }
-  .portal-mobile .splash__foot { font-size: .9rem; }
+  .portal-mobile .lede { font-size: 1.05rem; margin: 0.3rem auto; }
+  .portal-mobile .divider { margin-top: .4rem; font-size: .9rem; }
+  .portal-mobile .splash__foot { margin-top: 0.4rem; font-size: .9rem; }
 }
 
 @media (max-width: 600px) {
@@ -510,7 +511,7 @@ body {
 
 .splash {
   position: absolute;
-  bottom: 3.3vh;
+  bottom: 2vh;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -530,19 +531,20 @@ body {
 .lede {
   font-size: 1.45rem;
   max-width: 520px;
-  margin: 0.3rem auto;
+  margin: 0.55rem auto;
   opacity: .92;
   text-shadow: 0 0 9px var(--green-1);
 }
 
 .divider {
-  margin-top: .4rem;
+  margin-top: .7rem;
   font-family: var(--font-display);
   opacity: .7;
   text-shadow: 0 0 9px var(--green-2);
 }
 
 .splash__foot {
+  margin-top: 0.9rem;
   font-size: 1rem;
   opacity: .9;
   letter-spacing: .12em;
