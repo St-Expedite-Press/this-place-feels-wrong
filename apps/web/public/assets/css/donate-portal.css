@@ -128,7 +128,7 @@ body.donate-portal-page {
   100% { transform: scale(1); }
 }
 
-.donate-surface .cf-turnstile {
+.donate-surface .cf-turnstile:not(:empty) {
   justify-self: center;
   min-height: 65px;
 }
