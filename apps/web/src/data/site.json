@@ -93,7 +93,7 @@
       "currentNav": "/donate"
     },
     "donateThanks": {
-      "title": "Donation Complete",
+      "title": "Donation",
       "description": "Donation confirmation for St. Expedite Press.",
       "subtitle": "Support received",
       "eyebrow": "St. Expedite Press",
@@ -117,7 +117,7 @@
     "lab": {
       "title": "Lab",
       "description": "Experimental instruments from St. Expedite Press, including the American Anglossic Compass.",
-      "subtitle": "",
+      "subtitle": "Field instruments",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Current instrument",
       "introTitle": "The Lab runs work that has not yet found its form in the catalog.",

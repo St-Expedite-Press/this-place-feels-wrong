@@ -15,6 +15,13 @@ const { site } = siteData;
     <h1 class="not-found-code">404</h1>
     <p class="not-found-lede">This page has scattered. The press remains.</p>
     <a class="not-found-return" href="/">Return to Portal</a>
+    <nav class="not-found-nav" aria-label="Site links">
+      <a href="/books">Books</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/submit">Submit</a>
+      <a href="/donate">Donate</a>
+    </nav>
   </main>
 
   <Fragment slot="scripts">
@@ -38,7 +45,7 @@ const { site } = siteData;
     font-size: 1rem;
     letter-spacing: .22em;
     color: var(--text-muted);
-    margin: 0;
+    margin: 0 0 -0.6rem;
     text-shadow: 0 0 10px var(--green-2);
   }
   .not-found-code {
@@ -78,5 +85,26 @@ const { site } = siteData;
   .not-found-return:focus-visible {
     border-color: var(--green-hot-2);
     box-shadow: 0 0 14px var(--green-hot-3);
+  }
+  .not-found-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.2rem 0.8rem;
+    margin-top: 0.4rem;
+  }
+  .not-found-nav a {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-shadow: 0 0 8px var(--green-3);
+    transition: color 140ms ease;
+  }
+  .not-found-nav a:hover,
+  .not-found-nav a:focus-visible {
+    color: var(--text);
   }
 </style>
