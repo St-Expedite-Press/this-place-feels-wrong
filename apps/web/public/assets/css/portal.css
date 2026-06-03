@@ -114,9 +114,15 @@ body {
   gap: clamp(.6rem, 1.6svh, 1rem);
 }
 
+.portal-mobile .portal-link-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1.2rem, 5vw, 3rem);
+}
+
 .portal-mobile .portal-link {
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 3.2vw, 2.6rem);
+  font-size: clamp(1.2rem, 2.8vw, 2.2rem);
   letter-spacing: .22em;
   text-transform: uppercase;
   text-decoration: none;

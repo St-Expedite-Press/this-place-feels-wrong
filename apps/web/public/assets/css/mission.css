@@ -1,5 +1,6 @@
 .mission-essay {
   max-width: 65ch;
+  margin-inline: auto;
 }
 
 .mission-essay p {

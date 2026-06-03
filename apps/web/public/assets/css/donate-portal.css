@@ -33,12 +33,6 @@ body.donate-portal-page {
   line-height: 1;
   color: var(--text);
   text-shadow: -1px -1px 0 var(--relief), 0 0 12px var(--green-1);
-  animation: title-breathe 12s ease-in-out infinite;
-}
-
-@keyframes title-breathe {
-  0%, 100% { filter: brightness(1.1); }
-  50% { filter: brightness(1.4); }
 }
 
 .donate-stage {
@@ -132,6 +126,11 @@ body.donate-portal-page {
   0% { transform: scale(1); }
   40% { transform: scale(1.06); }
   100% { transform: scale(1); }
+}
+
+.donate-surface .cf-turnstile {
+  justify-self: center;
+  min-height: 65px;
 }
 
 .donate-console {
@@ -254,7 +253,7 @@ body.donate-portal-page {
 
   .donate-page-shell {
     min-height: 100svh;
-    padding: 1.2rem 5vw 2rem;
+    padding: calc(var(--hero-bar-height, 58px) + 1.4rem) 5vw 2rem;
     gap: 1rem;
   }
 
