@@ -70,18 +70,6 @@ body {
   will-change: transform;
 }
 
-.portal-mobile header { display: none; }
-
-.portal-mobile .title {
-  font-family: var(--font-display);
-  letter-spacing: clamp(0.10em, 0.8vw, 0.18em);
-  font-size: clamp(1.6rem, 3.2vw, 3rem);
-  text-transform: uppercase;
-  text-shadow: -1px -1px 0 var(--relief), 0 0 12px var(--green-1);
-  margin: 0;
-  white-space: nowrap;
-}
-
 .portal-mobile .portal {
   width: min(44vh, 380px);
   height: min(44vh, 380px);
@@ -356,24 +344,6 @@ body {
   100% { opacity: 0; visibility: hidden; }
 }
 
-/* ── Site title ──────────────────────────────────────────────────────────── */
-
-.header-title {
-  font-family: var(--font-display);
-  letter-spacing: .18em;
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  text-align: center;
-  margin-top: calc(2.5vh + var(--hero-bar-height));
-  color: var(--text);
-  text-shadow: -1px -1px 0 var(--relief), 0 0 12px var(--green-1);
-  animation: title-breathe 12s ease-in-out infinite;
-}
-
-@keyframes title-breathe {
-  0%, 100% { filter: brightness(1.2) contrast(2); }
-  50%      { filter: brightness(1.6) contrast(2.6); }
-}
-
 /* ── Portal frame ────────────────────────────────────────────────────────── */
 
 .portal-frame {
@@ -590,17 +560,6 @@ body {
     line-height: 1.55;
     overflow-x: hidden;
     overflow-y: auto;
-  }
-
-  .header-title {
-    font-size: 1.35rem;
-    letter-spacing: .16em;
-    margin-top: 4vh;
-    margin-bottom: 2vh;
-    text-shadow:
-      -1px -1px 0 var(--relief),
-       0 0 6px var(--green-1),
-       0 0 10px var(--green-2);
   }
 
   .portal-frame {
