@@ -1,0 +1,661 @@
+:root {
+  --paper: #f9f8f4;
+  --paper-glass: rgba(249, 248, 244, 0.78);
+  --ink: #111;
+  --muted: #595959;
+  --rule: #bdbdb8;
+  --page-margin: clamp(1rem, 5vw, 5rem);
+  --content-width: 70ch;
+  --transition: 160ms ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--paper);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: url("images/noise.png") repeat;
+  opacity: 0.055;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+header,
+main,
+footer,
+.coords-left,
+.coords-right {
+  position: relative;
+  z-index: 1;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 20;
+  padding: 0.65rem 0.9rem;
+  background: var(--ink);
+  color: #fff;
+  font: 700 0.75rem/1 "Courier New", monospace;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.masthead {
+  padding: clamp(1.25rem, 3vw, 2rem) var(--page-margin);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.25rem 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.masthead-inner {
+  display: flex;
+  align-items: flex-end;
+}
+
+.logo {
+  margin: 0;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(3.2rem, 7vw, 5.25rem);
+  font-weight: 900;
+  line-height: 0.82;
+  letter-spacing: -0.075em;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.logo a {
+  text-decoration: none;
+}
+
+.volume {
+  margin-left: 1rem;
+  font: 700 0.72rem/1 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.main-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.15rem;
+}
+
+.main-nav a {
+  display: inline-block;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  font: 700 0.78rem/1.3 Arial, sans-serif;
+  letter-spacing: 0.07em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: border-color var(--transition);
+}
+
+.main-nav a:hover,
+.main-nav a[aria-current="page"] {
+  border-bottom-color: currentColor;
+}
+
+.coords-left,
+.coords-right {
+  position: fixed;
+  top: 50%;
+  color: var(--muted);
+  font: 0.68rem/1 "Courier New", monospace;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+}
+
+.coords-left {
+  left: 0.45rem;
+  transform: translateY(-50%);
+}
+
+.coords-right {
+  right: 0.45rem;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.feature {
+  position: relative;
+  margin: clamp(1rem, 3vw, 2rem) var(--page-margin);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: #ddd;
+}
+
+.feature img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.18) brightness(0.9);
+  transition: filter 300ms ease, transform 500ms ease;
+}
+
+.feature:hover img {
+  filter: grayscale(60%) contrast(1.12) brightness(0.86);
+  transform: scale(1.01);
+}
+
+.feature-caption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: clamp(1rem, 3vw, 2.25rem);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.82));
+  color: #fff;
+}
+
+.feature-kicker {
+  display: block;
+  margin-bottom: 0.35rem;
+  font: 700 0.7rem/1.2 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.feature-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 3.5rem);
+  line-height: 1;
+}
+
+.feature-title a {
+  text-decoration: none;
+}
+
+.feature-title a::after,
+.toc-entry .title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.feature-byline {
+  margin: 0.55rem 0 0;
+  font: 0.78rem/1.4 "Courier New", monospace;
+}
+
+.toc {
+  margin: clamp(1.5rem, 4vw, 3rem) var(--page-margin);
+}
+
+.toc-heading {
+  margin: 0 0 0.75rem;
+  font: 700 0.72rem/1.2 "Courier New", monospace;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.toc-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(6rem, 0.65fr) minmax(0, 2fr) minmax(7rem, 0.8fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+  transition: background-color var(--transition), padding-inline var(--transition);
+}
+
+.toc-entry:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.toc-entry:hover {
+  padding-inline: 0.65rem;
+  background: rgba(0, 0, 0, 0.035);
+}
+
+.kind-num {
+  color: var(--muted);
+  font: 0.73rem/1.15 "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.kind-num .num {
+  display: block;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.25;
+}
+
+.title a {
+  text-decoration: none;
+}
+
+.author {
+  color: var(--muted);
+  font: 0.8rem/1.3 "Courier New", monospace;
+  text-align: right;
+}
+
+.page-content,
+.article-header,
+.archive-entry {
+  width: min(var(--content-width), calc(100% - (2 * var(--page-margin))));
+  margin: clamp(2rem, 5vw, 4.5rem) auto;
+}
+
+.page-content {
+  min-height: 38vh;
+}
+
+.page-content h1,
+.page-content h2 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1;
+}
+
+.page-content a:not(.text-link) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.page-intro {
+  max-width: 58ch;
+  font-size: clamp(1.1rem, 2vw, 1.28rem);
+  line-height: 1.55;
+}
+
+.breadcrumbs {
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font: 0.74rem/1.35 "Courier New", monospace;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.article-header h1 {
+  margin: 0 0 0.65rem;
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  line-height: 0.98;
+}
+
+.article-header .deck {
+  margin: 0 0 1rem;
+  color: #3f3f3f;
+  font-size: clamp(1.1rem, 2.3vw, 1.45rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.article-header .byline,
+.poem-byline {
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font: 0.8rem/1.5 "Courier New", monospace;
+}
+
+.divider {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.article-body {
+  width: min(66ch, calc(100% - (2 * var(--page-margin))));
+  margin: 0 auto 4rem;
+  font-size: clamp(1.03rem, 1.5vw, 1.12rem);
+  line-height: 1.75;
+}
+
+.article-body p {
+  margin: 0 0 1.35rem;
+}
+
+.poem-container {
+  width: min(58ch, calc(100% - (2 * var(--page-margin))));
+  min-height: 45vh;
+  margin: clamp(2rem, 5vw, 4.5rem) auto;
+}
+
+.poem-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.05;
+}
+
+.poem-body {
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.poem-metadata,
+.field-card {
+  color: var(--muted);
+  font: 0.76rem/1.5 "Courier New", monospace;
+}
+
+.archive-image {
+  display: block;
+  width: 100%;
+  margin: 0 auto 1.5rem;
+  border: 1px solid var(--rule);
+  filter: grayscale(100%) contrast(1.1);
+}
+
+.archive-description {
+  max-width: 66ch;
+  margin-inline: auto;
+}
+
+.field-card {
+  padding: 1rem;
+  margin: 2rem 0;
+  border: 1px solid var(--rule);
+  background: #f4f2ed;
+}
+
+.field-card dt {
+  margin-top: 0.5rem;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.field-card dd {
+  margin: 0 0 0.5rem;
+}
+
+.footer {
+  margin: 3rem var(--page-margin) 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem 1rem;
+  color: #3e3e3e;
+  font: 0.72rem/1.4 Arial, sans-serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.footer a {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+body.splash {
+  min-height: 100svh;
+  overflow: hidden;
+  background: url("images/rice_field.png") center / cover no-repeat;
+  display: grid;
+  place-items: center;
+}
+
+body.splash::before {
+  z-index: 1;
+  background: rgba(20, 12, 2, 0.16);
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+
+.splash-video {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.splash-container {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  width: min(440px, calc(100vw - 2rem), calc(100svh - 2rem));
+  aspect-ratio: 1;
+  padding: clamp(1.5rem, 6vw, 3rem);
+  border: 2px solid var(--ink);
+  background: var(--paper-glass);
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.splash-container::before {
+  content: "";
+  position: absolute;
+  inset: -5px 3px 4px -4px;
+  z-index: -2;
+  border: 1px solid rgba(17, 17, 17, 0.72);
+  clip-path: polygon(
+    0.5% 1.2%, 13% 0.3%, 26% 1%, 42% 0.2%, 58% 0.9%, 75% 0.1%, 99.4% 0.8%,
+    100% 18%, 99.3% 35%, 100% 53%, 99.2% 72%, 100% 99.1%,
+    84% 100%, 66% 99.2%, 49% 100%, 31% 99.1%, 0.6% 100%,
+    0% 82%, 0.7% 64%, 0% 46%, 0.8% 28%
+  );
+  transform: rotate(-0.18deg);
+  pointer-events: none;
+}
+
+.splash-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(91deg, transparent 0 97%, rgba(17, 17, 17, 0.07) 100%),
+    url("images/noise.png") repeat;
+  opacity: 0.14;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.splash-container h1 {
+  margin: 0;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(3.75rem, 16vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.07em;
+}
+
+.splash-tagline {
+  margin: 0.8rem 0 0;
+  font: 0.68rem/1.4 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.splash-actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.splash-btn {
+  display: inline-block;
+  min-width: 8.5rem;
+  padding: 0.72rem 1.4rem;
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  font: 0.82rem/1 "Courier New", monospace;
+  letter-spacing: 0.09em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.splash-btn:hover,
+.splash-btn.secondary {
+  background: transparent;
+  color: var(--ink);
+}
+
+.splash-btn.secondary:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+@media (max-width: 800px) {
+  .masthead {
+    align-items: flex-start;
+  }
+
+  .main-nav {
+    width: 100%;
+  }
+
+  .coords-left,
+  .coords-right {
+    display: none;
+  }
+
+  .toc-entry {
+    grid-template-columns: minmax(5rem, 0.55fr) minmax(0, 2fr);
+  }
+
+  .author {
+    grid-column: 2;
+    text-align: left;
+  }
+}
+
+@media (max-width: 520px) {
+  .masthead-inner {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .main-nav ul {
+    gap: 0.35rem 0.9rem;
+  }
+
+  .toc-entry {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .author {
+    grid-column: 1;
+  }
+
+  .splash-container {
+    width: min(82vw, 340px);
+    padding: 1.5rem;
+  }
+
+  .splash-container h1 {
+    font-size: clamp(3.25rem, 17vw, 4.5rem);
+  }
+
+  .splash-actions {
+    width: 100%;
+    flex-direction: column;
+    margin-top: 1.35rem;
+  }
+
+  .splash-btn {
+    width: 100%;
+  }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .splash-container {
+    width: min(76vh, 440px);
+    padding: 1rem;
+  }
+
+  .splash-container h1 {
+    font-size: clamp(3rem, 15vh, 5rem);
+  }
+
+  .splash-tagline {
+    display: none;
+  }
+
+  .splash-actions {
+    margin-top: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  .splash-video {
+    display: none;
+  }
+}
