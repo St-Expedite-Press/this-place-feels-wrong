@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RICE</title>
-  <meta name="description" content="RICE is a literary magazine of essays, fiction, poetry, and archival work from the Gulf South.">
+  <title>RICE &ndash; Volume 1</title>
+  <meta name="description" content="RICE Volume 1: essays, fiction, poetry, and archival work from the Gulf South.">
   <meta name="theme-color" content="#f9f8f4">
   <meta property="og:title" content="RICE — Volume 1">
   <meta property="og:description" content="Essays, fiction, poetry, and archival work from the Gulf South.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="images/rice_field.png">
+  <meta property="og:image" content="images/feature-essays.jpg">
   <link rel="icon" href="images/logo.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
   <script src="site.js" defer></script>
@@ -17,70 +17,79 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="masthead">
-    <div class="masthead-inner">
-      <h1 class="logo"><a href="index.html">RICE</a></h1>
-      <span class="volume">VOL. 1</span>
-    </div>
-    <nav class="main-nav" aria-label="Primary">
-      <ul>
-        <li><a href="essays.html">Essays</a></li>
-        <li><a href="fiction.html">Fiction</a></li>
-        <li><a href="poetry.html">Poetry</a></li>
-        <li><a href="archive.html">Archive</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="submissions.html">Submit</a></li>
-      </ul>
-    </nav>
+    <div class="masthead-inner"><h1 class="logo"><a href="index.html">RICE</a></h1><span class="volume">VOL. 1</span></div>
+    <nav class="main-nav" aria-label="Primary"><ul>
+      <li><a href="essays.html">Essays</a></li><li><a href="fiction.html">Fiction</a></li>
+      <li><a href="poetry.html">Poetry</a></li><li><a href="archive.html">Archive</a></li>
+      <li><a href="shop.html">Shop</a></li><li><a href="about.html">About</a></li><li><a href="submissions.html">Submit</a></li>
+    </ul></nav>
   </header>
+  <aside class="coords-left" aria-hidden="true">29.9511&deg; N, 90.0715&deg; W</aside>
+  <aside class="coords-right" aria-hidden="true">RICE / ISSUE 01 / 2026</aside>
 
-  <!-- Rotated coordinates on either side of the page -->
-  <aside class="coords-left" aria-hidden="true">29.9511° N, 90.0715° W</aside>
-  <aside class="coords-right" aria-hidden="true">NEW ORLEANS, LA</aside>
+  <main id="main-content" class="section-shell issue-page">
+    <section class="feature-strip" aria-label="Volume 1 featured work">
+      <figure class="feature-strip-item">
+        <a href="essay-template.html"><img src="images/feature-essays.jpg" alt="Rice mill ledger beside windows overlooking flooded rice fields" width="1360" height="768"></a>
+        <figcaption><strong>Crowley Modernism</strong> / C. Sandbatch / Essay 01</figcaption>
+      </figure>
+      <figure class="feature-strip-item">
+        <a href="fiction-template.html"><img src="images/feature-fiction.jpg" alt="Pump house beside dark drainage water under a security light" width="1360" height="768"></a>
+        <figcaption><strong>The Pump House</strong> / L. Doucet / Fiction 03</figcaption>
+      </figure>
+      <figure class="feature-strip-item">
+        <a href="poem-template.html"><img src="images/feature-poetry.jpg" alt="Rice field, drainage water, traps, and a distant pump under dark weather" width="1360" height="768"></a>
+        <figcaption><strong>Crawfish Pond with Saints</strong> / C. Sandbatch / Poetry 04</figcaption>
+      </figure>
+      <figure class="feature-strip-item">
+        <a href="archive-template.html"><img src="images/feature-archive.png" alt="Archival maps, ledgers, receipts, and survey fragments" width="1360" height="768"></a>
+        <figcaption><strong>Mill Ledger, 1911</strong> / Archive / RC-ACD-1911-004</figcaption>
+      </figure>
+    </section>
 
-  <main id="main-content">
-    <figure class="feature">
-      <img src="images/feature.png" alt="Black-and-white agricultural landscape from the Gulf South" width="1280" height="720">
-      <figcaption class="feature-caption">
-        <span class="feature-kicker">Volume 1 · Essay 01</span>
-        <h2 class="feature-title"><a href="essay-template.html">Crowley Modernism</a></h2>
-        <p class="feature-byline">C. Sandbatch · Acadia Parish</p>
-      </figcaption>
-    </figure>
+    <nav class="issue-filters archive-toolbar archive-filters" aria-label="Filter Volume 1 contents">
+      <button type="button" data-issue-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-issue-filter="essay" aria-pressed="false">Essays</button>
+      <button type="button" data-issue-filter="fiction" aria-pressed="false">Fiction</button>
+      <button type="button" data-issue-filter="poetry" aria-pressed="false">Poetry</button>
+      <button type="button" data-issue-filter="archive" aria-pressed="false">Archive</button>
+    </nav>
 
-    <!-- Table of contents for the current issue -->
-    <section class="toc">
-      <h2 class="toc-heading">Contents · Volume 1</h2>
-      <div class="toc-entry">
-        <div class="kind-num"><span class="kind">Essay</span><span class="num">01</span></div>
-        <h3 class="title"><a href="essay-template.html">Crowley Modernism</a></h3>
-        <div class="author">C. Sandbatch</div>
-      </div>
-      <div class="toc-entry">
-        <div class="kind-num"><span class="kind">Essay</span><span class="num">02</span></div>
-        <h3 class="title"><a href="essays.html">Against Cotton Memory</a></h3>
-        <div class="author">J. T. Miller</div>
-      </div>
-      <div class="toc-entry">
-        <div class="kind-num"><span class="kind">Fiction</span><span class="num">03</span></div>
-        <h3 class="title"><a href="fiction-template.html">The Pump House</a></h3>
-        <div class="author">L. Doucet</div>
-      </div>
-      <div class="toc-entry">
-        <div class="kind-num"><span class="kind">Poetry</span><span class="num">04</span></div>
-        <h3 class="title"><a href="poem-template.html">Three Rice Songs</a></h3>
-        <div class="author">M. Lapointe</div>
-      </div>
+    <section class="section-index issue-index" data-issue-index aria-label="Volume 1 contents">
+      <article class="section-record" data-issue-tag="essay">
+        <div><h2><a href="essay-template.html">Crowley Modernism</a></h2><p class="record-excerpt">Rice, oil, levees, and a modernism assembled from pumps, invoices, and wet heat.</p></div>
+        <div class="record-meta">Essay<br>C. Sandbatch<br>Acadia Parish</div>
+      </article>
+      <article class="section-record" data-issue-tag="essay">
+        <div><h2><a href="essays.html">Against Cotton Memory</a></h2><p class="record-excerpt">A refusal of the South as soft-focus inheritance and decorative ruin.</p></div>
+        <div class="record-meta">Essay<br>J. T. Miller<br>Delta interior</div>
+      </article>
+      <article class="section-record" data-issue-tag="fiction">
+        <div><h2><a href="fiction-template.html">The Pump House</a></h2><p class="record-excerpt">A machine runs through the night while the water keeps its own account.</p></div>
+        <div class="record-meta">Fiction<br>L. Doucet<br>Vermilion Parish</div>
+      </article>
+      <article class="section-record" data-issue-tag="fiction">
+        <div><h2><a href="fiction.html">Twenty-Six Hours of Fluorescent Light</a></h2><p class="record-excerpt">A convenience store, a tropical depression, and a debt nobody remembers taking on.</p></div>
+        <div class="record-meta">Fiction<br>M. Lapointe<br>Jefferson Davis Parish</div>
+      </article>
+      <article class="section-record" data-issue-tag="poetry">
+        <div><h2><a href="poem-template.html">Crawfish Pond with Saints</a></h2><p class="record-excerpt">Eight lines filed between a pump house, a trap line, and a hymn.</p></div>
+        <div class="record-meta">Poetry<br>C. Sandbatch<br>Folio 04</div>
+      </article>
+      <article class="section-record" data-issue-tag="poetry">
+        <div><h2><a href="poetry.html">Three Rice Songs</a></h2><p class="record-excerpt">A sequence for water, machinery, and voices carried across a field.</p></div>
+        <div class="record-meta">Poetry<br>M. Lapointe<br>Sequence</div>
+      </article>
+      <article class="section-record" data-issue-tag="archive">
+        <div><h2><a href="archive-template.html">Mill Ledger, 1911</a></h2><p class="record-excerpt">Names, bags, weights, grades, and remarks from the machinery of account.</p></div>
+        <div class="record-meta">Archive<br>RC-ACD-1911-004<br>Acadia Parish</div>
+      </article>
+      <article class="section-record" data-issue-tag="archive">
+        <div><h2><a href="archive.html">Field at 19:42</a></h2><p class="record-excerpt">A weather record made from light, standing water, and the edge of a crop.</p></div>
+        <div class="record-meta">Archive<br>RC-FLD-2026-017<br>Photograph</div>
+      </article>
     </section>
   </main>
-
-  <!-- Footer / colophon -->
-  <footer class="footer">
-    <a href="https://stexpedite.press">ST. EXPEDITE PRESS</a>
-    <a href="about.html">ABOUT</a>
-    <a href="submissions.html">SUBMISSIONS</a>
-    <span>29.9511° N, 90.0715° W</span>
-    <span>NEW ORLEANS, LA</span>
-  </footer>
+  <footer class="footer"><a href="https://stexpedite.press">ST. EXPEDITE PRESS</a><a href="about.html">ABOUT</a><a href="submissions.html">SUBMISSIONS</a><span>29.9511&deg; N, 90.0715&deg; W</span><span>NEW ORLEANS, LA</span></footer>
 </body>
 </html>

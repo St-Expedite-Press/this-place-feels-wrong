@@ -87,6 +87,18 @@ button:focus-visible {
   transform: translateY(0);
 }
 
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 .masthead {
   padding: clamp(1.25rem, 3vw, 2rem) var(--page-margin);
   display: flex;
@@ -936,73 +948,22 @@ body.splash::before {
   justify-self: center;
 }
 
-.section-hero {
-  position: absolute;
-  z-index: 3;
-  left: clamp(1rem, 3vw, 2.75rem);
-  bottom: 3.1rem;
-  width: min(58%, 820px);
-  min-height: 0;
-  margin: 0;
-  padding: clamp(0.9rem, 2vw, 1.6rem);
-  border: 2px solid var(--ink);
-  background:
-    linear-gradient(rgba(249, 248, 244, 0.92), rgba(249, 248, 244, 0.92)),
-    url("images/noise.png") repeat;
-  box-shadow: 6px 6px 0 rgba(17, 17, 17, 0.2);
-  overflow: visible;
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(180px, 0.65fr);
-  align-items: end;
-  gap: 2rem;
-}
-
-.section-hero::before {
-  content: "";
-  position: absolute;
-  inset: -5px 4px 3px -4px;
-  z-index: -1;
-  border: 1px solid var(--ink);
-  transform: rotate(-0.12deg);
-  pointer-events: none;
-}
-
-.section-hero > *,
 .article-header.editorial > * {
   min-width: 0;
-}
-
-.section-hero h1 {
-  margin: 0 0 -0.05em -0.045em;
-  font-family: "Arial Black", Arial, sans-serif;
-  font-size: clamp(3.7rem, 8.5vw, 7.5rem);
-  line-height: 0.72;
-  letter-spacing: -0.09em;
-  text-transform: uppercase;
-}
-
-.section-hero-copy {
-  min-width: 0;
-  padding-bottom: 0.5rem;
-  font-size: clamp(1rem, 1.8vw, 1.3rem);
-  line-height: 1.45;
-  overflow-wrap: anywhere;
-}
-
-.section-hero-copy::before {
-  content: attr(data-code);
-  display: block;
-  margin-bottom: 1rem;
-  padding-top: 0.45rem;
-  border-top: 7px solid var(--acid);
-  font: 700 0.7rem/1.2 "Courier New", monospace;
-  letter-spacing: 0.1em;
 }
 
 .section-index {
   counter-reset: section-entry;
   margin-top: clamp(1.25rem, 3vw, 2.5rem);
   border-top: 1px solid var(--ink);
+}
+
+.issue-filters {
+  margin: clamp(1rem, 2vw, 1.75rem) 0 0;
+}
+
+.issue-index {
+  margin-top: 0.75rem;
 }
 
 .section-record {
@@ -1574,15 +1535,10 @@ body.reading-mode .poem-body {
     margin-left: 0;
   }
 
-  .section-hero,
   .article-header.editorial,
   .article-layout,
   .archive-record {
     grid-template-columns: 1fr;
-  }
-
-  .section-hero {
-    align-items: end;
   }
 
   .section-record {
@@ -1644,18 +1600,6 @@ body.reading-mode .poem-body {
     gap: 0.2rem;
   }
 
-  .section-hero {
-    min-height: 0;
-    left: 0.75rem;
-    right: 0.75rem;
-    bottom: 3rem;
-    width: auto;
-    margin: 0;
-    padding: 0.85rem;
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
-  }
-
   .feature-strip {
     display: block;
     width: 100%;
@@ -1670,21 +1614,6 @@ body.reading-mode .poem-body {
     height: 390px;
   }
 
-  .section-hero h1 {
-    font-size: clamp(3.4rem, 14vw, 4.8rem);
-    letter-spacing: -0.075em;
-  }
-
-  .section-hero-copy {
-    padding-bottom: 0;
-    font-size: 0.92rem;
-  }
-
-  .section-hero-copy::before {
-    margin-bottom: 0.45rem;
-    border-top-width: 5px;
-  }
-
   .feature-strip-item figcaption {
     inset: 0.55rem 0.55rem auto auto;
     width: min(62%, 15rem);
@@ -1693,10 +1622,6 @@ body.reading-mode .poem-body {
     white-space: normal;
     overflow-wrap: anywhere;
     overflow: hidden;
-  }
-
-  .section-hero-copy {
-    font-size: 0.86rem;
   }
 
   .article-header.editorial h1 {

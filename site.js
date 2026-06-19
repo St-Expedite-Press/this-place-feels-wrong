@@ -109,6 +109,21 @@ function enableDemoForms() {
   });
 }
 
+function enableIssueFilters() {
+  const index = document.querySelector("[data-issue-index]");
+  if (!index) return;
+  document.querySelectorAll("[data-issue-filter]").forEach(button => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.issueFilter;
+      document.querySelectorAll("[data-issue-filter]").forEach(item => item.setAttribute("aria-pressed", "false"));
+      button.setAttribute("aria-pressed", "true");
+      index.querySelectorAll("[data-issue-tag]").forEach(record => {
+        record.hidden = filter !== "all" && record.dataset.issueTag !== filter;
+      });
+    });
+  });
+}
+
 function enableFeatureGalleries() {
   document.querySelectorAll(".feature-strip").forEach(gallery => {
     const slides = [...gallery.querySelectorAll(".feature-strip-item")];
@@ -170,6 +185,7 @@ function enableFeatureGalleries() {
 buildUtilities();
 enableReadingMode();
 enableArchiveFilters();
+enableIssueFilters();
 enableArchiveZoom();
 enableDemoForms();
 enableFeatureGalleries();
