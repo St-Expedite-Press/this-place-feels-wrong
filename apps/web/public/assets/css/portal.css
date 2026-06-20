@@ -487,11 +487,12 @@ body {
 
 .splash {
   position: absolute;
-  bottom: 2vh;
+  top: calc(66vh + clamp(1rem, 2.5vh, 1.75rem));
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   z-index: 5;
+  width: min(42rem, calc(100vw - 2rem));
 }
 
 .splash__eyebrow {
