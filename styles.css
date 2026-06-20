@@ -581,15 +581,6 @@ body.splash::before {
   letter-spacing: -0.07em;
 }
 
-.splash-container h1::after {
-  content: "";
-  display: block;
-  width: 2rem;
-  height: 0.4rem;
-  margin: 0.75rem auto 0;
-  background: var(--acid);
-}
-
 .splash-tagline {
   margin: 0.8rem 0 0;
   font: var(--type-micro)/1.4 "Courier New", monospace;
