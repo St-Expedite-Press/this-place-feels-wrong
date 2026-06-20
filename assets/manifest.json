@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-20T19:54:22.384Z",
+  "generated_at": "2026-06-20T21:46:04.233Z",
   "roots": {
     "canonical_media": "assets/source/",
     "authored_public": "apps/web/public/assets/",
@@ -109,8 +109,8 @@
       "path": "apps/web/public/assets/css/portal.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 17767,
-      "sha256": "38071fe82b93104de7b110f8a13157583cf1fabe820b1d3ad5614ecde13b5903"
+      "bytes": 17023,
+      "sha256": "6e3ebe3d070b4847c01445c189c500de502573d37ebceb9b971c62842c7c7e88"
     },
     {
       "path": "apps/web/public/assets/css/README.md",

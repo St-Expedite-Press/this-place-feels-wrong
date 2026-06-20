@@ -1,5 +1,5 @@
 # Asset Manifest
-# Generated: 2026-06-20T19:54:22.384Z
+# Generated: 2026-06-20T21:46:04.233Z
 # ownership  sha256  bytes  path  source
 authored-public  1dcf7858d86aa4e8dd64fac6391bb51556e912c742aeed12b7581d7c7fdbe23f  796  apps/web/public/assets/css/a11y.css  -
 authored-public  c160a05aac7cba71627cebb25d228189bfe308dbd91dd86ddc224502ebf80296  5082  apps/web/public/assets/css/books.css  -
@@ -15,7 +15,7 @@ authored-public  01af7c17f317696c8a3815bb307f33252df90896f9a7a1e5996ae040a5bad40
 authored-public  8db52b6165745a25170f90898c18dc4145c5a93ea372df69a725e47bfa48dc41  2744  apps/web/public/assets/css/lab.css  -
 authored-public  5128d16fae967da229601ca53a582bf6d07a69d1e4a798b2aff4e4fe89925d94  5367  apps/web/public/assets/css/layout.css  -
 authored-public  e4bf9bc6222d00726b953a83444fbafff8630a1e106b470f9274083374f1d903  1977  apps/web/public/assets/css/mission.css  -
-authored-public  38071fe82b93104de7b110f8a13157583cf1fabe820b1d3ad5614ecde13b5903  17767  apps/web/public/assets/css/portal.css  -
+authored-public  6e3ebe3d070b4847c01445c189c500de502573d37ebceb9b971c62842c7c7e88  17023  apps/web/public/assets/css/portal.css  -
 authored-public  bbcebe2bd0d606544e3699770d5eeb185b97cb2c428abe0a07957d70949e39a4  836  apps/web/public/assets/css/README.md  -
 authored-public  98e0d4d69f474735ab3cd257a923cb3eed83a558af305b2e443c629a023a22b8  1447  apps/web/public/assets/css/services.css  -
 authored-public  f25bdc5d55fcfba63772f44b8c8a8a4f169d2a69a7dff1c8972648191d6fbb4a  4541  apps/web/public/assets/css/tokens.css  -

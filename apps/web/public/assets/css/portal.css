@@ -40,41 +40,6 @@ body {
   border: 0;
 }
 
-.portal-nameplate {
-  position: absolute;
-  top: calc(var(--hero-bar-height) + 0.35rem);
-  left: 50%;
-  z-index: 20;
-  transform: translateX(-50%);
-  width: min(38rem, calc(100vw - 2rem));
-  display: grid;
-  justify-items: center;
-  gap: 0.2rem;
-  text-align: center;
-  font-family: var(--font-display);
-  text-transform: uppercase;
-  color: var(--text);
-  letter-spacing: 0.2em;
-  text-shadow: 0 0 10px var(--green-2);
-}
-
-.portal-nameplate span {
-  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-}
-
-.portal-nameplate small {
-  color: var(--text-readable-muted);
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  letter-spacing: 0.13em;
-}
-
-.portal-mobile .portal-nameplate {
-  position: static;
-  transform: none;
-  margin-bottom: 0.4rem;
-}
-
 /* ── Mobile portal ───────────────────────────────────────────────────────── */
 
 .portal-mobile {
