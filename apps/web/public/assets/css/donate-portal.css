@@ -12,6 +12,31 @@ body.donate-portal-page {
   gap: clamp(1.8rem, 4vh, 2.8rem);
 }
 
+.donate-masthead {
+  width: min(960px, 100%);
+  margin: 0 auto;
+  padding-bottom: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.donate-masthead a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.donate-masthead nav {
+  display: flex;
+  gap: 1rem;
+}
+
 .donate-sr-only {
   position: absolute;
   width: 1px;
@@ -261,6 +286,10 @@ body.donate-portal-page {
     font-size: clamp(1.6rem, 3.2vw, 3rem);
   }
 
+  .donate-masthead {
+    padding-right: 11rem;
+  }
+
   .donate-surface {
     width: min(520px, 100%);
   }
@@ -301,6 +330,19 @@ body.donate-portal-page {
 
   .splash__foot {
     font-size: .9rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .donate-masthead {
+    padding-right: 0;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .donate-masthead nav {
+    gap: 0.8rem;
+    flex-wrap: wrap;
   }
 }
 

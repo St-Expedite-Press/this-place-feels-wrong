@@ -13,7 +13,9 @@ Proprietary repository for the St. Expedite Press public site and communications
   - Cloudflare Worker for `/api/*`
   - implementation, OpenAPI contract, D1 migrations, tests, and Wrangler config
 - `assets/source/`
-  - canonical media sources synced into `apps/web/public/assets/`
+  - canonical copies of every shipped image/GIF variant, mirrored into `apps/web/public/assets/`
+- `assets/manifest.json` and `assets/manifest.txt`
+  - generated ownership, checksum, and byte inventories for the complete published asset tree
 - `branding/`
   - exportable brand package, UX assessment, design tokens, and web-element guidelines
 - `docs/`

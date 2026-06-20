@@ -22,4 +22,12 @@ const { site } = siteData;
       <a href={item.href} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
     ))}
   </nav>
+  <details class="site-nav-mobile">
+    <summary>Menu</summary>
+    <nav aria-label="Primary mobile">
+      {site.nav.map(item => (
+        <a href={item.href} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+  </details>
 </header>

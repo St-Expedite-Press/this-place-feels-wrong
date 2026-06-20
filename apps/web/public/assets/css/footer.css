@@ -58,6 +58,10 @@
   filter: brightness(1.25) contrast(1.2);
 }
 
+.site-footer__links {
+  justify-content: center;
+}
+
 @media (max-width: 900px) {
   .sep-footer { padding: 3.5vh 6vw 5vh; }
   .sep-footer__coords { font-size: 0.95rem; }

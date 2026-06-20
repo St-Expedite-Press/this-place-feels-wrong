@@ -1,0 +1,431 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-20T19:54:22.384Z",
+  "roots": {
+    "canonical_media": "assets/source/",
+    "authored_public": "apps/web/public/assets/",
+    "generated_build": "apps/web/dist/assets/"
+  },
+  "entries": [
+    {
+      "path": "apps/web/public/assets/css/a11y.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 796,
+      "sha256": "1dcf7858d86aa4e8dd64fac6391bb51556e912c742aeed12b7581d7c7fdbe23f"
+    },
+    {
+      "path": "apps/web/public/assets/css/books.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 5082,
+      "sha256": "c160a05aac7cba71627cebb25d228189bfe308dbd91dd86ddc224502ebf80296"
+    },
+    {
+      "path": "apps/web/public/assets/css/components.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 7046,
+      "sha256": "488943253ba7162d8a7d712ffbde3d0598787890d8af766436c14bbc65937dac"
+    },
+    {
+      "path": "apps/web/public/assets/css/donate-portal.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 7151,
+      "sha256": "1f36f6fb7725f362cfbc4b01a5f5a181a04531f79c67ef4bd6d7760757ec343f"
+    },
+    {
+      "path": "apps/web/public/assets/css/effects.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1077,
+      "sha256": "0ec03467168b62b5adc4607a1500aceef13e91de49f96060df6005ceb13e8afc"
+    },
+    {
+      "path": "apps/web/public/assets/css/fonts.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 4523,
+      "sha256": "8ebe60f3f1ebc40fd2f86531de256a7307098ddd8b01f68ae074d137f3f297c6"
+    },
+    {
+      "path": "apps/web/public/assets/css/footer.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1705,
+      "sha256": "4ff6c86769820fe06f98cac1eea19ecabd125e2eb0b9c4d58b324071f209fa3e"
+    },
+    {
+      "path": "apps/web/public/assets/css/forms.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2357,
+      "sha256": "488d5323efe9c17a2e914db0ebff400d9bea0fd54d6b8965e307cfbce20f3902"
+    },
+    {
+      "path": "apps/web/public/assets/css/gallery.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 3243,
+      "sha256": "dc38af9b298db04c735f12aad65de59ee50b9b9e518d58aeb0869b124463a0df"
+    },
+    {
+      "path": "apps/web/public/assets/css/hero-bar.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1831,
+      "sha256": "7b1577e3e538ea623175071ef5b2d753742aeb92ded2e4d173f19c955e97d1af"
+    },
+    {
+      "path": "apps/web/public/assets/css/interior-base.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 3196,
+      "sha256": "01af7c17f317696c8a3815bb307f33252df90896f9a7a1e5996ae040a5bad406"
+    },
+    {
+      "path": "apps/web/public/assets/css/lab.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2744,
+      "sha256": "8db52b6165745a25170f90898c18dc4145c5a93ea372df69a725e47bfa48dc41"
+    },
+    {
+      "path": "apps/web/public/assets/css/layout.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 5367,
+      "sha256": "5128d16fae967da229601ca53a582bf6d07a69d1e4a798b2aff4e4fe89925d94"
+    },
+    {
+      "path": "apps/web/public/assets/css/mission.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1977,
+      "sha256": "e4bf9bc6222d00726b953a83444fbafff8630a1e106b470f9274083374f1d903"
+    },
+    {
+      "path": "apps/web/public/assets/css/portal.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 17767,
+      "sha256": "38071fe82b93104de7b110f8a13157583cf1fabe820b1d3ad5614ecde13b5903"
+    },
+    {
+      "path": "apps/web/public/assets/css/README.md",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 836,
+      "sha256": "bbcebe2bd0d606544e3699770d5eeb185b97cb2c428abe0a07957d70949e39a4"
+    },
+    {
+      "path": "apps/web/public/assets/css/services.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1447,
+      "sha256": "98e0d4d69f474735ab3cd257a923cb3eed83a558af305b2e443c629a023a22b8"
+    },
+    {
+      "path": "apps/web/public/assets/css/tokens.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 4541,
+      "sha256": "f25bdc5d55fcfba63772f44b8c8a8a4f169d2a69a7dff1c8972648191d6fbb4a"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-cyrillic-ext-italic.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 14748,
+      "sha256": "91b622f3d9d90c295a5667852858e85493586e5950a3b6c052dc275e6ea49f77"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-cyrillic-ext.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 23416,
+      "sha256": "a4d7cf345b8091e1d2c8c5c8fa3bd0f9bb9d00bc8988185471db398ddb5ae4c4"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-cyrillic-italic.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 12720,
+      "sha256": "109ce34012f204b9794f2fa2e8e6fdff52b156636cd5da86d86ae7142b48aa03"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-cyrillic.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 21168,
+      "sha256": "017fab69b4be8ffc08ca312823327989ade6dc3d948f0afa125e12ec2e5e7ca1"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-latin-ext-italic.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 20284,
+      "sha256": "96ec6109d044a8f2b279937499923fc0435db3e6bd91ce4cb1fd806d566378b9"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-latin-ext.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 33736,
+      "sha256": "cfa9a397d86f66c5c51775a2500a712d5f632a04f0c5eca6930dfaf612d4566d"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-latin-italic.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 23660,
+      "sha256": "e48e58027030df56869b795ca6f19b7012158275f7ad7cde1900b4a0b68d02e2"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-latin.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 37640,
+      "sha256": "d80df8ff5aecd299a61549f9e29ab1ed0b9b05f4ea71d50fe978e07d5240b235"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-vietnamese-italic.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 6764,
+      "sha256": "4a82e13d26b06c46839898021bb511623f9b73779b4ded1ef60e11df2b136426"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cg-vietnamese.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 11220,
+      "sha256": "6252e819a7665ae512c2d046308a9016ada63c06d0d8f96984c4b29f6c9e1bd2"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cinzel-latin-ext.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 14540,
+      "sha256": "8fc2606f8ae6c569f444e138dba052d9a6e3f0657f9031796503bbb94eced600"
+    },
+    {
+      "path": "apps/web/public/assets/fonts/cinzel-latin.woff2",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 25904,
+      "sha256": "09941fb1c169c38fd414536b37690057fc01b3117a5c63dd6571186540c8f370"
+    },
+    {
+      "path": "apps/web/public/assets/gif/crow_glitch_text.gif",
+      "ownership": "synced-media",
+      "source": "assets/source/gif/crow_glitch_text.gif",
+      "bytes": 2513938,
+      "sha256": "c7b24780442ecfbeb54d4bd2a095cc7d0992fe5e456af7bef9f549c069f91fd1"
+    },
+    {
+      "path": "apps/web/public/assets/gif/README.md",
+      "ownership": "synced-media",
+      "source": "assets/source/gif/README.md",
+      "bytes": 184,
+      "sha256": "8f975f127c54729df2988950df58c2233a8a35277aa4312a84175e25adc7b76f"
+    },
+    {
+      "path": "apps/web/public/assets/img/covers/lift-wind-cover.jpg",
+      "ownership": "synced-media",
+      "source": "assets/source/img/covers/lift-wind-cover.jpg",
+      "bytes": 210466,
+      "sha256": "ff00549113d3dbcf4165e869fca6d2202e70fc39a6fddeac52086c79480db95b"
+    },
+    {
+      "path": "apps/web/public/assets/img/covers/lift-wind-cover.webp",
+      "ownership": "synced-media",
+      "source": "assets/source/img/covers/lift-wind-cover.webp",
+      "bytes": 151310,
+      "sha256": "e9e4f6983b21a596c864512b3229fc8872caca3daa9d5602cf88b94a5488e0b7"
+    },
+    {
+      "path": "apps/web/public/assets/img/crow_glitch_text_still.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/crow_glitch_text_still.png",
+      "bytes": 1243283,
+      "sha256": "53153b4b2f81480d002fb402da0c6332e073d7bdb5f5c16bd06baedd38a24ee2"
+    },
+    {
+      "path": "apps/web/public/assets/img/crow_glitch_text_still.webp",
+      "ownership": "synced-media",
+      "source": "assets/source/img/crow_glitch_text_still.webp",
+      "bytes": 122370,
+      "sha256": "6fe43ab83e8f008d0fe2a86bc74c2c2cc56a3b6ce8485a16144fb5bfed6283a8"
+    },
+    {
+      "path": "apps/web/public/assets/img/crow_glitch_text.webp",
+      "ownership": "synced-media",
+      "source": "assets/source/img/crow_glitch_text.webp",
+      "bytes": 838278,
+      "sha256": "2f33d5ced6fa66bc486f9864d7c2e365d4d34b69f15a55da0e6cdd5540f577f8"
+    },
+    {
+      "path": "apps/web/public/assets/img/favicon.svg",
+      "ownership": "synced-media",
+      "source": "assets/source/img/favicon.svg",
+      "bytes": 343,
+      "sha256": "53ec3bd85a12fee922f95c0202b31c45616619dc22ecbdf587382f28de7a8f89"
+    },
+    {
+      "path": "apps/web/public/assets/img/les-fievres-cover.svg",
+      "ownership": "synced-media",
+      "source": "assets/source/img/les-fievres-cover.svg",
+      "bytes": 708827,
+      "sha256": "13f355a4c8a0b842c62647fb3285a6b1f13554403a9563754a4112356a3f5ee0"
+    },
+    {
+      "path": "apps/web/public/assets/img/README.md",
+      "ownership": "synced-media",
+      "source": "assets/source/img/README.md",
+      "bytes": 268,
+      "sha256": "4a9b27651bfada75df1cf018bbbf7654e8d209507fbde8cb64ea397dd7a21f5f"
+    },
+    {
+      "path": "apps/web/public/assets/img/void_engine_twinkle_green.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/void_engine_twinkle_green.png",
+      "bytes": 2094346,
+      "sha256": "d6de1ea2b692023ef272d2323fae852e7dfa0358c7e6dd9e0acb5e4edaf06f15"
+    },
+    {
+      "path": "apps/web/public/assets/img/void_engine_twinkle_green.webp",
+      "ownership": "synced-media",
+      "source": "assets/source/img/void_engine_twinkle_green.webp",
+      "bytes": 143826,
+      "sha256": "719aaa227dc10401fae3b3074207ce65e4a640ea33c4a5329229a5b1da780846"
+    },
+    {
+      "path": "apps/web/public/assets/js/api-client.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2353,
+      "sha256": "0665a0a17d281298da5aa1d5cfaf438f366a3ab84412a13e86f2465e98f385f3"
+    },
+    {
+      "path": "apps/web/public/assets/js/books-page.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 4399,
+      "sha256": "f0c029bb69ca9f4342a43a4f741b933b622deba5ad77d470b8b643ed734f9d5a"
+    },
+    {
+      "path": "apps/web/public/assets/js/contact-page.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2685,
+      "sha256": "95b353555f10ac10f0eb8ba4372a50dbe075f1002abdbff2f57d87891997b32e"
+    },
+    {
+      "path": "apps/web/public/assets/js/dialog.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2333,
+      "sha256": "3246f5d86ac0dfdb30f44b4641563a0baaa2ec7cf421312947e421289e9514a5"
+    },
+    {
+      "path": "apps/web/public/assets/js/donate-page.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2895,
+      "sha256": "28f1f60520d5231c6f7fdb1c9d114aea4ef16afe0aa1b412360e28c15d77e6e1"
+    },
+    {
+      "path": "apps/web/public/assets/js/form-utils.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1618,
+      "sha256": "1a7cf6a16a9c7de7fb4311d78acc4dbd8b4671f444a483b53473c8a283cc73bb"
+    },
+    {
+      "path": "apps/web/public/assets/js/gallery-page.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 3674,
+      "sha256": "9fbbae2c52ae27baac6d51d11dae373aaff99c49f288f5f8cf2eab1dfdc5f933"
+    },
+    {
+      "path": "apps/web/public/assets/js/index-effects.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 3000,
+      "sha256": "782d21b875841e9b42e14a830202eb5f230495b26e6840c9e1b8741e42a4a953"
+    },
+    {
+      "path": "apps/web/public/assets/js/lab-anglossic-data.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 8745,
+      "sha256": "2b29e00a1f67488ec08bfceb44e60b8298389222cb5b1dd6f4b6fd95b0e0e2c3"
+    },
+    {
+      "path": "apps/web/public/assets/js/lab-anglossic-entry.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 3290,
+      "sha256": "736f9509b8de3d12527407b5898c5489319682d06674b1aefe2e29a766432b38"
+    },
+    {
+      "path": "apps/web/public/assets/js/lab-anglossic-scoring.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1047,
+      "sha256": "115f96a668fcb752bee8a3bc46ed2ce5178fd27d0b8b3915210d6f892c9fd5b6"
+    },
+    {
+      "path": "apps/web/public/assets/js/lab-anglossic-state.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1754,
+      "sha256": "2694cb26370fe01500fcfaee10be90ffa67ddb5ddaac6c19a892f5f90440fbfa"
+    },
+    {
+      "path": "apps/web/public/assets/js/lab-anglossic-ui.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 5634,
+      "sha256": "10a02f363fd3aac7ade3d114ca5e1fac6a738ab37796daff57363911cea6edc7"
+    },
+    {
+      "path": "apps/web/public/assets/js/README.md",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 462,
+      "sha256": "81dd3564600ede65adaecd29584dae9fd4b0e320dd882883d20b01677de0d4f3"
+    },
+    {
+      "path": "apps/web/public/assets/js/site-shell.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 47,
+      "sha256": "2f672d4a441d654d2de66126c9473c9be0375d7dbb8b756ba0d670b55d1728d3"
+    },
+    {
+      "path": "apps/web/public/assets/js/submit-page.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2467,
+      "sha256": "2f258cbf673af99a1189e5df64269d7f79e2e64c97607c43402891dd0b487004"
+    },
+    {
+      "path": "apps/web/public/assets/js/updates-signup.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1854,
+      "sha256": "0c6fbb2526858403a2878c26b9169e66ca6bf77848a2a3134f8c7e08413734e8"
+    },
+    {
+      "path": "apps/web/public/assets/README.md",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 307,
+      "sha256": "51e63992f3ffa80a89cc7699521471cab393a82eaaa3c98f3c9d7133f74174e6"
+    }
+  ]
+}

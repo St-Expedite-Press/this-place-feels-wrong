@@ -1,6 +1,36 @@
+.mission-layout {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 65ch);
+  gap: clamp(2rem, 6vw, 6rem);
+  justify-content: center;
+  align-items: start;
+}
+
+.mission-index {
+  position: sticky;
+  top: calc(var(--hero-bar-height) + 1rem);
+  display: grid;
+  gap: 0.65rem;
+  padding-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.mission-index span {
+  color: var(--mode-copy-muted);
+}
+
+.mission-index a {
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--mode-border);
+  color: var(--mode-copy);
+  text-decoration: none;
+}
+
 .mission-essay {
   max-width: 65ch;
-  margin-inline: auto;
 }
 
 .mission-essay p {
@@ -22,6 +52,7 @@
   text-transform: uppercase;
   color: var(--text-soft);
   margin: 2.8rem 0 1rem;
+  scroll-margin-top: calc(var(--hero-bar-height) + 2rem);
 }
 
 .mission-essay .mission-ethos {
@@ -56,4 +87,20 @@
 
 .principles li::marker {
   color: var(--accent);
+}
+
+@media (max-width: 800px) {
+  .mission-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .mission-index {
+    position: static;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .mission-index span {
+    grid-column: 1 / -1;
+  }
 }

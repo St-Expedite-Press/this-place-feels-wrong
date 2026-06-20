@@ -15,6 +15,7 @@ Copy from `assets/source/` when preparing an external package:
 - `assets/source/img/favicon.svg`
 - `assets/source/img/les-fievres-cover.svg`
 - `assets/source/img/covers/lift-wind-cover.jpg`
+- `assets/source/img/covers/lift-wind-cover.webp`
 
 Published copies live under `apps/web/public/assets/` and are synchronized from the source tree.
 

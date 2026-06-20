@@ -7,11 +7,11 @@ script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 repo_root="$(find_repo_root "$0")"
 source_root="$repo_root/assets/source"
 publish_root="$repo_root/apps/web/public/assets"
-manifest_file="$repo_root/assets/manifest.txt"
 
 [ -d "$source_root" ] || { echo "Missing: $source_root" >&2; exit 1; }
 [ -d "$publish_root" ] || { echo "Missing: $publish_root" >&2; exit 1; }
-[ -f "$manifest_file" ] || { echo "Missing: $manifest_file" >&2; exit 1; }
+[ -f "$repo_root/assets/manifest.txt" ] || { echo "Missing: assets/manifest.txt" >&2; exit 1; }
+[ -f "$repo_root/assets/manifest.json" ] || { echo "Missing: assets/manifest.json" >&2; exit 1; }
 
 diff_log="$(mktemp)"
 source_img_list="$(mktemp)"
@@ -28,7 +28,7 @@ if ! diff -u "$source_img_list" "$publish_img_list" > "$diff_log" 2>&1 || ! diff
   echo "Asset drift detected between assets/source and apps/web/public/assets:" >&2
   cat "$diff_log" >&2
   rm -f "$diff_log" "$source_img_list" "$publish_img_list" "$source_gif_list" "$publish_gif_list"
-  echo "Run: sh scripts/sync-assets.sh" >&2
+  echo "Run: npm run assets:sync" >&2
   exit 1
 fi
 
@@ -60,27 +60,5 @@ done < "$source_gif_list"
 
 rm -f "$diff_log" "$source_img_list" "$publish_img_list" "$source_gif_list" "$publish_gif_list"
 
-tmp_manifest="$(mktemp)"
-{
-  echo "# Asset Manifest"
-  echo "# Generated: CHECK"
-  echo "# sha256  bytes  path"
-  find "$publish_root" -type f | sort | while IFS= read -r file; do
-    sha="$(sha256sum "$file" | awk '{print $1}')"
-    bytes="$(wc -c < "$file" | tr -d ' ')"
-    rel="${file#"$repo_root"/}"
-    printf '%s  %s  %s\n' "$sha" "$bytes" "$rel"
-  done
-} > "$tmp_manifest"
-
-normalized_manifest="$(mktemp)"
-sed '2s|.*|# Generated: CHECK|' "$manifest_file" > "$normalized_manifest"
-
-if ! diff -u "$normalized_manifest" "$tmp_manifest" >/dev/null 2>&1; then
-  rm -f "$tmp_manifest" "$normalized_manifest"
-  echo "Asset manifest is out of date. Run: sh scripts/sync-assets.sh" >&2
-  exit 1
-fi
-
-rm -f "$tmp_manifest" "$normalized_manifest"
+node "$repo_root/scripts/build-asset-manifest.mjs" --check
 echo "[check-assets-sync] PASS"

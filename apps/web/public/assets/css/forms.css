@@ -50,7 +50,7 @@
 }
 
 .form-card--tall {
-  min-height: 32rem;
+  min-height: 0;
 }
 
 .form-card--split {
@@ -96,6 +96,15 @@
 
 [data-brand-mode="utility"] .trust-card {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.82);
+}
+
+.submission-programs .card {
+  padding: 1rem 0 1rem 1.15rem;
+  border: 0;
+  border-left: 1px solid var(--mode-border-strong);
+  border-radius: 0;
+  background: linear-gradient(90deg, rgba(42, 255, 138, 0.035), transparent 32%);
+  box-shadow: none;
 }
 
 @media (max-width: 900px) {

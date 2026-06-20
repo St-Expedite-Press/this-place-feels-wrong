@@ -24,6 +24,13 @@ const styles = [
   brandMode="editorial"
   styles={styles}
 >
+  <div class="mission-layout">
+  <nav class="mission-index" aria-label="Project phases">
+    <span>Project sequence</span>
+    <a href="#phase-presence">01 / Presence</a>
+    <a href="#phase-journal">02 / Journal</a>
+    <a href="#phase-fellowship">03 / Fellowship</a>
+  </nav>
   <article class="mission-essay">
     <p>Saint Expedite is the patron of urgent causes, the saint invoked when it cannot wait. He is called on when the proper channels have failed, when the institutions are too slow, when the paperwork would arrive after the opportunity is gone. The press takes his name and his economy.</p>
 
@@ -33,17 +40,17 @@ const styles = [
 
     <p>The active catalog has three arms. SEXP handles original fiction, poetry, novella, and hybrid work that does not need the trade apparatus in order to make its case. The Library of the Southern Civilization handles recovery editions, archival work, and republication where memory has been damaged. The translation line works across Spanish, French, and Russian where those traditions have preserved registers that Anglo-American publishing has spent decades flattening. The press answers to the work.</p>
 
-    <h3 class="essay-phase">Phase one &mdash; A presence</h3>
+    <h3 class="essay-phase" id="phase-presence">Phase one &mdash; A presence</h3>
 
     <p>A catalog, a channel, first books, first objects, direct correspondence. The immediate project is proof: that something is here, that the work exists, that it can reach a reader directly without the machinery of the trade press or the credentialing logic of the academic publisher.</p>
 
-    <h3 class="essay-phase">Phase two &mdash; A journal</h3>
+    <h3 class="essay-phase" id="phase-journal">Phase two &mdash; A journal</h3>
 
     <p>RICE Magazine is the next threshold: a print journal for fiction, criticism, polemic, archival fragments, translations, and other shorter work that should not have to wait for a book in order to earn a public life. It begins when the economics justify an actual object. Not before.</p>
 
     <p>The argument for print is simple. Digital publishing is disposable, and the journals that have lasted have always been objects. Sustained by the catalog. Distributed directly to subscribers and to the handful of bookshops that understand what they are carrying.</p>
 
-    <h3 class="essay-phase">Phase three &mdash; A fellowship</h3>
+    <h3 class="essay-phase" id="phase-fellowship">Phase three &mdash; A fellowship</h3>
 
     <p>A fellowship mechanism for writers outside the university and the grant system. The academy has captured literary production in ways that would have been unrecognizable to the tradition the press is interested in. The point is to buy time and space to work without application theater, without networking masquerading as patronage, and without the soft requirement that the work conform to what an institution can certify. It still has to be good.</p>
 
@@ -55,6 +62,7 @@ const styles = [
 
     <p>The work either earns its existence or it does not. There is no other standard.</p>
   </article>
+  </div>
 
   <Fragment slot="scripts">
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>

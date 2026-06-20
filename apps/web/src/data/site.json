@@ -44,7 +44,9 @@
       { "label": "Services", "href": "/services" }
     ],
     "footerLinks": [
+      { "label": "Portal", "href": "/" },
       { "label": "Books", "href": "/books" },
+      { "label": "Store", "href": "/gallery" },
       { "label": "About", "href": "/about" },
       { "label": "Donate", "href": "/donate" },
       { "label": "Contact", "href": "/contact" },

@@ -1,49 +1,63 @@
 # Asset Manifest
-# Generated: 2026-05-24T23:59:13Z
-# sha256  bytes  path
-b6caf63c4bbce9c36a01baa54e26343fe7dd0e771b3671f07f4be339109ddc8d  181  apps/web/public/assets/README.md
-d3dfdfef3a88492480103e1239c29a1ac003bee2beac2f7217dc2895a332a3d6  819  apps/web/public/assets/css/README.md
-cef7f60a23d38aa0157be4e812a3554e2a1cfc3b7692c00ce5df560e18e52b49  754  apps/web/public/assets/css/a11y.css
-676c19bea6fdf69aaaa3c0b1d8608bc8bd5f0f66d407c258b30d3dc4d22771b3  4659  apps/web/public/assets/css/books.css
-c7b86981f381ca976628b4fb070441f2a1f7eba68b605866d7b91c07b204177e  6461  apps/web/public/assets/css/components.css
-ce6a9b3b2742b05d258bad5b6426f2f37fef32f34a3aa3cd9f9b4e431b55c070  5398  apps/web/public/assets/css/donate-portal.css
-7f1d6f65620fdd6d50b2e9c5fa84af421df22df2609e55fddc258bbeaac0693c  1035  apps/web/public/assets/css/effects.css
-d0bf50a7478b356f63204b4de898219c410ac4d6577c2b79ba65163448ed3d81  1601  apps/web/public/assets/css/footer.css
-d934c2b67942e288f87a9db2dc2d082f05ed0bf0a7450ab76a627080eda0b59f  2003  apps/web/public/assets/css/forms.css
-120eb5a9e639dff5cf5bdc6b5ed228c2ea6417e5c10712e6885c0862deb2a0ca  2605  apps/web/public/assets/css/gallery.css
-732c4ce133f33236d25d39c82c0fc440936b3363664b86482839669c50255b58  1741  apps/web/public/assets/css/hero-bar.css
-257a1c547225f54036fc1486beb64c2212e6538779943d02065d76dd4106e27c  2794  apps/web/public/assets/css/interior-base.css
-8c44a1863f2de75e7bd97fc6a89817d9be8ae2db46b58c39075587105f034229  1890  apps/web/public/assets/css/lab.css
-864a80f8e9957dbf835eac2b4f8482444d50092a1e0a5130113ef2ea29512fe6  3543  apps/web/public/assets/css/layout.css
-67ddbbf3708cb9e297f555537baeb489fe0123c0a48c79b3561e7880745d59aa  1006  apps/web/public/assets/css/mission.css
-69212a893d9472ace9ca6aceb741b780f5cb7596e5aca79f3c4ec02701c360e9  17488  apps/web/public/assets/css/portal.css
-4afc3961dc134e2d227d3a5fb438403349b3f3f95a8b58647f1a13ecbf18b823  494  apps/web/public/assets/css/services.css
-daf79d6a0a28cfc8e5328210d848d58fac77ec0d52b5ef6a5bd388f105ee77fe  4828  apps/web/public/assets/css/tokens.css
-e8c0ecce1463176bf3748aef1d99e279e59be5ade6eb9e16146a0fe01f9a5430  179  apps/web/public/assets/gif/README.md
-c7b24780442ecfbeb54d4bd2a095cc7d0992fe5e456af7bef9f549c069f91fd1  2513938  apps/web/public/assets/gif/crow_glitch_text.gif
-60091d30aff642c9b5cfb6986706f8c9d0e14b40fc2151a6c333a4c7d87e7628  183  apps/web/public/assets/img/README.md
-ff00549113d3dbcf4165e869fca6d2202e70fc39a6fddeac52086c79480db95b  210466  apps/web/public/assets/img/covers/lift-wind-cover.jpg
-2f33d5ced6fa66bc486f9864d7c2e365d4d34b69f15a55da0e6cdd5540f577f8  838278  apps/web/public/assets/img/crow_glitch_text.webp
-53153b4b2f81480d002fb402da0c6332e073d7bdb5f5c16bd06baedd38a24ee2  1243283  apps/web/public/assets/img/crow_glitch_text_still.png
-6fe43ab83e8f008d0fe2a86bc74c2c2cc56a3b6ce8485a16144fb5bfed6283a8  122370  apps/web/public/assets/img/crow_glitch_text_still.webp
-574f63d5545857d80d0172d15cf1a4a3c92567403ab91e04a4f67e3e8a636fe8  338  apps/web/public/assets/img/favicon.svg
-13f355a4c8a0b842c62647fb3285a6b1f13554403a9563754a4112356a3f5ee0  708827  apps/web/public/assets/img/les-fievres-cover.svg
-d6de1ea2b692023ef272d2323fae852e7dfa0358c7e6dd9e0acb5e4edaf06f15  2094346  apps/web/public/assets/img/void_engine_twinkle_green.png
-719aaa227dc10401fae3b3074207ce65e4a640ea33c4a5329229a5b1da780846  143826  apps/web/public/assets/img/void_engine_twinkle_green.webp
-a5f7a9d999aa712123f18c95613c4f7cf2326096558e42d787ab1d21e317141e  452  apps/web/public/assets/js/README.md
-4c84917609ea27f2754cde8e1170bba496409dd040c34bdc3524c311acab2edf  2274  apps/web/public/assets/js/api-client.js
-497a6f961df0bdb9c91e1f5ab790b5b3beb2d0eb9428e5d4aedf2a88b4a5b56d  4448  apps/web/public/assets/js/books-page.js
-7650082144cfaf00b3dcffca32133494ed7fba6ad9836e2968082eeeb407fef4  2528  apps/web/public/assets/js/contact-page.js
-5b26a041248919bd675d859c33cb11ca47a954d89eb84fe533e009159d7a3604  1865  apps/web/public/assets/js/dialog.js
-db3ee12c97db788b0301164dd51ae18956de6e431696768d53d743801aecb403  2713  apps/web/public/assets/js/donate-page.js
-4b3c334a34606aadab812e8d051bbdd850276db1324b309d5f673e219097a337  1114  apps/web/public/assets/js/form-utils.js
-1ffc47687ed2a1bf5aaeb6ff1f96110c9a7feb5394c23f9e7df713d522761edf  3439  apps/web/public/assets/js/gallery-page.js
-0619079e5baf1cfa16f24abd56fa8526722ca343e0050f4eaee06cdf62e7aa48  2907  apps/web/public/assets/js/index-effects.js
-3c1b9fa86852ce4e93d06a5040f3448061f38627d1d935213fa0c2c0ec8451e8  8578  apps/web/public/assets/js/lab-anglossic-data.js
-d7d6ede21857af2208d0be586de239714f4af58d098fa2c0373c6aa785825888  3193  apps/web/public/assets/js/lab-anglossic-entry.js
-b2e6279fe7912056ffd8e0ee2187290367b6806198f46fa40cca32e05534451c  1015  apps/web/public/assets/js/lab-anglossic-scoring.js
-7e00ab5738c785c54838681c3fa448e9f27636b3f9440d3dd7b0f5afe1b81589  1686  apps/web/public/assets/js/lab-anglossic-state.js
-c20bee017f2e9595d3b8cd098eca0a657046df74f96372475863b0e2f4541425  5665  apps/web/public/assets/js/lab-anglossic-ui.js
-07e9e867f8ac3af35001da64b63f4b405e3281b52e8cb3956de56d59a6f329b7  46  apps/web/public/assets/js/site-shell.js
-cd969b47e730f8003c8d4e1b04c559c48a29466d2417b9f5cca435fa4e3ec5ff  2312  apps/web/public/assets/js/submit-page.js
-bb51565c7ef1e17ae83ab6e43f321621432e59db64c923c04c172ded8a3b773c  1795  apps/web/public/assets/js/updates-signup.js
+# Generated: 2026-06-20T19:54:22.384Z
+# ownership  sha256  bytes  path  source
+authored-public  1dcf7858d86aa4e8dd64fac6391bb51556e912c742aeed12b7581d7c7fdbe23f  796  apps/web/public/assets/css/a11y.css  -
+authored-public  c160a05aac7cba71627cebb25d228189bfe308dbd91dd86ddc224502ebf80296  5082  apps/web/public/assets/css/books.css  -
+authored-public  488943253ba7162d8a7d712ffbde3d0598787890d8af766436c14bbc65937dac  7046  apps/web/public/assets/css/components.css  -
+authored-public  1f36f6fb7725f362cfbc4b01a5f5a181a04531f79c67ef4bd6d7760757ec343f  7151  apps/web/public/assets/css/donate-portal.css  -
+authored-public  0ec03467168b62b5adc4607a1500aceef13e91de49f96060df6005ceb13e8afc  1077  apps/web/public/assets/css/effects.css  -
+authored-public  8ebe60f3f1ebc40fd2f86531de256a7307098ddd8b01f68ae074d137f3f297c6  4523  apps/web/public/assets/css/fonts.css  -
+authored-public  4ff6c86769820fe06f98cac1eea19ecabd125e2eb0b9c4d58b324071f209fa3e  1705  apps/web/public/assets/css/footer.css  -
+authored-public  488d5323efe9c17a2e914db0ebff400d9bea0fd54d6b8965e307cfbce20f3902  2357  apps/web/public/assets/css/forms.css  -
+authored-public  dc38af9b298db04c735f12aad65de59ee50b9b9e518d58aeb0869b124463a0df  3243  apps/web/public/assets/css/gallery.css  -
+authored-public  7b1577e3e538ea623175071ef5b2d753742aeb92ded2e4d173f19c955e97d1af  1831  apps/web/public/assets/css/hero-bar.css  -
+authored-public  01af7c17f317696c8a3815bb307f33252df90896f9a7a1e5996ae040a5bad406  3196  apps/web/public/assets/css/interior-base.css  -
+authored-public  8db52b6165745a25170f90898c18dc4145c5a93ea372df69a725e47bfa48dc41  2744  apps/web/public/assets/css/lab.css  -
+authored-public  5128d16fae967da229601ca53a582bf6d07a69d1e4a798b2aff4e4fe89925d94  5367  apps/web/public/assets/css/layout.css  -
+authored-public  e4bf9bc6222d00726b953a83444fbafff8630a1e106b470f9274083374f1d903  1977  apps/web/public/assets/css/mission.css  -
+authored-public  38071fe82b93104de7b110f8a13157583cf1fabe820b1d3ad5614ecde13b5903  17767  apps/web/public/assets/css/portal.css  -
+authored-public  bbcebe2bd0d606544e3699770d5eeb185b97cb2c428abe0a07957d70949e39a4  836  apps/web/public/assets/css/README.md  -
+authored-public  98e0d4d69f474735ab3cd257a923cb3eed83a558af305b2e443c629a023a22b8  1447  apps/web/public/assets/css/services.css  -
+authored-public  f25bdc5d55fcfba63772f44b8c8a8a4f169d2a69a7dff1c8972648191d6fbb4a  4541  apps/web/public/assets/css/tokens.css  -
+authored-public  91b622f3d9d90c295a5667852858e85493586e5950a3b6c052dc275e6ea49f77  14748  apps/web/public/assets/fonts/cg-cyrillic-ext-italic.woff2  -
+authored-public  a4d7cf345b8091e1d2c8c5c8fa3bd0f9bb9d00bc8988185471db398ddb5ae4c4  23416  apps/web/public/assets/fonts/cg-cyrillic-ext.woff2  -
+authored-public  109ce34012f204b9794f2fa2e8e6fdff52b156636cd5da86d86ae7142b48aa03  12720  apps/web/public/assets/fonts/cg-cyrillic-italic.woff2  -
+authored-public  017fab69b4be8ffc08ca312823327989ade6dc3d948f0afa125e12ec2e5e7ca1  21168  apps/web/public/assets/fonts/cg-cyrillic.woff2  -
+authored-public  96ec6109d044a8f2b279937499923fc0435db3e6bd91ce4cb1fd806d566378b9  20284  apps/web/public/assets/fonts/cg-latin-ext-italic.woff2  -
+authored-public  cfa9a397d86f66c5c51775a2500a712d5f632a04f0c5eca6930dfaf612d4566d  33736  apps/web/public/assets/fonts/cg-latin-ext.woff2  -
+authored-public  e48e58027030df56869b795ca6f19b7012158275f7ad7cde1900b4a0b68d02e2  23660  apps/web/public/assets/fonts/cg-latin-italic.woff2  -
+authored-public  d80df8ff5aecd299a61549f9e29ab1ed0b9b05f4ea71d50fe978e07d5240b235  37640  apps/web/public/assets/fonts/cg-latin.woff2  -
+authored-public  4a82e13d26b06c46839898021bb511623f9b73779b4ded1ef60e11df2b136426  6764  apps/web/public/assets/fonts/cg-vietnamese-italic.woff2  -
+authored-public  6252e819a7665ae512c2d046308a9016ada63c06d0d8f96984c4b29f6c9e1bd2  11220  apps/web/public/assets/fonts/cg-vietnamese.woff2  -
+authored-public  8fc2606f8ae6c569f444e138dba052d9a6e3f0657f9031796503bbb94eced600  14540  apps/web/public/assets/fonts/cinzel-latin-ext.woff2  -
+authored-public  09941fb1c169c38fd414536b37690057fc01b3117a5c63dd6571186540c8f370  25904  apps/web/public/assets/fonts/cinzel-latin.woff2  -
+synced-media  c7b24780442ecfbeb54d4bd2a095cc7d0992fe5e456af7bef9f549c069f91fd1  2513938  apps/web/public/assets/gif/crow_glitch_text.gif  assets/source/gif/crow_glitch_text.gif
+synced-media  8f975f127c54729df2988950df58c2233a8a35277aa4312a84175e25adc7b76f  184  apps/web/public/assets/gif/README.md  assets/source/gif/README.md
+synced-media  ff00549113d3dbcf4165e869fca6d2202e70fc39a6fddeac52086c79480db95b  210466  apps/web/public/assets/img/covers/lift-wind-cover.jpg  assets/source/img/covers/lift-wind-cover.jpg
+synced-media  e9e4f6983b21a596c864512b3229fc8872caca3daa9d5602cf88b94a5488e0b7  151310  apps/web/public/assets/img/covers/lift-wind-cover.webp  assets/source/img/covers/lift-wind-cover.webp
+synced-media  53153b4b2f81480d002fb402da0c6332e073d7bdb5f5c16bd06baedd38a24ee2  1243283  apps/web/public/assets/img/crow_glitch_text_still.png  assets/source/img/crow_glitch_text_still.png
+synced-media  6fe43ab83e8f008d0fe2a86bc74c2c2cc56a3b6ce8485a16144fb5bfed6283a8  122370  apps/web/public/assets/img/crow_glitch_text_still.webp  assets/source/img/crow_glitch_text_still.webp
+synced-media  2f33d5ced6fa66bc486f9864d7c2e365d4d34b69f15a55da0e6cdd5540f577f8  838278  apps/web/public/assets/img/crow_glitch_text.webp  assets/source/img/crow_glitch_text.webp
+synced-media  53ec3bd85a12fee922f95c0202b31c45616619dc22ecbdf587382f28de7a8f89  343  apps/web/public/assets/img/favicon.svg  assets/source/img/favicon.svg
+synced-media  13f355a4c8a0b842c62647fb3285a6b1f13554403a9563754a4112356a3f5ee0  708827  apps/web/public/assets/img/les-fievres-cover.svg  assets/source/img/les-fievres-cover.svg
+synced-media  4a9b27651bfada75df1cf018bbbf7654e8d209507fbde8cb64ea397dd7a21f5f  268  apps/web/public/assets/img/README.md  assets/source/img/README.md
+synced-media  d6de1ea2b692023ef272d2323fae852e7dfa0358c7e6dd9e0acb5e4edaf06f15  2094346  apps/web/public/assets/img/void_engine_twinkle_green.png  assets/source/img/void_engine_twinkle_green.png
+synced-media  719aaa227dc10401fae3b3074207ce65e4a640ea33c4a5329229a5b1da780846  143826  apps/web/public/assets/img/void_engine_twinkle_green.webp  assets/source/img/void_engine_twinkle_green.webp
+authored-public  0665a0a17d281298da5aa1d5cfaf438f366a3ab84412a13e86f2465e98f385f3  2353  apps/web/public/assets/js/api-client.js  -
+authored-public  f0c029bb69ca9f4342a43a4f741b933b622deba5ad77d470b8b643ed734f9d5a  4399  apps/web/public/assets/js/books-page.js  -
+authored-public  95b353555f10ac10f0eb8ba4372a50dbe075f1002abdbff2f57d87891997b32e  2685  apps/web/public/assets/js/contact-page.js  -
+authored-public  3246f5d86ac0dfdb30f44b4641563a0baaa2ec7cf421312947e421289e9514a5  2333  apps/web/public/assets/js/dialog.js  -
+authored-public  28f1f60520d5231c6f7fdb1c9d114aea4ef16afe0aa1b412360e28c15d77e6e1  2895  apps/web/public/assets/js/donate-page.js  -
+authored-public  1a7cf6a16a9c7de7fb4311d78acc4dbd8b4671f444a483b53473c8a283cc73bb  1618  apps/web/public/assets/js/form-utils.js  -
+authored-public  9fbbae2c52ae27baac6d51d11dae373aaff99c49f288f5f8cf2eab1dfdc5f933  3674  apps/web/public/assets/js/gallery-page.js  -
+authored-public  782d21b875841e9b42e14a830202eb5f230495b26e6840c9e1b8741e42a4a953  3000  apps/web/public/assets/js/index-effects.js  -
+authored-public  2b29e00a1f67488ec08bfceb44e60b8298389222cb5b1dd6f4b6fd95b0e0e2c3  8745  apps/web/public/assets/js/lab-anglossic-data.js  -
+authored-public  736f9509b8de3d12527407b5898c5489319682d06674b1aefe2e29a766432b38  3290  apps/web/public/assets/js/lab-anglossic-entry.js  -
+authored-public  115f96a668fcb752bee8a3bc46ed2ce5178fd27d0b8b3915210d6f892c9fd5b6  1047  apps/web/public/assets/js/lab-anglossic-scoring.js  -
+authored-public  2694cb26370fe01500fcfaee10be90ffa67ddb5ddaac6c19a892f5f90440fbfa  1754  apps/web/public/assets/js/lab-anglossic-state.js  -
+authored-public  10a02f363fd3aac7ade3d114ca5e1fac6a738ab37796daff57363911cea6edc7  5634  apps/web/public/assets/js/lab-anglossic-ui.js  -
+authored-public  81dd3564600ede65adaecd29584dae9fd4b0e320dd882883d20b01677de0d4f3  462  apps/web/public/assets/js/README.md  -
+authored-public  2f672d4a441d654d2de66126c9473c9be0375d7dbb8b756ba0d670b55d1728d3  47  apps/web/public/assets/js/site-shell.js  -
+authored-public  2f258cbf673af99a1189e5df64269d7f79e2e64c97607c43402891dd0b487004  2467  apps/web/public/assets/js/submit-page.js  -
+authored-public  0c6fbb2526858403a2878c26b9169e66ca6bf77848a2a3134f8c7e08413734e8  1854  apps/web/public/assets/js/updates-signup.js  -
+authored-public  51e63992f3ffa80a89cc7699521471cab393a82eaaa3c98f3c9d7133f74174e6  307  apps/web/public/assets/README.md  -

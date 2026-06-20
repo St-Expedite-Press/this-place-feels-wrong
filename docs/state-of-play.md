@@ -9,6 +9,7 @@ Repo snapshot for the current Astro app, Cloudflare Worker, and agent tooling la
 - Web build output: `apps/web/dist/`
 - Communications Worker: `apps/communications-worker/`
 - Canonical media sources: `assets/source/`
+- Generated asset inventories: `assets/manifest.json`, `assets/manifest.txt`
 - Exportable brand package: `branding/`
 - All agent infrastructure: `agent/` (skills, ops, tools, kits, AGENT.md)
 - Archived product material: `archive/`
@@ -46,7 +47,7 @@ API routes remain under `/api/*`:
 - Primary build: `npm run build`
 - Primary validation: `npm run check`
 - Tooling integrity check: `npm run check:tooling-integrity`
-- Asset sync check: `npm run assets:check`
+- Asset sync/inventory check: `npm run assets:check`
 - Runtime config check: `npm run runtime:config`
 - Runtime audit: `npm run runtime:audit`
 - Production smoke: `npm run smoke:api`

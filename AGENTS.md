@@ -25,7 +25,7 @@ Single source of truth for every agent working in this repository. `CLAUDE.md` i
 | Worker source | `apps/communications-worker/src/index.ts` | Cloudflare Worker API |
 | Worker contract | `apps/communications-worker/openapi.yaml` | OpenAPI spec (single source of truth for routes) |
 | D1 migrations | `apps/communications-worker/migrations/` | **Append-only — never edit existing files** |
-| Media source | `assets/source/` | Canonical image/gif sources |
+| Media source | `assets/source/` | Canonical image/GIF variants mirrored into the web tree |
 | Brand package | `branding/` | Design docs and tokens — no runtime behavior |
 | Agent tooling | `agent/` | Operational tools, runbooks, skills, kits (see §9) |
 | Docs | `docs/` | State of play, infrastructure, operations notes |
@@ -113,7 +113,7 @@ Mode-scoped variables: `--mode-copy`, `--mode-copy-muted`, `--mode-border`, `--m
 
 ### 2.4 Media Assets
 
-Canonical source lives in `assets/source/`. Run `npm run assets:sync` after adding or changing source files. Run `npm run assets:check` to verify no drift.
+Canonical media lives in `assets/source/`. Every shipped PNG, JPEG, WebP, SVG, and GIF variant must exist there; format conversion happens before accessioning, and sync does not generate variants. CSS, JavaScript, fonts, and the public asset README are authored directly under `apps/web/public/assets/`. Run `npm run assets:sync` after adding or changing canonical media, then `npm run assets:check` to verify source parity and both generated manifests.
 
 | File | Format | Role |
 |---|---|---|
@@ -186,7 +186,7 @@ Before touching code:
 
 For `web` tasks: read the target `.astro` file, its CSS stack, and any JS it references.  
 For `worker` tasks: read `openapi.yaml` and `src/index.ts` before editing. Update OpenAPI when routes change.  
-For `assets` tasks: edit `assets/source/` only, then `npm run assets:sync` and `npm run assets:check`.  
+For media tasks: edit `assets/source/`, then `npm run assets:sync` and `npm run assets:check`. For CSS, JavaScript, or font assets, edit their owned public directories and run the same commands to refresh and verify manifests.
 For `css` tasks: all custom properties are in `tokens.css`. Never hardcode colors with tokens. Use `--mode-*` vars in components.
 
 **Task routing quick reference:**
@@ -240,7 +240,7 @@ On Windows, root scripts that invoke shell files route through `scripts/run-bash
 - **Preserve public URLs** and `/api/*` response contracts unless a breaking change is explicitly requested
 - **Treat `archive/` as read-only** unless explicitly asked to modify it
 - **When touching CSS:** always load `tokens.css` first; use `--mode-*` vars in components; do not hardcode colors that have tokens; do not remove the grain texture or cursor glow
-- **When touching assets:** edit `assets/source/` only, then sync and check
+- **When touching assets:** keep media canonical in `assets/source/`; keep CSS/JS/fonts authored in their public directories; then sync and check
 
 ---
 

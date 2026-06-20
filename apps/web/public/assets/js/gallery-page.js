@@ -22,6 +22,7 @@ function safeStoreUrl(value) {
 }
 
 function renderProducts(products, shopUrl, grid, toolbar) {
+  grid.dataset.count = String(products.length);
   grid.innerHTML = products.map((product) => {
     const safeShopUrl = safeStoreUrl(shopUrl);
     const href = product.slug ? `${safeShopUrl.replace(/\/$/, "")}/products/${encodeURIComponent(product.slug)}` : safeShopUrl;

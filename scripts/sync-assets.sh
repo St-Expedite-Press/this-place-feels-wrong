@@ -7,7 +7,6 @@ script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 repo_root="$(find_repo_root "$0")"
 source_root="$repo_root/assets/source"
 publish_root="$repo_root/apps/web/public/assets"
-manifest_file="$repo_root/assets/manifest.txt"
 
 dry_run=0
 if [ "${1:-}" = "--dry-run" ]; then
@@ -41,33 +40,12 @@ run_cmd find "$publish_root/gif" -mindepth 1 -delete
 run_cmd cp -R "$source_root/img/." "$publish_root/img/"
 run_cmd cp -R "$source_root/gif/." "$publish_root/gif/"
 
-# Generate webp siblings for raster images when cwebp is available.
-if command -v cwebp >/dev/null 2>&1; then
-  find "$publish_root/img" -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' \) | while IFS= read -r file; do
-    out="${file%.*}.webp"
-    run_cmd cwebp -quiet -q 82 "$file" -o "$out"
-  done
-else
-  echo "[sync-assets] cwebp not installed; skipping webp generation"
-fi
-
 if [ "$dry_run" -eq 1 ]; then
-  echo "[dry-run] write manifest to $manifest_file"
+  echo "[dry-run] build assets/manifest.json and assets/manifest.txt"
   exit 0
 fi
 
-# Build manifest for reproducibility/auditing.
-{
-  echo "# Asset Manifest"
-  echo "# Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  echo "# sha256  bytes  path"
-  find "$publish_root" -type f | sort | while IFS= read -r file; do
-    sha="$(sha256sum "$file" | awk '{print $1}')"
-    bytes="$(wc -c < "$file" | tr -d ' ')"
-    rel="${file#"$repo_root"/}"
-    printf '%s  %s  %s\n' "$sha" "$bytes" "$rel"
-  done
-} > "$manifest_file"
+node "$repo_root/scripts/build-asset-manifest.mjs"
 
 echo "[sync-assets] synced source assets to apps/web/public/assets"
-echo "[sync-assets] wrote manifest: $manifest_file"
+echo "[sync-assets] wrote asset manifests"

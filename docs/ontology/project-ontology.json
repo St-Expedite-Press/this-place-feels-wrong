@@ -71,7 +71,24 @@
   "assets": {
     "source": "assets/source/",
     "published": "apps/web/public/assets/",
-    "manifest": "assets/manifest.txt",
+    "generated_build": "apps/web/dist/assets/",
+    "ownership": {
+      "canonical_media": [
+        "assets/source/img/",
+        "assets/source/gif/"
+      ],
+      "authored_public": [
+        "apps/web/public/assets/css/",
+        "apps/web/public/assets/js/",
+        "apps/web/public/assets/fonts/",
+        "apps/web/public/assets/README.md"
+      ]
+    },
+    "manifests": [
+      "assets/manifest.json",
+      "assets/manifest.txt"
+    ],
+    "manifest_builder": "scripts/build-asset-manifest.mjs",
     "sync": "npm run assets:sync",
     "check": "npm run assets:check",
     "files": {
@@ -83,7 +100,8 @@
       "void_engine_twinkle_green.png": "background texture fallback",
       "favicon.svg": "browser favicon",
       "les-fievres-cover.svg": "book cover",
-      "covers/lift-wind-cover.jpg": "book cover — needs webp variant"
+      "covers/lift-wind-cover.jpg": "book cover source variant",
+      "covers/lift-wind-cover.webp": "book cover optimized variant"
     }
   },
   "branding": {
@@ -162,6 +180,11 @@
         "path": "apps/communications-worker/openapi.yaml",
         "role": "Machine-readable API contract for the communications worker.",
         "format": "openapi"
+      },
+      "asset_manifest": {
+        "path": "assets/manifest.json",
+        "role": "Generated ownership, source mapping, byte-size, and checksum inventory for published assets.",
+        "format": "json"
       }
     },
     "entities": {
@@ -227,6 +250,7 @@
         "OpenAPI readability check for apps/communications-worker/openapi.yaml",
         "Existence checks for shell-backed root scripts and Make targets",
         "Existence checks for agent kit entrypoints and declared paths",
+        "Asset ownership and checksum validation through npm run assets:check",
         "Stale-reference scan for deprecated agent path conventions"
       ]
     }

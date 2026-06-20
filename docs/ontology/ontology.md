@@ -8,7 +8,7 @@ Human-readable companion to `project-ontology.json`. Keep this file aligned when
 |---|---|---|
 | Web app | `apps/web/` | Astro static site for public pages. |
 | Communications Worker | `apps/communications-worker/` | Cloudflare Worker for `/api/*`, OpenAPI contract, D1 migrations, and tests. |
-| Assets | `assets/source/` | Canonical media sources; sync into `apps/web/public/assets/`. |
+| Assets | `assets/source/`, `apps/web/public/assets/{css,js,fonts}/` | Canonical media variants are mirrored into the public tree; code/font assets are authored in place. Generated JSON/text manifests record ownership and checksums. |
 | Docs | `README.md`, `docs/`, app READMEs | Human-facing project state, deployment, operations, and infrastructure docs. |
 | Agent infrastructure | `scripts/`, `ops/`, `skills/`, `kits/`, `AGENTS.md`, `CLAUDE.md` | Shell scripts, runbooks, repo skills, scaffolding kits, and agent doctrine. |
 
@@ -69,8 +69,10 @@ npm run check:tooling-integrity
 | `npm run check` | Full repo gate: tooling integrity, build, HTML lint, links, a11y, Worker tests, and dependency audit. |
 | `npm run check:tooling-integrity` | Ontology, path, and API route parity checks. |
 | `npm run check:audit` | Root, web, and Worker dependency audit at high severity or above. |
-| `npm run assets:check` | Verify source/public asset sync. |
+| `npm run assets:check` | Verify canonical media parity and generated JSON/text asset inventories. |
 | `npm run runtime:config` | Check Cloudflare runtime prerequisites. |
+
+`assets/manifest.json` is the machine contract for published asset ownership, source mapping, byte size, and SHA-256 checksums. `assets/manifest.txt` is its review-friendly companion.
 
 ## Task Closeout Rule
 
