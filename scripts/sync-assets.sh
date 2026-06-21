@@ -31,14 +31,16 @@ run_cmd() {
 require_dir "$source_root"
 require_dir "$publish_root"
 
-run_cmd mkdir -p "$source_root/img" "$source_root/gif"
-run_cmd mkdir -p "$publish_root/img" "$publish_root/gif"
+run_cmd mkdir -p "$source_root/img" "$source_root/gif" "$source_root/video"
+run_cmd mkdir -p "$publish_root/img" "$publish_root/gif" "$publish_root/video"
 
 # Sync canonical source media into authored asset paths.
 run_cmd find "$publish_root/img" -mindepth 1 -delete
 run_cmd find "$publish_root/gif" -mindepth 1 -delete
+run_cmd find "$publish_root/video" -mindepth 1 -delete
 run_cmd cp -R "$source_root/img/." "$publish_root/img/"
 run_cmd cp -R "$source_root/gif/." "$publish_root/gif/"
+run_cmd cp -R "$source_root/video/." "$publish_root/video/"
 
 if [ "$dry_run" -eq 1 ]; then
   echo "[dry-run] build assets/manifest.json and assets/manifest.txt"

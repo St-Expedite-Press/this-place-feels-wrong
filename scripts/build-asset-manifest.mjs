@@ -33,7 +33,10 @@ async function buildManifest(generatedAt = new Date().toISOString()) {
   for (const file of await walk(publicRoot)) {
     const relativePublic = posix(path.relative(publicRoot, file));
     const sourceCandidate = path.join(sourceRoot, relativePublic);
-    const sourceOwned = relativePublic.startsWith("img/") || relativePublic.startsWith("gif/");
+    const sourceOwned =
+      relativePublic.startsWith("img/") ||
+      relativePublic.startsWith("gif/") ||
+      relativePublic.startsWith("video/");
     if (sourceOwned) {
       try {
         await stat(sourceCandidate);
