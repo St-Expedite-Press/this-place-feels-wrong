@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-21T01:33:14.400Z",
+  "generated_at": "2026-06-21T01:50:23.168Z",
   "roots": {
     "canonical_media": "assets/source/",
     "authored_public": "apps/web/public/assets/",
@@ -109,8 +109,8 @@
       "path": "apps/web/public/assets/css/portal.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 17452,
-      "sha256": "1f6f179ad4b7aac6975d72936df891a30495830791e106a9a716893620b042a7"
+      "bytes": 17671,
+      "sha256": "671db65ad8e023508b6900ad4e894a43b7befc60cc65bdf4add1ceaa6998dc21"
     },
     {
       "path": "apps/web/public/assets/css/README.md",
@@ -438,8 +438,8 @@
       "path": "apps/web/public/assets/video/void-engine-breathing-loop.mp4",
       "ownership": "synced-media",
       "source": "assets/source/video/void-engine-breathing-loop.mp4",
-      "bytes": 5680679,
-      "sha256": "b996e4f2e51ea84b792e68c310c06529bd73233e463e1f7a3ce9855fcc43f28f"
+      "bytes": 2717635,
+      "sha256": "0b2e4c74ed233e108141e784216269d618f904a9eaaec806dd6c508d0de4334c"
     }
   ]
 }
