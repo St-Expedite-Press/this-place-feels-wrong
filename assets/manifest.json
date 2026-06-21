@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-21T01:50:23.168Z",
+  "generated_at": "2026-06-21T02:15:06.730Z",
   "roots": {
     "canonical_media": "assets/source/",
     "authored_public": "apps/web/public/assets/",
@@ -109,8 +109,8 @@
       "path": "apps/web/public/assets/css/portal.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 17671,
-      "sha256": "671db65ad8e023508b6900ad4e894a43b7befc60cc65bdf4add1ceaa6998dc21"
+      "bytes": 17083,
+      "sha256": "67734eca1419ea4bb6023ee4efa56b01f27f72a234ff9e2cc881bcce6d8c3cfd"
     },
     {
       "path": "apps/web/public/assets/css/README.md",
@@ -288,13 +288,6 @@
       "sha256": "4a9b27651bfada75df1cf018bbbf7654e8d209507fbde8cb64ea397dd7a21f5f"
     },
     {
-      "path": "apps/web/public/assets/img/void_engine_twinkle_green-dark-sharp-preview.jpg",
-      "ownership": "synced-media",
-      "source": "assets/source/img/void_engine_twinkle_green-dark-sharp-preview.jpg",
-      "bytes": 1311253,
-      "sha256": "72435d3500f2be6e98cd6b7cae43fd232468204afe0a1fb16b9e25385618c626"
-    },
-    {
       "path": "apps/web/public/assets/img/void_engine_twinkle_green.png",
       "ownership": "synced-media",
       "source": "assets/source/img/void_engine_twinkle_green.png",
@@ -433,13 +426,6 @@
       "source": null,
       "bytes": 307,
       "sha256": "51e63992f3ffa80a89cc7699521471cab393a82eaaa3c98f3c9d7133f74174e6"
-    },
-    {
-      "path": "apps/web/public/assets/video/void-engine-breathing-loop.mp4",
-      "ownership": "synced-media",
-      "source": "assets/source/video/void-engine-breathing-loop.mp4",
-      "bytes": 2717635,
-      "sha256": "0b2e4c74ed233e108141e784216269d618f904a9eaaec806dd6c508d0de4334c"
     }
   ]
 }
