@@ -158,7 +158,46 @@
     "skills": "skills/",
     "ops": "ops/",
     "tools": "scripts/",
-    "kits": "kits/"
+    "kits": "kits/",
+    "orchestration_policy": {
+      "mode": "orchestration-first",
+      "primary_agent_retains": [
+        "planning and safe decomposition",
+        "integration and cross-surface decisions",
+        "critical blockers requiring full context",
+        "conflict resolution and final validation"
+      ],
+      "parallelize_when": "Work can be safely decomposed into independent read, implementation, review, or validation tracks.",
+      "assignment_requires": [
+        "explicit scope and success criteria",
+        "read-only or read/write ownership",
+        "non-overlapping boundaries",
+        "expected output and integration notes",
+        "raw artifact locations"
+      ],
+      "subagent_return_requires": [
+        "concise result",
+        "raw verification artifacts"
+      ],
+      "preferred_openrouter_model": "deepseek/deepseek-v4-flash",
+      "model_fallback": "If the runner cannot select or verify a custom OpenRouter model, use the available runtime model and explicitly log the fallback; never fake compliance.",
+      "secrets": "Never pass secrets, environment-file contents, credentials, tokens, or unnecessary sensitive context to subagents."
+    },
+    "skill_generation_and_curation": {
+      "sequence": [
+        "inventory and search repo, installed, and available skills",
+        "update or extend a suitable skill before creating a duplicate",
+        "follow the skill-creator structure for new or materially revised skills",
+        "validate the skill and referenced paths or scripts",
+        "forward-test with fresh subagents outside the authoring context",
+        "curate, consolidate, and retire or archive stale duplicate skills"
+      ],
+      "synchronization": [
+        "AGENTS.md",
+        "docs/ontology/project-ontology.json",
+        "docs/ontology/ontology.md"
+      ]
+    }
   },
   "agent_data_dictionary": {
     "purpose": "Machine-readable definitions for the repo's documentation-driven agent tooling surface.",
@@ -219,6 +258,29 @@
           "description": "When and why the skill should be used.",
           "workflow": "Ordered operator or agent procedure.",
           "guardrails": "Behavioral and safety constraints for the skill."
+        }
+      },
+      "subagent_assignment": {
+        "owner": "Primary agent under AGENTS.md orchestration policy",
+        "fields": {
+          "scope": "Explicit task boundary and success criteria.",
+          "ownership": "Read-only or read/write files and surfaces with non-overlapping boundaries.",
+          "output": "Expected result format and integration notes.",
+          "raw_artifacts": "Locations of logs, reports, patches, screenshots, or other verification evidence.",
+          "model": "Use deepseek/deepseek-v4-flash when custom OpenRouter selection is supported; otherwise record the available-runtime fallback.",
+          "secrets": "No secrets, environment-file contents, credentials, tokens, or unnecessary sensitive context."
+        }
+      },
+      "skill_lifecycle": {
+        "owner": "AGENTS.md and skills/",
+        "fields": {
+          "discovery": "Inventory and search existing skills before authoring.",
+          "reuse": "Update or extend before creating a duplicate.",
+          "structure": "Follow the skill-creator structure.",
+          "validation": "Validate instructions, metadata, referenced paths, and scripts.",
+          "forward_test": "Test with fresh subagents that lack authoring context.",
+          "curation": "Consolidate overlaps and retire or archive stale duplicates.",
+          "ontology_sync": "Update machine and human ontology when workflows change."
         }
       },
       "ops_script": {
@@ -294,6 +356,12 @@
       "AGENTS.md",
       "CLAUDE.md",
       "docs/state-of-play.md",
+      "docs/ontology/ontology.md",
+      "docs/ontology/project-ontology.json"
+    ],
+    "when_changing_skills_or_orchestration": [
+      "AGENTS.md",
+      "skills/",
       "docs/ontology/ontology.md",
       "docs/ontology/project-ontology.json"
     ],

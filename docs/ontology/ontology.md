@@ -12,6 +12,20 @@ Human-readable companion to `project-ontology.json`. Keep this file aligned when
 | Docs | `README.md`, `docs/`, app READMEs | Human-facing project state, deployment, operations, and infrastructure docs. |
 | Agent infrastructure | `scripts/`, `ops/`, `skills/`, `kits/`, `AGENTS.md`, `CLAUDE.md` | Shell scripts, runbooks, repo skills, scaffolding kits, and agent doctrine. |
 
+## Agent Orchestration
+
+The primary agent operates orchestration-first: it retains planning, safe decomposition, integration, cross-surface decisions, critical blockers, conflict resolution, and final validation. Spawn parallel subagents whenever work can be safely separated into independent read, implementation, review, or validation tracks.
+
+Every assignment declares explicit scope and success criteria, read/write ownership, non-overlapping boundaries, expected output and integration notes, and locations for raw logs, reports, patches, screenshots, or other evidence. Subagents return a concise result plus those raw artifacts. Never pass secrets or unnecessary sensitive context.
+
+Use OpenRouter model `deepseek/deepseek-v4-flash` when the runner supports and verifies custom model selection. Otherwise use the available runtime model and explicitly log the fallback; never claim unverified model compliance.
+
+## Skill Lifecycle
+
+Inventory and search repo, installed, and available skills before authoring. Update or extend a suitable skill before creating a duplicate. New or materially revised skills follow the `skill-creator` structure, are validated with their referenced paths and scripts, and are forward-tested by fresh subagents without the authoring context.
+
+Curate the skill surface over time: consolidate overlapping workflows and retire or archive stale duplicates while preserving maintained entrypoints. When skills or agent workflows change paths, commands, ownership, validation, or policy, synchronize `AGENTS.md`, `project-ontology.json`, and this document.
+
 ## Deployment Auth
 
 - Pages deploy contract: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`

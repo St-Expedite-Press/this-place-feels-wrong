@@ -1,6 +1,6 @@
 # St. Expedite Press — Agent Doctrine
 
-Single source of truth for every agent working in this repository. `CLAUDE.md` imports this file. Operational tooling lives in `agent/tools/`, `agent/ops/`, `agent/skills/`, `agent/kits/` — referenced by npm scripts and make targets.
+Single source of truth for every agent working in this repository. `CLAUDE.md` imports this file. Operational tooling lives in `scripts/`, `ops/`, `skills/`, and `kits/` and is referenced by npm scripts and make targets.
 
 ---
 
@@ -27,7 +27,7 @@ Single source of truth for every agent working in this repository. `CLAUDE.md` i
 | D1 migrations | `apps/communications-worker/migrations/` | **Append-only — never edit existing files** |
 | Media source | `assets/source/` | Canonical image/GIF variants mirrored into the web tree |
 | Brand package | `branding/` | Design docs and tokens — no runtime behavior |
-| Agent tooling | `agent/` | Operational tools, runbooks, skills, kits (see §9) |
+| Agent tooling | `scripts/`, `ops/`, `skills/`, `kits/` | Operational tools, runbooks, skills, and kits (see §10) |
 | Docs | `docs/` | State of play, infrastructure, operations notes |
 | Archive | `archive/` | Non-live historical material — treat as read-only |
 
@@ -257,8 +257,8 @@ Update these together when their surfaces change:
 |---|---|
 | Site routes or assets | `README.md`, `docs/state-of-play.md`, `apps/web/src/README.pages.md`, `AGENTS.md` §2 |
 | Worker routes or payloads | `apps/communications-worker/openapi.yaml`, `apps/communications-worker/README.md`, `docs/infrastructure/`, `AGENTS.md` §2.2 |
-| Tooling commands | `package.json`, `Makefile`, `agent/tools/README.md`, `AGENTS.md` §4 |
-| Agent workflows | `AGENTS.md`, `agent/skills/`, `CLAUDE.md` |
+| Tooling commands | `package.json`, `Makefile`, `scripts/README.md`, `AGENTS.md` §4 |
+| Agent workflows | `AGENTS.md`, `skills/`, `CLAUDE.md` |
 | CSS tokens or structure | `apps/web/public/assets/css/tokens.css`, `branding/tokens/`, `AGENTS.md` §2.3 |
 | D1 schema | New migration file + `apps/communications-worker/README.md` |
 
@@ -301,9 +301,21 @@ Dark void aesthetic. Do not genericize it.
 
 ---
 
-## 8. Subagent Policy
+## 8. Orchestration-First Subagent Policy
 
-Use subagents when work can proceed in parallel without blocking the main path.
+The primary agent is the orchestrator. Keep primary-agent context focused on planning, decomposition, integration, cross-surface decisions, validation, and critical blockers. Whenever work can be safely decomposed into independent read, implementation, review, or validation tracks, spawn subagents in parallel rather than serializing all work in the primary context.
+
+Each subagent assignment must state:
+
+- explicit task scope and success criteria;
+- owned files or surfaces, including whether access is read-only or read/write;
+- boundaries with other agents so edits do not overlap;
+- expected output format and integration notes;
+- raw artifact locations for logs, reports, patches, screenshots, or other evidence.
+
+Subagents must preserve unrelated work and return both a concise result and the raw artifacts needed for primary-agent verification. The primary agent owns synthesis, conflict resolution, final validation, and any immediately critical blocker whose delegation would lose essential context.
+
+When a runner supports custom OpenRouter models, use `deepseek/deepseek-v4-flash` for subagents. Otherwise use the available runtime model and explicitly log the fallback in the assignment or closeout. Never claim the requested model was used when the runner cannot verify it. Never pass secrets, environment-file contents, credentials, tokens, or unnecessary sensitive context to a subagent.
 
 | Role | Owns |
 |---|---|
@@ -313,8 +325,6 @@ Use subagents when work can proceed in parallel without blocking the main path.
 | `ops-release` | Cloudflare runtime checks, release scripts, smoke |
 | `assets` | Media sync, format conversion, manifest |
 
-Give each subagent: explicit file scope, read/write ownership, expected output format. Do not delegate the immediately blocking task.
-
 Each skill in `skills/` is a self-contained agent definition:
 
 | Skill | When to invoke |
@@ -323,6 +333,12 @@ Each skill in `skills/` is a self-contained agent definition:
 | `docs-assay` | Documentation consistency review, ontology audit |
 | `static-site-qa` | Full HTML + a11y + links + SEO gate |
 | `worker-contract-review` | OpenAPI ↔ Worker source parity check |
+
+### 8.1 Skill Generation and Curation Loop
+
+Before creating a skill, inventory and search existing repo, installed, and available skills. Prefer updating or extending a suitable skill over creating a duplicate. For new or materially revised skills, follow the `skill-creator` structure, validate the skill and its referenced paths/scripts, then forward-test it with fresh subagents that did not share the authoring context.
+
+Periodically curate the skill surface: consolidate overlapping workflows, update useful skills, and retire or archive stale duplicates without breaking maintained entrypoints. When a skill or workflow changes repository paths, commands, ownership, validation, or operating policy, update `AGENTS.md`, `docs/ontology/project-ontology.json`, and `docs/ontology/ontology.md` together.
 
 ---
 
