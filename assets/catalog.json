@@ -4,9 +4,12 @@
   "collection": {
     "id": "city-field-notes",
     "title": "Southern City Field Notes",
-    "description": "Five repeated editorial image roles across five Southern cities.",
+    "description": "Ten repeated editorial image roles across five Southern cities.",
     "style_guide": "docs/IMAGE_STYLE_GUIDE.md",
-    "prompt_manifest": "docs/city-image-prompts.json"
+    "prompt_manifests": [
+      "docs/city-image-prompts.json",
+      "docs/city-intimate-prompts.json"
+    ]
   },
   "roles": [
     {
@@ -38,6 +41,36 @@
       "label": "Nocturnal aftermath",
       "family": "fiction-feature",
       "code": "NOC"
+    },
+    {
+      "id": "service-threshold",
+      "label": "Service threshold",
+      "family": "city-intimate-portrait",
+      "code": "SVT"
+    },
+    {
+      "id": "print-room-companion",
+      "label": "Print-room companion",
+      "family": "city-intimate-portrait",
+      "code": "PRC"
+    },
+    {
+      "id": "domestic-assembly",
+      "label": "Domestic assembly",
+      "family": "city-intimate-portrait",
+      "code": "DOM"
+    },
+    {
+      "id": "aftershow-passage",
+      "label": "Aftershow passage",
+      "family": "city-intimate-portrait",
+      "code": "ASP"
+    },
+    {
+      "id": "laundromat-dawn",
+      "label": "Laundromat dawn",
+      "family": "city-intimate-portrait",
+      "code": "LND"
     }
   ],
   "assets": [
@@ -56,7 +89,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Deadpan documentary view of present-day service infrastructure in New Orleans, Louisiana.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -101,7 +134,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Working interior in New Orleans, Louisiana showing practical equipment and evidence of recent use.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -146,7 +179,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Generated archival reconstruction composed from documents and material evidence associated with New Orleans, Louisiana.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -191,7 +224,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Direct-flash documentary portrait of a contemporary writer or maker in New Orleans, Louisiana.",
       "focal_point": "center 35%",
       "accent": "#D9FF00",
@@ -236,7 +269,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Empty nighttime work site in New Orleans, Louisiana showing evidence of recent labor.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -281,7 +314,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Deadpan documentary view of present-day service infrastructure in Athens, Georgia.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -326,7 +359,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Working interior in Athens, Georgia showing practical equipment and evidence of recent use.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -371,7 +404,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Generated archival reconstruction composed from documents and material evidence associated with Athens, Georgia.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -416,7 +449,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Direct-flash documentary portrait of a contemporary writer or maker in Athens, Georgia.",
       "focal_point": "center 35%",
       "accent": "#D9FF00",
@@ -461,7 +494,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Empty nighttime work site in Athens, Georgia showing evidence of recent labor.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -506,7 +539,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Deadpan documentary view of present-day service infrastructure in Asheville, North Carolina.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -551,7 +584,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Working interior in Asheville, North Carolina showing practical equipment and evidence of recent use.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -596,7 +629,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Generated archival reconstruction composed from documents and material evidence associated with Asheville, North Carolina.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -641,7 +674,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Direct-flash documentary portrait of a contemporary writer or maker in Asheville, North Carolina.",
       "focal_point": "center 35%",
       "accent": "#D9FF00",
@@ -686,7 +719,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Empty nighttime work site in Asheville, North Carolina showing evidence of recent labor.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -731,7 +764,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Deadpan documentary view of present-day service infrastructure in Savannah, Georgia.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -776,7 +809,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Working interior in Savannah, Georgia showing practical equipment and evidence of recent use.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -821,7 +854,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Generated archival reconstruction composed from documents and material evidence associated with Savannah, Georgia.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -866,7 +899,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Direct-flash documentary portrait of a contemporary writer or maker in Savannah, Georgia.",
       "focal_point": "center 35%",
       "accent": "#D9FF00",
@@ -911,7 +944,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Empty nighttime work site in Savannah, Georgia showing evidence of recent labor.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -956,7 +989,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Deadpan documentary view of present-day service infrastructure in Richmond, Virginia.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -1001,7 +1034,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Working interior in Richmond, Virginia showing practical equipment and evidence of recent use.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -1046,7 +1079,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Generated archival reconstruction composed from documents and material evidence associated with Richmond, Virginia.",
       "focal_point": "center center",
       "accent": "#D9FF00",
@@ -1091,7 +1124,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Direct-flash documentary portrait of a contemporary writer or maker in Richmond, Virginia.",
       "focal_point": "center 35%",
       "accent": "#D9FF00",
@@ -1136,7 +1169,7 @@
       "provenance": "AI-generated editorial reconstruction",
       "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
       "model": "google/gemini-3.1-flash-image",
-      "generated": "2026-06-19",
+      "generated": "2026-06-20",
       "alt": "Empty nighttime work site in Richmond, Virginia showing evidence of recent labor.",
       "focal_point": "68% center",
       "accent": "#D9FF00",
@@ -1163,6 +1196,1131 @@
           "height": 357,
           "bytes": 37211,
           "sha256": "5e1d68d61940972fc9c8cdf6f79ef2217ec0eba4a78d6149613e76b5747853bc"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-NOL-SVT-001",
+      "title": "New Orleans / Service threshold",
+      "collection": "city-field-notes",
+      "city": "New Orleans, Louisiana",
+      "city_slug": "new-orleans",
+      "role": "service-threshold",
+      "role_label": "Service threshold",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman at a service threshold in New Orleans, Louisiana.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Direct-flash vertical portrait outside the service door of a neighborhood bar just after closing in humid August 2011. She wears a faded sleeveless black blouse, cut-off denim shorts over opaque tights, battered ankle boots, and a narrow silver chain; damp dark hair sticks lightly at her temples. She holds a ring of utility keys and looks past the photographer with tired private amusement. Wet concrete, stacked plastic chairs, ice-machine drain, breaker conduit, utility meter, and one red votive cup remain visible. An unexplained wet footprint crosses behind her.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/new-orleans/master/new-orleans-service-threshold-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1132168,
+          "sha256": "d94b4a9ba29d127a53ff83ffe70467e8db1f7a1ff6fa33a07242d278a1f79111"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/new-orleans/web/new-orleans-service-threshold-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 567474,
+          "sha256": "9befbe9ab3b79e395ca198f30c7a66065f1af75ccfd34f273904ae51b0557060"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/new-orleans/thumb/new-orleans-service-threshold-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 59346,
+          "sha256": "0c1e947daa147dca30b891f0ee47fe735fad157d6b987dff8fd94855b199f8fc"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-NOL-PRC-001",
+      "title": "New Orleans / Print-room companion",
+      "collection": "city-field-notes",
+      "city": "New Orleans, Louisiana",
+      "city_slug": "new-orleans",
+      "role": "print-room-companion",
+      "role_label": "Print-room companion",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman working in a print room in New Orleans, Louisiana.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical direct-flash photograph in a cramped community print room after midnight in 2011. She has just cleared a copier jam and holds a toner-marked maintenance slip, wearing a soft striped T-shirt, high-waisted dark skirt, old canvas shoes, and a thrifted cardigan tied at her waist. Old copier, paper reams, box fan, extension cord, swollen drywall seam, stacked mail tubs, and a St. Expedite prayer card taped inside an open cabinet. Her posture is absorbed rather than posed; one cabinet drawer remains mysteriously open.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/new-orleans/master/new-orleans-print-room-companion-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1028350,
+          "sha256": "86e6428c90ce56d260e614a3a835cd5be9a05adda4996e5c6449fcd05f0a5808"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/new-orleans/web/new-orleans-print-room-companion-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 492402,
+          "sha256": "ae39173f7577cf365ef945424a74cfdfd0c7c5b5ecf2edfc0dc6293828a6d2f7"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/new-orleans/thumb/new-orleans-print-room-companion-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 52801,
+          "sha256": "d950103201cbd2a835d0820cffaffb1d61291e871180505a8781cd4848101434"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-NOL-DOM-001",
+      "title": "New Orleans / Domestic assembly",
+      "collection": "city-field-notes",
+      "city": "New Orleans, Louisiana",
+      "city_slug": "new-orleans",
+      "role": "domestic-assembly",
+      "role_label": "Domestic assembly",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman assembling a small publication at home in New Orleans, Louisiana.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Hard available-light vertical photograph in a small shotgun-apartment kitchen during a zine assembly night in spring 2011. She sits sideways on a plastic chair stapling folded pages, beautiful and intent, loose pale cotton dress under a worn men's work shirt, bare practical feet on old linoleum. Laminate table, postage scale, coffee jar, window unit, fan cord, envelopes, crop ruler, damp wall repair, and paper offcuts provide evidence. She glances toward a sound beyond the screen door; one sealed envelope lies alone on the floor.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/new-orleans/master/new-orleans-domestic-assembly-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 842256,
+          "sha256": "786a717f0a46604a66504319d61d1139e532eaf99a27482ffebe5fee54601eec"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/new-orleans/web/new-orleans-domestic-assembly-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 385291,
+          "sha256": "8e1d7467d4d94a290f8818a9ea6886368efc623f2c2c7bb6392cccdd5697fd4b"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/new-orleans/thumb/new-orleans-domestic-assembly-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 52739,
+          "sha256": "d6f2028a22496686e37988e6a767db4ed1c259af3c5ebfc3956e52c19f3fc551"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-NOL-ASP-001",
+      "title": "New Orleans / Aftershow passage",
+      "collection": "city-field-notes",
+      "city": "New Orleans, Louisiana",
+      "city_slug": "new-orleans",
+      "role": "aftershow-passage",
+      "role_label": "Aftershow passage",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman walking after a DIY event in New Orleans, Louisiana.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Candid vertical night photograph beneath a harsh streetlight after a tiny DIY show in 2011. She walks beside a rain-dark neutral-ground curb carrying a canvas tote of handbills, wearing a faded floral dress, black cardigan, scuffed lace-up boots, and a cheap wristwatch. Direct flash freezes humid air, drainage grating, power lines, patched sidewalk, bicycle wheel, and distant pump-station security light. She turns halfway back toward her companion, laughing without posing; a single loose instrument cable crosses the curb.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/new-orleans/master/new-orleans-aftershow-passage-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1039309,
+          "sha256": "ceb43307c4ab973403d3c7afa8939eafa4f0da09d74e8963255269a2d8407731"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/new-orleans/web/new-orleans-aftershow-passage-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 546304,
+          "sha256": "15fbee3798b093cf0f675406cb31b52a540b96bb791e7be9d3f03177255ac881"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/new-orleans/thumb/new-orleans-aftershow-passage-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 58068,
+          "sha256": "a7f940a6d6f8bbf4672750210ef54ae651931d821173f08bdfda27debf734ee8"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-NOL-LND-001",
+      "title": "New Orleans / Laundromat dawn",
+      "collection": "city-field-notes",
+      "city": "New Orleans, Louisiana",
+      "city_slug": "new-orleans",
+      "role": "laundromat-dawn",
+      "role_label": "Laundromat dawn",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman in a laundromat in New Orleans, Louisiana.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical direct-flash photograph inside a fluorescent laundromat near dawn in 2011. She leans against a scratched folding table waiting for work clothes, tousled dark-blonde hair, plain white undershirt, narrow black jeans, worn cardigan, old flats, no polished styling. Coin slots, handwritten out-of-order note with unreadable text, detergent residue, plastic basket, floor drain, security mirror, and condensation on the glass are sharply legible. She meets the photographer's gaze calmly; one dryer door stands open behind her.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/new-orleans/master/new-orleans-laundromat-dawn-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1087583,
+          "sha256": "188781a5495c6dd899b52c17434afdd8fbc8ebc36229d2dd6e043ce45ff98581"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/new-orleans/web/new-orleans-laundromat-dawn-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 545643,
+          "sha256": "cafb1dfd3956de482dc0e34279ab517ed553e6a93cec3c7d58e8d7aaac6f3234"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/new-orleans/thumb/new-orleans-laundromat-dawn-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 63895,
+          "sha256": "f7a0afa7c905556cfea2a0c8ae38d8b3e410844b2a064efc2cece50643f92a71"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-SVT-001",
+      "title": "Athens / Service threshold",
+      "collection": "city-field-notes",
+      "city": "Athens, Georgia",
+      "city_slug": "athens",
+      "role": "service-threshold",
+      "role_label": "Service threshold",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman at a service threshold in Athens, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Direct-flash vertical portrait at the rear service door of a tiny all-ages venue in October 2011. She is locking up, with short uneven dark-blonde hair, oversized cardigan over a faded cotton dress, black tights, worn lace-up shoes, and utility keys looped around one finger. Cinderblock, patched conduit, rain-tracked concrete, recycling bin, hand-numbered breaker panel, and kudzu against chain-link remain factual rather than picturesque. She turns toward her friend with an exhausted grin; an unplugged microphone rests beside the door.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/athens/master/athens-service-threshold-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1132476,
+          "sha256": "cd682906fcaf1d3a10fc142f56da5c3bfee56dc0adc9ed911f11b6f6b6b37a6d"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/athens/web/athens-service-threshold-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 575452,
+          "sha256": "ece586e59e41071ec4832ad5a47a909ece78845720ea982a5f859f7761de4be8"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/athens/thumb/athens-service-threshold-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 58960,
+          "sha256": "4678ad7c8ea057a0a18686f4486e2da23b1cb100b81584c8a57b644469411228"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-PRC-001",
+      "title": "Athens / Print-room companion",
+      "collection": "city-field-notes",
+      "city": "Athens, Georgia",
+      "city_slug": "athens",
+      "role": "print-room-companion",
+      "role_label": "Print-room companion",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman working in a print room in Athens, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical direct-flash photograph in a volunteer poster-printing room behind a music space in 2011. She stands at a battered copier sorting handbills, long brown hair pinned loosely, striped men's shirt with sleeves rolled, dark high-waisted jeans, canvas shoes, ink on two fingers. Show paper reams, guillotine cutter safely closed, milk crates, stapled acoustic foam, box fan, taped set-list marks too small to read, and an open cabinet. She is caught concentrating, not modeling; one clean white page sits inexplicably among black scraps.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/athens/master/athens-print-room-companion-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1006094,
+          "sha256": "166394bd9e15e0e9eeb4ad4d78516c200bfc57e3c7e1fe25162955808b2b83d5"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/athens/web/athens-print-room-companion-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 510829,
+          "sha256": "5fa08a99528e5bbef8fc1c0bba000b48db6b5da46d58b84f2e64a3b88e3945c3"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/athens/thumb/athens-print-room-companion-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 65427,
+          "sha256": "b1f254c3b0ccabe582decfd71e3f919c3125c89e7a9c9813c568480729b800d3"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-DOM-001",
+      "title": "Athens / Domestic assembly",
+      "collection": "city-field-notes",
+      "city": "Athens, Georgia",
+      "city_slug": "athens",
+      "role": "domestic-assembly",
+      "role_label": "Domestic assembly",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman assembling a small publication at home in Athens, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Hard-window-light vertical photograph in a cheap rental kitchen where friends are assembling a cassette-and-zine package in 2011. She sits at a laminate table threading folded booklets, striking but ordinary, blunt brown bob, soft gray T-shirt, thrift-store pleated skirt, black tights, chipped nail polish. Include postage stamps with no readable addresses, scissors, clear tape, coffee mug, oscillating fan, extension lead, scuffed linoleum, and a grocery receipt. She looks toward an unseen roommate; a lone guitar string curls under the table.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/athens/master/athens-domestic-assembly-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1113460,
+          "sha256": "ed46eb45e3a6582dbf7025f259c8702ed5490de22aacb999a9b0b43694b7cfb6"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/athens/web/athens-domestic-assembly-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 554032,
+          "sha256": "4337b8adbb1d81dd737584d3e08ccbeb5f418ed439419ee685ded50550d43375"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/athens/thumb/athens-domestic-assembly-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 56804,
+          "sha256": "8dba4183898aa3a138ed7e342b47464f15e6a91ee9a004091052d3b1a4ee5e04"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-ASP-001",
+      "title": "Athens / Aftershow passage",
+      "collection": "city-field-notes",
+      "city": "Athens, Georgia",
+      "city_slug": "athens",
+      "role": "aftershow-passage",
+      "role_label": "Aftershow passage",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman walking after a DIY event in Athens, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Candid vertical direct-flash image crossing an empty downtown side street after a small show in 2011. She carries a folded jacket and milk-crate-sized box of leftover zines, wearing a faded black bandless T-shirt, cuffed skirt, opaque tights, battered boots, and a canvas shoulder bag. Wet asphalt, loading door, bicycle rack, utility paint, recycling bin, and fluorescent rear light establish place without readable venue names. She looks over her shoulder toward the photographer; one paper cup rolls in the gutter.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/athens/master/athens-aftershow-passage-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1037652,
+          "sha256": "fbe9d6e13f4441d13ac0664922a2ae164a1e7ba5a0cdb9e77a0cc2b9a32c2937"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/athens/web/athens-aftershow-passage-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 503332,
+          "sha256": "393dd6e89808885ecbb10be57ca99bf2aeb9a89727ab37619671b4a114eab344"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/athens/thumb/athens-aftershow-passage-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 58659,
+          "sha256": "129fbf1dae543e745c7c35322a3d3aa1b08d5c88c49594b99e107dbdd74e3b0b"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-LND-001",
+      "title": "Athens / Laundromat dawn",
+      "collection": "city-field-notes",
+      "city": "Athens, Georgia",
+      "city_slug": "athens",
+      "role": "laundromat-dawn",
+      "role_label": "Laundromat dawn",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman in a laundromat in Athens, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical fluorescent portrait in a twenty-four-hour laundromat before sunrise in 2011. She folds venue towels on a scratched table, beautiful pale face without retouching, hair twisted carelessly up, oversized university-surplus sweatshirt with no logo, narrow jeans, worn sneakers. Broad focus shows coin machines, plastic chairs, detergent dust, an unreadable maintenance card, buzzing tube light, and condensation. Her expression is quietly mischievous toward her companion; one sock hangs from the edge of an otherwise empty cart.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/athens/master/athens-laundromat-dawn-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1005152,
+          "sha256": "fb9ec0762f60592c68ad91b05e9d141fd9c6c1dd5d76247dbb92f4adf4a5f4e6"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/athens/web/athens-laundromat-dawn-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 471897,
+          "sha256": "d6e9f3a9ea84ef27e9d2892b0bbd388a4b33c9329129ac77a49f514c7b9243d9"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/athens/thumb/athens-laundromat-dawn-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 54365,
+          "sha256": "c05ee8020691eaf4bd2865737a7e3e90c709a43315d1d10ec9d504c32c2a7e30"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-SVT-001",
+      "title": "Asheville / Service threshold",
+      "collection": "city-field-notes",
+      "city": "Asheville, North Carolina",
+      "city_slug": "asheville",
+      "role": "service-threshold",
+      "role_label": "Service threshold",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman at a service threshold in Asheville, North Carolina.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical hard-flash portrait at the roll-up door of a cooperative screen-print workshop near the French Broad River in March 2011. She wears a worn striped shirt, high-waisted black jeans, old canvas shoes, and a thrifted wool coat pushed open; long brown hair is loosely pinned. Flood mark, utility pipes, wet gravel, plastic pallet, current inspection sticker with unreadable text, and sump hose remain visible. She pauses with ink-stained gloves in one hand; a workshop light burns behind a closed inner door.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/asheville/master/asheville-service-threshold-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1085434,
+          "sha256": "e7b149f3562778665ebffc2aeee38ebfb4fc199fb64e5e637809cff0e638cf87"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/asheville/web/asheville-service-threshold-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 542725,
+          "sha256": "c369b555c0ef7e6e1a01e2fd07e0adfa613f750022a0b918c0f0e6315af8a020"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/asheville/thumb/asheville-service-threshold-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 59782,
+          "sha256": "ad3895ccbed7f60c6dbc021eb64fce35d30a396520a9139e1233a447c4bdca1c"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-PRC-001",
+      "title": "Asheville / Print-room companion",
+      "collection": "city-field-notes",
+      "city": "Asheville, North Carolina",
+      "city_slug": "asheville",
+      "role": "print-room-companion",
+      "role_label": "Print-room companion",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman working in a print room in Asheville, North Carolina.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Hard available-light vertical photograph beside an ink-stained washout sink in a cooperative print shop in 2011. She examines a water-damaged print, exceptionally beautiful but work-worn, pale cotton blouse under a dark apron, cuffed jeans, practical boots, ink naturally marking two fingers. Include squeegees, drying rack, floor drain, dehumidifier hose, stained graph paper, maintenance card with illegible notation, and damp concrete. She is unaware of the camera for a moment; one screen lies facedown beneath the table.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/asheville/master/asheville-print-room-companion-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1147708,
+          "sha256": "ccf19140421c8a5d8057d41c24cf9155a3e0666df771287b315d9c9e3298522f"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/asheville/web/asheville-print-room-companion-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 579818,
+          "sha256": "7e24f4d895e2cb0ac8b0230efa52f07caaa7c0658eaff32aa459699a384854d8"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/asheville/thumb/asheville-print-room-companion-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 64950,
+          "sha256": "2db59746685fdb8d7b4c666b286c5c3dd3fea0999793cad0aabe3ec69d83a880"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-DOM-001",
+      "title": "Asheville / Domestic assembly",
+      "collection": "city-field-notes",
+      "city": "Asheville, North Carolina",
+      "city_slug": "asheville",
+      "role": "domestic-assembly",
+      "role_label": "Domestic assembly",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman assembling a small publication at home in Asheville, North Carolina.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical direct-flash photograph in a small shared apartment dining nook during a benefit-zine assembly in 2011. She kneels beside a low table collating photocopies, loose auburn hair, faded thermal shirt, dark skirt over leggings, wool socks, secondhand cardigan. Evidence includes stapler, ruler, river-level printout with unreadable text, rent receipt, stained graph paper, blue shop rag rendered monochrome, radiator, and drying gloves. She smiles privately at the photographer; a rusted washer sits inexplicably atop the finished stack.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/asheville/master/asheville-domestic-assembly-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 924797,
+          "sha256": "481f344023e105cc00b92ce3aee78ef8167cf2874464fc04aa732893e6e37ef9"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/asheville/web/asheville-domestic-assembly-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 449112,
+          "sha256": "15329fda5db226891f78f3145d403307008f14081ec7f42d2e11838f73c3871b"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/asheville/thumb/asheville-domestic-assembly-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 50659,
+          "sha256": "71f7c3e98a232cbef436784e98a804678e9ee5fcdd0b70db269a7dad50db1511"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-ASP-001",
+      "title": "Asheville / Aftershow passage",
+      "collection": "city-field-notes",
+      "city": "Asheville, North Carolina",
+      "city_slug": "asheville",
+      "role": "aftershow-passage",
+      "role_label": "Aftershow passage",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman walking after a DIY event in Asheville, North Carolina.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Candid vertical night photograph walking through a wet workshop alley after a basement performance in 2011. She carries rolled screen prints under one arm, wearing a dark pea coat, short cotton dress, black tights, and muddy lace-up boots. Direct flash reveals patched brick, HVAC units, utility markings, sandbags, bicycle chain, rainwater, and one security light; no mountain vista. She glances back with windblown hair and a tired laugh; a white paper respirator lies alone near the drain.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/asheville/master/asheville-aftershow-passage-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1075785,
+          "sha256": "9cf7d6a90995fc66c7c9b503e2e543c63aab36351d4239020f0b327342c1321e"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/asheville/web/asheville-aftershow-passage-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 539253,
+          "sha256": "22ee648834eb3ab43f9df56c106fb67078d51a22cf1b2de5df02e202fe9c5b1d"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/asheville/thumb/asheville-aftershow-passage-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 59731,
+          "sha256": "6e21fb1221bbc975ff870f5fbeb17dce517d63855d45c2117a27b7da9731e443"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-LND-001",
+      "title": "Asheville / Laundromat dawn",
+      "collection": "city-field-notes",
+      "city": "Asheville, North Carolina",
+      "city_slug": "asheville",
+      "role": "laundromat-dawn",
+      "role_label": "Laundromat dawn",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman in a laundromat in Asheville, North Carolina.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical fluorescent documentary portrait in a riverside laundromat early in 2011. She waits beside a humming dryer with shop aprons in a plastic basket, striking face naturally flushed, layered thermal shirt, dark work pants, patched cardigan, inexpensive sneakers. Show flood-stained baseboard, coin return, dehumidifier, floor drain, handwritten out-of-order slip with unreadable marks, and wet umbrella. She looks directly at her friend without posing; one clean squeegee is inexplicably tucked into the basket.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/asheville/master/asheville-laundromat-dawn-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 836022,
+          "sha256": "0cd6d1543b20d11680b27b5ecf64de3872fb7312d45f5daba3091d9da406b9b2"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/asheville/web/asheville-laundromat-dawn-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 375006,
+          "sha256": "b2e9ee322001f17aba409e11c6880daec0afa9db7bc54559c67809c267c9430d"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/asheville/thumb/asheville-laundromat-dawn-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 46460,
+          "sha256": "968ded9ca52f4ad3dcd96b5e06064b85eb2f0ccfe1d51630cfd9059e19de28b7"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-SVT-001",
+      "title": "Savannah / Service threshold",
+      "collection": "city-field-notes",
+      "city": "Savannah, Georgia",
+      "city_slug": "savannah",
+      "role": "service-threshold",
+      "role_label": "Service threshold",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman at a service threshold in Savannah, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical direct-flash portrait in an ordinary apartment breezeway in humid June 2011. She carries bundled stapled magazines and sealed envelopes, shoulder-length copper-brown hair made unruly by humidity, plain white undershirt beneath a dark cardigan, narrow black skirt, worn flats, canvas postal bag. Concrete block, utility doors, humming window unit, repair paint, parcel-locker edge, and damp surface bloom remain sharp. She looks toward the parking lot with private amusement; one envelope lies alone behind her.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/savannah/master/savannah-service-threshold-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 931500,
+          "sha256": "96383c88938063b6d167f52e2162bb36a6d18dbbf1d8c73e5cbb315485f280ac"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/savannah/web/savannah-service-threshold-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 453953,
+          "sha256": "bd988c1790dc1ab16fb42c72d7787ea9a75b6287ac6a70271706f5e192ee6ac3"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/savannah/thumb/savannah-service-threshold-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 50808,
+          "sha256": "3851bb2227f9bad45f5ed3018f1b20436ea025dd06b992007a16c2f96558b634"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-PRC-001",
+      "title": "Savannah / Print-room companion",
+      "collection": "city-field-notes",
+      "city": "Savannah, Georgia",
+      "city_slug": "savannah",
+      "role": "print-room-companion",
+      "role_label": "Print-room companion",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman working in a print room in Savannah, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical direct-flash image in a modest apartment kitchen used as a literary-publication workroom in 2011. She stands beside a copier and postage scale trimming page edges, beautiful and intent, dark bob, sleeveless cotton blouse, high-waisted skirt, black tights, old leather flats. Laminate table, stapler, paper reams, extension cord, window air-conditioner, plastic chair, damp wall repair, obscured postage labels, and corroded staples supply evidence. Her hands remain natural; a red devotional ribbon appears only as a dark monochrome strip.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/savannah/master/savannah-print-room-companion-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 989887,
+          "sha256": "15f6859b7ae7086236bb17526873519d91a1b050b95641562098cd114b8d6c34"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/savannah/web/savannah-print-room-companion-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 478584,
+          "sha256": "3efafd6d867d23c076e17060a05e07bbe5f1d2606cf348d756e468cadb24312c"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/savannah/thumb/savannah-print-room-companion-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 52741,
+          "sha256": "ba5903fdbb260691ec066b5f209c760c73c553f9107c572c59c0f64d30412b09"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-DOM-001",
+      "title": "Savannah / Domestic assembly",
+      "collection": "city-field-notes",
+      "city": "Savannah, Georgia",
+      "city_slug": "savannah",
+      "role": "domestic-assembly",
+      "role_label": "Domestic assembly",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman assembling a small publication at home in Savannah, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Hard-window-light vertical photograph during a late-afternoon magazine mailing session in a small Savannah apartment in 2011. She sits on the floor among folded sheets and envelopes, long pale-brown hair loosely tied, faded floral dress under an oversized men's shirt, bare feet on worn vinyl. Include cotton thread, ruler, tide-table fragment with unreadable text, utility notice, coffee ring, oscillating fan, screen door, and parcel tape. She looks up at her companion mid-conversation; one white glove rests inexplicably beside the postage scale.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/savannah/master/savannah-domestic-assembly-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1070117,
+          "sha256": "1844f0de371393f9b59015d67492f462cec3e762b6352c082955f805b92e848a"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/savannah/web/savannah-domestic-assembly-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 531014,
+          "sha256": "b56162d26d2b35f2c409039e449a3e37f8edf351e33a8b3fa9ad7a507f98b882"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/savannah/thumb/savannah-domestic-assembly-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 58184,
+          "sha256": "8e66a61b94a5caa49f5060227451a2d1b818c8f2c6c63461bed10e010bd4797d"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-ASP-001",
+      "title": "Savannah / Aftershow passage",
+      "collection": "city-field-notes",
+      "city": "Savannah, Georgia",
+      "city_slug": "savannah",
+      "role": "aftershow-passage",
+      "role_label": "Aftershow passage",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman walking after a DIY event in Savannah, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Candid vertical night portrait in a wet service lane after a DIY reading and small show in 2011. She walks with a canvas tote and folded metal music stand, wearing a soft black dress, thrifted cardigan, black tights, scuffed ankle boots, minimal jewelry. Direct flash catches wet brick, grease-trap lid, mop-water trail, storm drain, stacked crates with hidden logos, fluorescent service door, and salt-stained stucco. No picturesque square or moss. She turns toward the photographer; a single photocopied page clings to the curb.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/savannah/master/savannah-aftershow-passage-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1186401,
+          "sha256": "5190e9caa0d0b0df960614db8aeef5b8e30bedb8526bd7621ba452d62f576dfa"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/savannah/web/savannah-aftershow-passage-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 601506,
+          "sha256": "f91275b1ed4037c04aa95124b13e1f47153eecbf9a05baa889d2f59a74b51343"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/savannah/thumb/savannah-aftershow-passage-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 58359,
+          "sha256": "f0ef27dd945ecb1626a23d15ad71ff7225ccfc456894adaba00d533e3d989eb7"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-LND-001",
+      "title": "Savannah / Laundromat dawn",
+      "collection": "city-field-notes",
+      "city": "Savannah, Georgia",
+      "city_slug": "savannah",
+      "role": "laundromat-dawn",
+      "role_label": "Laundromat dawn",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman in a laundromat in Savannah, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical fluorescent portrait in a small neighborhood laundromat at dawn in summer 2011. She folds black dresses and work shirts, beautiful without polish, humid loose hair, plain ribbed tank beneath a lightweight cardigan, dark skirt, old flats. Coin machines, plastic basket, salt-marked window, floor drain, repair patch, unreadable notice, and oscillating fan create material specificity. Her gaze is calm and familiar toward the photographer; a sealed literary envelope sits on top of a dryer.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/savannah/master/savannah-laundromat-dawn-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 825324,
+          "sha256": "a42a7f6334eeb37400018bd9e9e1ef6277f59fc1c2f0ee79180914c17f44e57d"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/savannah/web/savannah-laundromat-dawn-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 381706,
+          "sha256": "b43e965cbd2dc705c6631c6196c8d7da32cdcd799409f5d69f685374fafdfcec"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/savannah/thumb/savannah-laundromat-dawn-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 47559,
+          "sha256": "efdcc9cf260c613a4ebd067d9b994bbf28c5364d5b7b6e194680d338d953bba5"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-SVT-001",
+      "title": "Richmond / Service threshold",
+      "collection": "city-field-notes",
+      "city": "Richmond, Virginia",
+      "city_slug": "richmond",
+      "role": "service-threshold",
+      "role_label": "Service threshold",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman at a service threshold in Richmond, Virginia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical direct-flash portrait in a freight-elevator lobby after a zine packing session in November 2011. She has a blunt dark bob and wears an oversized army-surplus coat over a soft black T-shirt, cuffed jeans, battered leather boots, and a canvas tote of proofs. Scratched elevator door, obscured inspection plate, hand truck, conduit, chipped floor stripe, and tied paper offcuts remain visible. She half smiles while rubbing toner from one thumb; a paper band has caught around her boot.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/richmond/master/richmond-service-threshold-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1063957,
+          "sha256": "92c80411f47c24502946f314aba497539d017b8fe6a4ebcb5b2f7e259430de14"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/richmond/web/richmond-service-threshold-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 502266,
+          "sha256": "fc7a37efbd5cd18075755db721dfc678561e701d1620853463386b43b785d3cd"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/richmond/thumb/richmond-service-threshold-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 53011,
+          "sha256": "662db32209f4498b5c85bcc833fc1a71976e787b87f262d7109ae121a186ef7e"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-PRC-001",
+      "title": "Richmond / Print-room companion",
+      "collection": "city-field-notes",
+      "city": "Richmond, Virginia",
+      "city_slug": "richmond",
+      "role": "print-room-companion",
+      "role_label": "Print-room companion",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman working in a print room in Richmond, Virginia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical direct-flash photograph inside a volunteer risograph and copier room in 2011. She sorts a fresh print run, striking pale face, short dark hair, striped long-sleeve shirt, high-waisted black trousers, worn canvas shoes, natural ink marks on her fingertips. Show ink drums with labels obscured, paper offcuts, cutter safely closed, folding chair, exposed pipe, shipping tape, clipboard note too small to read, and one drawer left open. She is caught listening to someone outside frame rather than posing.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/richmond/master/richmond-print-room-companion-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 999791,
+          "sha256": "fd1bdc66fdb6a5cf2d2b0fa9255759b2db38f4485b8ac48c38bb14527351f86f"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/richmond/web/richmond-print-room-companion-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 493648,
+          "sha256": "310fa0f5a949f757c538cae95b158f96a1e49731665447e653b1f3143a0241c8"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/richmond/thumb/richmond-print-room-companion-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 57965,
+          "sha256": "558544e475088867e55e15e0aa7f866ee964db8f8d17b54187e63e7a86ed9122"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-DOM-001",
+      "title": "Richmond / Domestic assembly",
+      "collection": "city-field-notes",
+      "city": "Richmond, Virginia",
+      "city_slug": "richmond",
+      "role": "domestic-assembly",
+      "role_label": "Domestic assembly",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman assembling a small publication at home in Richmond, Virginia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Hard available-light vertical photograph in a cold shared apartment where a poetry zine is being collated in 2011. She sits cross-legged beside a low table, long auburn hair, faded gray sweatshirt, dark pleated skirt over tights, wool socks, chipped polish. Include print-run tally, transit transfer, utility invoice with details obscured, crop ruler, torn black paper, toner-stained glove, radiator, and chipped mug. She looks toward the trusted photographer with a quiet smile; one rail-yard map fragment protrudes from beneath the rug.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/richmond/master/richmond-domestic-assembly-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1112915,
+          "sha256": "5b03d295d6e2b2d49977861aa12556ea35eac84f5defa1dfcdd262225dd0f9c8"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/richmond/web/richmond-domestic-assembly-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 567259,
+          "sha256": "f3843f46cde7ef16e6f9d39f7e95065ce10fcbf28e72807f2d747f54dd536a38"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/richmond/thumb/richmond-domestic-assembly-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 63057,
+          "sha256": "bc075278fa3e885d17cd42413de1bb70a2fe0751ae5d7c1fe050201c53679359"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-ASP-001",
+      "title": "Richmond / Aftershow passage",
+      "collection": "city-field-notes",
+      "city": "Richmond, Virginia",
+      "city_slug": "richmond",
+      "role": "aftershow-passage",
+      "role_label": "Aftershow passage",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman walking after a DIY event in Richmond, Virginia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Candid vertical night photograph under a rail viaduct after a small warehouse show in 2011. She carries flattened poster tubes and a canvas shoulder bag, wearing a thrifted pea coat, faded cotton dress, black tights, and scuffed boots. Direct flash makes concrete piers, patched cable tray, storm-water channel, bike rack, fresh utility markings, loading door, and sodium security light materially legible. She turns back toward her companion, hair moving in cold wind; one copier-paper band is caught on the fence.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/richmond/master/richmond-aftershow-passage-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 1075788,
+          "sha256": "eb2fea9113d69c3f24bfb0327610ea71fd165f15cb641eb374bb9fc7c7af8f87"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/richmond/web/richmond-aftershow-passage-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 502532,
+          "sha256": "9aae94be7a27441fe19660868dfd22e86138280f4aca74817a8bcaf0387d76af"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/richmond/thumb/richmond-aftershow-passage-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 58077,
+          "sha256": "a745edf0682e1f4dd03294faff490ea4a83e057e7f2e56ec09e8cb75aa1b689f"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-LND-001",
+      "title": "Richmond / Laundromat dawn",
+      "collection": "city-field-notes",
+      "city": "Richmond, Virginia",
+      "city_slug": "richmond",
+      "role": "laundromat-dawn",
+      "role_label": "Laundromat dawn",
+      "family": "city-intimate-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "black-forest-labs/flux.2-flex",
+      "generated": "2026-06-20",
+      "alt": "Candid 2011 documentary reconstruction of a young adult woman in a laundromat in Richmond, Virginia.",
+      "focal_point": "center 35%",
+      "accent": "#D9FF00",
+      "prompt": "Vertical fluorescent documentary photograph in an urban laundromat before sunrise in winter 2011. She folds print-shop rags and dark clothes, exceptionally beautiful but tired, blunt bob slightly mussed, oversized cardigan, plain undershirt, narrow jeans, old leather shoes. Broad focus shows scratched folding table, coin slots, plastic cart, exposed pipe, unreadable maintenance note, salt tracked on tile, and a transit transfer. She looks steadily at the photographer; one pristine sheet of copier paper rests inside the empty cart.",
+      "prompt_source": "docs/city-intimate-prompts.json",
+      "files": {
+        "master": {
+          "path": "images/editorial/city-field-notes/richmond/master/richmond-laundromat-dawn-2011.jpg",
+          "width": 1440,
+          "height": 1920,
+          "bytes": 938916,
+          "sha256": "8a422131be0902fab217e71f091b4aebd6f458813526f9de8c52d763c23377a2"
+        },
+        "web": {
+          "path": "images/editorial/city-field-notes/richmond/web/richmond-laundromat-dawn-2011.jpg",
+          "width": 1350,
+          "height": 1800,
+          "bytes": 447296,
+          "sha256": "e0bcd234a6e2e3247a386adcb2c80ef7315ca181b68617c1a2a4d21e0183c8a4"
+        },
+        "thumb": {
+          "path": "images/editorial/city-field-notes/richmond/thumb/richmond-laundromat-dawn-2011.jpg",
+          "width": 480,
+          "height": 640,
+          "bytes": 51851,
+          "sha256": "9c2575cb80a3284318c7edd6ec7ad3e4d86d5b8f8092fb9ceed88d42612468d7"
         }
       }
     }

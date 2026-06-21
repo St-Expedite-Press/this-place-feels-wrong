@@ -1,0 +1,190 @@
+{
+  "title": "RICE 2011 Millennial City Intimacies",
+  "model": "black-forest-labs/flux.2-flex",
+  "use_case": "photorealistic-natural",
+  "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+  "shared_prompt": "A convincingly real candid documentary photograph set in 2011, made by a trusted friend using an ordinary compact digital camera or inexpensive DSLR with a small on-camera flash, not by a fashion crew. The subject is a fictional white woman, clearly an adult around 25 years old, exceptionally beautiful but believable, with natural pores, slight under-eye texture, flyaway hair, ordinary proportions, minimal makeup, physically coherent hands, and an unforced expression. Her inexpensive early-millennial indie clothing is genuinely worn, slightly rumpled, repeatedly washed, and specific to DIY music, zine, small-press, art-worker, and service-worker culture. Every object must obey real scale, gravity, perspective, wear, electrical logic, and material behavior. The room or street should look accumulated through use rather than art-directed: mismatched practical objects, believable stains, repaired surfaces, incidental clutter, and locally specific infrastructure. Show inspectable material evidence of the city and recent work. Use plausible 2011 sensor response: modest dynamic range, direct-flash falloff, slight highlight clipping, restrained chromatic noise converted to monochrome, broad readable focus, mild lens distortion, and imperfect but credible snapshot framing. Finish as a black-and-white photocopy reproduction with dense blacks, compressed midtones, warm paper-colored highlights, restrained toner dropout, and one tiny acid-yellow registration mark added like a later editorial production artifact. Contemporary independent-literary-magazine severity; beauty under pressure; one unresolved but physically plausible detail. The result must be readily mistaken for a real found photograph rather than AI-generated imagery.",
+  "negative_prompt": "No nudity, lingerie, sexualized pose, voyeurism, commercial fashion campaign, luxury styling, influencer aesthetic, pinup treatment, fetish costume, airbrushed or waxy skin, beauty-filter face, exaggerated body proportions, malformed hands, extra fingers, fused limbs, duplicated objects, impossible reflections, floating items, warped architecture, nonsensical machinery, fake readable documents, random pseudo-text, excessive symmetry, overdesigned clutter, curated vintage set dressing, synthetic grunge, uniform distress texture, shallow depth of field, cinematic glamour, volumetric light, teal-and-orange grading, sepia nostalgia, fake film border, generic bohemian styling, tourism imagery, Southern Gothic cliché, romanticized poverty, readable brand names, title text, logo, watermark, or decorative frame.",
+  "cities": [
+    {
+      "city": "New Orleans, Louisiana",
+      "slug": "new-orleans",
+      "images": [
+        {
+          "role": "service-threshold",
+          "filename": "new-orleans-service-threshold-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Direct-flash vertical portrait outside the service door of a neighborhood bar just after closing in humid August 2011. She wears a faded sleeveless black blouse, cut-off denim shorts over opaque tights, battered ankle boots, and a narrow silver chain; damp dark hair sticks lightly at her temples. She holds a ring of utility keys and looks past the photographer with tired private amusement. Wet concrete, stacked plastic chairs, ice-machine drain, breaker conduit, utility meter, and one red votive cup remain visible. An unexplained wet footprint crosses behind her."
+        },
+        {
+          "role": "print-room-companion",
+          "filename": "new-orleans-print-room-companion-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical direct-flash photograph in a cramped community print room after midnight in 2011. She has just cleared a copier jam and holds a toner-marked maintenance slip, wearing a soft striped T-shirt, high-waisted dark skirt, old canvas shoes, and a thrifted cardigan tied at her waist. Old copier, paper reams, box fan, extension cord, swollen drywall seam, stacked mail tubs, and a St. Expedite prayer card taped inside an open cabinet. Her posture is absorbed rather than posed; one cabinet drawer remains mysteriously open."
+        },
+        {
+          "role": "domestic-assembly",
+          "filename": "new-orleans-domestic-assembly-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Hard available-light vertical photograph in a small shotgun-apartment kitchen during a zine assembly night in spring 2011. She sits sideways on a plastic chair stapling folded pages, beautiful and intent, loose pale cotton dress under a worn men's work shirt, bare practical feet on old linoleum. Laminate table, postage scale, coffee jar, window unit, fan cord, envelopes, crop ruler, damp wall repair, and paper offcuts provide evidence. She glances toward a sound beyond the screen door; one sealed envelope lies alone on the floor."
+        },
+        {
+          "role": "aftershow-passage",
+          "filename": "new-orleans-aftershow-passage-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Candid vertical night photograph beneath a harsh streetlight after a tiny DIY show in 2011. She walks beside a rain-dark neutral-ground curb carrying a canvas tote of handbills, wearing a faded floral dress, black cardigan, scuffed lace-up boots, and a cheap wristwatch. Direct flash freezes humid air, drainage grating, power lines, patched sidewalk, bicycle wheel, and distant pump-station security light. She turns halfway back toward her companion, laughing without posing; a single loose instrument cable crosses the curb."
+        },
+        {
+          "role": "laundromat-dawn",
+          "filename": "new-orleans-laundromat-dawn-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical direct-flash photograph inside a fluorescent laundromat near dawn in 2011. She leans against a scratched folding table waiting for work clothes, tousled dark-blonde hair, plain white undershirt, narrow black jeans, worn cardigan, old flats, no polished styling. Coin slots, handwritten out-of-order note with unreadable text, detergent residue, plastic basket, floor drain, security mirror, and condensation on the glass are sharply legible. She meets the photographer's gaze calmly; one dryer door stands open behind her."
+        }
+      ]
+    },
+    {
+      "city": "Athens, Georgia",
+      "slug": "athens",
+      "images": [
+        {
+          "role": "service-threshold",
+          "filename": "athens-service-threshold-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Direct-flash vertical portrait at the rear service door of a tiny all-ages venue in October 2011. She is locking up, with short uneven dark-blonde hair, oversized cardigan over a faded cotton dress, black tights, worn lace-up shoes, and utility keys looped around one finger. Cinderblock, patched conduit, rain-tracked concrete, recycling bin, hand-numbered breaker panel, and kudzu against chain-link remain factual rather than picturesque. She turns toward her friend with an exhausted grin; an unplugged microphone rests beside the door."
+        },
+        {
+          "role": "print-room-companion",
+          "filename": "athens-print-room-companion-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical direct-flash photograph in a volunteer poster-printing room behind a music space in 2011. She stands at a battered copier sorting handbills, long brown hair pinned loosely, striped men's shirt with sleeves rolled, dark high-waisted jeans, canvas shoes, ink on two fingers. Show paper reams, guillotine cutter safely closed, milk crates, stapled acoustic foam, box fan, taped set-list marks too small to read, and an open cabinet. She is caught concentrating, not modeling; one clean white page sits inexplicably among black scraps."
+        },
+        {
+          "role": "domestic-assembly",
+          "filename": "athens-domestic-assembly-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Hard-window-light vertical photograph in a cheap rental kitchen where friends are assembling a cassette-and-zine package in 2011. She sits at a laminate table threading folded booklets, striking but ordinary, blunt brown bob, soft gray T-shirt, thrift-store pleated skirt, black tights, chipped nail polish. Include postage stamps with no readable addresses, scissors, clear tape, coffee mug, oscillating fan, extension lead, scuffed linoleum, and a grocery receipt. She looks toward an unseen roommate; a lone guitar string curls under the table."
+        },
+        {
+          "role": "aftershow-passage",
+          "filename": "athens-aftershow-passage-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Candid vertical direct-flash image crossing an empty downtown side street after a small show in 2011. She carries a folded jacket and milk-crate-sized box of leftover zines, wearing a faded black bandless T-shirt, cuffed skirt, opaque tights, battered boots, and a canvas shoulder bag. Wet asphalt, loading door, bicycle rack, utility paint, recycling bin, and fluorescent rear light establish place without readable venue names. She looks over her shoulder toward the photographer; one paper cup rolls in the gutter."
+        },
+        {
+          "role": "laundromat-dawn",
+          "filename": "athens-laundromat-dawn-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical fluorescent portrait in a twenty-four-hour laundromat before sunrise in 2011. She folds venue towels on a scratched table, beautiful pale face without retouching, hair twisted carelessly up, oversized university-surplus sweatshirt with no logo, narrow jeans, worn sneakers. Broad focus shows coin machines, plastic chairs, detergent dust, an unreadable maintenance card, buzzing tube light, and condensation. Her expression is quietly mischievous toward her companion; one sock hangs from the edge of an otherwise empty cart."
+        }
+      ]
+    },
+    {
+      "city": "Asheville, North Carolina",
+      "slug": "asheville",
+      "images": [
+        {
+          "role": "service-threshold",
+          "filename": "asheville-service-threshold-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical hard-flash portrait at the roll-up door of a cooperative screen-print workshop near the French Broad River in March 2011. She wears a worn striped shirt, high-waisted black jeans, old canvas shoes, and a thrifted wool coat pushed open; long brown hair is loosely pinned. Flood mark, utility pipes, wet gravel, plastic pallet, current inspection sticker with unreadable text, and sump hose remain visible. She pauses with ink-stained gloves in one hand; a workshop light burns behind a closed inner door."
+        },
+        {
+          "role": "print-room-companion",
+          "filename": "asheville-print-room-companion-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Hard available-light vertical photograph beside an ink-stained washout sink in a cooperative print shop in 2011. She examines a water-damaged print, exceptionally beautiful but work-worn, pale cotton blouse under a dark apron, cuffed jeans, practical boots, ink naturally marking two fingers. Include squeegees, drying rack, floor drain, dehumidifier hose, stained graph paper, maintenance card with illegible notation, and damp concrete. She is unaware of the camera for a moment; one screen lies facedown beneath the table."
+        },
+        {
+          "role": "domestic-assembly",
+          "filename": "asheville-domestic-assembly-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical direct-flash photograph in a small shared apartment dining nook during a benefit-zine assembly in 2011. She kneels beside a low table collating photocopies, loose auburn hair, faded thermal shirt, dark skirt over leggings, wool socks, secondhand cardigan. Evidence includes stapler, ruler, river-level printout with unreadable text, rent receipt, stained graph paper, blue shop rag rendered monochrome, radiator, and drying gloves. She smiles privately at the photographer; a rusted washer sits inexplicably atop the finished stack."
+        },
+        {
+          "role": "aftershow-passage",
+          "filename": "asheville-aftershow-passage-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Candid vertical night photograph walking through a wet workshop alley after a basement performance in 2011. She carries rolled screen prints under one arm, wearing a dark pea coat, short cotton dress, black tights, and muddy lace-up boots. Direct flash reveals patched brick, HVAC units, utility markings, sandbags, bicycle chain, rainwater, and one security light; no mountain vista. She glances back with windblown hair and a tired laugh; a white paper respirator lies alone near the drain."
+        },
+        {
+          "role": "laundromat-dawn",
+          "filename": "asheville-laundromat-dawn-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical fluorescent documentary portrait in a riverside laundromat early in 2011. She waits beside a humming dryer with shop aprons in a plastic basket, striking face naturally flushed, layered thermal shirt, dark work pants, patched cardigan, inexpensive sneakers. Show flood-stained baseboard, coin return, dehumidifier, floor drain, handwritten out-of-order slip with unreadable marks, and wet umbrella. She looks directly at her friend without posing; one clean squeegee is inexplicably tucked into the basket."
+        }
+      ]
+    },
+    {
+      "city": "Savannah, Georgia",
+      "slug": "savannah",
+      "images": [
+        {
+          "role": "service-threshold",
+          "filename": "savannah-service-threshold-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical direct-flash portrait in an ordinary apartment breezeway in humid June 2011. She carries bundled stapled magazines and sealed envelopes, shoulder-length copper-brown hair made unruly by humidity, plain white undershirt beneath a dark cardigan, narrow black skirt, worn flats, canvas postal bag. Concrete block, utility doors, humming window unit, repair paint, parcel-locker edge, and damp surface bloom remain sharp. She looks toward the parking lot with private amusement; one envelope lies alone behind her."
+        },
+        {
+          "role": "print-room-companion",
+          "filename": "savannah-print-room-companion-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical direct-flash image in a modest apartment kitchen used as a literary-publication workroom in 2011. She stands beside a copier and postage scale trimming page edges, beautiful and intent, dark bob, sleeveless cotton blouse, high-waisted skirt, black tights, old leather flats. Laminate table, stapler, paper reams, extension cord, window air-conditioner, plastic chair, damp wall repair, obscured postage labels, and corroded staples supply evidence. Her hands remain natural; a red devotional ribbon appears only as a dark monochrome strip."
+        },
+        {
+          "role": "domestic-assembly",
+          "filename": "savannah-domestic-assembly-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Hard-window-light vertical photograph during a late-afternoon magazine mailing session in a small Savannah apartment in 2011. She sits on the floor among folded sheets and envelopes, long pale-brown hair loosely tied, faded floral dress under an oversized men's shirt, bare feet on worn vinyl. Include cotton thread, ruler, tide-table fragment with unreadable text, utility notice, coffee ring, oscillating fan, screen door, and parcel tape. She looks up at her companion mid-conversation; one white glove rests inexplicably beside the postage scale."
+        },
+        {
+          "role": "aftershow-passage",
+          "filename": "savannah-aftershow-passage-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Candid vertical night portrait in a wet service lane after a DIY reading and small show in 2011. She walks with a canvas tote and folded metal music stand, wearing a soft black dress, thrifted cardigan, black tights, scuffed ankle boots, minimal jewelry. Direct flash catches wet brick, grease-trap lid, mop-water trail, storm drain, stacked crates with hidden logos, fluorescent service door, and salt-stained stucco. No picturesque square or moss. She turns toward the photographer; a single photocopied page clings to the curb."
+        },
+        {
+          "role": "laundromat-dawn",
+          "filename": "savannah-laundromat-dawn-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical fluorescent portrait in a small neighborhood laundromat at dawn in summer 2011. She folds black dresses and work shirts, beautiful without polish, humid loose hair, plain ribbed tank beneath a lightweight cardigan, dark skirt, old flats. Coin machines, plastic basket, salt-marked window, floor drain, repair patch, unreadable notice, and oscillating fan create material specificity. Her gaze is calm and familiar toward the photographer; a sealed literary envelope sits on top of a dryer."
+        }
+      ]
+    },
+    {
+      "city": "Richmond, Virginia",
+      "slug": "richmond",
+      "images": [
+        {
+          "role": "service-threshold",
+          "filename": "richmond-service-threshold-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical direct-flash portrait in a freight-elevator lobby after a zine packing session in November 2011. She has a blunt dark bob and wears an oversized army-surplus coat over a soft black T-shirt, cuffed jeans, battered leather boots, and a canvas tote of proofs. Scratched elevator door, obscured inspection plate, hand truck, conduit, chipped floor stripe, and tied paper offcuts remain visible. She half smiles while rubbing toner from one thumb; a paper band has caught around her boot."
+        },
+        {
+          "role": "print-room-companion",
+          "filename": "richmond-print-room-companion-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical direct-flash photograph inside a volunteer risograph and copier room in 2011. She sorts a fresh print run, striking pale face, short dark hair, striped long-sleeve shirt, high-waisted black trousers, worn canvas shoes, natural ink marks on her fingertips. Show ink drums with labels obscured, paper offcuts, cutter safely closed, folding chair, exposed pipe, shipping tape, clipboard note too small to read, and one drawer left open. She is caught listening to someone outside frame rather than posing."
+        },
+        {
+          "role": "domestic-assembly",
+          "filename": "richmond-domestic-assembly-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Hard available-light vertical photograph in a cold shared apartment where a poetry zine is being collated in 2011. She sits cross-legged beside a low table, long auburn hair, faded gray sweatshirt, dark pleated skirt over tights, wool socks, chipped polish. Include print-run tally, transit transfer, utility invoice with details obscured, crop ruler, torn black paper, toner-stained glove, radiator, and chipped mug. She looks toward the trusted photographer with a quiet smile; one rail-yard map fragment protrudes from beneath the rug."
+        },
+        {
+          "role": "aftershow-passage",
+          "filename": "richmond-aftershow-passage-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Candid vertical night photograph under a rail viaduct after a small warehouse show in 2011. She carries flattened poster tubes and a canvas shoulder bag, wearing a thrifted pea coat, faded cotton dress, black tights, and scuffed boots. Direct flash makes concrete piers, patched cable tray, storm-water channel, bike rack, fresh utility markings, loading door, and sodium security light materially legible. She turns back toward her companion, hair moving in cold wind; one copier-paper band is caught on the fence."
+        },
+        {
+          "role": "laundromat-dawn",
+          "filename": "richmond-laundromat-dawn-2011.jpg",
+          "aspect_ratio": "3:4",
+          "prompt": "Vertical fluorescent documentary photograph in an urban laundromat before sunrise in winter 2011. She folds print-shop rags and dark clothes, exceptionally beautiful but tired, blunt bob slightly mussed, oversized cardigan, plain undershirt, narrow jeans, old leather shoes. Broad focus shows scratched folding table, coin slots, plastic cart, exposed pipe, unreadable maintenance note, salt tracked on tile, and a transit transfer. She looks steadily at the photographer; one pristine sheet of copier paper rests inside the empty cart."
+        }
+      ]
+    }
+  ]
+}

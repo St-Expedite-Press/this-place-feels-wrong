@@ -1,0 +1,71 @@
+{
+  "title": "RICE 2011 City Intimacies — Redlight Proofs",
+  "model": "black-forest-labs/flux.2-flex",
+  "use_case": "photorealistic-natural",
+  "status": "editorial-proof",
+  "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+  "shared_prompt": "Create a convincingly real private snapshot from 2011, photographed by a close friend with a cheap compact digital camera at night. Landscape 4:3 frame. A fictional white woman, unmistakably an adult around 25, is beautiful in an idiosyncratic human way rather than model-perfect: short dark or unevenly cut hair, natural face, slight tiredness, ordinary anatomy, minimal makeup, no beauty retouching. Frame her close, from waist or chest upward, with part of her body cut by the bottom edge. She is absorbed in a DIY task but turns her eyes toward the camera with a quiet, intimate, slightly guarded expression. The camera is physically close enough to feel personal. Most of the room disappears into underexposed black. One practical red safelight or improvised red bulb dominates the image, contaminating skin, wall, paper, and equipment with uneven deep red illumination. Preserve ugly mixed exposure: clipped red bulb, weak shadow detail, color noise, coarse early-digital grain, slight motion softness, modest lens distortion, imperfect focus, black corners, and an accidental snapshot composition. The room must feel actually used, cramped, improvised, and accumulated over years, not art-directed. Objects must obey real scale, gravity, perspective, and material behavior. The image should resemble a forgotten JPEG found on an old hard drive, not contemporary editorial photography and not an AI illustration. Keep city specificity subtle and embedded in practical objects rather than landmarks.",
+  "negative_prompt": "bright room, evenly lit subject, direct white flash, professional studio lighting, fashion editorial, polished lifestyle photograph, centered full-body portrait, clean commercial workspace, symmetrical composition, cinematic rim light, glossy color grading, shallow depth of field, bokeh, perfect sharpness, HDR, modern mirrorless-camera clarity, staged vintage props, costume styling, exaggerated prettiness, influencer face, waxy skin, glamour makeup, pinup pose, nudity, lingerie, sexualized pose, malformed hands, extra fingers, duplicated equipment, warped walls, impossible reflections, floating paper, random legible text, fake logos, captions, watermark, monochrome conversion, photocopy overlay, acid-yellow accent",
+  "cities": [
+    {
+      "city": "New Orleans, Louisiana",
+      "slug": "new-orleans",
+      "images": [
+        {
+          "role": "redlight-proof",
+          "filename": "new-orleans-redlight-proof-v2.jpg",
+          "aspect_ratio": "4:3",
+          "prompt": "Inside a tiny improvised apartment darkroom in New Orleans during a humid summer night in 2011. She wears a thin faded black-and-gray striped T-shirt and stands at a wet counter moving photographic paper between shallow trays. A single bare red bulb hangs at upper right. Contact sheets and small prints dry from clips along the wall; an old window unit, stained plaster, chemical bottles with unreadable labels, and a box fan barely emerge from darkness. Her short dark hair is damp and untidy. She turns only her eyes and shoulders toward the friend holding the camera. The left half of the frame falls almost completely black."
+        }
+      ]
+    },
+    {
+      "city": "Athens, Georgia",
+      "slug": "athens",
+      "images": [
+        {
+          "role": "redlight-proof",
+          "filename": "athens-redlight-proof-v2.jpg",
+          "aspect_ratio": "4:3",
+          "prompt": "Inside a makeshift photo room behind a small all-ages music venue in Athens, Georgia, late in 2011. She wears a washed-out striped scoop-neck shirt and stands close to a cluttered counter developing photographs from the night's show. One improvised red utility bulb burns at upper right. Damp prints hang from binder clips, while a battered enlarger, taped power cord, cinderblock, a milk crate, and the edge of a cheap amplifier vanish into black. Her short uneven dark hair frames her face. She pauses and looks sideways into the nearby camera, intimate and unsmiling. Deep shadow consumes most of the left side."
+        }
+      ]
+    },
+    {
+      "city": "Asheville, North Carolina",
+      "slug": "asheville",
+      "images": [
+        {
+          "role": "redlight-proof",
+          "filename": "asheville-redlight-proof-v2.jpg",
+          "aspect_ratio": "4:3",
+          "prompt": "Inside a cramped darkroom improvised in the back of a cooperative screen-print shop near the French Broad River, winter 2011. She wears a close-fitting old striped T-shirt and works over trays of small black-and-white prints beneath one exposed red safelight at upper right. A flood-stained wall, utility sink, drying screen, clipped negatives, patched pipe, and dehumidifier hose are barely readable in the red darkness. Her short shaggy brown hair and face are partly swallowed by shadow. She turns toward the camera with a private, knowing look, one hand still near the tray. The photograph is severely underexposed except around the red bulb and work surface."
+        }
+      ]
+    },
+    {
+      "city": "Savannah, Georgia",
+      "slug": "savannah",
+      "images": [
+        {
+          "role": "redlight-proof",
+          "filename": "savannah-redlight-proof-v2.jpg",
+          "aspect_ratio": "4:3",
+          "prompt": "Inside a bathroom converted into a darkroom in a small Savannah apartment on a hot night in 2011. She wears a worn narrow-striped T-shirt and leans over photographic trays arranged across a plywood counter. A single red bulb clipped to a shelf burns at upper right, making her skin and the damp plaster glow uneven crimson. Small contact prints hang from clothespins beside an old medicine cabinet; a window air-conditioner cord, rusted pipe, and oscillating fan fade into black. Her short dark bob is messy from humidity. She glances back at the very close camera, reserved but familiar. Almost no detail survives in the left background."
+        }
+      ]
+    },
+    {
+      "city": "Richmond, Virginia",
+      "slug": "richmond",
+      "images": [
+        {
+          "role": "redlight-proof",
+          "filename": "richmond-redlight-proof-v2.jpg",
+          "aspect_ratio": "4:3",
+          "prompt": "Inside a windowless darkroom beside a volunteer print shop in a Richmond warehouse, autumn 2011. She wears a thin charcoal striped T-shirt and stands at a narrow chemical-stained counter covered with contact sheets and shallow trays. One bare red safelight shines from upper right; clipped prints, exposed conduit, a scratched enlarger column, freight-wall paint, and a radiator disappear into deep black. Her short dark hair is imperfectly cut and her expression is tired, direct, and intimate as she turns toward the friend photographing her from arm's length. Let underexposure erase most of the room and part of her body."
+        }
+      ]
+    }
+  ]
+}

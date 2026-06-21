@@ -16,7 +16,10 @@ from PIL import Image, ImageOps
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PROMPTS = ROOT / "docs" / "city-image-prompts.json"
+PROMPT_PATHS = [
+    ROOT / "docs" / "city-image-prompts.json",
+    ROOT / "docs" / "city-intimate-prompts.json",
+]
 LEGACY_ROOT = ROOT / "images" / "city-field-notes"
 LIBRARY_ROOT = ROOT / "images" / "editorial" / "city-field-notes"
 CATALOG_PATH = ROOT / "assets" / "catalog.json"
@@ -70,6 +73,46 @@ ROLE_META = {
         "focal_point": "68% center",
         "alt": "Empty nighttime work site in {city} showing evidence of recent labor.",
     },
+    "service-threshold": {
+        "code": "SVT",
+        "label": "Service threshold",
+        "family": "city-intimate-portrait",
+        "orientation": "portrait",
+        "focal_point": "center 35%",
+        "alt": "Candid 2011 documentary reconstruction of a young adult woman at a service threshold in {city}.",
+    },
+    "print-room-companion": {
+        "code": "PRC",
+        "label": "Print-room companion",
+        "family": "city-intimate-portrait",
+        "orientation": "portrait",
+        "focal_point": "center 35%",
+        "alt": "Candid 2011 documentary reconstruction of a young adult woman working in a print room in {city}.",
+    },
+    "domestic-assembly": {
+        "code": "DOM",
+        "label": "Domestic assembly",
+        "family": "city-intimate-portrait",
+        "orientation": "portrait",
+        "focal_point": "center 35%",
+        "alt": "Candid 2011 documentary reconstruction of a young adult woman assembling a small publication at home in {city}.",
+    },
+    "aftershow-passage": {
+        "code": "ASP",
+        "label": "Aftershow passage",
+        "family": "city-intimate-portrait",
+        "orientation": "portrait",
+        "focal_point": "center 35%",
+        "alt": "Candid 2011 documentary reconstruction of a young adult woman walking after a DIY event in {city}.",
+    },
+    "laundromat-dawn": {
+        "code": "LND",
+        "label": "Laundromat dawn",
+        "family": "city-intimate-portrait",
+        "orientation": "portrait",
+        "focal_point": "center 35%",
+        "alt": "Candid 2011 documentary reconstruction of a young adult woman in a laundromat in {city}.",
+    },
 }
 
 
@@ -106,68 +149,72 @@ def source_for(city_slug: str, filename: str, master_path: Path) -> Path:
 
 
 def build() -> None:
-    manifest = json.loads(PROMPTS.read_text(encoding="utf-8"))
+    manifests = [
+        (path, json.loads(path.read_text(encoding="utf-8")))
+        for path in PROMPT_PATHS
+    ]
     records = []
 
-    for city in manifest["cities"]:
-        city_slug = city["slug"]
-        city_code = CITY_CODES[city_slug]
-        city_name = city["city"]
+    for prompt_path, manifest in manifests:
+        for city in manifest["cities"]:
+            city_slug = city["slug"]
+            city_code = CITY_CODES[city_slug]
+            city_name = city["city"]
 
-        for image in city["images"]:
-            role = image["role"]
-            role_meta = ROLE_META[role]
-            stem = Path(image["filename"]).stem
-            asset_id = f"RICE-CFN-{city_code}-{role_meta['code']}-001"
+            for image in city["images"]:
+                role = image["role"]
+                role_meta = ROLE_META[role]
+                stem = Path(image["filename"]).stem
+                asset_id = f"RICE-CFN-{city_code}-{role_meta['code']}-001"
 
-            master = LIBRARY_ROOT / city_slug / "master" / f"{stem}.jpg"
-            web = LIBRARY_ROOT / city_slug / "web" / f"{stem}.jpg"
-            thumb = LIBRARY_ROOT / city_slug / "thumb" / f"{stem}.jpg"
-            source = source_for(city_slug, image["filename"], master)
+                master = LIBRARY_ROOT / city_slug / "master" / f"{stem}.jpg"
+                web = LIBRARY_ROOT / city_slug / "web" / f"{stem}.jpg"
+                thumb = LIBRARY_ROOT / city_slug / "thumb" / f"{stem}.jpg"
+                source = source_for(city_slug, image["filename"], master)
 
-            with Image.open(source) as original:
-                original = ImageOps.exif_transpose(original)
-                master_meta = {
-                    "width": original.width,
-                    "height": original.height,
-                    "bytes": source.stat().st_size,
-                    "sha256": sha256(source),
-                }
+                with Image.open(source) as original:
+                    original = ImageOps.exif_transpose(original)
+                    master_meta = {
+                        "width": original.width,
+                        "height": original.height,
+                        "bytes": source.stat().st_size,
+                        "sha256": sha256(source),
+                    }
 
-            web_meta = save_jpeg(source, web, (1800, 1800), 86)
-            web_meta["sha256"] = sha256(web)
-            thumb_meta = save_jpeg(source, thumb, (640, 640), 78)
-            thumb_meta["sha256"] = sha256(thumb)
+                web_meta = save_jpeg(source, web, (1800, 1800), 86)
+                web_meta["sha256"] = sha256(web)
+                thumb_meta = save_jpeg(source, thumb, (640, 640), 78)
+                thumb_meta["sha256"] = sha256(thumb)
 
-            records.append(
-                {
-                    "id": asset_id,
-                    "title": f"{city_name.split(',')[0]} / {role_meta['label']}",
-                    "collection": "city-field-notes",
-                    "city": city_name,
-                    "city_slug": city_slug,
-                    "role": role,
-                    "role_label": role_meta["label"],
-                    "family": role_meta["family"],
-                    "orientation": role_meta["orientation"],
-                    "status": "approved",
-                    "rights": "St. Expedite Press editorial use",
-                    "provenance": "AI-generated editorial reconstruction",
-                    "disclosure": manifest["disclosure"],
-                    "model": manifest["model"],
-                    "generated": "2026-06-19",
-                    "alt": role_meta["alt"].format(city=city_name),
-                    "focal_point": role_meta["focal_point"],
-                    "accent": "#D9FF00",
-                    "prompt": image["prompt"],
-                    "prompt_source": relative(PROMPTS),
-                    "files": {
-                        "master": {"path": relative(master), **master_meta},
-                        "web": {"path": relative(web), **web_meta},
-                        "thumb": {"path": relative(thumb), **thumb_meta},
-                    },
-                }
-            )
+                records.append(
+                    {
+                        "id": asset_id,
+                        "title": f"{city_name.split(',')[0]} / {role_meta['label']}",
+                        "collection": "city-field-notes",
+                        "city": city_name,
+                        "city_slug": city_slug,
+                        "role": role,
+                        "role_label": role_meta["label"],
+                        "family": role_meta["family"],
+                        "orientation": role_meta["orientation"],
+                        "status": "approved",
+                        "rights": "St. Expedite Press editorial use",
+                        "provenance": "AI-generated editorial reconstruction",
+                        "disclosure": manifest["disclosure"],
+                        "model": manifest["model"],
+                        "generated": date.today().isoformat(),
+                        "alt": role_meta["alt"].format(city=city_name),
+                        "focal_point": role_meta["focal_point"],
+                        "accent": "#D9FF00",
+                        "prompt": image["prompt"],
+                        "prompt_source": relative(prompt_path),
+                        "files": {
+                            "master": {"path": relative(master), **master_meta},
+                            "web": {"path": relative(web), **web_meta},
+                            "thumb": {"path": relative(thumb), **thumb_meta},
+                        },
+                    }
+                )
 
     CATALOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     catalog = {
@@ -176,9 +223,9 @@ def build() -> None:
         "collection": {
             "id": "city-field-notes",
             "title": "Southern City Field Notes",
-            "description": "Five repeated editorial image roles across five Southern cities.",
+            "description": "Ten repeated editorial image roles across five Southern cities.",
             "style_guide": "docs/IMAGE_STYLE_GUIDE.md",
-            "prompt_manifest": relative(PROMPTS),
+            "prompt_manifests": [relative(path) for path in PROMPT_PATHS],
         },
         "roles": [
             {
