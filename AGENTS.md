@@ -12,7 +12,14 @@ The primary agent is the orchestrator and keeps minimal context: the goal, gover
 - Require evidence-backed returns listing findings, files inspected or changed, checks run, risks, and open questions.
 - The primary agent integrates results, prevents conflicting edits, runs final checks, and reports to the user. Subagents do not push, deploy, alter secrets, or broaden scope without authorization.
 
-When custom OpenRouter models are supported, use `deepseek/deepseek-v4-flash` for subagents. Otherwise use the available runtime model and explicitly report that fallback; never claim DeepSeek was used when it was not.
+Prefer built-in subagents when the runtime can select the requested model directly. If it cannot select `deepseek/deepseek-v4-flash`, the orchestrator must use the local `OPENROUTER_API_KEY` to make bounded chat-completions calls to `https://openrouter.ai/api/v1/chat/completions` with that model and treat the calls as read-only delegated subagents.
+
+- Use the key only in the orchestrator-built HTTP authorization header. Never print, log, commit, place it in a prompt, or pass it to a child process or agent.
+- Send a minimal task packet: task ID, objective, acceptance criteria, relevant artifact paths or excerpts, prohibited actions, and required output schema.
+- Parallelize only independent read-only calls. Serialize overlapping or dependent tasks.
+- Verify provider/model metadata, finish reason, and output shape before integration.
+- Retry transient failures with bounded backoff. If OpenRouter remains unavailable, use built-in runtime subagents and disclose the fallback.
+- OpenRouter delegates do not write files or mutate external systems. The primary agent integrates results and performs all authorized changes and validation.
 
 ## Static-site architecture
 
