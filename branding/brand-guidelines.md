@@ -114,14 +114,20 @@ Rules:
 
 Current image language:
 
-- Crow and glitch portal.
+- Distressed St. Expedite seal held inside the glitch portal.
+- Flying crow as a secondary ritual and historical portal image.
 - Void engine/twinkle field.
 - Book covers and press objects.
 - Minimal line icons and glyph-like symbols.
 
 Rules:
 
-- Use crow/portal imagery as identity anchors, not decorative wallpaper on every card.
+- Use the seal as the institutional mark; preserve its circular printed boundary inside the separate luminous portal frame.
+- Use the flying crow as secondary ritual imagery, not as the primary institutional logo.
+- Keep the existing favicon unchanged unless a separate favicon project is explicitly commissioned.
+- Use seal masters with transparent negative space; never ship the source scan's white background.
+- Use the clean seal for small or formal applications and the distressed seal for large display, splash, print, and merchandise.
+- Use seal/portal imagery as an identity anchor, not decorative wallpaper on every card.
 - Give books and products clean viewing space.
 - Favor high-contrast, low-color imagery that can live in the black/green system.
 - Avoid stock photos, generic vector mascots, and smooth corporate 3D imagery.

@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html check-links check-a11y check-lighthouse check-audit test-worker check-all check-tooling-integrity deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo assets-sync assets-check
+.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html check-links check-a11y check-lighthouse check-audit test-worker check-all check-tooling-integrity deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo identity-build assets-sync assets-check
 
 help:
 	@echo "Available targets:"
@@ -27,6 +27,7 @@ help:
 	@echo "  release             Run release orchestration"
 	@echo "  release-dry-run     Print release actions without mutating"
 	@echo "  check-seo           Run advisory SEO structure checks"
+	@echo "  identity-build      Rebuild St. Expedite seal derivatives from the preserved source"
 	@echo "  assets-sync         Sync source assets -> apps/web/public/assets and regenerate manifest"
 	@echo "  assets-check        Verify source/public asset sync and manifest"
 
@@ -98,6 +99,9 @@ release-dry-run:
 
 check-seo:
 	sh scripts/check-site-seo.sh
+
+identity-build:
+	npm run identity:build
 
 assets-sync:
 	sh scripts/sync-assets.sh

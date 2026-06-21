@@ -11,6 +11,15 @@ const contactCopy = document.getElementById("contact-copy");
 let contactCopyText = "";
 
 if (contactForm && contactSubmit && contactHelper && contactFallback && contactCopy) {
+  const requestedReason = new URLSearchParams(window.location.search).get("reason");
+  const reasonSelect = document.getElementById("contact-reason");
+  if (requestedReason && reasonSelect instanceof HTMLSelectElement) {
+    const matchingOption = Array.from(reasonSelect.options).find(
+      (option) => option.value.toLowerCase() === requestedReason.toLowerCase(),
+    );
+    if (matchingOption) reasonSelect.value = matchingOption.value;
+  }
+
   contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const reason = String(document.getElementById("contact-reason")?.value || "").trim();

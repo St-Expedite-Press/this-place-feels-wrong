@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-21T02:15:06.730Z",
+  "generated_at": "2026-06-21T10:14:55.160Z",
   "roots": {
     "canonical_media": "assets/source/",
     "authored_public": "apps/web/public/assets/",
@@ -109,8 +109,8 @@
       "path": "apps/web/public/assets/css/portal.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 17083,
-      "sha256": "67734eca1419ea4bb6023ee4efa56b01f27f72a234ff9e2cc881bcce6d8c3cfd"
+      "bytes": 18068,
+      "sha256": "e9a75526fb752a54e74eb148a6eecf057d95db9bbfce42054c27972bca2a7e8a"
     },
     {
       "path": "apps/web/public/assets/css/README.md",
@@ -123,8 +123,8 @@
       "path": "apps/web/public/assets/css/services.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 1447,
-      "sha256": "98e0d4d69f474735ab3cd257a923cb3eed83a558af305b2e443c629a023a22b8"
+      "bytes": 3710,
+      "sha256": "95085896b202cc67fdb1e6aefc44aa8130d7a8caeb0b5cfa561a656b37be5a53"
     },
     {
       "path": "apps/web/public/assets/css/tokens.css",
@@ -274,6 +274,83 @@
       "sha256": "53ec3bd85a12fee922f95c0202b31c45616619dc22ecbdf587382f28de7a8f89"
     },
     {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-black-768.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-black-768.png",
+      "bytes": 74290,
+      "sha256": "9ae99eb6d2a2d9213a1713309b595886b9e7d531c24da7aa245d0cc2bd8a22f1"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-clean.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-clean.png",
+      "bytes": 22644,
+      "sha256": "71398cdaa494b95659514d13bf5dc6c385dcfa05ecb39f128f860121eea0506d"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-distressed.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-distressed.png",
+      "bytes": 198772,
+      "sha256": "e1838e99bc01d08850d5c4359848a49c3e35b06bc801dbf3f205408376799f70"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-distressed.svg",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-distressed.svg",
+      "bytes": 148232,
+      "sha256": "76d7a343bbb32418dc7e82ee54fb05599cecceffba3efad763c7c39426a75e77"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-green-768.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-green-768.png",
+      "bytes": 95611,
+      "sha256": "39428644bf0e584f7f4c1b93f861dcd94a0e4f30dafd6a1925329e080c400994"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-green-768.webp",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-green-768.webp",
+      "bytes": 50344,
+      "sha256": "2b2b81f160211420140f7a59d8d8d292f08d018eee9414ad5d4e7eeb90184e6b"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-master.svg",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-master.svg",
+      "bytes": 19760,
+      "sha256": "4a9c0fca1557dfecc60b688220a2f0815b124098bbfbc046b1ef1f78e5a11d52"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-og-1200x630.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-og-1200x630.png",
+      "bytes": 92123,
+      "sha256": "8ea260c3afef22d9e15df1200059f3c678bfdca52f67dd33a57129bb27b4bc4e"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-og-1200x630.webp",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-og-1200x630.webp",
+      "bytes": 28620,
+      "sha256": "efa2f4b9d8cd9ce9b472af5a8d692ae39a9a3405522e63ebe07fa6db3fda16de"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-source-2026.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-source-2026.png",
+      "bytes": 321736,
+      "sha256": "239b6134116f2b84b0088d45a7674aa32cb69cedfee2b1ba12a13b20f21c5e4a"
+    },
+    {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-white-768.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-white-768.png",
+      "bytes": 73665,
+      "sha256": "e161a31bf4f047fd98600788f17a15524fae51ce4851b4c9fb35514935ef7cd3"
+    },
+    {
       "path": "apps/web/public/assets/img/les-fievres-cover.svg",
       "ownership": "synced-media",
       "source": "assets/source/img/les-fievres-cover.svg",
@@ -319,8 +396,8 @@
       "path": "apps/web/public/assets/js/contact-page.js",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 2685,
-      "sha256": "95b353555f10ac10f0eb8ba4372a50dbe075f1002abdbff2f57d87891997b32e"
+      "bytes": 3124,
+      "sha256": "e3a42464ecd2d7cb345079d69467b75c9332aba28bb93f8d03b1bc2bdc14ab74"
     },
     {
       "path": "apps/web/public/assets/js/dialog.js",

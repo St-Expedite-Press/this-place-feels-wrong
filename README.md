@@ -50,6 +50,7 @@ Supporting checks and operations:
 ```bash
 npm run assets:sync
 npm run assets:check
+npm run identity:build
 npm run check:seo
 npm run check:tooling-integrity
 npm run runtime:config

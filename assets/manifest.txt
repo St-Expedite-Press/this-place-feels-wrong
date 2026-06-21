@@ -1,5 +1,5 @@
 # Asset Manifest
-# Generated: 2026-06-21T02:15:06.730Z
+# Generated: 2026-06-21T10:14:55.160Z
 # ownership  sha256  bytes  path  source
 authored-public  1dcf7858d86aa4e8dd64fac6391bb51556e912c742aeed12b7581d7c7fdbe23f  796  apps/web/public/assets/css/a11y.css  -
 authored-public  c160a05aac7cba71627cebb25d228189bfe308dbd91dd86ddc224502ebf80296  5082  apps/web/public/assets/css/books.css  -
@@ -15,9 +15,9 @@ authored-public  01af7c17f317696c8a3815bb307f33252df90896f9a7a1e5996ae040a5bad40
 authored-public  8db52b6165745a25170f90898c18dc4145c5a93ea372df69a725e47bfa48dc41  2744  apps/web/public/assets/css/lab.css  -
 authored-public  5128d16fae967da229601ca53a582bf6d07a69d1e4a798b2aff4e4fe89925d94  5367  apps/web/public/assets/css/layout.css  -
 authored-public  e4bf9bc6222d00726b953a83444fbafff8630a1e106b470f9274083374f1d903  1977  apps/web/public/assets/css/mission.css  -
-authored-public  67734eca1419ea4bb6023ee4efa56b01f27f72a234ff9e2cc881bcce6d8c3cfd  17083  apps/web/public/assets/css/portal.css  -
+authored-public  e9a75526fb752a54e74eb148a6eecf057d95db9bbfce42054c27972bca2a7e8a  18068  apps/web/public/assets/css/portal.css  -
 authored-public  bbcebe2bd0d606544e3699770d5eeb185b97cb2c428abe0a07957d70949e39a4  836  apps/web/public/assets/css/README.md  -
-authored-public  98e0d4d69f474735ab3cd257a923cb3eed83a558af305b2e443c629a023a22b8  1447  apps/web/public/assets/css/services.css  -
+authored-public  95085896b202cc67fdb1e6aefc44aa8130d7a8caeb0b5cfa561a656b37be5a53  3710  apps/web/public/assets/css/services.css  -
 authored-public  f25bdc5d55fcfba63772f44b8c8a8a4f169d2a69a7dff1c8972648191d6fbb4a  4541  apps/web/public/assets/css/tokens.css  -
 authored-public  91b622f3d9d90c295a5667852858e85493586e5950a3b6c052dc275e6ea49f77  14748  apps/web/public/assets/fonts/cg-cyrillic-ext-italic.woff2  -
 authored-public  a4d7cf345b8091e1d2c8c5c8fa3bd0f9bb9d00bc8988185471db398ddb5ae4c4  23416  apps/web/public/assets/fonts/cg-cyrillic-ext.woff2  -
@@ -39,13 +39,24 @@ synced-media  53153b4b2f81480d002fb402da0c6332e073d7bdb5f5c16bd06baedd38a24ee2  
 synced-media  6fe43ab83e8f008d0fe2a86bc74c2c2cc56a3b6ce8485a16144fb5bfed6283a8  122370  apps/web/public/assets/img/crow_glitch_text_still.webp  assets/source/img/crow_glitch_text_still.webp
 synced-media  2f33d5ced6fa66bc486f9864d7c2e365d4d34b69f15a55da0e6cdd5540f577f8  838278  apps/web/public/assets/img/crow_glitch_text.webp  assets/source/img/crow_glitch_text.webp
 synced-media  53ec3bd85a12fee922f95c0202b31c45616619dc22ecbdf587382f28de7a8f89  343  apps/web/public/assets/img/favicon.svg  assets/source/img/favicon.svg
+synced-media  9ae99eb6d2a2d9213a1713309b595886b9e7d531c24da7aa245d0cc2bd8a22f1  74290  apps/web/public/assets/img/identity/expedite-seal-black-768.png  assets/source/img/identity/expedite-seal-black-768.png
+synced-media  71398cdaa494b95659514d13bf5dc6c385dcfa05ecb39f128f860121eea0506d  22644  apps/web/public/assets/img/identity/expedite-seal-clean.png  assets/source/img/identity/expedite-seal-clean.png
+synced-media  e1838e99bc01d08850d5c4359848a49c3e35b06bc801dbf3f205408376799f70  198772  apps/web/public/assets/img/identity/expedite-seal-distressed.png  assets/source/img/identity/expedite-seal-distressed.png
+synced-media  76d7a343bbb32418dc7e82ee54fb05599cecceffba3efad763c7c39426a75e77  148232  apps/web/public/assets/img/identity/expedite-seal-distressed.svg  assets/source/img/identity/expedite-seal-distressed.svg
+synced-media  39428644bf0e584f7f4c1b93f861dcd94a0e4f30dafd6a1925329e080c400994  95611  apps/web/public/assets/img/identity/expedite-seal-green-768.png  assets/source/img/identity/expedite-seal-green-768.png
+synced-media  2b2b81f160211420140f7a59d8d8d292f08d018eee9414ad5d4e7eeb90184e6b  50344  apps/web/public/assets/img/identity/expedite-seal-green-768.webp  assets/source/img/identity/expedite-seal-green-768.webp
+synced-media  4a9c0fca1557dfecc60b688220a2f0815b124098bbfbc046b1ef1f78e5a11d52  19760  apps/web/public/assets/img/identity/expedite-seal-master.svg  assets/source/img/identity/expedite-seal-master.svg
+synced-media  8ea260c3afef22d9e15df1200059f3c678bfdca52f67dd33a57129bb27b4bc4e  92123  apps/web/public/assets/img/identity/expedite-seal-og-1200x630.png  assets/source/img/identity/expedite-seal-og-1200x630.png
+synced-media  efa2f4b9d8cd9ce9b472af5a8d692ae39a9a3405522e63ebe07fa6db3fda16de  28620  apps/web/public/assets/img/identity/expedite-seal-og-1200x630.webp  assets/source/img/identity/expedite-seal-og-1200x630.webp
+synced-media  239b6134116f2b84b0088d45a7674aa32cb69cedfee2b1ba12a13b20f21c5e4a  321736  apps/web/public/assets/img/identity/expedite-seal-source-2026.png  assets/source/img/identity/expedite-seal-source-2026.png
+synced-media  e161a31bf4f047fd98600788f17a15524fae51ce4851b4c9fb35514935ef7cd3  73665  apps/web/public/assets/img/identity/expedite-seal-white-768.png  assets/source/img/identity/expedite-seal-white-768.png
 synced-media  13f355a4c8a0b842c62647fb3285a6b1f13554403a9563754a4112356a3f5ee0  708827  apps/web/public/assets/img/les-fievres-cover.svg  assets/source/img/les-fievres-cover.svg
 synced-media  4a9b27651bfada75df1cf018bbbf7654e8d209507fbde8cb64ea397dd7a21f5f  268  apps/web/public/assets/img/README.md  assets/source/img/README.md
 synced-media  d6de1ea2b692023ef272d2323fae852e7dfa0358c7e6dd9e0acb5e4edaf06f15  2094346  apps/web/public/assets/img/void_engine_twinkle_green.png  assets/source/img/void_engine_twinkle_green.png
 synced-media  719aaa227dc10401fae3b3074207ce65e4a640ea33c4a5329229a5b1da780846  143826  apps/web/public/assets/img/void_engine_twinkle_green.webp  assets/source/img/void_engine_twinkle_green.webp
 authored-public  0665a0a17d281298da5aa1d5cfaf438f366a3ab84412a13e86f2465e98f385f3  2353  apps/web/public/assets/js/api-client.js  -
 authored-public  f0c029bb69ca9f4342a43a4f741b933b622deba5ad77d470b8b643ed734f9d5a  4399  apps/web/public/assets/js/books-page.js  -
-authored-public  95b353555f10ac10f0eb8ba4372a50dbe075f1002abdbff2f57d87891997b32e  2685  apps/web/public/assets/js/contact-page.js  -
+authored-public  e3a42464ecd2d7cb345079d69467b75c9332aba28bb93f8d03b1bc2bdc14ab74  3124  apps/web/public/assets/js/contact-page.js  -
 authored-public  3246f5d86ac0dfdb30f44b4641563a0baaa2ec7cf421312947e421289e9514a5  2333  apps/web/public/assets/js/dialog.js  -
 authored-public  28f1f60520d5231c6f7fdb1c9d114aea4ef16afe0aa1b412360e28c15d77e6e1  2895  apps/web/public/assets/js/donate-page.js  -
 authored-public  1a7cf6a16a9c7de7fb4311d78acc4dbd8b4671f444a483b53473c8a283cc73bb  1618  apps/web/public/assets/js/form-utils.js  -

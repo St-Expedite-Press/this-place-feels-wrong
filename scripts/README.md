@@ -9,6 +9,7 @@ Current entrypoints:
 - `check-links.mjs` - local link validation for generated HTML
 - `check-tooling-integrity.mjs` - verify repo command targets, machine-readable contracts, and stale path drift
 - `build-asset-manifest.mjs` - generate or verify JSON/text inventories for published assets
+- `generate-identity-assets.py` - rebuild transparent seal, SVG-mask, portal, and social derivatives from the preserved source scan
 - `deploy-web.mjs` - build and deploy `apps/web/dist/` to Cloudflare Pages
 - `dev-worker.mjs` - sync Worker dev vars and start Wrangler dev
 - `run-bash.mjs` - run repo shell scripts through `sh`, WSL, or Git Bash on Windows

@@ -3,7 +3,7 @@
     "name": "St. Expedite Press",
     "origin": "https://stexpedite.press",
     "themeColor": "#050807",
-    "ogImage": "https://stexpedite.press/assets/img/crow_glitch_text_still.webp",
+    "ogImage": "https://stexpedite.press/assets/img/identity/expedite-seal-og-1200x630.webp",
     "favicon": "assets/img/favicon.svg",
     "fontStylesheet": "/assets/css/fonts.css",
     "lastmod": "2026-05-25",
@@ -140,23 +140,23 @@
     },
     "contact": {
       "title": "Contact",
-      "description": "General correspondence for St. Expedite Press: rights, press, collaborations, and editorial questions.",
+      "description": "General correspondence for St. Expedite Press: project inquiries, rights, press, collaborations, and editorial questions.",
       "subtitle": "",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Write to the press",
-      "introTitle": "Rights, press, collaborations, and general correspondence.",
+      "introTitle": "Projects, rights, press, collaborations, and general correspondence.",
       "introText": "Manuscripts go through Submit. Everything else comes here.",
       "canonical": "https://stexpedite.press/contact",
       "currentNav": "/contact"
     },
     "services": {
       "title": "Services",
-      "description": "Selective advisory and editorial engagements from St. Expedite Press for institutions that need careful judgment, explicit structure, and long-horizon clarity.",
+      "description": "Founder-led agentic marketing, web design, editing, writing, and knowledge-system engagements from St. Expedite Press.",
       "subtitle": "",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "Advisory work",
-      "introTitle": "Selected engagements for institutions that need careful judgment.",
-      "introText": "A small number of external engagements, taken selectively. The number is small by design because attention is the product.",
+      "introKicker": "Creative systems",
+      "introTitle": "Distinctive ideas need more than content.",
+      "introText": "St. Expedite builds the voice, structure, website, and operating system that let a project become recognizable in public.",
       "canonical": "https://stexpedite.press/services",
       "currentNav": "/services"
     }

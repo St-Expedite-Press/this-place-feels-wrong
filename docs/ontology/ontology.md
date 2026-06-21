@@ -70,6 +70,7 @@ npm run check:tooling-integrity
 | `npm run check:tooling-integrity` | Ontology, path, and API route parity checks. |
 | `npm run check:audit` | Root, web, and Worker dependency audit at high severity or above. |
 | `npm run assets:check` | Verify canonical media parity and generated JSON/text asset inventories. |
+| `npm run identity:build` | Rebuild the institutional seal derivatives from the preserved source scan. |
 | `npm run runtime:config` | Check Cloudflare runtime prerequisites. |
 
 `assets/manifest.json` is the machine contract for published asset ownership, source mapping, byte size, and SHA-256 checksums. `assets/manifest.txt` is its review-friendly companion.

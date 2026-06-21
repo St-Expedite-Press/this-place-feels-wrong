@@ -48,6 +48,7 @@ API routes remain under `/api/*`:
 - Primary validation: `npm run check`
 - Tooling integrity check: `npm run check:tooling-integrity`
 - Asset sync/inventory check: `npm run assets:check`
+- Institutional seal derivative build: `npm run identity:build`
 - Runtime config check: `npm run runtime:config`
 - Runtime audit: `npm run runtime:audit`
 - Production smoke: `npm run smoke:api`
@@ -78,6 +79,15 @@ Fonts are self-hosted. No Google Fonts CDN dependency.
 - Font files: `apps/web/public/assets/fonts/` (12 woff2 files: Cinzel latin/latin-ext, Cormorant Garamond normal/italic across 4 unicode subsets)
 - `@font-face` declarations: `apps/web/public/assets/css/fonts.css`
 - Referenced via `site.fontStylesheet = "/assets/css/fonts.css"` in `site.json`
+
+## Institutional Identity
+
+- Preserved seal source: `assets/source/img/identity/expedite-seal-source-2026.png`
+- Reproducible derivative generator: `scripts/generate-identity-assets.py`
+- Homepage: distressed signal-green seal inside the existing circular portal frame
+- Default social preview: `assets/img/identity/expedite-seal-og-1200x630.webp`
+- Browser favicon: existing `assets/img/favicon.svg`, intentionally unchanged
+- Flying crow assets remain available as secondary ritual imagery.
 
 ## Historical Notes
 

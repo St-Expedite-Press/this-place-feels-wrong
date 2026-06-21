@@ -117,13 +117,16 @@ Canonical media lives in `assets/source/`. Every shipped PNG, JPEG, WebP, SVG, a
 
 | File | Format | Role |
 |---|---|---|
-| `img/crow_glitch_text_still.webp` | WebP | Portal still — primary OG image, portal frame fallback |
-| `img/crow_glitch_text_still.png` | PNG | Browser fallback |
-| `img/crow_glitch_text.webp` | WebP (animated) | Portal frame animation via JS swap |
-| `gif/crow_glitch_text.gif` | GIF | Source format |
+| `img/identity/expedite-seal-source-2026.png` | PNG | Preserved source scan; never edit derivatives by hand |
+| `img/identity/expedite-seal-master.svg` | SVG | Clean, recolorable institutional seal |
+| `img/identity/expedite-seal-distressed.svg` | SVG | Distressed, recolorable display seal |
+| `img/identity/expedite-seal-green-768.*` | PNG/WebP | Homepage portal mark |
+| `img/identity/expedite-seal-og-1200x630.*` | PNG/WebP | Default social preview |
+| `img/crow_glitch_text_still.*` | PNG/WebP | Secondary ritual image; historical portal still |
+| `img/crow_glitch_text.webp` / `gif/crow_glitch_text.gif` | WebP/GIF | Secondary ritual motion assets |
 | `img/void_engine_twinkle_green.webp` | WebP | Background texture (preferred) |
 | `img/void_engine_twinkle_green.png` | PNG | Background texture fallback |
-| `img/favicon.svg` | SVG | Browser favicon |
+| `img/favicon.svg` | SVG | Browser favicon; intentionally independent of the seal |
 | `img/les-fievres-cover.svg` | SVG | Book cover |
 | `img/covers/lift-wind-cover.webp` | WebP | *Lift Wind / Love Heat* cover (1024×1536) |
 
@@ -216,6 +219,7 @@ npm run check:audit      # Dependency audit (root, web, worker)
 npm run check:tooling-integrity  # Ontology, path, and API route parity checks
 npm run lint:html        # HTML validity
 npm run test:worker      # Worker unit tests
+npm run identity:build   # Rebuild seal derivatives from preserved source
 npm run assets:sync      # Sync assets/source/ → apps/web/public/assets/
 npm run assets:check     # Verify no asset drift
 npm run runtime:config   # Check Cloudflare runtime bindings

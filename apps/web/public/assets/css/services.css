@@ -3,7 +3,19 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-  margin-top: 1.5rem;
+}
+
+.services-section,
+.advanced-service,
+.service-evidence,
+.engagement-panel {
+  margin-top: 2rem;
+}
+
+.services-section__heading {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
 }
 
 .service-card {
@@ -59,8 +71,124 @@
   box-shadow: none;
 }
 
+.advanced-service .card,
+.engagement-panel .card {
+  padding: 1.35rem;
+  border-color: var(--mode-border-strong);
+  background: linear-gradient(120deg, var(--green-3), transparent 55%);
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  gap: 1rem;
+}
+
+.case-study {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  padding: 1.4rem;
+  border-color: var(--mode-border-strong);
+}
+
+.case-study__label {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--text);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.case-study h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  line-height: 1.2;
+}
+
+.case-study p {
+  margin: 0;
+  color: var(--mode-copy);
+}
+
+.selected-work {
+  display: grid;
+  border-top: 1px solid var(--mode-border-strong);
+}
+
+.work-link {
+  display: grid;
+  gap: 0.28rem;
+  padding: 1rem 0.2rem;
+  border-bottom: 1px solid var(--mode-border);
+  color: var(--mode-copy);
+  text-decoration: none;
+  transition: padding-left 160ms ease, border-color 160ms ease;
+}
+
+.work-link span {
+  font-family: var(--font-display);
+  color: var(--text);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.work-link small {
+  color: var(--mode-copy-muted);
+  font-size: 0.9rem;
+}
+
+.work-link:hover,
+.work-link:focus-visible {
+  padding-left: 0.55rem;
+  border-color: var(--green-hot-2);
+}
+
+.engagement-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.engagement-list li {
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--mode-border);
+  color: var(--mode-copy);
+}
+
+.engagement-list strong {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 @media (max-width: 900px) {
-  .services-grid {
+  .services-grid,
+  .evidence-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .service-card {
+    padding-left: 3rem;
+  }
+
+  .advanced-service .card,
+  .case-study,
+  .engagement-panel .card {
+    padding: 1.05rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-link {
+    transition: none;
   }
 }

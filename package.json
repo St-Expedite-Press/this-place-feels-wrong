@@ -4,6 +4,7 @@
   "license": "UNLICENSED",
   "type": "module",
   "scripts": {
+    "identity:build": "python scripts/generate-identity-assets.py",
     "build": "npm --prefix apps/web run build",
     "dev:web": "npm --prefix apps/web run dev",
     "dev:worker": "node scripts/dev-worker.mjs",
