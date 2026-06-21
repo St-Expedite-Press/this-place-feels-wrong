@@ -315,7 +315,14 @@ Each subagent assignment must state:
 
 Subagents must preserve unrelated work and return both a concise result and the raw artifacts needed for primary-agent verification. The primary agent owns synthesis, conflict resolution, final validation, and any immediately critical blocker whose delegation would lose essential context.
 
-When a runner supports custom OpenRouter models, use `deepseek/deepseek-v4-flash` for subagents. Otherwise use the available runtime model and explicitly log the fallback in the assignment or closeout. Never claim the requested model was used when the runner cannot verify it. Never pass secrets, environment-file contents, credentials, tokens, or unnecessary sensitive context to a subagent.
+Prefer built-in subagents when the runtime can select the requested model directly. If the runner cannot select `deepseek/deepseek-v4-flash`, the orchestrator must read `OPENROUTER_API_KEY` from the local environment and make bounded calls to `https://openrouter.ai/api/v1/chat/completions` with model id `deepseek/deepseek-v4-flash`. Treat those calls as read-only delegated subagents.
+
+- Use the key only in the orchestrator-built HTTP authorization header. Never print, log, commit, embed it in prompts, or pass it to a child agent or process.
+- Each task packet declares a task ID, bounded objective, acceptance criteria, minimal artifact paths or excerpts, prohibited actions, and required output schema.
+- Independent read-only calls may run concurrently; serialize overlapping or dependency-ordered tasks.
+- Verify returned provider/model metadata, finish reason, and output shape before integration.
+- Retry transient network, rate-limit, and server failures with bounded backoff. If OpenRouter, credentials, networking, or the requested model remain unavailable, use built-in runtime subagents and explicitly disclose the fallback.
+- OpenRouter delegates may not write files, call other services, or mutate external state. The primary agent owns integration, every mutation, final validation, and closeout.
 
 | Role | Owns |
 |---|---|

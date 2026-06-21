@@ -180,7 +180,29 @@
         "raw verification artifacts"
       ],
       "preferred_openrouter_model": "deepseek/deepseek-v4-flash",
-      "model_fallback": "If the runner cannot select or verify a custom OpenRouter model, use the available runtime model and explicitly log the fallback; never fake compliance.",
+      "delegation_order": [
+        "use a built-in subagent when the runner can directly select the requested model",
+        "otherwise call OpenRouter chat completions from the orchestrator using local OPENROUTER_API_KEY",
+        "if OpenRouter remains unavailable after bounded retries, use built-in runtime subagents and explicitly disclose the fallback"
+      ],
+      "openrouter_endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "openrouter_api_key_env": "OPENROUTER_API_KEY",
+      "openrouter_delegate_mode": "read-only inference; the primary agent performs all mutations",
+      "openrouter_task_packet_requires": [
+        "task ID",
+        "bounded objective and acceptance criteria",
+        "minimal relevant artifact paths or excerpts",
+        "prohibited actions",
+        "required output schema"
+      ],
+      "openrouter_response_verification": [
+        "provider and concrete model metadata",
+        "finish reason",
+        "required output shape"
+      ],
+      "openrouter_concurrency": "Parallelize only independent read-only calls; serialize overlapping or dependency-ordered tasks.",
+      "openrouter_retry": "Retry transient network, rate-limit, and server failures with bounded backoff.",
+      "model_fallback": "If OpenRouter, credentials, networking, or the requested model remain unavailable, use built-in runtime subagents and explicitly log the fallback; never fake compliance.",
       "secrets": "Never pass secrets, environment-file contents, credentials, tokens, or unnecessary sensitive context to subagents."
     },
     "skill_generation_and_curation": {
@@ -267,7 +289,10 @@
           "ownership": "Read-only or read/write files and surfaces with non-overlapping boundaries.",
           "output": "Expected result format and integration notes.",
           "raw_artifacts": "Locations of logs, reports, patches, screenshots, or other verification evidence.",
-          "model": "Use deepseek/deepseek-v4-flash when custom OpenRouter selection is supported; otherwise record the available-runtime fallback.",
+          "model": "Use a directly selectable built-in model first; otherwise the orchestrator calls deepseek/deepseek-v4-flash through OpenRouter with local OPENROUTER_API_KEY and verifies returned model metadata.",
+          "task_packet": "Task ID, bounded objective, acceptance criteria, minimal artifacts, prohibited actions, and required output schema.",
+          "execution": "OpenRouter delegates are read-only; the primary agent performs all mutations and validation.",
+          "fallback": "After bounded transient retries, use built-in runtime subagents and disclose the fallback.",
           "secrets": "No secrets, environment-file contents, credentials, tokens, or unnecessary sensitive context."
         }
       },

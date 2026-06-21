@@ -18,7 +18,7 @@ The primary agent operates orchestration-first: it retains planning, safe decomp
 
 Every assignment declares explicit scope and success criteria, read/write ownership, non-overlapping boundaries, expected output and integration notes, and locations for raw logs, reports, patches, screenshots, or other evidence. Subagents return a concise result plus those raw artifacts. Never pass secrets or unnecessary sensitive context.
 
-Use OpenRouter model `deepseek/deepseek-v4-flash` when the runner supports and verifies custom model selection. Otherwise use the available runtime model and explicitly log the fallback; never claim unverified model compliance.
+Prefer built-in delegation when the runner can directly select the requested model. Otherwise the orchestrator uses local `OPENROUTER_API_KEY` only as an HTTP authorization header to call `https://openrouter.ai/api/v1/chat/completions` with `deepseek/deepseek-v4-flash`. These calls are bounded, read-only subagents: they receive minimal structured task packets, may run concurrently only when independent, and cannot mutate files or external systems. Verify provider/model metadata, finish reason, and output shape; retry transient failures with bounded backoff, then fall back to built-in subagents with explicit disclosure. Never expose the key or claim an unverified model.
 
 ## Skill Lifecycle
 
