@@ -1,34 +1,44 @@
 ---
-import BasePortal from '../layouts/BasePortal.astro';
+import Base from '../layouts/Base.astro';
 import siteData from '../data/site.json';
 
-const { site, pages } = siteData;
-const page = pages.donate;
+const page = siteData.pages.donate;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/forms.css',
+  'assets/css/donate-portal.css',
+];
 ---
-<BasePortal
+<Base
   title={page.title}
   description={page.description}
   canonical={page.canonical}
+  subtitle={page.subtitle}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  currentNav={page.currentNav}
   brandMode="utility"
-  bodyClass="donate-portal-page"
-  styles={['assets/css/donate-portal.css']}
+  styles={styles}
 >
-  <main id="main" class="donate-page-shell" tabindex="-1">
-    <header class="donate-masthead">
-      <a href="/">St. Expedite Press</a>
-      <nav aria-label="Donation page">
-        <a href="/books">Books</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </nav>
-    </header>
-    <h1 class="header-title">DONATE</h1>
+  <section class="section-block section-block--reading donate-stage" aria-labelledby="donate-form-title">
+    <article class="card editorial-card stack donate-orientation">
+      <p class="card-kicker">What it sustains</p>
+      <h2 class="section-heading section-heading--display">The money goes to the work.</h2>
+      <p class="section-copy section-copy--large">The catalog, archive editions, translation program, RICE Magazine, and the fellowship can remain direct because support does not pass through a grant committee or institution.</p>
+    </article>
 
-    <section class="donate-stage" aria-label="Donation portal">
-      <p class="donate-statement">The money goes to the work.</p>
-      <p class="donate-context">The catalog, the archive editions, the translation program, RICE Magazine, and the fellowship — direct support makes each of these possible without a grant committee or an institution's approval.</p>
+    <article class="form-card form-shell">
+      <div>
+        <p class="card-kicker">One-time contribution</p>
+        <h2 class="section-heading" id="donate-form-title">Choose an amount or enter your own.</h2>
+      </div>
 
-      <form class="donate-surface" id="donate-form">
+      <form class="form-grid donate-form" id="donate-form">
         <div class="donate-presets" role="group" aria-label="Suggested donation amounts">
           <button class="donate-preset" type="button" data-donation-amount="10" aria-label="Donate 10 dollars">$10</button>
           <button class="donate-preset" type="button" data-donation-amount="25" aria-label="Donate 25 dollars">$25</button>
@@ -38,37 +48,28 @@ const page = pages.donate;
 
         <p class="donate-feedback" id="donate-selected-amount" aria-live="polite"></p>
 
+        <div class="field">
+          <label for="donate-amount">Amount in US dollars</label>
+          <input class="input donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Amount (USD)" required />
+        </div>
+
         <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
 
-        <div class="donate-console">
-          <label class="donate-sr-only" for="donate-amount">Donation amount in US dollars</label>
-          <input class="donate-input" id="donate-amount" name="amount" type="number" min="5" max="1000" step="1" inputmode="decimal" autocomplete="off" placeholder="Amount (USD)" required />
-          <button class="donate-submit" id="donate-submit" type="submit">Donate</button>
+        <div class="actions">
+          <button class="button donate-submit" id="donate-submit" type="submit">Continue to Stripe</button>
         </div>
-        <p class="donate-assurance">Stripe handles checkout and receipts. Minimum contribution is $5.</p>
+        <p class="form-assurance">Stripe handles checkout and receipts. Minimum contribution is $5.</p>
 
-        <div class="donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
+        <div class="status-panel donate-status" id="donate-helper" role="status" aria-live="polite" hidden>
           <div data-status-text></div>
         </div>
       </form>
-    </section>
-
-    <div class="splash">
-      <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
-      <p class="lede">...in the key of Night.</p>
-      <div class="divider">&#9651; &#10013; &#9651;</div>
-      <div class="splash__foot">
-        <a href="/">Portal</a>
-        {site.footerLinks.filter(item => item.href !== '/donate' && item.href !== '/').map(item => (
-          <> // <a href={item.href}>{item.label}</a></>
-        ))}
-      </div>
-    </div>
-  </main>
+    </article>
+  </section>
 
   <Fragment slot="scripts">
     <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>
     <script is:inline src="/assets/js/donate-page.js" type="module"></script>
   </Fragment>
-</BasePortal>
+</Base>

@@ -65,10 +65,12 @@ API routes remain under `/api/*`:
 
 ## Layout Architecture
 
-Two layouts, one for interior pages and one for portal pages:
+Two layouts, one for interior/task pages and one for portal-only pages:
 
-- `apps/web/src/layouts/Base.astro` — interior-page shell: `<Head />`, `<HeroBar />`, `<SiteHeader />`, page-intro section, `<slot />`, `<Footer />`. Used by all interior pages.
-- `apps/web/src/layouts/BasePortal.astro` — portal-page shell: `<Head />`, `<HeroBar />`, `.texture--grain`, `.cursor-glow`, `<slot />`. Used by `index.astro`, `donate.astro`, `404.astro`. Accepts `bodyClass`, `ogTitle`, `ogDescription`, `pageTitle` overrides, `head-extra` named slot for per-page `<head>` additions.
+- `apps/web/src/layouts/Base.astro` — shared interior/task shell: `<Head />`, `<HeroBar />`, `<SiteHeader />`, page-intro section, standardized `.page-content` flow, `<slot />`, `<Footer />`. Used by books, about, contact, donate, donate/thanks, submit, gallery, lab, and services.
+- `apps/web/src/layouts/BasePortal.astro` — portal-only shell: `<Head />`, `<HeroBar />`, `.texture--grain`, `.cursor-glow`, `<slot />`. Used by `index.astro` and `404.astro`.
+
+Shared interior primitives live in `layout.css` and `components.css`: `.page-content`, `.section-block`, `.section-header`, `.section-grid`, `.editorial-card`, `.quiet-panel`, and `.section-actions`. Page-specific styles may alter texture and domain behavior, but should not redefine basic page rhythm or card anatomy.
 
 See `apps/web/src/layouts/README.md` for full prop documentation.
 
@@ -84,7 +86,7 @@ Fonts are self-hosted. No Google Fonts CDN dependency.
 
 - Preserved seal source: `assets/source/img/identity/expedite-seal-source-2026.png`
 - Reproducible derivative generator: `scripts/generate-identity-assets.py`
-- Homepage: distressed signal-green seal inside the existing circular portal frame
+- Homepage: generated motion-ready distressed seal inside the existing circular portal frame; reveal, breathing, and rare signal faults are homepage-only and reduce to a static mark
 - Default social preview: `assets/img/identity/expedite-seal-og-1200x630.webp`
 - Browser favicon: existing `assets/img/favicon.svg`, intentionally unchanged
 - Flying crow assets remain available as secondary ritual imagery.

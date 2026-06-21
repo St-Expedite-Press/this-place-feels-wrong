@@ -76,8 +76,9 @@
       const warpX = dx * 1.8;
       const warpY = dy * 1.8;
 
-      portal.style.transform =
-        `translate(-50%, -50%) rotate(${warpX * 0.9}deg) skew(${warpX}deg, ${warpY}deg)`;
+      portal.style.setProperty('--pointer-rotate', `${warpX * 0.9}deg`);
+      portal.style.setProperty('--pointer-warp-x', `${warpX}deg`);
+      portal.style.setProperty('--pointer-warp-y', `${warpY}deg`);
     }
   }
 

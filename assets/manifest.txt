@@ -1,23 +1,23 @@
 # Asset Manifest
-# Generated: 2026-06-21T10:14:55.160Z
+# Generated: 2026-06-21T14:01:26.206Z
 # ownership  sha256  bytes  path  source
 authored-public  1dcf7858d86aa4e8dd64fac6391bb51556e912c742aeed12b7581d7c7fdbe23f  796  apps/web/public/assets/css/a11y.css  -
-authored-public  c160a05aac7cba71627cebb25d228189bfe308dbd91dd86ddc224502ebf80296  5082  apps/web/public/assets/css/books.css  -
-authored-public  488943253ba7162d8a7d712ffbde3d0598787890d8af766436c14bbc65937dac  7046  apps/web/public/assets/css/components.css  -
-authored-public  1f36f6fb7725f362cfbc4b01a5f5a181a04531f79c67ef4bd6d7760757ec343f  7151  apps/web/public/assets/css/donate-portal.css  -
+authored-public  248226f9c7fd9858580cc86a217612fe85afb134b9b7883d43226f629c20db91  4769  apps/web/public/assets/css/books.css  -
+authored-public  95f9a96c5316e97ed7f7a0f8bef80e5f0eebbd4608951d1df12bc845d57404d2  7857  apps/web/public/assets/css/components.css  -
+authored-public  e124d4f5c961f0c30ee94cf71d548bd89548fba9866b4eb677f66b27fe61f0db  1385  apps/web/public/assets/css/donate-portal.css  -
 authored-public  0ec03467168b62b5adc4607a1500aceef13e91de49f96060df6005ceb13e8afc  1077  apps/web/public/assets/css/effects.css  -
 authored-public  8ebe60f3f1ebc40fd2f86531de256a7307098ddd8b01f68ae074d137f3f297c6  4523  apps/web/public/assets/css/fonts.css  -
 authored-public  4ff6c86769820fe06f98cac1eea19ecabd125e2eb0b9c4d58b324071f209fa3e  1705  apps/web/public/assets/css/footer.css  -
-authored-public  488d5323efe9c17a2e914db0ebff400d9bea0fd54d6b8965e307cfbce20f3902  2357  apps/web/public/assets/css/forms.css  -
-authored-public  dc38af9b298db04c735f12aad65de59ee50b9b9e518d58aeb0869b124463a0df  3243  apps/web/public/assets/css/gallery.css  -
+authored-public  c7ade6348fed3c2eb08e27df4cfa979c4d3a0ab3ac963156bd05b8f1565bb160  2703  apps/web/public/assets/css/forms.css  -
+authored-public  3c4ea52379385321a2b8c6d350671f28849af0ba0dd769a3faaf7a33415fb5ca  3263  apps/web/public/assets/css/gallery.css  -
 authored-public  7b1577e3e538ea623175071ef5b2d753742aeb92ded2e4d173f19c955e97d1af  1831  apps/web/public/assets/css/hero-bar.css  -
 authored-public  01af7c17f317696c8a3815bb307f33252df90896f9a7a1e5996ae040a5bad406  3196  apps/web/public/assets/css/interior-base.css  -
-authored-public  8db52b6165745a25170f90898c18dc4145c5a93ea372df69a725e47bfa48dc41  2744  apps/web/public/assets/css/lab.css  -
-authored-public  5128d16fae967da229601ca53a582bf6d07a69d1e4a798b2aff4e4fe89925d94  5367  apps/web/public/assets/css/layout.css  -
+authored-public  3a657dc26c32bf863a36db465883e4671e03dc0919f7060eb76b63a307423812  2659  apps/web/public/assets/css/lab.css  -
+authored-public  36573a8227446eb089a4f223ecdf601e19dc47e6773f1b7f2424d13fd84e9346  5988  apps/web/public/assets/css/layout.css  -
 authored-public  e4bf9bc6222d00726b953a83444fbafff8630a1e106b470f9274083374f1d903  1977  apps/web/public/assets/css/mission.css  -
-authored-public  e9a75526fb752a54e74eb148a6eecf057d95db9bbfce42054c27972bca2a7e8a  18068  apps/web/public/assets/css/portal.css  -
+authored-public  085429f58a53d0b7b6fc947cc7bffe59902e036e8de9895c1b7398b8384aa4e8  17570  apps/web/public/assets/css/portal.css  -
 authored-public  bbcebe2bd0d606544e3699770d5eeb185b97cb2c428abe0a07957d70949e39a4  836  apps/web/public/assets/css/README.md  -
-authored-public  95085896b202cc67fdb1e6aefc44aa8130d7a8caeb0b5cfa561a656b37be5a53  3710  apps/web/public/assets/css/services.css  -
+authored-public  e301b33603c0e4b1f41d09a4ca1d72f0f251e8b21304ddda55c83d90d3b378bf  3150  apps/web/public/assets/css/services.css  -
 authored-public  f25bdc5d55fcfba63772f44b8c8a8a4f169d2a69a7dff1c8972648191d6fbb4a  4541  apps/web/public/assets/css/tokens.css  -
 authored-public  91b622f3d9d90c295a5667852858e85493586e5950a3b6c052dc275e6ea49f77  14748  apps/web/public/assets/fonts/cg-cyrillic-ext-italic.woff2  -
 authored-public  a4d7cf345b8091e1d2c8c5c8fa3bd0f9bb9d00bc8988185471db398ddb5ae4c4  23416  apps/web/public/assets/fonts/cg-cyrillic-ext.woff2  -
@@ -46,6 +46,7 @@ synced-media  76d7a343bbb32418dc7e82ee54fb05599cecceffba3efad763c7c39426a75e77  
 synced-media  39428644bf0e584f7f4c1b93f861dcd94a0e4f30dafd6a1925329e080c400994  95611  apps/web/public/assets/img/identity/expedite-seal-green-768.png  assets/source/img/identity/expedite-seal-green-768.png
 synced-media  2b2b81f160211420140f7a59d8d8d292f08d018eee9414ad5d4e7eeb90184e6b  50344  apps/web/public/assets/img/identity/expedite-seal-green-768.webp  assets/source/img/identity/expedite-seal-green-768.webp
 synced-media  4a9c0fca1557dfecc60b688220a2f0815b124098bbfbc046b1ef1f78e5a11d52  19760  apps/web/public/assets/img/identity/expedite-seal-master.svg  assets/source/img/identity/expedite-seal-master.svg
+synced-media  d84357127aaf45cb311c3ae207a80b36af31acc070b55adf6431a87c5a3a4fda  151719  apps/web/public/assets/img/identity/expedite-seal-motion.svg  assets/source/img/identity/expedite-seal-motion.svg
 synced-media  8ea260c3afef22d9e15df1200059f3c678bfdca52f67dd33a57129bb27b4bc4e  92123  apps/web/public/assets/img/identity/expedite-seal-og-1200x630.png  assets/source/img/identity/expedite-seal-og-1200x630.png
 synced-media  efa2f4b9d8cd9ce9b472af5a8d692ae39a9a3405522e63ebe07fa6db3fda16de  28620  apps/web/public/assets/img/identity/expedite-seal-og-1200x630.webp  assets/source/img/identity/expedite-seal-og-1200x630.webp
 synced-media  239b6134116f2b84b0088d45a7674aa32cb69cedfee2b1ba12a13b20f21c5e4a  321736  apps/web/public/assets/img/identity/expedite-seal-source-2026.png  assets/source/img/identity/expedite-seal-source-2026.png
@@ -61,7 +62,7 @@ authored-public  3246f5d86ac0dfdb30f44b4641563a0baaa2ec7cf421312947e421289e9514a
 authored-public  28f1f60520d5231c6f7fdb1c9d114aea4ef16afe0aa1b412360e28c15d77e6e1  2895  apps/web/public/assets/js/donate-page.js  -
 authored-public  1a7cf6a16a9c7de7fb4311d78acc4dbd8b4671f444a483b53473c8a283cc73bb  1618  apps/web/public/assets/js/form-utils.js  -
 authored-public  9fbbae2c52ae27baac6d51d11dae373aaff99c49f288f5f8cf2eab1dfdc5f933  3674  apps/web/public/assets/js/gallery-page.js  -
-authored-public  782d21b875841e9b42e14a830202eb5f230495b26e6840c9e1b8741e42a4a953  3000  apps/web/public/assets/js/index-effects.js  -
+authored-public  79858d1aae1ad292170f78a0029306335cdfd8ac15cab532f67adf5e5f05d462  3084  apps/web/public/assets/js/index-effects.js  -
 authored-public  2b29e00a1f67488ec08bfceb44e60b8298389222cb5b1dd6f4b6fd95b0e0e2c3  8745  apps/web/public/assets/js/lab-anglossic-data.js  -
 authored-public  736f9509b8de3d12527407b5898c5489319682d06674b1aefe2e29a766432b38  3290  apps/web/public/assets/js/lab-anglossic-entry.js  -
 authored-public  115f96a668fcb752bee8a3bc46ed2ce5178fd27d0b8b3915210d6f892c9fd5b6  1047  apps/web/public/assets/js/lab-anglossic-scoring.js  -

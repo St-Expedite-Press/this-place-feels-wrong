@@ -43,7 +43,7 @@ Single source of truth for every agent working in this repository. `CLAUDE.md` i
 | `/books` | `apps/web/src/pages/books.astro` | editorial | tokens + interior-base + layout + components + books |
 | `/about` | `apps/web/src/pages/about.astro` | editorial | tokens + interior-base + layout + components + mission |
 | `/contact` | `apps/web/src/pages/contact.astro` | utility | tokens + interior-base + layout + components + forms |
-| `/donate` | `apps/web/src/pages/donate.astro` | utility | tokens + interior-base + effects + hero-bar + donate-portal |
+| `/donate` | `apps/web/src/pages/donate.astro` | utility | tokens + interior-base + layout + components + forms + donate-portal |
 | `/donate/thanks` | `apps/web/src/pages/donate/thanks.astro` | utility | tokens + interior-base + layout + components + forms |
 | `/submit` | `apps/web/src/pages/submit.astro` | utility | tokens + interior-base + layout + components + forms |
 | `/gallery` | `apps/web/src/pages/gallery.astro` | editorial | tokens + interior-base + layout + components + gallery |
@@ -120,6 +120,7 @@ Canonical media lives in `assets/source/`. Every shipped PNG, JPEG, WebP, SVG, a
 | `img/identity/expedite-seal-source-2026.png` | PNG | Preserved source scan; never edit derivatives by hand |
 | `img/identity/expedite-seal-master.svg` | SVG | Clean, recolorable institutional seal |
 | `img/identity/expedite-seal-distressed.svg` | SVG | Distressed, recolorable display seal |
+| `img/identity/expedite-seal-motion.svg` | SVG | Generated homepage-only ritual animation with static reduced-motion state |
 | `img/identity/expedite-seal-green-768.*` | PNG/WebP | Homepage portal mark |
 | `img/identity/expedite-seal-og-1200x630.*` | PNG/WebP | Default social preview |
 | `img/crow_glitch_text_still.*` | PNG/WebP | Secondary ritual image; historical portal still |

@@ -6,7 +6,6 @@
 .form-trust {
   display: grid;
   gap: 0.8rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .form-trust--two {
@@ -99,12 +98,42 @@
 }
 
 .submission-programs .card {
-  padding: 1rem 0 1rem 1.15rem;
-  border: 0;
-  border-left: 1px solid var(--mode-border-strong);
-  border-radius: 0;
-  background: linear-gradient(90deg, rgba(42, 255, 138, 0.035), transparent 32%);
-  box-shadow: none;
+  height: 100%;
+}
+
+.donate-shell {
+  max-width: 62rem;
+}
+
+.donate-altar {
+  display: grid;
+  gap: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mode-border-strong);
+}
+
+.donate-altar__glyph,
+.donate-altar__coords {
+  margin: 0;
+  color: var(--mode-copy-muted);
+}
+
+.donate-altar__glyph {
+  font-family: var(--font-display);
+  color: var(--text);
+  letter-spacing: 0.14em;
+}
+
+.donate-altar__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2.2rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.donate-orientation {
+  max-width: var(--reading-width);
 }
 
 @media (max-width: 900px) {

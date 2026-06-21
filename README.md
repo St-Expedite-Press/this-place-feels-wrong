@@ -16,6 +16,7 @@ Proprietary repository for the St. Expedite Press public site and communications
   - canonical copies of every shipped image/GIF variant, mirrored into `apps/web/public/assets/`
 - `assets/manifest.json` and `assets/manifest.txt`
   - generated ownership, checksum, and byte inventories for the complete published asset tree
+- Homepage identity animation is generated as `assets/source/img/identity/expedite-seal-motion.svg` by `npm run identity:build`.
 - `branding/`
   - exportable brand package, UX assessment, design tokens, and web-element guidelines
 - `docs/`

@@ -99,7 +99,6 @@ body {
   object-fit: contain;
   image-rendering: auto;
   filter: drop-shadow(0 0 9px var(--green-2));
-  animation: seal-transmission 7.4s steps(1, end) infinite;
 }
 
 .portal-mobile .portal-stack {
@@ -301,7 +300,6 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .portal-mobile .portal-link { transition: none; }
-  .portal-mobile .portal .portal-media--seal img { animation: none; }
 }
 
 @media (max-height: 680px) {
@@ -376,9 +374,25 @@ body {
     portal-twinkle-sync 6.3s ease-in-out infinite alternate;
 }
 
+.portal-frame--seal {
+  animation:
+    portal-drift 22s ease-in-out infinite,
+    portal-twinkle-sync 6.3s ease-in-out infinite alternate;
+}
+
 @keyframes portal-drift {
-  0%, 100% { transform: translate(-50%, -50%) rotate(calc(var(--scan-warp) * -1)); }
-  50%      { transform: translate(-50%, -50%) rotate(calc(var(--scan-warp) * 1)); }
+  0%, 100% {
+    transform:
+      translate(-50%, -50%)
+      rotate(calc((var(--scan-warp) * -1) + var(--pointer-rotate, 0deg)))
+      skew(var(--pointer-warp-x, 0deg), var(--pointer-warp-y, 0deg));
+  }
+  50% {
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(var(--scan-warp) + var(--pointer-rotate, 0deg)))
+      skew(var(--pointer-warp-x, 0deg), var(--pointer-warp-y, 0deg));
+  }
 }
 
 @keyframes portal-glitch-cycle {
@@ -440,9 +454,6 @@ body {
   object-fit: contain;
   image-rendering: auto;
   filter: drop-shadow(0 0 10px var(--green-2));
-  animation:
-    seal-breathe 10s ease-in-out infinite,
-    seal-transmission 7.4s steps(1, end) infinite;
 }
 
 @keyframes gif-breathe {
@@ -514,30 +525,6 @@ body {
   text-align: center;
   z-index: 5;
   width: min(42rem, calc(100vw - 2rem));
-}
-
-@keyframes seal-breathe {
-  0%, 100% {
-    opacity: 0.9;
-    filter: brightness(0.96) contrast(1.08) drop-shadow(0 0 8px var(--green-2));
-  }
-  50% {
-    opacity: 1;
-    filter: brightness(1.08) contrast(1.18) drop-shadow(0 0 14px var(--green-1));
-  }
-}
-
-@keyframes seal-transmission {
-  0%, 92%, 100% { transform: translate(0); }
-  93% {
-    transform: translate(2px, -1px);
-    filter: brightness(1.25) contrast(1.35) drop-shadow(-3px 0 var(--relief));
-  }
-  95% {
-    transform: translate(-2px, 1px);
-    filter: brightness(0.92) contrast(1.5) drop-shadow(3px 0 var(--text));
-  }
-  97% { transform: translate(0); }
 }
 
 .splash__eyebrow {

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-21T10:14:55.160Z",
+  "generated_at": "2026-06-21T14:01:26.206Z",
   "roots": {
     "canonical_media": "assets/source/",
     "authored_public": "apps/web/public/assets/",
@@ -18,22 +18,22 @@
       "path": "apps/web/public/assets/css/books.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 5082,
-      "sha256": "c160a05aac7cba71627cebb25d228189bfe308dbd91dd86ddc224502ebf80296"
+      "bytes": 4769,
+      "sha256": "248226f9c7fd9858580cc86a217612fe85afb134b9b7883d43226f629c20db91"
     },
     {
       "path": "apps/web/public/assets/css/components.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 7046,
-      "sha256": "488943253ba7162d8a7d712ffbde3d0598787890d8af766436c14bbc65937dac"
+      "bytes": 7857,
+      "sha256": "95f9a96c5316e97ed7f7a0f8bef80e5f0eebbd4608951d1df12bc845d57404d2"
     },
     {
       "path": "apps/web/public/assets/css/donate-portal.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 7151,
-      "sha256": "1f36f6fb7725f362cfbc4b01a5f5a181a04531f79c67ef4bd6d7760757ec343f"
+      "bytes": 1385,
+      "sha256": "e124d4f5c961f0c30ee94cf71d548bd89548fba9866b4eb677f66b27fe61f0db"
     },
     {
       "path": "apps/web/public/assets/css/effects.css",
@@ -60,15 +60,15 @@
       "path": "apps/web/public/assets/css/forms.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 2357,
-      "sha256": "488d5323efe9c17a2e914db0ebff400d9bea0fd54d6b8965e307cfbce20f3902"
+      "bytes": 2703,
+      "sha256": "c7ade6348fed3c2eb08e27df4cfa979c4d3a0ab3ac963156bd05b8f1565bb160"
     },
     {
       "path": "apps/web/public/assets/css/gallery.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 3243,
-      "sha256": "dc38af9b298db04c735f12aad65de59ee50b9b9e518d58aeb0869b124463a0df"
+      "bytes": 3263,
+      "sha256": "3c4ea52379385321a2b8c6d350671f28849af0ba0dd769a3faaf7a33415fb5ca"
     },
     {
       "path": "apps/web/public/assets/css/hero-bar.css",
@@ -88,15 +88,15 @@
       "path": "apps/web/public/assets/css/lab.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 2744,
-      "sha256": "8db52b6165745a25170f90898c18dc4145c5a93ea372df69a725e47bfa48dc41"
+      "bytes": 2659,
+      "sha256": "3a657dc26c32bf863a36db465883e4671e03dc0919f7060eb76b63a307423812"
     },
     {
       "path": "apps/web/public/assets/css/layout.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 5367,
-      "sha256": "5128d16fae967da229601ca53a582bf6d07a69d1e4a798b2aff4e4fe89925d94"
+      "bytes": 5988,
+      "sha256": "36573a8227446eb089a4f223ecdf601e19dc47e6773f1b7f2424d13fd84e9346"
     },
     {
       "path": "apps/web/public/assets/css/mission.css",
@@ -109,8 +109,8 @@
       "path": "apps/web/public/assets/css/portal.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 18068,
-      "sha256": "e9a75526fb752a54e74eb148a6eecf057d95db9bbfce42054c27972bca2a7e8a"
+      "bytes": 17570,
+      "sha256": "085429f58a53d0b7b6fc947cc7bffe59902e036e8de9895c1b7398b8384aa4e8"
     },
     {
       "path": "apps/web/public/assets/css/README.md",
@@ -123,8 +123,8 @@
       "path": "apps/web/public/assets/css/services.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 3710,
-      "sha256": "95085896b202cc67fdb1e6aefc44aa8130d7a8caeb0b5cfa561a656b37be5a53"
+      "bytes": 3150,
+      "sha256": "e301b33603c0e4b1f41d09a4ca1d72f0f251e8b21304ddda55c83d90d3b378bf"
     },
     {
       "path": "apps/web/public/assets/css/tokens.css",
@@ -323,6 +323,13 @@
       "sha256": "4a9c0fca1557dfecc60b688220a2f0815b124098bbfbc046b1ef1f78e5a11d52"
     },
     {
+      "path": "apps/web/public/assets/img/identity/expedite-seal-motion.svg",
+      "ownership": "synced-media",
+      "source": "assets/source/img/identity/expedite-seal-motion.svg",
+      "bytes": 151719,
+      "sha256": "d84357127aaf45cb311c3ae207a80b36af31acc070b55adf6431a87c5a3a4fda"
+    },
+    {
       "path": "apps/web/public/assets/img/identity/expedite-seal-og-1200x630.png",
       "ownership": "synced-media",
       "source": "assets/source/img/identity/expedite-seal-og-1200x630.png",
@@ -431,8 +438,8 @@
       "path": "apps/web/public/assets/js/index-effects.js",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 3000,
-      "sha256": "782d21b875841e9b42e14a830202eb5f230495b26e6840c9e1b8741e42a4a953"
+      "bytes": 3084,
+      "sha256": "79858d1aae1ad292170f78a0029306335cdfd8ac15cab532f67adf5e5f05d462"
     },
     {
       "path": "apps/web/public/assets/js/lab-anglossic-data.js",

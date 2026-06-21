@@ -1,6 +1,8 @@
 .page {
   position: relative;
   z-index: 1;
+  width: min(100%, 1440px);
+  margin-inline: auto;
   padding: calc(var(--hero-bar-height) + 1.4rem) var(--gutter) 4rem;
 }
 
@@ -98,9 +100,9 @@
 }
 
 .page-intro {
-  max-width: var(--reading-width);
-  margin: 0 0 1.4rem;
-  padding: 0.65rem 0 0.35rem;
+  max-width: 58rem;
+  margin: 0 0 1.75rem;
+  padding: 0.8rem 0 0.4rem;
 }
 
 .page-intro__title {
@@ -115,7 +117,7 @@
   margin: 0.75rem 0 0;
   color: var(--mode-copy, var(--text-soft));
   font-size: 1.1rem;
-  max-width: 40rem;
+  max-width: 46rem;
   text-shadow: var(--mode-text-shadow, 0 0 8px var(--green-3));
 }
 
@@ -124,8 +126,15 @@
   gap: 1.1rem;
 }
 
+.page-content {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  min-width: 0;
+}
+
 .reading-width {
   max-width: var(--reading-width);
+  width: 100%;
 }
 
 .split-grid {
@@ -134,7 +143,42 @@
   gap: 1.1rem;
 }
 
+.section-block {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.section-block--reading {
+  width: 100%;
+  max-width: var(--reading-width);
+}
+
+.section-header {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 48rem;
+}
+
+.section-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.section-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.section-grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 @media (max-width: 900px) {
+  .section-grid--two,
+  .section-grid--three {
+    grid-template-columns: 1fr;
+  }
+
   .split-grid {
     grid-template-columns: 1fr;
   }

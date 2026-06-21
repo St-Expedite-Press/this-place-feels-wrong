@@ -27,7 +27,7 @@ The first implementation pass is active in the app:
 - Astro routes assign `data-brand-mode` as `ritual`, `editorial`, or `utility`.
 - Shared CSS consumes mode variables from `apps/web/public/assets/css/tokens.css`.
 - Forms, donation, catalog, store, and service CTAs have calmer utility/editorial treatments.
-- Homepage portal media loads a still WebP first and progressively hydrates animation after user intent or post-load idle time.
+- Homepage portal media uses a generated motion-ready SVG for a short ritual reveal, quiet breathing, and rare registration faults, with WebP/PNG fallbacks and a static reduced-motion state.
 - The homepage now exposes one document `h1`; visible portal titles are presentation text.
 
 ## Implementation Status
@@ -36,7 +36,8 @@ The first implementation pass is active in the app:
 - ✅ Readable text tiers — `--text-readable` / `--text-readable-muted` in use on all editorial/utility pages
 - ✅ CTA, nav pill, card, and form states normalized across all pages
 - ✅ Fonts self-hosted (Cinzel + Cormorant Garamond, 12 woff2 files, no Google Fonts CDN)
-- ✅ BasePortal.astro — shared layout for portal pages (index, donate, 404)
+- ✅ BasePortal.astro — shared layout for portal-only pages (index, 404)
+- ✅ Base.astro — shared layout for all interior and task pages, including donate
 - ⬜ Book and product imagery — Lift Wind cover pending; store has one product
 - ⬜ Scroll-reveal animations on interior page cards (IntersectionObserver, prefers-reduced-motion gated)
 

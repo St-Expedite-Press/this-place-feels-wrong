@@ -4,7 +4,7 @@ Top-level Astro layouts for generated pages.
 
 ## `Base.astro`
 
-Interior-page shell. Used by all pages except the three portal pages.
+Interior and task-page shell. Used by all pages except the homepage portal and 404 page.
 
 Props:
 - `title`, `description`, `canonical` — SEO metadata
@@ -14,11 +14,11 @@ Props:
 - `styles` — array of stylesheet paths to inject (relative to `/assets/css/` root)
 - `robots?` — overrides the default robots meta content
 
-Renders: `<Head />`, `<HeroBar />`, `.texture--grain`, `<SiteHeader />`, `.page-intro` section, `<slot />`, `<Footer />`.
+Renders: `<Head />`, `<HeroBar />`, `.texture--grain`, `<SiteHeader />`, `.page-intro` section, standardized `.page-content` flow around `<slot />`, and `<Footer />`.
 
 ## `BasePortal.astro`
 
-Portal-page shell. Used by `index.astro`, `donate.astro`, and `404.astro` — pages that use a full-viewport layout without the interior `<SiteHeader>` card.
+Portal-page shell. Used by `index.astro` and `404.astro` — pages that use a full-viewport layout without the interior `<SiteHeader>` card.
 
 Props: same as `Base.astro` minus the header/intro props (`subtitle`, `eyebrow`, `introKicker`, `introTitle`, `introText`, `currentNav`).
 

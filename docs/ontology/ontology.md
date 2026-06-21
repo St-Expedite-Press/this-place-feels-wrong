@@ -75,6 +75,8 @@ npm run check:tooling-integrity
 
 `assets/manifest.json` is the machine contract for published asset ownership, source mapping, byte size, and SHA-256 checksums. `assets/manifest.txt` is its review-friendly companion.
 
+The generated `img/identity/expedite-seal-motion.svg` is the homepage-only animated identity derivative. It is rebuilt from the preserved seal scan and contains its own reduced-motion fallback.
+
 ## Task Closeout Rule
 
 For any task that changes files or performs a repo investigation, final responses should include:

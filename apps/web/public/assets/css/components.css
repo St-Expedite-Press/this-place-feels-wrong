@@ -65,7 +65,7 @@
 .card,
 .catalog-card,
 .form-card {
-  padding: 1.1rem;
+  padding: clamp(1rem, 2vw, 1.35rem);
 }
 
 .stack {
@@ -272,10 +272,40 @@
   text-shadow: var(--mode-heading-shadow, 0 0 8px var(--green-2));
 }
 
+.section-heading--display {
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+}
+
 .section-copy {
   margin: 0;
   color: var(--mode-copy, var(--text-soft));
   text-shadow: var(--mode-text-shadow, none);
+}
+
+.editorial-card {
+  border-radius: var(--radius-md);
+  border-color: var(--mode-border);
+  border-left: 3px solid var(--mode-border-strong);
+  background:
+    linear-gradient(90deg, var(--green-3), transparent 38%),
+    var(--mode-panel);
+  box-shadow: var(--mode-shadow);
+}
+
+.quiet-panel {
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(180deg, var(--green-3), transparent 48%),
+    var(--mode-panel);
+}
+
+.section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  padding-top: 0.25rem;
 }
 
 .site-footer {
@@ -319,5 +349,17 @@
 @media (prefers-reduced-motion: no-preference) {
   .card {
     animation: reveal-up 380ms ease-out both;
+  }
+}
+
+@media (max-width: 600px) {
+  .actions,
+  .section-actions {
+    align-items: stretch;
+  }
+
+  .actions > *,
+  .section-actions > * {
+    flex: 1 1 100%;
   }
 }

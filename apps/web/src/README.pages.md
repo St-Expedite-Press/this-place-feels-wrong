@@ -14,3 +14,5 @@ Current pages:
 - `/gallery` - `pages/gallery.astro`
 - `/lab` - `pages/lab.astro`
 - `/services` - `pages/services.astro`
+
+The homepage alone uses the generated motion-ready institutional seal; interior and task pages keep static identity treatments.

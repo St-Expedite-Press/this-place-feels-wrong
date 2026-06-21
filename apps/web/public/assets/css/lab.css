@@ -1,24 +1,21 @@
 .lab-overview {
-  display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-  gap: 1rem;
 }
 
 .lab-overview > .card {
   position: relative;
-  border-radius: 2px;
+  border-radius: var(--radius-md);
   background:
-    linear-gradient(90deg, transparent 49.8%, var(--green-3) 50%, transparent 50.2%),
-    linear-gradient(transparent 49.8%, var(--green-3) 50%, transparent 50.2%),
+    radial-gradient(circle at 15% 0%, var(--green-3), transparent 42%),
     var(--mode-panel);
 }
 
 .lab-overview > .card:first-child {
-  border-width: 1px 1px 1px 3px;
+  border-left: 3px solid var(--mode-border-strong);
 }
 
 .lab-overview > aside.card {
-  border-style: dashed;
+  background: var(--mode-panel);
 }
 
 .lab-overview .meta-list li {

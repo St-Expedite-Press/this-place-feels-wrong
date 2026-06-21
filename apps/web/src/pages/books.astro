@@ -24,34 +24,42 @@ const styles = [
   brandMode="editorial"
   styles={styles}
 >
-  <div class="stack">
-    <section class="reading-width stack editorial-programs" aria-label="Publishing programs">
-      <article class="card stack">
+  <section class="section-block" aria-labelledby="publishing-programs-title">
+    <div class="section-header">
+      <p class="card-kicker">Publishing programs</p>
+      <h2 class="section-heading section-heading--display" id="publishing-programs-title">Three arms, one standard.</h2>
+    </div>
+    <div class="section-grid section-grid--three editorial-programs">
+      <article class="card editorial-card stack">
         <h2 class="section-heading">SEXP</h2>
         <p class="section-copy">Original fiction, poetry, novella, and hybrid work. Formal pressure over market fit. Very few entries.</p>
       </article>
 
-      <article class="card stack">
+      <article class="card editorial-card stack">
         <h2 class="section-heading">Library of the Southern Civilization</h2>
         <p class="section-copy">Recovery editions of Southern texts that deserve continued circulation — returned in editions that treat them as live, not archival.</p>
       </article>
 
-      <article class="card stack">
+      <article class="card editorial-card stack">
         <h2 class="section-heading">Translation</h2>
         <p class="section-copy">Formal and spiritual registers from traditions Anglo-American publishing has spent decades flattening. Brought across without domestication.</p>
       </article>
-    </section>
+    </div>
+  </section>
 
+  <section class="section-block" aria-labelledby="catalog-title">
+    <div class="section-header">
+      <p class="card-kicker">Active catalog</p>
+      <h2 class="section-heading section-heading--display" id="catalog-title">Books in public circulation and active work.</h2>
+    </div>
     <nav class="filter-tabs" id="books-filter" aria-label="Filter by series"></nav>
     <div class="helper-text" id="books-status" role="status" aria-live="polite">Loading catalog...</div>
     <section class="books-list" id="books-list" aria-label="Books catalog"></section>
-    <div class="reading-width">
-      <div class="catalog-actions">
-        <a class="button" href="/submit">Submission inquiries</a>
-        <a class="button-secondary" href="/about">Rights or press inquiries</a>
-      </div>
+    <div class="section-actions">
+      <a class="button" href="/submit">Submission inquiries</a>
+      <a class="button-secondary" href="/contact?reason=Rights">Rights or press inquiries</a>
     </div>
-  </div>
+  </section>
 
   <Fragment slot="scripts">
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>

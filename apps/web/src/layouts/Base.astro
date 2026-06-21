@@ -53,7 +53,9 @@ const {
       <h2 class="page-intro__title">{introTitle}</h2>
       {introText && <p class="page-intro__text">{introText}</p>}
     </section>
-    <slot />
+    <div class="page-content">
+      <slot />
+    </div>
     <Footer />
   </main>
   <slot name="afterMain" />

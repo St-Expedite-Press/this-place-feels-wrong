@@ -16,6 +16,7 @@ Copy from `assets/source/` when preparing an external package:
 - `assets/source/img/identity/expedite-seal-source-2026.png`
 - `assets/source/img/identity/expedite-seal-master.svg`
 - `assets/source/img/identity/expedite-seal-distressed.svg`
+- `assets/source/img/identity/expedite-seal-motion.svg`
 - `assets/source/img/identity/expedite-seal-clean.png`
 - `assets/source/img/identity/expedite-seal-distressed.png`
 - `assets/source/img/identity/expedite-seal-green-768.png`
@@ -33,6 +34,7 @@ Published copies live under `apps/web/public/assets/` and are synchronized from 
 ## Usage Roles
 
 - St. Expedite seal: primary institutional identity and homepage portal image.
+- Motion seal SVG: homepage-only ritual reveal with reduced-motion behavior embedded in the asset.
 - Seal social image: default social preview.
 - Crow glitch still/gif/webp: secondary ritual imagery and preserved historical portal assets.
 - Void engine twinkle: background texture, high-atmosphere surfaces only.
@@ -44,7 +46,7 @@ Published copies live under `apps/web/public/assets/` and are synchronized from 
 - Keep original filenames unless a downstream tool requires naming changes.
 - Preserve `expedite-seal-source-2026.png` unchanged. Run `npm run identity:build` to rebuild derivatives.
 - Use the clean seal at small sizes and the distressed seal at large display sizes.
-- The SVG masters use an embedded monochrome mask and inherit `currentColor`.
+- The static SVG masters use an embedded monochrome mask and inherit `currentColor`; the motion SVG uses generated green/magenta layers from the same mask.
 - Do not use the void texture behind dense form inputs or long text.
 - Do not stretch book covers to fill arbitrary card ratios.
 - If new assets are created, place source versions under `assets/source/`, then run `npm run assets:sync` and `npm run assets:check`.

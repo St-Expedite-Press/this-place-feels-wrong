@@ -122,6 +122,115 @@ def save_svg(mask: Image.Image, path: Path) -> None:
     path.write_text(svg, encoding="utf-8")
 
 
+def save_motion_svg(mask: Image.Image, path: Path) -> None:
+    """Build the homepage-only layered seal animation from the canonical mask."""
+    buffer = io.BytesIO()
+    mask.save(buffer, format="PNG", optimize=True)
+    encoded = base64.b64encode(buffer.getvalue()).decode("ascii")
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {mask.width} {mask.height}" role="img" aria-labelledby="title desc">
+  <title id="title">Animated St. Expedite Press seal</title>
+  <desc id="desc">The institutional crow seal reveals, breathes softly, and occasionally registers a restrained signal fault.</desc>
+  <defs>
+    <mask id="seal-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="{mask.width}" height="{mask.height}">
+      <image width="{mask.width}" height="{mask.height}" href="data:image/png;base64,{encoded}" />
+    </mask>
+    <filter id="seal-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.1647 0 0 0 0 1 0 0 0 0 0.5412 0 0 0 .45 0" result="green-glow" />
+      <feMerge>
+        <feMergeNode in="green-glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <style>
+    .seal-arrival,
+    .seal-breath,
+    .signal-echo {{
+      transform-box: fill-box;
+      transform-origin: center;
+    }}
+    .seal-arrival {{
+      animation: seal-arrival 1.6s cubic-bezier(.2,.72,.22,1) both;
+    }}
+    .seal-breath {{
+      animation: seal-breath 8s ease-in-out 1.6s infinite;
+    }}
+    .arrival-echo {{
+      opacity: 0;
+      animation: arrival-echo 1.6s steps(1, end) both;
+    }}
+    .signal-echo {{
+      opacity: 0;
+      animation: signal-fault 12s steps(1, end) 1.6s infinite;
+    }}
+    .signal-echo--green {{
+      animation-delay: 1.64s;
+    }}
+    .signal-sweep {{
+      opacity: 0;
+      mix-blend-mode: screen;
+      animation: signal-sweep 1.6s cubic-bezier(.2,.72,.22,1) both;
+    }}
+    @keyframes seal-arrival {{
+      0% {{ opacity: 0; transform: scale(.94); clip-path: inset(50% 0 50% 0); }}
+      18% {{ opacity: .24; }}
+      48% {{ opacity: .82; clip-path: inset(18% 0 20% 0); }}
+      72% {{ opacity: 1; transform: scale(1.012); clip-path: inset(0); }}
+      100% {{ opacity: 1; transform: scale(1); clip-path: inset(0); }}
+    }}
+    @keyframes seal-breath {{
+      0%, 100% {{ opacity: .93; transform: scale(.997); }}
+      50% {{ opacity: 1; transform: scale(1.006); }}
+    }}
+    @keyframes arrival-echo {{
+      0%, 24%, 100% {{ opacity: 0; transform: translate(0); }}
+      25% {{ opacity: .38; transform: translate(-8px, 3px); }}
+      31% {{ opacity: 0; transform: translate(0); }}
+      52% {{ opacity: .22; transform: translate(5px, -2px); }}
+      58% {{ opacity: 0; transform: translate(0); }}
+    }}
+    @keyframes signal-fault {{
+      0%, 94%, 96%, 98%, 100% {{ opacity: 0; transform: translate(0); }}
+      95% {{ opacity: .28; transform: translate(-2px, 1px); }}
+      97% {{ opacity: .18; transform: translate(2px, -1px); }}
+    }}
+    @keyframes signal-sweep {{
+      0%, 12% {{ opacity: 0; transform: translateY(-260px); }}
+      22% {{ opacity: .7; }}
+      68% {{ opacity: .35; }}
+      82%, 100% {{ opacity: 0; transform: translateY(1500px); }}
+    }}
+    @media (prefers-reduced-motion: reduce) {{
+      .seal-arrival,
+      .seal-breath {{
+        animation: none;
+        opacity: 1;
+        transform: none;
+        clip-path: none;
+      }}
+      .arrival-echo,
+      .signal-echo,
+      .signal-sweep {{
+        display: none;
+        animation: none;
+      }}
+    }}
+  </style>
+  <g class="seal-arrival">
+    <g class="seal-breath" filter="url(#seal-glow)">
+      <rect width="100%" height="100%" fill="#2aff8a" mask="url(#seal-mask)" />
+    </g>
+  </g>
+  <rect class="arrival-echo" width="100%" height="100%" fill="#d96aff" mask="url(#seal-mask)" />
+  <rect class="signal-echo signal-echo--magenta" width="100%" height="100%" fill="#d96aff" mask="url(#seal-mask)" />
+  <rect class="signal-echo signal-echo--green" width="100%" height="100%" fill="#2aff8a" mask="url(#seal-mask)" />
+  <rect class="signal-sweep" x="0" y="-90" width="100%" height="90" fill="#e8f8ee" mask="url(#seal-mask)" />
+</svg>
+"""
+    path.write_text(svg, encoding="utf-8")
+
+
 def make_social_image(mask: Image.Image) -> Image.Image:
     width, height = 1200, 630
     background = Image.new("RGB", (width, height), BLACK)
@@ -172,6 +281,9 @@ def main() -> None:
 
     save_svg(clean, IDENTITY_DIR / "expedite-seal-master.svg")
     save_svg(distressed, IDENTITY_DIR / "expedite-seal-distressed.svg")
+    save_motion_svg(
+        distressed, IDENTITY_DIR / "expedite-seal-motion.svg"
+    )
 
     social = make_social_image(distressed)
     social.save(IDENTITY_DIR / "expedite-seal-og-1200x630.png", optimize=True)

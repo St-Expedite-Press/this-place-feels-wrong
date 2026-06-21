@@ -1,21 +1,5 @@
 .services-grid {
   counter-reset: service;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.services-section,
-.advanced-service,
-.service-evidence,
-.engagement-panel {
-  margin-top: 2rem;
-}
-
-.services-section__heading {
-  display: grid;
-  gap: 0.35rem;
-  margin-bottom: 1rem;
 }
 
 .service-card {
@@ -24,11 +8,13 @@
   display: grid;
   gap: 0.8rem;
   padding: 1.25rem 1.25rem 1.25rem 4rem;
-  border: 0;
-  border-top: 1px solid var(--mode-border-strong);
-  border-radius: 0;
-  background: linear-gradient(180deg, rgba(42, 255, 138, 0.025), transparent 45%);
-  box-shadow: none;
+  border-radius: var(--radius-md);
+  border-color: var(--mode-border);
+  border-top: 2px solid var(--mode-border-strong);
+  background:
+    linear-gradient(180deg, var(--green-3), transparent 45%),
+    var(--mode-panel);
+  box-shadow: var(--mode-shadow);
 }
 
 .service-card::before {
@@ -62,20 +48,9 @@
   background: transparent;
 }
 
-.services-premise .card {
-  padding: 1rem 0 1rem 1.15rem;
-  border: 0;
-  border-left: 1px solid var(--mode-border-strong);
-  border-radius: 0;
-  background: linear-gradient(90deg, rgba(42, 255, 138, 0.035), transparent 35%);
-  box-shadow: none;
-}
-
 .advanced-service .card,
 .engagement-panel .card {
-  padding: 1.35rem;
   border-color: var(--mode-border-strong);
-  background: linear-gradient(120deg, var(--green-3), transparent 55%);
 }
 
 .evidence-grid {
@@ -169,7 +144,6 @@
 }
 
 @media (max-width: 900px) {
-  .services-grid,
   .evidence-grid {
     grid-template-columns: 1fr;
   }
