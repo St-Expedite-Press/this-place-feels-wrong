@@ -11,7 +11,7 @@ See **[AGENTS.md](AGENTS.md)** for the full agent doctrine: project shape, route
 - Treat the ontology as a boundary, not just a reference: prefer files and commands it names. If you work outside that map, verify the path is real and update the ontology when that surface should persist.
 - Use Claude project memory for stable facts only; put task-specific or local preferences in `CLAUDE.local.md`.
 - Keep `.claude/` local-only and untracked.
-- Skills are in `agent/skills/`; runbooks are in `agent/ops/`; tools are in `agent/tools/`.
+- Skills are in `skills/`; runbooks are in `ops/`; tools are in `scripts/`; reusable kits are in `kits/`.
 - End repo tasks with tool-call logging, validation results, and a short tooling/skills improvement scrum.
 
 ## Local Files

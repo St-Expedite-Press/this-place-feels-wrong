@@ -13,6 +13,12 @@ Single source of truth for every agent working in this repository. `CLAUDE.md` i
 5. Confirm current phase from `PHASE-PLAN.md`
 6. State: active project, current phase, last logged action
 
+Additional framework requirements:
+
+- Read root `ONTOLOGY.md` before selecting files; it points to the detailed Markdown and JSON ontology surfaces.
+- If working under a directory with its own `AGENTS.md` or `MEMORY.md`, read those local files before editing.
+- Keep `ONTOLOGY.md`, `docs/ontology/ontology.md`, and `docs/ontology/project-ontology.json` synchronized when navigation, ownership, commands, validation, or workflow rules change.
+
 ---
 
 ## 1. Project Shape
@@ -270,6 +276,8 @@ Every task that changes files or performs repo investigation must end with:
 
 - **Tool calls:** concise list of commands, scripts, and repo tools used, grouped by purpose
 - **Checks:** validation commands and outcomes
+- **Memory:** concise entry appended to root `MEMORY.md`, plus local `MEMORY.md` when the changed subtree has one
+- **Ontology upkeep:** root and detailed ontology surfaces updated when paths, commands, ownership, validation, or workflow rules changed
 - **Tooling/skills scrum:** 1–3 notes on how to improve future tooling, skills, runbooks, or ontology rules
 
 ---
@@ -351,11 +359,28 @@ Periodically curate the skill surface: consolidate overlapping workflows, update
 
 ## 9. MCP Tools
 
-MCP servers are configured in the workspace root `.mcp.json` and are available to any agent working in this repository.
+Repo-configured MCP servers live in `.mcp.json` at this repository root. That config currently declares:
+
+| Server | Configured command | Use for this project |
+|--------|--------------------|----------------------|
+| `cloudflare` | `npx -y @cloudflare/mcp-server-cloudflare run` | Cloudflare account, Pages, Worker, and runtime inspection where the connected session exposes it |
+| `playwright` | `npx -y @playwright/mcp --browser chromium` | Visual testing of the live or dev site; interaction testing (nav, forms, dialogs); screenshot at specific viewports; console error capture |
+
+Some Codex sessions also expose connector or MCP tools outside this repo config. Use them only when they are available in the active tool list, and treat them as session-scoped rather than repository guarantees.
+
+| Session-exposed tool surface | Use for this project |
+|------------------------------|----------------------|
+| GitHub connector | Inspect PRs/issues, create draft PRs, and manage review requests when explicitly authorized |
+| Google Drive connector | Work with Drive, Docs, Sheets, or Slides references when the task names those artifacts |
+| Figma / Canva connectors | Design-system, mockup, presentation, or branded design workflows; do not use for normal code validation |
+| Node REPL MCP | JavaScript inspection, browser automation glue, and local tooling experiments |
+| Multi-agent tooling | Bounded read-only or non-overlapping delegated work, following the subagent policy above |
+| Shell tools | PowerShell, Node/npm, Python, Git, and Wrangler through npm/make wrappers |
+
+The following MCP capabilities are documented project workflows, but may require a host/session that exposes the corresponding server:
 
 | Server | Use for this project |
 |--------|---------------------|
-| `playwright` | Visual testing of the live or dev site; interaction testing (nav, forms, dialogs); screenshot at specific viewports; console error capture |
 | `playwright-ea` | API endpoint testing for Worker routes (`/api/*`) — fire POST/GET requests and assert responses alongside browser |
 | `screenshot-fast` | Full-page screenshots of the live site (pass an HTTPS URL) or the dev server (pass `http://localhost:4321/...`) |
 | `firecrawl` | Content extraction and crawl of stexpedite.press — extract page copy, structured data, and link inventory for audits |

@@ -1,34 +1,71 @@
-# St. Expedite Press — Project Ontology
+# St. Expedite Press Ontology
 
-The detailed entity taxonomy for this project lives in the repo's own documentation system:
+This is the project-level navigation contract for St. Expedite Press. Read it after `AGENTS.md` and before selecting files to edit.
 
-- **`docs/ontology/ontology.md`** — human-readable entity and relationship map
-- **`docs/ontology/project-ontology.json`** — machine-readable ontology (navigation and constraint map for agents)
+Detailed ontology surfaces:
 
-Read both before any repo-internal work. The JSON ontology is the authoritative routing surface for task classification, path ownership, and agent/tooling contracts.
+- `docs/ontology/ontology.md` — human-readable entity and relationship map.
+- `docs/ontology/project-ontology.json` — machine-readable routing and constraint map.
 
----
+Keep this file, the Markdown companion, and the JSON ontology aligned whenever paths, commands, ownership, validation, or agent workflow rules change.
 
 ## Project Summary
 
-**Live site:** stexpedite.press  
-**Stack:** Astro · Cloudflare Pages · Cloudflare Worker · D1 · Resend · Stripe · Fourthwall  
-**Repo:** `St-Expedite-Press/this-place-feels-wrong` (the press site codebase)  
-**Agent doctrine:** `agent/AGENT.md` — single source of truth for all repo-internal agent work  
-**Phase tracking:** `PHASE-PLAN.md`  
-**Change log:** `MEMORY.md` (gitignored)
+| Field | Value |
+|---|---|
+| Live site | `https://stexpedite.press` |
+| Stack | Astro, Cloudflare Pages, Cloudflare Worker, D1, Resend, Stripe, Fourthwall |
+| Repository | `St-Expedite-Press/this-place-feels-wrong` |
+| Agent doctrine | `AGENTS.md` |
+| Phase tracking | `PHASE-PLAN.md` |
+| Change log | `MEMORY.md` |
 
----
+## Maintained Surfaces
 
-## Key Entity Types (summary — see `docs/ontology/` for full detail)
+| Surface | Source of truth | Notes |
+|---|---|---|
+| Public web app | `apps/web/` | Astro pages, components, data, and authored public assets. |
+| Communications Worker | `apps/communications-worker/` | Worker source, OpenAPI contract, D1 migrations, and tests. |
+| Canonical media | `assets/source/` | Mirrored into `apps/web/public/assets/`; manifests generated at `assets/manifest.*`. |
+| Branding | `branding/` | Brand docs, token exports, UX assessments; no runtime behavior. |
+| Docs | `docs/` | Ontology, infrastructure, operations, and press documentation. |
+| Operations | `ops/` | Runbooks, stability references, smoke/runtime scripts. |
+| Scripts | `scripts/` | Root operational and validation tooling. |
+| Skills | `skills/` | Repo-scoped agent skills. |
+| Kits | `kits/` | Reusable static-web scaffolding. |
 
-| Entity | Description |
-|--------|-------------|
-| Public Route | An Astro page under `apps/web/src/pages/` — 11 routes |
-| API Route | A Worker endpoint under `apps/communications-worker/src/index.ts` — 10 routes |
-| CSS Token | A custom property in `apps/web/public/assets/css/tokens.css` |
-| Brand Mode | `ritual` · `editorial` · `utility` — set via `data-brand-mode` on `<body>` |
-| D1 Migration | An append-only SQL file in `apps/communications-worker/migrations/` |
-| Asset | A media file synced from `assets/source/` via `npm run assets:sync` |
-| Skill | A reusable agent skill in `agent/skills/` |
-| Runbook | An operational procedure in `agent/ops/` |
+## Working Directories
+
+| Directory | Owns | Local files |
+|---|---|---|
+| `apps/web/` | Astro site source, public authored assets, generated `dist/` output | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| `apps/communications-worker/` | Worker routes, OpenAPI, D1 migrations, tests | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| `assets/` | Canonical media source and generated manifests | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| `branding/` | Brand docs and exportable tokens | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| `docs/` | Documentation and ontology | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| `ops/` | Operational runbooks and stability scripts | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| `scripts/` | Root scripts and command helpers | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| `skills/` | Repo-scoped skills | `AGENTS.md`, `MEMORY.md` |
+| `kits/` | Scaffolding kits | `AGENTS.md`, `MEMORY.md`, `README.md` |
+
+## Update Loops
+
+- Log each file-changing task in root `MEMORY.md`.
+- If the changed subtree has a local `MEMORY.md`, add a short local entry too.
+- Assess whether skills, tooling, runbooks, or validation scripts helped or got in the way; update the relevant surface when the improvement is clear.
+- Keep `ONTOLOGY.md`, `docs/ontology/ontology.md`, and `docs/ontology/project-ontology.json` synchronized when navigation, ownership, commands, or workflow rules change.
+- Run `npm run check:tooling-integrity` after ontology or tooling-contract changes.
+
+## Validation
+
+Use the narrowest relevant checks:
+
+```powershell
+npm run check:tooling-integrity
+npm run build
+npm run test:worker
+npm run assets:check
+npm run check
+```
+
+Do not deploy, push, mutate secrets, or alter Cloudflare resources unless explicitly authorized.

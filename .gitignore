@@ -70,6 +70,5 @@ assets/manifest.tmp
 CLAUDE.local.md
 .claude/
 
-# Workspace tracking files (private workflow logs and persona docs)
-MEMORY.md
+# Workspace persona docs
 STEX_SANDBATCH.md

@@ -11,7 +11,8 @@ Repo snapshot for the current Astro app, Cloudflare Worker, and agent tooling la
 - Canonical media sources: `assets/source/`
 - Generated asset inventories: `assets/manifest.json`, `assets/manifest.txt`
 - Exportable brand package: `branding/`
-- All agent infrastructure: `agent/` (skills, ops, tools, kits, AGENT.md)
+- Agent doctrine: `AGENTS.md` with `CLAUDE.md` as the Claude Code entrypoint
+- Agent infrastructure: `scripts/` (tools), `ops/` (runbooks), `skills/` (repo skills), and `kits/` (scaffolding)
 - Archived product material: `archive/`
 
 ## Runtime Contract
@@ -56,12 +57,13 @@ API routes remain under `/api/*`:
 
 ## Agent Workflow
 
-- `agent/AGENT.md` is the canonical instruction file for all agents.
-- `CLAUDE.md` imports `agent/AGENT.md` and contains only Claude-specific notes.
+- `AGENTS.md` is the canonical instruction file for all agents.
+- `CLAUDE.md` imports `AGENTS.md` and contains only Claude-specific notes.
 - `.claude/` and `CLAUDE.local.md` remain local-only.
-- Repo-scoped Codex skills live under `agent/skills/`.
-- Operational runbooks live under `agent/ops/`.
-- Shell tools live under `agent/tools/`.
+- Repo-scoped Codex skills live under `skills/`.
+- Operational runbooks live under `ops/`.
+- Shell tools live under `scripts/`.
+- Reusable scaffolding kits live under `kits/`.
 
 ## Layout Architecture
 
@@ -96,7 +98,6 @@ Fonts are self-hosted. No Google Fonts CDN dependency.
 - The homepage is generated from source instead of copied from a static exception.
 - The former checked-in public output snapshot was removed from `archive/site-legacy/`; recover it from git history if needed.
 - The former `workers/communications/` project lives in `apps/communications-worker/`.
-- The former `agent/` subtree was at `internal/agent/` and is now at `agent/`.
-- The former `.agents/skills/` subtree is now at `agent/skills/`.
-- `AGENTS.md` at the root is replaced by `agent/AGENT.md`.
+- The former internal agent subtree has been dissolved into root `AGENTS.md`, `scripts/`, `ops/`, `skills/`, and `kits/`.
+- Historical agent path migrations are preserved in Git history and selected audit notes; current work should use the live paths above.
 - Repository licensing is proprietary.

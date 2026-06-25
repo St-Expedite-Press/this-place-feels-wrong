@@ -50,8 +50,8 @@ npm run deploy:worker
 ## Local Setup
 
 ```bash
-sh agent/tools/bootstrap-git-auth.sh
-sh agent/tools/install-hooks.sh
+npm run run:bash -- scripts/bootstrap-git-auth.sh
+npm run run:bash -- scripts/install-hooks.sh
 npm run sync:worker-dev-vars
 ```
 

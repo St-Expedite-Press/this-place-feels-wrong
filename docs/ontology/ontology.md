@@ -12,6 +12,24 @@ Human-readable companion to `project-ontology.json`. Keep this file aligned when
 | Docs | `README.md`, `docs/`, app READMEs | Human-facing project state, deployment, operations, and infrastructure docs. |
 | Agent infrastructure | `scripts/`, `ops/`, `skills/`, `kits/`, `AGENTS.md`, `CLAUDE.md` | Shell scripts, runbooks, repo skills, scaffolding kits, and agent doctrine. |
 
+## Directory Agent Framework
+
+Project tasks start at root `AGENTS.md`, `ONTOLOGY.md`, and `MEMORY.md`, then descend into local working-directory guides where present.
+
+| Directory | Local contract | Memory use |
+|---|---|---|
+| `apps/web/` | `AGENTS.md` | Log web route, Astro, CSS, JS, and generated-output boundary changes in `MEMORY.md`. |
+| `apps/communications-worker/` | `AGENTS.md` | Log Worker route, OpenAPI, migration, binding, and test changes in `MEMORY.md`. |
+| `assets/` | `AGENTS.md` | Log canonical media, sync, manifest, and provenance changes in `MEMORY.md`. |
+| `branding/` | `AGENTS.md` | Log token, design-system, and brand-doc decisions in `MEMORY.md`. |
+| `docs/` | `AGENTS.md` | Log ontology, infrastructure, operations, and documentation consistency work in `MEMORY.md`. |
+| `ops/` | `AGENTS.md` | Log runtime, smoke, release, and incident-runbook lessons in `MEMORY.md`. |
+| `scripts/` | `AGENTS.md` | Log command, wrapper, and validation-script contract changes in `MEMORY.md`. |
+| `skills/` | `AGENTS.md` | Log skill consolidation, forward-testing, and stale-skill cleanup in `MEMORY.md`. |
+| `kits/` | `AGENTS.md` | Log template, path, and scaffolding-contract decisions in `MEMORY.md`. |
+
+Every file-changing task appends a concise root `MEMORY.md` entry and, when applicable, a local directory `MEMORY.md` entry. Entries should state changed surfaces, checks, follow-ups, and tooling/skills notes. Do not log secrets, `.env` values, or noisy transcripts.
+
 ## Agent Orchestration
 
 The primary agent operates orchestration-first: it retains planning, safe decomposition, integration, cross-surface decisions, critical blockers, conflict resolution, and final validation. Spawn parallel subagents whenever work can be safely separated into independent read, implementation, review, or validation tracks.
@@ -25,6 +43,33 @@ Prefer built-in delegation when the runner can directly select the requested mod
 Inventory and search repo, installed, and available skills before authoring. Update or extend a suitable skill before creating a duplicate. New or materially revised skills follow the `skill-creator` structure, are validated with their referenced paths and scripts, and are forward-tested by fresh subagents without the authoring context.
 
 Curate the skill surface over time: consolidate overlapping workflows and retire or archive stale duplicates while preserving maintained entrypoints. When skills or agent workflows change paths, commands, ownership, validation, or policy, synchronize `AGENTS.md`, `project-ontology.json`, and this document.
+
+## Tooling And MCP Capabilities
+
+Repo-configured MCP servers are declared in `.mcp.json`:
+
+| Server | Purpose |
+|---|---|
+| `cloudflare` | Cloudflare account, Pages, Worker, and runtime inspection when the active session exposes it. |
+| `playwright` | Visual and interaction testing for live or local web surfaces. |
+
+Documented project MCP workflows may also use `playwright-ea`, `screenshot-fast`, `firecrawl`, and `page-design-guide` when a host/session exposes those servers. Treat them as available capabilities, not as guaranteed tools in every Codex session.
+
+Current Codex sessions may also expose connectors for GitHub, Google Drive, Figma, Canva, Node REPL, and multi-agent delegation. Use those only when present in the active tool list, and keep external mutations such as PR creation, reviewer changes, Drive edits, or Figma/Canva writes behind explicit user authorization.
+
+Shell-backed project work should use PowerShell, Git scoped to this repository, Node/npm scripts, Python scripts, and Wrangler through npm or make wrappers.
+
+## Environment Surfaces
+
+Environment files are local-only. Document variable names and presence only; never print, copy, commit, or paste values.
+
+| Surface | Role | Variable names |
+|---|---|---|
+| Workspace `.env` | Broad local workstation credentials and cross-project metadata | GitHub, OpenAI/OpenRouter, AWS, Fourthwall, Stripe, RICE URL, browser/session, media-tool, and debug variables |
+| Repository `.env` | Press-local deploy/runtime/operator configuration | Cloudflare, Resend, Stripe, Fourthwall, GitHub write token, Telegram, AWS, CensusData, and OpenAI-related variables |
+| `.env.example` | Commit-safe variable template for this repository | `CF_PAGES_PROJECT`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, `FOURTH_WALL_API_KEY`, `FOURTH_WALL_HMAC`, `FOURTH_WALL_PASSWORD`, `FOURTH_WALL_USERNAME`, `GITHUB_PAT_WRITE`, `GITHUB_REPO_URL`, `RESEND_API_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `TELEGRAM_TOKEN`, `TELEGRAM_WEBHOOK_URL` |
+
+Worker production secrets belong in Wrangler or Cloudflare secret storage, not in Git. Do not assume either local `.env` is loaded automatically; load only the specific variable required by an authorized task.
 
 ## Deployment Auth
 

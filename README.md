@@ -21,8 +21,10 @@ Proprietary repository for the St. Expedite Press public site and communications
   - exportable brand package, UX assessment, design tokens, and web-element guidelines
 - `docs/`
   - infrastructure, operations, ontology, and repo state documentation
-- `agent/`
-  - canonical agent instructions (`agent/AGENT.md`), maintenance tooling, release scripts, operational skills, and reusable kits
+- `AGENTS.md` and `CLAUDE.md`
+  - canonical agent doctrine and Claude Code entrypoint
+- `scripts/`, `ops/`, `skills/`, and `kits/`
+  - maintenance tooling, operational runbooks, repo-scoped skills, release helpers, and reusable scaffolding kits
 - `archive/`
   - non-live historical material
 
@@ -103,10 +105,13 @@ Worker routes:
 
 ## Agent Workflow
 
-- `agent/AGENT.md` is the canonical shared agent instruction file.
-- `CLAUDE.md` imports `agent/AGENT.md` for Claude Code.
+- `AGENTS.md` is the canonical shared agent instruction file.
+- `CLAUDE.md` imports `AGENTS.md` for Claude Code.
 - `.claude/` and `CLAUDE.local.md` are local-only and ignored.
-- Repo-scoped Codex skills live under `agent/skills/`.
+- Repo-scoped Codex skills live under `skills/`.
+- Operational runbooks live under `ops/`.
+- Shell and Node tooling live under `scripts/`.
+- Reusable scaffolding kits live under `kits/`.
 
 ## Notes
 
@@ -116,3 +121,14 @@ Worker routes:
 - `archive/anglossic_quiz/` is preserved as historical product material.
 - The former checked-in static output snapshot was removed from `archive/site-legacy/`; recover it from git history if needed.
 - This repository is not licensed for public redistribution or reuse.
+
+## Agent framework
+
+- `AGENTS.md` is the canonical shared agent instruction file.
+- `CLAUDE.md` imports `AGENTS.md` for Claude Code.
+- `ONTOLOGY.md` is the project-level navigation contract; detailed companions live in `docs/ontology/`.
+- `MEMORY.md` records durable changes, checks, follow-ups, and tooling notes.
+- Local `AGENTS.md` and `MEMORY.md` files in major working directories define subtree ownership and memory logging.
+- Repo-scoped skills live under `skills/`; runbooks under `ops/`; shell and Node tooling under `scripts/`; reusable kits under `kits/`.
+
+Every file-changing task should update root `MEMORY.md`, update local memory when present, and assess whether skills, tooling, runbooks, or ontology need to change.

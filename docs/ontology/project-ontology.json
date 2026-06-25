@@ -152,8 +152,125 @@
     "ontology": "docs/ontology/",
     "ontology_human": "docs/ontology/ontology.md"
   },
+  "tooling_capabilities": {
+    "repo_configured_mcp": {
+      "config": ".mcp.json",
+      "servers": {
+        "cloudflare": {
+          "command": "npx -y @cloudflare/mcp-server-cloudflare run",
+          "purpose": "Cloudflare account, Pages, Worker, and runtime inspection when exposed by the active session"
+        },
+        "playwright": {
+          "command": "npx -y @playwright/mcp --browser chromium",
+          "purpose": "Visual and interaction testing for live or local web surfaces"
+        }
+      }
+    },
+    "documented_project_mcp": {
+      "playwright-ea": "Manual Worker API endpoint checks where available",
+      "screenshot-fast": "Full-page screenshot capture for live or local URLs where available",
+      "firecrawl": "Live-site content extraction and link inventory where available",
+      "page-design-guide": "Design and accessibility guidance where available"
+    },
+    "session_scoped_connectors": {
+      "github": "Repository, pull request, issue, and review-request workflows when available and authorized",
+      "google_drive": "Drive, Docs, Sheets, and Slides workflows when explicitly requested",
+      "figma_canva": "Design-system, mockup, presentation, and branded design workflows",
+      "node_repl": "JavaScript inspection and browser-automation glue",
+      "multi_agent": "Bounded subagent delegation under the orchestration policy",
+      "shell": "PowerShell, Git, Node/npm, Python, and Wrangler through npm or make wrappers"
+    }
+  },
+  "environment_surfaces": {
+    "repo_env_example": {
+      "path": ".env.example",
+      "variables": [
+        "CF_PAGES_PROJECT",
+        "CLOUDFLARE_ACCOUNT_ID",
+        "CLOUDFLARE_API_TOKEN",
+        "FOURTH_WALL_API_KEY",
+        "FOURTH_WALL_HMAC",
+        "FOURTH_WALL_PASSWORD",
+        "FOURTH_WALL_USERNAME",
+        "GITHUB_PAT_WRITE",
+        "GITHUB_REPO_URL",
+        "RESEND_API_KEY",
+        "STRIPE_SECRET_KEY",
+        "STRIPE_WEBHOOK_SECRET",
+        "TELEGRAM_TOKEN",
+        "TELEGRAM_WEBHOOK_URL"
+      ]
+    },
+    "local_env_rules": [
+      "Never commit or print .env values",
+      "Report variable names and presence only",
+      "Do not copy the workspace .env into a repository",
+      "Worker production secrets belong in Wrangler or Cloudflare secret storage"
+    ]
+  },
+  "working_directory_framework": {
+    "required_project_files": [
+      "AGENTS.md",
+      "MEMORY.md",
+      "ONTOLOGY.md"
+    ],
+    "closeout_loop": [
+      "append a concise root MEMORY.md entry for every file-changing task",
+      "append to local MEMORY.md when the changed subtree has one",
+      "assess skills, tooling, runbooks, validation scripts, and ontology after each task",
+      "update AGENTS.md and ontology surfaces when paths, commands, ownership, validation, or workflow rules change",
+      "run npm run check:tooling-integrity after ontology or tooling-contract changes"
+    ],
+    "local_working_directories": {
+      "apps/web/": {
+        "agents": "apps/web/AGENTS.md",
+        "memory": "apps/web/MEMORY.md",
+        "owns": "Astro public website, authored public assets, and generated dist boundary"
+      },
+      "apps/communications-worker/": {
+        "agents": "apps/communications-worker/AGENTS.md",
+        "memory": "apps/communications-worker/MEMORY.md",
+        "owns": "Cloudflare Worker source, OpenAPI contract, D1 migrations, and tests"
+      },
+      "assets/": {
+        "agents": "assets/AGENTS.md",
+        "memory": "assets/MEMORY.md",
+        "owns": "Canonical media source and generated asset manifests"
+      },
+      "branding/": {
+        "agents": "branding/AGENTS.md",
+        "memory": "branding/MEMORY.md",
+        "owns": "Brand documentation, design guidance, and exportable tokens"
+      },
+      "docs/": {
+        "agents": "docs/AGENTS.md",
+        "memory": "docs/MEMORY.md",
+        "owns": "Documentation, ontology, infrastructure, and operations notes"
+      },
+      "ops/": {
+        "agents": "ops/AGENTS.md",
+        "memory": "ops/MEMORY.md",
+        "owns": "Operational runbooks and stability scripts"
+      },
+      "scripts/": {
+        "agents": "scripts/AGENTS.md",
+        "memory": "scripts/MEMORY.md",
+        "owns": "Root scripts and command helpers"
+      },
+      "skills/": {
+        "agents": "skills/AGENTS.md",
+        "memory": "skills/MEMORY.md",
+        "owns": "Repo-scoped agent skills"
+      },
+      "kits/": {
+        "agents": "kits/AGENTS.md",
+        "memory": "kits/MEMORY.md",
+        "owns": "Reusable scaffolding kits"
+      }
+    }
+  },
   "agent": {
-    "dir": "ops/",
+    "dir": ".",
     "canonical_instructions": "AGENTS.md",
     "skills": "skills/",
     "ops": "ops/",

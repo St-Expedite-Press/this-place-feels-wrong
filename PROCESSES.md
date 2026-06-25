@@ -52,7 +52,7 @@ Full task routing, command matrix, and subagent policy are in **`AGENTS.md`** §
 
 **Steps:**
 1. Run `npm run release:dry-run` — checks all gates without pushing
-2. If clean: `npm run release` — full release (calls `agent/tools/release.sh`)
+2. If clean: `npm run release` — full release (calls `scripts/release.sh` through the Windows-safe npm wrapper)
 3. Release script runs: assets:check → runtime:config → smoke:api → CF Pages deploy → log evidence
 4. Verify the CF Pages deploy completes (GitHub Actions `validate` + `deploy` both green)
 5. Run `npm run smoke:api` against production if any Worker routes changed
