@@ -26,35 +26,25 @@
 }
 
 .site-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 1.25rem;
-  align-items: center;
-  padding: 0.85rem clamp(1rem, 2vw, 1.35rem);
-  margin-bottom: 1rem;
-  border-radius: var(--radius-md);
-  background:
-    radial-gradient(1000px 220px at 8% 0%, rgba(42, 255, 138, 0.12), rgba(0, 0, 0, 0) 60%),
-    radial-gradient(540px 220px at 16% 10%, rgba(217, 106, 255, 0.12), rgba(0, 0, 0, 0) 60%),
-    radial-gradient(520px 220px at 82% 0%, rgba(42, 255, 138, 0.1), rgba(0, 0, 0, 0) 58%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.6));
-  border: 1px solid var(--mode-border, var(--border));
-  box-shadow: var(--mode-shadow, var(--shadow));
-  backdrop-filter: blur(8px) saturate(1.15);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.75rem;
+  padding: 0.2rem 0 0.95rem;
+  margin-bottom: clamp(1.75rem, 5vw, 3rem);
+  border-bottom: 1px solid var(--line-2);
 }
 
-[data-brand-mode="editorial"] .site-header {
-  background:
-    radial-gradient(900px 200px at 8% 0%, rgba(42, 255, 138, 0.08), rgba(0, 0, 0, 0) 60%),
-    radial-gradient(520px 220px at 16% 10%, rgba(217, 106, 255, 0.08), rgba(0, 0, 0, 0) 60%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.76), rgba(0, 0, 0, 0.66));
-}
-
-[data-brand-mode="utility"] .site-header {
-  background:
-    radial-gradient(760px 190px at 10% 0%, rgba(42, 255, 138, 0.06), rgba(0, 0, 0, 0) 62%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0.74));
-  backdrop-filter: blur(6px) saturate(1.02);
+.site-wordmark {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text);
+  text-shadow: -1px -1px 0 var(--relief), 0 0 10px var(--green-2);
+  white-space: nowrap;
 }
 
 .site-brand {
@@ -64,11 +54,11 @@
 .site-eyebrow,
 .page-intro__kicker {
   margin: 0;
-  font-family: var(--font-display);
-  letter-spacing: 0.18em;
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-soft);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   text-shadow: -1px -1px 0 var(--relief), 0 0 8px var(--green-1);
 }
 
@@ -106,10 +96,10 @@
 }
 
 .page-intro__title {
-  margin: 0.3rem 0 0;
+  margin: 0.35rem 0 0;
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
-  line-height: 1.15;
+  font-size: clamp(2.2rem, 5vw, 3.7rem);
+  line-height: 1.12;
   text-shadow: var(--mode-heading-shadow, 0 0 10px var(--green-1), 0 0 20px var(--green-2));
 }
 

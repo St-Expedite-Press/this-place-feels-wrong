@@ -7,20 +7,17 @@
   position: relative;
   display: grid;
   gap: 0.8rem;
-  padding: 1.25rem 1.25rem 1.25rem 4rem;
-  border-radius: var(--radius-md);
-  border-color: var(--mode-border);
+  padding: 1.2rem 0 0 3rem;
+  border-radius: 0;
   border-top: 2px solid var(--mode-border-strong);
-  background:
-    linear-gradient(180deg, var(--green-3), transparent 45%),
-    var(--mode-panel);
-  box-shadow: var(--mode-shadow);
+  background: none;
+  box-shadow: none;
 }
 
 .service-card::before {
   content: "0" counter(service);
   position: absolute;
-  top: 1.25rem;
+  top: 1.2rem;
   left: 0;
   font-family: var(--font-display);
   color: var(--text);

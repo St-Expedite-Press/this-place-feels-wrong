@@ -71,8 +71,8 @@ body {
 }
 
 .portal-mobile .portal {
-  width: min(44vh, 380px);
-  height: min(44vh, 380px);
+  width: min(50vh, 440px);
+  height: min(50vh, 440px);
   margin: 0;
   border-radius: 50%;
   overflow: visible;
@@ -306,7 +306,7 @@ body {
   .portal-mobile .wrap { padding: calc(clamp(calc(var(--hero-bar-height) + 18px), 4.5svh, 94px) + env(safe-area-inset-top)) 4.5vw calc(clamp(14px, 3svh, 28px) + env(safe-area-inset-bottom)); }
   .portal-mobile .title { font-size: clamp(1.35rem, 3.8vw, 2.3rem); }
   .portal-mobile .portal-stack { gap: .75rem; }
-  .portal-mobile .portal { width: min(32vh, 250px); height: min(32vh, 250px); }
+  .portal-mobile .portal { width: min(36vh, 280px); height: min(36vh, 280px); }
   .portal-mobile .portal-link { font-size: clamp(1.1rem, 3.2vw, 1.8rem); }
   .portal-mobile .thin-input { width: min(280px, 74vw); font-size: 1rem; }
   .portal-mobile .thin-button { padding: .52rem .85rem; font-size: .74rem; }
@@ -323,8 +323,8 @@ body {
     padding-bottom: calc(clamp(14px, 4svh, 32px) + env(safe-area-inset-bottom));
   }
   .portal-mobile .portal {
-    width: clamp(190px, 34svh, 300px);
-    height: clamp(190px, 34svh, 300px);
+    width: clamp(210px, 38svh, 330px);
+    height: clamp(210px, 38svh, 330px);
   }
 }
 
@@ -357,8 +357,8 @@ body {
   position: absolute;
   top: 46%;
   left: 50%;
-  width: 40vh;
-  height: 40vh;
+  width: min(48vh, 620px);
+  height: min(48vh, 620px);
   transform: translate(-50%, -50%);
   border-radius: 50%;
   overflow: visible;
@@ -492,12 +492,12 @@ body {
   font-size: clamp(3rem, 7vw, 7rem);
   text-decoration: none;
   color: var(--text);
-  opacity: .42;
+  opacity: .74;
   align-self: center;
   justify-self: center;
   text-shadow:
-    0 0 14px rgba(42, 255, 138, 0.4),
-    0 0 28px rgba(42, 255, 138, 0.25);
+    0 0 14px var(--green-hot-3),
+    0 0 28px var(--green-2);
   transition: all .25s ease;
 }
 
@@ -519,7 +519,7 @@ body {
 
 .splash {
   position: absolute;
-  top: calc(66vh + clamp(1rem, 2.5vh, 1.75rem));
+  top: calc(70vh + clamp(1rem, 2.5vh, 1.75rem));
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -552,10 +552,39 @@ body {
   text-shadow: 0 0 9px var(--green-2);
 }
 
+.splash__subscribe {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.95rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--green-hot-2);
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-shadow: 0 0 10px var(--green-2);
+  transition: filter .18s ease, box-shadow .18s ease;
+}
+
+.splash__subscribe::after {
+  content: "\2192";
+}
+
+.splash__subscribe:hover,
+.splash__subscribe:focus-visible {
+  filter: brightness(1.2);
+  box-shadow: 0 0 16px var(--green-hot-3);
+}
+
 .splash__foot {
-  margin-top: 0.9rem;
-  font-size: 1rem;
-  opacity: .9;
+  margin-top: 0.85rem;
+  font-size: 1.05rem;
+  opacity: 1;
   letter-spacing: .12em;
 }
 
@@ -569,6 +598,8 @@ body {
 .splash__foot a:hover,
 .splash__foot a:focus-visible {
   filter: brightness(1.25) contrast(1.1);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
 }
 
 /* ── Cursor glow override ────────────────────────────────────────────────── */

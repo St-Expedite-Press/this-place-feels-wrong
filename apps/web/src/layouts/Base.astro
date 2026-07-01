@@ -42,15 +42,10 @@ const {
   <HeroBar />
   <div class="texture--grain" aria-hidden="true"></div>
   <main id="main" class={`page${pageClass ? ` ${pageClass}` : ''}`}>
-    <SiteHeader
-      title={title}
-      subtitle={subtitle}
-      eyebrow={eyebrow}
-      currentNav={currentNav}
-    />
+    <SiteHeader currentNav={currentNav} />
     <section class="page-intro">
-      <p class="page-intro__kicker">{introKicker}</p>
-      <h2 class="page-intro__title">{introTitle}</h2>
+      {introKicker && <p class="page-intro__kicker">{introKicker}</p>}
+      <h1 class="page-intro__title">{introTitle}</h1>
       {introText && <p class="page-intro__text">{introText}</p>}
     </section>
     <div class="page-content">

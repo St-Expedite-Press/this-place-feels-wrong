@@ -53,11 +53,12 @@ const styles = [
     </div>
   </section>
 
-  <section class="section-block section-block--reading">
+  <section class="section-block" aria-labelledby="submit-how-title">
+    <div class="split-card-grid">
     <article class="form-card form-shell">
       <div>
         <p class="card-kicker">Initial inquiry</p>
-        <h2 class="section-heading">How to submit</h2>
+        <h2 class="section-heading" id="submit-how-title">How to submit</h2>
         <p class="section-copy section-copy--large">Use the form below. Keep the inquiry concise: program, project type, approximate length, stage of completion, and what you are asking. If the fit is there, materials can follow in reply so the thread stays intact.</p>
         <p class="section-copy">No attachments in the initial inquiry. Lead with the work, not the pitch around it. For rights, press, collaborations, or general correspondence, use <a href="/contact">Contact</a>.</p>
       </div>
@@ -88,6 +89,17 @@ const styles = [
         </div>
       </div>
     </article>
+
+    <aside class="card trust-card aside-note" aria-label="What happens after you send">
+      <h2 class="section-heading">What happens next</h2>
+      <ul class="check-list">
+        <li>One reader, not a committee &mdash; replies come from a person.</li>
+        <li>No attachments now. Send the case; materials follow in the thread.</li>
+        <li>Your email is used only to reply. No list, no sharing.</li>
+        <li>Rights, press, or collaborations go through <a href="/contact">Contact</a>.</li>
+      </ul>
+    </aside>
+    </div>
   </section>
 
   <Fragment slot="scripts">

@@ -34,14 +34,15 @@
       }
     ],
     "nav": [
-      { "label": "Portal", "href": "/" },
-      { "label": "Books", "href": "/books" },
-      { "label": "About", "href": "/about" },
-      { "label": "Donate", "href": "/donate" },
-      { "label": "Contact", "href": "/contact" },
-      { "label": "Lab", "href": "/lab" },
-      { "label": "Store", "href": "/gallery" },
-      { "label": "Services", "href": "/services" }
+      { "label": "Portal", "href": "/", "group": "home" },
+      { "label": "Books", "href": "/books", "group": "read" },
+      { "label": "About", "href": "/about", "group": "read" },
+      { "label": "Lab", "href": "/lab", "group": "read" },
+      { "label": "Services", "href": "/services", "group": "read" },
+      { "label": "Store", "href": "/gallery", "group": "buy" },
+      { "label": "Submit", "href": "/submit", "group": "act" },
+      { "label": "Donate", "href": "/donate", "group": "act" },
+      { "label": "Contact", "href": "/contact", "group": "act" }
     ],
     "footerLinks": [
       { "label": "Portal", "href": "/" },

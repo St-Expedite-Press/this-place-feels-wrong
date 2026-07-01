@@ -4,24 +4,8 @@
 
 .lab-overview > .card {
   position: relative;
-  border-radius: var(--radius-md);
-  background:
-    radial-gradient(circle at 15% 0%, var(--green-3), transparent 42%),
-    var(--mode-panel);
-}
-
-.lab-overview > .card:first-child {
-  border-left: 3px solid var(--mode-border-strong);
-}
-
-.lab-overview > aside.card {
-  background: var(--mode-panel);
-}
-
-.lab-overview .meta-list li {
   border-radius: 0;
-  border-width: 0 0 1px;
-  background: rgba(0, 0, 0, 0.46);
+  background: none;
 }
 
 .lab-modal {

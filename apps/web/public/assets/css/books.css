@@ -37,22 +37,17 @@
   grid-template-columns: 120px minmax(0, 1fr) auto;
   gap: 1.35rem;
   align-items: start;
-  padding: 1rem 1.15rem;
+  padding: 1.2rem 0 0;
   border-radius: 0;
-  background:
-    linear-gradient(90deg, rgba(42, 255, 138, 0.045), rgba(0, 0, 0, 0) 34%),
-    rgba(0, 0, 0, 0.36);
+  background: none;
   border: 0;
-  border-top: 1px solid var(--mode-border-strong);
+  border-top: 1px solid var(--line-2);
   box-shadow: none;
-  transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+  transition: border-color 150ms ease, transform 150ms ease;
 }
 
 .book-row:hover {
-  border-color: var(--mode-border-strong, rgba(42, 255, 138, 0.34));
-  background:
-    linear-gradient(90deg, rgba(42, 255, 138, 0.065), rgba(0, 0, 0, 0) 34%),
-    rgba(0, 0, 0, 0.42);
+  border-color: var(--green-hot-2);
 }
 
 .book-row__cover {

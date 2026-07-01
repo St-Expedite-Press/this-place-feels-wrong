@@ -39,6 +39,18 @@
   --green-hot-2: rgba(42, 255, 138, 0.55);
   --green-hot-3: rgba(42, 255, 138, 0.38);
   --green-hot-4: rgba(42, 255, 138, 0.22);
+
+  /* ── Line tiers (green borders/hairlines) ────────────────────────── */
+  --line-1: rgba(42, 255, 138, 0.10);
+  --line-2: rgba(42, 255, 138, 0.18);
+  --line-3: rgba(42, 255, 138, 0.26);
+
+  /* ── Surface tiers (black fills over the void) ───────────────────── */
+  --surface-1: rgba(0, 0, 0, 0.22);
+  --surface-2: rgba(0, 0, 0, 0.48);
+  --surface-3: rgba(0, 0, 0, 0.65);
+  --surface-4: rgba(0, 0, 0, 0.78);
+
   --shadow: 0 0 18px rgba(0, 0, 0, 0.9), 0 0 26px var(--green-3);
   --shadow-soft: 0 0 12px rgba(0, 0, 0, 0.9), 0 0 18px var(--green-3);
   --radius-xl: 28px;
@@ -47,6 +59,8 @@
   --radius-pill: 999px;
   --font-display: "Cinzel", serif;
   --font-body: "Cormorant Garamond", serif;
+  /* Operational / instrument voice — system monospace, no web font shipped */
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", Menlo, Consolas, monospace;
   --page-width: 1120px;
   --reading-width: 760px;
   --gutter: clamp(1rem, 3vw, 2rem);
