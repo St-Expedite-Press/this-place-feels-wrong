@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://st-expedite-press.github.io/rice-magazine/sitemap.xml
+Sitemap: https://rice.stexpedite.press/sitemap.xml

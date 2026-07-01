@@ -146,8 +146,8 @@ git push origin main
 
 Production:
 
-- Pages root: `https://st-expedite-press.github.io/rice-magazine/`
-- Splash: `https://st-expedite-press.github.io/rice-magazine/splash.html`
+- Pages root: `https://rice.stexpedite.press/`
+- Splash: `https://rice.stexpedite.press/splash.html`
 
 The Pages root serves `index.html`; do not assume it redirects to the splash
 page. A successful local build does not authorize a push or deployment.
