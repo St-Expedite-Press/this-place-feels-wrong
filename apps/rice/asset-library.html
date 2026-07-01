@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RICE — Asset Library</title>
+  <meta name="description" content="Editorial image catalog for RICE magazine.">
+  <meta name="theme-color" content="#090909">
+  <link rel="icon" href="assets/images/system/logo.png" type="image/png">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="asset-library.css">
+  <script src="site.js" defer></script>
+  <script src="asset-library.js" defer></script>
+</head>
+<body class="asset-library-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="masthead">
+    <div class="masthead-inner"><p class="logo"><a href="index.html">RICE</a></p><span class="volume">IMAGE DESK</span></div>
+    <nav class="main-nav" aria-label="Asset library"><ul><li><a href="index.html">Issue</a></li><li><a href="archive.html">Archive</a></li><li><a href="docs/IMAGE_STYLE_GUIDE.md">Style Guide</a></li></ul></nav>
+  </header>
+
+  <main id="main-content" class="asset-shell">
+    <header class="asset-intro">
+      <p class="eyebrow">RICE / EDITORIAL IMAGE SYSTEM / 2026</p>
+      <h1>Asset Library</h1>
+      <p>Repository-local masters, publication derivatives, prompt lineage, and disclosure data for the Southern Place Field Notes collection.</p>
+      <dl class="asset-summary" data-asset-summary>
+        <div><dt>Assets</dt><dd>—</dd></div>
+        <div><dt>Places</dt><dd>—</dd></div>
+        <div><dt>Roles</dt><dd>—</dd></div>
+      </dl>
+    </header>
+
+    <section class="asset-controls" aria-label="Asset filters">
+      <label>Search<input type="search" data-asset-search placeholder="PLACE / ROLE / ACCESSION"></label>
+      <label>Category<select data-asset-category><option value="all">All categories</option></select></label>
+      <label>Place<select data-asset-place><option value="all">All places</option></select></label>
+      <label>Role<select data-asset-role><option value="all">All roles</option></select></label>
+      <label>Shape<select data-asset-orientation><option value="all">All shapes</option><option value="landscape">Landscape</option><option value="portrait">Portrait</option></select></label>
+      <button type="button" data-asset-reset>Reset /</button>
+    </section>
+
+    <p class="asset-count" data-asset-count aria-live="polite">Loading catalog…</p>
+    <section class="asset-grid" data-asset-grid aria-label="Editorial assets"></section>
+    <p class="asset-error" data-asset-error hidden>Catalog unavailable. Serve the repository over HTTP and rebuild the library.</p>
+  </main>
+
+  <dialog class="asset-dialog" data-asset-dialog>
+    <button type="button" class="asset-dialog-close" data-asset-close>Close ×</button>
+    <div data-asset-detail></div>
+  </dialog>
+
+  <footer class="footer"><a href="https://stexpedite.press">ST. EXPEDITE PRESS</a><a href="assets/README.md">ASSET PROTOCOL</a><span>INTERNAL EDITORIAL INDEX</span></footer>
+</body>
+</html>

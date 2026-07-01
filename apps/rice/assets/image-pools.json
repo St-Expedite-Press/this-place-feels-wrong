@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "generated": "2026-06-30",
+  "scope": "Runtime image pools for randomizable slot categories.",
+  "pools": {
+    "archive": [
+      {
+        "src": "assets/images/archive/archive-ledger.jpg",
+        "alt": "",
+        "caption": {
+          "title": "Withdrawn synthetic ledger",
+          "byline": null,
+          "series": "Internal / not public"
+        },
+        "tags": [
+          "ledger"
+        ],
+        "focal_point": "center center"
+      },
+      {
+        "src": "assets/images/archive/asheville-archival-evidence.jpg",
+        "alt": "Generated archival reconstruction composed from documents and material evidence associated with Asheville, North Carolina.",
+        "caption": {
+          "title": "Asheville / Archival evidence",
+          "byline": null,
+          "series": "RICE-CFN-AVL-ARC-001"
+        },
+        "tags": [
+          "ledger",
+          "document"
+        ],
+        "focal_point": "center center"
+      },
+      {
+        "src": "assets/images/archive/asheville-street-field-note.jpg",
+        "alt": "Deadpan documentary view of present-day service infrastructure in Asheville, North Carolina.",
+        "caption": {
+          "title": "Asheville / Street field note",
+          "byline": null,
+          "series": "RICE-CFN-AVL-SFN-001"
+        },
+        "tags": [
+          "field",
+          "weather"
+        ],
+        "focal_point": "68% center"
+      },
+      {
+        "src": "assets/images/archive/athens-archival-evidence.jpg",
+        "alt": "Generated archival reconstruction composed from documents and material evidence associated with Athens, Georgia.",
+        "caption": {
+          "title": "Athens / Archival evidence",
+          "byline": null,
+          "series": "RICE-CFN-ATH-ARC-001"
+        },
+        "tags": [
+          "ledger",
+          "document"
+        ],
+        "focal_point": "center center"
+      },
+      {
+        "src": "assets/images/archive/athens-street-field-note.jpg",
+        "alt": "Deadpan documentary view of present-day service infrastructure in Athens, Georgia.",
+        "caption": {
+          "title": "Athens / Street field note",
+          "byline": null,
+          "series": "RICE-CFN-ATH-SFN-001"
+        },
+        "tags": [
+          "field",
+          "weather"
+        ],
+        "focal_point": "68% center"
+      },
+      {
+        "src": "assets/images/archive/new-orleans-archival-evidence.jpg",
+        "alt": "Generated archival reconstruction composed from documents and material evidence associated with New Orleans, Louisiana.",
+        "caption": {
+          "title": "New Orleans / Archival evidence",
+          "byline": null,
+          "series": "RICE-CFN-NOL-ARC-001"
+        },
+        "tags": [
+          "ledger",
+          "document"
+        ],
+        "focal_point": "center center"
+      },
+      {
+        "src": "assets/images/archive/new-orleans-street-field-note.jpg",
+        "alt": "Deadpan documentary view of present-day service infrastructure in New Orleans, Louisiana.",
+        "caption": {
+          "title": "New Orleans / Street field note",
+          "byline": null,
+          "series": "RICE-CFN-NOL-SFN-001"
+        },
+        "tags": [
+          "field",
+          "weather"
+        ],
+        "focal_point": "68% center"
+      },
+      {
+        "src": "assets/images/archive/richmond-archival-evidence.jpg",
+        "alt": "Generated archival reconstruction composed from documents and material evidence associated with Richmond, Virginia.",
+        "caption": {
+          "title": "Richmond / Archival evidence",
+          "byline": null,
+          "series": "RICE-CFN-RIC-ARC-001"
+        },
+        "tags": [
+          "ledger",
+          "document"
+        ],
+        "focal_point": "center center"
+      },
+      {
+        "src": "assets/images/archive/richmond-street-field-note.jpg",
+        "alt": "Deadpan documentary view of present-day service infrastructure in Richmond, Virginia.",
+        "caption": {
+          "title": "Richmond / Street field note",
+          "byline": null,
+          "series": "RICE-CFN-RIC-SFN-001"
+        },
+        "tags": [
+          "field",
+          "weather"
+        ],
+        "focal_point": "68% center"
+      },
+      {
+        "src": "assets/images/archive/savannah-archival-evidence.jpg",
+        "alt": "Generated archival reconstruction composed from documents and material evidence associated with Savannah, Georgia.",
+        "caption": {
+          "title": "Savannah / Archival evidence",
+          "byline": null,
+          "series": "RICE-CFN-SAV-ARC-001"
+        },
+        "tags": [
+          "ledger",
+          "document"
+        ],
+        "focal_point": "center center"
+      },
+      {
+        "src": "assets/images/archive/savannah-street-field-note.jpg",
+        "alt": "Deadpan documentary view of present-day service infrastructure in Savannah, Georgia.",
+        "caption": {
+          "title": "Savannah / Street field note",
+          "byline": null,
+          "series": "RICE-CFN-SAV-SFN-001"
+        },
+        "tags": [
+          "field",
+          "weather"
+        ],
+        "focal_point": "68% center"
+      }
+    ],
+    "photo": []
+  }
+}

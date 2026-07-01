@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+Desktop.ini
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+_site/
+
+# Wrangler local cache
+.wrangler/

@@ -1,0 +1,197 @@
+{
+  "schema_version": 2,
+  "generated": "2026-06-30",
+  "scope": "Standalone site media in assets/images/<category>/; editorial collection assets are cataloged separately.",
+  "source_of_truth": "assets/images/",
+  "categories": [
+    {
+      "id": "archive",
+      "description": "Reusable archival imagery for archive image slots anywhere on the site."
+    },
+    {
+      "id": "article",
+      "description": "Imagery bound directly to a single article, essay, poem, or fiction piece."
+    },
+    {
+      "id": "feature",
+      "description": "Imagery bound to a site element such as a section landing, shop, or submissions."
+    },
+    {
+      "id": "photo",
+      "description": "Standalone photography or photo-submission carousels."
+    },
+    {
+      "id": "system",
+      "description": "Site chrome and identity media: logo, textures, splash, and fallbacks."
+    }
+  ],
+  "assets": [
+    {
+      "id": "RICE-SITE-ARCHIVE_LEDGER",
+      "path": "assets/images/archive/archive-ledger.jpg",
+      "category": "archive",
+      "role": "archive-document",
+      "used_by": [],
+      "bytes": 933889,
+      "sha256": "cbb68d392d7a961bbb60a1d0e8a1e24ec23182a4489133be9c895da50f308043",
+      "width": 1200,
+      "height": 896,
+      "format": null,
+      "place": "Acadia Parish",
+      "tags": [
+        "ledger"
+      ],
+      "caption": {
+        "title": "Withdrawn synthetic ledger",
+        "byline": null,
+        "series": "Internal / not public"
+      }
+    },
+    {
+      "id": "RICE-SITE-ARCHIVE_PLACEHOLDER",
+      "path": "assets/images/system/archive-placeholder.png",
+      "category": "system",
+      "role": "fallback-texture",
+      "used_by": [],
+      "bytes": 263053,
+      "sha256": "6828ad631ea8db92a8d9e0cf45a41dae9163d4f13fe5ab61dc660edebe50dc45",
+      "width": 512,
+      "height": 512,
+      "format": null
+    },
+    {
+      "id": "RICE-SITE-FEATURE_ARCHIVE",
+      "path": "assets/images/feature/feature-archive.png",
+      "category": "feature",
+      "role": "section-feature",
+      "used_by": [],
+      "bytes": 2072079,
+      "sha256": "75d0473d761dffbe78e2f65b2d62c99b59e06c2756ee792ef857c2e52f814020",
+      "width": 1376,
+      "height": 768,
+      "format": null
+    },
+    {
+      "id": "RICE-SITE-FEATURE_ESSAYS",
+      "path": "assets/images/feature/feature-essays.jpg",
+      "category": "feature",
+      "role": "section-feature",
+      "used_by": [
+        "index.html",
+        "essays.html"
+      ],
+      "bytes": 824816,
+      "sha256": "b0df6ab11bd8cae17c310abd44c66fba32a0edbe3ae443db44684543e838dee8",
+      "width": 1376,
+      "height": 768,
+      "format": null
+    },
+    {
+      "id": "RICE-SITE-FEATURE_FICTION",
+      "path": "assets/images/feature/feature-fiction.jpg",
+      "category": "feature",
+      "role": "section-feature",
+      "used_by": [
+        "index.html",
+        "fiction.html"
+      ],
+      "bytes": 778670,
+      "sha256": "9aabf8221fde6f9786e2ffe9a7a24aaf6c52bf5ce3c4a4a624af6b9ea49142f0",
+      "width": 1376,
+      "height": 768,
+      "format": null
+    },
+    {
+      "id": "RICE-SITE-FEATURE_POETRY",
+      "path": "assets/images/feature/feature-poetry.jpg",
+      "category": "feature",
+      "role": "section-feature",
+      "used_by": [
+        "index.html",
+        "poetry.html"
+      ],
+      "bytes": 934812,
+      "sha256": "260df3a6a962f72ed9932c732fd65d3f49e223ba4119ef6591460e5c428e73c9",
+      "width": 1376,
+      "height": 768,
+      "format": null
+    },
+    {
+      "id": "RICE-SITE-FEATURE",
+      "path": "assets/images/feature/feature.png",
+      "category": "feature",
+      "role": "general-feature",
+      "used_by": [],
+      "bytes": 584284,
+      "sha256": "2cc1182e97712942c8e1f1bef2d2d2f8eb9a971b8ec979c8744606e8a044e973",
+      "width": 1280,
+      "height": 720,
+      "format": null
+    },
+    {
+      "id": "RICE-SITE-ISSUE_SPECIMEN",
+      "path": "assets/images/feature/issue-specimen.jpg",
+      "category": "feature",
+      "role": "publication-specimen",
+      "used_by": [
+        "shop.html",
+        "year.html"
+      ],
+      "bytes": 850323,
+      "sha256": "6b2eb15bec0ad0a72d1fb0d373d1c7f7bc9a60724b4ceb027e8ac63ace1eea51",
+      "width": 1200,
+      "height": 896,
+      "format": null
+    },
+    {
+      "id": "RICE-SITE-LOGO",
+      "path": "assets/images/system/logo.png",
+      "category": "system",
+      "role": "site-identity",
+      "used_by": [
+        "all HTML pages"
+      ],
+      "bytes": 8456,
+      "sha256": "e1b4e47c5c43706345992b24f27ecb4f8753c69e157a67b0cd9911f18af22ac9",
+      "width": 800,
+      "height": 300,
+      "format": null
+    },
+    {
+      "id": "RICE-SITE-NOISE",
+      "path": "assets/images/system/noise.png",
+      "category": "system",
+      "role": "retired-surface-texture",
+      "used_by": [],
+      "bytes": 263053,
+      "sha256": "6828ad631ea8db92a8d9e0cf45a41dae9163d4f13fe5ab61dc660edebe50dc45",
+      "width": 512,
+      "height": 512,
+      "format": null
+    },
+    {
+      "id": "RICE-SITE-RICE_FIELD_LOOP",
+      "path": "assets/images/system/rice-field-loop.mp4",
+      "category": "system",
+      "role": "retired-splash-video",
+      "used_by": [],
+      "bytes": 4138718,
+      "sha256": "a2435a286a8dddbeb0a820a124fe231e2a4fb6c2edc9eeebd8ea25992d45f588",
+      "format": "MP4"
+    },
+    {
+      "id": "RICE-SITE-RICE_FIELD",
+      "path": "assets/images/system/rice_field.png",
+      "category": "system",
+      "role": "splash-cover",
+      "used_by": [
+        "splash.html"
+      ],
+      "bytes": 2218126,
+      "sha256": "6e427b0a1edeff46d7764704d6d09dd4594cd997da5aba37ef3895395f8b8f8b",
+      "width": 1672,
+      "height": 941,
+      "format": null
+    }
+  ]
+}

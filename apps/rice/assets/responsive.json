@@ -1,0 +1,805 @@
+{
+  "schema_version": 1,
+  "generated": "2026-06-30",
+  "format": "WebP",
+  "treatment": "monochrome / autocontrast / quality 78",
+  "widths": [
+    640,
+    960,
+    1440
+  ],
+  "outputs": [
+    {
+      "source": "assets/images/archive/archive-ledger.jpg",
+      "path": "assets/responsive/archive/archive-ledger-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 47210,
+      "sha256": "08f58ee085f6c87febe90cca3731572dca88f25c1b753ab7e73f67875ec412bd"
+    },
+    {
+      "source": "assets/images/archive/archive-ledger.jpg",
+      "path": "assets/responsive/archive/archive-ledger-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 83484,
+      "sha256": "299e0a329436a36721da79ac4cce8e9b3c3be4eca65eec33e243b04080855310"
+    },
+    {
+      "source": "assets/images/archive/archive-ledger.jpg",
+      "path": "assets/responsive/archive/archive-ledger-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 143450,
+      "sha256": "ed9207340f3a64d19cd820d1749818318e5c3d9379c2591a6247eb0e1ef9afa7"
+    },
+    {
+      "source": "assets/images/archive/asheville-archival-evidence.jpg",
+      "path": "assets/responsive/archive/asheville-archival-evidence-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 39290,
+      "sha256": "7a9e0d3299d04520a574e98dead8d2cdb8e26aa1ac140eef25276d497b77de8d"
+    },
+    {
+      "source": "assets/images/archive/asheville-archival-evidence.jpg",
+      "path": "assets/responsive/archive/asheville-archival-evidence-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 82456,
+      "sha256": "11d20834d1ff794cefa76ade5df50b9ec8f7a014ba969dd03336b9606312d601"
+    },
+    {
+      "source": "assets/images/archive/asheville-archival-evidence.jpg",
+      "path": "assets/responsive/archive/asheville-archival-evidence-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 151740,
+      "sha256": "c2669f8c2ce66adb8199ac262ede38a64d8482f298d1f7d78aa8c1235c247938"
+    },
+    {
+      "source": "assets/images/archive/asheville-street-field-note.jpg",
+      "path": "assets/responsive/archive/asheville-street-field-note-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 53084,
+      "sha256": "fbc233fc43473bbf0a26fd9cc11fc298cb6028d6e1b5694b9d58097deb0f8149"
+    },
+    {
+      "source": "assets/images/archive/asheville-street-field-note.jpg",
+      "path": "assets/responsive/archive/asheville-street-field-note-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 115160,
+      "sha256": "3fb07f8f4cff3f4a1fb1d304923b10d77e8459c907673cbc162ed9c7eab68534"
+    },
+    {
+      "source": "assets/images/archive/asheville-street-field-note.jpg",
+      "path": "assets/responsive/archive/asheville-street-field-note-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 232580,
+      "sha256": "1c20f4d43f5e571b98905f44dd66e89f81129d69e40ddb05e0538c5633d634e5"
+    },
+    {
+      "source": "assets/images/archive/athens-archival-evidence.jpg",
+      "path": "assets/responsive/archive/athens-archival-evidence-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 14486,
+      "sha256": "62b787ac650550f25bdbca71c1f1dfb7e132219966979fdddbd5050c9298b30b"
+    },
+    {
+      "source": "assets/images/archive/athens-archival-evidence.jpg",
+      "path": "assets/responsive/archive/athens-archival-evidence-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 28810,
+      "sha256": "93fe1a681e5bb679aeeea2542d7068f989af8cf347d4aad53a868d7183e645c6"
+    },
+    {
+      "source": "assets/images/archive/athens-archival-evidence.jpg",
+      "path": "assets/responsive/archive/athens-archival-evidence-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 54560,
+      "sha256": "39239a14e5005d16360ea397a112ed2b1fe26243cb7956cf1d59dace332ee692"
+    },
+    {
+      "source": "assets/images/archive/athens-street-field-note.jpg",
+      "path": "assets/responsive/archive/athens-street-field-note-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 50516,
+      "sha256": "b87e70b3e2120e74fa6a89f271cb66ccad249c97f6f88b2206d8164739ffbe4d"
+    },
+    {
+      "source": "assets/images/archive/athens-street-field-note.jpg",
+      "path": "assets/responsive/archive/athens-street-field-note-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 116314,
+      "sha256": "188b9ea59e37c4a0234ebde56723cfa05e90ffe65e5075e2069cfe3f2f9738c5"
+    },
+    {
+      "source": "assets/images/archive/athens-street-field-note.jpg",
+      "path": "assets/responsive/archive/athens-street-field-note-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 236642,
+      "sha256": "9295a8cbb3c7f7717a5205f6197f0a0017fbc007eb51414325717998e94dc460"
+    },
+    {
+      "source": "assets/images/archive/new-orleans-archival-evidence.jpg",
+      "path": "assets/responsive/archive/new-orleans-archival-evidence-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 33406,
+      "sha256": "e00d2cf25252a07ad024a41e4498550c9a8034a172100fc84ba218c1ffbaef53"
+    },
+    {
+      "source": "assets/images/archive/new-orleans-archival-evidence.jpg",
+      "path": "assets/responsive/archive/new-orleans-archival-evidence-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 65992,
+      "sha256": "ff120b7002a617cc973f0ff39855e4115a4f5046b6ed84e6f1dda74ed49faa69"
+    },
+    {
+      "source": "assets/images/archive/new-orleans-archival-evidence.jpg",
+      "path": "assets/responsive/archive/new-orleans-archival-evidence-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 121216,
+      "sha256": "e325f63e0735e4df191150fedbdba572fe57cbcf442a0db7b314577955801650"
+    },
+    {
+      "source": "assets/images/archive/new-orleans-street-field-note.jpg",
+      "path": "assets/responsive/archive/new-orleans-street-field-note-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 24772,
+      "sha256": "ae7eaf12dd988c082729a4523a2a9d55f39bc769610c7942f33dea753b5daca3"
+    },
+    {
+      "source": "assets/images/archive/new-orleans-street-field-note.jpg",
+      "path": "assets/responsive/archive/new-orleans-street-field-note-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 50564,
+      "sha256": "6beb5fe982938253f4b28209cbb110a952d7c9285c65d8020abb7a701791528b"
+    },
+    {
+      "source": "assets/images/archive/new-orleans-street-field-note.jpg",
+      "path": "assets/responsive/archive/new-orleans-street-field-note-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 98288,
+      "sha256": "2e6a187f3031778b56833d5c59920980ed44e8af61445a133c8f58f906072d06"
+    },
+    {
+      "source": "assets/images/archive/richmond-archival-evidence.jpg",
+      "path": "assets/responsive/archive/richmond-archival-evidence-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 31798,
+      "sha256": "aa4140e73278de8c97ae84b8727c12a3d606d66517789b9b8a39d691f5bdbfca"
+    },
+    {
+      "source": "assets/images/archive/richmond-archival-evidence.jpg",
+      "path": "assets/responsive/archive/richmond-archival-evidence-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 65478,
+      "sha256": "6b5aa2e01b5ec9dc783e2558bb4154700a5b60ab985a0ffa11d4c265f1d59f9f"
+    },
+    {
+      "source": "assets/images/archive/richmond-archival-evidence.jpg",
+      "path": "assets/responsive/archive/richmond-archival-evidence-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 127552,
+      "sha256": "82ceadd91c251f8ded70777271a228b0f5f496db4c8bc3d327249bd8e980afc6"
+    },
+    {
+      "source": "assets/images/archive/richmond-street-field-note.jpg",
+      "path": "assets/responsive/archive/richmond-street-field-note-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 41572,
+      "sha256": "0719d7a929f08327b784b78b7acae0c981d8a1c2ccebae0cba331d8c4622dda9"
+    },
+    {
+      "source": "assets/images/archive/richmond-street-field-note.jpg",
+      "path": "assets/responsive/archive/richmond-street-field-note-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 95562,
+      "sha256": "b9372f30becca87893c4943bb11fc638b367062af3ed8488bf658b47bfba53b4"
+    },
+    {
+      "source": "assets/images/archive/richmond-street-field-note.jpg",
+      "path": "assets/responsive/archive/richmond-street-field-note-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 199686,
+      "sha256": "5a2f738ebd6ef8181a39a425fe769bd748d32ed013bdf9f01f6423d1182238d9"
+    },
+    {
+      "source": "assets/images/archive/savannah-archival-evidence.jpg",
+      "path": "assets/responsive/archive/savannah-archival-evidence-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 27498,
+      "sha256": "1119e69078f55ba62b2dff4be50cad8a0966559082d30302e09e124720841e85"
+    },
+    {
+      "source": "assets/images/archive/savannah-archival-evidence.jpg",
+      "path": "assets/responsive/archive/savannah-archival-evidence-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 54342,
+      "sha256": "6a4d0f9ac927dc4b91814d693592d1ca5c8d55c1cb479c01ddb8eb6000f3d5cf"
+    },
+    {
+      "source": "assets/images/archive/savannah-archival-evidence.jpg",
+      "path": "assets/responsive/archive/savannah-archival-evidence-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 99368,
+      "sha256": "7fd3f1e8e39f9926a342d4e1791a8f1470457ab1d32ab5e5bbf0c26ab5505280"
+    },
+    {
+      "source": "assets/images/archive/savannah-street-field-note.jpg",
+      "path": "assets/responsive/archive/savannah-street-field-note-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 49960,
+      "sha256": "b315e2139c30cb5bafcaa72fff8da34466b50128fa919ee3137fc83fdd12d941"
+    },
+    {
+      "source": "assets/images/archive/savannah-street-field-note.jpg",
+      "path": "assets/responsive/archive/savannah-street-field-note-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 104728,
+      "sha256": "4fcbcdb721aebfccbb2c82b1cc1601ddc11533d1922f61e8ab9700b00e717079"
+    },
+    {
+      "source": "assets/images/archive/savannah-street-field-note.jpg",
+      "path": "assets/responsive/archive/savannah-street-field-note-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 206368,
+      "sha256": "5291e55e9ce2d9e86dd7f100e7a6698c4fabace4ac0d2dbfead2b20d205c4cea"
+    },
+    {
+      "source": "assets/images/article/asheville-maker-portrait.jpg",
+      "path": "assets/responsive/article/asheville-maker-portrait-640.webp",
+      "width": 640,
+      "height": 857,
+      "bytes": 89474,
+      "sha256": "01efe8743b4db96980b9f59f078b7c5be3a6d37150e856bef311b0997eb02c92"
+    },
+    {
+      "source": "assets/images/article/asheville-maker-portrait.jpg",
+      "path": "assets/responsive/article/asheville-maker-portrait-960.webp",
+      "width": 960,
+      "height": 1286,
+      "bytes": 170144,
+      "sha256": "b251eedc7f64be3e83784b35f5e3b50dfd48f84c42d8a89ab840b10105b8864e"
+    },
+    {
+      "source": "assets/images/article/asheville-maker-portrait.jpg",
+      "path": "assets/responsive/article/asheville-maker-portrait-1440.webp",
+      "width": 1440,
+      "height": 1929,
+      "bytes": 275690,
+      "sha256": "53028acde71843b6c5758cf6edafa048da9c05a6418157855ecb7184f7898ef2"
+    },
+    {
+      "source": "assets/images/article/asheville-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/asheville-nocturnal-aftermath-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 33596,
+      "sha256": "3a51e5cb69b04aeaa10a7e8277868a1ed1859b77d03cd2a4ec5ee93da7dac40d"
+    },
+    {
+      "source": "assets/images/article/asheville-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/asheville-nocturnal-aftermath-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 76718,
+      "sha256": "96cbce989abf5a30c1ef43cf14681596a7e3292b616c1ddec086732136df3803"
+    },
+    {
+      "source": "assets/images/article/asheville-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/asheville-nocturnal-aftermath-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 160740,
+      "sha256": "a49b1fc15f05de52c9bea7fb751bccbbd7e666f65f35e47eb0ba27b58fee6630"
+    },
+    {
+      "source": "assets/images/article/asheville-working-interior.jpg",
+      "path": "assets/responsive/article/asheville-working-interior-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 48446,
+      "sha256": "e470ad3cab9cb318e580f8ad0287dbbfa9861e9998f8a38825b5e8ad69d125a3"
+    },
+    {
+      "source": "assets/images/article/asheville-working-interior.jpg",
+      "path": "assets/responsive/article/asheville-working-interior-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 97542,
+      "sha256": "2049d0d52b69e722cc248786070bc3c5395641b74b3a7b0e0b68ab70f42a1de1"
+    },
+    {
+      "source": "assets/images/article/asheville-working-interior.jpg",
+      "path": "assets/responsive/article/asheville-working-interior-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 175756,
+      "sha256": "72bf5be949ddf389044ba4c0e39a6c6abffac260bc41ea5be76a4d218f2784c0"
+    },
+    {
+      "source": "assets/images/article/athens-maker-portrait.jpg",
+      "path": "assets/responsive/article/athens-maker-portrait-640.webp",
+      "width": 640,
+      "height": 857,
+      "bytes": 85926,
+      "sha256": "569c7d5c404a00b4d5fc59d94973845fdd841a2433a22b8ccaceeb8c43b816cb"
+    },
+    {
+      "source": "assets/images/article/athens-maker-portrait.jpg",
+      "path": "assets/responsive/article/athens-maker-portrait-960.webp",
+      "width": 960,
+      "height": 1286,
+      "bytes": 163642,
+      "sha256": "753ede3518a1c74bbc1dfbe3bb5ef1b690be4e69acf654f8b6140470658ca102"
+    },
+    {
+      "source": "assets/images/article/athens-maker-portrait.jpg",
+      "path": "assets/responsive/article/athens-maker-portrait-1440.webp",
+      "width": 1440,
+      "height": 1929,
+      "bytes": 258526,
+      "sha256": "46c57fe2fe882cc391d9e963bd328557b645824a5eb03241aaae3b43ed78fb4f"
+    },
+    {
+      "source": "assets/images/article/athens-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/athens-nocturnal-aftermath-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 17106,
+      "sha256": "e750eff5f4cb8302630dde8f887c5f0decd84b2a37cfb31df33132cfe3a81cf0"
+    },
+    {
+      "source": "assets/images/article/athens-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/athens-nocturnal-aftermath-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 35778,
+      "sha256": "db631c6d07e8989ad5af1d5d4d6e9171d0d9c316e27a8f7db007c191efccb790"
+    },
+    {
+      "source": "assets/images/article/athens-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/athens-nocturnal-aftermath-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 72438,
+      "sha256": "b17e71efb5c83ed2764e6b722b8d535e4800ca54ce6083ba74ff521a3aa7ff6a"
+    },
+    {
+      "source": "assets/images/article/athens-working-interior.jpg",
+      "path": "assets/responsive/article/athens-working-interior-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 50198,
+      "sha256": "f5cbd6ae8f0486c7c981282c0488a47459e1e2b24fff51b309a597f356506c2d"
+    },
+    {
+      "source": "assets/images/article/athens-working-interior.jpg",
+      "path": "assets/responsive/article/athens-working-interior-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 108756,
+      "sha256": "ac1abe911b18837cf93b3e107f8c7e8df36578415ebe5f6cead99473db30ca3d"
+    },
+    {
+      "source": "assets/images/article/athens-working-interior.jpg",
+      "path": "assets/responsive/article/athens-working-interior-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 201280,
+      "sha256": "a09a538b6a305fa5d4840c360441b10a9c178a8bc0a9910e4c0a821cfdaa64b7"
+    },
+    {
+      "source": "assets/images/article/new-orleans-maker-portrait.jpg",
+      "path": "assets/responsive/article/new-orleans-maker-portrait-640.webp",
+      "width": 640,
+      "height": 857,
+      "bytes": 65688,
+      "sha256": "57e7ae84f2f6d784f31a64929a62fcd13468342d624feb960cdd3eb5284a2df7"
+    },
+    {
+      "source": "assets/images/article/new-orleans-maker-portrait.jpg",
+      "path": "assets/responsive/article/new-orleans-maker-portrait-960.webp",
+      "width": 960,
+      "height": 1286,
+      "bytes": 136574,
+      "sha256": "da009c8842e1bbbd3830e6ac55adf60b942f00888d3a35aeaf64cfc467f367e7"
+    },
+    {
+      "source": "assets/images/article/new-orleans-maker-portrait.jpg",
+      "path": "assets/responsive/article/new-orleans-maker-portrait-1440.webp",
+      "width": 1440,
+      "height": 1929,
+      "bytes": 228568,
+      "sha256": "99e85a5ca969d08c4c852d2d738ba2f4ccc5d529ac2c1053954e58f0dcfd7eea"
+    },
+    {
+      "source": "assets/images/article/new-orleans-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/new-orleans-nocturnal-aftermath-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 18930,
+      "sha256": "a3ede34817ace464744617d6be4c63c9d9187a58ade0f148b8f67889b3240d1d"
+    },
+    {
+      "source": "assets/images/article/new-orleans-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/new-orleans-nocturnal-aftermath-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 42818,
+      "sha256": "d61a0814a9a63ad6258ab0e9b06440b378a25c3a39f9a0fce50a20599399ed6f"
+    },
+    {
+      "source": "assets/images/article/new-orleans-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/new-orleans-nocturnal-aftermath-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 91042,
+      "sha256": "285410c78cc281bd4aafeaf42919349dfb878e7c43cbcd9a8de0ae5768ef95de"
+    },
+    {
+      "source": "assets/images/article/new-orleans-working-interior.jpg",
+      "path": "assets/responsive/article/new-orleans-working-interior-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 42906,
+      "sha256": "9b0262c6b690a1835bc1aa7afe0099634fce30a0518314a759f53643c24a54b5"
+    },
+    {
+      "source": "assets/images/article/new-orleans-working-interior.jpg",
+      "path": "assets/responsive/article/new-orleans-working-interior-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 102290,
+      "sha256": "8842097f1f0905f5daf5743d2e7b9379af0cb51c629e7ac9f2d7b0502afa39b1"
+    },
+    {
+      "source": "assets/images/article/new-orleans-working-interior.jpg",
+      "path": "assets/responsive/article/new-orleans-working-interior-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 217428,
+      "sha256": "897be1bafad5c5bb63273f0892a5051257733ef70e8b8c5713d43cf4b6fc1dad"
+    },
+    {
+      "source": "assets/images/article/richmond-maker-portrait.jpg",
+      "path": "assets/responsive/article/richmond-maker-portrait-640.webp",
+      "width": 640,
+      "height": 857,
+      "bytes": 100436,
+      "sha256": "d35ce54ae760024af1a9f3d62ccc24fc194fbf3ec5a8350245a45bb09ed5a234"
+    },
+    {
+      "source": "assets/images/article/richmond-maker-portrait.jpg",
+      "path": "assets/responsive/article/richmond-maker-portrait-960.webp",
+      "width": 960,
+      "height": 1286,
+      "bytes": 204906,
+      "sha256": "48e81df4274ef55138180082a252821a880875a7c038750d5ad0f1561fa51816"
+    },
+    {
+      "source": "assets/images/article/richmond-maker-portrait.jpg",
+      "path": "assets/responsive/article/richmond-maker-portrait-1440.webp",
+      "width": 1440,
+      "height": 1929,
+      "bytes": 327404,
+      "sha256": "678b0e425fb27fe17675a3fff6079608457510ebbf8df4c5e63ecdb2020b3f9f"
+    },
+    {
+      "source": "assets/images/article/richmond-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/richmond-nocturnal-aftermath-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 27416,
+      "sha256": "0e9332859ec581d05849851582f4d1bf704380eeb12dd15f3b8eaa14e4f44e8d"
+    },
+    {
+      "source": "assets/images/article/richmond-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/richmond-nocturnal-aftermath-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 63432,
+      "sha256": "5084f2b4bc7b9aefbc3e1f4e52c74f466a7f0780b41dcda4af05d008cd432792"
+    },
+    {
+      "source": "assets/images/article/richmond-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/richmond-nocturnal-aftermath-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 132500,
+      "sha256": "e83fa4fb422f6f37e162f29eb2a1bab5684a4b59b0457d3618fb4c84aeaf618e"
+    },
+    {
+      "source": "assets/images/article/richmond-working-interior.jpg",
+      "path": "assets/responsive/article/richmond-working-interior-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 40274,
+      "sha256": "287c8c002dba0e97e57b4714fba541f1d88af00b63ffbd74e7520e0ea8f78c66"
+    },
+    {
+      "source": "assets/images/article/richmond-working-interior.jpg",
+      "path": "assets/responsive/article/richmond-working-interior-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 83446,
+      "sha256": "7f1a8b2c525334cc1eaf0187c4959583d8a3fb416af4bd66096caf5be528dc97"
+    },
+    {
+      "source": "assets/images/article/richmond-working-interior.jpg",
+      "path": "assets/responsive/article/richmond-working-interior-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 155332,
+      "sha256": "bc21d394844da4bc2b5f9a9d3102b4648a303a812b94fc070c51a751b14561b6"
+    },
+    {
+      "source": "assets/images/article/savannah-maker-portrait.jpg",
+      "path": "assets/responsive/article/savannah-maker-portrait-640.webp",
+      "width": 640,
+      "height": 857,
+      "bytes": 57240,
+      "sha256": "ac30771ffb4f5cd6a6eb42eed96d449c1952233bc6c201489ce3be5e9b383abd"
+    },
+    {
+      "source": "assets/images/article/savannah-maker-portrait.jpg",
+      "path": "assets/responsive/article/savannah-maker-portrait-960.webp",
+      "width": 960,
+      "height": 1286,
+      "bytes": 113708,
+      "sha256": "a9d27579b45e4e28d91f82fefb097a00622f1b5b9fc6e70f4087433304d20130"
+    },
+    {
+      "source": "assets/images/article/savannah-maker-portrait.jpg",
+      "path": "assets/responsive/article/savannah-maker-portrait-1440.webp",
+      "width": 1440,
+      "height": 1929,
+      "bytes": 192918,
+      "sha256": "565094ab07ad4382be9d8be0ab431f6dd26d85a898b6309d23b2ae66610f917d"
+    },
+    {
+      "source": "assets/images/article/savannah-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/savannah-nocturnal-aftermath-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 30492,
+      "sha256": "57b85e539f63050f234555b5d8750e6c8a03738e9ef5d265f90bee220b0ca076"
+    },
+    {
+      "source": "assets/images/article/savannah-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/savannah-nocturnal-aftermath-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 68746,
+      "sha256": "d2c8a947e7c76e2d27a1c54a8c28240ccfd1aca838d6e9f81ad16f5fda67e49b"
+    },
+    {
+      "source": "assets/images/article/savannah-nocturnal-aftermath.jpg",
+      "path": "assets/responsive/article/savannah-nocturnal-aftermath-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 143748,
+      "sha256": "bae2f50284c1bb5e182fd9f362b9ce52a26c48c3c200837a32ae9885c7fd3d00"
+    },
+    {
+      "source": "assets/images/article/savannah-working-interior.jpg",
+      "path": "assets/responsive/article/savannah-working-interior-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 45146,
+      "sha256": "0a73891040f24950d949bd2fd715386ae577845733b4d61327580bba6129af65"
+    },
+    {
+      "source": "assets/images/article/savannah-working-interior.jpg",
+      "path": "assets/responsive/article/savannah-working-interior-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 114102,
+      "sha256": "87f48da00b30792b68a6282177461b4e3310247adf8aecc6a68ab9cddddf42f7"
+    },
+    {
+      "source": "assets/images/article/savannah-working-interior.jpg",
+      "path": "assets/responsive/article/savannah-working-interior-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 232230,
+      "sha256": "61b448dd230f09a23bfb77870e8e828cca8bf7e55d083b0550708bdc6ef94d9d"
+    },
+    {
+      "source": "assets/images/feature/feature-archive.png",
+      "path": "assets/responsive/feature/feature-archive-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 34740,
+      "sha256": "d79584d7be8a5eaf49283dceff5698408220cec16b3d7577d77c4554a2ff325c"
+    },
+    {
+      "source": "assets/images/feature/feature-archive.png",
+      "path": "assets/responsive/feature/feature-archive-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 78482,
+      "sha256": "0306b2849be900cfac65341deac4070539b540a5855293c293adae3eb066f343"
+    },
+    {
+      "source": "assets/images/feature/feature-archive.png",
+      "path": "assets/responsive/feature/feature-archive-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 173180,
+      "sha256": "3e3fce14fc40c023e9fd9230294b29fdde21cbd68be05d8a7d0332a1c0a10517"
+    },
+    {
+      "source": "assets/images/feature/feature-essays.jpg",
+      "path": "assets/responsive/feature/feature-essays-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 26718,
+      "sha256": "9fdf3c4a17a57b9c23af5d4ebb0c16296c13c14dbf0a590601358457dde2ec73"
+    },
+    {
+      "source": "assets/images/feature/feature-essays.jpg",
+      "path": "assets/responsive/feature/feature-essays-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 56088,
+      "sha256": "feb844a5b365865efed8c6f068e1d2429da8be8779f183e4546c8dca2e3e80f6"
+    },
+    {
+      "source": "assets/images/feature/feature-essays.jpg",
+      "path": "assets/responsive/feature/feature-essays-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 111324,
+      "sha256": "2d6b293e06518ec29a4e134d40a02c520c2c26509976f16833f0422b7da372df"
+    },
+    {
+      "source": "assets/images/feature/feature-fiction.jpg",
+      "path": "assets/responsive/feature/feature-fiction-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 21818,
+      "sha256": "81b2c3d6e9c52eafe9a7193be69eb85daff517af8f768a69d2f8022f23ab36e7"
+    },
+    {
+      "source": "assets/images/feature/feature-fiction.jpg",
+      "path": "assets/responsive/feature/feature-fiction-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 54194,
+      "sha256": "f95323e3e04f8c7c8d77d2988e051c29edd0c77a7e4a2c9050ae564143f78efb"
+    },
+    {
+      "source": "assets/images/feature/feature-fiction.jpg",
+      "path": "assets/responsive/feature/feature-fiction-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 132842,
+      "sha256": "6127a0045252c16135497b79d7ed1ce326dda50daa72636eb97a4c991c88613c"
+    },
+    {
+      "source": "assets/images/feature/feature-poetry.jpg",
+      "path": "assets/responsive/feature/feature-poetry-640.webp",
+      "width": 640,
+      "height": 357,
+      "bytes": 36586,
+      "sha256": "f1cb01c649f821afa14a2e2e15ce21a34efd3068e813c3d66bd51e439c25bc57"
+    },
+    {
+      "source": "assets/images/feature/feature-poetry.jpg",
+      "path": "assets/responsive/feature/feature-poetry-960.webp",
+      "width": 960,
+      "height": 536,
+      "bytes": 90296,
+      "sha256": "a04ad412f41e8afcb4b295c784ca25c2929a354288320db65deef55d00ca051b"
+    },
+    {
+      "source": "assets/images/feature/feature-poetry.jpg",
+      "path": "assets/responsive/feature/feature-poetry-1440.webp",
+      "width": 1440,
+      "height": 804,
+      "bytes": 199404,
+      "sha256": "440f15ada3374d01ae5a49bec850c95d5fdbb182f263502928b40196ab21197e"
+    },
+    {
+      "source": "assets/images/feature/feature.png",
+      "path": "assets/responsive/feature/feature-640.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 108464,
+      "sha256": "89cb607b57902d9085b2ca9c95c63ffa2b616f31a5c4987495230f398b4f4a41"
+    },
+    {
+      "source": "assets/images/feature/feature.png",
+      "path": "assets/responsive/feature/feature-960.webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 226156,
+      "sha256": "df09a806c94eb67550e4837330b3e3d90d2c515238351103d63a0993b9ccab9f"
+    },
+    {
+      "source": "assets/images/feature/feature.png",
+      "path": "assets/responsive/feature/feature-1440.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 396044,
+      "sha256": "434cb31fd4a66e7071e72512a2d09880b453fa577937e3a772a95f63afd6781e"
+    },
+    {
+      "source": "assets/images/feature/issue-specimen.jpg",
+      "path": "assets/responsive/feature/issue-specimen-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 31222,
+      "sha256": "cef7b4418e1de6f166b4d4b8d5881c4d0ef21db71f443b4fadf328c9a026d0b2"
+    },
+    {
+      "source": "assets/images/feature/issue-specimen.jpg",
+      "path": "assets/responsive/feature/issue-specimen-960.webp",
+      "width": 960,
+      "height": 717,
+      "bytes": 62448,
+      "sha256": "d53b2270e58a79668699fb80c86c638845bcaa3d5139f9c38b1d1ec504ce8cba"
+    },
+    {
+      "source": "assets/images/feature/issue-specimen.jpg",
+      "path": "assets/responsive/feature/issue-specimen-1440.webp",
+      "width": 1440,
+      "height": 1075,
+      "bytes": 121092,
+      "sha256": "d1de8659b67d88f0e27dad29b71187993e7341459b04510f13920503fc95368e"
+    },
+    {
+      "source": "assets/images/system/rice_field.png",
+      "path": "assets/responsive/system/rice_field-640.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 37924,
+      "sha256": "b087cd515f57bf101a550dacf55d0a20b42f8892873ee38e29eedc03929e456e"
+    },
+    {
+      "source": "assets/images/system/rice_field.png",
+      "path": "assets/responsive/system/rice_field-960.webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 70904,
+      "sha256": "cf4378578497a0acfff960802c81aadcd5585304c8b13e3a9a6313f9a3b692a5"
+    },
+    {
+      "source": "assets/images/system/rice_field.png",
+      "path": "assets/responsive/system/rice_field-1440.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 118272,
+      "sha256": "c76a89614fbe551caf3a110dbe13010c63eea94b54666e936435c79baee97578"
+    }
+  ]
+}

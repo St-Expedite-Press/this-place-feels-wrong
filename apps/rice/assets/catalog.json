@@ -1,0 +1,1257 @@
+{
+  "schema_version": 2,
+  "generated": "2026-06-30",
+  "collection": {
+    "id": "city-field-notes",
+    "title": "Southern Place Field Notes",
+    "description": "Five repeated editorial image roles across five Southern cities.",
+    "style_guide": "docs/IMAGE_STYLE_GUIDE.md",
+    "prompt_manifest": "docs/city-image-prompts.json"
+  },
+  "categories": [
+    {
+      "id": "archive",
+      "description": "Reusable archival imagery for archive image slots anywhere on the site."
+    },
+    {
+      "id": "article",
+      "description": "Imagery bound directly to a single article, essay, poem, or fiction piece."
+    },
+    {
+      "id": "feature",
+      "description": "Imagery bound to a site element such as a section landing, shop, or submissions."
+    },
+    {
+      "id": "photo",
+      "description": "Standalone photography or photo-submission carousels."
+    },
+    {
+      "id": "system",
+      "description": "Site chrome and identity media: logo, textures, splash, and fallbacks."
+    }
+  ],
+  "roles": [
+    {
+      "id": "street-field-note",
+      "label": "Street field note",
+      "family": "section-feature",
+      "category": "archive",
+      "code": "SFN"
+    },
+    {
+      "id": "working-interior",
+      "label": "Working interior",
+      "family": "article-figure",
+      "category": "article",
+      "code": "WIN"
+    },
+    {
+      "id": "archival-evidence",
+      "label": "Archival evidence",
+      "family": "archive-object",
+      "category": "archive",
+      "code": "ARC"
+    },
+    {
+      "id": "maker-portrait",
+      "label": "Maker portrait",
+      "family": "author-portrait",
+      "category": "article",
+      "code": "POR"
+    },
+    {
+      "id": "nocturnal-aftermath",
+      "label": "Nocturnal aftermath",
+      "family": "fiction-feature",
+      "category": "article",
+      "code": "NOC"
+    }
+  ],
+  "assets": [
+    {
+      "id": "RICE-CFN-NOL-SFN-001",
+      "title": "New Orleans / Street field note",
+      "collection": "city-field-notes",
+      "place": "New Orleans, Louisiana",
+      "place_slug": "new-orleans",
+      "category": "archive",
+      "role": "street-field-note",
+      "role_label": "Street field note",
+      "family": "section-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Deadpan documentary view of present-day service infrastructure in New Orleans, Louisiana.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "field",
+        "weather"
+      ],
+      "caption": {
+        "title": "New Orleans / Street field note",
+        "byline": null,
+        "series": "RICE-CFN-NOL-SFN-001"
+      },
+      "prompt": "Asset type: wide section feature. Locked-off street-level view of a working drainage pump station beside a wet neutral-ground curb after summer rain, contemporary New Orleans. Include flood-gauge paint, a utility cabinet with a taped maintenance slip, power lines, standing water, and a single distant security light. Place the pump structure in the upper-right and preserve quiet dark pavement in the lower-left. No people; infrastructure is the subject.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/new-orleans-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 197834,
+          "sha256": "bd19d697d6fff5e275b4337cec0bf845682d28b5c43d0914dd501435b15b40bf"
+        },
+        "master": {
+          "path": "assets/masters/archive/new-orleans-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 329478,
+          "sha256": "b82e08abfe0d6e9a19e9f4d8819d6b3ee91a676eab737f4441bcd194d0df7c64"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-NOL-WIN-001",
+      "title": "New Orleans / Working interior",
+      "collection": "city-field-notes",
+      "place": "New Orleans, Louisiana",
+      "place_slug": "new-orleans",
+      "category": "article",
+      "role": "working-interior",
+      "role_label": "Working interior",
+      "family": "article-figure",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Working interior in New Orleans, Louisiana showing practical equipment and evidence of recent use.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "interior"
+      ],
+      "caption": {
+        "title": "New Orleans / Working interior",
+        "byline": null,
+        "series": "RICE-CFN-NOL-WIN-001"
+      },
+      "prompt": "Asset type: article figure. Direct-flash interior of a cramped community print room in contemporary New Orleans: old copier, paper reams, box fan, damp drywall seam, extension cord, folding table, and one St. Expedite prayer card taped inside an open supply cabinet. Show evidence of recent use but no person. Frame at working distance, slightly clipped at one edge, with every practical material legible and no staged literary props.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/new-orleans-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 275794,
+          "sha256": "77738efcf1a2bb8a3da314f977e431b90d5c9d0355068accca0bb97cabc6b7be"
+        },
+        "master": {
+          "path": "assets/masters/article/new-orleans-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 983397,
+          "sha256": "ba93257e6a98d20a9e002a1e951472f6ae81feb2b96238669cd2ca191d659be5"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-NOL-ARC-001",
+      "title": "New Orleans / Archival evidence",
+      "collection": "city-field-notes",
+      "place": "New Orleans, Louisiana",
+      "place_slug": "new-orleans",
+      "category": "archive",
+      "role": "archival-evidence",
+      "role_label": "Archival evidence",
+      "family": "archive-object",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Generated archival reconstruction composed from documents and material evidence associated with New Orleans, Louisiana.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "ledger",
+        "document"
+      ],
+      "caption": {
+        "title": "New Orleans / Archival evidence",
+        "byline": null,
+        "series": "RICE-CFN-NOL-ARC-001"
+      },
+      "prompt": "Asset type: archival reconstruction. Straight overhead copy-bed arrangement of a contemporary storm-drain maintenance log, pump inspection receipt, folded ward map fragment, rust-stained fastener, ruler, and water-warped parish form. Keep all prominent writing incidental or unreadable; make no factual historical claim. Arrange records along the top and right while leaving clean black copy-bed space at lower-left. Include one cropped accession stamp as the unresolved element.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/new-orleans-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 208066,
+          "sha256": "a2f3b28851fe8e6809dbf193b3ba1907fe4d6a44958aba1e0b1093235c68556b"
+        },
+        "master": {
+          "path": "assets/masters/archive/new-orleans-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 338935,
+          "sha256": "16f66133f9b43df804a54e6d44de72c845698c0d5e03cf650eef40c7ec9a5769"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-NOL-POR-001",
+      "title": "New Orleans / Maker portrait",
+      "collection": "city-field-notes",
+      "place": "New Orleans, Louisiana",
+      "place_slug": "new-orleans",
+      "category": "article",
+      "role": "maker-portrait",
+      "role_label": "Maker portrait",
+      "family": "author-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Direct-flash documentary portrait of a contemporary writer or maker in New Orleans, Louisiana.",
+      "focal_point": "center 35%",
+      "accent": "#3F5228",
+      "tags": [
+        "portrait"
+      ],
+      "caption": {
+        "title": "New Orleans / Maker portrait",
+        "byline": null,
+        "series": "RICE-CFN-NOL-POR-001"
+      },
+      "prompt": "Asset type: author portrait. Direct-flash documentary portrait of a contemporary small-press editor standing in an ordinary back room near a folding table and industrial fan. Practical dark clothing, neutral posture, gaze slightly away, natural hands, visible humidity damage and stacked mail tubs. No books, typewriter, cigarette, costume, glamour retouching, or romantic pose. Crop from knees upward and let a conduit line leave the frame unresolved.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/new-orleans-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 232033,
+          "sha256": "b44370b92294051b948432fc89f6cdd6093cf0e2d1303a9cf32d24230566baf0"
+        },
+        "master": {
+          "path": "assets/masters/article/new-orleans-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 395022,
+          "sha256": "9ea09491c6948f9a672c4935ad2a009eb500d86c9b970c7d83d1ad2f93ab33a7"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-NOL-NOC-001",
+      "title": "New Orleans / Nocturnal aftermath",
+      "collection": "city-field-notes",
+      "place": "New Orleans, Louisiana",
+      "place_slug": "new-orleans",
+      "category": "article",
+      "role": "nocturnal-aftermath",
+      "role_label": "Nocturnal aftermath",
+      "family": "fiction-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Empty nighttime work site in New Orleans, Louisiana showing evidence of recent labor.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "night"
+      ],
+      "caption": {
+        "title": "New Orleans / Nocturnal aftermath",
+        "byline": null,
+        "series": "RICE-CFN-NOL-NOC-001"
+      },
+      "prompt": "Asset type: wide fiction feature. Locked-off nocturnal view of an emptied neighborhood bar loading area after closing: wet concrete, fluorescent service door, stacked plastic chairs, ice-machine drain, utility meter, and one red votive cup beside a breaker box. No visible person and no readable business name. Keep lower-left nearly black for editorial intervention; concentrate the fluorescent structure and evidence of recent labor in the upper-right.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/new-orleans-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 187141,
+          "sha256": "8a15ffebf9fa113d4b34bdaad611ddd497a1220e6acc87cf66493fff991dd78b"
+        },
+        "master": {
+          "path": "assets/masters/article/new-orleans-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 319937,
+          "sha256": "5927bc45194fc58c300eb07bf0765bb7ac5617f57f2ff358f3682ebc92038182"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-SFN-001",
+      "title": "Athens / Street field note",
+      "collection": "city-field-notes",
+      "place": "Athens, Georgia",
+      "place_slug": "athens",
+      "category": "archive",
+      "role": "street-field-note",
+      "role_label": "Street field note",
+      "family": "section-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Deadpan documentary view of present-day service infrastructure in Athens, Georgia.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "field",
+        "weather"
+      ],
+      "caption": {
+        "title": "Athens / Street field note",
+        "byline": null,
+        "series": "RICE-CFN-ATH-SFN-001"
+      },
+      "prompt": "Asset type: wide section feature. Deadpan view behind a contemporary independent music venue in Athens, Georgia: cinderblock wall, patched conduit, loading door, rain-dark asphalt, recycling bin, hand-numbered electrical panel, and kudzu pressing against a chain-link fence without becoming picturesque. No band names or posters. Put the service infrastructure upper-right, leave lower-left quiet, and include one unexplained coil of instrument cable outside the door.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/athens-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 317440,
+          "sha256": "dd0f3701842bde62328ec86c25339f4c4329f5ebd90c17361359e4074a02ece0"
+        },
+        "master": {
+          "path": "assets/masters/archive/athens-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 491162,
+          "sha256": "a4557703bb65ca72467cff4eb598577b92e28860f0331195215a84fb9ae25448"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-WIN-001",
+      "title": "Athens / Working interior",
+      "collection": "city-field-notes",
+      "place": "Athens, Georgia",
+      "place_slug": "athens",
+      "category": "article",
+      "role": "working-interior",
+      "role_label": "Working interior",
+      "family": "article-figure",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Working interior in Athens, Georgia showing practical equipment and evidence of recent use.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "interior"
+      ],
+      "caption": {
+        "title": "Athens / Working interior",
+        "byline": null,
+        "series": "RICE-CFN-ATH-WIN-001"
+      },
+      "prompt": "Asset type: article figure. Direct-flash working-distance photograph of a small all-ages rehearsal room in Athens: scuffed concrete floor, inexpensive amplifiers with all logos obscured, box fan, milk crates, taped set-list paper with illegible marks, fluorescent fixture, and acoustic foam repaired with staples. No people, no performance, no nostalgic rock memorabilia. One cabinet door remains open; broad focus and clipped practical framing.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/athens-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 271181,
+          "sha256": "37d7cd973e735dcc7930f3f742691199bc9ee25cd00d1d987e3c0c546f45ee83"
+        },
+        "master": {
+          "path": "assets/masters/article/athens-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 973607,
+          "sha256": "7fc8bfd7f3aa3d71d3afda0e827bc3071ea7ebfafff3f3d1a11634d5485a270f"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-ARC-001",
+      "title": "Athens / Archival evidence",
+      "collection": "city-field-notes",
+      "place": "Athens, Georgia",
+      "place_slug": "athens",
+      "category": "archive",
+      "role": "archival-evidence",
+      "role_label": "Archival evidence",
+      "family": "archive-object",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Generated archival reconstruction composed from documents and material evidence associated with Athens, Georgia.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "ledger",
+        "document"
+      ],
+      "caption": {
+        "title": "Athens / Archival evidence",
+        "byline": null,
+        "series": "RICE-CFN-ATH-ARC-001"
+      },
+      "prompt": "Asset type: archival reconstruction. Overhead copier-bed study of a contemporary venue settlement envelope, photocopied all-ages handbill fragments with no readable band names, municipal occupancy form, guitar-string packet, cash-count pencil marks, ruler, and two staples casting hard shadows. Arrange evidence top and right, preserve black copy-bed space lower-left, and show toner drift and folded edges. No invented historical claims or legible proper names.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/athens-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 120370,
+          "sha256": "e52d762476b9e4ece911549d65c17e4d53bd585fe19e5f11864c340f4610fdc6"
+        },
+        "master": {
+          "path": "assets/masters/archive/athens-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 588917,
+          "sha256": "e10d4b5637a84f88c24462f9be05fec644876077a438ba602ca75f3b6f680917"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-POR-001",
+      "title": "Athens / Maker portrait",
+      "collection": "city-field-notes",
+      "place": "Athens, Georgia",
+      "place_slug": "athens",
+      "category": "article",
+      "role": "maker-portrait",
+      "role_label": "Maker portrait",
+      "family": "author-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Direct-flash documentary portrait of a contemporary writer or maker in Athens, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#3F5228",
+      "tags": [
+        "portrait"
+      ],
+      "caption": {
+        "title": "Athens / Maker portrait",
+        "byline": null,
+        "series": "RICE-CFN-ATH-POR-001"
+      },
+      "prompt": "Asset type: author portrait. Direct-flash portrait of a contemporary poet and part-time venue worker in a plain cinderblock service corridor in Athens. Practical T-shirt and work pants, neutral posture, one hand holding a ring of utility keys, gaze away from camera. Show conduit, fire extinguisher inspection tag, and worn floor paint. No guitar, books, stage lights, fashion styling, or heroic pose; retain ordinary skin and fabric texture.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/athens-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 263110,
+          "sha256": "361005738a0e2f401fce5997c692ae009b03ba2de7a451c0aed92cfc5b61c349"
+        },
+        "master": {
+          "path": "assets/masters/article/athens-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 419875,
+          "sha256": "1ca8e0d36a1c6a3ce66278a0da900040a858b2f06eb7b603ba1f98a3b4b4ba2d"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-ATH-NOC-001",
+      "title": "Athens / Nocturnal aftermath",
+      "collection": "city-field-notes",
+      "place": "Athens, Georgia",
+      "place_slug": "athens",
+      "category": "article",
+      "role": "nocturnal-aftermath",
+      "role_label": "Nocturnal aftermath",
+      "family": "fiction-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Empty nighttime work site in Athens, Georgia showing evidence of recent labor.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "night"
+      ],
+      "caption": {
+        "title": "Athens / Nocturnal aftermath",
+        "byline": null,
+        "series": "RICE-CFN-ATH-NOC-001"
+      },
+      "prompt": "Asset type: wide fiction feature. Empty venue floor immediately after a small show in Athens: house lights partly raised, coiled cables, mop bucket, flattened paper cup, taped floor marks, cheap speaker stands, and an open rear door revealing humid darkness. No performers, crowd, logos, or readable posters. Keep the lower-left in quiet shadow and place the lit cleanup evidence upper-right; one microphone remains unexplained on the floor.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/athens-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 166588,
+          "sha256": "9ecf64484dff1eee1bdf60333bfad90fac029df6f1bb091fe936a542dee8ab83"
+        },
+        "master": {
+          "path": "assets/masters/article/athens-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 287640,
+          "sha256": "8f597276f614a9a44bf931e238dda998e7e5a08f6356b656a5c9b4a37dfa8e79"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-SFN-001",
+      "title": "Asheville / Street field note",
+      "collection": "city-field-notes",
+      "place": "Asheville, North Carolina",
+      "place_slug": "asheville",
+      "category": "archive",
+      "role": "street-field-note",
+      "role_label": "Street field note",
+      "family": "section-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Deadpan documentary view of present-day service infrastructure in Asheville, North Carolina.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "field",
+        "weather"
+      ],
+      "caption": {
+        "title": "Asheville / Street field note",
+        "byline": null,
+        "series": "RICE-CFN-AVL-SFN-001"
+      },
+      "prompt": "Asset type: wide section feature. Contemporary documentary view of a flood-marked service alley beside small workshops near the French Broad River in Asheville. Include a concrete flood gauge, HVAC units, patched brick, utility pipes, mud line, plastic pallet, and a current electrical inspection sticker with text too small to read. No mountain vista or tourism cues. Place infrastructure upper-right and reserve low-detail wet pavement lower-left; one workshop light remains on.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/asheville-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 328171,
+          "sha256": "b79140cc79d116d41a18db9de62205b1c2210ae78f7116de43bc9efd972bedb9"
+        },
+        "master": {
+          "path": "assets/masters/archive/asheville-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 1078685,
+          "sha256": "3b44d0394a08b933b347da8c3701f59fbc840a6b8a0686c3dee817cfbbebad3c"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-WIN-001",
+      "title": "Asheville / Working interior",
+      "collection": "city-field-notes",
+      "place": "Asheville, North Carolina",
+      "place_slug": "asheville",
+      "category": "article",
+      "role": "working-interior",
+      "role_label": "Working interior",
+      "family": "article-figure",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Working interior in Asheville, North Carolina showing practical equipment and evidence of recent use.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "interior"
+      ],
+      "caption": {
+        "title": "Asheville / Working interior",
+        "byline": null,
+        "series": "RICE-CFN-AVL-WIN-001"
+      },
+      "prompt": "Asset type: article figure. Hard available-light interior of a cooperative screen-print workshop in Asheville: ink-stained washout sink, drying rack, squeegees, floor drain, dehumidifier hose, work gloves, and a handwritten maintenance card with illegible notation. No people, scenic craft branding, products for sale, or lifestyle styling. Photograph at working distance with broad focus; crop one rack at frame edge and leave one screen facedown and unexplained.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/asheville-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 253950,
+          "sha256": "dbe78eff0e513f2f06c2c30538d10cb62b549d6fd7d15ececaea680323c43d99"
+        },
+        "master": {
+          "path": "assets/masters/article/asheville-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 934903,
+          "sha256": "a3651ec34ac4f60a23fbe68c52380ab9def7748c8805884ac59fccf6d2c12593"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-ARC-001",
+      "title": "Asheville / Archival evidence",
+      "collection": "city-field-notes",
+      "place": "Asheville, North Carolina",
+      "place_slug": "asheville",
+      "category": "archive",
+      "role": "archival-evidence",
+      "role_label": "Archival evidence",
+      "family": "archive-object",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Generated archival reconstruction composed from documents and material evidence associated with Asheville, North Carolina.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "ledger",
+        "document"
+      ],
+      "caption": {
+        "title": "Asheville / Archival evidence",
+        "byline": null,
+        "series": "RICE-CFN-AVL-ARC-001"
+      },
+      "prompt": "Asset type: archival reconstruction. Straight overhead black copy-bed arrangement of a recent river-level printout, workshop rent receipt, flood-cleanup checklist, stained graph paper, blue shop rag fragment rendered monochrome, ruler, and rusted washer. Prominent writing must be unreadable and nonfactual. Arrange objects toward top and right, preserve lower-left black space, and include a tiny Seed-green survey tab at one document edge.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/asheville-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 209518,
+          "sha256": "0c2a1c0d0ffc08c0ab38cee80199aec895d10a8c092f95f5b72bf06ca7afb3d1"
+        },
+        "master": {
+          "path": "assets/masters/archive/asheville-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 816098,
+          "sha256": "4820123b31a3e566809d87775c7fce9b5901eb5eb4d991a57d08776e8605ccc9"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-POR-001",
+      "title": "Asheville / Maker portrait",
+      "collection": "city-field-notes",
+      "place": "Asheville, North Carolina",
+      "place_slug": "asheville",
+      "category": "article",
+      "role": "maker-portrait",
+      "role_label": "Maker portrait",
+      "family": "author-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Direct-flash documentary portrait of a contemporary writer or maker in Asheville, North Carolina.",
+      "focal_point": "center 35%",
+      "accent": "#3F5228",
+      "tags": [
+        "portrait"
+      ],
+      "caption": {
+        "title": "Asheville / Maker portrait",
+        "byline": null,
+        "series": "RICE-CFN-AVL-POR-001"
+      },
+      "prompt": "Asset type: author portrait. Direct-flash portrait of a contemporary essayist who works in a shared fabrication shop in Asheville. Practical layered work clothes, neutral stance beside a scratched metal table, hands naturally at sides, gaze slightly downward. Background evidence: ventilation duct, labeled scrap bins with text obscured, damp concrete, and hearing protection. No mountain-bohemian costume, artisanal glamour, books, tools posed as symbols, or softened skin.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/asheville-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 267165,
+          "sha256": "00730cc17905d1b70a4019bd9d40b87b7571307f55a9bf16a215123d64058334"
+        },
+        "master": {
+          "path": "assets/masters/article/asheville-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 432434,
+          "sha256": "0e8665ec29cd3dcfdd696b5176bed57e52433ae941c9302b299c4fa38d4b5c72"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-AVL-NOC-001",
+      "title": "Asheville / Nocturnal aftermath",
+      "collection": "city-field-notes",
+      "place": "Asheville, North Carolina",
+      "place_slug": "asheville",
+      "category": "article",
+      "role": "nocturnal-aftermath",
+      "role_label": "Nocturnal aftermath",
+      "family": "fiction-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Empty nighttime work site in Asheville, North Carolina showing evidence of recent labor.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "night"
+      ],
+      "caption": {
+        "title": "Asheville / Nocturnal aftermath",
+        "byline": null,
+        "series": "RICE-CFN-AVL-NOC-001"
+      },
+      "prompt": "Asset type: wide fiction feature. Locked-off night image of a riverside workshop yard after a heavy rain: security light, wet gravel, sump hose discharging, stacked sandbags, closed roll-up door, power meter, and a single abandoned paper respirator. No people, foggy mountain romance, or dramatic storm sky. Keep lower-left dark and spare; locate the working light, hose, and door upper-right with realistic electrical and water infrastructure.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/asheville-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 251617,
+          "sha256": "af8f790246260c95d7d64d513f67bbd8868946ee605281504cd064a6c184569c"
+        },
+        "master": {
+          "path": "assets/masters/article/asheville-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 936445,
+          "sha256": "843523a9786de3d78f0d5f948da69c4a37bf562a74df8c3f613a4ead175cfbff"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-SFN-001",
+      "title": "Savannah / Street field note",
+      "collection": "city-field-notes",
+      "place": "Savannah, Georgia",
+      "place_slug": "savannah",
+      "category": "archive",
+      "role": "street-field-note",
+      "role_label": "Street field note",
+      "family": "section-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Deadpan documentary view of present-day service infrastructure in Savannah, Georgia.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "field",
+        "weather"
+      ],
+      "caption": {
+        "title": "Savannah / Street field note",
+        "byline": null,
+        "series": "RICE-CFN-SAV-SFN-001"
+      },
+      "prompt": "Asset type: wide section feature. Deadpan contemporary view of a working lane behind mixed-use buildings in Savannah: loading ramp, storm drain, utility meters, dented delivery cart, fluorescent service light, salt-stained stucco, and current plastic waste bins. A live oak may enter only as cropped infrastructure-shadow, never as picturesque Spanish-moss tourism. Put material evidence upper-right and preserve lower-left paving as quiet editorial space.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/savannah-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 301797,
+          "sha256": "3452b135134d43e80b1e2a0138913b17dea718b9b6805412d2b61a9fe04e8f20"
+        },
+        "master": {
+          "path": "assets/masters/archive/savannah-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 1017332,
+          "sha256": "e47339e2476562e01d8c481ccdcc6f7d3ac4a6e2e354c0c685b28e8595d45257"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-WIN-001",
+      "title": "Savannah / Working interior",
+      "collection": "city-field-notes",
+      "place": "Savannah, Georgia",
+      "place_slug": "savannah",
+      "category": "article",
+      "role": "working-interior",
+      "role_label": "Working interior",
+      "family": "article-figure",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Working interior in Savannah, Georgia showing practical equipment and evidence of recent use.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "interior"
+      ],
+      "caption": {
+        "title": "Savannah / Working interior",
+        "byline": null,
+        "series": "RICE-CFN-SAV-WIN-001"
+      },
+      "prompt": "Asset type: article figure. Direct-flash interior of a modest apartment kitchen used for assembling a small literary publication in Savannah: laminate table, stapler, copier paper, postage scale, window air-conditioner, plastic chair, extension cord, and damp wall repair. No person, elegant historic interior, books-as-props, or decorative antiques. Show recent practical use; broad focus, clipped framing, and one sealed envelope placed inexplicably on the floor.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/savannah-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 277128,
+          "sha256": "66dc05737b38a7ad3809f9581d7f96a29810eeae007408499fa2d3d70bc6a032"
+        },
+        "master": {
+          "path": "assets/masters/article/savannah-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 982487,
+          "sha256": "29f6c3afe77926936cfd7223dc2551b2cff5dc282600b8a869226470eac5cb97"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-ARC-001",
+      "title": "Savannah / Archival evidence",
+      "collection": "city-field-notes",
+      "place": "Savannah, Georgia",
+      "place_slug": "savannah",
+      "category": "archive",
+      "role": "archival-evidence",
+      "role_label": "Archival evidence",
+      "family": "archive-object",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Generated archival reconstruction composed from documents and material evidence associated with Savannah, Georgia.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "ledger",
+        "document"
+      ],
+      "caption": {
+        "title": "Savannah / Archival evidence",
+        "byline": null,
+        "series": "RICE-CFN-SAV-ARC-001"
+      },
+      "prompt": "Asset type: archival reconstruction. Overhead copy-bed arrangement of a contemporary port-shift receipt, tide table fragment, apartment utility notice, postage labels with addresses obscured, cotton thread, corroded staple, ruler, and water-ring damage. No readable names, dates, or unsupported historical content. Keep lower-left as clean black copy-bed space and arrange paper along top and right; one cropped red devotional ribbon appears only as monochrome texture.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/savannah-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 176604,
+          "sha256": "634f021965263d0c859dc6898fe10a12abd195a56dc40539920f912da7b70a59"
+        },
+        "master": {
+          "path": "assets/masters/archive/savannah-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 275647,
+          "sha256": "19d5b1a0b573680cf4fb33a69bd02f0414a0e2afb449e7c09af39555f7de8d34"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-POR-001",
+      "title": "Savannah / Maker portrait",
+      "collection": "city-field-notes",
+      "place": "Savannah, Georgia",
+      "place_slug": "savannah",
+      "category": "article",
+      "role": "maker-portrait",
+      "role_label": "Maker portrait",
+      "family": "author-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Direct-flash documentary portrait of a contemporary writer or maker in Savannah, Georgia.",
+      "focal_point": "center 35%",
+      "accent": "#3F5228",
+      "tags": [
+        "portrait"
+      ],
+      "caption": {
+        "title": "Savannah / Maker portrait",
+        "byline": null,
+        "series": "RICE-CFN-SAV-POR-001"
+      },
+      "prompt": "Asset type: author portrait. Direct-flash documentary portrait of a contemporary fiction writer in an ordinary Savannah apartment breezeway beside utility doors and a humming window unit. Plain practical clothes, neutral posture, gaze past camera, natural hands and skin. Include concrete block, repair paint, parcel locker edge, and humid surface wear. No lace, mansion, cemetery, period costume, gothic glamour, cigarette, typewriter, or literary staging.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/savannah-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 216699,
+          "sha256": "c0977130a55197aa392ed1f4cf4dffa935e48beb0d031300dbbfb894ac54dee4"
+        },
+        "master": {
+          "path": "assets/masters/article/savannah-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 368859,
+          "sha256": "b6d161f9dae915d8be0a1cbaa2d036b4dd66ced59bd5fc92e2594afb534546e2"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-SAV-NOC-001",
+      "title": "Savannah / Nocturnal aftermath",
+      "collection": "city-field-notes",
+      "place": "Savannah, Georgia",
+      "place_slug": "savannah",
+      "category": "article",
+      "role": "nocturnal-aftermath",
+      "role_label": "Nocturnal aftermath",
+      "family": "fiction-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Empty nighttime work site in Savannah, Georgia showing evidence of recent labor.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "night"
+      ],
+      "caption": {
+        "title": "Savannah / Nocturnal aftermath",
+        "byline": null,
+        "series": "RICE-CFN-SAV-NOC-001"
+      },
+      "prompt": "Asset type: wide fiction feature. Empty late-night loading lane after restaurant cleanup in Savannah: wet brick, grease-trap lid, mop-water trail, buzzing fluorescent fixture, stacked crates with logos hidden, service bell conduit, and storm drain carrying a thin stream. No people, tourist district glow, carriage, or romantic fog. Keep lower-left nearly black; place the service door and cleanup evidence upper-right, with one unexplained white glove near the drain.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/savannah-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 228817,
+          "sha256": "923bfeb24e71ebed3d4dd9ccf7a30c8985293ad793e819ad7ceea685fdb576dc"
+        },
+        "master": {
+          "path": "assets/masters/article/savannah-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 370994,
+          "sha256": "8fd754215ad2608bd26ab83ae7b82b213959673d93a81466372dfeb12c6e918e"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-SFN-001",
+      "title": "Richmond / Street field note",
+      "collection": "city-field-notes",
+      "place": "Richmond, Virginia",
+      "place_slug": "richmond",
+      "category": "archive",
+      "role": "street-field-note",
+      "role_label": "Street field note",
+      "family": "section-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Deadpan documentary view of present-day service infrastructure in Richmond, Virginia.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "field",
+        "weather"
+      ],
+      "caption": {
+        "title": "Richmond / Street field note",
+        "byline": null,
+        "series": "RICE-CFN-RIC-SFN-001"
+      },
+      "prompt": "Asset type: wide section feature. Locked-off contemporary view under a rail viaduct near a small print or music workspace in Richmond: concrete piers, patched cable tray, storm-water channel, loading door, bike rack, fresh utility markings, and one sodium security light rendered monochrome. No skyline, monument, mural tourism, or nostalgia. Concentrate rail and service evidence upper-right; reserve quiet dark concrete lower-left.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/richmond-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 291368,
+          "sha256": "3b03c5de12357d6abed8a6121f5e5642b826d927cbf00e3800f5518fb9c2bdc7"
+        },
+        "master": {
+          "path": "assets/masters/archive/richmond-street-field-note.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 1004424,
+          "sha256": "8fcc376c732d75665ebdcc8177adae11074f59236da7e5abdd6ab3c4a9035ca4"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-WIN-001",
+      "title": "Richmond / Working interior",
+      "collection": "city-field-notes",
+      "place": "Richmond, Virginia",
+      "place_slug": "richmond",
+      "category": "article",
+      "role": "working-interior",
+      "role_label": "Working interior",
+      "family": "article-figure",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Working interior in Richmond, Virginia showing practical equipment and evidence of recent use.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "interior"
+      ],
+      "caption": {
+        "title": "Richmond / Working interior",
+        "byline": null,
+        "series": "RICE-CFN-RIC-WIN-001"
+      },
+      "prompt": "Asset type: article figure. Direct-flash interior of a volunteer-run risograph and copier room in Richmond: ink drums with labels obscured, paper offcuts, guillotine cutter safely closed, folding chair, exposed pipe, shipping tape, and a clipboard maintenance note too small to read. No people, polished design studio, colorful product display, or retro fetish. Broad focus, cramped working distance, one drawer left open.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/richmond-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 239378,
+          "sha256": "b5aed91f5cffcbc6e042ced176e3246742e64029d755900f99091e2a29c9d9ad"
+        },
+        "master": {
+          "path": "assets/masters/article/richmond-working-interior.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 900673,
+          "sha256": "d7af88d35974977c44c6a7ca203bf3b8acde18fd9d95992580ed556d2b764701"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-ARC-001",
+      "title": "Richmond / Archival evidence",
+      "collection": "city-field-notes",
+      "place": "Richmond, Virginia",
+      "place_slug": "richmond",
+      "category": "archive",
+      "role": "archival-evidence",
+      "role_label": "Archival evidence",
+      "family": "archive-object",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Generated archival reconstruction composed from documents and material evidence associated with Richmond, Virginia.",
+      "focal_point": "center center",
+      "accent": "#3F5228",
+      "tags": [
+        "ledger",
+        "document"
+      ],
+      "caption": {
+        "title": "Richmond / Archival evidence",
+        "byline": null,
+        "series": "RICE-CFN-RIC-ARC-001"
+      },
+      "prompt": "Asset type: archival reconstruction. Straight overhead copy-bed study of a contemporary print-run tally, rail-yard map fragment, utility invoice with details obscured, transit transfer, crop ruler, torn black paper, and toner-stained glove fingertip without a hand. Prominent writing must remain incidental and nonfactual. Arrange records along top and right, leaving lower-left clean black; include one misregistered Seed-green crop mark.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/archive/richmond-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 205169,
+          "sha256": "2a830fab940ea70ad7998d6f330afe0b942833c804fcabd6d7aa9709449c8c04"
+        },
+        "master": {
+          "path": "assets/masters/archive/richmond-archival-evidence.jpg",
+          "width": 1200,
+          "height": 896,
+          "bytes": 814940,
+          "sha256": "bff7a86495190cae266331a1a7fdb076f0d22b9838781a5f1a167ff2560b42db"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-POR-001",
+      "title": "Richmond / Maker portrait",
+      "collection": "city-field-notes",
+      "place": "Richmond, Virginia",
+      "place_slug": "richmond",
+      "category": "article",
+      "role": "maker-portrait",
+      "role_label": "Maker portrait",
+      "family": "author-portrait",
+      "orientation": "portrait",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Direct-flash documentary portrait of a contemporary writer or maker in Richmond, Virginia.",
+      "focal_point": "center 35%",
+      "accent": "#3F5228",
+      "tags": [
+        "portrait"
+      ],
+      "caption": {
+        "title": "Richmond / Maker portrait",
+        "byline": null,
+        "series": "RICE-CFN-RIC-POR-001"
+      },
+      "prompt": "Asset type: author portrait. Direct-flash portrait of a contemporary poet and print-shop volunteer in a plain Richmond freight-elevator lobby. Practical clothes, neutral posture, gaze away, hands relaxed, ordinary skin texture. Background evidence: scratched elevator door, inspection plate with unreadable text, hand truck, conduit, and chipped floor stripe. No tattoos emphasized as costume, books, cigarette, punk fashion editorial, heroic pose, or glamour retouching.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/richmond-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 292450,
+          "sha256": "aca0dd19fc04514cfac921a5d65f35d307d002353c592ce47ba8cfb585635eea"
+        },
+        "master": {
+          "path": "assets/masters/article/richmond-maker-portrait.jpg",
+          "width": 896,
+          "height": 1200,
+          "bytes": 471037,
+          "sha256": "c34481e5901a1512bc9f7eb6f5d6fed707fd5a5cdd13e107dbe117a634c1b0d5"
+        }
+      }
+    },
+    {
+      "id": "RICE-CFN-RIC-NOC-001",
+      "title": "Richmond / Nocturnal aftermath",
+      "collection": "city-field-notes",
+      "place": "Richmond, Virginia",
+      "place_slug": "richmond",
+      "category": "article",
+      "role": "nocturnal-aftermath",
+      "role_label": "Nocturnal aftermath",
+      "family": "fiction-feature",
+      "orientation": "landscape",
+      "status": "approved",
+      "rights": "St. Expedite Press editorial use",
+      "provenance": "AI-generated editorial reconstruction",
+      "disclosure": "RICE visual reconstruction / generated from editorial direction / not an authenticated historical record",
+      "model": "google/gemini-3.1-flash-image",
+      "generated": "2026-06-19",
+      "alt": "Empty nighttime work site in Richmond, Virginia showing evidence of recent labor.",
+      "focal_point": "68% center",
+      "accent": "#3F5228",
+      "tags": [
+        "night"
+      ],
+      "caption": {
+        "title": "Richmond / Nocturnal aftermath",
+        "byline": null,
+        "series": "RICE-CFN-RIC-NOC-001"
+      },
+      "prompt": "Asset type: wide fiction feature. Empty loading dock at night after a zine packing session in Richmond: roll-up door, fluorescent strip, flattened cartons, pallet jack, loose packing slip with unreadable text, rainwater, rail shadow, and one copier-paper band caught on a fence. No people or readable brands. Preserve lower-left darkness for type; put active service light and evidence upper-right, broad focus and severe realism.",
+      "prompt_source": "docs/city-image-prompts.json",
+      "files": {
+        "web": {
+          "path": "assets/images/article/richmond-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 225501,
+          "sha256": "a61273b089e35d794f44bb2e11f2dd407c91d808ebf76d3b365120e6985aa8c0"
+        },
+        "master": {
+          "path": "assets/masters/article/richmond-nocturnal-aftermath.jpg",
+          "width": 1376,
+          "height": 768,
+          "bytes": 373287,
+          "sha256": "1e4e8606bea070116e22a39cf738d223441d8a7c85b2985d405c03570e3315f3"
+        }
+      }
+    }
+  ]
+}
