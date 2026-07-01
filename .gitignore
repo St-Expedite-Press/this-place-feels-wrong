@@ -7,3 +7,6 @@ Desktop.ini
 __pycache__/
 *.py[cod]
 _site/
+
+# Wrangler local cache
+.wrangler/
