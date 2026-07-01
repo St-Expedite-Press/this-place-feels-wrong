@@ -19,7 +19,6 @@
     "check:lighthouse": "node scripts/check-lighthouse.mjs",
     "check:seo": "node scripts/run-bash.mjs scripts/check-site-seo.sh",
     "check:audit": "npm audit --audit-level=high && npm --prefix apps/web audit --audit-level=high && npm --prefix apps/communications-worker audit --audit-level=high",
-    "check:tooling-integrity": "node -e \"process.exit(0)\"",
     "runtime:config": "node scripts/run-bash.mjs scripts/check-runtime-config.sh",
     "runtime:audit": "node scripts/run-bash.mjs ops/cloudflare-stability/scripts/runtime-audit.sh",
     "smoke:api": "node scripts/run-bash.mjs ops/cloudflare-stability/scripts/smoke-api.sh",
