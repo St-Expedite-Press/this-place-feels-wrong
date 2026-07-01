@@ -1,18 +1,49 @@
 :root {
-  --paper: #f2ebdd;
-  --paper-deep: #e4d8c4;
-  --ink: #14130f;
-  --ink-muted: #5d584d;
-  --rule: #aaa08c;
-  --seed: #3f5228;
-  --seed-strong: #2b3b18;
-  --seed-soft: #cdd5b7;
+  /* Base — warm newsprint over soft black */
+  --paper: #f1ead9;
+  --paper-deep: #e6dcc6;
+  --ink: #17140f;
+  --ink-muted: #5b564a;
+  --rule: #b3a992;
+
+  /* Seasonal keys — one per volume of the finite year */
+  --earth: #a2472a;  --earth-strong: #7f3720;  --earth-soft: #e7cebc;
+  --fire:  #d23b1e;  --fire-strong:  #a52c14;  --fire-soft:  #f2ccbd;
+  --air:   #3f627e;  --air-strong:   #2c485f;  --air-soft:   #c9d5df;
+  --water: #17494e;  --water-strong: #0f363a;  --water-soft: #bdd2cf;
+
+  /* Active key — defaults to Earth because Seed leads the year.
+     Zones/volumes retint this via the classes below. */
+  --key: var(--earth);
+  --key-strong: var(--earth-strong);
+  --key-soft: var(--earth-soft);
+
+  /* Legacy aliases: the whole stylesheet references --seed*, which now
+     simply tracks whichever key is active. */
+  --seed: var(--key);
+  --seed-strong: var(--key-strong);
+  --seed-soft: var(--key-soft);
+
   --page: min(94vw, 92rem);
   --reading: 68ch;
   --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
   --font-body: "Source Serif 4", Georgia, serif;
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
-  --focus: 3px solid var(--seed);
+  --focus: 3px solid var(--key);
+}
+
+/* --- Active key by season / zone ----------------------------------- */
+.season-earth { --key: var(--earth); --key-strong: var(--earth-strong); --key-soft: var(--earth-soft); }
+.season-fire  { --key: var(--fire);  --key-strong: var(--fire-strong);  --key-soft: var(--fire-soft); }
+.season-air   { --key: var(--air);   --key-strong: var(--air-strong);   --key-soft: var(--air-soft); }
+.season-water { --key: var(--water); --key-strong: var(--water-strong); --key-soft: var(--water-soft); }
+
+/* The Project zone stays neutral so the four season colors carry the
+   story; its chrome accent is ink rather than any single season. */
+.zone-project {
+  --key: var(--ink);
+  --key-strong: var(--ink);
+  --key-soft: var(--paper-deep);
 }
 
 *,
@@ -212,6 +243,26 @@ button[aria-pressed="true"],
 
 .main-nav a[aria-current="page"] {
   box-shadow: inset 0 -0.48rem var(--seed-soft);
+}
+
+.main-nav .nav-cross {
+  border: 1px solid var(--rule);
+  color: var(--key-strong);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.6rem;
+  text-transform: uppercase;
+}
+
+.main-nav .nav-cross::after {
+  content: " \2197";
+}
+
+.main-nav .nav-cross:hover {
+  background: var(--key-strong);
+  border-color: var(--key-strong);
+  color: var(--paper);
 }
 
 .site-shell,
@@ -434,6 +485,37 @@ button[aria-pressed="true"],
   color: var(--paper);
 }
 
+.cross-band {
+  border: 1px solid var(--ink);
+  border-left: 0.6rem solid var(--key);
+  background: var(--paper-deep);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  margin: clamp(3rem, 7vw, 6rem) 0;
+  padding: clamp(1.75rem, 4vw, 3rem);
+}
+
+.cross-band h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3.4rem);
+  font-stretch: condensed;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin: 0.5rem 0 0.75rem;
+  text-transform: uppercase;
+}
+
+.cross-band p {
+  max-width: 52ch;
+  margin: 0;
+}
+
+.cross-band .button {
+  align-self: center;
+}
+
 .updates-panel {
   border-block: 1px solid var(--ink);
   display: grid;
@@ -550,23 +632,38 @@ button[aria-pressed="true"],
 
 .volume-cell {
   border-right: 1px solid var(--ink);
+  border-top: 0.45rem solid var(--cell, var(--rule));
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   min-height: 28rem;
   padding: 1.25rem;
 }
 
+.volume-cell.earth { --cell: var(--earth); }
+.volume-cell.fire  { --cell: var(--fire); }
+.volume-cell.air   { --cell: var(--air); }
+.volume-cell.water { --cell: var(--water); }
+
 .volume-cell.active {
-  box-shadow: inset 0 0 0 0.55rem var(--seed);
+  box-shadow: inset 0 0 0 0.4rem var(--cell, var(--key));
 }
 
 .volume-cell h3 {
+  color: var(--cell, inherit);
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 4rem);
   font-stretch: condensed;
   line-height: 0.9;
   margin: 2rem 0 1rem;
   text-transform: uppercase;
+}
+
+.volume-cell .route-meta {
+  color: var(--cell, var(--ink-muted));
+}
+
+.volume-cell .town-route li::before {
+  color: var(--cell, var(--key));
 }
 
 .town-route {
@@ -1064,14 +1161,59 @@ figcaption {
 }
 
 .splash-media {
+  position: relative;
   min-height: 100vh;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .splash-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  animation: field-breathe 26s ease-in-out infinite alternate;
+}
+
+/* Season wash over the field */
+.splash-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--key);
+  mix-blend-mode: multiply;
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+/* Slow flood shimmer rising through the field */
+.splash-media::after {
+  content: "";
+  position: absolute;
+  inset: -20% 0;
+  z-index: 2;
+  background: linear-gradient(
+    to top,
+    transparent 0%,
+    color-mix(in srgb, var(--key-soft) 55%, transparent) 46%,
+    color-mix(in srgb, var(--key-soft) 12%, transparent) 58%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: flood-drift 15s linear infinite;
+}
+
+@keyframes field-breathe {
+  from { transform: scale(1.03); }
+  to { transform: scale(1.09); }
+}
+
+@keyframes flood-drift {
+  0% { transform: translateY(55%); opacity: 0; }
+  22% { opacity: 0.85; }
+  78% { opacity: 0.85; }
+  100% { transform: translateY(-55%); opacity: 0; }
 }
 
 .splash-container {
@@ -1101,6 +1243,20 @@ figcaption {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+}
+
+.splash-note {
+  color: var(--key-soft);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  max-width: 42ch;
+  margin: 0;
+}
+
+.splash-note strong {
+  color: var(--paper);
+  font-weight: 500;
 }
 
 .splash .button {
@@ -1134,6 +1290,7 @@ figcaption {
   .year-hero,
   .article-header,
   .updates-panel,
+  .cross-band,
   .year-section {
     grid-template-columns: 1fr;
   }

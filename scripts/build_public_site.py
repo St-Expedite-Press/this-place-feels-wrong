@@ -27,6 +27,7 @@ PUBLIC_FILES = {
     "index.html",
     "poem-template.html",
     "poetry.html",
+    "project.html",
     "robots.txt",
     "shop.html",
     "site.js",
