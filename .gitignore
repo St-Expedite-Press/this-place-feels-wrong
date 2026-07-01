@@ -6,3 +6,4 @@ Desktop.ini
 !.env.example
 __pycache__/
 *.py[cod]
+_site/

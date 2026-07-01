@@ -1,26 +1,41 @@
-// Search index. Editorial works are loaded at runtime from the articles.json
-// data model; these utility pages are always present as a baseline/fallback.
+const UPDATES_ENDPOINT = "https://stexpedite.press/api/updates";
+const UPDATES_SOURCE = "rice-magazine-seed";
+
 let searchIndex = [
-  { type: "Page", title: "About RICE", author: "St. Expedite Press", href: "about.html", meta: "New Orleans, LA" },
-  { type: "Call", title: "Submissions", author: "RICE Editors", href: "submissions.html", meta: "Reading period open" }
+  { type: "Page", title: "A Year of RICE", author: "St. Expedite Press", href: "year.html", meta: "Four volumes / sixteen towns" },
+  { type: "Page", title: "The Seed Object", author: "St. Expedite Press", href: "shop.html", meta: "Prelaunch" },
+  { type: "Page", title: "Submissions", author: "RICE Editors", href: "submissions.html", meta: "Closed during prelaunch" }
 ];
 let renderSearch = null;
 
-function loadSearchIndex() {
-  fetch("assets/articles.json")
-    .then(response => (response.ok ? response.json() : Promise.reject(response.status)))
-    .then(data => {
-      const works = data.articles.map(work => ({
-        type: work.category.charAt(0).toUpperCase() + work.category.slice(1),
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+async function loadSearchIndex() {
+  try {
+    const response = await fetch("assets/articles.json");
+    if (!response.ok) throw new Error(String(response.status));
+    const data = await response.json();
+    const works = data.articles
+      .filter(work => ["sample", "published"].includes(work.publication_state) && work.href)
+      .map(work => ({
+        type: work.is_sample ? "Editorial sample" : work.category,
         title: work.title,
         author: work.author || "RICE",
         href: work.href,
-        meta: [work.place, work.ref].filter(Boolean).join(" · ")
+        meta: [work.season, work.place, work.ref].filter(Boolean).join(" / ")
       }));
-      searchIndex = [...works, ...searchIndex];
-      if (renderSearch) renderSearch();
-    })
-    .catch(() => { /* keep the baseline index */ });
+    searchIndex = [...works, ...searchIndex];
+    if (renderSearch) renderSearch();
+  } catch {
+    // Utility pages remain available when the editorial manifest cannot load.
+  }
 }
 
 function buildUtilities() {
@@ -30,8 +45,8 @@ function buildUtilities() {
   const tools = document.createElement("div");
   tools.className = "masthead-tools";
   tools.innerHTML = `
-    <a href="index.html" class="issue-switcher" aria-label="Current issue">ISSUE 01 / 2026</a>
-    <button class="search-trigger" type="button" aria-haspopup="dialog">SEARCH /</button>
+    <a href="index.html" class="button" aria-label="Current issue: RICE 1 Seed">RICE 1 / SEED</a>
+    <button class="search-trigger" type="button" aria-haspopup="dialog">Search /</button>
   `;
   masthead.append(tools);
 
@@ -40,8 +55,8 @@ function buildUtilities() {
   dialog.innerHTML = `
     <form method="dialog" class="search-shell">
       <div class="search-heading">
-        <label for="site-search">SEARCH THE FIELD</label>
-        <button value="cancel" aria-label="Close search">CLOSE ×</button>
+        <label for="site-search">Search the field</label>
+        <button value="cancel" aria-label="Close search">Close ×</button>
       </div>
       <input id="site-search" type="search" autocomplete="off" placeholder="TITLE / AUTHOR / PLACE">
       <div class="search-results" aria-live="polite"></div>
@@ -56,12 +71,11 @@ function buildUtilities() {
     const matches = searchIndex.filter(item => !query || Object.values(item).join(" ").toLowerCase().includes(query));
     results.innerHTML = matches.length
       ? matches.map(item => `
-          <a href="${item.href}" class="search-result">
-            <span>${item.type}</span>
-            <strong>${item.title}</strong>
-            <small>${item.author} · ${item.meta}</small>
+          <a href="${escapeHtml(item.href)}" class="search-result">
+            <span>${escapeHtml(item.type)}</span>
+            <span><strong>${escapeHtml(item.title)}</strong><br><small>${escapeHtml(item.author)} / ${escapeHtml(item.meta)}</small></span>
           </a>`).join("")
-      : `<p class="empty-state">NO RECORDS FOUND / TRY ANOTHER TERM</p>`;
+      : `<p class="field-label">No available records found / try another term</p>`;
   };
   render("");
   renderSearch = () => render(input.value);
@@ -76,210 +90,103 @@ function enableReadingMode() {
   document.querySelectorAll("[data-reading-mode]").forEach(button => {
     button.addEventListener("click", () => {
       const active = document.body.classList.toggle("reading-mode");
-      button.textContent = active ? "EXIT READING MODE" : "READING MODE";
+      button.textContent = active ? "Exit reading mode" : "Reading mode";
       button.setAttribute("aria-pressed", String(active));
+      button.focus();
     });
   });
 }
 
-function enableArchiveFilters() {
-  const grid = document.querySelector("[data-archive-grid]");
-  if (!grid) return;
-  document.querySelectorAll("[data-archive-filter]").forEach(button => {
+function enableFilters(filterAttribute, itemAttribute, containerSelector) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+  const buttons = [...document.querySelectorAll(`[${filterAttribute}]`)];
+  buttons.forEach(button => {
     button.addEventListener("click", () => {
-      const filter = button.dataset.archiveFilter;
-      document.querySelectorAll("[data-archive-filter]").forEach(item => item.setAttribute("aria-pressed", "false"));
-      button.setAttribute("aria-pressed", "true");
-      grid.querySelectorAll("[data-tags]").forEach(item => {
-        item.hidden = filter !== "all" && !item.dataset.tags.includes(filter);
+      const filter = button.getAttribute(filterAttribute);
+      buttons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+      container.querySelectorAll(`[${itemAttribute}]`).forEach(item => {
+        item.hidden = filter !== "all" && item.getAttribute(itemAttribute) !== filter;
       });
     });
   });
 }
 
-function enableArchiveZoom() {
-  document.querySelectorAll("[data-zoom-image]").forEach(button => {
-    button.addEventListener("click", () => {
-      const dialog = document.createElement("dialog");
-      dialog.className = "image-dialog";
-      dialog.innerHTML = `
-        <button aria-label="Close image">CLOSE ×</button>
-        <img src="${button.dataset.zoomImage}" alt="${button.dataset.zoomAlt || ""}">
-      `;
-      document.body.append(dialog);
-      dialog.querySelector("button").addEventListener("click", () => dialog.close());
-      dialog.addEventListener("close", () => dialog.remove());
-      dialog.showModal();
-    });
-  });
+function statusMessage(status, body) {
+  if (status === 429) return "Too many requests. Wait a moment and try again.";
+  if (status >= 500) return "The updates service is unavailable. Your address was not saved.";
+  return body?.error || "The address could not be saved. Check it and try again.";
 }
 
-function enableDemoForms() {
-  document.querySelectorAll(".signup-form").forEach(form => {
-    form.addEventListener("submit", event => {
-      if (form.getAttribute("action")) return;
-      event.preventDefault();
-      const status = form.querySelector(".form-status");
-      if (status) status.textContent = "MAILING SERVICE CONNECTION PENDING / ADDRESS NOT SENT";
-    });
-  });
-}
-
-function enableIssueFilters() {
-  const index = document.querySelector("[data-issue-index]");
-  if (!index) return;
-  document.querySelectorAll("[data-issue-filter]").forEach(button => {
-    button.addEventListener("click", () => {
-      const filter = button.dataset.issueFilter;
-      document.querySelectorAll("[data-issue-filter]").forEach(item => item.setAttribute("aria-pressed", "false"));
-      button.setAttribute("aria-pressed", "true");
-      index.querySelectorAll("[data-issue-tag]").forEach(record => {
-        record.hidden = filter !== "all" && record.dataset.issueTag !== filter;
-      });
-    });
-  });
-}
-
-function enableFeatureGalleries() {
-  document.querySelectorAll(".feature-strip").forEach(gallery => {
-    const slides = [...gallery.querySelectorAll(".feature-strip-item")];
-    if (slides.length < 2) return;
-
-    gallery.classList.add("feature-gallery");
-    slides.forEach((slide, index) => {
-      slide.classList.add("feature-slide");
-      slide.hidden = index !== 0;
-    });
-
-    const controls = document.createElement("div");
-    controls.className = "feature-gallery-controls";
-    controls.innerHTML = `
-      <button type="button" data-gallery-prev aria-label="Previous image">← PREV</button>
-      <span class="feature-gallery-count" aria-live="polite">01 / ${String(slides.length).padStart(2, "0")}</span>
-      <button type="button" data-gallery-next aria-label="Next image">NEXT →</button>
+function renderUpdatesForms() {
+  document.querySelectorAll("[data-updates-form]").forEach((mount, index) => {
+    const id = `updates-email-${index + 1}`;
+    mount.innerHTML = `
+      <form class="updates-form" novalidate>
+        <label for="${id}">Email for RICE production and issue notices</label>
+        <div class="updates-form-row">
+          <input id="${id}" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="320">
+          <input class="visually-hidden" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit">Join updates</button>
+        </div>
+        <p class="form-status" aria-live="polite"></p>
+        <p class="form-note">Stored by St. Expedite Press for RICE production notices. No sale of addresses. Every message includes an unsubscribe route.</p>
+      </form>
     `;
-    gallery.append(controls);
 
-    let current = 0;
-    const show = index => {
-      slides[current].hidden = true;
-      current = (index + slides.length) % slides.length;
-      slides[current].hidden = false;
-      controls.querySelector(".feature-gallery-count").textContent =
-        `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
-    };
+    const form = mount.querySelector("form");
+    const email = form.elements.email;
+    const button = form.querySelector("button");
+    const status = form.querySelector(".form-status");
 
-    controls.querySelector("[data-gallery-prev]").addEventListener("click", () => show(current - 1));
-    controls.querySelector("[data-gallery-next]").addEventListener("click", () => show(current + 1));
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      status.textContent = "";
+      if (!email.checkValidity()) {
+        email.reportValidity();
+        status.textContent = "Enter a valid email address.";
+        return;
+      }
 
-    let timer = setInterval(() => show(current + 1), 6000);
-    const pause = () => clearInterval(timer);
-    const resume = () => {
-      clearInterval(timer);
-      timer = setInterval(() => show(current + 1), 6000);
-    };
-    gallery.addEventListener("mouseenter", pause);
-    gallery.addEventListener("mouseleave", resume);
-    gallery.addEventListener("focusin", pause);
-    gallery.addEventListener("focusout", resume);
-
-    let startX = null;
-    gallery.addEventListener("touchstart", event => {
-      pause();
-      startX = event.touches[0].clientX;
-    }, { passive: true });
-    gallery.addEventListener("touchend", event => {
-      if (startX === null) return;
-      const distance = event.changedTouches[0].clientX - startX;
-      if (Math.abs(distance) > 45) show(current + (distance < 0 ? 1 : -1));
-      startX = null;
-      resume();
-    }, { passive: true });
+      button.disabled = true;
+      button.textContent = "Saving…";
+      form.setAttribute("aria-busy", "true");
+      try {
+        const response = await fetch(UPDATES_ENDPOINT, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            email: email.value.trim(),
+            source: UPDATES_SOURCE,
+            website: form.elements.website.value
+          })
+        });
+        const body = await response.json().catch(() => ({}));
+        if (!response.ok) throw Object.assign(new Error("request failed"), { response, body });
+        status.textContent = body.alreadySignedUp
+          ? "You are already on the RICE updates list."
+          : "Address saved. We will write when there is real news.";
+        form.reset();
+      } catch (error) {
+        if (!navigator.onLine) {
+          status.textContent = "You appear to be offline. Your address was not saved.";
+        } else if (error.response) {
+          status.textContent = statusMessage(error.response.status, error.body);
+        } else {
+          status.textContent = "The updates service could not be reached. Your address was not saved.";
+        }
+      } finally {
+        button.disabled = false;
+        button.textContent = "Join updates";
+        form.removeAttribute("aria-busy");
+      }
+    });
   });
-}
-
-function installEditorialAccent() {
-  const main = document.querySelector("main");
-  if (!main) return;
-
-  const hasOwnedAccent = document.body.matches(".reading-page, .splash, .asset-library-page")
-    || main.querySelector(".publication-object, .submission-status");
-  if (hasOwnedAccent) return;
-
-  const accent = document.createElement("span");
-  accent.className = "editorial-accent";
-  accent.setAttribute("aria-hidden", "true");
-
-  const feature = main.querySelector(":scope > .feature-strip");
-  if (feature) {
-    feature.after(accent);
-  } else {
-    main.prepend(accent);
-  }
-}
-
-function sampleDistinct(pool, count) {
-  const shuffled = pool.slice();
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  const picks = [];
-  for (let i = 0; i < count; i++) picks.push(shuffled[i % shuffled.length]);
-  return picks;
-}
-
-function applyPoolEntry(card, item) {
-  const img = card.querySelector("img");
-  if (img) {
-    img.src = item.src;
-    img.alt = item.alt || "";
-    if (item.focal_point) img.style.objectPosition = item.focal_point;
-  }
-  if (Array.isArray(item.tags)) card.dataset.tags = item.tags.join(" ");
-  const label = card.querySelector(".archive-label");
-  const caption = item.caption || {};
-  if (label) {
-    const trailing = [caption.byline, caption.series].filter(Boolean).join(" / ");
-    label.innerHTML = `<strong>${caption.title || ""}</strong>${trailing}`;
-  }
-}
-
-// Fill slots marked [data-random="<pool>"] with random images from that pool on
-// each load. The HTML ships a category-correct static image as the no-JS fallback.
-function randomizeImageSlots() {
-  const cards = [...document.querySelectorAll("[data-random]")];
-  if (!cards.length) return;
-
-  fetch("assets/image-pools.json")
-    .then(response => (response.ok ? response.json() : Promise.reject(response.status)))
-    .then(data => {
-      const pools = data.pools || {};
-      const byPool = {};
-      cards.forEach(card => (byPool[card.dataset.random] ||= []).push(card));
-      Object.entries(byPool).forEach(([name, members]) => {
-        const pool = pools[name];
-        if (!pool || !pool.length) return;
-        sampleDistinct(pool, members.length).forEach((item, i) => applyPoolEntry(members[i], item));
-      });
-    })
-    .catch(() => { /* leave the static fallback in place */ });
-}
-
-function enablePageTransition() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  document.body.classList.add("page-entering");
-  window.setTimeout(() => document.body.classList.remove("page-entering"), 420);
 }
 
 buildUtilities();
 loadSearchIndex();
 enableReadingMode();
-randomizeImageSlots();
-enableArchiveFilters();
-enableIssueFilters();
-enableArchiveZoom();
-enableDemoForms();
-enableFeatureGalleries();
-installEditorialAccent();
-enablePageTransition();
+enableFilters("data-issue-filter", "data-issue-tag", "[data-issue-index]");
+enableFilters("data-archive-filter", "data-archive-tag", "[data-archive-index]");
+renderUpdatesForms();

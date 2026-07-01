@@ -1,8 +1,9 @@
 """Build the RICE editorial image catalog and web derivatives.
 
-Reads original masters from ``assets/masters/<category>/`` and writes a single
-web rendition per image to ``assets/images/<category>/``. Run from the
-repository root:
+Reads original masters from ``assets/masters/<category>/`` and writes a
+canonical fallback rendition to ``assets/images/<category>/``. Responsive
+monochrome WebP variants are generated separately by
+``build_responsive_images.py``.
 
     python scripts/build_asset_library.py
 """
@@ -163,7 +164,7 @@ def build() -> None:
                     "generated": "2026-06-19",
                     "alt": role_meta["alt"].format(city=city_name),
                     "focal_point": role_meta["focal_point"],
-                    "accent": "#D9FF00",
+                    "accent": "#3F5228",
                     "tags": role_meta["tags"],
                     "caption": {
                         "title": f"{city_short} / {role_meta['label']}",
@@ -185,7 +186,7 @@ def build() -> None:
         "generated": date.today().isoformat(),
         "collection": {
             "id": "city-field-notes",
-            "title": "Southern City Field Notes",
+            "title": "Southern Place Field Notes",
             "description": "Five repeated editorial image roles across five Southern cities.",
             "style_guide": "docs/IMAGE_STYLE_GUIDE.md",
             "prompt_manifest": relative(PROMPTS),

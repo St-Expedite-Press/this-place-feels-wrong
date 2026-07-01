@@ -1,4 +1,4 @@
-# RICE Southern City Field Notes
+# RICE Southern Place Field Notes
 
 This collection applies the RICE **C86 × South × St. Expedite Press** image grammar to New Orleans, Athens, Asheville, Savannah, and Richmond.
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated": "2026-06-27",
+  "generated": "2026-06-30",
   "scope": "Runtime image pools for randomizable slot categories.",
   "pools": {
     "archive": [
@@ -8,9 +8,9 @@
         "src": "assets/images/archive/archive-ledger.jpg",
         "alt": "",
         "caption": {
-          "title": "Mill Ledger, 1911",
-          "byline": "Acadia Parish",
-          "series": "RC-ACD-1911-004"
+          "title": "Withdrawn synthetic ledger",
+          "byline": null,
+          "series": "Internal / not public"
         },
         "tags": [
           "ledger"

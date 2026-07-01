@@ -60,3 +60,12 @@
 **Checks:** `git diff --check` clean.
 **Follow-ups:** Interpreted "hipster photography" as B&W film-grain hand-camera documentary, explicitly fenced off from commercial lifestyle/fashion; confirm if a different register was meant.
 **Tooling notes:** B&W is now an absolute site-wide mandate, not "primarily"; every published image must carry a one-sentence narrative and pass a 100%-zoom artifact inspection.
+
+---
+
+## 2026-06-30 — Docs — Seed visual and public-integrity doctrine
+
+**Changed:** Replaced acid-yellow screen direction with Seed registration green; updated paper colors and monochrome interaction rules; renamed the place-field-notes collection; replaced random-slot documentation with the 12-slot deterministic public map; documented publication states, responsive outputs, stable reconstruction IDs, and the private/public asset boundary.
+**Checks:** Prompt/catalog rebuild, asset validation, public build, and `git diff --check` passed.
+**Follow-ups:** Older screenshots remain historical; new Seed desktop/mobile/year/reading screenshots document the current implementation.
+**Tooling notes:** Archive disclosure language is now validator-enforced, not merely advisory.

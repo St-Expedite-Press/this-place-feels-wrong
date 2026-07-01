@@ -24,3 +24,12 @@
 **Checks:** All ten verified at correct aspect ratios (16:9 / 4:3 / 3:4) and grayscale (color-spread ~0). Portraits 04 and 10 returned in color and were corrected to the §2 photocopy treatment; color originals kept.
 **Follow-ups:** Promote to canonical masters only if approved (then through `scripts/build_asset_library.py`). Decide whether to commit or keep local.
 **Tooling notes:** Requested FLUX.2-klein-9B unavailable — OpenRouter hosts no FLUX, and the `HUGGINGFACE_WRITE` token (only route to klein, via Replicate) is expired (HF whoami 401). Fell back to `google/gemini-3.1-flash-image` via OpenRouter. Generator: scratchpad `gen_openrouter.py` (key read in-process, never logged). Gemini resists B&W on faces — enforce grayscale post-step for portraits.
+
+---
+
+## 2026-06-30 — Images — Responsive Seed derivatives
+
+**Changed:** Added generator-owned monochrome 640/960/1440 WebP variants under `assets/responsive/`; fallback image files remain in this directory. The retired ledger and video are excluded from the staged public site even though their internal source records remain.
+**Checks:** Responsive manifest/checksum validation passed for 99 variants; `_site/` boundary contains only referenced public image files.
+**Follow-ups:** None.
+**Tooling notes:** Public pages should prefer `<picture>`/`srcset` and retain an inventoried fallback.

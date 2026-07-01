@@ -87,7 +87,7 @@ governs. The splendor is carried instead by:
 - **symbolic overdetermination** — the object that means more than it shows.
 
 Color appears only as **rupture**, and only one rupture per image, exactly as
-in §2's single-accent rule: the acid registration yellow `#D9FF00`, or — when
+in §2's single-accent rule: the Seed registration green `#3F5228`, or — when
 the subject is devotional — a single **oxide red `#8A281F`** standing in for
 blood, votive cloth, or a saint's ribbon. Treat oxblood as a registration
 event, not a palette. No gold-as-gold, no jewel tones, no candlelit warmth
@@ -183,41 +183,38 @@ Recommended treatment:
 filter: grayscale(100%) contrast(1.15) brightness(0.96);
 ```
 
-Hover or active state:
-
-```css
-filter: grayscale(15%) contrast(1.08);
-```
+Hover or active states retain the monochrome image. State belongs to borders,
+labels, and focus treatment rather than revealing photographed color.
 
 ### Accent color
 
 Use only one registration accent per image or layout.
 
-Primary:
+Primary and current:
 
 ```text
-Acid registration yellow
-#D9FF00
+Seed registration green
+#3F5228
 ```
 
-Secondary exceptions:
+No secondary screen accents are active during the Seed cycle. Oxide red may
+remain an image-specific devotional trace in print experiments, but it is not
+part of the web interface palette.
 
 ```text
-Survey orange     #FF5A1F
-Faded process blue #4D72A8
-Oxide red          #8A281F
+Oxide red / print-only devotional exception  #8A281F
 ```
 
-Do not combine accent colors in normal editorial imagery. Multiple process colors are reserved for printer marks, proof sheets, or deliberate misregistration.
+Do not combine accent colors in normal editorial imagery.
 
 ### Paper
 
 Preferred paper tones:
 
 ```text
-Warm stock      #F9F8F4
-Ledger stock    #E8E1D1
-Newsprint       #D8D4C8
+Warm stock      #F2EBDD
+Deep stock      #E4D8C4
+Seed tint       #CDD5B7
 Copy-bed black  #090909
 ```
 
@@ -496,7 +493,7 @@ Use this order:
 ```text
 Contemporary documentary realism, severe independent-literary-magazine
 art direction, monochrome photocopy texture, dense blacks, warm paper
-highlights, one tiny acid-yellow registration accent, specific material
+highlights, one tiny Seed-green registration accent, specific material
 evidence, no nostalgia, no cinematic glamour, no people unless requested,
 no title text, no logo, no decorative frame.
 ```
@@ -531,7 +528,7 @@ Wide documentary photograph of [specific object or infrastructure] in
 evidence. Reserve the lower-left half as quiet low-detail shadow for an
 editorial panel; place the strongest subject in the upper-right. Hard
 available light, contemporary Gulf South, unsentimental, monochrome
-photocopy grain, one tiny acid-yellow registration mark.
+photocopy grain, one tiny Seed-green registration mark.
 ```
 
 ### Fiction feature
@@ -551,7 +548,7 @@ Wide field image of [precise natural and manufactured details], devotional
 but unsentimental, insects and water rendered as material facts rather than
 symbols. Reserve lower-left negative space; concentrate stalks, traps, and
 machinery toward the upper-right. High-contrast monochrome, rough paper
-grain, tiny acid-yellow survey mark.
+grain, tiny Seed-green survey mark.
 ```
 
 ### Archive composition
@@ -584,7 +581,7 @@ brocade, votive flame, a saint medal on leather) sits inside present-tense
 labor and decay. Carry the splendor through form, drape, and light, not
 color: dense black-and-white photocopy base, candle or votive light rendered
 monochrome, one unresolved devotional detail. Permit a single color rupture
-only — the acid-yellow registration mark, or one oxide-red votive trace
+only — the Seed-green registration mark, or one oxide-red votive trace
 standing in for blood or ribbon. Reserve the lower-left as quiet shadow for an
 editorial panel. No costume, no clean luxury, no Southern-Gothic tourism.
 ```
@@ -712,4 +709,3 @@ An approved RICE image should answer yes to at least four:
 - Is its beauty complicated?
 - Does it belong to RICE and not merely “the South”?
 - If it carries romance or splendor, has that romance survived desecration?
-

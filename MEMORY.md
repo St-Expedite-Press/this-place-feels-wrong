@@ -84,3 +84,12 @@ Entry format:
 **Checks:** `git diff --check` clean.
 **Follow-ups:** "Hipster photography" interpreted as B&W film-grain hand-camera documentary, fenced from lifestyle/fashion; confirm if another register was meant.
 **Tooling notes:** B&W is now absolute and site-wide; every image needs a one-sentence narrative and a 100%-zoom artifact pass.
+
+---
+
+## 2026-06-30 — Site — Seed redesign and integrity repair
+
+**Changed:** Reframed the site as `RICE 1 / Seed / Editorial Sample`; added `year.html`; created stable sample-work and reconstruction routes; made planned work non-linking; withdrew the synthetic ledger; closed ordering/submissions truthfully; integrated updates with the press Worker; replaced acid yellow/full-color/autoplay treatment with the warm-paper, carbon, Seed-green system and self-hosted fonts. Added responsive WebP generation, route/disclosure validation, sanitized `_site/` staging, and a Pages Actions workflow that excludes internal editorial material.
+**Checks:** Full asset pipeline and public build pass (25 editorial, 12 site, 12 slots, 9 works, 99 responsive variants, 66 public files); JS/Python syntax and `git diff --check` pass; initial transfer measured 448 KB home / 346 KB splash / 370 KB reading; local Edge QA passed desktop/mobile reflow, search, filters, reading-mode exit/focus, reconstruction routes, closed submissions, no-JS privacy, 200% text zoom, and mocked signup success/duplicate/429/500/offline states.
+**Follow-ups:** No push or deployment performed. Duosuma, reservations, and payments remain intentionally inactive.
+**Tooling notes:** In-app browser bootstrap was blocked by missing host sandbox metadata; local headless Edge with a temporary Playwright-core install supplied visual and interaction evidence. Public-release checks should always target `_site/`.

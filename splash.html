@@ -3,32 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RICE &ndash; Pre-Order</title>
-  <meta name="description" content="RICE is a literary magazine of essays, fiction, poetry, and archival work from the Gulf South.">
-  <meta name="theme-color" content="#171008">
+  <title>RICE 1: Seed — Cover View</title>
+  <meta name="description" content="Cover view for RICE 1: Seed, an editorial sample for A Year of RICE.">
+  <meta name="theme-color" content="#14130f">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="canonical" href="https://st-expedite-press.github.io/rice-magazine/splash.html">
   <link rel="icon" href="assets/images/system/logo.png" type="image/png">
+  <link rel="stylesheet" href="fonts.css">
   <link rel="stylesheet" href="styles.css">
-  <script src="site.js" defer></script>
 </head>
 <body class="splash">
-  <video class="splash-video" autoplay muted loop playsinline preload="metadata" poster="assets/images/system/rice_field.png" aria-hidden="true">
-    <source src="assets/images/system/rice-field-loop.mp4" type="video/mp4">
-  </video>
+  <div class="splash-media" aria-hidden="true">
+    <picture>
+      <source type="image/webp" srcset="assets/responsive/system/rice_field-640.webp 640w, assets/responsive/system/rice_field-960.webp 960w, assets/responsive/system/rice_field-1440.webp 1440w" sizes="(max-width: 900px) 100vw, 62vw">
+      <img src="assets/images/system/rice_field.png" width="1536" height="1024" alt="">
+    </picture>
+  </div>
   <main class="splash-container">
+    <p class="splash-seed">RICE 1 / SPRING / EARTH / SAMPLE</p>
     <h1>RICE</h1>
-    <p class="splash-tagline">29.9511&deg; N, 90.0715&deg; W</p>
+    <p>One proposed volume inside a finite Southern year. The field is not a backdrop. It is an instrument panel.</p>
     <div class="splash-actions">
-      <a href="shop.html" class="splash-btn">Pre-Order</a>
-      <a href="submissions.html" class="splash-btn secondary">Submit</a>
+      <a href="index.html" class="button primary">Enter Seed</a>
+      <a href="year.html" class="button">The Year</a>
     </div>
-    <form class="splash-signup signup-form">
-      <label class="visually-hidden" for="splash-email">Email address</label>
-      <div class="splash-signup-row">
-        <input id="splash-email" name="email" type="email" autocomplete="email" placeholder="EMAIL ADDRESS" required>
-        <button type="submit">Sign Up</button>
-      </div>
-      <p class="form-status" aria-live="polite"></p>
-    </form>
   </main>
 </body>
 </html>

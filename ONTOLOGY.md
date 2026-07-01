@@ -1,61 +1,64 @@
 # RICE Magazine Ontology
 
-This file is the navigation contract for `rice_site/`. Read it after `AGENTS.md` and before selecting files to edit.
+Read this after `AGENTS.md`. It defines source ownership, update coupling, and
+the public/private boundary for `rice_site/`.
 
-## Maintained Surfaces
+## Maintained surfaces
 
 | Surface | Source of truth | Notes |
 |---|---|---|
-| Page markup | Root `*.html` files | Static, framework-free pages. Preserve semantic HTML, keyboard focus, and reduced-motion behavior. |
-| Shared visual system | `styles.css` | Single shared stylesheet for the magazine site. |
-| Site behavior | `site.js` | Dependency-free interaction layer for reading/search/archive behavior. |
-| Asset browser | `asset-library.html`, `asset-library.css`, `asset-library.js` | Internal browser for editorial image assets. |
-| Asset metadata | `assets/catalog.json`, `assets/site-assets.json` | Generated or maintained inventories; do not hand-edit generated measurements. Each asset carries a `category` (`archive`/`article`/`feature`/`photo`/`system`). |
-| Taxonomy source of truth | `scripts/asset_categories.py`, `docs/ASSET_SCHEMA.md` | Two axes: `CATEGORIES` (image slot taxonomy) and `ARTICLE_CATEGORIES` (work taxonomy). Imported by builders and the validator. `place` (was image `city`/article "parish") is the shared geographic field. |
-| Photo-slot map | `assets/photo-slots.json`, `docs/PHOTO_SLOTS.md` | Every rendered image/media slot, the category it draws from, and its caption metadata. `check_assets.py` enforces that each slot's image category equals the slot's category. |
-| Article data model | `assets/articles.json` | Source of truth for editorial works: `id`, `title`, `category` (work type), `place`, `author`, `date`, `description`, `keywords`, `ref`, `href`, `hero`. `site.js` builds the search index from it; `check_assets.py` validates it. |
-| Served images | `assets/images/<category>/` | One web rendition per image; the only sub-directories are the five categories. Generated for editorial; placed directly for standalone. |
-| Image masters | `assets/masters/<category>/` | Original editorial masters (unreferenced by the site). `_incoming/` holds unpromoted candidates. |
-| Runtime image pools | `assets/image-pools.json` | Generated: `category -> [{src, alt, caption, tags, focal_point}]` for randomizable categories (archive, photo). `site.js` fetches it to fill random slots. |
-| Image doctrine and prompts | `docs/IMAGE_STYLE_GUIDE.md`, `docs/city-image-prompts.json`, `docs/CITY_IMAGE_PROMPTS.md` | Source for prompt style, provenance, and archive ethics. |
-| Asset tooling | `scripts/build_asset_library.py`, `scripts/build_site_asset_inventory.py`, `scripts/build_image_pools.py`, `scripts/check_assets.py` | Rebuild inventories, web renditions, and pools through scripts. |
+| Public page markup | Root `*.html` | Framework-free. Stable work routes use title slugs; `*-template.html` files are compatibility redirects. |
+| Visual system | `styles.css`, `fonts.css`, `assets/fonts/` | Seed palette, locally hosted fonts, responsive/reduced-motion/forced-colors behavior. |
+| Site behavior | `site.js` | Search, filters, reading mode, and press-Worker updates signup. |
+| Work records | `assets/articles.json` | Includes publication state, season, sample flag, nullable route, hero, and disclosure. |
+| Image metadata | `assets/catalog.json`, `assets/site-assets.json` | Internal generated inventories; never publish directly. |
+| Image slots | `assets/photo-slots.json`, `docs/PHOTO_SLOTS.md` | Public rendered slots and category bindings. |
+| Fallback images | `assets/images/<category>/` | Canonical web fallbacks. Editorial files derive from masters. |
+| Responsive images | `assets/responsive/`, `assets/responsive.json` | Generated monochrome 640/960/1440 WebP variants. |
+| Masters | `assets/masters/<category>/` | Internal canonical originals; excluded from Pages. |
+| Internal asset browser | `asset-library.*` | Repository-local only; excluded from `_site/`. |
+| Public artifact | `scripts/build_public_site.py` → `_site/` | Allowlisted deployment output; `_site/` is ignored and generated. |
+| Pages workflow | `.github/workflows/pages.yml` | Builds and deploys `_site/`; does not publish the repository root. |
+| Asset tooling | `scripts/build_*.py`, `scripts/check_assets.py` | Rebuild and validate inventories, renditions, work routes, and publication boundaries. |
 
-## Working Directories
+## Update coupling
 
-| Directory | Owns | Local files |
-|---|---|---|
-| `assets/` | Inventories, served images (`images/<category>/`), masters, and pools | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| `assets/images/` | Served web renditions, one folder per category | `AGENTS.md`, `MEMORY.md` |
-| `docs/` | Image doctrine, prompt docs, screenshots, contact sheets | `AGENTS.md`, `MEMORY.md` |
-| `scripts/` | Python asset build/check scripts | `AGENTS.md`, `MEMORY.md` |
-
-Root HTML, `styles.css`, `site.js`, and `asset-library.*` remain governed by the project-level `AGENTS.md` and this ontology.
-
-## Update Coupling
-
-- If image masters or prompt records change, rebuild the asset library, site-asset inventory, and image pools, then run `scripts/check_assets.py`.
-- If categories change, edit `scripts/asset_categories.py` (and the role/asset maps in the builders), update `docs/ASSET_SCHEMA.md`, then rebuild and check. Do not hand-add a `category` to a JSON file.
-- If a page's image slot changes (added, removed, re-pointed, or made random), mirror it in `assets/photo-slots.json` and `docs/PHOTO_SLOTS.md`, then run `scripts/check_assets.py`; a fixed slot's image category must equal the slot's category, and a random slot's `pool` must be a non-empty category in `image-pools.json`.
-- If a work is added/changed, edit `assets/articles.json` (the source of truth — `site.js` search reads it); use a `category` from `ARTICLE_CATEGORIES` and a `place`, then run `scripts/check_assets.py`. Do not re-add works to a hardcoded list in `site.js`.
-- If served renditions, generated dimensions, or catalog measurements appear to need edits, change the master or generator instead. Masters live in `assets/masters/<category>/`; served web files in `assets/images/<category>/`.
-- If routes, filenames, asset ownership, validation commands, or working-directory responsibilities change, update `AGENTS.md`, this `ONTOLOGY.md`, and the relevant `MEMORY.md`.
-- If tooling or skills fail, add a concise tooling note to `MEMORY.md` and update the affected script, guide, or runbook when the fix is clear.
+- Work changes go through `assets/articles.json`. `sample`/`published` records
+  require a route whose `<h1>` equals the title; `planned`/`withdrawn` records
+  require `href: null`.
+- Any public reconstruction needs a stable `RICE-VR-*` record and visible
+  “visual reconstruction / not authenticated” disclosure on index and detail.
+- Image source changes require the asset-library, site-inventory, pool, and
+  responsive builders before `check_assets.py`.
+- Public image-slot changes must be mirrored in `assets/photo-slots.json` and
+  `docs/PHOTO_SLOTS.md`.
+- Public-file, route, or privacy-boundary changes require
+  `build_public_site.py`, this ontology, `AGENTS.md`, and README review.
+- Worker signup changes are cross-repository work: update the press Worker,
+  tests, OpenAPI/docs when its contract changes, and validate each repository
+  independently.
 
 ## Validation
-
-Use the narrowest relevant checks:
 
 ```powershell
 node --check site.js
 node --check asset-library.js
-python -m py_compile scripts/build_asset_library.py
+python -m py_compile scripts/*.py
 python scripts/build_asset_library.py
 python scripts/build_site_asset_inventory.py
 python scripts/build_image_pools.py
+python scripts/build_responsive_images.py
 python scripts/check_assets.py
+python scripts/build_public_site.py
 git diff --check
 ```
 
-## Memory Rule
+For markup or styling changes, preview representative pages at 390, 768, and
+1440 CSS pixels; test keyboard focus, reading-mode exit, reduced motion,
+forced colors, and 200%/400% zoom. Inspect `_site/`, not the repository root,
+for release-boundary verification.
 
-Every task that changes files must append a short entry to project `MEMORY.md`. If the changed surface has a local `MEMORY.md`, append there too.
+## Memory rule
+
+Every file-changing task appends a concise project `MEMORY.md` entry and a
+local entry for every touched governed subtree.

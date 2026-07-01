@@ -1,95 +1,57 @@
 # RICE Asset Management
 
-RICE has two deliberately separate inventories:
+RICE separates internal editorial custody from the public Pages artifact.
 
-- `catalog.json` records accessioned editorial collections, provenance, prompts, and delivery tiers.
-- `site-assets.json` records standalone runtime media such as the logo, noise texture, splash video, poster, and section features.
+## Inventories and outputs
 
-## Categories
+- `catalog.json` — generated internal editorial provenance, prompts, masters,
+  fallback renditions, rights, and disclosures.
+- `site-assets.json` — generated inventory of standalone fallback media.
+- `articles.json` — authored work records with publication state and routes.
+- `photo-slots.json` — authored public image-slot map.
+- `image-pools.json` — generated internal selection pools; no public runtime
+  randomization.
+- `responsive.json` and `responsive/` — generated monochrome 640/960/1440
+  WebP variants.
 
-Every asset in both inventories carries one `category` — a coarse routing layer
-above the `role`/`family` taxonomy:
+Fallback images live in `images/<category>/`; canonical editorial originals
+live in `masters/<category>/`. Neither masters nor internal catalogs are copied
+to `_site/`.
 
-- `archive` — reusable imagery for archive slots anywhere on the site.
-- `article` — imagery bound to a single article, essay, poem, or fiction piece.
-- `feature` — imagery bound to a site element such as a section landing, shop, or submissions.
-- `photo` — standalone photography or photo-submission carousels (reserved).
-- `system` — site chrome and identity media (logo, textures, splash, fallbacks).
+## Work states
 
-The categories are defined once in [`../scripts/asset_categories.py`](../scripts/asset_categories.py);
-see [`../docs/ASSET_SCHEMA.md`](../docs/ASSET_SCHEMA.md) for the full mapping and rules.
+Every work uses one state:
 
-## Directory system
+- `sample` — complete and readable, visibly labeled, with a stable route;
+- `planned` — proposal only, `href: null`;
+- `published` — formally released with a stable route;
+- `withdrawn` — retained for audit history, `href: null`.
 
-Images are assets. They live under `assets/`, and the only sub-directories of
-the served image root are the five categories:
+`check_assets.py` confirms that available work titles match destination `<h1>`
+text, planned/withdrawn work cannot link, heroes resolve, and archive
+reconstructions have visible disclosure.
 
-```text
-assets/
-  images/
-    archive/   article/   feature/   photo/   system/   # served web renditions (≤1800 px)
-  masters/
-    archive/   article/   _incoming/                     # original masters, not referenced by the site
-  catalog.json        site-assets.json
-  photo-slots.json    image-pools.json
-  articles.json
-```
+## Image rules
 
-Images carry `place`/`place_slug` (renamed from `city`/`city_slug`); articles carry
-`place` (was the informal "parish"). One shared geographic field.
+The image categories remain `archive`, `article`, `feature`, `photo`, and
+`system`, defined in `scripts/asset_categories.py`. `place` is the shared
+geographic field.
 
-One web rendition per image (no thumb tier). Do not edit served files by hand —
-they are regenerated from `assets/masters/<category>/`. Standalone media are
-placed directly in their category folder.
-
-## Stable IDs
-
-```text
-RICE-CFN-NOL-SFN-001
-     │   │   │   └── sequence
-     │   │   └────── role code
-     │   └────────── city code
-     └────────────── collection code
-```
-
-City codes: `NOL`, `ATH`, `AVL`, `SAV`, `RIC`.
-
-Role codes:
-
-- `SFN` — street field note
-- `WIN` — working interior
-- `ARC` — archival evidence
-- `POR` — maker portrait
-- `NOC` — nocturnal aftermath
-
-## Editorial fields
-
-Every entry in [`catalog.json`](catalog.json) includes:
-
-- stable accession ID;
-- place, role, family, category, orientation, and approval status;
-- `web` and `master` paths with dimensions and file size;
-- alt text, responsive focal point, caption, and tags;
-- rights, provenance, model, generation date, and AI disclosure;
-- the production prompt and its source manifest.
-- SHA-256 checksums for the web rendition and master.
-
-Every entry in [`site-assets.json`](site-assets.json) includes a stable ID, category, role, known consumers, dimensions where applicable, byte size, and SHA-256 checksum (plus caption/tags for archive-pool members).
-
-[`image-pools.json`](image-pools.json) is generated from both inventories: it lists the randomizable-category images (`archive`, `photo`) with `src`, `alt`, `caption`, `tags`, and `focal_point`, and is fetched at runtime by `site.js` to fill random slots.
-
-[`articles.json`](articles.json) is the hand-authored **work data model** (`id`, `title`, `category` [article/fiction/poetry/photo/archive], `place`, `author`, `date`, `description`, `keywords`, `ref`, `href`, `hero`). `site.js` builds the search index from it; `check_assets.py` validates it. See [`../docs/ASSET_SCHEMA.md`](../docs/ASSET_SCHEMA.md).
+Generated archival material must use a stable `RICE-VR-*` identifier and the
+visible language “RICE visual reconstruction” and “not an authenticated…”.
+Synthetic record text never carries a factual claim.
 
 ## Workflow
 
-1. Put an approved editorial master in `assets/masters/<category>/` (category = its role's category).
-2. Add or update its prompt record in `docs/city-image-prompts.json`.
-3. Run `python scripts/build_asset_library.py` (writes the web rendition to `assets/images/<category>/`).
-4. If a standalone file changed, place it in `assets/images/<category>/` and update `scripts/build_site_asset_inventory.py`, then run it.
-5. Run `python scripts/build_image_pools.py`, then `python scripts/check_assets.py`.
-6. Review `asset-library.html` through a local web server.
-7. Reference the `assets/images/<category>/` web path in pages; reserve masters for print or reprocessing.
+```powershell
+python scripts/build_asset_library.py
+python scripts/build_site_asset_inventory.py
+python scripts/build_image_pools.py
+python scripts/build_responsive_images.py
+python scripts/check_assets.py
+python scripts/build_public_site.py
+```
 
-Do not add an unmanaged media file under `assets/images/`: editorial files come from the master pipeline, and standalone files must be declared in `scripts/build_site_asset_inventory.py`. `check_assets.py` fails on any orphan served file.
-
-Generated archival imagery must always retain its disclosure and must never be represented as an authenticated historical record.
+The repository-local `asset-library.html` may expose masters and prompts for
+editorial work. `build_public_site.py` excludes it and every master from the
+deployment artifact.

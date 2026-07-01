@@ -46,35 +46,47 @@ RICE is framework-free and dependency-light. Preserve semantic HTML, keyboard fo
 | Surface | Source of truth |
 |---|---|
 | Page markup | root `*.html` files |
-| Shared visual system | `styles.css` |
+| Shared visual system | `styles.css`, `fonts.css`, `assets/fonts/` |
 | Site behavior | `site.js` |
-| Asset browser | `asset-library.html`, `asset-library.css`, `asset-library.js` |
-| Served images (one web rendition each) | `assets/images/<category>/` |
+| Asset browser | `asset-library.html`, `asset-library.css`, `asset-library.js` (repository-local; excluded from Pages) |
+| Served fallback images | `assets/images/<category>/` |
+| Responsive public images | `assets/responsive/<category>/`, `assets/responsive.json` |
 | Image masters | `assets/masters/<category>/` |
 | Asset metadata | `assets/catalog.json` |
 | Standalone site-media inventory | `assets/site-assets.json` |
 | Photo-slot map | `assets/photo-slots.json` |
-| Runtime random-image pools | `assets/image-pools.json` |
+| Internal image pools | `assets/image-pools.json` (not used by the public archive) |
 | Article (work) data model | `assets/articles.json` |
 | Taxonomy source of truth | `scripts/asset_categories.py` (image `CATEGORIES` + work `ARTICLE_CATEGORIES`), `docs/ASSET_SCHEMA.md` |
 | Prompt manifest | `docs/city-image-prompts.json` |
 | Image doctrine | `docs/IMAGE_STYLE_GUIDE.md` |
-| Asset build/check logic | `scripts/build_asset_library.py`, `scripts/build_site_asset_inventory.py`, `scripts/build_image_pools.py`, `scripts/check_assets.py` |
+| Asset build/check logic | `scripts/build_asset_library.py`, `scripts/build_site_asset_inventory.py`, `scripts/build_image_pools.py`, `scripts/build_responsive_images.py`, `scripts/check_assets.py` |
+| Public artifact | `scripts/build_public_site.py` → ignored `_site/` |
 
-Keep the implementation lightweight and dependency-free. Preserve restrained acid-yellow use, quiet reading-page texture, and the C86 × South × St. Expedite image grammar.
+Keep the implementation lightweight and dependency-free. Preserve the warm-paper,
+carbon-ink, restrained Seed-green system, quiet reading-page texture, and the
+C86 × South × St. Expedite image grammar.
 
 ## Image pipeline
 
-Images are categorized assets: served web renditions live in `assets/images/<category>/` (the only sub-directories are the five categories), masters in `assets/masters/<category>/`. There is one web rendition per image (no thumb tier). Do not hand-edit served renditions or generated catalog measurements. Change the master or prompt record, then rebuild:
+Images are categorized assets: fallback renditions live in
+`assets/images/<category>/`, responsive monochrome WebP outputs in
+`assets/responsive/<category>/`, and masters in `assets/masters/<category>/`.
+Do not hand-edit generated renditions or measurements. Change the master,
+prompt record, or generator, then rebuild:
 
 ```powershell
 python scripts/build_asset_library.py
 python scripts/build_site_asset_inventory.py
 python scripts/build_image_pools.py
+python scripts/build_responsive_images.py
 python scripts/check_assets.py
+python scripts/build_public_site.py
 ```
 
-Archive (and, later, photo) slots draw a random pool image per load via `image-pools.json` and `site.js`; slots bound to an article or element stay fixed. See `docs/PHOTO_SLOTS.md`.
+Public archive slots are deterministic and have stable records. Internal pools
+remain available for editorial selection but are not randomized at runtime.
+See `docs/PHOTO_SLOTS.md`.
 
 Generated archival images must remain labeled as visual reconstructions and must never be presented as authenticated historical records. Preserve prompt, provenance, accession, transformation, and licensing metadata.
 
@@ -90,6 +102,7 @@ Representative URLs:
 
 - `http://127.0.0.1:4173/splash.html`
 - `http://127.0.0.1:4173/index.html`
+- `http://127.0.0.1:4173/year.html`
 - `http://127.0.0.1:4173/asset-library.html`
 
 Run checks proportionate to the change:
@@ -97,11 +110,15 @@ Run checks proportionate to the change:
 ```powershell
 node --check site.js
 node --check asset-library.js
-python -m py_compile scripts/build_asset_library.py
+python -m py_compile scripts/*.py
+python scripts/check_assets.py
+python scripts/build_public_site.py
 git diff --check
 ```
 
-For markup or path changes, crawl local HTML references and verify representative pages at desktop and mobile widths. For image-pipeline changes, run all three asset build/check scripts and inspect representative derivatives and catalog entries.
+For markup or path changes, crawl local HTML references and verify representative
+pages at desktop and mobile widths. For image-pipeline changes, run all builders
+and inspect representative derivatives, catalog entries, and the `_site/` boundary.
 
 ## Git and editing discipline
 
@@ -118,7 +135,10 @@ Default branch: `main`
 
 ## Deployment
 
-RICE deploys from the repository root on `main` through GitHub Pages. With explicit authorization:
+RICE deploys the allowlisted `_site/` artifact through
+`.github/workflows/pages.yml` on `main`. The repository root, masters, prompts,
+scripts, docs, and internal asset browser are not the deployment artifact.
+With explicit authorization:
 
 ```powershell
 git push origin main
@@ -129,7 +149,8 @@ Production:
 - Pages root: `https://st-expedite-press.github.io/rice-magazine/`
 - Splash: `https://st-expedite-press.github.io/rice-magazine/splash.html`
 
-The Pages root serves `index.html`; do not assume it redirects to the splash page. A successful local build does not authorize a push or deployment.
+The Pages root serves `index.html`; do not assume it redirects to the splash
+page. A successful local build does not authorize a push or deployment.
 
 ## Secrets
 

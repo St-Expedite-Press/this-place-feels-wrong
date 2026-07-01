@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated": "2026-06-27",
+  "generated": "2026-06-30",
   "scope": "Standalone site media in assets/images/<category>/; editorial collection assets are cataloged separately.",
   "source_of_truth": "assets/images/",
   "categories": [
@@ -31,10 +31,7 @@
       "path": "assets/images/archive/archive-ledger.jpg",
       "category": "archive",
       "role": "archive-document",
-      "used_by": [
-        "archive.html",
-        "archive-template.html"
-      ],
+      "used_by": [],
       "bytes": 933889,
       "sha256": "cbb68d392d7a961bbb60a1d0e8a1e24ec23182a4489133be9c895da50f308043",
       "width": 1200,
@@ -45,9 +42,9 @@
         "ledger"
       ],
       "caption": {
-        "title": "Mill Ledger, 1911",
-        "byline": "Acadia Parish",
-        "series": "RC-ACD-1911-004"
+        "title": "Withdrawn synthetic ledger",
+        "byline": null,
+        "series": "Internal / not public"
       }
     },
     {
@@ -67,10 +64,7 @@
       "path": "assets/images/feature/feature-archive.png",
       "category": "feature",
       "role": "section-feature",
-      "used_by": [
-        "index.html",
-        "archive.html"
-      ],
+      "used_by": [],
       "bytes": 2072079,
       "sha256": "75d0473d761dffbe78e2f65b2d62c99b59e06c2756ee792ef857c2e52f814020",
       "width": 1376,
@@ -127,12 +121,7 @@
       "path": "assets/images/feature/feature.png",
       "category": "feature",
       "role": "general-feature",
-      "used_by": [
-        "essays.html",
-        "poetry.html",
-        "fiction.html",
-        "archive.html"
-      ],
+      "used_by": [],
       "bytes": 584284,
       "sha256": "2cc1182e97712942c8e1f1bef2d2d2f8eb9a971b8ec979c8744606e8a044e973",
       "width": 1280,
@@ -145,8 +134,8 @@
       "category": "feature",
       "role": "publication-specimen",
       "used_by": [
-        "archive.html",
-        "shop.html"
+        "shop.html",
+        "year.html"
       ],
       "bytes": 850323,
       "sha256": "6b2eb15bec0ad0a72d1fb0d373d1c7f7bc9a60724b4ceb027e8ac63ace1eea51",
@@ -172,10 +161,8 @@
       "id": "RICE-SITE-NOISE",
       "path": "assets/images/system/noise.png",
       "category": "system",
-      "role": "surface-texture",
-      "used_by": [
-        "styles.css"
-      ],
+      "role": "retired-surface-texture",
+      "used_by": [],
       "bytes": 263053,
       "sha256": "6828ad631ea8db92a8d9e0cf45a41dae9163d4f13fe5ab61dc660edebe50dc45",
       "width": 512,
@@ -186,10 +173,8 @@
       "id": "RICE-SITE-RICE_FIELD_LOOP",
       "path": "assets/images/system/rice-field-loop.mp4",
       "category": "system",
-      "role": "splash-background-video",
-      "used_by": [
-        "splash.html"
-      ],
+      "role": "retired-splash-video",
+      "used_by": [],
       "bytes": 4138718,
       "sha256": "a2435a286a8dddbeb0a820a124fe231e2a4fb6c2edc9eeebd8ea25992d45f588",
       "format": "MP4"
@@ -198,10 +183,9 @@
       "id": "RICE-SITE-RICE_FIELD",
       "path": "assets/images/system/rice_field.png",
       "category": "system",
-      "role": "splash-poster-and-feature",
+      "role": "splash-cover",
       "used_by": [
-        "splash.html",
-        "styles.css"
+        "splash.html"
       ],
       "bytes": 2218126,
       "sha256": "6e427b0a1edeff46d7764704d6d09dd4594cd997da5aba37ef3895395f8b8f8b",

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from html.parser import HTMLParser
 from pathlib import Path
 
 from PIL import Image, ImageOps
@@ -13,6 +14,30 @@ from asset_categories import is_media, validate_article_category, validate_categ
 
 ROOT = Path(__file__).resolve().parents[1]
 IMAGES_ROOT = ROOT / "assets" / "images"
+PUBLICATION_STATES = {"sample", "planned", "published", "withdrawn"}
+
+
+class HeadingParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.in_h1 = False
+        self.h1_parts: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag == "h1":
+            self.in_h1 = True
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "h1":
+            self.in_h1 = False
+
+    def handle_data(self, data: str) -> None:
+        if self.in_h1:
+            self.h1_parts.append(data)
+
+    @property
+    def h1(self) -> str:
+        return " ".join(" ".join(self.h1_parts).split())
 
 
 def sha256(path: Path) -> str:
@@ -70,6 +95,29 @@ def check_image_pools(category_of: dict) -> str:
     return ", ".join(summary)
 
 
+def check_responsive_images() -> int:
+    path = ROOT / "assets" / "responsive.json"
+    if not path.is_file():
+        raise RuntimeError("Missing assets/responsive.json")
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    covered: set[str] = set()
+    for output in manifest["outputs"]:
+        check_file(output, "responsive image")
+        covered.add(output["path"])
+        if output["width"] not in {640, 960, 1440}:
+            raise RuntimeError(f"responsive image: unsupported width {output['width']}")
+    present = {
+        item.relative_to(ROOT).as_posix()
+        for item in (ROOT / "assets" / "responsive").rglob("*.webp")
+    }
+    if present != covered:
+        raise RuntimeError(
+            "Responsive image set mismatch; "
+            f"orphans={sorted(present - covered)}, missing={sorted(covered - present)}"
+        )
+    return len(covered)
+
+
 def check_articles(category_of: dict) -> int:
     """Validate the article data model (assets/articles.json)."""
     path = ROOT / "assets" / "articles.json"
@@ -83,11 +131,31 @@ def check_articles(category_of: dict) -> int:
             raise RuntimeError(f"Duplicate article ID: {aid}")
         seen.add(aid)
         validate_article_category(article["category"], f"article {aid}")
-        for field in ("title", "place", "description", "href"):
+        for field in ("title", "place", "description", "publication_state", "season", "disclosure"):
             if not article.get(field):
                 raise RuntimeError(f"article {aid}: missing required field '{field}'")
-        if not (ROOT / article["href"]).is_file():
-            raise RuntimeError(f"article {aid}: href target missing ({article['href']})")
+        state = article["publication_state"]
+        if state not in PUBLICATION_STATES:
+            raise RuntimeError(f"article {aid}: invalid publication_state '{state}'")
+        href = article.get("href")
+        if state in {"planned", "withdrawn"} and href is not None:
+            raise RuntimeError(f"article {aid}: {state} work must not have an href")
+        if state in {"sample", "published"} and not href:
+            raise RuntimeError(f"article {aid}: {state} work requires an href")
+        if href:
+            target = ROOT / href
+            if not target.is_file():
+                raise RuntimeError(f"article {aid}: href target missing ({href})")
+            parser = HeadingParser()
+            parser.feed(target.read_text(encoding="utf-8"))
+            if parser.h1.casefold() != article["title"].casefold():
+                raise RuntimeError(
+                    f"article {aid}: destination h1 '{parser.h1}' does not match title '{article['title']}'"
+                )
+            if article["category"] == "archive":
+                html = target.read_text(encoding="utf-8").casefold()
+                if "visual reconstruction" not in html or "not an authenticated" not in html:
+                    raise RuntimeError(f"article {aid}: archive reconstruction lacks visible disclosure")
         hero = article.get("hero")
         if hero is not None:
             if not (ROOT / hero).is_file():
@@ -190,11 +258,13 @@ def main() -> None:
     pool_summary = check_image_pools(category_of)
     slot_count = check_photo_slots(editorial, site)
     article_count = check_articles(category_of)
+    responsive_count = check_responsive_images()
 
     print(
         f"[check-assets] PASS: {len(editorial['assets'])} editorial assets, "
         f"{len(site['assets'])} standalone site assets, "
-        f"{slot_count} photo slots, {article_count} articles, pools [{pool_summary}]"
+        f"{slot_count} photo slots, {article_count} articles, "
+        f"{responsive_count} responsive variants, pools [{pool_summary}]"
     )
 
 

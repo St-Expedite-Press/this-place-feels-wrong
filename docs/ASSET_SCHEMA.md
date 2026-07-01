@@ -24,9 +24,9 @@ Every catalogued asset — editorial or standalone — carries exactly one `cate
 `archive`, `article`, `feature`, and `photo` are the four **content** categories.
 `system` is the non-content bucket for chrome that does not fit any of them.
 
-The category is also the **on-disk layout**: served images live in
-`assets/images/<category>/` (one web rendition each), and masters in
-`assets/masters/<category>/`. The category is the only sub-directory dimension.
+The category is also the **on-disk layout**: fallback images live in
+`assets/images/<category>/`, responsive WebP variants in
+`assets/responsive/<category>/`, and masters in `assets/masters/<category>/`.
 
 > **Two `category` axes.** This image-slot taxonomy is distinct from the *work*
 > taxonomy that classifies articles (see [Works](#works--assetsarticlesjson)).
@@ -87,13 +87,12 @@ Driven by the `ASSETS` map in [`../scripts/build_site_asset_inventory.py`](../sc
 4. The asset-library browser (`asset-library.html`) reads the catalog `categories`
    block and exposes a Category filter automatically — no JS change needed.
 
-## Randomization
+## Public determinism
 
-`archive` and `photo` are **randomizable** pools: `build_image_pools.py` emits
-`assets/image-pools.json`, and `site.js` fills any slot marked
-`data-random="<category>"` with a random pool image (caption follows the image) on
-each load. Slots bound to a specific article or element stay fixed. See
-[`PHOTO_SLOTS.md`](PHOTO_SLOTS.md).
+`build_image_pools.py` still emits internal editorial selection pools, but the
+public archive does not randomize records. Every displayed archive object has a
+stable `RICE-VR-*` identity, matching detail route, and visible reconstruction
+disclosure. See [`PHOTO_SLOTS.md`](PHOTO_SLOTS.md).
 
 ## Works — `assets/articles.json`
 
@@ -108,12 +107,12 @@ in `asset_categories.py`), separate from the image-slot taxonomy above:
 | `photo` | Photo essays or standalone photographic work. *(Reserved — no works yet.)* |
 | `archive` | Archival records, documents, and field evidence. |
 
-Each work record carries: `id`, `title`, `category` (above), `place`, `author`,
-`date`, `description` (one sentence), `keywords`, `ref` (file id / folio / accession),
-`href`, and `hero` (a bound image path or `null`). `assets/articles.json` is the
-**source of truth**: `site.js` builds the search index from it (no hardcoded list),
-and `check_assets.py` validates ids, categories, required fields, and that `href`
-and `hero` resolve. Add or edit a work there, then run `check_assets.py`.
+Each work record carries: `id`, `title`, `category`, `publication_state`,
+`season`, `is_sample`, `place`, `author`, `date`, `description`, `keywords`,
+`ref`, nullable `href`, `hero`, and `disclosure`. `sample` and `published`
+records require a matching stable route; `planned` and `withdrawn` records
+require `href: null`. `site.js` indexes only available work, and
+`check_assets.py` verifies destination-title and archive-disclosure integrity.
 
 ## Notes
 

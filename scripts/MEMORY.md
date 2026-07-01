@@ -42,3 +42,12 @@
 **Checks:** git diff --check passed for the documentation scaffold.
 **Follow-ups:** Note future generator contract changes here and mirror them in `../ONTOLOGY.md`.
 **Tooling notes:** Script work now has a local place to record validation and generator lessons.
+
+---
+
+## 2026-06-30 — Scripts — Responsive media and public artifact boundary
+
+**Changed:** Added `build_responsive_images.py` for monochrome 640/960/1440 WebP outputs and `build_public_site.py` for allowlisted `_site/` packaging. Extended `check_assets.py` with publication-state, destination-title, archive-disclosure, and responsive-manifest validation.
+**Checks:** All scripts compile; full builders, `check_assets.py`, and public staging pass.
+**Follow-ups:** None.
+**Tooling notes:** The public builder validates local links and rejects internal catalog/master/browser leakage.

@@ -42,3 +42,12 @@
 **Checks:** git diff --check passed for the documentation scaffold.
 **Follow-ups:** Keep entries focused on inventory, provenance, and generator behavior.
 **Tooling notes:** Asset work should continue to flow through the Python scripts rather than manual generated-field edits.
+
+---
+
+## 2026-06-30 — Assets — Publication states and responsive public media
+
+**Changed:** `articles.json` schema v2 adds publication state, season, sample flag, nullable routes, and disclosures; only complete samples link. Replaced the slot map with 12 deterministic public slots and stable reconstruction records. Added 99 generated monochrome WebP variants plus manifest and local font assets/licenses. Marked the synthetic ledger withdrawn/internal.
+**Checks:** Full asset build and `check_assets.py` pass; public artifact copies only referenced fallbacks/responsive assets and sanitized available-work JSON.
+**Follow-ups:** Internal image pools remain generated but are no longer consumed at runtime.
+**Tooling notes:** Destination-title and visible-reconstruction checks now enforce editorial integrity at build time.
