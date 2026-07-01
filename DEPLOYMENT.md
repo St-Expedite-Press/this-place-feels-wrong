@@ -62,7 +62,6 @@ npm run sync:worker-dev-vars
 Repo verification:
 
 ```bash
-npm run check:tooling-integrity
 npm run assets:check
 npm run check
 npm run runtime:config

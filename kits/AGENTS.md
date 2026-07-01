@@ -9,5 +9,5 @@ This directory owns reusable scaffolding kits.
 
 Closeout:
 
-- Run `npm run check:tooling-integrity` after kit contract changes.
+- Update `../ONTOLOGY.md` after kit contract changes.
 - Append a short entry to this directory's `MEMORY.md` and to `../MEMORY.md`.

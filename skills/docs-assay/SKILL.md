@@ -7,7 +7,7 @@ description: Audit and reconcile this repository's Markdown, OpenAPI, ontology, 
 
 ## Workflow
 
-1. Start from `README.md`, `docs/state-of-play.md`, `docs/ontology/project-ontology.json`, and `docs/ontology/ontology.md`.
+1. Start from `README.md`, `docs/state-of-play.md`, `AGENTS.md`, and `ONTOLOGY.md`.
 2. Inventory docs with `rg --files -g '*.md' -g '!node_modules' -g '!apps/web/dist'`.
 3. Search for stale path and command patterns before editing:
    - `dist/site`
@@ -31,16 +31,15 @@ Use `firecrawl` to audit the live site when docs and live content may have diver
 
 ## Required Follow-Up
 
-- If site routes, assets, or build paths changed, update `README.md`, `docs/state-of-play.md`, `docs/ontology/project-ontology.json`, `docs/ontology/ontology.md`, and nearest app READMEs.
-- If Worker routes or payloads changed, update `apps/communications-worker/openapi.yaml`, `apps/communications-worker/README.md`, and infrastructure docs.
-- If agent workflows changed, update `AGENTS.md`, `CLAUDE.md`, `skills/**`, `docs/ontology/project-ontology.json`, `docs/ontology/ontology.md`, and relevant docs under `docs/`.
+- If site routes, assets, or build paths changed, update `README.md`, `docs/state-of-play.md`, `ONTOLOGY.md`, and nearest app READMEs.
+- If Worker routes or payloads changed, update `apps/communications-worker/openapi.yaml`, `apps/communications-worker/README.md`, the API table in `AGENTS.md`, and infrastructure docs.
+- If agent workflows changed, update `AGENTS.md`, `CLAUDE.md`, `skills/**`, `ONTOLOGY.md`, and relevant docs under `docs/`.
 
 ## Validation
 
 Run targeted searches after edits:
 
 ```bash
-rg -n "dist/site|build-site|check-generated-site|dev-web\.sh|dev-worker\.sh|deploy-web\.sh|internal/agent|\.agents/skills|agent/AGENT\.md|agent/tools/|agent/ops/|agent/skills/|agent/kits/" README.md DEPLOYMENT.md docs skills ops kits scripts apps .github .githooks
+rg -n "dist/site|build-site|check-generated-site|dev-web\.sh|dev-worker\.sh|deploy-web\.sh|internal/agent|\.agents/skills|docs/ontology|check:tooling-integrity|agent/AGENT\.md|agent/tools/|agent/ops/|agent/skills/|agent/kits/" README.md DEPLOYMENT.md docs skills ops kits scripts apps .github .githooks
 npm run check:links
-npm run check:tooling-integrity
 ```

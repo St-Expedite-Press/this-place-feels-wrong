@@ -7,7 +7,6 @@ Current entrypoints:
 - `check-a11y.mjs` - accessibility heuristics for `apps/web/dist/`
 - `check-lighthouse.mjs` - optional Lighthouse report against `apps/web/dist/`
 - `check-links.mjs` - local link validation for generated HTML
-- `check-tooling-integrity.mjs` - verify repo command targets, machine-readable contracts, and stale path drift
 - `build-asset-manifest.mjs` - generate or verify JSON/text inventories for published assets
 - `generate-identity-assets.py` - rebuild transparent seal, static/motion SVG-mask, portal, and social derivatives from the preserved source scan
 - `deploy-web.mjs` - build and deploy `apps/web/dist/` to Cloudflare Pages

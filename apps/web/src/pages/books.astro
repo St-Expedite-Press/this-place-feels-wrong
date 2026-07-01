@@ -10,6 +10,33 @@ const styles = [
   'assets/css/components.css',
   'assets/css/books.css',
 ];
+
+const series = [
+  {
+    key: 'sexp',
+    num: '01',
+    name: 'SEXP',
+    match: ['sexp'],
+    accent: 'signal',
+    ethos: 'Original fiction, poetry, novella, and hybrid work. Formal pressure over market fit. Very few entries.',
+  },
+  {
+    key: 'library',
+    num: '02',
+    name: 'Library of the Southern Civilization',
+    match: ['library', 'southern', 'lsc'],
+    accent: 'relief',
+    ethos: 'Recovery editions of Southern texts that deserve continued circulation, returned in editions that treat them as live, not archival.',
+  },
+  {
+    key: 'translation',
+    num: '03',
+    name: 'Translation',
+    match: ['translation', 'translated'],
+    accent: 'signal',
+    ethos: 'Formal and spiritual registers from traditions Anglo-American publishing has spent decades flattening. Brought across without domestication.',
+  },
+];
 ---
 <Base
   title={page.title}
@@ -24,40 +51,49 @@ const styles = [
   brandMode="editorial"
   styles={styles}
 >
-  <section class="section-block" aria-labelledby="publishing-programs-title">
+  <section class="books-carousel" aria-roledescription="carousel" aria-labelledby="series-title">
     <div class="section-header">
-      <p class="card-kicker">Publishing programs</p>
-      <h2 class="section-heading section-heading--display" id="publishing-programs-title">Three arms, one standard.</h2>
+      <p class="card-kicker">The three lines</p>
+      <h2 class="section-heading section-heading--display" id="series-title">Three arms, one standard.</h2>
     </div>
-    <div class="section-grid section-grid--three editorial-programs">
-      <article class="card editorial-card stack">
-        <h2 class="section-heading">SEXP</h2>
-        <p class="section-copy">Original fiction, poetry, novella, and hybrid work. Formal pressure over market fit. Very few entries.</p>
-      </article>
 
-      <article class="card editorial-card stack">
-        <h2 class="section-heading">Library of the Southern Civilization</h2>
-        <p class="section-copy">Recovery editions of Southern texts that deserve continued circulation — returned in editions that treat them as live, not archival.</p>
-      </article>
+    <div class="carousel-viewport" id="series-viewport">
+      <div class="carousel-track" id="series-track">
+        {series.map((s, i) => (
+          <article
+            class="series-card"
+            data-accent={s.accent}
+            data-series-match={s.match.join(',')}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${series.length}: ${s.name}`}
+          >
+            <p class="series-card__num">{s.num} / {series.length.toString().padStart(2, '0')}</p>
+            <h3 class="series-card__name">{s.name}</h3>
+            <p class="series-card__ethos">{s.ethos}</p>
+            <div class="series-card__titles" data-series-titles>
+              <p class="helper-text" data-series-status>Loading titles&hellip;</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
 
-      <article class="card editorial-card stack">
-        <h2 class="section-heading">Translation</h2>
-        <p class="section-copy">Formal and spiritual registers from traditions Anglo-American publishing has spent decades flattening. Brought across without domestication.</p>
-      </article>
+    <div class="carousel-controls">
+      <button class="carousel-btn" type="button" data-carousel-prev aria-label="Previous series">&lsaquo;</button>
+      <div class="carousel-dots" id="series-dots" role="tablist" aria-label="Choose a series"></div>
+      <button class="carousel-btn" type="button" data-carousel-next aria-label="Next series">&rsaquo;</button>
     </div>
   </section>
 
-  <section class="section-block" aria-labelledby="catalog-title">
+  <section class="section-block" aria-labelledby="books-cta-title">
     <div class="section-header">
-      <p class="card-kicker">Active catalog</p>
-      <h2 class="section-heading section-heading--display" id="catalog-title">Books in public circulation and active work.</h2>
+      <p class="card-kicker">Bring work to the press</p>
+      <h2 class="section-heading" id="books-cta-title">Books in public circulation and active work.</h2>
     </div>
-    <nav class="filter-tabs" id="books-filter" aria-label="Filter by series"></nav>
-    <div class="helper-text" id="books-status" role="status" aria-live="polite">Loading catalog...</div>
-    <section class="books-list" id="books-list" aria-label="Books catalog"></section>
     <div class="section-actions">
-      <a class="button" href="/submit">Submission inquiries</a>
-      <a class="button-secondary" href="/contact?reason=Rights">Rights or press inquiries</a>
+      <a class="button" href="/connect?about=manuscript">Submission inquiries</a>
+      <a class="button-secondary" href="/connect?about=rights">Rights or press inquiries</a>
     </div>
   </section>
 

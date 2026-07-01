@@ -2,13 +2,11 @@
 
 # Claude Code Notes
 
-See **[AGENTS.md](AGENTS.md)** for the full agent doctrine: project shape, route ontology, task routing loop, command matrix, CSS rules, safety rules, subagent policy, and known gaps.
+See **[AGENTS.md](AGENTS.md)** for the full agent doctrine: architecture, session/closeout loops, subagent policy, design system, commands, git discipline, deployment, and secrets.
 
 ## Claude-Specific Workflow
 
-- Open `docs/ontology/project-ontology.json` first — it is the navigation and constraint map. Use it for task classification, owning paths, command discovery, and agent/tooling contract checks.
-- Use `docs/ontology/ontology.md` as the human-readable companion and update it whenever the JSON ontology changes.
-- Treat the ontology as a boundary, not just a reference: prefer files and commands it names. If you work outside that map, verify the path is real and update the ontology when that surface should persist.
+- Read `AGENTS.md`, then `ONTOLOGY.md` (the navigation map: surfaces, page/API routes, ownership, and validation), before selecting files. Prefer the files and commands they name; if you work outside that map, verify the path is real and update `ONTOLOGY.md` when the surface should persist.
 - Use Claude project memory for stable facts only; put task-specific or local preferences in `CLAUDE.local.md`.
 - Keep `.claude/` local-only and untracked.
 - Skills are in `skills/`; runbooks are in `ops/`; tools are in `scripts/`; reusable kits are in `kits/`.

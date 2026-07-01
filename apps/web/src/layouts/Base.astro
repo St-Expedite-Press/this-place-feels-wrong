@@ -1,7 +1,6 @@
 ---
 import Head from '../components/Head.astro';
 import HeroBar from '../components/HeroBar.astro';
-import SiteHeader from '../components/SiteHeader.astro';
 import Footer from '../components/Footer.astro';
 
 interface Props {
@@ -39,10 +38,9 @@ const {
 />
 <body data-brand-mode={brandMode}>
   <a class="skip-link" href="#main">Skip to content</a>
-  <HeroBar />
+  <HeroBar currentNav={currentNav} />
   <div class="texture--grain" aria-hidden="true"></div>
   <main id="main" class={`page${pageClass ? ` ${pageClass}` : ''}`}>
-    <SiteHeader currentNav={currentNav} />
     <section class="page-intro">
       {introKicker && <p class="page-intro__kicker">{introKicker}</p>}
       <h1 class="page-intro__title">{introTitle}</h1>

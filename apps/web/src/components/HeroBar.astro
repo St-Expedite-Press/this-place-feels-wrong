@@ -1,13 +1,43 @@
 ---
 import siteData from '../data/site.json';
+
+interface Props {
+  currentNav?: string;
+  minimal?: boolean;
+}
+
+const { currentNav, minimal } = Astro.props;
 const { site } = siteData;
 ---
-<div class="hero-bar">
-  <nav class="hero-bar__inner" aria-label="Social media">
+<div class={`hero-bar${minimal ? ' hero-bar--minimal' : ''}`}>
+  {!minimal && (
+    <>
+      <a class="hero-bar__wordmark" href="/">{site.name}</a>
+
+      <nav class="hero-bar__nav" aria-label="Primary">
+        {site.nav.filter(item => item.href !== '/').map(item => (
+          <a href={item.href} data-nav={item.group} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
+        ))}
+      </nav>
+    </>
+  )}
+
+  <nav class="hero-bar__social" aria-label="Social media">
     {site.social.map(item => (
       <a class="hero-bar__icon" href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.name} title={item.title}>
         <Fragment set:html={item.icon} />
       </a>
     ))}
   </nav>
+
+  {!minimal && (
+    <details class="hero-bar__menu">
+      <summary aria-label="Menu">Menu</summary>
+      <nav aria-label="Primary mobile">
+        {site.nav.filter(item => item.href !== '/').map(item => (
+          <a href={item.href} data-nav={item.group} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
+        ))}
+      </nav>
+    </details>
+  )}
 </div>

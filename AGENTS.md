@@ -1,489 +1,117 @@
-# St. Expedite Press — Agent Doctrine
+# St. Expedite Press — Agent Guide
 
-Single source of truth for every agent working in this repository. `CLAUDE.md` imports this file. Operational tooling lives in `scripts/`, `ops/`, `skills/`, and `kits/` and is referenced by npm scripts and make targets.
+This file governs all work in this repository (a monorepo: an Astro site plus a Cloudflare Worker API). It is the single source of truth for agents. `CLAUDE.md` imports it. The sibling RICE repository is independent — do not import its code, assets, packages, deployment assumptions, or Git history unless the user explicitly asks for an integration. The two share only one seam: RICE calls `POST /api/updates` on this Worker.
 
----
+## Session start loop
 
-## Session Start Checklist
+1. Read this file in full.
+2. Read `ONTOLOGY.md` for the navigation map, source ownership, update coupling, and validation commands.
+3. Read the last relevant entries in `MEMORY.md`, and confirm the current phase in `PHASE-PLAN.md`.
+4. If working under a directory with its own `AGENTS.md`/`MEMORY.md` (`apps/web/`, `apps/communications-worker/`, `assets/`, `branding/`, `docs/`, `scripts/`, `ops/`, `skills/`, `kits/`), read those local files first.
+5. Confirm worktree status with `git status -sb` before editing, and preserve unrelated work.
 
-1. Read this file in full
-2. Open `docs/ontology/project-ontology.json` — navigation and constraint map for repo structure, commands, agent surfaces, and maintenance rules
-3. Read `docs/ontology/ontology.md` — human-readable companion; keep both in sync when either changes
-4. Read last 30 lines of `MEMORY.md` — recent changes and open items
-5. Confirm current phase from `PHASE-PLAN.md`
-6. State: active project, current phase, last logged action
+## Closeout loop
 
-Additional framework requirements:
+Every file-changing task ends by:
 
-- Read root `ONTOLOGY.md` before selecting files; it points to the detailed Markdown and JSON ontology surfaces.
-- If working under a directory with its own `AGENTS.md` or `MEMORY.md`, read those local files before editing.
-- Keep `ONTOLOGY.md`, `docs/ontology/ontology.md`, and `docs/ontology/project-ontology.json` synchronized when navigation, ownership, commands, validation, or workflow rules change.
+- running the narrowest meaningful checks (see Commands);
+- appending a concise entry to root `MEMORY.md`, plus a local `MEMORY.md` when the touched subtree has one;
+- updating `ONTOLOGY.md` and this file in the same change when routes, ownership, commands, or workflow rules change;
+- a short note on whether a script, skill, or runbook helped or got in the way.
 
----
+## Agent orchestration
 
-## 1. Project Shape
+The primary agent is the orchestrator and keeps minimal context: the goal, governing instructions, decisions, interfaces, and verified conclusions.
+
+- Spawn parallel subagents whenever work separates into independent read-only investigations or non-overlapping file ownership. Give each explicit scope, owned paths, prohibited paths/actions, expected output, and validation requirements.
+- Supply relevant raw artifacts directly (file contents, paths, diffs, logs, screenshots, command output). Avoid redundant rediscovery.
+- The primary agent integrates results, prevents conflicting edits, runs final checks, and reports. Subagents do not push, deploy, alter secrets, or broaden scope without authorization.
+
+Prefer built-in subagents when the runtime can select the requested model directly. If it cannot select `deepseek/deepseek-v4-flash`, the orchestrator must use the local `OPENROUTER_API_KEY` to make bounded chat-completions calls to `https://openrouter.ai/api/v1/chat/completions` with that model, treating them as read-only delegated subagents.
+
+- Use the key only in the orchestrator-built HTTP authorization header. Never print, log, commit, place it in a prompt, or pass it to a child process or agent.
+- Send a minimal task packet: task ID, objective, acceptance criteria, relevant artifact paths or excerpts, prohibited actions, required output schema.
+- Parallelize only independent read-only calls. Serialize overlapping or dependent tasks.
+- Verify provider/model metadata, finish reason, and output shape before integration.
+- Retry transient failures with bounded backoff. If OpenRouter remains unavailable, use built-in runtime subagents and disclose the fallback.
+- OpenRouter delegates do not write files or mutate external systems. The primary agent performs all authorized changes and validation.
+
+## Architecture
 
 | Layer | Path | Purpose |
 |---|---|---|
-| Web source | `apps/web/src/` | Astro pages, components, data |
-| Web assets | `apps/web/public/assets/` | Authored CSS, JS, synced images |
+| Web source | `apps/web/src/` | Astro pages, layouts, components, `data/site.json` |
+| Web assets | `apps/web/public/assets/` | Authored CSS, JS, fonts, synced images |
 | Web output | `apps/web/dist/` | **Generated only — never edit by hand** |
-| Worker source | `apps/communications-worker/src/index.ts` | Cloudflare Worker API |
-| Worker contract | `apps/communications-worker/openapi.yaml` | OpenAPI spec (single source of truth for routes) |
+| Worker | `apps/communications-worker/src/index.ts` | Cloudflare Worker API |
+| Worker contract | `apps/communications-worker/openapi.yaml` | OpenAPI spec — source of truth for `/api/*` |
 | D1 migrations | `apps/communications-worker/migrations/` | **Append-only — never edit existing files** |
-| Media source | `assets/source/` | Canonical image/GIF variants mirrored into the web tree |
-| Brand package | `branding/` | Design docs and tokens — no runtime behavior |
-| Agent tooling | `scripts/`, `ops/`, `skills/`, `kits/` | Operational tools, runbooks, skills, and kits (see §10) |
-| Docs | `docs/` | State of play, infrastructure, operations notes |
-| Archive | `archive/` | Non-live historical material — treat as read-only |
+| Media source | `assets/source/` | Canonical media, mirrored into the web tree; manifests at `assets/manifest.*` |
+| Branding | `branding/` | Design docs + tokens; no runtime behavior |
+| Tooling | `scripts/`, `ops/`, `skills/`, `kits/` | Root scripts, runbooks, repo skills, scaffolding kits |
 
----
+Page routes and their CSS/JS stacks live in `ONTOLOGY.md`. Worker API routes:
 
-## 2. Repository Ontology
-
-### 2.1 Public Routes
-
-| Route | Source File | Brand Mode | CSS Stack |
-|---|---|---|---|
-| `/` | `apps/web/src/pages/index.astro` | ritual | tokens + interior-base + effects + hero-bar + footer + portal |
-| `/books` | `apps/web/src/pages/books.astro` | editorial | tokens + interior-base + layout + components + books |
-| `/about` | `apps/web/src/pages/about.astro` | editorial | tokens + interior-base + layout + components + mission |
-| `/contact` | `apps/web/src/pages/contact.astro` | utility | tokens + interior-base + layout + components + forms |
-| `/donate` | `apps/web/src/pages/donate.astro` | utility | tokens + interior-base + layout + components + forms + donate-portal |
-| `/donate/thanks` | `apps/web/src/pages/donate/thanks.astro` | utility | tokens + interior-base + layout + components + forms |
-| `/submit` | `apps/web/src/pages/submit.astro` | utility | tokens + interior-base + layout + components + forms |
-| `/gallery` | `apps/web/src/pages/gallery.astro` | editorial | tokens + interior-base + layout + components + gallery |
-| `/lab` | `apps/web/src/pages/lab.astro` | ritual | tokens + interior-base + layout + components + lab |
-| `/services` | `apps/web/src/pages/services.astro` | editorial | tokens + interior-base + layout + components + services |
-
-### 2.2 API Routes (Worker)
-
-| Method | Route | Description |
+| Method | Route | Purpose |
 |---|---|---|
-| GET | `/api/health` | Runtime health probe |
+| GET | `/api/health` | Health probe |
 | GET | `/api/storefront` | Fourthwall catalog snapshot |
 | GET | `/api/projects` | D1-backed projects list |
 | POST | `/api/contact` | General inquiry → Resend |
-| POST | `/api/submit` | Manuscript submission inquiry → Resend |
+| POST | `/api/submit` | Manuscript inquiry → Resend |
 | POST | `/api/donate/session` | Stripe checkout session |
-| POST | `/api/stripe/webhook` | Stripe webhook — `checkout.session.completed` → D1 log + email receipt |
-| POST | `/api/updates` | Newsletter signup |
+| POST | `/api/stripe/webhook` | Stripe webhook → D1 log + receipt |
+| POST | `/api/updates` | Newsletter signup (also consumed by RICE) |
 | POST | `/api/updates/import` | Bulk import (protected) |
 | POST | `/api/updates/unsubscribe` | Unsubscribe |
 
-### 2.3 CSS Architecture
+Runtime services: D1 (`DB`), Resend, Stripe, Fourthwall, Turnstile — all via Worker bindings/secrets (see `apps/communications-worker/wrangler.toml`).
 
-All custom properties are defined in **`tokens.css`** — load it first on every page.
+## Design system
 
-**Token namespaces:**
+Dark void aesthetic — do not genericize it. Fonts: Cinzel (display), Cormorant Garamond (body), system mono (`--font-mono`) for kickers/metadata/instrument text.
 
-| Variable | Value | Notes |
-|---|---|---|
-| `--bg` / `--dark` | `#050807` | void black — same value, two names for legacy compat |
-| `--text` | `#2aff8a` | signal green — canonical name for all green text |
-| `--text-soft` | 88% opacity | near-signal green |
-| `--text-muted` | 68% opacity | secondary/muted green — NOT the default `--mode-copy-muted` |
-| `--text-readable` | `#e8f8ee` | warm cream — body copy in all modes; use via `--mode-copy` |
-| `--text-readable-muted` | 62% cream | muted cream — used by `--mode-copy-muted` in all brand modes |
-| `--accent` | `#2aff8a` | action/interactive green |
-| `--relief` / `--relief-base` | `#d96aff` | relief magenta — canonical name is `--relief` |
-| `--green-1/2/3` | 22/12/6% opacity | glow tiers |
-| `--green-hot-1/2/3/4` | 75/55/38/22% opacity | active/hover tiers |
+- All UI color is a token from `apps/web/public/assets/css/tokens.css` (loaded first on every page). No raw hex/rgba in component CSS — use `--line-*`, `--surface-*`, `--green-*`, `--mode-*`.
+- Three brand modes via `data-brand-mode` on `<body>`: `ritual` (home), `editorial` (books/about/work/store), `utility` (connect/donate). Components consume `--mode-*` vars; override at the mode level, never inline.
+- Body copy is `--text-readable` (warm cream), not green. Signal green is brand/accent, not every paragraph. Magenta `--relief` is anomaly/relief only.
+- The interior surface is **de-boxed**: open blocks separated by hairline rules (`--line-*`) and whitespace, not rounded bordered panels. Keep buttons/inputs as the only bordered controls. Guard animations behind `prefers-reduced-motion`; keep the grain texture and cursor glow.
 
-**Three brand modes** — set via `data-brand-mode` on `<body>`:
-
-| Mode | Pages | Character |
-|---|---|---|
-| `ritual` | `/`, `/lab` | full theatrical intensity |
-| `editorial` | `/books`, `/about`, `/gallery`, `/services` | readable, measured |
-| `utility` | `/donate`, `/donate/thanks`, `/contact`, `/submit` | task-focused, calm |
-
-Mode-scoped variables: `--mode-copy`, `--mode-copy-muted`, `--mode-border`, `--mode-border-strong`, `--mode-panel`, `--mode-panel-strong`, `--mode-shadow`, `--mode-heading-shadow`, `--mode-text-shadow`.
-
-**CSS file roles:**
-
-| File | Purpose |
-|---|---|
-| `tokens.css` | All CSS custom properties + brand mode selectors |
-| `interior-base.css` | All-page body/background/focus/grain/skip-link base styles |
-| `portal.css` | `/` specific styles — overrides, animations |
-| `layout.css` | `.page`, `.hero-bar`, `.site-header` grid |
-| `components.css` | Cards, buttons, panels, tags — consume `--mode-*` vars |
-| `forms.css` | Form inputs, validation states |
-| `effects.css` | Grain texture, cursor glow |
-| `hero-bar.css` | Fixed top navigation bar |
-| `footer.css` | Page footer |
-| `a11y.css` | Skip link, focus-visible |
-| `fonts.css` | Self-hosted @font-face — Cinzel + Cormorant Garamond (12 woff2 subsets) |
-| `books.css` / `gallery.css` / `mission.css` / `services.css` / `lab.css` / `donate-portal.css` | Page-specific |
-
-### 2.4 Media Assets
-
-Canonical media lives in `assets/source/`. Every shipped PNG, JPEG, WebP, SVG, and GIF variant must exist there; format conversion happens before accessioning, and sync does not generate variants. CSS, JavaScript, fonts, and the public asset README are authored directly under `apps/web/public/assets/`. Run `npm run assets:sync` after adding or changing canonical media, then `npm run assets:check` to verify source parity and both generated manifests.
-
-| File | Format | Role |
-|---|---|---|
-| `img/identity/expedite-seal-source-2026.png` | PNG | Preserved source scan; never edit derivatives by hand |
-| `img/identity/expedite-seal-master.svg` | SVG | Clean, recolorable institutional seal |
-| `img/identity/expedite-seal-distressed.svg` | SVG | Distressed, recolorable display seal |
-| `img/identity/expedite-seal-motion.svg` | SVG | Generated homepage-only ritual animation with static reduced-motion state |
-| `img/identity/expedite-seal-green-768.*` | PNG/WebP | Homepage portal mark |
-| `img/identity/expedite-seal-og-1200x630.*` | PNG/WebP | Default social preview |
-| `img/crow_glitch_text_still.*` | PNG/WebP | Secondary ritual image; historical portal still |
-| `img/crow_glitch_text.webp` / `gif/crow_glitch_text.gif` | WebP/GIF | Secondary ritual motion assets |
-| `img/void_engine_twinkle_green.webp` | WebP | Background texture (preferred) |
-| `img/void_engine_twinkle_green.png` | PNG | Background texture fallback |
-| `img/favicon.svg` | SVG | Browser favicon; intentionally independent of the seal |
-| `img/les-fievres-cover.svg` | SVG | Book cover |
-| `img/covers/lift-wind-cover.webp` | WebP | *Lift Wind / Love Heat* cover (1024×1536) |
-
-### 2.5 JavaScript Modules
-
-All in `apps/web/public/assets/js/` — loaded via `<script is:inline>` or at bottom of body.
-
-| File | Page | Role |
-|---|---|---|
-| `site-shell.js` | all | Global nav, view transitions |
-| `index-effects.js` | `/` | Portal animation, animated webp swap |
-| `donate-page.js` | `/donate` | Stripe checkout, preset buttons |
-| `contact-page.js` | `/contact` | Form submit, API call |
-| `submit-page.js` | `/submit` | Submission form |
-| `gallery-page.js` | `/gallery` | Storefront API fetch, product render (ViewTransitions-safe) |
-| `books-page.js` | `/books` | Projects API fetch |
-| `lab-anglossic-*.js` | `/lab` | Anglossic Compass instrument |
-| `form-utils.js` | forms | Shared validation helpers |
-| `api-client.js` | forms | Shared fetch wrapper for Worker API |
-| `dialog.js` | `/lab` | Modal dialog controller — manages aria-expanded on trigger |
-| `updates-signup.js` | `/` mobile | Newsletter signup |
-
-### 2.6 Runtime Dependencies
-
-| Service | Binding | Used by |
-|---|---|---|
-| Cloudflare D1 | `DB` | `/api/projects`, `/api/updates*` |
-| Resend | `RESEND_API_KEY` (secret) | `/api/contact`, `/api/submit` |
-| Stripe | `STRIPE_SECRET_KEY` (secret) | `/api/donate/session`, `/api/stripe/webhook` |
-| Fourthwall | `FOURTH_WALL_API_KEY` (secret) | `/api/storefront` |
-| Cloudflare Turnstile | `TURNSTILE_SECRET` (secret) | form endpoints (currently unconfigured — bot check bypassed) |
-
-**Pages deploy auth:** `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` (required env/CI secrets). Optional local override: `CF_PAGES_PROJECT`.
-
-### 2.7 Key Config Files
-
-| File | Purpose |
-|---|---|
-| `apps/web/src/data/site.json` | Site metadata, nav, OG tags, per-page copy |
-| `apps/web/astro.config.mjs` | Astro configuration |
-| `apps/communications-worker/wrangler.toml` | Worker + D1 bindings (secrets documented in comments) |
-| `package.json` | Workspace root scripts |
-| `Makefile` | Make targets mirroring npm scripts |
-
----
-
-## 3. Task Routing Loop
-
-Before touching code:
-
-1. Open `docs/ontology/project-ontology.json` — navigate and classify the task through the ontology
-2. Read `docs/ontology/ontology.md` as the human-readable companion
-3. **Classify** the task: `web`, `worker`, `docs`, `ops`, `assets`, `archive`, or `tooling`
-4. **Read** `README.md`, `docs/state-of-play.md`, and the nearest domain README first
-5. **Identify** owning source files — read before writing
-6. **Keep edit surface narrow** — behaviour-preserving unless explicitly requested otherwise
-7. **Update docs** in the same change when paths, commands, routes, or assets move (see §6)
-8. **Run the narrowest meaningful validation**, escalating to `npm run check` for broad changes
-9. **Close out with evidence:** tool calls, validation results, tooling/skills scrum (see §6.1)
-
-For `web` tasks: read the target `.astro` file, its CSS stack, and any JS it references.  
-For `worker` tasks: read `openapi.yaml` and `src/index.ts` before editing. Update OpenAPI when routes change.  
-For media tasks: edit `assets/source/`, then `npm run assets:sync` and `npm run assets:check`. For CSS, JavaScript, or font assets, edit their owned public directories and run the same commands to refresh and verify manifests.
-For `css` tasks: all custom properties are in `tokens.css`. Never hardcode colors with tokens. Use `--mode-*` vars in components.
-
-**Task routing quick reference:**
-
-| Task type | Read first | Run after |
-|-----------|------------|-----------|
-| Edit Astro page | Target `.astro`, its CSS, its JS | `npm run check` |
-| Edit Worker route | `openapi.yaml`, `src/index.ts` | `npm run test:worker` |
-| Add D1 migration | Latest migration file | `wrangler d1 execute … --file=migrations/NNNN_….sql` |
-| Edit CSS token | `tokens.css`, affected pages | `npm run check:a11y` |
-| Update docs / ontology | Affected docs + `project-ontology.json` | `npm run check:tooling-integrity` |
-| Release | `docs/state-of-play.md`, last migration | `npm run release:dry-run` then `npm run release` |
-| Add media | `assets/source/` | `npm run assets:sync && npm run assets:check` |
-
----
-
-## 4. Command Matrix
+## Commands
 
 ```
 npm run build            # Build Astro site → apps/web/dist/
 npm run dev:web          # Astro dev server (localhost:4321)
 npm run dev:worker       # Wrangler dev (Worker local)
-npm run check            # Full gate: tooling-integrity + build + HTML lint + links + a11y + worker tests + audit
+npm run check            # build + lint:html + check:links + check:a11y + test:worker + check:audit
+npm run lint:html        # HTML validity (dist)
 npm run check:links      # Broken link check
 npm run check:a11y       # Accessibility heuristics
-npm run check:audit      # Dependency audit (root, web, worker)
-npm run check:tooling-integrity  # Ontology, path, and API route parity checks
-npm run lint:html        # HTML validity
 npm run test:worker      # Worker unit tests
-npm run identity:build   # Rebuild seal derivatives from preserved source
 npm run assets:sync      # Sync assets/source/ → apps/web/public/assets/
-npm run assets:check     # Verify no asset drift
-npm run runtime:config   # Check Cloudflare runtime bindings
-npm run runtime:audit    # Read-only Worker/D1/schema audit
-npm run smoke:api        # Production API smoke tests
-npm run deploy:web       # Deploy Pages (requires CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID)
+npm run assets:check     # Verify asset sync + manifest
+npm run deploy:web       # Deploy Pages (needs CLOUDFLARE_API_TOKEN + ACCOUNT_ID)
 npm run deploy:worker    # Deploy Worker
-npm run release:dry-run  # Dry-run release check
-npm run release          # Full release
 ```
 
-On Windows, root scripts that invoke shell files route through `scripts/run-bash.mjs` (WSL → Git Bash fallback).
+Run the narrowest relevant checks: web/CSS/Astro changes → `build` + `lint:html` + `check:links` + `check:a11y`; Worker changes → `test:worker` and update `openapi.yaml`; media → `assets:sync` + `assets:check`. On Windows, shell scripts route through `scripts/run-bash.mjs` (WSL → Git Bash).
 
----
+## Git and editing discipline
 
-## 5. Safety Rules
+- Keep the edit surface narrow and behaviour-preserving unless a change is requested. Preserve public URLs and `/api/*` contracts unless a breaking change is explicitly asked for.
+- Never edit `apps/web/dist/` (generated) or existing D1 migrations (append a new numbered file).
+- Do not commit, push, deploy, release, or mutate external services unless the user explicitly asks. Treat `archive/` as read-only.
+- Preserve the configured commit identity unless the user requests otherwise.
 
-- **Never edit `apps/web/dist/`** — generated by `npm run build`
-- **Never edit existing D1 migration files** — add a new numbered migration
-- **Never commit secrets** — `.env`, `.dev.vars`, `.wrangler/`, `.dev.vars.*`
-- **Keep `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars` out of version control**
-- **Preserve public URLs** and `/api/*` response contracts unless a breaking change is explicitly requested
-- **Treat `archive/` as read-only** unless explicitly asked to modify it
-- **When touching CSS:** always load `tokens.css` first; use `--mode-*` vars in components; do not hardcode colors that have tokens; do not remove the grain texture or cursor glow
-- **When touching assets:** keep media canonical in `assets/source/`; keep CSS/JS/fonts authored in their public directories; then sync and check
+Remote: `https://github.com/St-Expedite-Press/this-place-feels-wrong` · Default branch: `main`.
 
----
+## Deployment
 
-## 6. Source of Truth Updates
+`.github/workflows/deploy-pages.yml` validates and deploys `apps/web/dist` to Cloudflare Pages (`stexpedite-press`) on push to `main`. The Worker deploys separately via `npm run deploy:worker`. A successful local build does not authorize a push or deploy.
 
-Update these together when their surfaces change:
+## Secrets
 
-| What changed | Update |
-|---|---|
-| Site routes or assets | `README.md`, `docs/state-of-play.md`, `apps/web/src/README.pages.md`, `AGENTS.md` §2 |
-| Worker routes or payloads | `apps/communications-worker/openapi.yaml`, `apps/communications-worker/README.md`, `docs/infrastructure/`, `AGENTS.md` §2.2 |
-| Tooling commands | `package.json`, `Makefile`, `scripts/README.md`, `AGENTS.md` §4 |
-| Agent workflows | `AGENTS.md`, `skills/`, `CLAUDE.md` |
-| CSS tokens or structure | `apps/web/public/assets/css/tokens.css`, `branding/tokens/`, `AGENTS.md` §2.3 |
-| D1 schema | New migration file + `apps/communications-worker/README.md` |
+Secrets stay local. Never commit, print, or copy `.env`/`.dev.vars` contents, tokens, or credentials. Load only the specific variable an authorized task needs; report variable names and presence, never values. Keep secrets out of fixtures, prompts, skills, logs, screenshots, and Git history. Local-only, never committed: `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `.wrangler/`, `.reports/`.
 
-When changing routes, commands, validation scripts, deployment/runtime surfaces, agent workflows, skills, runbooks, or maintained path ownership — update both `docs/ontology/project-ontology.json` and `docs/ontology/ontology.md`, then run `npm run check:tooling-integrity`.
+## Skills
 
-### 6.1 Task Closeout
-
-Every task that changes files or performs repo investigation must end with:
-
-- **Tool calls:** concise list of commands, scripts, and repo tools used, grouped by purpose
-- **Checks:** validation commands and outcomes
-- **Memory:** concise entry appended to root `MEMORY.md`, plus local `MEMORY.md` when the changed subtree has one
-- **Ontology upkeep:** root and detailed ontology surfaces updated when paths, commands, ownership, validation, or workflow rules changed
-- **Tooling/skills scrum:** 1–3 notes on how to improve future tooling, skills, runbooks, or ontology rules
-
----
-
-## 7. CSS Design System — Working Rules
-
-Dark void aesthetic. Do not genericize it.
-
-**Fonts:** Cinzel (display/headers/labels) · Cormorant Garamond (body/editorial) — self-hosted woff2 files in `apps/web/public/assets/fonts/`, declared via `fonts.css`.
-
-**Color discipline:**
-- Every UI color must be a token from `tokens.css`. No raw hex values in component CSS.
-- Brand green: `--text` is canonical; `--green-base` and `--accent` are aliases — prefer `--text` in new code
-- Body copy in all modes uses `--text-readable` (#e8f8ee warm cream), not green
-- Use `--mode-copy` and `--mode-copy-muted` for text in components — mode system handles the value per page
-
-**Component pattern:**
-1. Pick a brand mode (`ritual` / `editorial` / `utility`) for the page
-2. Use `--mode-*` vars for all borders, panels, shadows, and copy
-3. Hover/focus states use `--green-hot-*` tiers
-4. Validate at 900px and 768px breakpoints
-5. Guard animations behind `prefers-reduced-motion`
-
-**Do not:**
-- Add new CSS files without a clear single-page or single-component scope
-- Override `--mode-*` variables inline — override at the `data-brand-mode` level only
-- Use `opacity` on text as sole legibility mechanism without checking contrast
-- Remove the grain texture or cursor glow
-
----
-
-## 8. Orchestration-First Subagent Policy
-
-The primary agent is the orchestrator. Keep primary-agent context focused on planning, decomposition, integration, cross-surface decisions, validation, and critical blockers. Whenever work can be safely decomposed into independent read, implementation, review, or validation tracks, spawn subagents in parallel rather than serializing all work in the primary context.
-
-Each subagent assignment must state:
-
-- explicit task scope and success criteria;
-- owned files or surfaces, including whether access is read-only or read/write;
-- boundaries with other agents so edits do not overlap;
-- expected output format and integration notes;
-- raw artifact locations for logs, reports, patches, screenshots, or other evidence.
-
-Subagents must preserve unrelated work and return both a concise result and the raw artifacts needed for primary-agent verification. The primary agent owns synthesis, conflict resolution, final validation, and any immediately critical blocker whose delegation would lose essential context.
-
-Prefer built-in subagents when the runtime can select the requested model directly. If the runner cannot select `deepseek/deepseek-v4-flash`, the orchestrator must read `OPENROUTER_API_KEY` from the local environment and make bounded calls to `https://openrouter.ai/api/v1/chat/completions` with model id `deepseek/deepseek-v4-flash`. Treat those calls as read-only delegated subagents.
-
-- Use the key only in the orchestrator-built HTTP authorization header. Never print, log, commit, embed it in prompts, or pass it to a child agent or process.
-- Each task packet declares a task ID, bounded objective, acceptance criteria, minimal artifact paths or excerpts, prohibited actions, and required output schema.
-- Independent read-only calls may run concurrently; serialize overlapping or dependency-ordered tasks.
-- Verify returned provider/model metadata, finish reason, and output shape before integration.
-- Retry transient network, rate-limit, and server failures with bounded backoff. If OpenRouter, credentials, networking, or the requested model remain unavailable, use built-in runtime subagents and explicitly disclose the fallback.
-- OpenRouter delegates may not write files, call other services, or mutate external state. The primary agent owns integration, every mutation, final validation, and closeout.
-
-| Role | Owns |
-|---|---|
-| `web-surface` | Astro pages, CSS, JS, a11y, links |
-| `worker-contract` | Worker routes, OpenAPI, D1 migrations, tests |
-| `docs-curator` | Markdown, README, ontology consistency |
-| `ops-release` | Cloudflare runtime checks, release scripts, smoke |
-| `assets` | Media sync, format conversion, manifest |
-
-Each skill in `skills/` is a self-contained agent definition:
-
-| Skill | When to invoke |
-|-------|---------------|
-| `cloudflare-release-ops` | Pre-deploy runtime check, post-deploy verification |
-| `docs-assay` | Documentation consistency review, ontology audit |
-| `static-site-qa` | Full HTML + a11y + links + SEO gate |
-| `worker-contract-review` | OpenAPI ↔ Worker source parity check |
-
-### 8.1 Skill Generation and Curation Loop
-
-Before creating a skill, inventory and search existing repo, installed, and available skills. Prefer updating or extending a suitable skill over creating a duplicate. For new or materially revised skills, follow the `skill-creator` structure, validate the skill and its referenced paths/scripts, then forward-test it with fresh subagents that did not share the authoring context.
-
-Periodically curate the skill surface: consolidate overlapping workflows, update useful skills, and retire or archive stale duplicates without breaking maintained entrypoints. When a skill or workflow changes repository paths, commands, ownership, validation, or operating policy, update `AGENTS.md`, `docs/ontology/project-ontology.json`, and `docs/ontology/ontology.md` together.
-
----
-
-## 9. MCP Tools
-
-Repo-configured MCP servers live in `.mcp.json` at this repository root. That config currently declares:
-
-| Server | Configured command | Use for this project |
-|--------|--------------------|----------------------|
-| `cloudflare` | `npx -y @cloudflare/mcp-server-cloudflare run` | Cloudflare account, Pages, Worker, and runtime inspection where the connected session exposes it |
-| `playwright` | `npx -y @playwright/mcp --browser chromium` | Visual testing of the live or dev site; interaction testing (nav, forms, dialogs); screenshot at specific viewports; console error capture |
-
-Some Codex sessions also expose connector or MCP tools outside this repo config. Use them only when they are available in the active tool list, and treat them as session-scoped rather than repository guarantees.
-
-| Session-exposed tool surface | Use for this project |
-|------------------------------|----------------------|
-| GitHub connector | Inspect PRs/issues, create draft PRs, and manage review requests when explicitly authorized |
-| Google Drive connector | Work with Drive, Docs, Sheets, or Slides references when the task names those artifacts |
-| Figma / Canva connectors | Design-system, mockup, presentation, or branded design workflows; do not use for normal code validation |
-| Node REPL MCP | JavaScript inspection, browser automation glue, and local tooling experiments |
-| Multi-agent tooling | Bounded read-only or non-overlapping delegated work, following the subagent policy above |
-| Shell tools | PowerShell, Node/npm, Python, Git, and Wrangler through npm/make wrappers |
-
-The following MCP capabilities are documented project workflows, but may require a host/session that exposes the corresponding server:
-
-| Server | Use for this project |
-|--------|---------------------|
-| `playwright-ea` | API endpoint testing for Worker routes (`/api/*`) — fire POST/GET requests and assert responses alongside browser |
-| `screenshot-fast` | Full-page screenshots of the live site (pass an HTTPS URL) or the dev server (pass `http://localhost:4321/...`) |
-| `firecrawl` | Content extraction and crawl of stexpedite.press — extract page copy, structured data, and link inventory for audits |
-| `page-design-guide` | Consult 2024–2026 design trends, typography, layout patterns, and accessibility guidance when evaluating or proposing design changes |
-
-**Not typically needed for this project** (more relevant to design-iteration projects): `crawl4ai`, `web-cloner`, `design-copier`, `claude-design`.
-
-### When to use MCP vs. npm scripts
-
-| Task | Use |
-|------|-----|
-| Check the live site visually | `playwright` → navigate → screenshot |
-| Audit all live pages at once | `firecrawl` scrape or `playwright` multi-page loop |
-| Take full-page screenshots for design review | `screenshot-fast` with live URL |
-| Test a Worker API endpoint manually | `playwright-ea` POST/GET |
-| Check design direction before proposing changes | `page-design-guide` |
-| Run automated HTML/links/a11y checks | `npm run check` (faster, no browser needed) |
-
-### Viewports to test
-
-| Viewport | Width | When |
-|----------|-------|------|
-| Desktop | 1280px | Always |
-| Tablet | 768px | Layout breakpoints |
-| Mobile | 390px | Nav scroll, form usability, portal layout |
-
----
-
-## 10. Tooling Layout
-
-```
-scripts/            ← all operational shell scripts + Node.js scripts
-    lib/
-        repo-root.sh        ← shared path resolution helper
-    sync-assets.sh
-    check-assets-sync.sh
-    check-runtime-config.sh
-    check-site-seo.sh
-    release.sh
-    bootstrap-git-auth.sh
-    bootstrap-python-venv.sh
-    install-hooks.sh
-    run-bash.mjs            ← WSL/Git Bash router for .sh scripts
-    check-tooling-integrity.mjs
-    check-links.mjs
-    check-a11y.mjs
-    …
-
-ops/                ← operational runbooks
-    cloudflare-stability/
-        SKILL.md
-        references/
-        scripts/    ← smoke-api.sh, runtime-audit.sh, log-release-evidence.sh
-
-skills/             ← repo-scoped agent skills (each has SKILL.md + openai.yaml)
-    cloudflare-release-ops/
-    docs-assay/
-    static-site-qa/
-    worker-contract-review/
-
-kits/               ← reusable scaffolding templates
-    static-web/
-```
-
-Never invoke shell scripts directly — always use `npm run` or `make` wrappers (they handle WSL/Git Bash routing on Windows).
-
-Local-only (never commit): `.claude/`, `CLAUDE.local.md`, `.env`, `.dev.vars`, `.wrangler/`, `.reports/`
-
----
-
-## 11. Known Gaps and Future Work
-
-### Site
-
-| Item | Priority | Notes |
-|---|---|---|
-| Turnstile missing from all forms | High | All POST forms (contact, submit, donate, updates, lab gate) have no Turnstile widget. No bot protection on any form. |
-| `updates-signup.js` duplication | Low | `index.astro` has inline 80-line `wireUpdatesForm` that duplicates `updates-signup.js` — also duplicates `copyText` from `form-utils.js`. Extract to shared modules. |
-| `donate/thanks` accessible without Stripe session | Low | Page is `noindex` but fully navigable without completing a donation. Low cosmetic trust risk. |
-| OG image identical across all pages | Low | All 11 pages share the same crow OG image. Per-page OG images (book covers for `/books`) would improve social sharing differentiation. |
-
-### Cloudflare Infrastructure
-
-| Item | Priority | Notes |
-|---|---|---|
-| ~~Turnstile~~ | ~~High~~ | ~~Resolved in v1.0.9~~ — `TURNSTILE_SECRET` live in Worker; widget on contact/submit/donate/updates; token sent in all POST bodies |
-| `lift-wind` buy_url null | Medium | Migration `0015_buy_url_lift_wind.sql` ready — update placeholder and run once Amazon/vendor URL is confirmed |
-| Rate limit generous for form endpoints | Low | `RATE_LIMIT_MAX=20` per IP/minute — consider 5 for POST mutation endpoints |
-| `contact_submissions` no admin read endpoint | Low | Accessible only via wrangler CLI — add `/api/admin/submissions` if Resend reliability degrades |
-| Legacy D1 query fallback | Low | `handleProjects` lines 993–1019: three-level nested try/catch for column existence — remove after confirming prod has all columns from migration 0012+ |
-
-### Closed / Resolved
-
-**Session 1 — Infrastructure + Doc restructure (2026-05-24)**
-- ~~`--text-readable` token missing~~ · ~~Mobile portal nav unreachable~~ · ~~X/Substack icons wrong~~ · ~~Duplicate submission form on /contact~~ · ~~No 404 page~~ · ~~smoke-api.sh fails on Windows~~ · ~~`BRAND.text` diverged~~ · ~~`compatibility_date` stale~~ · ~~`completion_percent` type mismatch~~ · ~~lift-wind status stuck at `forthcoming`~~
-
-**Session 2 — MCP audit fixes + Stripe webhook + text color (2026-05-24)**
-- ~~Donate page cyan heading~~ · ~~Donate page dead space~~ · ~~HeroBar missing on donate~~ · ~~/books shows editorial notes~~ · ~~/contact shows "If API unavailable…"~~ · ~~/gallery debug string~~ · ~~/services duplicate introText~~ · ~~`--hero-bar-height` duplicate~~ · ~~Ritual mode `--mode-copy` was signal green~~ · ~~/submit textarea not required~~ · ~~No sitemap.xml~~ · ~~Stripe webhook missing~~ · ~~`--mode-copy-muted` resolved to signal green~~
-
-**Session 4 — agent/ dissolution, MCP skills, full site audit + v1.0.8 + v1.0.9 Turnstile (2026-06-01)**
-- ~~`agent/AGENT.md` dissolved into root `AGENTS.md`~~ · ~~`agent/` directory fully dissolved — tools→scripts/, ops/→ops/, skills/→skills/, kits/→kits/~~ · ~~All 4 skills updated with MCP capabilities~~ · ~~`AGENTS.md §9` MCP Tools section added~~ · ~~`docs/ontology/*` and `project-ontology.json` updated for new paths~~ · ~~stale `agent/*` patterns added to docs-assay allowlist~~
-- ~~`donate-page.js` amountLabel null — `<p id="donate-selected-amount">` added to donate.astro~~ · ~~`escapeHtml` dedup — extracted to `form-utils.js`, imported in books/gallery/lab~~ · ~~`@astrojs/cloudflare` dead dep removed~~ · ~~`--relief-base` alias removed from tokens.css; all usages → `--relief`~~ · ~~`--dark` alias removed from tokens.css~~ · ~~Lab dialog `inert` — `setBackgroundInert()` added to `dialog.js`~~ · ~~Gallery sparse fix — fallback copy shows when products.length < 3~~ · ~~Scroll-reveal animations — `reveal-up` keyframes + `@media (prefers-reduced-motion)` on `.card` and `.page-intro`~~ · ~~Lab dialog glassmorphism — `backdrop-filter: blur(8px)` + border on `.lab-dialog`~~ · ~~Interior heading scale — `page-intro__title` pushed to `clamp(1.9rem, 4.5vw, 3.2rem)`~~ · ~~Donate preset micro-interaction — `preset-seal` keyframe on `data-selected="true"`~~ · ~~donate-portal.css `--relief-base` fallbacks → `--relief`~~
-- ~~Turnstile wired: `TURNSTILE_SECRET` set in Worker via `wrangler secret put`; `.cf-turnstile` widget on contact/submit/donate/index-updates; `getTurnstileToken()` + `resetTurnstile()` added to `form-utils.js`; token included in all 4 POST request bodies~~
-
-**Session 3 — Full audit + refactor v1.0.7 (2026-05-31–2026-06-01)**
-- ~~BasePortal.astro~~ · ~~Head.astro OG props + head-extra slot~~ · ~~Self-hosted fonts (12 woff2 subsets, fonts.css)~~ · ~~Token bridge (brand-tokens.css two-vocabulary)~~ · ~~Overexplaining subtitles removed (books, lab)~~ · ~~Nav font-size legibility fix~~ · ~~Mobile nav horizontal scroll overflow~~ · ~~gallery-page.js ViewTransitions bug~~ · ~~Stripe webhook 500→200 when unconfigured~~ · ~~lift-wind-cover.webp created~~ · ~~Google Fonts CDN dependency removed (self-hosted)~~ · ~~books.astro / about.astro duplicate content~~ · ~~aria-expanded on dialog + lab button~~
+Repo skills live in `skills/` (`cloudflare-release-ops`, `docs-assay`, `static-site-qa`, `worker-contract-review`); runbooks in `ops/`; kits in `kits/`. Before creating a skill, search existing ones and prefer updating a near match. For new or materially revised skills follow the `skill-creator` anatomy (narrow trigger, concise `SKILL.md`, referenced scripts, explicit inputs/outputs, validation), then forward-test with a fresh subagent. Never embed secret values in a skill.

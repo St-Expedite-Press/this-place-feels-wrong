@@ -247,11 +247,18 @@
 /* Operational voice: metadata/labels in system mono for the
    "instrument panel" half of the sacred/practical tension. */
 .caption,
-.eyebrow {
+.eyebrow,
+.card-kicker {
   font-family: var(--font-mono);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-size: 0.72rem;
+}
+
+.card-kicker {
+  margin: 0 0 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--mode-copy-muted, var(--text-muted));
 }
 
 .status-panel {

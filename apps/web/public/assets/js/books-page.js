@@ -30,24 +30,21 @@ function safeExternalUrl(value) {
 function renderBookRow(project) {
   const title = escapeHtml(project.title || "Untitled");
   const author = escapeHtml(project.author || "St. Expedite Press");
-  const series = escapeHtml(project.series_title || "");
   const description = escapeHtml(project.popup_description || "");
   const cover = String(project.cover_image || "").trim();
   const buyUrl = safeExternalUrl(project.buy_url);
-  const statusKey = String(project.status || "planned");
-  const meta = STATUS_META[statusKey] || STATUS_META.planned;
+  const meta = STATUS_META[String(project.status || "planned")] || STATUS_META.planned;
   const dateStr = formatDate(project.published_at);
 
   return `
-    <article class="book-row" data-series="${escapeHtml(project.series_key || "all")}">
+    <article class="book-row">
       <div class="book-row__cover" aria-hidden="true">
         ${cover
           ? `<img src="${escapeHtml(cover)}" alt="" loading="lazy" decoding="async" />`
           : `<div class="book-row__cover-placeholder"></div>`}
       </div>
       <div class="book-row__body">
-        ${series ? `<div class="book-row__series">${series}</div>` : ""}
-        <h3 class="book-row__title">${title}</h3>
+        <h4 class="book-row__title">${title}</h4>
         <div class="book-row__author">${author}</div>
         ${description ? `<p class="book-row__description">${description}</p>` : ""}
       </div>
@@ -60,51 +57,117 @@ function renderBookRow(project) {
   `;
 }
 
-function applyFilter(seriesKey, list, filterBar) {
-  list.querySelectorAll("[data-series]").forEach((row) => {
-    const match = seriesKey === "all" || row.getAttribute("data-series") === seriesKey;
-    row.hidden = !match;
+// --- Sliding-deck carousel -------------------------------------------------
+function initCarousel() {
+  const track = document.getElementById("series-track");
+  const viewport = document.getElementById("series-viewport");
+  const dotsWrap = document.getElementById("series-dots");
+  const cards = track ? Array.from(track.querySelectorAll(".series-card")) : [];
+  if (!track || !viewport || !dotsWrap || cards.length === 0) return;
+
+  const prevBtn = document.querySelector("[data-carousel-prev]");
+  const nextBtn = document.querySelector("[data-carousel-next]");
+  let index = 0;
+
+  const dots = cards.map((card, i) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.setAttribute("role", "tab");
+    dot.setAttribute("aria-label", `Series ${i + 1}`);
+    dot.addEventListener("click", () => goTo(i));
+    dotsWrap.appendChild(dot);
+    return dot;
   });
-  filterBar?.querySelectorAll("button").forEach((btn) => {
-    btn.classList.toggle("is-active", btn.dataset.series === seriesKey);
+
+  function goTo(next) {
+    index = Math.max(0, Math.min(cards.length - 1, next));
+    track.style.transform = `translateX(${index * -100}%)`;
+    dots.forEach((d, i) => d.setAttribute("aria-selected", i === index ? "true" : "false"));
+    if (prevBtn) prevBtn.disabled = index === 0;
+    if (nextBtn) nextBtn.disabled = index === cards.length - 1;
+  }
+
+  prevBtn?.addEventListener("click", () => goTo(index - 1));
+  nextBtn?.addEventListener("click", () => goTo(index + 1));
+
+  viewport.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") { e.preventDefault(); goTo(index - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
+  });
+
+  // Pointer drag / swipe
+  let startX = 0;
+  let dragging = false;
+  viewport.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    startX = e.clientX;
+    track.style.transition = "none";
+  });
+  viewport.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - startX;
+    track.style.transform = `translateX(calc(${index * -100}% + ${dx}px))`;
+  });
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    track.style.transition = "";
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 60) goTo(index + (dx < 0 ? 1 : -1));
+    else goTo(index);
+  }
+  viewport.addEventListener("pointerup", endDrag);
+  viewport.addEventListener("pointercancel", endDrag);
+  viewport.addEventListener("pointerleave", endDrag);
+
+  goTo(0);
+  return cards;
+}
+
+// --- Populate each series card with its live titles ------------------------
+function matchesCard(project, tokens) {
+  const hay = `${project.series_key || ""} ${project.series_title || ""}`.toLowerCase();
+  return tokens.some((t) => t && hay.includes(t));
+}
+
+async function loadTitles(cards) {
+  if (!cards || cards.length === 0) return;
+
+  let projects = null;
+  try {
+    const data = await requestJson("/api/projects", { cache: "no-store" });
+    projects = Array.isArray(data.projects) ? data.projects : [];
+  } catch (err) {
+    console.error("books catalog unavailable", err);
+  }
+
+  cards.forEach((card) => {
+    const box = card.querySelector("[data-series-titles]");
+    const status = card.querySelector("[data-series-status]");
+    if (!box) return;
+
+    if (projects === null) {
+      if (status) status.textContent = "Catalog unavailable — titles load when the shop is reachable.";
+      return;
+    }
+
+    const tokens = String(card.getAttribute("data-series-match") || "")
+      .split(",")
+      .map((t) => t.trim().toLowerCase())
+      .filter(Boolean);
+    const matched = projects.filter((p) => matchesCard(p, tokens));
+
+    if (matched.length === 0) {
+      box.innerHTML = `<p class="helper-text">Titles in preparation.</p>`;
+      return;
+    }
+    box.innerHTML = matched.map(renderBookRow).join("");
   });
 }
 
-async function init() {
-  const list = document.getElementById("books-list");
-  const statusEl = document.getElementById("books-status");
-  const filterBar = document.getElementById("books-filter");
-
-  if (!list) {
-    if (statusEl) statusEl.textContent = "Catalog unavailable.";
-    return;
-  }
-
-  try {
-    const data = await requestJson("/api/projects", { cache: "no-store" });
-    const projects = Array.isArray(data.projects) ? data.projects : [];
-    const series = Array.isArray(data.series) ? data.series : [];
-
-    list.innerHTML = projects.map(renderBookRow).join("");
-    if (statusEl) statusEl.hidden = true;
-
-    if (filterBar && series.length > 1) {
-      const buttons = [
-        `<button class="filter-tab is-active" type="button" data-series="all">All</button>`,
-        ...series.map((item) =>
-          `<button class="filter-tab" type="button" data-series="${escapeHtml(item.key)}">${escapeHtml(item.title)}</button>`
-        ),
-      ];
-      filterBar.innerHTML = buttons.join("");
-      filterBar.querySelectorAll("button").forEach((btn) => {
-        btn.addEventListener("click", () => applyFilter(btn.dataset.series || "all", list, filterBar));
-      });
-    }
-  } catch (err) {
-    console.error("books-page init failed", err);
-    if (statusEl) statusEl.textContent = "Catalog unavailable.";
-    list.innerHTML = "";
-  }
+function init() {
+  const cards = initCarousel();
+  loadTitles(cards);
 }
 
 document.addEventListener("astro:page-load", init);

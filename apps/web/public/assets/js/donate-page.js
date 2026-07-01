@@ -28,10 +28,10 @@ function syncPresetState() {
 
   if (!amountLabel) return;
   if (!numeric || !Number.isFinite(numeric)) {
-    amountLabel.textContent = "Choose an amount. Seal it.";
+    amountLabel.textContent = "Choose an amount above, or enter your own.";
     return;
   }
-  amountLabel.textContent = `${formatUsd(numeric)} selected. Seal it.`;
+  amountLabel.textContent = `${formatUsd(numeric)} selected.`;
 }
 
 if (amountInput) {

@@ -59,15 +59,6 @@
   align-content: end;
 }
 
-.card-kicker {
-  margin: 0 0 0.55rem;
-  color: var(--mode-copy-muted, var(--text-muted));
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
 .section-copy--large {
   max-width: 40rem;
   font-size: 1.05rem;

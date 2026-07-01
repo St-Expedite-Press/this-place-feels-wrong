@@ -47,7 +47,6 @@ API routes remain under `/api/*`:
 
 - Primary build: `npm run build`
 - Primary validation: `npm run check`
-- Tooling integrity check: `npm run check:tooling-integrity`
 - Asset sync/inventory check: `npm run assets:check`
 - Institutional seal derivative build: `npm run identity:build`
 - Runtime config check: `npm run runtime:config`

@@ -513,7 +513,7 @@ body {
 
 .big-word--store { grid-column: 3; }
 .big-word--about { grid-row: 3; }
-.big-word--lab   { grid-column: 3; grid-row: 3; }
+.big-word--work  { grid-column: 3; grid-row: 3; }
 
 /* ── Lower splash ────────────────────────────────────────────────────────── */
 

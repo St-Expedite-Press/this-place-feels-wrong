@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import siteData from '../data/site.json';
+
+const page = siteData.pages.connect;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/forms.css',
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  canonical={page.canonical}
+  currentNav={page.currentNav}
+  brandMode="utility"
+  styles={styles}
+>
+  <section class="section-block" aria-labelledby="connect-form-title">
+    <div class="split-card-grid">
+      <article class="form-card form-shell">
+        <div>
+          <p class="card-kicker">Reach the press</p>
+          <h2 class="section-heading" id="connect-form-title">One message, routed by type.</h2>
+          <p class="section-copy section-copy--large">Choose what this is about. Manuscript inquiries go to the editor; rights, press, collaborations, and general questions route the same way. Lead with the work — no attachments in the first message.</p>
+        </div>
+
+        <form class="form-grid" id="connect-form">
+          <input id="connect-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
+          <div class="field">
+            <label for="connect-about">This is about</label>
+            <select class="select" id="connect-about" name="about">
+              <option value="Manuscript">A manuscript submission</option>
+              <option value="Rights">Rights</option>
+              <option value="Press">Press</option>
+              <option value="Collaboration">Collaboration</option>
+              <option value="General">Something else</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="connect-email">Email</label>
+            <input class="input" id="connect-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required />
+          </div>
+          <div class="field">
+            <label for="connect-note" id="connect-note-label">Message</label>
+            <textarea class="textarea" id="connect-note" name="note" placeholder="What should we know before replying?" required></textarea>
+          </div>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
+
+          <div class="actions">
+            <button class="button" id="connect-submit" type="submit">Send message</button>
+          </div>
+          <p class="form-assurance" id="connect-assurance">Replies come from a person. Your email is used only to reply.</p>
+        </form>
+
+        <div class="status-panel" id="connect-helper" role="status" aria-live="polite" hidden>
+          <div data-status-text></div>
+          <div class="status-panel__actions">
+            <a class="status-action" id="connect-mailto-fallback" href="mailto:editor@stexpedite.press">Open email</a>
+            <button class="status-action" id="connect-copy" type="button">Copy fallback</button>
+          </div>
+        </div>
+      </article>
+
+      <aside class="card trust-card aside-note" aria-label="What happens after you send">
+        <h2 class="section-heading">What happens next</h2>
+        <ul class="check-list">
+          <li>One reader, not a committee. Replies come from a person.</li>
+          <li>Manuscripts: send the case first; materials follow in the thread.</li>
+          <li>Your email is used only to reply. No list, no sharing.</li>
+          <li>Support the press directly through <a href="/donate">Donate</a>.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/connect-page.js" type="module"></script>
+  </Fragment>
+</Base>

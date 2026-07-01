@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html check-links check-a11y check-lighthouse check-audit test-worker check-all check-tooling-integrity deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo identity-build assets-sync assets-check
+.PHONY: help dev-web dev-worker bootstrap-python-venv bootstrap-git-auth install-hooks lint-html check-links check-a11y check-lighthouse check-audit test-worker check-all deploy-web deploy-worker smoke-api smoke-api-full runtime-audit runtime-config release release-dry-run release-log check-seo identity-build assets-sync assets-check
 
 help:
 	@echo "Available targets:"
@@ -16,7 +16,6 @@ help:
 	@echo "  check-audit         Run npm audit across root, web, and worker packages"
 	@echo "  test-worker         Run worker test suite"
 	@echo "  check-all           Run lint + tests"
-	@echo "  check-tooling-integrity  Validate tooling path consistency"
 	@echo "  runtime-config      Verify Cloudflare runtime prerequisites"
 	@echo "  runtime-audit       Run runtime audit checks"
 	@echo "  smoke-api           Run production API smoke checks"
@@ -66,9 +65,6 @@ test-worker:
 
 check-all:
 	npm run check
-
-check-tooling-integrity:
-	npm run check:tooling-integrity
 
 runtime-config:
 	sh scripts/check-runtime-config.sh

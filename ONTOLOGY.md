@@ -1,71 +1,64 @@
-# St. Expedite Press Ontology
+# St. Expedite Press — Ontology
 
-This is the project-level navigation contract for St. Expedite Press. Read it after `AGENTS.md` and before selecting files to edit.
+The project navigation contract. Read after `AGENTS.md` and before selecting files to edit. Keep this file aligned with `AGENTS.md` whenever routes, ownership, commands, or workflow rules change.
 
-Detailed ontology surfaces:
-
-- `docs/ontology/ontology.md` — human-readable entity and relationship map.
-- `docs/ontology/project-ontology.json` — machine-readable routing and constraint map.
-
-Keep this file, the Markdown companion, and the JSON ontology aligned whenever paths, commands, ownership, validation, or agent workflow rules change.
-
-## Project Summary
+## Summary
 
 | Field | Value |
 |---|---|
 | Live site | `https://stexpedite.press` |
-| Stack | Astro, Cloudflare Pages, Cloudflare Worker, D1, Resend, Stripe, Fourthwall |
+| Stack | Astro · Cloudflare Pages · Cloudflare Worker · D1 · Resend · Stripe · Fourthwall · Turnstile |
 | Repository | `St-Expedite-Press/this-place-feels-wrong` |
-| Agent doctrine | `AGENTS.md` |
-| Phase tracking | `PHASE-PLAN.md` |
-| Change log | `MEMORY.md` |
+| Agent doctrine | `AGENTS.md` · phase tracking `PHASE-PLAN.md` · change log `MEMORY.md` |
 
-## Maintained Surfaces
+## Maintained surfaces
 
-| Surface | Source of truth | Notes |
+| Surface | Source of truth | Local docs |
 |---|---|---|
-| Public web app | `apps/web/` | Astro pages, components, data, and authored public assets. |
-| Communications Worker | `apps/communications-worker/` | Worker source, OpenAPI contract, D1 migrations, and tests. |
-| Canonical media | `assets/source/` | Mirrored into `apps/web/public/assets/`; manifests generated at `assets/manifest.*`. |
-| Branding | `branding/` | Brand docs, token exports, UX assessments; no runtime behavior. |
-| Docs | `docs/` | Ontology, infrastructure, operations, and press documentation. |
-| Operations | `ops/` | Runbooks, stability references, smoke/runtime scripts. |
-| Scripts | `scripts/` | Root operational and validation tooling. |
-| Skills | `skills/` | Repo-scoped agent skills. |
-| Kits | `kits/` | Reusable static-web scaffolding. |
+| Public web app | `apps/web/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| Communications Worker | `apps/communications-worker/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| Canonical media | `assets/source/` → `apps/web/public/assets/`; manifests `assets/manifest.*` | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| Branding | `branding/` (docs + tokens, no runtime) | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| Docs | `docs/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| Tooling | `scripts/`, `ops/`, `skills/`, `kits/` | each has `AGENTS.md`/`MEMORY.md` |
 
-## Working Directories
+## Page routes
 
-| Directory | Owns | Local files |
-|---|---|---|
-| `apps/web/` | Astro site source, public authored assets, generated `dist/` output | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| `apps/communications-worker/` | Worker routes, OpenAPI, D1 migrations, tests | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| `assets/` | Canonical media source and generated manifests | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| `branding/` | Brand docs and exportable tokens | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| `docs/` | Documentation and ontology | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| `ops/` | Operational runbooks and stability scripts | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| `scripts/` | Root scripts and command helpers | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| `skills/` | Repo-scoped skills | `AGENTS.md`, `MEMORY.md` |
-| `kits/` | Scaffolding kits | `AGENTS.md`, `MEMORY.md`, `README.md` |
+Every interior page uses `Base.astro` (brand mode set per page) and loads `tokens.css` + `interior-base.css` first. The home page uses `BasePortal.astro`.
 
-## Update Loops
+| Route | Source | Brand mode | Page CSS/JS |
+|---|---|---|---|
+| `/` | `pages/index.astro` | ritual | `portal.css`, `index-effects.js` |
+| `/books` | `pages/books.astro` | editorial | `books.css`, `books-page.js` |
+| `/about` | `pages/about.astro` | editorial | `mission.css` |
+| `/gallery` (Store) | `pages/gallery.astro` | editorial | `gallery.css`, `gallery-page.js` |
+| `/work` | `pages/work.astro` | editorial | `services.css`, `lab.css`, `lab-anglossic-*.js`, `dialog.js` |
+| `/connect` | `pages/connect.astro` | utility | `forms.css`, `connect-page.js` (routes to `/api/submit` or `/api/contact`) |
+| `/donate` + `/donate/thanks` | `pages/donate*.astro` | utility | `forms.css`, `donate-portal.css`, `donate-page.js` |
+| `/404` | `pages/404.astro` | editorial | shared |
 
-- Log each file-changing task in root `MEMORY.md`.
-- If the changed subtree has a local `MEMORY.md`, add a short local entry too.
-- Assess whether skills, tooling, runbooks, or validation scripts helped or got in the way; update the relevant surface when the improvement is clear.
-- Keep `ONTOLOGY.md`, `docs/ontology/ontology.md`, and `docs/ontology/project-ontology.json` synchronized when navigation, ownership, commands, or workflow rules change.
-- Run `npm run check:tooling-integrity` after ontology or tooling-contract changes.
+Redirects (in `astro.config.mjs`): `/services` + `/lab` → `/work`; `/submit` + `/contact` → `/connect`.
+
+Shared JS: `site-shell.js` (all pages), `form-utils.js` + `api-client.js` (forms). Nav and per-page metadata live in `apps/web/src/data/site.json`. Worker API routes are tabled in `AGENTS.md`; the contract is `apps/communications-worker/openapi.yaml`.
+
+## Update loops
+
+- Log each file-changing task in root `MEMORY.md`; add a local `MEMORY.md` entry when the subtree has one.
+- Keep `AGENTS.md` and this file aligned when navigation, ownership, commands, routes, or workflow rules change. When Worker routes change, update `openapi.yaml` and the API table in `AGENTS.md` together.
+- Note whether a skill, script, or runbook helped or got in the way; update it when the improvement is clear.
 
 ## Validation
 
-Use the narrowest relevant checks:
+Use the narrowest relevant checks (see `AGENTS.md` → Commands):
 
-```powershell
-npm run check:tooling-integrity
+```
 npm run build
-npm run test:worker
-npm run assets:check
-npm run check
+npm run lint:html
+npm run check:links
+npm run check:a11y
+npm run test:worker      # worker changes
+npm run assets:check     # media changes
+npm run check            # full gate
 ```
 
 Do not deploy, push, mutate secrets, or alter Cloudflare resources unless explicitly authorized.

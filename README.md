@@ -55,7 +55,6 @@ npm run assets:sync
 npm run assets:check
 npm run identity:build
 npm run check:seo
-npm run check:tooling-integrity
 npm run runtime:config
 npm run runtime:audit
 npm run smoke:api
@@ -126,7 +125,7 @@ Worker routes:
 
 - `AGENTS.md` is the canonical shared agent instruction file.
 - `CLAUDE.md` imports `AGENTS.md` for Claude Code.
-- `ONTOLOGY.md` is the project-level navigation contract; detailed companions live in `docs/ontology/`.
+- `ONTOLOGY.md` is the project-level navigation contract: surfaces, page/API routes, ownership, and validation.
 - `MEMORY.md` records durable changes, checks, follow-ups, and tooling notes.
 - Local `AGENTS.md` and `MEMORY.md` files in major working directories define subtree ownership and memory logging.
 - Repo-scoped skills live under `skills/`; runbooks under `ops/`; shell and Node tooling under `scripts/`; reusable kits under `kits/`.

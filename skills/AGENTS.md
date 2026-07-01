@@ -10,5 +10,5 @@ This directory owns repo-scoped agent skills.
 
 Closeout:
 
-- Run `npm run check:tooling-integrity` when skill paths or workflow contracts change.
+- Update `../ONTOLOGY.md` when skill paths or workflow contracts change.
 - Append a short entry to this directory's `MEMORY.md` and to `../MEMORY.md`.

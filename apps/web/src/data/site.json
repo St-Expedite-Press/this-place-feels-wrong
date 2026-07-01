@@ -37,23 +37,19 @@
       { "label": "Portal", "href": "/", "group": "home" },
       { "label": "Books", "href": "/books", "group": "read" },
       { "label": "About", "href": "/about", "group": "read" },
-      { "label": "Lab", "href": "/lab", "group": "read" },
-      { "label": "Services", "href": "/services", "group": "read" },
+      { "label": "Work", "href": "/work", "group": "read" },
       { "label": "Store", "href": "/gallery", "group": "buy" },
-      { "label": "Submit", "href": "/submit", "group": "act" },
-      { "label": "Donate", "href": "/donate", "group": "act" },
-      { "label": "Contact", "href": "/contact", "group": "act" }
+      { "label": "Connect", "href": "/connect", "group": "act" },
+      { "label": "Donate", "href": "/donate", "group": "act" }
     ],
     "footerLinks": [
       { "label": "Portal", "href": "/" },
       { "label": "Books", "href": "/books" },
       { "label": "Store", "href": "/gallery" },
       { "label": "About", "href": "/about" },
-      { "label": "Donate", "href": "/donate" },
-      { "label": "Contact", "href": "/contact" },
-      { "label": "Submit", "href": "/submit" },
-      { "label": "Lab", "href": "/lab" },
-      { "label": "Services", "href": "/services" }
+      { "label": "Work", "href": "/work" },
+      { "label": "Connect", "href": "/connect" },
+      { "label": "Donate", "href": "/donate" }
     ]
   },
   "pages": {
@@ -90,8 +86,8 @@
       "subtitle": "",
       "eyebrow": "St. Expedite Press",
       "introKicker": "Direct support",
-      "introTitle": "This work continues because of this.",
-      "introText": "A one-time contribution enters the ongoing work of publication, archive, and continuity.",
+      "introTitle": "Support the press directly.",
+      "introText": "A one-time contribution goes straight into publishing, archive work, and what comes next.",
       "canonical": "https://stexpedite.press/donate",
       "currentNav": "/donate"
     },
@@ -160,6 +156,26 @@
       "introText": "St. Expedite builds the voice, structure, website, and operating system that let a project become recognizable in public.",
       "canonical": "https://stexpedite.press/services",
       "currentNav": "/services"
+    },
+    "work": {
+      "title": "Work",
+      "description": "Founder-led engagements from St. Expedite Press: agentic marketing, editorial strategy, web production, and experimental instruments like the American Anglossic Compass.",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Creative systems",
+      "introTitle": "Distinctive ideas need more than content.",
+      "introText": "St. Expedite builds the voice, structure, website, and operating system that let a project become recognizable in public — and runs instruments that do not fit inside a book.",
+      "canonical": "https://stexpedite.press/work",
+      "currentNav": "/work"
+    },
+    "connect": {
+      "title": "Connect",
+      "description": "Reach St. Expedite Press: manuscript submissions, rights and press, collaborations, and general correspondence.",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Reach the press",
+      "introTitle": "Send a manuscript, or write to the press.",
+      "introText": "One place to send a submission inquiry or reach the press about rights, press, collaborations, and everything else.",
+      "canonical": "https://stexpedite.press/connect",
+      "currentNav": "/connect"
     }
   }
 }
