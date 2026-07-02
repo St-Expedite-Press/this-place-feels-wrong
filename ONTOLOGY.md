@@ -6,21 +6,27 @@ The project navigation contract. Read after `AGENTS.md` and before selecting fil
 
 | Field | Value |
 |---|---|
-| Live site | `https://stexpedite.press` |
-| Stack | Astro · Cloudflare Pages · Cloudflare Worker · D1 · Resend · Stripe · Fourthwall · Turnstile |
-| Repository | `St-Expedite-Press/this-place-feels-wrong` |
+| Live sites | `https://stexpedite.press` (web) · `https://rice.stexpedite.press` (RICE) |
+| Stack | Astro · static+Python (RICE) · Cloudflare Pages · Cloudflare Worker · D1 · Resend · Stripe · Fourthwall · Turnstile |
+| Repository | `St-Expedite-Press/this-place-feels-wrong` (monorepo) |
 | Agent doctrine | `AGENTS.md` · phase tracking `PHASE-PLAN.md` · change log `MEMORY.md` |
+| Documentation hub | `docs/README.md` (indexes every doc; enforced by `npm run check:docs`) |
 
 ## Maintained surfaces
 
 | Surface | Source of truth | Local docs |
 |---|---|---|
-| Public web app | `apps/web/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| Web app (stexpedite.press) | `apps/web/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| RICE app (rice.stexpedite.press) | `apps/rice/` (static site + Python build; `_site` artifact) | `AGENTS.md`, `MEMORY.md`, `README.md`, `ONTOLOGY.md`, `docs/` |
 | Communications Worker | `apps/communications-worker/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
 | Canonical media | `assets/source/` → `apps/web/public/assets/`; manifests `assets/manifest.*` | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| Branding | `branding/` (docs + tokens, no runtime) | `AGENTS.md`, `MEMORY.md`, `README.md` |
-| Docs | `docs/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| Branding | `branding/` (tokens + exports); prose docs in `docs/branding/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
+| Docs | `docs/` (single documentation hub — see `docs/README.md`) | `AGENTS.md`, `MEMORY.md`, `README.md` |
 | Tooling | `scripts/`, `ops/`, `skills/`, `kits/` | each has `AGENTS.md`/`MEMORY.md` |
+
+RICE is a self-contained app: its routes, build, and asset pipeline are
+documented in `apps/rice/ONTOLOGY.md` and `apps/rice/docs/`. It deploys to its
+own Cloudflare Pages project (`rice-magazine`) via `.github/workflows/deploy-rice.yml`.
 
 ## Page routes
 

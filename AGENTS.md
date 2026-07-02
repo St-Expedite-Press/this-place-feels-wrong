@@ -40,10 +40,11 @@ Prefer built-in subagents when the runtime can select the requested model direct
 
 | Layer | Path | Purpose |
 |---|---|---|
-| Web source | `apps/web/src/` | Astro pages, layouts, components, `data/site.json` |
+| Web source | `apps/web/src/` | Astro pages, layouts, components, `data/site.json` (stexpedite.press) |
 | Web assets | `apps/web/public/assets/` | Authored CSS, JS, fonts, synced images |
 | Web output | `apps/web/dist/` | **Generated only — never edit by hand** |
-| Worker | `apps/communications-worker/src/index.ts` | Cloudflare Worker API |
+| RICE app | `apps/rice/` | Static site + Python build (rice.stexpedite.press); output `apps/rice/_site/` (**generated**). See `apps/rice/ONTOLOGY.md` |
+| Worker | `apps/communications-worker/src/index.ts` | Cloudflare Worker API (RICE consumes `POST /api/updates`) |
 | Worker contract | `apps/communications-worker/openapi.yaml` | OpenAPI spec — source of truth for `/api/*` |
 | D1 migrations | `apps/communications-worker/migrations/` | **Append-only — never edit existing files** |
 | Media source | `assets/source/` | Canonical media, mirrored into the web tree; manifests at `assets/manifest.*` |
@@ -78,22 +79,27 @@ Dark void aesthetic — do not genericize it. Fonts: Cinzel (display), Cormorant
 
 ## Commands
 
+One command surface drives both sites + the worker:
+
 ```
-npm run build            # Build Astro site → apps/web/dist/
-npm run dev:web          # Astro dev server (localhost:4321)
-npm run dev:worker       # Wrangler dev (Worker local)
-npm run check            # build + lint:html + check:links + check:a11y + test:worker + check:audit
-npm run lint:html        # HTML validity (dist)
-npm run check:links      # Broken link check
-npm run check:a11y       # Accessibility heuristics
-npm run test:worker      # Worker unit tests
-npm run assets:sync      # Sync assets/source/ → apps/web/public/assets/
-npm run assets:check     # Verify asset sync + manifest
-npm run deploy:web       # Deploy Pages (needs CLOUDFLARE_API_TOKEN + ACCOUNT_ID)
-npm run deploy:worker    # Deploy Worker
+# build            web / rice / both
+npm run build            # web (alias: build:web) → apps/web/dist/
+npm run build:rice       # RICE → apps/rice/_site/
+npm run build:all
+# dev
+npm run dev:web          # Astro dev (:4321)
+npm run dev:rice         # RICE static server (:4173)
+npm run dev:worker       # Wrangler dev (Worker)
+# deploy (Cloudflare Pages, one token)
+npm run deploy:web  |  deploy:rice  |  deploy:all  |  deploy:worker
+# checks
+npm run check            # docs + build + lint:html + links + a11y + worker tests + audit
+npm run check:rice       # RICE asset integrity
+npm run check:docs       # documentation coverage (no orphaned docs)
+npm run assets:sync | assets:check
 ```
 
-Run the narrowest relevant checks: web/CSS/Astro changes → `build` + `lint:html` + `check:links` + `check:a11y`; Worker changes → `test:worker` and update `openapi.yaml`; media → `assets:sync` + `assets:check`. On Windows, shell scripts route through `scripts/run-bash.mjs` (WSL → Git Bash).
+Run the narrowest relevant checks: web/CSS/Astro → `build` + `lint:html` + `check:links` + `check:a11y`; RICE → `check:rice` + `build:rice`; Worker → `test:worker` and update `openapi.yaml`; docs moves → `check:docs`; media → `assets:sync` + `assets:check`. On Windows, shell scripts route through `scripts/run-bash.mjs` (WSL → Git Bash).
 
 ## Git and editing discipline
 
@@ -106,7 +112,8 @@ Remote: `https://github.com/St-Expedite-Press/this-place-feels-wrong` · Default
 
 ## Deployment
 
-`.github/workflows/deploy-pages.yml` validates and deploys `apps/web/dist` to Cloudflare Pages (`stexpedite-press`) on push to `main`. The Worker deploys separately via `npm run deploy:worker`. A successful local build does not authorize a push or deploy.
+Each app deploys independently via path-filtered workflows on push to `main`:
+`.github/workflows/deploy-pages.yml` builds + deploys `apps/web/dist` to Cloudflare Pages (`stexpedite-press`, ignores `apps/rice/**`); `.github/workflows/deploy-rice.yml` builds + deploys `apps/rice/_site` to Cloudflare Pages (`rice-magazine`, triggers on `apps/rice/**`). The Worker deploys separately via `npm run deploy:worker`. A successful local build does not authorize a push or deploy.
 
 ## Secrets
 

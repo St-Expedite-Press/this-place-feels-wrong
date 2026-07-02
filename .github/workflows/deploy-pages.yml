@@ -3,6 +3,9 @@ name: Validate
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - "apps/rice/**"
+      - ".github/workflows/deploy-rice.yml"
   workflow_dispatch:
 
 concurrency:

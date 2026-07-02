@@ -6,9 +6,14 @@ This directory is documentation and design-system source material only. It does 
 
 ## Contents
 
-- `ux-assessment.md` - repo-wide visual and UX assessment with prioritized aesthetic changes.
-- `brand-guidelines.md` - brand premise, palette, typography, imagery, layout, motion, and accessibility rules.
-- `web-elements.md` - reusable recipes for creating more site components and branded web surfaces.
+Prose brand docs now live in the consolidated docs hub under [`../docs/branding/`](../docs/branding/):
+
+- [`../docs/branding/ux-assessment.md`](../docs/branding/ux-assessment.md) - repo-wide visual and UX assessment with prioritized aesthetic changes.
+- [`../docs/branding/brand-guidelines.md`](../docs/branding/brand-guidelines.md) - brand premise, palette, typography, imagery, layout, motion, and accessibility rules.
+- [`../docs/branding/web-elements.md`](../docs/branding/web-elements.md) - reusable recipes for creating more site components and branded web surfaces.
+
+This directory keeps the machine-readable token package:
+
 - `tokens/brand-tokens.json` - machine-readable design tokens for external tools and design handoff.
 - `tokens/brand-tokens.css` - two-vocabulary token file: `--brand-*` names for design tools and mockups, with implementation aliases (`--bg`, `--panel`, `--mode-*`, etc.) declared as `var(--brand-*)` references so both name sets work when this file is loaded alone. Source of truth for all values; `tokens.css` in the live site should mirror these.
 - `assets/README.md` - asset handoff notes and source paths for exported image/gif material.
