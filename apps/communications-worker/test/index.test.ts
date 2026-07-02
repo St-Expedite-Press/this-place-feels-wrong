@@ -141,7 +141,7 @@ function makeMockDb() {
               return {};
             },
             async all<T>() {
-              if (sql.includes("FROM oncoming_projects")) {
+              if (sql.includes("FROM works")) {
                 return {
                   results: [
                     {
@@ -601,5 +601,18 @@ describe("communications worker", () => {
 
     expect(res.status).toBe(200);
     expect(res.headers.get("access-control-allow-origin")).toBe("http://localhost:8000");
+  });
+
+  it("allows the RICE GitHub Pages origin for updates", async () => {
+    const req = new Request("https://stexpedite.press/api/updates", {
+      method: "OPTIONS",
+      headers: { origin: "https://st-expedite-press.github.io" },
+    });
+
+    const res = await worker.fetch(req, baseEnv as never);
+
+    expect(res.status).toBe(204);
+    expect(res.headers.get("access-control-allow-origin")).toBe("https://st-expedite-press.github.io");
+    expect(res.headers.get("access-control-allow-methods")).toContain("POST");
   });
 });

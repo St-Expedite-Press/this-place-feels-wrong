@@ -17,7 +17,42 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+const WORKS_ENDPOINT = "https://stexpedite.press/api/works?program=rice";
+
+function mergeWorks(works) {
+  if (!works.length) return false;
+  searchIndex = [...works, ...searchIndex];
+  if (renderSearch) renderSearch();
+  return true;
+}
+
 async function loadSearchIndex() {
+  // Primary source: the unified works API (D1). RICE and the St. Expedite
+  // catalog now share one model; RICE reads its works at runtime.
+  try {
+    const response = await fetch(WORKS_ENDPOINT);
+    if (!response.ok) throw new Error(String(response.status));
+    const data = await response.json();
+    const works = (data.works || [])
+      .filter(work => ["sample", "published"].includes(work.status) && work.href)
+      .map(work => {
+        const ref = typeof work.notes === "string" && work.notes.startsWith("ref: ")
+          ? work.notes.slice(5)
+          : null;
+        return {
+          type: work.status === "sample" ? "Editorial sample" : (work.kind || "Work"),
+          title: work.title,
+          author: work.author || "RICE",
+          href: work.href,
+          meta: [work.series_key, work.place, ref].filter(Boolean).join(" / ")
+        };
+      });
+    if (mergeWorks(works)) return;
+  } catch {
+    // fall back to the static manifest below
+  }
+
+  // Fallback: static articles.json (keeps search working if the API is down).
   try {
     const response = await fetch("assets/articles.json");
     if (!response.ok) throw new Error(String(response.status));
@@ -31,10 +66,9 @@ async function loadSearchIndex() {
         href: work.href,
         meta: [work.season, work.place, work.ref].filter(Boolean).join(" / ")
       }));
-    searchIndex = [...works, ...searchIndex];
-    if (renderSearch) renderSearch();
+    mergeWorks(works);
   } catch {
-    // Utility pages remain available when the editorial manifest cannot load.
+    // Utility pages remain available when neither source loads.
   }
 }
 

@@ -41,6 +41,8 @@ function withCors(request: Request, response: Response) {
   const allowedOrigins = new Set([
     "https://stexpedite.press",
     "https://www.stexpedite.press",
+    "https://st-expedite-press.github.io",
+    "https://rice.stexpedite.press",
   ]);
   const isLocalOrigin = /^http:\/\/(?:localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/i.test(origin);
 
@@ -944,7 +946,7 @@ async function handleProjects(request: Request, env: Env) {
       buy_url,
       completion_percent,
       published_at
-    FROM oncoming_projects
+    FROM works WHERE kind = 'book'
     ORDER BY (published_at IS NULL) ASC, published_at ASC, sort_order ASC
   `;
   const selectWithBuyLegacyProgress = `
@@ -965,7 +967,7 @@ async function handleProjects(request: Request, env: Env) {
       cover_image,
       popup_description,
       buy_url
-    FROM oncoming_projects
+    FROM works WHERE kind = 'book'
     ORDER BY sort_order ASC
   `;
   const selectLegacy = `
@@ -985,7 +987,7 @@ async function handleProjects(request: Request, env: Env) {
       notes,
       cover_image,
       popup_description
-    FROM oncoming_projects
+    FROM works WHERE kind = 'book'
     ORDER BY sort_order ASC
   `;
 
@@ -1059,6 +1061,61 @@ async function handleProjects(request: Request, env: Env) {
   }
 }
 
+// Unified works endpoint: St. Expedite books + RICE editorial works, filterable
+// by ?program= (e.g. rice) and ?kind=. Reads the unified `works` table.
+async function handleWorks(request: Request, env: Env, url: URL) {
+  const db = env.DB;
+  if (!db?.prepare) return errorResponse("Works list not configured", 500);
+
+  const program = url.searchParams.get("program");
+  const kind = url.searchParams.get("kind");
+  const clauses: string[] = [];
+  const binds: unknown[] = [];
+  if (program) { clauses.push("program_key = ?"); binds.push(program); }
+  if (kind) { clauses.push("kind = ?"); binds.push(kind); }
+  const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
+  const sql = `
+    SELECT project_slug, program_key, series_key, series_title, cluster_key, cluster_title,
+      author, title, subtitle, publication_year, status, sort_order, notes, cover_image,
+      popup_description, buy_url, completion_percent, isbn, published_at, page_count,
+      kind, place, keywords, disclosure, href
+    FROM works ${where}
+    ORDER BY (published_at IS NULL) ASC, published_at ASC, sort_order ASC
+  `;
+
+  try {
+    const q = await db.prepare(sql).bind(...binds).all<Record<string, unknown>>();
+    const works = (q.results ?? []).map((w) => {
+      const rawPercent = Number(w.completion_percent ?? 0);
+      const completion = Number.isFinite(rawPercent) ? Math.max(0, Math.min(100, Math.round(rawPercent))) : 0;
+      let keywords: unknown = w.keywords;
+      if (typeof keywords === "string") { try { keywords = JSON.parse(keywords); } catch { keywords = []; } }
+      return { ...w, completion_percent: completion, keywords: Array.isArray(keywords) ? keywords : [] };
+    });
+
+    const seriesCount = new Map<string, { key: string; title: string; count: number }>();
+    const programs = new Set<string>();
+    for (const w of works) {
+      const key = String(w.series_key ?? "");
+      const ex = seriesCount.get(key);
+      if (ex) ex.count += 1;
+      else seriesCount.set(key, { key, title: String(w.series_title ?? key), count: 1 });
+      programs.add(String(w.program_key ?? ""));
+    }
+
+    const response = ok({
+      filter: { program: program ?? null, kind: kind ?? null },
+      totals: { works: works.length, series: seriesCount.size, programs: programs.size },
+      series: Array.from(seriesCount.values()),
+      works,
+    });
+    return withCache(response, "public, max-age=300, s-maxage=300, stale-while-revalidate=600");
+  } catch (error) {
+    console.error("Works query failed", { message: error instanceof Error ? error.message : String(error) });
+    return errorResponse("Works list unavailable", 500);
+  }
+}
+
 function requireImportAuth(request: Request, env: Env) {
   const token = String(env.UPDATES_IMPORT_TOKEN ?? "").trim();
   const provided = String(request.headers.get("x-import-token") ?? "").trim();
@@ -1106,6 +1163,10 @@ export default {
 
       if (url.pathname === "/api/projects" && request.method === "GET") {
         return withCors(request, await handleProjects(request, env));
+      }
+
+      if (url.pathname === "/api/works" && request.method === "GET") {
+        return withCors(request, await handleWorks(request, env, url));
       }
 
       if (url.pathname === "/api/stripe/webhook" && request.method === "POST") {

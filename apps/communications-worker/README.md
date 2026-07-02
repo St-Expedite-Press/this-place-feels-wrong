@@ -41,6 +41,14 @@ npm run deploy
 - Optional Turnstile validation on POST routes
 - Fourthwall storefront API for merch data
 
+## First-party browser origins
+
+Browser CORS permits `stexpedite.press`, `www.stexpedite.press`, the
+St. Expedite Press GitHub Pages origin used by RICE
+(`https://st-expedite-press.github.io`), and localhost/loopback development
+origins. RICE submits updates with source `rice-magazine-seed`; no cookie or
+credential sharing is enabled.
+
 ## Contract Files
 
 - implementation: `apps/communications-worker/src/index.ts`

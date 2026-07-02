@@ -80,6 +80,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /api/works:
+    get:
+      tags: [works]
+      summary: Read the unified works list (St. Expedite books + RICE editorial works)
+      operationId: getWorks
+      parameters:
+        - in: query
+          name: program
+          required: false
+          schema: { type: string }
+          description: Filter by program_key (e.g. rice)
+        - in: query
+          name: kind
+          required: false
+          schema: { type: string }
+          description: Filter by kind (book, essay, fiction, poetry, photo, archive, issue)
+      responses:
+        "200":
+          description: Unified works list from D1 (works, series, totals)
+          content:
+            application/json:
+              schema:
+                type: object
+        "500":
+          description: DB binding missing or works table unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /api/contact:
     post:
       tags: [contact]
@@ -268,6 +297,9 @@ paths:
       description: |
         Writes to D1 (`updates_signups`) when DB binding is configured.
         Public route for first-party signup capture only.
+        Browser CORS allows the St. Expedite Press origins, the RICE GitHub
+        Pages origin (`https://st-expedite-press.github.io`), and localhost
+        development origins.
       requestBody:
         required: true
         content:
