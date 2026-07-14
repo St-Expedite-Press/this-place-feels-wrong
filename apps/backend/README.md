@@ -46,6 +46,13 @@ npm run deploy
 
 The chat route accepts only bounded, alternating `user`/`assistant` text messages, applies the shared D1 rate limit and optional Turnstile check, and streams Hermes SSE without exposing its credential. Do not point it at a privileged Hermes profile.
 
+`POST /api/submit` accepts the existing JSON inquiry or a multipart manuscript
+submission. Multipart delivery requires author metadata, consent, Turnstile,
+and one allowlisted file up to 10 MiB. The editor email receives the attachment;
+the submitter receives a reference receipt. D1 stores metadata only, never the
+manuscript contents. Apply migration `0019_submission_attachments.sql` before
+deploying this contract.
+
 ## First-party browser origins
 
 Browser CORS permits `stexpedite.press`, `www.stexpedite.press`, the

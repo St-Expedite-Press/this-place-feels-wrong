@@ -62,6 +62,11 @@ Deploy manually:
 npm run deploy:backend
 ```
 
+Before deploying manuscript uploads, apply D1 migration
+`apps/backend/migrations/0019_submission_attachments.sql`. Submission files
+are limited to 10 MiB and forwarded as Resend attachments; only metadata is
+written to D1.
+
 ## Local Setup
 
 ```bash

@@ -53,8 +53,12 @@ export async function requestJson(url, options = {}) {
   if (cache) init.cache = cache;
 
   if (body !== undefined) {
-    init.headers["content-type"] = "application/json";
-    init.body = JSON.stringify(body);
+    if (body instanceof FormData) {
+      init.body = body;
+    } else {
+      init.headers["content-type"] = "application/json";
+      init.body = JSON.stringify(body);
+    }
   }
 
   try {

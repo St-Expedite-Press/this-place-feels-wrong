@@ -4,11 +4,13 @@
   "allow": {
     "surfaces": ["stex", "rice", "openui"],
     "knowledge": "public-provenance-only",
-    "streaming": true
+    "streaming": true,
+    "submissionHandoff": "worker-form-only"
   },
   "deny": [
     "filesystem", "terminal", "browser", "code-execution", "memory",
-    "delegation", "cron", "deployment", "secrets", "private-retrieval"
+    "delegation", "cron", "deployment", "secrets", "private-retrieval",
+    "submission-file-access", "email-tool-access"
   ],
   "limits": {
     "maxTurns": 4,

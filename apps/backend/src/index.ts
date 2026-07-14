@@ -39,10 +39,33 @@ type ChatMessage = {
 
 type ChatSurface = "stex" | "rice" | "openui";
 
+type EmailAttachment = {
+  filename: string;
+  content: string;
+};
+
+type SubmissionAttachment = EmailAttachment & {
+  contentType: string;
+  size: number;
+};
+
 const CHAT_MAX_BODY_BYTES = 32 * 1024;
 const CHAT_MAX_MESSAGES = 12;
 const CHAT_MAX_MESSAGE_CHARS = 4_000;
 const CHAT_MAX_TOTAL_CHARS = 12_000;
+const SUBMISSION_MAX_FILE_BYTES = 10 * 1024 * 1024;
+const SUBMISSION_MAX_BODY_BYTES = 11 * 1024 * 1024;
+const SUBMISSION_EXTENSIONS = new Set(["pdf", "doc", "docx", "odt", "rtf", "txt", "md"]);
+const SUBMISSION_CONTENT_TYPES = new Set([
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.oasis.opendocument.text",
+  "application/rtf",
+  "text/rtf",
+  "text/plain",
+  "text/markdown",
+]);
 
 function json(data: JsonRecord, init?: ResponseInit) {
   const headers = new Headers(init?.headers);
@@ -170,6 +193,84 @@ async function parseJson(request: Request) {
   } catch {
     return null;
   }
+}
+
+function normalizeSingleLine(value: unknown, maxLen: number) {
+  return normalizeText(value, maxLen).replace(/\s+/g, " ").trim().slice(0, maxLen);
+}
+
+async function readLimitedBody(request: Request, maxBytes: number) {
+  const declaredLength = Number.parseInt(request.headers.get("content-length") ?? "", 10);
+  if (Number.isFinite(declaredLength) && declaredLength > maxBytes) return { kind: "too-large" as const };
+  const reader = request.body?.getReader();
+  if (!reader) return { kind: "invalid" as const };
+  const chunks: Uint8Array[] = [];
+  let byteLength = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    byteLength += value.byteLength;
+    if (byteLength > maxBytes) {
+      await reader.cancel();
+      return { kind: "too-large" as const };
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(byteLength);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return { kind: "ok" as const, bytes };
+}
+
+async function parseLimitedFormData(request: Request, maxBytes: number) {
+  const contentType = request.headers.get("content-type") ?? "";
+  if (!contentType.toLowerCase().startsWith("multipart/form-data;")) return { kind: "invalid" as const };
+  const body = await readLimitedBody(request, maxBytes);
+  if (body.kind !== "ok") return body;
+  try {
+    const response = new Response(body.bytes, { headers: { "content-type": contentType } });
+    return { kind: "ok" as const, form: await response.formData() };
+  } catch {
+    return { kind: "invalid" as const };
+  }
+}
+
+function formText(form: FormData, key: string, maxLen: number) {
+  const value = form.get(key);
+  return typeof value === "string" ? normalizeText(value, maxLen) : "";
+}
+
+function formSingleLine(form: FormData, key: string, maxLen: number) {
+  const value = form.get(key);
+  return typeof value === "string" ? normalizeSingleLine(value, maxLen) : "";
+}
+
+function safeAttachmentName(value: string) {
+  const leaf = value.split(/[\\/]/).at(-1) ?? "submission";
+  return leaf.replace(/[\u0000-\u001f\u007f]/g, "").replace(/[^\p{L}\p{N}._() -]/gu, "_").slice(0, 140) || "submission";
+}
+
+function bytesToBase64(bytes: Uint8Array) {
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let offset = 0; offset < bytes.length; offset += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(offset, offset + chunkSize));
+  }
+  return btoa(binary);
+}
+
+async function validateSubmissionFile(value: FormDataEntryValue | null): Promise<SubmissionAttachment | null> {
+  if (!(value instanceof File) || !value.name || value.size < 1 || value.size > SUBMISSION_MAX_FILE_BYTES) return null;
+  const filename = safeAttachmentName(value.name);
+  const extension = filename.includes(".") ? filename.split(".").at(-1)!.toLowerCase() : "";
+  const contentType = String(value.type || "application/octet-stream").toLowerCase();
+  if (!SUBMISSION_EXTENSIONS.has(extension) || !SUBMISSION_CONTENT_TYPES.has(contentType)) return null;
+  const bytes = new Uint8Array(await value.arrayBuffer());
+  if (bytes.byteLength !== value.size) return null;
+  return { filename, contentType, size: bytes.byteLength, content: bytesToBase64(bytes) };
 }
 
 async function parseLimitedJson(request: Request, maxBytes: number) {
@@ -398,7 +499,7 @@ async function createStripeCheckoutSession(env: Env, params: { amountCents: numb
   };
 }
 
-async function sendEmail(env: Env, params: { to: string; subject: string; text: string; html?: string; replyTo?: string }): Promise<string> {
+async function sendEmail(env: Env, params: { to: string; subject: string; text: string; html?: string; replyTo?: string; attachments?: EmailAttachment[] }): Promise<string> {
   const payload: Record<string, unknown> = {
     from: env.FROM_EMAIL,
     to: [params.to],
@@ -408,6 +509,7 @@ async function sendEmail(env: Env, params: { to: string; subject: string; text: 
 
   if (params.html) payload.html = params.html;
   if (params.replyTo) payload.reply_to = [params.replyTo];
+  if (params.attachments?.length) payload.attachments = params.attachments;
 
   const resp = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -481,15 +583,28 @@ async function logSubmission(db: D1Database | undefined, params: {
   message: string | null;
   editorEmailId: string;
   receiptEmailId: string;
+  authorName?: string | null;
+  workTitle?: string | null;
+  genre?: string | null;
+  attachmentName?: string | null;
+  attachmentType?: string | null;
+  attachmentBytes?: number | null;
 }) {
   if (!db?.prepare) return;
   try {
     await db
       .prepare(
-        `INSERT INTO contact_submissions (id, type, email, reason, message, received_at, editor_email_id, receipt_email_id)
-         VALUES (?, ?, ?, ?, ?, datetime('now'), ?, ?)`,
+        `INSERT INTO contact_submissions
+           (id, type, email, reason, message, received_at, editor_email_id, receipt_email_id,
+            author_name, work_title, genre, attachment_name, attachment_type, attachment_bytes)
+         VALUES (?, ?, ?, ?, ?, datetime('now'), ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
-      .bind(params.id, params.type, params.email, params.reason, params.message, params.editorEmailId, params.receiptEmailId)
+      .bind(
+        params.id, params.type, params.email, params.reason, params.message,
+        params.editorEmailId, params.receiptEmailId,
+        params.authorName ?? null, params.workTitle ?? null, params.genre ?? null,
+        params.attachmentName ?? null, params.attachmentType ?? null, params.attachmentBytes ?? null,
+      )
       .run();
   } catch (error) {
     console.warn("Failed to log submission to D1", {
@@ -617,20 +732,101 @@ function renderContactEditorHtml(params: { id: string; reason: string; fromEmail
   });
 }
 
-function renderSubmitEditorHtml(params: { id: string; fromEmail: string; note: string }) {
+function renderSubmitEditorHtml(params: { id: string; fromEmail: string; note: string; authorName?: string; workTitle?: string; genre?: string; attachment?: SubmissionAttachment }) {
   return renderEmailShell({
     preheader: `Submission inquiry ${params.id}`,
     title: "New Submission Inquiry",
     subtitle: params.id,
     bodyHtml: [
       `<p style="margin:0 0 8px;"><strong>From:</strong> ${escapeHtml(params.fromEmail)}</p>`,
+      params.authorName ? `<p style="margin:0 0 8px;"><strong>Author:</strong> ${escapeHtml(params.authorName)}</p>` : "",
+      params.workTitle ? `<p style="margin:0 0 8px;"><strong>Work:</strong> ${escapeHtml(params.workTitle)}</p>` : "",
+      params.genre ? `<p style="margin:0 0 8px;"><strong>Genre / form:</strong> ${escapeHtml(params.genre)}</p>` : "",
+      params.attachment ? `<p style="margin:0 0 8px;"><strong>Attachment:</strong> ${escapeHtml(params.attachment.filename)} (${Math.ceil(params.attachment.size / 1024)} KiB)</p>` : "",
       '<p style="margin:16px 0 8px;"><strong>Note</strong></p>',
       `<p style="margin:0;padding:14px;border:1px solid ${BRAND.border};border-radius:8px;background:${BRAND.panelAlt};">${nlToBr(params.note || "(no note)")}</p>`,
     ].join("\n"),
     ctaLabel: "Open Inbox",
     ctaUrl: "https://mail.zoho.com/",
-    footerNote: "Inbound inquiry delivered via communications worker.",
+    footerNote: params.attachment ? "Manuscript attached by the constrained submission worker." : "Inbound inquiry delivered via communications worker.",
   });
+}
+
+async function deliverSubmission(env: Env, params: {
+  fromEmail: string;
+  note: string;
+  authorName?: string;
+  workTitle?: string;
+  genre?: string;
+  attachment?: SubmissionAttachment;
+}) {
+  const id = refId("SUBMIT");
+  const details = [
+    "Submission / inquiry", "", `Ref: ${id}`, `From: ${params.fromEmail}`,
+    params.authorName ? `Author: ${params.authorName}` : null,
+    params.workTitle ? `Work: ${params.workTitle}` : null,
+    params.genre ? `Genre / form: ${params.genre}` : null,
+    params.attachment ? `Attachment: ${params.attachment.filename} (${params.attachment.size} bytes)` : null,
+    "", params.note || "(no note)",
+  ].filter((value): value is string => Boolean(value));
+  const editorEmailId = await sendEmail(env, {
+    to: env.TO_EMAIL,
+    subject: `St. Expedite Press — Submission${params.workTitle ? ` — ${params.workTitle}` : ""} — ${id}`,
+    text: details.join("\n"),
+    html: renderSubmitEditorHtml({ id, ...params }),
+    replyTo: params.fromEmail,
+    attachments: params.attachment ? [{ filename: params.attachment.filename, content: params.attachment.content }] : undefined,
+  });
+  const receiptDetail = params.attachment
+    ? `Your submission of ${params.attachment.filename} has been received and forwarded to the editor.`
+    : "Your submission inquiry has been received.";
+  let receiptEmailId = "";
+  try {
+    receiptEmailId = await sendEmail(env, {
+      to: params.fromEmail,
+      subject: `Received — ${id}`,
+      text: [receiptDetail, "", `Reference: ${id}`, "Reply to this email if you need to add context.", "", "— St. Expedite Press"].join("\n"),
+      html: renderReceiptHtml({ id, heading: params.attachment ? "Submission Received" : "Submission Inquiry Received", detail: receiptDetail }),
+      replyTo: env.TO_EMAIL,
+    });
+  } catch (error) {
+    console.warn("Submission receipt email failed after editor delivery", {
+      id,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  }
+  await logSubmission(env.DB, {
+    id, type: "submit", email: params.fromEmail, reason: null, message: params.note || null,
+    editorEmailId, receiptEmailId, authorName: params.authorName || null,
+    workTitle: params.workTitle || null, genre: params.genre || null,
+    attachmentName: params.attachment?.filename ?? null,
+    attachmentType: params.attachment?.contentType ?? null,
+    attachmentBytes: params.attachment?.size ?? null,
+  });
+  return id;
+}
+
+async function handleMultipartSubmission(request: Request, env: Env) {
+  if (!env.RESEND_API_KEY || !env.FROM_EMAIL || !env.TO_EMAIL) return errorResponse("Server not configured", 500);
+  const parsed = await parseLimitedFormData(request, SUBMISSION_MAX_BODY_BYTES);
+  if (parsed.kind === "too-large") return errorResponse("Submission file is too large", 413);
+  if (parsed.kind !== "ok") return errorResponse("Invalid submission form", 400);
+  const form = parsed.form;
+  if (formText(form, "website", 200)) return ok({});
+  const turnstileToken = formText(form, "turnstileToken", 2_048) || formText(form, "cf-turnstile-response", 2_048);
+  if (!(await verifyTurnstile(request, env, turnstileToken))) return errorResponse("Turnstile verification failed", 403);
+  const fromEmail = formText(form, "email", 320);
+  const authorName = formSingleLine(form, "authorName", 120);
+  const workTitle = formSingleLine(form, "workTitle", 200);
+  const genre = formSingleLine(form, "genre", 80);
+  const note = formText(form, "note", 6_000);
+  const consent = formText(form, "consent", 20);
+  const attachment = await validateSubmissionFile(form.get("file"));
+  if (!isProbablyEmail(fromEmail) || !authorName || !workTitle || !attachment || !["true", "on", "yes"].includes(consent.toLowerCase())) {
+    return errorResponse("Missing or invalid submission fields", 400);
+  }
+  const id = await deliverSubmission(env, { fromEmail, note, authorName, workTitle, genre, attachment });
+  return ok({ id, filename: attachment.filename });
 }
 
 function renderReceiptHtml(params: { id: string; heading: string; detail: string }) {
@@ -1349,6 +1545,10 @@ export default {
         return withCors(request, await handleChat(request, env));
       }
 
+      if (url.pathname === "/api/submit" && (request.headers.get("content-type") ?? "").toLowerCase().startsWith("multipart/form-data;")) {
+        return withCors(request, await handleMultipartSubmission(request, env));
+      }
+
       const body = await parseJson(request);
       if (!body) return withCors(request, errorResponse("Invalid JSON", 400));
 
@@ -1451,37 +1651,7 @@ export default {
         if (!isProbablyEmail(fromEmail)) {
           return withCors(request, errorResponse("Missing fields", 400));
         }
-        const id = refId("SUBMIT");
-        const editorEmailId = await sendEmail(env, {
-          to: env.TO_EMAIL,
-          subject: `St. Expedite Press — Submission — ${id}`,
-          text: ["Submission / inquiry", "", `Ref: ${id}`, `From: ${fromEmail}`, "", note || "(no note)"].join("\n"),
-          html: renderSubmitEditorHtml({ id, fromEmail, note }),
-          replyTo: fromEmail,
-        });
-        const receiptEmailId = await sendEmail(env, {
-          to: fromEmail,
-          subject: `Received — ${id}`,
-          text: [
-            "Your submission inquiry has been received.",
-            "",
-            `Reference: ${id}`,
-            "If you need to send attachments, reply to this email and include the reference in your subject line.",
-            "",
-            "— St. Expedite Press",
-          ].join("\n"),
-          html: renderReceiptHtml({ id, heading: "Submission Inquiry Received", detail: "Your submission inquiry has been received." }),
-          replyTo: env.TO_EMAIL,
-        });
-        await logSubmission(env.DB, {
-          id,
-          type: "submit",
-          email: fromEmail,
-          reason: null,
-          message: note || null,
-          editorEmailId,
-          receiptEmailId,
-        });
+        const id = await deliverSubmission(env, { fromEmail, note });
         return withCors(request, ok({ id }));
       }
 

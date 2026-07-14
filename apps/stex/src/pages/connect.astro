@@ -29,7 +29,7 @@ const styles = [
         <div>
           <p class="card-kicker">Reach the press</p>
           <h2 class="section-heading" id="connect-form-title">One message, routed by type.</h2>
-          <p class="section-copy section-copy--large">Choose what this is about. Manuscript inquiries go to the editor; rights, press, collaborations, and general questions route the same way. Lead with the work — no attachments in the first message.</p>
+          <p class="section-copy section-copy--large">Choose what this is about. Manuscript submissions can include one document and go directly to the editor; rights, press, collaborations, and general questions route through the same desk.</p>
         </div>
 
         <form class="form-grid" id="connect-form">
@@ -52,6 +52,29 @@ const styles = [
             <label for="connect-note" id="connect-note-label">Message</label>
             <textarea class="textarea" id="connect-note" name="note" placeholder="What should we know before replying?" required></textarea>
           </div>
+          <div class="form-grid" id="connect-manuscript-fields">
+            <div class="field">
+              <label for="connect-author-name">Author name</label>
+              <input class="input" id="connect-author-name" name="authorName" type="text" maxlength="120" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="connect-work-title">Title of work</label>
+              <input class="input" id="connect-work-title" name="workTitle" type="text" maxlength="200" required />
+            </div>
+            <div class="field">
+              <label for="connect-genre">Genre or form <span aria-hidden="true">(optional)</span></label>
+              <input class="input" id="connect-genre" name="genre" type="text" maxlength="80" placeholder="Poetry, fiction, essay, hybrid…" />
+            </div>
+            <div class="field">
+              <label for="connect-file">Manuscript file</label>
+              <input class="input" id="connect-file" name="file" type="file" accept=".pdf,.doc,.docx,.odt,.rtf,.txt,.md" required />
+              <p class="form-assurance">One PDF, DOC, DOCX, ODT, RTF, TXT, or Markdown file; 10 MiB maximum.</p>
+            </div>
+            <label class="consent-field" for="connect-consent">
+              <input id="connect-consent" name="consent" type="checkbox" required />
+              <span>I have authority to submit this work and understand it will be forwarded to the editor by email.</span>
+            </label>
+          </div>
           <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
 
           <div class="actions">
@@ -73,7 +96,8 @@ const styles = [
         <h2 class="section-heading">What happens next</h2>
         <ul class="check-list">
           <li>One reader, not a committee. Replies come from a person.</li>
-          <li>Manuscripts: send the case first; materials follow in the thread.</li>
+          <li>Manuscripts: include a short project note and one document up to 10 MiB.</li>
+          <li>The public guide can explain the process, but it cannot read or retain your manuscript.</li>
           <li>Your email is used only to reply. No list, no sharing.</li>
           <li>Support the press directly through <a href="/donate">Donate</a>.</li>
         </ul>

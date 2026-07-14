@@ -4,6 +4,7 @@ import { buildMailto, copyText, getTurnstileToken, resetTurnstile, setPendingSta
 const form = document.getElementById("connect-form");
 const aboutSelect = document.getElementById("connect-about");
 const noteLabel = document.getElementById("connect-note-label");
+const manuscriptFields = document.getElementById("connect-manuscript-fields");
 const submitButton = document.getElementById("connect-submit");
 const helper = document.getElementById("connect-helper");
 const fallbackLink = document.getElementById("connect-mailto-fallback");
@@ -19,6 +20,13 @@ function isManuscript() {
 function syncLabel() {
   if (!noteLabel) return;
   noteLabel.textContent = isManuscript() ? "Project note" : "Message";
+  if (manuscriptFields) {
+    manuscriptFields.hidden = !isManuscript();
+    manuscriptFields.querySelectorAll("input").forEach((input) => {
+      if (input.id === "connect-genre") return;
+      input.required = isManuscript();
+    });
+  }
 }
 
 if (form && aboutSelect && submitButton && helper && fallbackLink && copyButton) {
@@ -39,6 +47,11 @@ if (form && aboutSelect && submitButton && helper && fallbackLink && copyButton)
     const email = String(document.getElementById("connect-email")?.value || "").trim();
     const note = String(document.getElementById("connect-note")?.value || "").trim();
     const website = String(document.getElementById("connect-website")?.value || "").trim();
+    const authorName = String(document.getElementById("connect-author-name")?.value || "").trim();
+    const workTitle = String(document.getElementById("connect-work-title")?.value || "").trim();
+    const genre = String(document.getElementById("connect-genre")?.value || "").trim();
+    const file = document.getElementById("connect-file")?.files?.[0];
+    const consent = Boolean(document.getElementById("connect-consent")?.checked);
 
     if (!email || !note) {
       setStatus(helper, "Add your email and message, then try again.", "error");
@@ -46,11 +59,15 @@ if (form && aboutSelect && submitButton && helper && fallbackLink && copyButton)
     }
 
     const manuscript = isManuscript();
+    if (manuscript && (!authorName || !workTitle || !file || !consent)) {
+      setStatus(helper, "Add the author, work title, manuscript file, and submission confirmation.", "error");
+      return;
+    }
     const subject = manuscript
       ? "St. Expedite Press — Submission"
       : `St. Expedite Press — Contact (${about})`;
     const lines = manuscript
-      ? ["Submission inquiry", "", `Email: ${email}`, "", note]
+      ? ["Submission", "", `Email: ${email}`, `Author: ${authorName}`, `Work: ${workTitle}`, genre ? `Genre: ${genre}` : "", file ? `Attachment: ${file.name}` : "", "", note].filter(Boolean)
       : ["Contact inquiry", "", `Reason: ${about}`, `From: ${email}`, "", note];
     fallbackLink.href = buildMailto("editor@stexpedite.press", subject, lines.join("\n"));
     lastCopyText = `To: editor@stexpedite.press\nSubject: ${subject}\n\n${lines.join("\n")}`;
@@ -60,18 +77,27 @@ if (form && aboutSelect && submitButton && helper && fallbackLink && copyButton)
 
     try {
       const turnstileToken = getTurnstileToken();
+      const submission = new FormData();
+      if (manuscript) {
+        submission.set("email", email);
+        submission.set("authorName", authorName);
+        submission.set("workTitle", workTitle);
+        submission.set("genre", genre);
+        submission.set("note", note);
+        submission.set("website", website);
+        submission.set("consent", String(consent));
+        submission.set("turnstileToken", turnstileToken);
+        submission.set("file", file);
+      }
       const data = manuscript
-        ? await requestJson("/api/submit", {
-            method: "POST",
-            body: { email, note, website, turnstileToken },
-          })
+        ? await requestJson("/api/submit", { method: "POST", body: submission, timeout: 60_000 })
         : await requestJson("/api/contact", {
             method: "POST",
             body: { reason: about, email, message: note, website, turnstileToken },
           });
       setStatus(
         helper,
-        data.id ? `Received. Reference: ${data.id}` : "Received. A reply is on the way.",
+        data.id ? `${manuscript ? "Submission" : "Message"} received. Reference: ${data.id}` : "Received. A reply is on the way.",
         "success",
       );
       form.reset();

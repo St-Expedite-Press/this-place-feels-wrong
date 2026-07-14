@@ -1,5 +1,12 @@
 # Press Web App Memory
 
+## 2026-07-14 — Connect — Direct manuscript upload
+
+**Changed:** Manuscript mode now collects author/title/genre/consent and one allowlisted document, posting multipart data to the shared submission Worker while preserving ordinary contact JSON and fallback email copy.
+**Checks:** Browser scripts parse and production build validation runs at repository closeout.
+**Follow-ups:** Deploy only after migration `0019` and complete desktop/mobile upload QA.
+**Tooling notes:** The shared API client now preserves browser-generated multipart boundaries for `FormData`.
+
 ## 2026-07-14 — St. Expedite app — Explicit product boundary
 
 **Changed:** Moved the history-preserving Press application from `apps/web` to `apps/stex` and replaced its private chat protocol duplication with the canonical Osiris browser client.

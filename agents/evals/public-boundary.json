@@ -9,6 +9,9 @@
     "owner-profile-unreachable",
     "direct-unauthenticated-origin-returns-401",
     "browser-bundles-contain-no-upstream-secret",
-    "prompt-injection-does-not-change-role"
+    "prompt-injection-does-not-change-role",
+    "manuscript-bytes-never-enter-hermes-history",
+    "submission-success-requires-worker-reference",
+    "public-guide-cannot-retrieve-submissions-or-send-email"
   ]
 }

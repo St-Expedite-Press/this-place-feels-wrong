@@ -41,6 +41,26 @@ function makeJsonRequest(path: string, body: Record<string, unknown>, headers?: 
   });
 }
 
+function makeSubmissionUpload(overrides: Record<string, string | File> = {}) {
+  const form = new FormData();
+  const values: Record<string, string | File> = {
+    email: "writer@example.com",
+    authorName: "A. Writer",
+    workTitle: "A Small Book",
+    genre: "Poetry",
+    note: "Please consider this manuscript.",
+    consent: "true",
+    file: new File(["A short manuscript."], "small-book.txt", { type: "text/plain" }),
+    ...overrides,
+  };
+  for (const [key, value] of Object.entries(values)) form.set(key, value);
+  return new Request("https://stexpedite.press/api/submit", {
+    method: "POST",
+    headers: { origin: "https://stexpedite.press" },
+    body: form,
+  });
+}
+
 function makeMockDb() {
   const updates = new Map<string, Record<string, unknown>>();
   const rateLimits = new Map<string, { count: number; reset_at: number }>();
@@ -122,8 +142,8 @@ function makeMockDb() {
                 return {};
               }
               if (sql.includes("INSERT INTO contact_submissions")) {
-                const [id, type, email, reason, message, editorEmailId, receiptEmailId] = values;
-                submissions.set(String(id), { id, type, email, reason, message, editorEmailId, receiptEmailId });
+                const [id, type, email, reason, message, editorEmailId, receiptEmailId, authorName, workTitle, genre, attachmentName, attachmentType, attachmentBytes] = values;
+                submissions.set(String(id), { id, type, email, reason, message, editorEmailId, receiptEmailId, authorName, workTitle, genre, attachmentName, attachmentType, attachmentBytes });
                 return {};
               }
               if (sql.includes("INSERT INTO donations")) {
@@ -410,6 +430,52 @@ describe("communications worker", () => {
     expect(body.ok).toBe(true);
     expect(body.id.startsWith("CONTACT-")).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("accepts a constrained manuscript upload and attaches it only to the editor email", async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ id: "resend-upload" }), { status: 200 }));
+    const db = makeMockDb();
+    const res = await worker.fetch(makeSubmissionUpload(), { ...baseEnv, DB: db } as never);
+    const body = (await res.json()) as { ok: boolean; id: string; filename: string };
+
+    expect(res.status).toBe(200);
+    expect(body.ok).toBe(true);
+    expect(body.id).toMatch(/^SUBMIT-/);
+    expect(body.filename).toBe("small-book.txt");
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const editorPayload = JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body)) as Record<string, unknown>;
+    const receiptPayload = JSON.parse(String(fetchMock.mock.calls[1]?.[1]?.body)) as Record<string, unknown>;
+    expect(editorPayload.attachments).toEqual([{
+      filename: "small-book.txt",
+      content: btoa("A short manuscript."),
+    }]);
+    expect(receiptPayload.attachments).toBeUndefined();
+    expect(db.submissions.get(body.id)?.attachmentName).toBe("small-book.txt");
+  });
+
+  it("rejects unsupported or missing manuscript files before sending email", async () => {
+    const executable = new File(["not really executable"], "submission.exe", { type: "application/octet-stream" });
+    const unsupported = await worker.fetch(makeSubmissionUpload({ file: executable }), baseEnv as never);
+    const missing = await worker.fetch(makeSubmissionUpload({ file: "" }), baseEnv as never);
+
+    expect(unsupported.status).toBe(400);
+    expect(missing.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("returns the submission reference when the editor delivery succeeds but the receipt fails", async () => {
+    fetchMock
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "resend-editor" }), { status: 200 }))
+      .mockResolvedValueOnce(new Response("receipt unavailable", { status: 503 }));
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const res = await worker.fetch(makeSubmissionUpload(), baseEnv as never);
+    const body = (await res.json()) as { ok: boolean; id: string };
+
+    expect(res.status).toBe(200);
+    expect(body.ok).toBe(true);
+    expect(body.id).toMatch(/^SUBMIT-/);
+    expect(warn).toHaveBeenCalledWith("Submission receipt email failed after editor delivery", expect.objectContaining({ id: body.id }));
+    warn.mockRestore();
   });
 
   it("creates a Stripe Checkout session for donations", async () => {

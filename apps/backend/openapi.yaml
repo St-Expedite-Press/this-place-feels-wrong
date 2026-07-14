@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: St. Expedite Press Communications API
-  version: 1.8.0
+  version: 1.9.0
   description: |
     Cloudflare Worker API for public chat, contact, submission, donation, storefront, projects, and updates signup flows.
     Source implementation: apps/backend/src/index.ts
@@ -220,6 +220,9 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SubmitRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/SubmissionUploadRequest"
       responses:
         "200":
           description: Inquiry accepted and emails sent
@@ -235,6 +238,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
         "403":
           description: Turnstile verification failed (only when configured)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "413":
+          description: Submission upload exceeds the 10 MiB file limit
           content:
             application/json:
               schema:
@@ -582,6 +591,41 @@ components:
         turnstileToken:
           type: string
           description: Optional Turnstile token (`cf-turnstile-response` equivalent)
+    SubmissionUploadRequest:
+      type: object
+      additionalProperties: false
+      required: [email, authorName, workTitle, consent, file]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 320
+        authorName:
+          type: string
+          maxLength: 120
+        workTitle:
+          type: string
+          maxLength: 200
+        genre:
+          type: string
+          maxLength: 80
+        note:
+          type: string
+          maxLength: 6000
+        consent:
+          type: string
+          enum: ["true", "on", "yes"]
+          description: Confirms the submitter has authority to send the work and accepts email delivery.
+        file:
+          type: string
+          format: binary
+          description: One PDF, DOC, DOCX, ODT, RTF, TXT, or Markdown file; maximum 10 MiB.
+        website:
+          type: string
+          description: Honeypot field (leave empty)
+        turnstileToken:
+          type: string
+          maxLength: 2048
     UpdatesRequest:
       type: object
       required: [email]
@@ -830,6 +874,9 @@ components:
           type: string
           pattern: "^SUBMIT-"
           example: SUBMIT-MTBYTJ-3QWP1SK8FN
+        filename:
+          type: string
+          description: Sanitized attachment filename when a multipart manuscript was included
     UpdatesSuccess:
       type: object
       additionalProperties: false

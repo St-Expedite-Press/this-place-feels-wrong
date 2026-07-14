@@ -1,5 +1,12 @@
 # St. Expedite Press — Change Log
 
+## [2026-07-14] — Submissions — Constrained manuscript handoff
+
+**Changed:** Extended `/api/submit` with a 10 MiB allowlisted multipart manuscript path, Resend attachment delivery, D1 metadata, a Connect upload form, and an Osiris submission dialog. The public guide explains and hands off the process but cannot access manuscript bytes or email tools.
+**Checks:** Backend tests cover attachment delivery and executable rejection; chat and browser scripts build and parse. Full repository validation remains at closeout.
+**Follow-ups:** Apply D1 migration `0019`, install the revised public-guide SOUL, deploy backend/StEx/chat sequentially, and complete a real Turnstile upload canary before enabling broad promotion.
+**Tooling notes:** Official Resend and Cloudflare limits supported a conservative 10 MiB raw-file cap.
+
 ## [2026-07-14] — Release — Osiris production deployment
 
 **Changed:** Published commit `1ce33e5` to `main`, refreshed the repository's Cloudflare Actions credentials from the local master environment, deployed St. Expedite, RICE, the backend Worker, and the standalone chat, created the `stexpedite-chat` Pages project, and attached the proxied `chat.stexpedite.press` route.

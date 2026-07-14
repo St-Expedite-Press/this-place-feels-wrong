@@ -9,5 +9,6 @@ Current coverage includes:
 - projects presentation fields, buy URLs, completion percentages, and publication dates
 - shared rate-limit state
 - contact/submission log storage
+- manuscript attachment metadata (contents remain out of D1)
 
 Migration files are append-only. Add a new numbered migration instead of editing an existing one.

@@ -75,6 +75,21 @@
   line-height: 1.45;
 }
 
+.consent-field {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: start;
+  color: var(--mode-copy, var(--text-soft));
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.consent-field input {
+  margin-top: 0.2rem;
+  accent-color: var(--green-hot-1);
+}
+
 [data-brand-mode="utility"] .form-card {
   background: none;
 }

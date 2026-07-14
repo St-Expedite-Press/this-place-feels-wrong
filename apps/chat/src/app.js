@@ -1,5 +1,6 @@
 const protocol = window.OsirisChat;
 const endpoint = document.querySelector('meta[name="chat-endpoint"]')?.content || '/api/chat';
+const submissionEndpoint = document.querySelector('meta[name="submission-endpoint"]')?.content || '/api/submit';
 const sitekey = document.querySelector('meta[name="turnstile-sitekey"]')?.content || '';
 const transcript = document.querySelector('[data-transcript]');
 const form = document.querySelector('[data-form]');
@@ -14,6 +15,11 @@ let messages = [];
 let controller;
 let turnstileId;
 let turnstileLoader;
+let submissionTurnstileId;
+const submissionDialog = document.querySelector('[data-submission-dialog]');
+const submissionForm = document.querySelector('[data-submission-form]');
+const submissionStatus = document.querySelector('[data-submission-status]');
+const submissionSend = document.querySelector('[data-submission-send]');
 
 const surfaceCopy = {
   stex: ['Ask St. Expedite', 'I can help you navigate the press, its books, RICE, submissions, and public archive. What are you looking for?'],
@@ -38,6 +44,16 @@ async function ensureTurnstile() {
   const turnstile = await loadTurnstile();
   if (turnstileId === undefined) {
     turnstileId = turnstile.render(document.querySelector('[data-turnstile]'), {
+      sitekey, theme: 'dark', appearance: 'interaction-only',
+    });
+  }
+  return turnstile;
+}
+
+async function ensureSubmissionTurnstile() {
+  const turnstile = await loadTurnstile();
+  if (submissionTurnstileId === undefined) {
+    submissionTurnstileId = turnstile.render(document.querySelector('[data-submission-turnstile]'), {
       sitekey, theme: 'dark', appearance: 'interaction-only',
     });
   }
@@ -80,6 +96,16 @@ function setBusy(busy) {
 }
 
 document.querySelector('[data-new-chat]').addEventListener('click', () => resetConversation('Conversation cleared.'));
+document.querySelector('[data-open-submission]').addEventListener('click', async () => {
+  submissionStatus.textContent = '';
+  submissionDialog.showModal();
+  try { await ensureSubmissionTurnstile(); }
+  catch { submissionStatus.textContent = 'Human verification could not load.'; }
+});
+document.querySelector('[data-close-submission]').addEventListener('click', () => submissionDialog.close());
+submissionDialog.addEventListener('click', event => {
+  if (event.target === submissionDialog) submissionDialog.close();
+});
 document.querySelectorAll('[data-surface]').forEach(button => button.addEventListener('click', () => {
   surface = button.dataset.surface;
   document.querySelectorAll('[data-surface]').forEach(candidate => {
@@ -148,3 +174,32 @@ form.addEventListener('submit', async event => {
 });
 
 ensureTurnstile().catch(() => { status.textContent = 'Human verification could not load.'; });
+
+submissionForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const file = submissionForm.elements.file.files[0];
+  if (!file || file.size > 10 * 1024 * 1024) {
+    submissionStatus.textContent = 'Choose one supported manuscript file no larger than 10 MiB.';
+    return;
+  }
+  submissionSend.disabled = true;
+  submissionStatus.textContent = 'Forwarding the submission securely…';
+  try {
+    const turnstile = await ensureSubmissionTurnstile();
+    const token = turnstile.getResponse(submissionTurnstileId);
+    if (!token) throw new Error('Complete human verification before submitting.');
+    const body = new FormData(submissionForm);
+    body.set('turnstileToken', token);
+    const response = await fetch(submissionEndpoint, { method: 'POST', body });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || `Submission failed (${response.status}).`);
+    submissionStatus.textContent = `Submission received. Reference: ${data.id}`;
+    appendMessage('assistant', `Your manuscript has been forwarded to the editor. Keep this reference: ${data.id}`);
+    submissionForm.reset();
+  } catch (error) {
+    submissionStatus.textContent = error instanceof Error ? error.message : 'The submission could not be sent.';
+  } finally {
+    if (submissionTurnstileId !== undefined) window.turnstile?.reset(submissionTurnstileId);
+    submissionSend.disabled = false;
+  }
+});

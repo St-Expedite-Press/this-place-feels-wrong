@@ -1,5 +1,12 @@
 # Backend Worker Memory
 
+## 2026-07-14 — Backend — Manuscript attachment delivery
+
+**Changed:** Added bounded multipart parsing, file extension/MIME allowlists, Resend editor attachments, submitter receipts, and append-only attachment metadata migration `0019`; manuscript contents never enter D1.
+**Checks:** 30 Worker tests pass, including attachment isolation, unsupported-file rejection, and non-fatal receipt failure.
+**Follow-ups:** Apply migration `0019` before deploying and run a live Turnstile upload canary.
+**Tooling notes:** A 10 MiB file cap leaves margin under Resend's post-Base64 email limit and Worker memory limits.
+
 ## 2026-07-14 — Backend — Explicit product and surface contract
 
 **Changed:** Moved the Worker from `apps/communications-worker` to `apps/backend`, added validated `stex`, `rice`, and `openui` client surfaces, and retained compatibility for legacy clients without a surface field.

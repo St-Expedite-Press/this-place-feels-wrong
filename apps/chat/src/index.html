@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A public guide to St. Expedite Press and RICE Magazine.">
   <meta name="chat-endpoint" content="https://stexpedite.press/api/chat">
+  <meta name="submission-endpoint" content="https://stexpedite.press/api/submit">
   <meta name="turnstile-sitekey" content="0x4AAAAAADc-GOYeYwVaZA_I">
   <title>Osiris Desk — St. Expedite Press</title>
   <link rel="stylesheet" href="styles.css">
@@ -19,12 +20,13 @@
         <span class="brand__seal">SE</span><span>OSIRIS DESK</span>
       </a>
       <button class="new-chat" type="button" data-new-chat>+ New conversation</button>
+      <button class="submission-button" type="button" data-open-submission>Submit work</button>
       <nav aria-label="Knowledge surface">
         <p class="rail__label">Field</p>
         <button class="surface is-active" type="button" data-surface="stex" aria-pressed="true">St. Expedite Press</button>
         <button class="surface" type="button" data-surface="rice" aria-pressed="false">RICE Magazine</button>
       </nav>
-      <p class="rail__note">Public guide only. It cannot inspect private files, submissions, accounts, or deployment systems.</p>
+      <p class="rail__note">The guide can explain submissions. Files go through a constrained form directly to the editor; Hermes cannot inspect them.</p>
     </aside>
 
     <main class="workspace">
@@ -55,5 +57,25 @@
       </footer>
     </main>
   </div>
+  <dialog class="submission-dialog" data-submission-dialog aria-labelledby="submission-title">
+    <div class="submission-dialog__header">
+      <div><span class="eyebrow">CONSTRAINED HANDOFF</span><h2 id="submission-title">Submit a manuscript</h2></div>
+      <button class="dialog-close" type="button" data-close-submission aria-label="Close submission form">×</button>
+    </div>
+    <p class="submission-intro">Your document is validated by the Worker and forwarded to the editor by email. The public guide cannot read it or retrieve it later.</p>
+    <form class="submission-form" data-submission-form>
+      <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
+      <label>Email<input name="email" type="email" maxlength="320" autocomplete="email" required></label>
+      <label>Author name<input name="authorName" type="text" maxlength="120" autocomplete="name" required></label>
+      <label>Title of work<input name="workTitle" type="text" maxlength="200" required></label>
+      <label>Genre or form <span>(optional)</span><input name="genre" type="text" maxlength="80" placeholder="Poetry, fiction, essay, hybrid…"></label>
+      <label>Project note<textarea name="note" rows="4" maxlength="6000" placeholder="A concise description of the work" required></textarea></label>
+      <label>Manuscript file<input name="file" type="file" accept=".pdf,.doc,.docx,.odt,.rtf,.txt,.md" required><small>One PDF, DOC, DOCX, ODT, RTF, TXT, or Markdown file; 10 MiB maximum.</small></label>
+      <label class="submission-consent"><input name="consent" type="checkbox" required><span>I have authority to submit this work and understand it will be forwarded to the editor by email.</span></label>
+      <div data-submission-turnstile aria-label="Human verification"></div>
+      <button class="submission-send" type="submit" data-submission-send>Forward to editor</button>
+      <p class="submission-status" data-submission-status role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
 </body>
 </html>
