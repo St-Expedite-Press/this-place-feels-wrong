@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    { "id": "stex-site", "surface": "stex", "canonicalRoot": "https://stexpedite.press", "kind": "site" },
+    { "id": "rice-site", "surface": "rice", "canonicalRoot": "https://rice.stexpedite.press", "kind": "site" },
+    { "id": "works-api", "surface": "shared", "canonicalRoot": "https://stexpedite.press/api/works", "kind": "catalog" }
+  ],
+  "excluded": ["submissions", "donors", "subscribers", "private-memory", "environment", "logs"]
+}

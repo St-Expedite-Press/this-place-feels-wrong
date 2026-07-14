@@ -1,0 +1,10 @@
+{
+  "name": "@stexpedite/chat-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./browser.js",
+  "scripts": {
+    "test": "node test.mjs"
+  }
+}

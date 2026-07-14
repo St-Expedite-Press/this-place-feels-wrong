@@ -1,13 +1,13 @@
 # St. Expedite Press — Agent Guide
 
-This file governs all work in this repository (a monorepo: an Astro site plus a Cloudflare Worker API). It is the single source of truth for agents. `CLAUDE.md` imports it. The sibling RICE repository is independent — do not import its code, assets, packages, deployment assumptions, or Git history unless the user explicitly asks for an integration. The two share only one seam: RICE calls `POST /api/updates` on this Worker.
+This file governs all work in this repository: the St. Expedite site, RICE Magazine, the standalone public chat, the shared backend, and the Osiris agent framework. It is the single source of truth for agents; `CLAUDE.md` imports it. `apps/rice/` is the canonical maintained RICE source. The archived `St-Expedite-Press/rice-magazine` repository is historical reference only: do not edit, deploy, or import from it as an active sibling. RICE uses this monorepo's backend through `GET /api/works?program=rice` (with `apps/rice/assets/articles.json` as its static availability fallback), `POST /api/updates`, and the constrained `POST /api/chat` public-Hermes bridge.
 
 ## Session start loop
 
 1. Read this file in full.
 2. Read `ONTOLOGY.md` for the navigation map, source ownership, update coupling, and validation commands.
 3. Read the last relevant entries in `MEMORY.md`, and confirm the current phase in `PHASE-PLAN.md`.
-4. If working under a directory with its own `AGENTS.md`/`MEMORY.md` (`apps/web/`, `apps/communications-worker/`, `assets/`, `branding/`, `docs/`, `scripts/`, `ops/`, `skills/`, `kits/`), read those local files first.
+4. If working under a directory with its own `AGENTS.md`/`MEMORY.md` (`apps/stex/`, `apps/rice/`, `apps/chat/`, `apps/backend/`, `agents/`, `packages/`, `assets/`, `branding/`, `docs/`, `scripts/`, `ops/`, `skills/`, `kits/`), read those local files first.
 5. Confirm worktree status with `git status -sb` before editing, and preserve unrelated work.
 
 ## Closeout loop
@@ -40,16 +40,20 @@ Prefer built-in subagents when the runtime can select the requested model direct
 
 | Layer | Path | Purpose |
 |---|---|---|
-| Web source | `apps/web/src/` | Astro pages, layouts, components, `data/site.json` (stexpedite.press) |
-| Web assets | `apps/web/public/assets/` | Authored CSS, JS, fonts, synced images |
-| Web output | `apps/web/dist/` | **Generated only — never edit by hand** |
+| Web source | `apps/stex/src/` | Astro pages, layouts, components, `data/site.json` (stexpedite.press) |
+| Web assets | `apps/stex/public/assets/` | Authored CSS, JS, fonts, synced images |
+| Web output | `apps/stex/dist/` | **Generated only — never edit by hand** |
 | RICE app | `apps/rice/` | Static site + Python build (rice.stexpedite.press); output `apps/rice/_site/` (**generated**). See `apps/rice/ONTOLOGY.md` |
-| Worker | `apps/communications-worker/src/index.ts` | Cloudflare Worker API (RICE consumes `POST /api/updates`) |
-| Worker contract | `apps/communications-worker/openapi.yaml` | OpenAPI spec — source of truth for `/api/*` |
-| D1 migrations | `apps/communications-worker/migrations/` | **Append-only — never edit existing files** |
+| Chat app | `apps/chat/` | Standalone OpenUI-style public guide; output `apps/chat/dist/` (**generated**) |
+| Backend | `apps/backend/src/index.ts` | Shared Cloudflare Worker API (RICE consumes `/api/works`, `/api/updates`, and `/api/chat`) |
+| Worker contract | `apps/backend/openapi.yaml` | OpenAPI spec — source of truth for `/api/*` |
+| D1 migrations | `apps/backend/migrations/` | **Append-only — never edit existing files** |
+| Shared packages | `packages/` | Browser chat transport, public contracts, and content-model schemas |
+| Agent framework | `agents/` | Public/owner identity, capability policy, knowledge allowlist, and evals |
 | Media source | `assets/source/` | Canonical media, mirrored into the web tree; manifests at `assets/manifest.*` |
 | Branding | `branding/` | Design docs + tokens; no runtime behavior |
 | Tooling | `scripts/`, `ops/`, `skills/`, `kits/` | Root scripts, runbooks, repo skills, scaffolding kits |
+| Public Hermes ops | `ops/hermes/` | Least-privileged public profile; never expose the private `stexpedite` profile |
 
 Page routes and their CSS/JS stacks live in `ONTOLOGY.md`. Worker API routes:
 
@@ -58,6 +62,8 @@ Page routes and their CSS/JS stacks live in `ONTOLOGY.md`. Worker API routes:
 | GET | `/api/health` | Health probe |
 | GET | `/api/storefront` | Fourthwall catalog snapshot |
 | GET | `/api/projects` | D1-backed projects list |
+| GET | `/api/works` | Unified D1-backed works catalog; filter RICE with `?program=rice` |
+| POST | `/api/chat` | Turnstile/rate-limited SSE bridge to the isolated public Hermes profile |
 | POST | `/api/contact` | General inquiry → Resend |
 | POST | `/api/submit` | Manuscript inquiry → Resend |
 | POST | `/api/donate/session` | Stripe checkout session |
@@ -66,32 +72,34 @@ Page routes and their CSS/JS stacks live in `ONTOLOGY.md`. Worker API routes:
 | POST | `/api/updates/import` | Bulk import (protected) |
 | POST | `/api/updates/unsubscribe` | Unsubscribe |
 
-Runtime services: D1 (`DB`), Resend, Stripe, Fourthwall, Turnstile — all via Worker bindings/secrets (see `apps/communications-worker/wrangler.toml`).
+Runtime services: D1 (`DB`), Resend, Stripe, Fourthwall, Turnstile, and the isolated public Hermes API — all via Worker bindings/secrets (see `apps/backend/wrangler.toml`). The public bridge must not target an owner/deployment profile.
 
 ## Design system
 
 Dark void aesthetic — do not genericize it. Fonts: Cinzel (display), Cormorant Garamond (body), system mono (`--font-mono`) for kickers/metadata/instrument text.
 
-- All UI color is a token from `apps/web/public/assets/css/tokens.css` (loaded first on every page). No raw hex/rgba in component CSS — use `--line-*`, `--surface-*`, `--green-*`, `--mode-*`.
+- All UI color is a token from `apps/stex/public/assets/css/tokens.css` (loaded first on every page). No raw hex/rgba in component CSS — use `--line-*`, `--surface-*`, `--green-*`, `--mode-*`.
 - Three brand modes via `data-brand-mode` on `<body>`: `ritual` (home), `editorial` (books/about/work/store), `utility` (connect/donate). Components consume `--mode-*` vars; override at the mode level, never inline.
 - Body copy is `--text-readable` (warm cream), not green. Signal green is brand/accent, not every paragraph. Magenta `--relief` is anomaly/relief only.
 - The interior surface is **de-boxed**: open blocks separated by hairline rules (`--line-*`) and whitespace, not rounded bordered panels. Keep buttons/inputs as the only bordered controls. Guard animations behind `prefers-reduced-motion`; keep the grain texture and cursor glow.
 
 ## Commands
 
-One command surface drives both sites + the worker:
+One command surface drives all four products:
 
 ```
-# build            web / rice / both
-npm run build            # web (alias: build:web) → apps/web/dist/
+# build
+npm run build            # St. Expedite (alias: build:web) → apps/stex/dist/
 npm run build:rice       # RICE → apps/rice/_site/
+npm run build:chat       # standalone chat → apps/chat/dist/
 npm run build:all
 # dev
 npm run dev:web          # Astro dev (:4321)
 npm run dev:rice         # RICE static server (:4173)
+npm run dev:chat         # standalone chat
 npm run dev:worker       # Wrangler dev (Worker)
-# deploy (Cloudflare Pages, one token)
-npm run deploy:web  |  deploy:rice  |  deploy:all  |  deploy:worker
+# deploy (explicit authorization required)
+npm run deploy:web  |  deploy:rice  |  deploy:chat  |  deploy:worker
 # checks
 npm run check            # docs + build + lint:html + links + a11y + worker tests + audit
 npm run check:rice       # RICE asset integrity
@@ -104,7 +112,7 @@ Run the narrowest relevant checks: web/CSS/Astro → `build` + `lint:html` + `ch
 ## Git and editing discipline
 
 - Keep the edit surface narrow and behaviour-preserving unless a change is requested. Preserve public URLs and `/api/*` contracts unless a breaking change is explicitly asked for.
-- Never edit `apps/web/dist/` (generated) or existing D1 migrations (append a new numbered file).
+- Never edit `apps/stex/dist/`, `apps/rice/_site/`, or `apps/chat/dist/` (generated), or existing D1 migrations (append a new numbered file).
 - Do not commit, push, deploy, release, or mutate external services unless the user explicitly asks. Treat `archive/` as read-only.
 - Preserve the configured commit identity unless the user requests otherwise.
 
@@ -112,8 +120,7 @@ Remote: `https://github.com/St-Expedite-Press/this-place-feels-wrong` · Default
 
 ## Deployment
 
-Each app deploys independently via path-filtered workflows on push to `main`:
-`.github/workflows/deploy-pages.yml` builds + deploys `apps/web/dist` to Cloudflare Pages (`stexpedite-press`, ignores `apps/rice/**`); `.github/workflows/deploy-rice.yml` builds + deploys `apps/rice/_site` to Cloudflare Pages (`rice-magazine`, triggers on `apps/rice/**`). The Worker deploys separately via `npm run deploy:worker`. A successful local build does not authorize a push or deploy.
+Each product deploys independently. `deploy-stex.yml` and `deploy-rice.yml` preserve the existing Pages projects. `deploy-chat.yml` and `deploy-backend.yml` validate pull requests but require manual dispatch to mutate Cloudflare. A successful local build does not authorize a push or deploy.
 
 ## Secrets
 

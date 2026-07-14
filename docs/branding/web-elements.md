@@ -34,9 +34,9 @@ Do not:
 
 Implementation source:
 
-- `apps/web/src/pages/index.astro`
-- `apps/web/public/assets/css/effects.css`
-- `apps/web/public/assets/js/index-effects.js`
+- `apps/stex/src/pages/index.astro`
+- `apps/stex/public/assets/css/effects.css`
+- `apps/stex/public/assets/js/index-effects.js`
 
 ## Compact Header
 
@@ -54,10 +54,10 @@ Guidance:
 
 Implementation source:
 
-- `apps/web/src/components/SiteHeader.astro`
-- `apps/web/src/components/HeroBar.astro`
-- `apps/web/public/assets/css/layout.css`
-- `apps/web/public/assets/css/hero-bar.css`
+- `apps/stex/src/components/SiteHeader.astro`
+- `apps/stex/src/components/HeroBar.astro`
+- `apps/stex/public/assets/css/layout.css`
+- `apps/stex/public/assets/css/hero-bar.css`
 
 ## CTA System
 
@@ -78,9 +78,9 @@ Guidance:
 
 Implementation source:
 
-- `apps/web/public/assets/css/components.css`
-- `apps/web/public/assets/css/forms.css`
-- `apps/web/public/assets/js/form-utils.js`
+- `apps/stex/public/assets/css/components.css`
+- `apps/stex/public/assets/css/forms.css`
+- `apps/stex/public/assets/js/form-utils.js`
 
 ## Editorial Panel
 
@@ -100,10 +100,10 @@ Guidance:
 
 Implementation source:
 
-- `apps/web/src/components/Base.astro`
-- `apps/web/public/assets/css/interior-base.css`
-- `apps/web/public/assets/css/mission.css`
-- `apps/web/public/assets/css/services.css`
+- `apps/stex/src/components/Base.astro`
+- `apps/stex/public/assets/css/interior-base.css`
+- `apps/stex/public/assets/css/mission.css`
+- `apps/stex/public/assets/css/services.css`
 
 ## Book Card Or Book Row
 
@@ -122,8 +122,8 @@ Guidance:
 
 Implementation source:
 
-- `apps/web/src/pages/books.astro`
-- `apps/web/public/assets/css/books.css`
+- `apps/stex/src/pages/books.astro`
+- `apps/stex/public/assets/css/books.css`
 - `assets/source/img/covers/`
 
 ## Product Card
@@ -143,9 +143,9 @@ Guidance:
 
 Implementation source:
 
-- `apps/web/src/pages/gallery.astro`
-- `apps/web/public/assets/css/gallery.css`
-- `apps/web/public/assets/js/gallery-page.js`
+- `apps/stex/src/pages/gallery.astro`
+- `apps/stex/public/assets/css/gallery.css`
+- `apps/stex/public/assets/js/gallery-page.js`
 
 ## Form Console
 
@@ -167,12 +167,12 @@ Guidance:
 
 Implementation source:
 
-- `apps/web/public/assets/css/forms.css`
-- `apps/web/public/assets/js/form-utils.js`
-- `apps/web/public/assets/js/contact-page.js`
-- `apps/web/public/assets/js/submit-page.js`
-- `apps/web/public/assets/js/updates-signup.js`
-- `apps/web/public/assets/js/donate-page.js`
+- `apps/stex/public/assets/css/forms.css`
+- `apps/stex/public/assets/js/form-utils.js`
+- `apps/stex/public/assets/js/contact-page.js`
+- `apps/stex/public/assets/js/submit-page.js`
+- `apps/stex/public/assets/js/updates-signup.js`
+- `apps/stex/public/assets/js/donate-page.js`
 
 ## Status Panel
 
@@ -192,9 +192,9 @@ Guidance:
 
 Implementation source:
 
-- `apps/web/public/assets/css/components.css`
-- `apps/web/public/assets/css/donate.css`
-- `apps/web/public/assets/js/api-client.js`
+- `apps/stex/public/assets/css/components.css`
+- `apps/stex/public/assets/css/donate.css`
+- `apps/stex/public/assets/js/api-client.js`
 
 ## Glyph Divider
 
@@ -224,8 +224,8 @@ Guidance:
 
 Implementation source:
 
-- `apps/web/src/components/HeroBar.astro`
-- `apps/web/src/data/site.json`
+- `apps/stex/src/components/HeroBar.astro`
+- `apps/stex/src/data/site.json`
 
 ## New Element Checklist
 
@@ -233,7 +233,7 @@ Before adding a new branded element:
 
 1. Pick `ritual`, `editorial`, or `utility`.
 2. Identify the nearest existing CSS/component source.
-3. Use tokens from `tokens/brand-tokens.css` or `apps/web/public/assets/css/tokens.css`.
+3. Use tokens from `tokens/brand-tokens.css` or `apps/stex/public/assets/css/tokens.css`.
 4. Define the primary user action.
 5. Define mobile behavior before desktop polish.
 6. Define focus, loading, empty, success, and error states where applicable.

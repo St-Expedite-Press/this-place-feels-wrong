@@ -1,6 +1,6 @@
-# RICE Magazine Repository — Agent Guide
+# RICE Magazine App — Agent Guide
 
-This file governs all work under `rice_site/`. The repository is the standalone RICE Magazine static site. It is independent of the sibling St. Expedite Press repository: do not import sibling code, assets, packages, deployment assumptions, or Git history unless the user explicitly requests an integration.
+This file governs all work under `apps/rice/`, the canonical maintained RICE Magazine source inside the `St-Expedite-Press/this-place-feels-wrong` monorepo. The archived `St-Expedite-Press/rice-magazine` standalone repository is historical reference only: do not edit or deploy it, copy its Git history, or treat it as a second source of truth. RICE intentionally shares the monorepo Worker: search reads `GET /api/works?program=rice` first and falls back to `assets/articles.json`; updates signup posts to `POST /api/updates`.
 
 ## Session start loop
 
@@ -56,7 +56,7 @@ RICE is framework-free and dependency-light. Preserve semantic HTML, keyboard fo
 | Standalone site-media inventory | `assets/site-assets.json` |
 | Photo-slot map | `assets/photo-slots.json` |
 | Internal image pools | `assets/image-pools.json` (not used by the public archive) |
-| Article (work) data model | `assets/articles.json` |
+| Article (work) fallback manifest | `assets/articles.json` (authored fallback for the unified `/api/works` catalog) |
 | Taxonomy source of truth | `scripts/asset_categories.py` (image `CATEGORIES` + work `ARTICLE_CATEGORIES`), `docs/ASSET_SCHEMA.md` |
 | Prompt manifest | `docs/city-image-prompts.json` |
 | Image doctrine | `docs/IMAGE_STYLE_GUIDE.md` |
@@ -92,7 +92,7 @@ Generated archival images must remain labeled as visual reconstructions and must
 
 ## Local preview and validation
 
-Start the preview from this repository:
+Start the preview from the monorepo root with `npm run dev:rice`, or from this directory with:
 
 ```powershell
 python -m http.server 4173
@@ -123,22 +123,22 @@ and inspect representative derivatives, catalog entries, and the `_site/` bounda
 ## Git and editing discipline
 
 - Inspect `git status -sb` before editing and preserve unrelated work.
-- This repository has its own Git history, remote, identity, checks, and deployment. Run Git commands here, never from the untracked workspace root.
+- This app uses the monorepo Git history, remote, identity, checks, and deployment. Run repository-level Git commands from the monorepo root.
 - Use `apply_patch` for hand-authored text and code. Keep generated artifacts reproducible through their documented generators.
-- Do not copy a sibling `.git` directory or use relative asset/code imports from `st-expedite-press/`.
+- Do not copy or merge the archived standalone repository's `.git` directory or treat its files as current without an explicit reconciliation task.
 - Do not rewrite authorship. Preserve the configured identity `CSandbatch <175889416+CSandbatch@users.noreply.github.com>` unless the user explicitly requests a change.
 - Do not commit, push, deploy, release, or modify external services unless the user explicitly asks.
 
-Remote: `https://github.com/St-Expedite-Press/rice-magazine.git`
+Remote: `https://github.com/St-Expedite-Press/this-place-feels-wrong.git`
 
 Default branch: `main`
 
 ## Deployment
 
-RICE deploys the allowlisted `_site/` artifact through
-`.github/workflows/pages.yml` on `main`. The repository root, masters, prompts,
+RICE deploys the allowlisted `apps/rice/_site/` artifact through the monorepo
+`.github/workflows/deploy-rice.yml` on `main`. The app source, masters, prompts,
 scripts, docs, and internal asset browser are not the deployment artifact.
-With explicit authorization:
+With explicit authorization, push from the monorepo root:
 
 ```powershell
 git push origin main

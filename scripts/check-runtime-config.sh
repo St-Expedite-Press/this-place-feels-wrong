@@ -5,7 +5,7 @@ script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 . "$script_dir/lib/repo-root.sh"
 
 repo_root="$(find_repo_root "$0")"
-worker_dir="$repo_root/apps/communications-worker"
+worker_dir="$repo_root/apps/backend"
 base_url="${BASE_URL:-https://stexpedite.press}"
 
 echo "[runtime-config] wrangler auth"

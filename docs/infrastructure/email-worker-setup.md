@@ -4,9 +4,9 @@ Reference for the production communications stack behind `stexpedite.press`.
 
 ## Topology
 
-- public site source: `apps/web/src/`
-- public build artifact: `apps/web/dist/`
-- Worker/API implementation: `apps/communications-worker/`
+- public site source: `apps/stex/src/`
+- public build artifact: `apps/stex/dist/`
+- Worker/API implementation: `apps/backend/`
 - runtime edge: Cloudflare
 - email delivery: Resend
 - donation checkout: Stripe
@@ -15,10 +15,10 @@ Reference for the production communications stack behind `stexpedite.press`.
 
 ## Worker Source Of Truth
 
-- implementation: `apps/communications-worker/src/index.ts`
-- contract: `apps/communications-worker/openapi.yaml`
-- config: `apps/communications-worker/wrangler.toml`
-- migrations: `apps/communications-worker/migrations/`
+- implementation: `apps/backend/src/index.ts`
+- contract: `apps/backend/openapi.yaml`
+- config: `apps/backend/wrangler.toml`
+- migrations: `apps/backend/migrations/`
 
 ## Expected Runtime
 

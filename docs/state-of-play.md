@@ -4,10 +4,10 @@ Repo snapshot for the current Astro app, Cloudflare Worker, and agent tooling la
 
 ## Active Layout
 
-- Web source: `apps/web/src/`
-- Web authored assets: `apps/web/public/assets/`
-- Web build output: `apps/web/dist/`
-- Communications Worker: `apps/communications-worker/`
+- Web source: `apps/stex/src/`
+- Web authored assets: `apps/stex/public/assets/`
+- Web build output: `apps/stex/dist/`
+- Communications Worker: `apps/backend/`
 - Canonical media sources: `assets/source/`
 - Generated asset inventories: `assets/manifest.json`, `assets/manifest.txt`
 - Exportable brand package: `branding/`
@@ -52,7 +52,7 @@ API routes remain under `/api/*`:
 - Runtime config check: `npm run runtime:config`
 - Runtime audit: `npm run runtime:audit`
 - Production smoke: `npm run smoke:api`
-- Build artifact is generated into `apps/web/dist/` from source in `apps/web/src/`.
+- Build artifact is generated into `apps/stex/dist/` from source in `apps/stex/src/`.
 
 ## Agent Workflow
 
@@ -68,19 +68,19 @@ API routes remain under `/api/*`:
 
 Two layouts, one for interior/task pages and one for portal-only pages:
 
-- `apps/web/src/layouts/Base.astro` — shared interior/task shell: `<Head />`, `<HeroBar />`, `<SiteHeader />`, page-intro section, standardized `.page-content` flow, `<slot />`, `<Footer />`. Used by books, about, contact, donate, donate/thanks, submit, gallery, lab, and services.
-- `apps/web/src/layouts/BasePortal.astro` — portal-only shell: `<Head />`, `<HeroBar />`, `.texture--grain`, `.cursor-glow`, `<slot />`. Used by `index.astro` and `404.astro`.
+- `apps/stex/src/layouts/Base.astro` — shared interior/task shell: `<Head />`, `<HeroBar />`, `<SiteHeader />`, page-intro section, standardized `.page-content` flow, `<slot />`, `<Footer />`. Used by books, about, contact, donate, donate/thanks, submit, gallery, lab, and services.
+- `apps/stex/src/layouts/BasePortal.astro` — portal-only shell: `<Head />`, `<HeroBar />`, `.texture--grain`, `.cursor-glow`, `<slot />`. Used by `index.astro` and `404.astro`.
 
 Shared interior primitives live in `layout.css` and `components.css`: `.page-content`, `.section-block`, `.section-header`, `.section-grid`, `.editorial-card`, `.quiet-panel`, and `.section-actions`. Page-specific styles may alter texture and domain behavior, but should not redefine basic page rhythm or card anatomy.
 
-See `apps/web/src/layouts/README.md` for full prop documentation.
+See `apps/stex/src/layouts/README.md` for full prop documentation.
 
 ## Font Delivery
 
 Fonts are self-hosted. No Google Fonts CDN dependency.
 
-- Font files: `apps/web/public/assets/fonts/` (12 woff2 files: Cinzel latin/latin-ext, Cormorant Garamond normal/italic across 4 unicode subsets)
-- `@font-face` declarations: `apps/web/public/assets/css/fonts.css`
+- Font files: `apps/stex/public/assets/fonts/` (12 woff2 files: Cinzel latin/latin-ext, Cormorant Garamond normal/italic across 4 unicode subsets)
+- `@font-face` declarations: `apps/stex/public/assets/css/fonts.css`
 - Referenced via `site.fontStylesheet = "/assets/css/fonts.css"` in `site.json`
 
 ## Institutional Identity
@@ -96,7 +96,7 @@ Fonts are self-hosted. No Google Fonts CDN dependency.
 
 - The homepage is generated from source instead of copied from a static exception.
 - The former checked-in public output snapshot was removed from `archive/site-legacy/`; recover it from git history if needed.
-- The former `workers/communications/` project lives in `apps/communications-worker/`.
+- The former `workers/communications/` project lives in `apps/backend/`.
 - The former internal agent subtree has been dissolved into root `AGENTS.md`, `scripts/`, `ops/`, `skills/`, and `kits/`.
 - Historical agent path migrations are preserved in Git history and selected audit notes; current work should use the live paths above.
 - Repository licensing is proprietary.

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "profile": "public-guide",
+  "allow": {
+    "surfaces": ["stex", "rice", "openui"],
+    "knowledge": "public-provenance-only",
+    "streaming": true
+  },
+  "deny": [
+    "filesystem", "terminal", "browser", "code-execution", "memory",
+    "delegation", "cron", "deployment", "secrets", "private-retrieval"
+  ],
+  "limits": {
+    "maxTurns": 4,
+    "maxMessages": 12,
+    "maxMessageCharacters": 1000,
+    "requiresTurnstile": true,
+    "requiresRateLimit": true
+  }
+}

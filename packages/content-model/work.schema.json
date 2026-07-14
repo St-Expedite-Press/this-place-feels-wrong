@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stexpedite.press/schemas/work-v1.json",
+  "title": "Public work",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["id", "title", "program", "kind", "publicationState"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "program": { "enum": ["press", "rice"] },
+    "kind": { "type": "string", "minLength": 1 },
+    "publicationState": { "enum": ["planned", "sample", "published", "withdrawn"] },
+    "author": { "type": ["string", "null"] },
+    "canonicalUrl": { "type": ["string", "null"], "format": "uri-reference" },
+    "disclosure": { "type": ["string", "null"] }
+  }
+}

@@ -1,5 +1,12 @@
 # RICE Magazine Memory
 
+## 2026-07-14 — RICE — Shared Osiris chat transport
+
+**Changed:** Preserved the RICE site as its own product while replacing its duplicate streaming/history protocol with the canonical Osiris browser client across source and public pages.
+**Checks:** Asset validation passed and the public build produced 68 files; shared-client sync, links, and accessibility checks passed.
+**Follow-ups:** Introduce server-curated RICE knowledge grounding and exercise the combined preview environment.
+**Tooling notes:** Deferred script order preserves the shared-client-before-adapter dependency.
+
 Append durable project-level notes here. Keep entries short; do not log secrets, generated noise, or full transcripts.
 
 Entry format:
@@ -12,6 +19,24 @@ Entry format:
 **Follow-ups:** Open items, if any.
 **Tooling notes:** Skills, scripts, ontology, or guide improvements discovered.
 ```
+
+---
+
+## 2026-07-13 — Site — Public Hermes chat surface
+
+**Changed:** Added a dependency-free RICE chat launcher using the shared Press `/api/chat` endpoint, plain-text SSE rendering, alternating bounded history, per-request Turnstile, Stop/Clear controls, and keyboard/focus handling; kept the internal asset library and compatibility redirects outside the mount.
+**Checks:** `node --check site.js`, asset validation (25 editorial, 12 site assets, 12 slots, 9 articles, 99 variants), and the 67-file public build passed.
+**Follow-ups:** Production still requires the authenticated tunnel and Worker runtime variables.
+**Tooling notes:** The existing global `site.js` and allowlisted public build kept this integration small.
+
+---
+
+## 2026-07-13 — Documentation — Monorepo source of truth recorded
+
+**Changed:** Recorded `apps/rice/` as canonical, the archived standalone repository as historical only, and `/api/works?program=rice` plus `assets/articles.json` as the runtime primary/fallback seam.
+**Checks:** `git diff --check` passed.
+**Follow-ups:** None; no runtime or deployment changes were made.
+**Tooling notes:** Direct documentation inspection was sufficient.
 
 ---
 

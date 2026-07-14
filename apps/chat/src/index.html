@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A public guide to St. Expedite Press and RICE Magazine.">
+  <meta name="chat-endpoint" content="https://stexpedite.press/api/chat">
+  <meta name="turnstile-sitekey" content="0x4AAAAAADc-GOYeYwVaZA_I">
+  <title>Osiris Desk — St. Expedite Press</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="chat-client.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#composer">Skip to message</a>
+  <div class="shell">
+    <aside class="rail" aria-label="Chat navigation">
+      <a class="brand" href="https://stexpedite.press" aria-label="St. Expedite Press home">
+        <span class="brand__seal">SE</span><span>OSIRIS DESK</span>
+      </a>
+      <button class="new-chat" type="button" data-new-chat>+ New conversation</button>
+      <nav aria-label="Knowledge surface">
+        <p class="rail__label">Field</p>
+        <button class="surface is-active" type="button" data-surface="stex" aria-pressed="true">St. Expedite Press</button>
+        <button class="surface" type="button" data-surface="rice" aria-pressed="false">RICE Magazine</button>
+      </nav>
+      <p class="rail__note">Public guide only. It cannot inspect private files, submissions, accounts, or deployment systems.</p>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div><span class="eyebrow">PUBLIC INSTRUMENT / HERMES</span><h1 data-title>Ask St. Expedite</h1></div>
+        <span class="status-dot"><i></i> Public profile</span>
+      </header>
+
+      <section class="conversation" data-transcript role="log" aria-live="polite" aria-relevant="additions text">
+        <article class="message message--assistant" data-greeting>
+          <span class="avatar" aria-hidden="true">SE</span>
+          <div><strong>St. Expedite</strong><p data-greeting-text>I can help you navigate the press, its books, RICE, submissions, and public archive. What are you looking for?</p></div>
+        </article>
+      </section>
+
+      <footer class="composer-wrap">
+        <form class="composer" id="composer" data-form>
+          <label class="sr-only" for="message">Message</label>
+          <textarea id="message" rows="2" maxlength="1000" placeholder="Message the public guide" required data-input></textarea>
+          <div class="composer__controls">
+            <div data-turnstile aria-label="Human verification"></div>
+            <button type="button" class="text-button" data-stop hidden>Stop</button>
+            <button type="submit" class="send" data-send aria-label="Send message">↑</button>
+          </div>
+        </form>
+        <p class="live-status" data-status role="status"></p>
+        <p class="disclaimer">Replies may be incomplete. Do not send manuscripts, passwords, payment information, or private correspondence.</p>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

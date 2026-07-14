@@ -12,7 +12,7 @@ if [ "${1:-}" = "--strict" ]; then
 fi
 
 issues=0
-files="$(find "$repo_root/apps/web/dist" -type f -name '*.html' | sort)"
+files="$(find "$repo_root/apps/stex/dist" -type f -name '*.html' | sort)"
 
 old_ifs="$IFS"
 IFS='

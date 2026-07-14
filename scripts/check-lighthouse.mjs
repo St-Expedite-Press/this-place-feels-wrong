@@ -8,7 +8,7 @@ import { startStaticServer } from "./lib/static-server.mjs";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, "..");
-const distDir = path.join(repoRoot, "apps", "web", "dist");
+const distDir = path.join(repoRoot, "apps", "stex", "dist");
 const reportsDir = path.join(repoRoot, ".reports");
 const host = process.env.HOST || "127.0.0.1";
 const port = Number.parseInt(process.env.PORT || "4175", 10);

@@ -5,7 +5,7 @@ import { resolveCommand, runCommand, runCommandCapture } from "./lib/process-uti
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, "..");
-const webDir = path.join(repoRoot, "apps", "web");
+const webDir = path.join(repoRoot, "apps", "stex");
 const distDir = path.join(webDir, "dist");
 const project = process.env.CF_PAGES_PROJECT || "stexpedite-press";
 const npmCommand = resolveCommand("npm");
@@ -96,7 +96,7 @@ async function main() {
     env: deployEnv,
   }).catch(() => {});
 
-  await runCommand(npmCommand, ["--prefix", "apps/web", "run", "build"], {
+  await runCommand(npmCommand, ["--prefix", "apps/stex", "run", "build"], {
     cwd: repoRoot,
     env: deployEnv,
   });

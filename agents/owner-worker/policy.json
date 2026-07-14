@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "profile": "owner-worker",
+  "publicIngress": false,
+  "repositoryRootRequired": true,
+  "automatic": ["read", "plan", "edit-local", "test-local"],
+  "approvalRequired": [
+    "commit", "push", "deploy", "migrate", "dns-write", "secret-write",
+    "repository-retirement", "delete", "production-write"
+  ],
+  "deny": ["public-route", "public-profile-secrets", "cross-profile-memory"]
+}

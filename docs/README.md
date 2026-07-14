@@ -1,7 +1,7 @@
 # Documentation
 
-The single documentation hub for the St. Expedite Press monorepo (both
-websites + the shared Worker). The root [`README.md`](../README.md) points
+The single documentation hub for the St. Expedite Press four-product monorepo
+and its Osiris agent framework. The root [`README.md`](../README.md) points
 here; this index accounts for every document in the repository. Operational
 per-directory files (`AGENTS.md`, `MEMORY.md`, `README.md`, `SKILL.md`) live
 beside the code they govern — see [Conventions](#conventions).
@@ -18,13 +18,16 @@ beside the code they govern — see [Conventions](#conventions).
 
 ## Sites & services
 
-- **Web (stexpedite.press)** — [`../apps/web/README.md`](../apps/web/README.md) · pages: [`../apps/web/src/README.pages.md`](../apps/web/src/README.pages.md)
+- **St. Expedite (stexpedite.press)** — [`../apps/stex/README.md`](../apps/stex/README.md) · pages: [`../apps/stex/src/README.pages.md`](../apps/stex/src/README.pages.md)
 - **RICE (rice.stexpedite.press)** — [`../apps/rice/README.md`](../apps/rice/README.md) · ontology: [`../apps/rice/ONTOLOGY.md`](../apps/rice/ONTOLOGY.md)
   - [`../apps/rice/docs/ASSET_SCHEMA.md`](../apps/rice/docs/ASSET_SCHEMA.md)
   - [`../apps/rice/docs/IMAGE_STYLE_GUIDE.md`](../apps/rice/docs/IMAGE_STYLE_GUIDE.md)
   - [`../apps/rice/docs/PHOTO_SLOTS.md`](../apps/rice/docs/PHOTO_SLOTS.md)
   - [`../apps/rice/docs/CITY_IMAGE_PROMPTS.md`](../apps/rice/docs/CITY_IMAGE_PROMPTS.md)
-- **Communications Worker** — [`../apps/communications-worker/README.md`](../apps/communications-worker/README.md)
+- **Standalone chat** — [`../apps/chat/`](../apps/chat/) · shared client: [`../packages/chat-client/README.md`](../packages/chat-client/README.md)
+- **Backend Worker** — [`../apps/backend/README.md`](../apps/backend/README.md)
+- **Shared contracts and content model** — [`../packages/contracts/README.md`](../packages/contracts/README.md) · [`../packages/content-model/README.md`](../packages/content-model/README.md)
+- **Osiris agent framework** — [`../agents/README.md`](../agents/README.md) · public [`SOUL.md`](../agents/public-guide/SOUL.md) · owner [`SOUL.md`](../agents/owner-worker/SOUL.md)
 
 ## Deployment & operations
 

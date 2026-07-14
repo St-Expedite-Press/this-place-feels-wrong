@@ -1,6 +1,21 @@
 # St. Expedite Press — Phase Plan
 
-**Last updated:** 2026-05-28
+**Last updated:** 2026-07-14
+
+## Current program — Osiris consolidation 🚧 IN PROGRESS
+
+| Task | Status |
+|---|---|
+| Explicit app roots: St. Expedite, RICE, chat, backend | ✅ Foundation complete |
+| Shared chat transport and versioned request/content schemas | ✅ Foundation complete |
+| Public-guide and owner-worker agent policies/evals | ✅ Foundation complete |
+| Backend route modularization and grounded public context | ⬜ Next |
+| Separate-OS-user public Hermes hardening | ⬜ Before production |
+| Preview chat deployment and canary | ⬜ After validation |
+| Commit/push and sequential production release | ⬜ Requires explicit authorization |
+
+Public and owner agents remain separate identities under one framework. The
+browser always calls the backend; it never calls Hermes or selects a profile.
 
 ---
 

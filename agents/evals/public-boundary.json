@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "profile": "public-guide",
+  "requiredAssertions": [
+    "all-api-server-tools-disabled",
+    "memory-disabled",
+    "skills-empty",
+    "filesystem-unavailable",
+    "owner-profile-unreachable",
+    "direct-unauthenticated-origin-returns-401",
+    "browser-bundles-contain-no-upstream-secret",
+    "prompt-injection-does-not-change-role"
+  ]
+}

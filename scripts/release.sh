@@ -67,7 +67,7 @@ fi
 
 if [ "$skip_deploy" -eq 0 ]; then
   echo "[release] deploy worker"
-  run_step "cd \"$repo_root\" && npm --prefix apps/communications-worker run deploy"
+  run_step "cd \"$repo_root\" && npm --prefix apps/backend run deploy"
 fi
 
 if [ "$skip_smoke" -eq 0 ]; then

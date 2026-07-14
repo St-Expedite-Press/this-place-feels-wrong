@@ -6,7 +6,7 @@ script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 
 repo_root="$(find_repo_root "$0")"
 source_root="$repo_root/assets/source"
-publish_root="$repo_root/apps/web/public/assets"
+publish_root="$repo_root/apps/stex/public/assets"
 
 dry_run=0
 if [ "${1:-}" = "--dry-run" ]; then
@@ -47,5 +47,5 @@ fi
 
 node "$repo_root/scripts/build-asset-manifest.mjs"
 
-echo "[sync-assets] synced source assets to apps/web/public/assets"
+echo "[sync-assets] synced source assets to apps/stex/public/assets"
 echo "[sync-assets] wrote asset manifests"

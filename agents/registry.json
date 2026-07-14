@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "framework": "osiris",
+  "profiles": [
+    {
+      "id": "public-guide",
+      "hermesProfile": "stexpedite-public",
+      "surfaces": ["stex", "rice", "openui"],
+      "model": "openrouter/free",
+      "prototypeOnly": true,
+      "publicIngress": "worker-only",
+      "policy": "public-guide/policy.json",
+      "soul": "public-guide/SOUL.md"
+    },
+    {
+      "id": "owner-worker",
+      "hermesProfile": "stexpedite",
+      "surfaces": ["owner"],
+      "model": "operator-selected",
+      "prototypeOnly": false,
+      "publicIngress": "none",
+      "policy": "owner-worker/policy.json",
+      "soul": "owner-worker/SOUL.md"
+    }
+  ]
+}

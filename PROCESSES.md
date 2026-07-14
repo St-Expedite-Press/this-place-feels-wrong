@@ -37,7 +37,7 @@ Full task routing, command matrix, and subagent policy are in **`AGENTS.md`** §
 **When:** Adding, replacing, or removing any image or media file.
 
 **Steps:**
-1. Add/edit files in `assets/source/` only — never directly in `apps/web/public/assets/`
+1. Add/edit files in `assets/source/` only — never directly in `apps/stex/public/assets/`
 2. Run `npm run assets:sync` — copies processed assets to public
 3. Run `npm run assets:check` — verifies no drift between source and public
 4. If manifest SHA256s changed, the check will fail — re-run sync to fix
@@ -66,9 +66,9 @@ Full task routing, command matrix, and subagent policy are in **`AGENTS.md`** §
 
 **Rules:**
 - Never edit existing migration files — always add a new numbered file
-- File naming: `apps/communications-worker/migrations/NNNN_[slug].sql`
+- File naming: `apps/backend/migrations/NNNN_[slug].sql`
 - Test locally: `wrangler d1 execute stexpedite-press-db --local --file=migrations/NNNN_[slug].sql`
 - Deploy: `wrangler d1 execute stexpedite-press-db --file=migrations/NNNN_[slug].sql`
-- Document in `apps/communications-worker/README.md`
+- Document in `apps/backend/README.md`
 
 **Pending migration:** `0015_buy_url_lift_wind.sql` — update `TODO_REPLACE_WITH_AMAZON_OR_VENDOR_URL` and run against production D1 once the vendor URL is confirmed.

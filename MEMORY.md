@@ -1,5 +1,30 @@
 # St. Expedite Press — Change Log
 
+## [2026-07-14] — Osiris four-product consolidation foundation
+
+**Changed:** Reorganized the monorepo around `apps/stex`, `apps/rice`, `apps/chat`, and `apps/backend`; added shared chat contracts, content schemas, and browser transport; and introduced one Osiris agent framework with strictly separate public-guide and private owner-worker identities.
+**Checks:** Backend tests (27), shared chat-client tests, Press staged production build (13 routes), RICE validation/build (68 files), standalone chat build, HTML, links, accessibility, documentation, public-boundary, and diff checks passed.
+**Follow-ups:** Modularize backend services and public grounding, enforce OS-level runtime isolation, configure preview Worker/Hermes variables, and canary before any production deployment. The free OpenRouter route remains prototype-only.
+**Tooling notes:** OneDrive dependency placeholders prevent the in-place Astro build; a disposable local staging copy produced a valid build. No deployment or production mutation was performed.
+
+## [2026-07-13] — Architecture — Isolated public Hermes chat foundation
+
+**Changed:** Added a Turnstile/rate-limited streaming `/api/chat` Worker bridge, accessible chat surfaces for both Press and RICE, and a separately supervised `stexpedite-public` EC2 profile with only an OpenRouter model credential and every API-server toolset disabled. Added reproducible ops guidance and preserved archived RICE main/PR history in a verified offline bundle.
+**Checks:** 26 Worker tests, Press Astro production build (13 routes), RICE asset validation and public build (67 files), JS syntax, Hermes localhost/auth/toolset checks, live bounded chat, bundle verification, and restore checks passed.
+**Follow-ups:** Production ingress remains intentionally blocked: Cloudflare account/zone/token fields are blank, `llmchat.stexpedite.press` still targets the terminated instance, the tunnel is not provisioned, and Worker Hermes variables remain unset. Make a second archive copy and complete authenticated GitHub metadata audit before separately approving deletion.
+**Tooling notes:** The GitHub audit exposed unique PR refs before deletion; Hermes profile/toolset isolation was effective. The public free-model router is prototype-only and must be replaced with a budgeted provider/model policy before production.
+
+---
+
+## [2026-07-13] — Documentation — Canonical RICE ownership reconciled
+
+**Changed:** Recorded `apps/rice/` as the canonical RICE source, the archived standalone repository as historical only, and `/api/works?program=rice` with static `assets/articles.json` fallback plus `/api/updates` as the shared runtime seams.
+**Checks:** `git diff --check` passed.
+**Follow-ups:** Keep Worker API documentation synchronized with contract changes.
+**Tooling notes:** Direct documentation inspection was sufficient.
+
+---
+
 ## [2026-06-03] — Phase 2 — v1.1.0: Full aesthetic audit pass (22 issues)
 
 **Entity:** Project

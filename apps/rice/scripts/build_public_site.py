@@ -16,6 +16,7 @@ PUBLIC_FILES = {
     "archive.html",
     "archive-template.html",
     "crawfish-pond-with-saints.html",
+    "chat-client.js",
     "crowley-modernism.html",
     "damp-heat-index.html",
     "essay-template.html",

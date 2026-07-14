@@ -5,7 +5,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const publicRoot = path.join(repoRoot, "apps", "web", "public", "assets");
+const publicRoot = path.join(repoRoot, "apps", "stex", "public", "assets");
 const sourceRoot = path.join(repoRoot, "assets", "source");
 const jsonPath = path.join(repoRoot, "assets", "manifest.json");
 const textPath = path.join(repoRoot, "assets", "manifest.txt");
@@ -42,7 +42,7 @@ async function buildManifest(generatedAt = new Date().toISOString()) {
       }
     }
     entries.push({
-      path: `apps/web/public/assets/${relativePublic}`,
+      path: `apps/stex/public/assets/${relativePublic}`,
       ownership: sourceOwned ? "synced-media" : "authored-public",
       source: sourceOwned ? `assets/source/${relativePublic}` : null,
       bytes: (await stat(file)).size,
@@ -54,8 +54,8 @@ async function buildManifest(generatedAt = new Date().toISOString()) {
     generated_at: generatedAt,
     roots: {
       canonical_media: "assets/source/",
-      authored_public: "apps/web/public/assets/",
-      generated_build: "apps/web/dist/assets/",
+      authored_public: "apps/stex/public/assets/",
+      generated_build: "apps/stex/dist/assets/",
     },
     entries,
   };

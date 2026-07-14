@@ -1,17 +1,19 @@
 # Deployment
 
-This repository deploys in two parts:
+This repository contains four independent deployment units:
 
-- Cloudflare Pages publishes the static Astro artifact from `apps/web/dist/`.
-- Cloudflare Workers runs `apps/communications-worker/` for `/api/*`.
+- St. Expedite Pages publishes `apps/stex/dist/`.
+- RICE Pages publishes the allowlisted `apps/rice/_site/` artifact.
+- Chat Pages publishes `apps/chat/dist/` after an explicit preview/release action.
+- Cloudflare Workers runs `apps/backend/` for `/api/*`.
 
-## Static Site
+## St. Expedite site
 
-- Source: `apps/web/src/`
-- Authored assets: `apps/web/public/assets/`
+- Source: `apps/stex/src/`
+- Authored assets: `apps/stex/public/assets/`
 - Build command: `npm run build`
-- Output artifact: `apps/web/dist/`
-- Workflow: `.github/workflows/deploy-pages.yml`
+- Output artifact: `apps/stex/dist/`
+- Workflow: `.github/workflows/deploy-stex.yml`
 - Trigger: push to `main` or manual dispatch
 - Deploy auth: `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`
 - GitHub Actions secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
@@ -22,11 +24,23 @@ Deploy manually:
 npm run deploy:web
 ```
 
-## Communications Worker
+## RICE and chat
 
-- Project: `apps/communications-worker/`
+```bash
+npm run build:rice
+npm run build:chat
+npm run deploy:rice
+npm run deploy:chat
+```
+
+Chat deployment is manual until the Pages project, custom hostname, strict
+origin pairing, Worker secrets, and canary checks are complete.
+
+## Backend Worker
+
+- Project: `apps/backend/`
 - Worker name: `stexpedite-communications`
-- Contract: `apps/communications-worker/openapi.yaml`
+- Contract: `apps/backend/openapi.yaml`
 - Routes:
   - `stexpedite.press/api/*`
   - `www.stexpedite.press/api/*`
@@ -37,14 +51,15 @@ Runtime bindings and secrets:
 - `RESEND_API_KEY`, `FROM_EMAIL`, `TO_EMAIL`: contact and submission email
 - `STRIPE_SECRET_KEY`: donation Checkout sessions
 - `FOURTH_WALL_API_KEY`: storefront data
-- `TURNSTILE_SECRET`: optional POST-route verification
+- `TURNSTILE_SECRET`: Turnstile verification (required before public chat release)
 - `UPDATES_IMPORT_TOKEN`: authenticated updates import
+- `HERMES_API_URL`, `HERMES_API_KEY`: isolated public-guide upstream only
 - `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`: optional rate-limit tuning
 
 Deploy manually:
 
 ```bash
-npm run deploy:worker
+npm run deploy:backend
 ```
 
 ## Local Setup
@@ -52,10 +67,10 @@ npm run deploy:worker
 ```bash
 npm run run:bash -- scripts/bootstrap-git-auth.sh
 npm run run:bash -- scripts/install-hooks.sh
-npm run sync:worker-dev-vars
+npm run sync:backend-dev-vars
 ```
 
-`npm run dev:worker` syncs supported root `.env` keys into `apps/communications-worker/.dev.vars` before starting Wrangler.
+`npm run dev:backend` syncs allowlisted root `.env` keys into `apps/backend/.dev.vars` before starting Wrangler. Compatibility aliases remain available.
 
 ## Verification
 

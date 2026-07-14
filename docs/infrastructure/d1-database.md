@@ -6,8 +6,8 @@ Canonical reference for the Cloudflare D1 database used by the communications Wo
 
 - database name: `stexpedite-updates`
 - binding: `DB`
-- config location: `apps/communications-worker/wrangler.toml`
-- migration directory: `apps/communications-worker/migrations/`
+- config location: `apps/backend/wrangler.toml`
+- migration directory: `apps/backend/migrations/`
 
 The Worker uses D1 for:
 
@@ -21,7 +21,7 @@ The Worker uses D1 for:
 ## Verification
 
 ```bash
-cd apps/communications-worker
+cd apps/backend
 npx -y wrangler whoami
 npx -y wrangler d1 list
 npx -y wrangler d1 execute stexpedite-updates --remote --command "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
@@ -35,8 +35,8 @@ npm run runtime:audit
 
 ## Change Procedure
 
-1. Add a migration under `apps/communications-worker/migrations/`.
-2. Update `apps/communications-worker/openapi.yaml` if route shapes change.
+1. Add a migration under `apps/backend/migrations/`.
+2. Update `apps/backend/openapi.yaml` if route shapes change.
 3. Apply the migration remotely with Wrangler.
 4. Deploy the Worker.
 5. Run runtime audit and smoke checks.

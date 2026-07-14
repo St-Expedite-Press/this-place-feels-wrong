@@ -5,9 +5,9 @@ Date: 2026-05-01
 Scope reviewed:
 
 - Root app and asset documentation.
-- `apps/web/src/pages/` and shared Astro components.
+- `apps/stex/src/pages/` and shared Astro components.
 - CSS tokens, base, layout, component, page-specific, and effect styles.
-- Site navigation and metadata in `apps/web/src/data/site.json`.
+- Site navigation and metadata in `apps/stex/src/data/site.json`.
 - Published and source asset inventory.
 
 This assessment is based on source review, not a new browser screenshot pass. Treat it as an aesthetic and UX roadmap for future implementation.

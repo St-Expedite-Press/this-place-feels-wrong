@@ -9,7 +9,7 @@ help:
 	@echo "  bootstrap-git-auth  Configure repo-local GitHub auth from .env"
 	@echo "  bootstrap-python-venv  Create/update local Python virtualenv at .venv"
 	@echo "  install-hooks       Install tracked git hooks (.githooks)"
-	@echo "  lint-html           Run htmlhint for generated HTML in apps/web/dist"
+	@echo "  lint-html           Run htmlhint for generated HTML in apps/stex/dist"
 	@echo "  check-links         Run generated-site link checks"
 	@echo "  check-a11y          Run generated-site accessibility checks"
 	@echo "  check-lighthouse    Run Lighthouse check when Chrome/Chromium is available"
@@ -27,11 +27,11 @@ help:
 	@echo "  release-dry-run     Print release actions without mutating"
 	@echo "  check-seo           Run advisory SEO structure checks"
 	@echo "  identity-build      Rebuild St. Expedite seal derivatives from the preserved source"
-	@echo "  assets-sync         Sync source assets -> apps/web/public/assets and regenerate manifest"
+	@echo "  assets-sync         Sync source assets -> apps/stex/public/assets and regenerate manifest"
 	@echo "  assets-check        Verify source/public asset sync and manifest"
 
 dev-web:
-	npm --prefix apps/web run dev
+	npm --prefix apps/stex run dev
 
 dev-worker:
 	npm run dev:worker
@@ -46,7 +46,7 @@ install-hooks:
 	sh scripts/install-hooks.sh
 
 lint-html:
-	npx -y htmlhint "apps/web/dist/**/*.html"
+	npx -y htmlhint "apps/stex/dist/**/*.html"
 
 check-links:
 	npm run check:links
@@ -61,7 +61,7 @@ check-audit:
 	npm run check:audit
 
 test-worker:
-	npm --prefix apps/communications-worker run test
+	npm --prefix apps/backend run test
 
 check-all:
 	npm run check
@@ -82,7 +82,7 @@ deploy-web:
 	npm run deploy:web
 
 deploy-worker:
-	npm --prefix apps/communications-worker run deploy
+	npm --prefix apps/backend run deploy
 
 release-log:
 	sh ops/cloudflare-stability/scripts/log-release-evidence.sh

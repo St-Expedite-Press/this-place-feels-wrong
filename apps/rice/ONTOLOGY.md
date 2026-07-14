@@ -9,7 +9,7 @@ the public/private boundary for `rice_site/`.
 |---|---|---|
 | Public page markup | Root `*.html` | Framework-free. Stable work routes use title slugs; `*-template.html` files are compatibility redirects. |
 | Visual system | `styles.css`, `fonts.css`, `assets/fonts/` | Seed palette, locally hosted fonts, responsive/reduced-motion/forced-colors behavior. |
-| Site behavior | `site.js` | Search, filters, reading mode, and press-Worker updates signup. |
+| Site behavior | `site.js` | Search, filters, reading mode, press-Worker updates signup, and the public streaming chat mounted on public non-redirect pages. |
 | Work records | `assets/articles.json` | Includes publication state, season, sample flag, nullable route, hero, and disclosure. |
 | Image metadata | `assets/catalog.json`, `assets/site-assets.json` | Internal generated inventories; never publish directly. |
 | Image slots | `assets/photo-slots.json`, `docs/PHOTO_SLOTS.md` | Public rendered slots and category bindings. |
@@ -37,6 +37,10 @@ the public/private boundary for `rice_site/`.
 - Worker signup changes are cross-repository work: update the press Worker,
   tests, OpenAPI/docs when its contract changes, and validate each repository
   independently.
+- Public chat posts a bounded `{messages}` transcript to
+  `https://stexpedite.press/api/chat`, consumes OpenAI-style SSE as plain text,
+  and never places credentials in the browser. Keep it absent from the internal
+  asset library and from compatibility redirects.
 
 ## Validation
 
