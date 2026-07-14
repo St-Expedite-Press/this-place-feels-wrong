@@ -10,12 +10,15 @@
 | Shared chat transport and versioned request/content schemas | ✅ Foundation complete |
 | Public-guide and owner-worker agent policies/evals | ✅ Foundation complete |
 | Backend route modularization and grounded public context | ⬜ Next |
-| Separate-OS-user public Hermes hardening | ⬜ Before production |
-| Preview chat deployment and canary | ⬜ After validation |
-| Commit/push and sequential production release | ⬜ Requires explicit authorization |
+| Separate-OS-user public Hermes hardening | ⬜ Post-launch hardening; isolated profile/listener verified |
+| Preview chat deployment and canary | ✅ Pages, custom DNS, CORS, and edge smoke checks passed |
+| Commit/push and sequential production release | ✅ Commit `1ce33e5`; all four deployment workflows passed |
 
 Public and owner agents remain separate identities under one framework. The
 browser always calls the backend; it never calls Hermes or selects a profile.
+The public free-model route remains prototype-only even though the production
+transport is live; budget controls, grounded context, and OS-user isolation are
+still required hardening work.
 
 ---
 

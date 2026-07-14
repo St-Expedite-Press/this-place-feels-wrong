@@ -1,5 +1,12 @@
 # St. Expedite Press — Change Log
 
+## [2026-07-14] — Release — Osiris production deployment
+
+**Changed:** Published commit `1ce33e5` to `main`, refreshed the repository's Cloudflare Actions credentials from the local master environment, deployed St. Expedite, RICE, the backend Worker, and the standalone chat, created the `stexpedite-chat` Pages project, and attached the proxied `chat.stexpedite.press` route.
+**Checks:** All four GitHub deployment workflows passed. St. Expedite, RICE, the Pages chat origin, the custom chat edge, and `/api/health` returned HTTP 200; chat-origin CORS returned 204 with the expected allow-origin; the isolated EC2 public Hermes service and localhost health endpoint are active.
+**Follow-ups:** Complete a browser Turnstile conversation smoke test, add grounded public context and budget controls, and finish separate-OS-user hardening. OpenRouter's free route remains prototype-only.
+**Tooling notes:** GitHub CLI was installed and used for authenticated release orchestration. The repository-referenced Cloudflare release skill was absent, so the checked-in deployment runbook and direct Cloudflare API verification were used.
+
 ## [2026-07-14] — Osiris four-product consolidation foundation
 
 **Changed:** Reorganized the monorepo around `apps/stex`, `apps/rice`, `apps/chat`, and `apps/backend`; added shared chat contracts, content schemas, and browser transport; and introduced one Osiris agent framework with strictly separate public-guide and private owner-worker identities.

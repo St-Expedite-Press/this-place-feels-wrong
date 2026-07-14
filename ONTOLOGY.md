@@ -6,7 +6,7 @@ The project navigation contract. Read after `AGENTS.md` and before selecting fil
 
 | Field | Value |
 |---|---|
-| Live sites | `https://stexpedite.press` (St. Expedite) · `https://rice.stexpedite.press` (RICE); standalone chat preview pending |
+| Live sites | `https://stexpedite.press` (St. Expedite) · `https://rice.stexpedite.press` (RICE) · `https://chat.stexpedite.press` (Osiris chat) |
 | Stack | Astro · static+Python (RICE) · static chat · Cloudflare Pages · Worker · D1 · Turnstile · isolated Hermes API |
 | Repository | `St-Expedite-Press/this-place-feels-wrong` (monorepo) |
 | Agent doctrine | `AGENTS.md` · phase tracking `PHASE-PLAN.md` · change log `MEMORY.md` |
