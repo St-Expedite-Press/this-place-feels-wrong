@@ -1,5 +1,11 @@
 # RICE Magazine Memory
 
+## 2026-07-14 — Submissions — Shared protected portal
+
+**Changed:** Replaced closed/Duosuma intake copy with a canonical link to the St. Expedite protected manuscript portal and synchronized public footer/search/readme language.
+**Checks:** JavaScript syntax and the 68-file public build pass; the local image audit awaits Pillow on EC2.
+**Tooling notes:** Reusing the canonical portal prevents duplicate upload code and keeps manuscript bytes outside chat.
+
 ## 2026-07-14 — RICE — Shared Osiris chat transport
 
 **Changed:** Preserved the RICE site as its own product while replacing its duplicate streaming/history protocol with the canonical Osiris browser client across source and public pages.

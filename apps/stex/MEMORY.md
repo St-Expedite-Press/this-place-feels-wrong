@@ -1,5 +1,11 @@
 # Press Web App Memory
 
+## 2026-07-14 — Portal and Work — Canonical intake plus public chat project
+
+**Changed:** Recast `/connect` as the protected submission/contact portal, made manuscript and correspondence modes explicit, relabeled navigation, and added `chat.stexpedite.press` under Work projects.
+**Checks:** Connect script syntax passes; Astro validation is delegated to the clean EC2 checkout because OneDrive placeholders block the local build.
+**Tooling notes:** The existing Turnstile form remained the correct gate; no authentication layer or route break was needed.
+
 ## 2026-07-14 — Connect — Direct manuscript upload
 
 **Changed:** Manuscript mode now collects author/title/genre/consent and one allowlisted document, posting multipart data to the shared submission Worker while preserving ordinary contact JSON and fallback email copy.

@@ -44,7 +44,7 @@ Prefer built-in subagents when the runtime can select the requested model direct
 | Web assets | `apps/stex/public/assets/` | Authored CSS, JS, fonts, synced images |
 | Web output | `apps/stex/dist/` | **Generated only — never edit by hand** |
 | RICE app | `apps/rice/` | Static site + Python build (rice.stexpedite.press); output `apps/rice/_site/` (**generated**). See `apps/rice/ONTOLOGY.md` |
-| Chat app | `apps/chat/` | Standalone OpenUI-style public guide; output `apps/chat/dist/` (**generated**) |
+| Chat app | `apps/chat/` | Standalone OpenUI-style general public text chat; output `apps/chat/dist/` (**generated**) |
 | Backend | `apps/backend/src/index.ts` | Shared Cloudflare Worker API (RICE consumes `/api/works`, `/api/updates`, and `/api/chat`) |
 | Worker contract | `apps/backend/openapi.yaml` | OpenAPI spec — source of truth for `/api/*` |
 | D1 migrations | `apps/backend/migrations/` | **Append-only — never edit existing files** |

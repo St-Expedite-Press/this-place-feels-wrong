@@ -1,5 +1,11 @@
 # Agent framework memory
 
+## 2026-07-14 — Public chat — Text-only multi-surface role
+
+**Changed:** Generalized the public SOUL to accept trusted server surface context while explicitly denying file, email, profile/model/prompt selection, development, deployment, and private-system capabilities. Publication surfaces remain guides; `openui` is general-purpose text chat.
+**Checks:** Policy/eval JSON parses and backend routing tests pass.
+**Tooling notes:** Capability boundaries stay uniform and tool-free; only server-owned conversational instructions vary by surface.
+
 ## 2026-07-14 — Public guide — Constrained submission handoff
 
 **Changed:** Taught the public guide the verified submission sequence and added explicit policy/eval boundaries: it may direct visitors to the Worker form but cannot access files, email tools, private submissions, or submission status.

@@ -5,12 +5,14 @@
     "surfaces": ["stex", "rice", "openui"],
     "knowledge": "public-provenance-only",
     "streaming": true,
-    "submissionHandoff": "worker-form-only"
+    "submissionHandoff": "external-worker-portal-only",
+    "mode": "text-chat-only"
   },
   "deny": [
     "filesystem", "terminal", "browser", "code-execution", "memory",
     "delegation", "cron", "deployment", "secrets", "private-retrieval",
-    "submission-file-access", "email-tool-access"
+    "submission-file-access", "email-tool-access", "profile-selection",
+    "model-selection", "system-prompt-selection"
   ],
   "limits": {
     "maxTurns": 4,

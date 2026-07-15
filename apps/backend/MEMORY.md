@@ -1,5 +1,11 @@
 # Backend Worker Memory
 
+## 2026-07-14 — Chat — Server-owned surface instructions
+
+**Changed:** Added server-owned publication chatbot instructions for `stex`/`rice` and a general-purpose text instruction for `openui`; browser clients still cannot supply a system message, model, profile, upstream, or authorization.
+**Checks:** All 31 Worker tests pass, including surface-specific instruction selection.
+**Tooling notes:** One zero-tool public Hermes runtime remains sufficient because every surface shares the same capability boundary while the Worker owns semantic routing.
+
 ## 2026-07-14 — Backend — Manuscript attachment delivery
 
 **Changed:** Added bounded multipart parsing, file extension/MIME allowlists, Resend editor attachments, submitter receipts, and append-only attachment metadata migration `0019`; manuscript contents never enter D1.

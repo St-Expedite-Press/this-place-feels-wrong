@@ -1,6 +1,5 @@
 const protocol = window.OsirisChat;
 const endpoint = document.querySelector('meta[name="chat-endpoint"]')?.content || '/api/chat';
-const submissionEndpoint = document.querySelector('meta[name="submission-endpoint"]')?.content || '/api/submit';
 const sitekey = document.querySelector('meta[name="turnstile-sitekey"]')?.content || '';
 const transcript = document.querySelector('[data-transcript]');
 const form = document.querySelector('[data-form]');
@@ -8,23 +7,11 @@ const input = document.querySelector('[data-input]');
 const send = document.querySelector('[data-send]');
 const stop = document.querySelector('[data-stop]');
 const status = document.querySelector('[data-status]');
-const title = document.querySelector('[data-title]');
 const greeting = document.querySelector('[data-greeting]').cloneNode(true);
-let surface = 'stex';
 let messages = [];
 let controller;
 let turnstileId;
 let turnstileLoader;
-let submissionTurnstileId;
-const submissionDialog = document.querySelector('[data-submission-dialog]');
-const submissionForm = document.querySelector('[data-submission-form]');
-const submissionStatus = document.querySelector('[data-submission-status]');
-const submissionSend = document.querySelector('[data-submission-send]');
-
-const surfaceCopy = {
-  stex: ['Ask St. Expedite', 'I can help you navigate the press, its books, RICE, submissions, and public archive. What are you looking for?'],
-  rice: ['Ask RICE', 'I can help you navigate RICE, its available work, and the shape of the project. What are you looking for?'],
-};
 
 function loadTurnstile() {
   if (window.turnstile) return Promise.resolve(window.turnstile);
@@ -50,25 +37,15 @@ async function ensureTurnstile() {
   return turnstile;
 }
 
-async function ensureSubmissionTurnstile() {
-  const turnstile = await loadTurnstile();
-  if (submissionTurnstileId === undefined) {
-    submissionTurnstileId = turnstile.render(document.querySelector('[data-submission-turnstile]'), {
-      sitekey, theme: 'dark', appearance: 'interaction-only',
-    });
-  }
-  return turnstile;
-}
-
 function appendMessage(role, content = '') {
   const article = document.createElement('article');
   article.className = `message message--${role}`;
   const avatar = document.createElement('span');
   avatar.className = 'avatar';
-  avatar.textContent = role === 'user' ? 'YOU' : surface === 'rice' ? 'R' : 'SE';
+  avatar.textContent = role === 'user' ? 'YOU' : 'AI';
   const body = document.createElement('div');
   const label = document.createElement('strong');
-  label.textContent = role === 'user' ? 'You' : surface === 'rice' ? 'RICE' : 'St. Expedite';
+  label.textContent = role === 'user' ? 'You' : 'Public assistant';
   const text = document.createElement('p');
   text.textContent = content;
   body.append(label, text);
@@ -82,7 +59,6 @@ function resetConversation(message = '') {
   controller?.abort();
   messages = [];
   const nextGreeting = greeting.cloneNode(true);
-  nextGreeting.querySelector('[data-greeting-text]').textContent = surfaceCopy[surface][1];
   transcript.replaceChildren(nextGreeting);
   status.textContent = message;
   input.focus();
@@ -96,26 +72,6 @@ function setBusy(busy) {
 }
 
 document.querySelector('[data-new-chat]').addEventListener('click', () => resetConversation('Conversation cleared.'));
-document.querySelector('[data-open-submission]').addEventListener('click', async () => {
-  submissionStatus.textContent = '';
-  submissionDialog.showModal();
-  try { await ensureSubmissionTurnstile(); }
-  catch { submissionStatus.textContent = 'Human verification could not load.'; }
-});
-document.querySelector('[data-close-submission]').addEventListener('click', () => submissionDialog.close());
-submissionDialog.addEventListener('click', event => {
-  if (event.target === submissionDialog) submissionDialog.close();
-});
-document.querySelectorAll('[data-surface]').forEach(button => button.addEventListener('click', () => {
-  surface = button.dataset.surface;
-  document.querySelectorAll('[data-surface]').forEach(candidate => {
-    const selected = candidate === button;
-    candidate.classList.toggle('is-active', selected);
-    candidate.setAttribute('aria-pressed', String(selected));
-  });
-  title.textContent = surfaceCopy[surface][0];
-  resetConversation(`Switched to ${surface === 'rice' ? 'RICE' : 'St. Expedite Press'}.`);
-}));
 stop.addEventListener('click', () => controller?.abort());
 input.addEventListener('keydown', event => {
   if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
@@ -135,7 +91,7 @@ form.addEventListener('submit', async event => {
   const reply = appendMessage('assistant');
   controller = new AbortController();
   setBusy(true);
-  status.textContent = 'The guide is answering.';
+  status.textContent = 'The assistant is answering.';
   try {
     const turnstile = await ensureTurnstile();
     const token = turnstile.getResponse(turnstileId);
@@ -174,32 +130,3 @@ form.addEventListener('submit', async event => {
 });
 
 ensureTurnstile().catch(() => { status.textContent = 'Human verification could not load.'; });
-
-submissionForm.addEventListener('submit', async event => {
-  event.preventDefault();
-  const file = submissionForm.elements.file.files[0];
-  if (!file || file.size > 10 * 1024 * 1024) {
-    submissionStatus.textContent = 'Choose one supported manuscript file no larger than 10 MiB.';
-    return;
-  }
-  submissionSend.disabled = true;
-  submissionStatus.textContent = 'Forwarding the submission securely…';
-  try {
-    const turnstile = await ensureSubmissionTurnstile();
-    const token = turnstile.getResponse(submissionTurnstileId);
-    if (!token) throw new Error('Complete human verification before submitting.');
-    const body = new FormData(submissionForm);
-    body.set('turnstileToken', token);
-    const response = await fetch(submissionEndpoint, { method: 'POST', body });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || `Submission failed (${response.status}).`);
-    submissionStatus.textContent = `Submission received. Reference: ${data.id}`;
-    appendMessage('assistant', `Your manuscript has been forwarded to the editor. Keep this reference: ${data.id}`);
-    submissionForm.reset();
-  } catch (error) {
-    submissionStatus.textContent = error instanceof Error ? error.message : 'The submission could not be sent.';
-  } finally {
-    if (submissionTurnstileId !== undefined) window.turnstile?.reset(submissionTurnstileId);
-    submissionSend.disabled = false;
-  }
-});

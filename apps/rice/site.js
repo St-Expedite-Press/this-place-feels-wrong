@@ -4,7 +4,7 @@ const UPDATES_SOURCE = "rice-magazine-seed";
 let searchIndex = [
   { type: "Page", title: "A Year of RICE", author: "St. Expedite Press", href: "year.html", meta: "Four volumes / sixteen towns" },
   { type: "Page", title: "The Seed Object", author: "St. Expedite Press", href: "shop.html", meta: "Prelaunch" },
-  { type: "Page", title: "Submissions", author: "RICE Editors", href: "submissions.html", meta: "Closed during prelaunch" }
+  { type: "Page", title: "Submissions", author: "RICE Editors", href: "submissions.html", meta: "Protected submission portal" }
 ];
 let renderSearch = null;
 

@@ -13,6 +13,7 @@
 | Separate-OS-user public Hermes hardening | ⬜ Post-launch hardening; isolated profile/listener verified |
 | Preview chat deployment and canary | ✅ Pages, custom DNS, CORS, and edge smoke checks passed |
 | Commit/push and sequential production release | ✅ Commit `1ce33e5`; all four deployment workflows passed |
+| Canonical consolidated source checkout on EC2 | ✅ Active at `/home/ec2-user/src/this-place-feels-wrong`; prior base commit remains in Git history, but its uncommitted overlay was not retained by the attempted archive move |
 
 Public and owner agents remain separate identities under one framework. The
 browser always calls the backend; it never calls Hermes or selects a profile.

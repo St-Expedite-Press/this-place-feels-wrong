@@ -6,7 +6,7 @@ college towns, one finite year. The SEC map is the route, never the coverage.
 
 The current public issue is **RICE 1: Seed / Spring / Earth**. Its three
 complete pieces are visibly labeled editorial samples; planned work has no
-false destination. Ordering, reservations, and submissions remain closed.
+false destination. Ordering and reservations remain closed; submissions use the protected St. Expedite portal.
 
 ## Public routes
 
@@ -17,7 +17,7 @@ false destination. Ordering, reservations, and submissions remain closed.
 - `archive.html` — disclosed visual reconstructions with stable records
 - `year.html` — public explanation of the four-volume cycle
 - `shop.html` — proposed Seed object and truthful prelaunch status
-- `submissions.html` — closed status and future Duosuma intake policy
+- `submissions.html` — RICE entry point to the protected St. Expedite submission service
 - `splash.html` — optional static cover view
 
 The old `*-template.html` URLs are `noindex` compatibility redirects.

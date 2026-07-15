@@ -1,5 +1,12 @@
 # St. Expedite Press — Change Log
 
+## [2026-07-14] — Platform — Protected portals, general chat, and EC2 source residency
+
+**Changed:** Recast St. Expedite `/connect` as the canonical Turnstile-protected submission/contact portal, routed RICE submissions into it, removed manuscript/email controls from standalone chat, made `openui` a general public text assistant, retained publication-specific chatbot instructions for St. Expedite/RICE, and listed chat under Work projects. Replaced the stale EC2 checkout with the consolidated monorepo at `/home/ec2-user/src/this-place-feels-wrong` and applied the exact secret-scanned local overlay.
+**Checks:** The full repository gate passes on EC2: documentation and shared-client checks, all four builds, 13-route HTML lint, links, accessibility, 31 backend tests, dependency audit threshold, and the RICE asset audit. The local/EC2 diff hashes match exactly.
+**Follow-ups:** Commit and deploy only with separate authorization.
+**Tooling notes:** Existing Turnstile and Worker submission boundaries avoided adding an unnecessary account system. Built-in read-only reviewers clarified the product/agent boundary; OneDrive obstructed the local Astro build, while EC2 completed it. The attempted timestamped preservation move reported success, but the archive directory was later empty; the old base commit remains in Git history, while its uncommitted overlay was not retained.
+
 ## [2026-07-14] — Submissions — Constrained manuscript handoff
 
 **Changed:** Extended `/api/submit` with a 10 MiB allowlisted multipart manuscript path, Resend attachment delivery, D1 metadata, a Connect upload form, and an Osiris submission dialog. The public guide explains and hands off the process but cannot access manuscript bytes or email tools.

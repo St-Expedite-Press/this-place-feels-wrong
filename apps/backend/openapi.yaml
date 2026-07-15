@@ -116,8 +116,10 @@ paths:
       operationId: streamPublicChat
       description: |
         Accepts an alternating conversation that starts and ends with a user message. Only `user` and
-        `assistant` roles with plain string content are permitted. The Worker supplies server-side Hermes
-        authorization and never forwards browser authorization headers or client-provided system messages.
+        `assistant` roles with plain string content are permitted. The Worker selects a server-owned chatbot
+        instruction from the validated surface: publication guidance for `stex` and `rice`, and a general-purpose
+        text assistant for `openui`. The Worker supplies Hermes authorization and never forwards browser
+        authorization headers or client-provided system messages.
       requestBody:
         required: true
         content:

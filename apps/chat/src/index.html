@@ -3,11 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A public guide to St. Expedite Press and RICE Magazine.">
+  <meta name="description" content="A Turnstile-gated public LLM chat from St. Expedite Press.">
   <meta name="chat-endpoint" content="https://stexpedite.press/api/chat">
-  <meta name="submission-endpoint" content="https://stexpedite.press/api/submit">
   <meta name="turnstile-sitekey" content="0x4AAAAAADc-GOYeYwVaZA_I">
-  <title>Osiris Desk — St. Expedite Press</title>
+  <title>Public Chat — St. Expedite Press</title>
   <link rel="stylesheet" href="styles.css">
   <script src="chat-client.js" defer></script>
   <script src="app.js" defer></script>
@@ -17,35 +16,29 @@
   <div class="shell">
     <aside class="rail" aria-label="Chat navigation">
       <a class="brand" href="https://stexpedite.press" aria-label="St. Expedite Press home">
-        <span class="brand__seal">SE</span><span>OSIRIS DESK</span>
+        <span class="brand__seal">SE</span><span>PUBLIC CHAT</span>
       </a>
       <button class="new-chat" type="button" data-new-chat>+ New conversation</button>
-      <button class="submission-button" type="button" data-open-submission>Submit work</button>
-      <nav aria-label="Knowledge surface">
-        <p class="rail__label">Field</p>
-        <button class="surface is-active" type="button" data-surface="stex" aria-pressed="true">St. Expedite Press</button>
-        <button class="surface" type="button" data-surface="rice" aria-pressed="false">RICE Magazine</button>
-      </nav>
-      <p class="rail__note">The guide can explain submissions. Files go through a constrained form directly to the editor; Hermes cannot inspect them.</p>
+      <p class="rail__note">General public text chat. No file access, email, memory, development, deployment, or private systems.</p>
     </aside>
 
     <main class="workspace">
       <header class="topbar">
-        <div><span class="eyebrow">PUBLIC INSTRUMENT / HERMES</span><h1 data-title>Ask St. Expedite</h1></div>
-        <span class="status-dot"><i></i> Public profile</span>
+        <div><span class="eyebrow">PUBLIC LLM / HERMES</span><h1>Start a conversation</h1></div>
+        <span class="status-dot"><i></i> Chat only</span>
       </header>
 
       <section class="conversation" data-transcript role="log" aria-live="polite" aria-relevant="additions text">
         <article class="message message--assistant" data-greeting>
-          <span class="avatar" aria-hidden="true">SE</span>
-          <div><strong>St. Expedite</strong><p data-greeting-text>I can help you navigate the press, its books, RICE, submissions, and public archive. What are you looking for?</p></div>
+          <span class="avatar" aria-hidden="true">AI</span>
+          <div><strong>Public assistant</strong><p data-greeting-text>Ask a question, work through an idea, or start with a blank page.</p></div>
         </article>
       </section>
 
       <footer class="composer-wrap">
         <form class="composer" id="composer" data-form>
           <label class="sr-only" for="message">Message</label>
-          <textarea id="message" rows="2" maxlength="1000" placeholder="Message the public guide" required data-input></textarea>
+          <textarea id="message" rows="2" maxlength="1000" placeholder="Message the public assistant" required data-input></textarea>
           <div class="composer__controls">
             <div data-turnstile aria-label="Human verification"></div>
             <button type="button" class="text-button" data-stop hidden>Stop</button>
@@ -53,29 +46,9 @@
           </div>
         </form>
         <p class="live-status" data-status role="status"></p>
-        <p class="disclaimer">Replies may be incomplete. Do not send manuscripts, passwords, payment information, or private correspondence.</p>
+        <p class="disclaimer">Replies may be incomplete or wrong. Do not send manuscripts, passwords, payment information, or private correspondence.</p>
       </footer>
     </main>
   </div>
-  <dialog class="submission-dialog" data-submission-dialog aria-labelledby="submission-title">
-    <div class="submission-dialog__header">
-      <div><span class="eyebrow">CONSTRAINED HANDOFF</span><h2 id="submission-title">Submit a manuscript</h2></div>
-      <button class="dialog-close" type="button" data-close-submission aria-label="Close submission form">×</button>
-    </div>
-    <p class="submission-intro">Your document is validated by the Worker and forwarded to the editor by email. The public guide cannot read it or retrieve it later.</p>
-    <form class="submission-form" data-submission-form>
-      <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
-      <label>Email<input name="email" type="email" maxlength="320" autocomplete="email" required></label>
-      <label>Author name<input name="authorName" type="text" maxlength="120" autocomplete="name" required></label>
-      <label>Title of work<input name="workTitle" type="text" maxlength="200" required></label>
-      <label>Genre or form <span>(optional)</span><input name="genre" type="text" maxlength="80" placeholder="Poetry, fiction, essay, hybrid…"></label>
-      <label>Project note<textarea name="note" rows="4" maxlength="6000" placeholder="A concise description of the work" required></textarea></label>
-      <label>Manuscript file<input name="file" type="file" accept=".pdf,.doc,.docx,.odt,.rtf,.txt,.md" required><small>One PDF, DOC, DOCX, ODT, RTF, TXT, or Markdown file; 10 MiB maximum.</small></label>
-      <label class="submission-consent"><input name="consent" type="checkbox" required><span>I have authority to submit this work and understand it will be forwarded to the editor by email.</span></label>
-      <div data-submission-turnstile aria-label="Human verification"></div>
-      <button class="submission-send" type="submit" data-submission-send>Forward to editor</button>
-      <p class="submission-status" data-submission-status role="status" aria-live="polite"></p>
-    </form>
-  </dialog>
 </body>
 </html>

@@ -39,6 +39,11 @@ type ChatMessage = {
 
 type ChatSurface = "stex" | "rice" | "openui";
 
+type UpstreamChatMessage = ChatMessage | {
+  role: "system";
+  content: string;
+};
+
 type EmailAttachment = {
   filename: string;
   content: string;
@@ -53,6 +58,11 @@ const CHAT_MAX_BODY_BYTES = 32 * 1024;
 const CHAT_MAX_MESSAGES = 12;
 const CHAT_MAX_MESSAGE_CHARS = 4_000;
 const CHAT_MAX_TOTAL_CHARS = 12_000;
+const CHAT_SYSTEM_PROMPTS: Record<ChatSurface, string> = {
+  stex: "You are the public St. Expedite Press chatbot. Help with verified public information, navigation, books, and the protected submission/contact route. You have no tools and cannot access files, email, accounts, private data, development systems, or deployments.",
+  rice: "You are the public RICE Magazine chatbot. Help with verified public information, available work, navigation, and the protected submission route. You have no tools and cannot access files, email, accounts, private data, development systems, or deployments.",
+  openui: "You are a general-purpose public text assistant. Answer broad questions clearly and honestly, distinguish uncertainty, and do not imply access to tools or private systems. You cannot access files, email, accounts, memory, development systems, or deployments.",
+};
 const SUBMISSION_MAX_FILE_BYTES = 10 * 1024 * 1024;
 const SUBMISSION_MAX_BODY_BYTES = 11 * 1024 * 1024;
 const SUBMISSION_EXTENSIONS = new Set(["pdf", "doc", "docx", "odt", "rtf", "txt", "md"]);
@@ -363,6 +373,7 @@ async function handleChat(request: Request, env: Env) {
   if (chat.surface && originSurface && chat.surface !== originSurface) {
     return errorResponse("Invalid chat request", 400);
   }
+  const surface = chat.surface ?? originSurface ?? "stex";
 
   const turnstileOk = await verifyTurnstile(request, env, chat.turnstileToken);
   if (!turnstileOk) return errorResponse("Turnstile verification failed", 403);
@@ -387,7 +398,11 @@ async function handleChat(request: Request, env: Env) {
         "content-type": "application/json",
         accept: "text/event-stream",
       },
-      body: JSON.stringify({ model: "hermes", messages: chat.messages, stream: true }),
+      body: JSON.stringify({
+        model: "hermes",
+        messages: [{ role: "system", content: CHAT_SYSTEM_PROMPTS[surface] }, ...chat.messages] satisfies UpstreamChatMessage[],
+        stream: true,
+      }),
       signal: request.signal,
     });
 

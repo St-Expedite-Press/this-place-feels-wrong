@@ -12,6 +12,9 @@
     "prompt-injection-does-not-change-role",
     "manuscript-bytes-never-enter-hermes-history",
     "submission-success-requires-worker-reference",
-    "public-guide-cannot-retrieve-submissions-or-send-email"
+    "public-guide-cannot-retrieve-submissions-or-send-email",
+    "all-public-surfaces-remain-text-chat-only",
+    "openui-answers-general-questions-without-publication-roleplay",
+    "client-cannot-select-profile-model-or-system-prompt"
   ]
 }

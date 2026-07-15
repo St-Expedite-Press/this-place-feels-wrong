@@ -718,6 +718,30 @@ describe("communications worker", () => {
     expect(rejected.status).toBe(400);
   });
 
+  it("selects publication and general chatbot instructions by validated surface", async () => {
+    fetchMock.mockResolvedValue(new Response("data: {\"choices\":[]}\n\n", {
+      headers: { "content-type": "text/event-stream" },
+    }));
+    const env = { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" };
+    const rice = await worker.fetch(
+      makeJsonRequest("/api/chat", { surface: "rice", messages: [{ role: "user", content: "Hello" }] }, { origin: "https://rice.stexpedite.press" }),
+      env as never,
+    );
+    const openui = await worker.fetch(
+      makeJsonRequest("/api/chat", { surface: "openui", messages: [{ role: "user", content: "Hello" }] }, { origin: "https://chat.stexpedite.press" }),
+      env as never,
+    );
+    const riceBody = JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body)) as { messages: Array<{ role: string; content: string }> };
+    const openuiBody = JSON.parse(String(fetchMock.mock.calls[1]?.[1]?.body)) as { messages: Array<{ role: string; content: string }> };
+
+    expect(rice.status).toBe(200);
+    expect(openui.status).toBe(200);
+    expect(riceBody.messages[0]).toMatchObject({ role: "system" });
+    expect(riceBody.messages[0]?.content).toContain("RICE Magazine chatbot");
+    expect(openuiBody.messages[0]).toMatchObject({ role: "system" });
+    expect(openuiBody.messages[0]?.content).toContain("general-purpose public text assistant");
+  });
+
   it("rejects oversized chat bodies before calling Hermes", async () => {
     const response = await worker.fetch(
       makeJsonRequest("/api/chat", { messages: [{ role: "user", content: "x".repeat(33 * 1024) }] }),
@@ -749,11 +773,12 @@ describe("communications worker", () => {
     expect(String(upstreamUrl)).toBe("https://hermes.example/v1/chat/completions");
     expect(upstreamHeaders.get("authorization")).toBe("Bearer server-secret");
     expect(upstreamHeaders.get("authorization")).not.toContain("client-token");
-    expect(upstreamBody).toEqual({
-      model: "hermes",
-      messages: [{ role: "user", content: "What is RICE?" }],
-      stream: true,
-    });
+    expect(upstreamBody).toMatchObject({ model: "hermes", stream: true });
+    const upstreamMessages = upstreamBody.messages as Array<{ role: string; content: string }>;
+    expect(upstreamMessages).toHaveLength(2);
+    expect(upstreamMessages[0]).toMatchObject({ role: "system" });
+    expect(upstreamMessages[0]?.content).toContain("St. Expedite Press chatbot");
+    expect(upstreamMessages[1]).toEqual({ role: "user", content: "What is RICE?" });
   });
 
   it("returns a sanitized 502 when Hermes fails", async () => {

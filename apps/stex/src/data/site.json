@@ -39,7 +39,7 @@
       { "label": "About", "href": "/about", "group": "read" },
       { "label": "Work", "href": "/work", "group": "read" },
       { "label": "Store", "href": "/gallery", "group": "buy" },
-      { "label": "Connect", "href": "/connect", "group": "act" },
+      { "label": "Submit / Contact", "href": "/connect", "group": "act" },
       { "label": "Donate", "href": "/donate", "group": "act" }
     ],
     "footerLinks": [
@@ -48,7 +48,7 @@
       { "label": "Store", "href": "/gallery" },
       { "label": "About", "href": "/about" },
       { "label": "Work", "href": "/work" },
-      { "label": "Connect", "href": "/connect" },
+      { "label": "Submit / Contact", "href": "/connect" },
       { "label": "Donate", "href": "/donate" }
     ]
   },
@@ -168,12 +168,12 @@
       "currentNav": "/work"
     },
     "connect": {
-      "title": "Connect",
-      "description": "Reach St. Expedite Press: manuscript submissions, rights and press, collaborations, and general correspondence.",
+      "title": "Submit / Contact",
+      "description": "The protected St. Expedite Press portal for manuscript submissions, rights and press, collaborations, and general correspondence.",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "Reach the press",
-      "introTitle": "Send a manuscript, or write to the press.",
-      "introText": "One place to send a submission inquiry or reach the press about rights, press, collaborations, and everything else.",
+      "introKicker": "Protected intake",
+      "introTitle": "One gated portal for submissions and correspondence.",
+      "introText": "Manuscripts and messages pass through a Turnstile-protected service. The public chatbot remains separate and cannot access files or email.",
       "canonical": "https://stexpedite.press/connect",
       "currentNav": "/connect"
     }

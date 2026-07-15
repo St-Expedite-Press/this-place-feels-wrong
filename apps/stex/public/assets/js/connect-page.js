@@ -6,6 +6,7 @@ const aboutSelect = document.getElementById("connect-about");
 const noteLabel = document.getElementById("connect-note-label");
 const manuscriptFields = document.getElementById("connect-manuscript-fields");
 const submitButton = document.getElementById("connect-submit");
+const assurance = document.getElementById("connect-assurance");
 const helper = document.getElementById("connect-helper");
 const fallbackLink = document.getElementById("connect-mailto-fallback");
 const copyButton = document.getElementById("connect-copy");
@@ -19,12 +20,19 @@ function isManuscript() {
 
 function syncLabel() {
   if (!noteLabel) return;
-  noteLabel.textContent = isManuscript() ? "Project note" : "Message";
+  const manuscript = isManuscript();
+  noteLabel.textContent = manuscript ? "Project note" : "Message";
+  if (submitButton) submitButton.textContent = manuscript ? "Submit manuscript" : "Send message";
+  if (assurance) {
+    assurance.textContent = manuscript
+      ? "The document goes through the protected submission service, not the chatbot. A successful handoff returns a reference number."
+      : "Replies come from a person. Your email is used only to reply.";
+  }
   if (manuscriptFields) {
-    manuscriptFields.hidden = !isManuscript();
+    manuscriptFields.hidden = !manuscript;
     manuscriptFields.querySelectorAll("input").forEach((input) => {
       if (input.id === "connect-genre") return;
-      input.required = isManuscript();
+      input.required = manuscript;
     });
   }
 }
