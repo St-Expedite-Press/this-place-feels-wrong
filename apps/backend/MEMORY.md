@@ -1,5 +1,11 @@
 # Backend Worker Memory
 
+## 2026-07-15 — Chat — Per-origin surface allow-list
+
+**Changed:** Replaced the single-forced-surface `surfaceForOrigin` with an allow-list + default per origin (`surfacePolicyForOrigin`). `stexpedite.press`/`www` stay locked to `stex`, `rice.stexpedite.press` to `rice` — unchanged behavior — but `chat.stexpedite.press` may now choose between `openui` (default) and `stex`, making its visitor-facing surface toggle load-bearing instead of cosmetic. No `/api/*` schema change — additive, not breaking. Also updated all three `CHAT_SYSTEM_PROMPTS` to drop stale `/connect` references and point manuscript/human-contact guidance at `https://chat.stexpedite.press`'s Submit work button and `editor@stexpedite.press`.
+**Checks:** 32 Worker tests pass (added: `chat.stexpedite.press` + `surface: "stex"` → 200 with the stex prompt; same origin with no `surface` → 200 with the default openui prompt; kept the existing `rice` origin mismatch-rejection test as a regression guard).
+**Tooling notes:** No D1 migration needed — only routing/prompt logic changed. `/api/contact` handler is untouched but now unreachable from any UI (folded into chat's email guidance) — intentionally orphaned, not a bug.
+
 ## 2026-07-14 — Chat — Server-owned surface instructions
 
 **Changed:** Added server-owned publication chatbot instructions for `stex`/`rice` and a general-purpose text instruction for `openui`; browser clients still cannot supply a system message, model, profile, upstream, or authorization.

@@ -49,9 +49,9 @@ app independently via path-filtered workflows in `.github/workflows/`.
 
 ## Routes
 
-**Web (`apps/stex`):** `/` · `/books` · `/about` · `/work` · `/gallery` (Store) · `/connect` · `/donate` (+ `/donate/thanks`); `/services`,`/lab`,`/submit`,`/contact` redirect.
+**Web (`apps/stex`):** `/` · `/books` · `/about` · `/work` · `/gallery` (Store) · `/donate` (+ `/donate/thanks`); `/services`,`/lab`,`/submit`,`/contact`,`/connect` redirect (`/connect` → `https://chat.stexpedite.press`).
 **RICE (`apps/rice`):** `/` (Seed) · `/splash` · `/project` · essays/fiction/poetry/archive + sample pages.
-**Chat (`apps/chat`):** full-page conversation workspace with Press/RICE context selection; calls only `/api/chat`.
+**Chat (`apps/chat`):** the site's single intake surface — general chat / press knowledge-base toggle, plus a manuscript Submit work dialog; calls only `/api/chat` and `/api/submit`.
 **Worker API:** `GET /api/health` · `GET /api/storefront` · `GET /api/projects` · `GET /api/works` · `POST /api/chat` · `POST /api/contact` · `POST /api/submit` · `POST /api/donate/session` · `POST /api/stripe/webhook` · `POST /api/updates` · `POST /api/updates/import` · `POST /api/updates/unsubscribe`.
 
 Full route/ownership map: [`ONTOLOGY.md`](ONTOLOGY.md).

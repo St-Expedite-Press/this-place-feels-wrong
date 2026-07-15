@@ -39,7 +39,7 @@
       { "label": "About", "href": "/about", "group": "read" },
       { "label": "Work", "href": "/work", "group": "read" },
       { "label": "Store", "href": "/gallery", "group": "buy" },
-      { "label": "Submit / Contact", "href": "/connect", "group": "act" },
+      { "label": "Chat", "href": "https://chat.stexpedite.press", "group": "act" },
       { "label": "Donate", "href": "/donate", "group": "act" }
     ],
     "footerLinks": [
@@ -48,7 +48,7 @@
       { "label": "Store", "href": "/gallery" },
       { "label": "About", "href": "/about" },
       { "label": "Work", "href": "/work" },
-      { "label": "Submit / Contact", "href": "/connect" },
+      { "label": "Chat", "href": "https://chat.stexpedite.press" },
       { "label": "Donate", "href": "/donate" }
     ]
   },

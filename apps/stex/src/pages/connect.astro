@@ -1,114 +1,29 @@
 ---
-import Base from '../layouts/Base.astro';
-import siteData from '../data/site.json';
-
-const page = siteData.pages.connect;
-const styles = [
-  'assets/css/tokens.css',
-  'assets/css/interior-base.css',
-  'assets/css/layout.css',
-  'assets/css/components.css',
-  'assets/css/forms.css',
-];
+const target = 'https://chat.stexpedite.press/';
 ---
-<Base
-  title={page.title}
-  description={page.description}
-  eyebrow={page.eyebrow}
-  introKicker={page.introKicker}
-  introTitle={page.introTitle}
-  introText={page.introText}
-  canonical={page.canonical}
-  currentNav={page.currentNav}
-  brandMode="utility"
-  styles={styles}
->
-  <section class="section-block" aria-labelledby="connect-form-title">
-    <div class="split-card-grid">
-      <article class="form-card form-shell">
-        <div>
-          <p class="card-kicker">Protected intake</p>
-          <h2 class="section-heading" id="connect-form-title">Secure submission and correspondence portal.</h2>
-          <p class="section-copy section-copy--large">Submit one manuscript directly to the editor, or route rights, press, collaboration, and general correspondence through the same protected desk. Human verification is required before anything is sent.</p>
-        </div>
-
-        <form class="form-grid" id="connect-form">
-          <input id="connect-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
-          <div class="field">
-            <label for="connect-about">This is about</label>
-            <select class="select" id="connect-about" name="about">
-              <option value="Manuscript">A manuscript submission</option>
-              <option value="Rights">Rights</option>
-              <option value="Press">Press</option>
-              <option value="Collaboration">Collaboration</option>
-              <option value="General">Something else</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="connect-email">Email</label>
-            <input class="input" id="connect-email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required />
-          </div>
-          <div class="field">
-            <label for="connect-note" id="connect-note-label">Message</label>
-            <textarea class="textarea" id="connect-note" name="note" placeholder="What should we know before replying?" required></textarea>
-          </div>
-          <div class="form-grid" id="connect-manuscript-fields">
-            <div class="field">
-              <label for="connect-author-name">Author name</label>
-              <input class="input" id="connect-author-name" name="authorName" type="text" maxlength="120" autocomplete="name" required />
-            </div>
-            <div class="field">
-              <label for="connect-work-title">Title of work</label>
-              <input class="input" id="connect-work-title" name="workTitle" type="text" maxlength="200" required />
-            </div>
-            <div class="field">
-              <label for="connect-genre">Genre or form <span aria-hidden="true">(optional)</span></label>
-              <input class="input" id="connect-genre" name="genre" type="text" maxlength="80" placeholder="Poetry, fiction, essay, hybrid…" />
-            </div>
-            <div class="field">
-              <label for="connect-file">Manuscript file</label>
-              <input class="input" id="connect-file" name="file" type="file" accept=".pdf,.doc,.docx,.odt,.rtf,.txt,.md" required />
-              <p class="form-assurance">One PDF, DOC, DOCX, ODT, RTF, TXT, or Markdown file; 10 MiB maximum.</p>
-            </div>
-            <label class="consent-field" for="connect-consent">
-              <input id="connect-consent" name="consent" type="checkbox" required />
-              <span>I have authority to submit this work and understand it will be forwarded to the editor by email.</span>
-            </label>
-          </div>
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
-
-          <div class="actions">
-            <button class="button" id="connect-submit" type="submit">Submit manuscript</button>
-          </div>
-          <p class="form-assurance" id="connect-assurance">The document goes through the protected submission service, not the chatbot. A successful handoff returns a reference number.</p>
-        </form>
-
-        <div class="status-panel" id="connect-helper" role="status" aria-live="polite" hidden>
-          <div data-status-text></div>
-          <div class="status-panel__actions">
-            <a class="status-action" id="connect-mailto-fallback" href="mailto:editor@stexpedite.press">Open email</a>
-            <button class="status-action" id="connect-copy" type="button">Copy fallback</button>
-          </div>
-        </div>
-      </article>
-
-      <aside class="card trust-card aside-note" aria-label="What happens after you send">
-        <h2 class="section-heading">Portal boundary</h2>
-        <ul class="check-list">
-          <li>Cloudflare Turnstile gates every submission and message before delivery.</li>
-          <li>Manuscripts include a short project note and one allowlisted document up to 10 MiB.</li>
-          <li>The chatbot cannot read, retain, forward, or retrieve manuscript files.</li>
-          <li>A receipt and reference confirm a successful manuscript handoff.</li>
-          <li>Your email is used for the reply and receipt, not added to a list.</li>
-          <li>Support the press directly through <a href="/donate">Donate</a>.</li>
-        </ul>
-      </aside>
-    </div>
-  </section>
-
-  <Fragment slot="scripts">
-    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
-    <script is:inline src="/assets/js/connect-page.js" type="module"></script>
-  </Fragment>
-</Base>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script is:inline>
+    (function () {
+      var about = new URLSearchParams(window.location.search).get('about');
+      var dest = (about || '').toLowerCase() === 'manuscript'
+        ? 'https://chat.stexpedite.press/?open=submit'
+        : 'https://chat.stexpedite.press/';
+      window.location.replace(dest);
+    })();
+  </script>
+  <meta http-equiv="refresh" content={`0; url=${target}`} />
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://stexpedite.press/connect" />
+  <title>Page moved — St. Expedite Press</title>
+</head>
+<body>
+  <main>
+    <h1>Submissions and correspondence now happen in chat.</h1>
+    <p>Continue to <a href={target}>chat.stexpedite.press</a>.</p>
+  </main>
+</body>
+</html>

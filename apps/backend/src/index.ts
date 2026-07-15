@@ -59,9 +59,9 @@ const CHAT_MAX_MESSAGES = 12;
 const CHAT_MAX_MESSAGE_CHARS = 4_000;
 const CHAT_MAX_TOTAL_CHARS = 12_000;
 const CHAT_SYSTEM_PROMPTS: Record<ChatSurface, string> = {
-  stex: "You are the public St. Expedite Press chatbot. Help with verified public information, navigation, books, and the protected submission/contact route. You have no tools and cannot access files, email, accounts, private data, development systems, or deployments.",
-  rice: "You are the public RICE Magazine chatbot. Help with verified public information, available work, navigation, and the protected submission route. You have no tools and cannot access files, email, accounts, private data, development systems, or deployments.",
-  openui: "You are a general-purpose public text assistant. Answer broad questions clearly and honestly, distinguish uncertainty, and do not imply access to tools or private systems. You cannot access files, email, accounts, memory, development systems, or deployments.",
+  stex: "You are the public St. Expedite Press chatbot. Help with verified public information, navigation, and books. For manuscript submissions, direct visitors to the \"Submit work\" button on https://chat.stexpedite.press. For rights, press, or collaboration inquiries, or anyone who wants a guaranteed reply from a person, give the address editor@stexpedite.press. You have no tools and cannot access files, email, accounts, private data, development systems, or deployments.",
+  rice: "You are the public RICE Magazine chatbot. Help with verified public information, available work, and navigation. For manuscript submissions, direct visitors to the \"Submit work\" button on https://chat.stexpedite.press. For anyone who wants a guaranteed reply from a person, give the address editor@stexpedite.press. You have no tools and cannot access files, email, accounts, private data, development systems, or deployments.",
+  openui: "You are a general-purpose public text assistant. Answer broad questions clearly and honestly, distinguish uncertainty, and do not imply access to tools or private systems. If someone wants to submit a manuscript, point them to the \"Submit work\" button on this page. If they want to reach a person directly, the address is editor@stexpedite.press. You cannot access files, email, accounts, memory, development systems, or deployments.",
 };
 const SUBMISSION_MAX_FILE_BYTES = 10 * 1024 * 1024;
 const SUBMISSION_MAX_BODY_BYTES = 11 * 1024 * 1024;
@@ -355,10 +355,14 @@ function validateChatBody(value: unknown) {
   return { messages, turnstileToken: token, surface: surface as ChatSurface | undefined };
 }
 
-function surfaceForOrigin(origin: string): ChatSurface | undefined {
-  if (origin === "https://rice.stexpedite.press") return "rice";
-  if (origin === "https://chat.stexpedite.press") return "openui";
-  if (origin === "https://stexpedite.press" || origin === "https://www.stexpedite.press") return "stex";
+type OriginSurfacePolicy = { default: ChatSurface; allowed: ReadonlySet<ChatSurface> };
+
+function surfacePolicyForOrigin(origin: string): OriginSurfacePolicy | undefined {
+  if (origin === "https://rice.stexpedite.press") return { default: "rice", allowed: new Set(["rice"]) };
+  if (origin === "https://chat.stexpedite.press") return { default: "openui", allowed: new Set(["openui", "stex"]) };
+  if (origin === "https://stexpedite.press" || origin === "https://www.stexpedite.press") {
+    return { default: "stex", allowed: new Set(["stex"]) };
+  }
   return undefined;
 }
 
@@ -369,11 +373,11 @@ async function handleChat(request: Request, env: Env) {
 
   const chat = validateChatBody(parsed.value);
   if (!chat) return errorResponse("Invalid chat request", 400);
-  const originSurface = surfaceForOrigin(request.headers.get("origin") ?? "");
-  if (chat.surface && originSurface && chat.surface !== originSurface) {
+  const policy = surfacePolicyForOrigin(request.headers.get("origin") ?? "");
+  if (chat.surface && policy && !policy.allowed.has(chat.surface)) {
     return errorResponse("Invalid chat request", 400);
   }
-  const surface = chat.surface ?? originSurface ?? "stex";
+  const surface = chat.surface ?? policy?.default ?? "stex";
 
   const turnstileOk = await verifyTurnstile(request, env, chat.turnstileToken);
   if (!turnstileOk) return errorResponse("Turnstile verification failed", 403);

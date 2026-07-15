@@ -1,5 +1,11 @@
 # RICE Magazine Memory
 
+## 2026-07-15 — Submissions — Portal moved to chat.stexpedite.press
+
+**Changed:** Updated both submission-portal links in `submissions.html` (primary CTA + footer) from `https://stexpedite.press/connect/?about=manuscript` to `https://chat.stexpedite.press/?open=submit`, following the retirement of St. Expedite's `/connect` form page in favor of chat's own Submit work dialog.
+**Checks:** Link targets verified by grep; no build-breaking change (static HTML links only).
+**Tooling notes:** Same destination used by St. Expedite's own manuscript CTAs, keeping one canonical upload entry point across both publications.
+
 ## 2026-07-14 — Submissions — Shared protected portal
 
 **Changed:** Replaced closed/Duosuma intake copy with a canonical link to the St. Expedite protected manuscript portal and synchronized public footer/search/readme language.

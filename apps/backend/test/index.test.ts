@@ -718,6 +718,28 @@ describe("communications worker", () => {
     expect(rejected.status).toBe(400);
   });
 
+  it("lets chat.stexpedite.press choose between openui and stex, defaulting to openui", async () => {
+    fetchMock.mockResolvedValue(new Response("data: {\"choices\":[]}\n\n", {
+      headers: { "content-type": "text/event-stream" },
+    }));
+    const env = { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" };
+    const stex = await worker.fetch(
+      makeJsonRequest("/api/chat", { surface: "stex", messages: [{ role: "user", content: "Hello" }] }, { origin: "https://chat.stexpedite.press" }),
+      env as never,
+    );
+    const noSurface = await worker.fetch(
+      makeJsonRequest("/api/chat", { messages: [{ role: "user", content: "Hello" }] }, { origin: "https://chat.stexpedite.press" }),
+      env as never,
+    );
+
+    expect(stex.status).toBe(200);
+    expect(noSurface.status).toBe(200);
+    const stexBody = JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body)) as { messages: Array<{ role: string; content: string }> };
+    const defaultBody = JSON.parse(String(fetchMock.mock.calls[1]?.[1]?.body)) as { messages: Array<{ role: string; content: string }> };
+    expect(stexBody.messages[0]?.content).toContain("St. Expedite Press chatbot");
+    expect(defaultBody.messages[0]?.content).toContain("general-purpose public text assistant");
+  });
+
   it("selects publication and general chatbot instructions by validated surface", async () => {
     fetchMock.mockResolvedValue(new Response("data: {\"choices\":[]}\n\n", {
       headers: { "content-type": "text/event-stream" },

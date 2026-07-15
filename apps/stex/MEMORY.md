@@ -1,5 +1,11 @@
 # Press Web App Memory
 
+## 2026-07-15 — Portal and Connect — Chat replaces the form, newsletter removed
+
+**Changed:** Removed the "Letters from the press" Substack signup (mobile form + desktop link, plus the now-dead `wireUpdatesForm`/`copyText` script and the page's Turnstile include) from `index.astro`. Converted `connect.astro` from a full Turnstile form page into a redirect stub to `https://chat.stexpedite.press`, following the existing `submit.astro`/`contact.astro` pattern plus an inline client script (needed since query params aren't available at static build time) to preserve `?about=manuscript` as a `?open=submit` deep link. Changed the nav/footer "Submit / Contact" entry in `site.json` to a single-word "Chat" label pointing at `https://chat.stexpedite.press`. Updated `ChatWidget.astro`'s noscript fallback, and the `/connect`-linking CTAs on `work.astro`, `books.astro`, and `404.astro`, to point directly at chat instead of round-tripping through the stub.
+**Checks:** `npm run build` + `npm run lint:html` + `npm run check:links` + `npm run check:a11y` pass.
+**Tooling notes:** Left `connect-page.js`, the orphaned `pages.connect`/`pages.submit`/`pages.contact` blocks in `site.json`, and the now-unused `.thin-band`/`.splash__subscribe` CSS in place — matches this repo's existing precedent of not doing speculative cleanup passes on already-orphaned code from the prior `/submit`/`/contact` → `/connect` conversion.
+
 ## 2026-07-14 — Portal and Work — Canonical intake plus public chat project
 
 **Changed:** Recast `/connect` as the protected submission/contact portal, made manuscript and correspondence modes explicit, relabeled navigation, and added `chat.stexpedite.press` under Work projects.

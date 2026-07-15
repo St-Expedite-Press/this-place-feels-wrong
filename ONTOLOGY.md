@@ -18,7 +18,7 @@ The project navigation contract. Read after `AGENTS.md` and before selecting fil
 |---|---|---|
 | St. Expedite app | `apps/stex/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
 | RICE app (rice.stexpedite.press) | `apps/rice/` (static site + Python build; `_site` artifact) | `AGENTS.md`, `MEMORY.md`, `README.md`, `ONTOLOGY.md`, `docs/` |
-| Standalone chat | `apps/chat/` | full-page general public text client; generated `dist/` |
+| Standalone chat | `apps/chat/` | full-page public chat client — general chat / press knowledge-base toggle plus a manuscript Submit work dialog; generated `dist/` |
 | Backend Worker | `apps/backend/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
 | Shared contracts | `packages/` | chat transport, request schema, content model |
 | Osiris agent framework | `agents/` | registry, public/owner policies, knowledge sources, evals |
@@ -41,13 +41,13 @@ Every interior page uses `Base.astro` (brand mode set per page) and loads `token
 | `/about` | `pages/about.astro` | editorial | `mission.css` |
 | `/gallery` (Store) | `pages/gallery.astro` | editorial | `gallery.css`, `gallery-page.js` |
 | `/work` | `pages/work.astro` | editorial | `services.css`, `lab.css`, `lab-anglossic-*.js`, `dialog.js` |
-| `/connect` | `pages/connect.astro` | utility | Turnstile-protected submission/contact portal; `forms.css`, `connect-page.js` route to `/api/submit` or `/api/contact` |
+| `/connect` | `pages/connect.astro` | — | redirect stub → `https://chat.stexpedite.press` (`?about=manuscript` deep-links to `?open=submit` via inline client JS; static meta-refresh is the no-JS fallback) |
 | `/donate` + `/donate/thanks` | `pages/donate*.astro` | utility | `forms.css`, `donate-portal.css`, `donate-page.js` |
 | `/404` | `pages/404.astro` | editorial | shared |
 
 Redirects (in `astro.config.mjs`): `/services` + `/lab` → `/work`; `/submit` + `/contact` → `/connect`.
 
-Shared JS: `site-shell.js` and the branded `chat.js` adapter (all pages), `form-utils.js` + `api-client.js` (forms). `packages/chat-client/browser.js` is the single transport/SSE/history source used by St. Expedite, RICE, and standalone chat. The Worker supplies publication-chatbot instructions to `stex`/`rice` and general-purpose text-chat instructions to `openui`; every surface remains tool-free. Nav and per-page metadata live in `apps/stex/src/data/site.json`. Backend routes are tabled in `AGENTS.md`; the contract is `apps/backend/openapi.yaml`. Only the backend holds Hermes origin authentication.
+Shared JS: `site-shell.js` and the branded `chat.js` adapter (all pages), `form-utils.js` + `api-client.js` (forms). `packages/chat-client/browser.js` is the single transport/SSE/history source used by St. Expedite, RICE, and standalone chat. The Worker supplies publication-chatbot instructions to `stex`/`rice` and general-purpose text-chat instructions to `openui`; every surface remains tool-free. Origin-to-surface access is an allow-list, not a single forced value: `stexpedite.press`/`www` may only use `stex`, `rice.stexpedite.press` only `rice`, but `chat.stexpedite.press` may choose either `openui` (default) or `stex` — the only origin with a visitor-facing surface toggle. Nav and per-page metadata live in `apps/stex/src/data/site.json`. Backend routes are tabled in `AGENTS.md`; the contract is `apps/backend/openapi.yaml`. Only the backend holds Hermes origin authentication.
 
 The durable EC2 source checkout is `/home/ec2-user/src/this-place-feels-wrong`. Cloudflare Pages and Workers continue to serve the public web/API surfaces; EC2 hosts the canonical working checkout and isolated Hermes runtime, not the public static origins directly.
 
