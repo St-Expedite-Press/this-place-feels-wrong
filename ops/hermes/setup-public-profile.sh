@@ -30,7 +30,7 @@ printf '%s\n' \
 install -m 600 "${tmp_env}" "${profile_dir}/.env"
 install -m 600 "${repo_root}/agents/public-guide/SOUL.md" "${profile_dir}/SOUL.md"
 
-hermes -p "${profile}" config set model.default openrouter/free
+hermes -p "${profile}" config set model.default google/gemma-4-26b-a4b-it:free
 hermes -p "${profile}" config set model.provider auto
 hermes -p "${profile}" config set model.base_url https://openrouter.ai/api/v1
 hermes -p "${profile}" config set agent.max_turns 4
@@ -41,9 +41,11 @@ hermes -p "${profile}" config set streaming.enabled true
 hermes -p "${profile}" config set terminal.home_mode profile
 
 hermes -p "${profile}" tools disable --platform api_server \
-  web browser terminal file code_execution vision video image_gen video_gen \
+  web browser terminal file code_execution video image_gen video_gen \
   x_search tts skills todo memory context_engine session_search clarify \
   delegation cronjob homeassistant spotify yuanbao computer_use
+
+hermes -p "${profile}" tools enable --platform api_server vision
 
 hermes -p "${profile}" gateway install
 sudo loginctl enable-linger "${USER}"

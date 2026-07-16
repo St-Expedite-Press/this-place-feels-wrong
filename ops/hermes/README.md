@@ -9,7 +9,7 @@ This runbook creates a separate, least-privileged Hermes profile for the public 
 - Public ingress: Cloudflare Worker through an authenticated Cloudflare Tunnel origin
 - Model credential: only `OPENROUTER_API_KEY`
 - Hermes API credential: generated per profile as `API_SERVER_KEY`
-- Tools, skills, memory, delegation, terminal, files, browser, code execution, and cron: disabled for the `api_server` platform
+- Tools, skills, memory, delegation, terminal, files, browser, code execution, and cron: disabled for the `api_server` platform. `vision` is the sole exception — enabled so the model can see images visitors attach directly to the conversation; it does not grant file storage, retrieval, or any other tool access
 
 The Worker stores the matching upstream bearer value as `HERMES_API_KEY`; the browser never receives it. `HERMES_API_URL` must point to the tunnel hostname and `/v1/chat/completions` path. Do not open port 8643 in the EC2 security group.
 
@@ -33,7 +33,7 @@ curl --fail http://127.0.0.1:8643/health
 ss -ltn | grep ':8643'
 ```
 
-Expected: health succeeds, every API-server toolset is disabled, the gateway survives logout, and the listener is `127.0.0.1:8643` rather than `0.0.0.0:8643`.
+Expected: health succeeds, every API-server toolset is disabled except `vision`, the gateway survives logout, and the listener is `127.0.0.1:8643` rather than `0.0.0.0:8643`.
 
 ## Production gate
 

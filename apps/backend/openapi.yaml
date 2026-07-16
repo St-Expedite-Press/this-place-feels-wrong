@@ -115,11 +115,17 @@ paths:
       summary: Stream a public, constrained Hermes chat response
       operationId: streamPublicChat
       description: |
-        Accepts an alternating conversation that starts and ends with a user message. Only `user` and
-        `assistant` roles with plain string content are permitted. The Worker selects a server-owned chatbot
-        instruction from the validated surface: publication guidance for `stex` and `rice`, and a general-purpose
-        text assistant for `openui`. The Worker supplies Hermes authorization and never forwards browser
-        authorization headers or client-provided system messages.
+        Accepts an alternating conversation that starts and ends with a user message. `assistant` messages
+        must be plain string content. `user` messages may be plain string content, or (only on the final
+        message in the array) an array of 1-2 content parts: at most one `text` part and at most one
+        `image_url` part, letting a visitor attach one image to their current message. Image URLs must be
+        inline `data:image/{jpeg,png,webp,gif};base64,...` URIs no larger than 4 MiB decoded — remote
+        `https://` image URLs are rejected by design, to avoid the Worker acting as a URL-fetch proxy. Images
+        are only accepted on the last message because the client resends full history each turn; an image on
+        an earlier message would mean re-transmitting its bytes on every subsequent request. The Worker
+        selects a server-owned chatbot instruction from the validated surface: publication guidance for `stex`
+        and `rice`, and a general-purpose text assistant for `openui`. The Worker supplies Hermes authorization
+        and never forwards browser authorization headers or client-provided system messages.
       requestBody:
         required: true
         content:
@@ -146,7 +152,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "413":
-          description: Request body exceeds 32 KiB
+          description: Request body exceeds 6 MiB
           content:
             application/json:
               schema:
@@ -503,6 +509,34 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
+    ChatTextPart:
+      type: object
+      additionalProperties: false
+      required: [type, text]
+      properties:
+        type:
+          type: string
+          enum: [text]
+        text:
+          type: string
+          minLength: 1
+          maxLength: 4000
+    ChatImagePart:
+      type: object
+      additionalProperties: false
+      required: [type, image_url]
+      properties:
+        type:
+          type: string
+          enum: [image_url]
+        image_url:
+          type: object
+          additionalProperties: false
+          required: [url]
+          properties:
+            url:
+              type: string
+              description: Inline `data:image/{jpeg,png,webp,gif};base64,...` URI only, max 4 MiB decoded. Remote URLs are rejected.
     ChatMessage:
       type: object
       additionalProperties: false
@@ -512,9 +546,21 @@ components:
           type: string
           enum: [user, assistant]
         content:
-          type: string
-          minLength: 1
-          maxLength: 4000
+          description: |
+            Plain string for any message. On `user` messages only, and only when this is the last
+            message in the request, content may instead be an array of 1-2 parts (at most one `text`,
+            at most one `image_url`) to attach an image. `assistant` messages must always be a plain string.
+          oneOf:
+            - type: string
+              minLength: 1
+              maxLength: 4000
+            - type: array
+              minItems: 1
+              maxItems: 2
+              items:
+                oneOf:
+                  - $ref: "#/components/schemas/ChatTextPart"
+                  - $ref: "#/components/schemas/ChatImagePart"
     ChatRequest:
       type: object
       additionalProperties: false
@@ -528,7 +574,7 @@ components:
           type: array
           minItems: 1
           maxItems: 12
-          description: Alternating user/assistant history, beginning and ending with user; combined content is limited to 12000 characters.
+          description: Alternating user/assistant history, beginning and ending with user; combined text content is limited to 12000 characters (image parts do not count toward this).
           items:
             $ref: "#/components/schemas/ChatMessage"
         turnstileToken:

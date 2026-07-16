@@ -764,13 +764,166 @@ describe("communications worker", () => {
     expect(openuiBody.messages[0]?.content).toContain("general-purpose public text assistant");
   });
 
+  const TINY_PNG_BASE64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=";
+  const TINY_PNG_DATA_URL = `data:image/png;base64,${TINY_PNG_BASE64}`;
+  const OVERSIZED_IMAGE_DATA_URL = `data:image/png;base64,${"A".repeat(6_000_000)}`;
+
+  it("accepts an image attached to the last user message, text and image-only", async () => {
+    fetchMock.mockResolvedValue(new Response("data: {\"choices\":[]}\n\n", {
+      headers: { "content-type": "text/event-stream" },
+    }));
+    const env = { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" };
+
+    const withCaption = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [{
+          role: "user",
+          content: [{ type: "text", text: "What is this?" }, { type: "image_url", image_url: { url: TINY_PNG_DATA_URL } }],
+        }],
+      }),
+      env as never,
+    );
+    const imageOnly = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [{ role: "user", content: [{ type: "image_url", image_url: { url: TINY_PNG_DATA_URL } }] }],
+      }),
+      env as never,
+    );
+
+    expect(withCaption.status).toBe(200);
+    expect(imageOnly.status).toBe(200);
+    const withCaptionBody = JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body)) as { messages: Array<{ role: string; content: unknown }> };
+    expect(withCaptionBody.messages.at(-1)).toEqual({
+      role: "user",
+      content: [{ type: "text", text: "What is this?" }, { type: "image_url", image_url: { url: TINY_PNG_DATA_URL } }],
+    });
+  });
+
+  it("rejects image attachments that are not on the last message", async () => {
+    const response = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [
+          { role: "user", content: [{ type: "image_url", image_url: { url: TINY_PNG_DATA_URL } }] },
+          { role: "assistant", content: "I see an image." },
+          { role: "user", content: "Anything else?" },
+        ],
+      }),
+      { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" } as never,
+    );
+
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects assistant messages with array content", async () => {
+    const response = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [
+          { role: "user", content: "Hello" },
+          { role: "assistant", content: [{ type: "text", text: "Hi" }] },
+        ],
+      }),
+      { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" } as never,
+    );
+
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects an oversized image", async () => {
+    const response = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [{ role: "user", content: [{ type: "image_url", image_url: { url: OVERSIZED_IMAGE_DATA_URL } }] }],
+      }),
+      { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" } as never,
+    );
+
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects a disallowed image MIME type", async () => {
+    const response = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [{ role: "user", content: [{ type: "image_url", image_url: { url: `data:image/svg+xml;base64,${TINY_PNG_BASE64}` } }] }],
+      }),
+      { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" } as never,
+    );
+
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects a remote image URL", async () => {
+    const response = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [{ role: "user", content: [{ type: "image_url", image_url: { url: "https://example.com/cat.png" } }] }],
+      }),
+      { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" } as never,
+    );
+
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects malformed base64, duplicate image parts, and unknown content-part fields", async () => {
+    const env = { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" } as never;
+
+    const malformed = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [{ role: "user", content: [{ type: "image_url", image_url: { url: "data:image/png;base64,not-valid-base64!!!" } }] }],
+      }),
+      env,
+    );
+    const duplicateImages = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [{
+          role: "user",
+          content: [
+            { type: "image_url", image_url: { url: TINY_PNG_DATA_URL } },
+            { type: "image_url", image_url: { url: TINY_PNG_DATA_URL } },
+          ],
+        }],
+      }),
+      env,
+    );
+    const unknownType = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [{ role: "user", content: [{ type: "video_url", video_url: { url: TINY_PNG_DATA_URL } }] }],
+      }),
+      env,
+    );
+    const extraField = await worker.fetch(
+      makeJsonRequest("/api/chat", {
+        messages: [{ role: "user", content: [{ type: "image_url", image_url: { url: TINY_PNG_DATA_URL, detail: "high" } }] }],
+      }),
+      env,
+    );
+
+    expect(malformed.status).toBe(400);
+    expect(duplicateImages.status).toBe(400);
+    expect(unknownType.status).toBe(400);
+    expect(extraField.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it("rejects oversized chat bodies before calling Hermes", async () => {
+    const response = await worker.fetch(
+      makeJsonRequest("/api/chat", { messages: [{ role: "user", content: "x".repeat(7 * 1024 * 1024) }] }),
+      { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" } as never,
+    );
+
+    expect(response.status).toBe(413);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects an over-limit message before calling Hermes", async () => {
     const response = await worker.fetch(
       makeJsonRequest("/api/chat", { messages: [{ role: "user", content: "x".repeat(33 * 1024) }] }),
       { ...baseEnv, HERMES_API_URL: "https://hermes.example/v1/chat/completions", HERMES_API_KEY: "server-secret" } as never,
     );
 
-    expect(response.status).toBe(413);
+    expect(response.status).toBe(400);
     expect(fetchMock).not.toHaveBeenCalled();
   });
 

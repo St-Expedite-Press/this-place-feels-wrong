@@ -21,6 +21,15 @@ const submissionForm = document.querySelector('[data-submission-form]');
 const submissionStatus = document.querySelector('[data-submission-status]');
 const submissionSend = document.querySelector('[data-submission-send]');
 
+const imageInput = document.querySelector('[data-image-input]');
+const attachButton = document.querySelector('[data-attach-image]');
+const attachmentPreview = document.querySelector('[data-attachment-preview]');
+const attachmentThumb = document.querySelector('[data-attachment-thumb]');
+const attachmentRemove = document.querySelector('[data-attachment-remove]');
+const ALLOWED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
+const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
+let pendingImage = null;
+
 const surfaceCopy = {
   openui: ['Start a conversation', 'Ask a question, work through an idea, or start with a blank page.'],
   stex: ['Ask about the press', 'I can help you navigate St. Expedite Press — its books, RICE, submissions, and public archive. What are you looking for?'],
@@ -69,18 +78,47 @@ function appendMessage(role, content = '') {
   const body = document.createElement('div');
   const label = document.createElement('strong');
   label.textContent = role === 'user' ? 'You' : surface === 'stex' ? 'St. Expedite' : 'Public assistant';
-  const text = document.createElement('p');
-  text.textContent = content;
-  body.append(label, text);
+  body.append(label);
+
+  let text;
+  if (Array.isArray(content)) {
+    for (const part of content) {
+      if (part.type === 'image_url') {
+        const img = document.createElement('img');
+        img.className = 'message__image';
+        img.alt = 'Attached image';
+        img.src = part.image_url.url;
+        body.append(img);
+      } else if (part.type === 'text') {
+        text = document.createElement('p');
+        text.textContent = part.text;
+        body.append(text);
+      }
+    }
+    if (!text) { text = document.createElement('p'); body.append(text); }
+  } else {
+    text = document.createElement('p');
+    text.textContent = content;
+    body.append(text);
+  }
+
   article.append(avatar, body);
   transcript.append(article);
   transcript.scrollTop = transcript.scrollHeight;
   return text;
 }
 
+function clearPendingImage() {
+  pendingImage = null;
+  attachmentPreview.hidden = true;
+  attachmentThumb.removeAttribute('src');
+  imageInput.value = '';
+}
+
 function resetConversation(message = '') {
   controller?.abort();
   messages = [];
+  clearPendingImage();
   const nextGreeting = greeting.cloneNode(true);
   nextGreeting.querySelector('[data-greeting-text]').textContent = surfaceCopy[surface][1];
   transcript.replaceChildren(nextGreeting);
@@ -100,6 +138,31 @@ function openSubmissionDialog() {
   submissionDialog.showModal();
   ensureSubmissionTurnstile().catch(() => { submissionStatus.textContent = 'Human verification could not load.'; });
 }
+
+attachButton.addEventListener('click', () => imageInput.click());
+attachmentRemove.addEventListener('click', clearPendingImage);
+imageInput.addEventListener('change', () => {
+  const file = imageInput.files[0];
+  if (!file) return;
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+    status.textContent = 'Choose a JPEG, PNG, WEBP, or GIF image.';
+    imageInput.value = '';
+    return;
+  }
+  if (file.size > MAX_IMAGE_BYTES) {
+    status.textContent = 'Choose an image no larger than 4 MiB.';
+    imageInput.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.addEventListener('load', () => {
+    pendingImage = { dataUrl: reader.result };
+    attachmentThumb.src = pendingImage.dataUrl;
+    attachmentPreview.hidden = false;
+  });
+  reader.addEventListener('error', () => { status.textContent = 'Could not read that image.'; });
+  reader.readAsDataURL(file);
+});
 
 document.querySelector('[data-new-chat]').addEventListener('click', () => resetConversation('Conversation cleared.'));
 document.querySelector('[data-open-submission]').addEventListener('click', openSubmissionDialog);
@@ -127,12 +190,27 @@ input.addEventListener('keydown', event => {
 
 form.addEventListener('submit', async event => {
   event.preventDefault();
-  const content = input.value.trim().slice(0, protocol.MAX_MESSAGE_LENGTH);
-  if (!content || controller) return;
+  const text = input.value.trim().slice(0, protocol.MAX_MESSAGE_LENGTH);
+  if ((!text && !pendingImage) || controller) return;
   protocol.trimHistory(messages);
-  messages.push({ role: 'user', content });
+
+  const image = pendingImage;
+  let content;
+  if (image) {
+    content = [];
+    if (text) content.push({ type: 'text', text });
+    content.push({ type: 'image_url', image_url: { url: image.dataUrl } });
+  } else {
+    content = text;
+  }
   appendMessage('user', content);
   input.value = '';
+  clearPendingImage();
+  // History only ever stores text: an attached image is sent live as the last
+  // message of this one request, never resent from history on a later turn.
+  messages.push({ role: 'user', content: image ? (text || '[image attached]') : text });
+  const requestMessages = image ? [...messages.slice(0, -1), { role: 'user', content }] : messages;
+
   const reply = appendMessage('assistant');
   controller = new AbortController();
   setBusy(true);
@@ -144,7 +222,7 @@ form.addEventListener('submit', async event => {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: { 'content-type': 'application/json', accept: 'text/event-stream' },
-      body: JSON.stringify(protocol.requestBody(surface, messages, token)),
+      body: JSON.stringify(protocol.requestBody(surface, requestMessages, token)),
       signal: controller.signal,
     });
     await protocol.readStream(response, delta => {
