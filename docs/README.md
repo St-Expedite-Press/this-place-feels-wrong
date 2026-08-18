@@ -54,7 +54,8 @@ beside the code they govern — see [Conventions](#conventions).
 
 ## Design & proposals
 
-- [`design/visitor-presets-and-portable-graph.md`](design/visitor-presets-and-portable-graph.md) — visitor accounts, moderated presets, and the portable knowledge-graph packet (proposed)
+- [`design/visitor-presets-and-portable-graph.md`](design/visitor-presets-and-portable-graph.md) — visitor accounts, moderated presets, and the portable knowledge-graph packet (deployed)
+- [`design/kb-chat-sessions-graphrag.md`](design/kb-chat-sessions-graphrag.md) — KB chat on a new Hermes profile: pluggable KB, sessions, GraphRAG (proposed)
 
 ## Project history
 
