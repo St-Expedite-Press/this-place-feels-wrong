@@ -1,0 +1,83 @@
+---
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="St. Expedite Press — owner admin.">
+  <meta name="api-base" content="https://stexpedite.press">
+  <title>Admin — St. Expedite Press</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <span class="brand">ST. EXPEDITE PRESS <span class="brand__tag">ADMIN</span></span>
+      <button type="button" class="logout" data-logout hidden>Log out</button>
+    </header>
+
+    <section class="login" data-login>
+      <h1>Sign in</h1>
+      <p class="muted">Enter the owner email address. If it matches, a one-time sign-in link is sent.</p>
+      <form data-login-form>
+        <label class="sr-only" for="email">Email</label>
+        <input id="email" name="email" type="email" required placeholder="you@stexpedite.press" data-email-input>
+        <button type="submit">Send sign-in link</button>
+      </form>
+      <p class="notice" data-login-notice hidden>Check your email for a sign-in link. It expires in 15 minutes and works once.</p>
+    </section>
+
+    <section class="dashboard" data-dashboard hidden>
+      <div class="panel" data-panel="signups">
+        <h2>Updates signups <span class="count" data-count></span></h2>
+        <div class="table-wrap"><table><thead><tr><th>Email</th><th>First seen</th><th>Source</th><th>Unsubscribed</th></tr></thead><tbody data-rows></tbody></table></div>
+      </div>
+
+      <div class="panel" data-panel="submissions">
+        <h2>Contact &amp; manuscript submissions <span class="count" data-count></span></h2>
+        <div class="table-wrap"><table><thead><tr><th>Type</th><th>Email</th><th>Author</th><th>Work</th><th>Received</th></tr></thead><tbody data-rows></tbody></table></div>
+      </div>
+
+      <div class="panel" data-panel="donations">
+        <h2>Donations <span class="count" data-count></span></h2>
+        <div class="table-wrap"><table><thead><tr><th>Amount</th><th>Email</th><th>Status</th><th>Received</th></tr></thead><tbody data-rows></tbody></table></div>
+      </div>
+
+      <div class="panel" data-panel-presets>
+        <h2>Preset review queue <span class="count" data-presets-count></span></h2>
+        <p class="muted">Visitor-authored presets awaiting approval for the public list.</p>
+        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Creator</th><th>Detail</th><th>Action</th></tr></thead><tbody data-presets-rows></tbody></table></div>
+        <pre class="detail-box" data-preset-detail hidden></pre>
+      </div>
+
+      <div class="panel" data-panel-models>
+        <h2>Model allow-list</h2>
+        <p class="muted">Only these models can be used by any preset. Free-text model ids are never accepted from visitors.</p>
+        <div class="table-wrap"><table><thead><tr><th>Label</th><th>Upstream ref</th><th>Enabled</th></tr></thead><tbody data-models-rows></tbody></table></div>
+        <form data-model-form class="inline-form">
+          <input name="label" type="text" placeholder="Label (shown to visitors)" required>
+          <input name="upstream_ref" type="text" placeholder="Upstream model id (private)" required>
+          <button type="submit">Add / update model</button>
+        </form>
+        <p class="notice" data-model-status></p>
+      </div>
+
+      <div class="panel" data-panel-graph>
+        <h2>Knowledge graph</h2>
+        <p class="muted">The retrieval substrate for grounded chat, and a portable packet you can download and carry off your database.</p>
+        <div class="graph-actions">
+          <button type="button" data-graph-build>Rebuild from catalog</button>
+          <button type="button" data-graph-export>Download packet</button>
+          <input type="file" accept="application/json" data-graph-import-input hidden>
+          <button type="button" data-graph-import>Import packet…</button>
+        </div>
+        <p class="notice" data-graph-status></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

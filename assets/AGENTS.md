@@ -6,7 +6,7 @@ This directory owns canonical media sources and generated asset manifests.
 - Canonical media belongs in `source/`.
 - Do not hand-edit generated manifest content unless the generator contract changes.
 - After source media changes, run `npm run assets:sync` and `npm run assets:check` from the repo root.
-- CSS, JS, and fonts are authored under `apps/web/public/assets/`, not here.
+- CSS, JS, and fonts are authored under `apps/stex/public/assets/`, not here.
 
 Closeout:
 

@@ -30,6 +30,22 @@ button { color: inherit; }
 .surface { border-color: transparent; margin-bottom: .25rem; }
 .rail__label, .eyebrow { color: var(--muted); text-transform: uppercase; letter-spacing: .16em; font-size: .65rem; }
 .rail__note { margin-top: auto; color: var(--muted); font-size: .74rem; line-height: 1.5; }
+.session-transfer { display: flex; flex-direction: column; gap: .5rem; }
+.session-transfer__note { margin: 0; color: var(--muted); font-size: .7rem; line-height: 1.5; }
+.updates-inline { border-top: 1px solid var(--line); padding-top: 1rem; }
+.presets { border-top: 1px solid var(--line); padding-top: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+.presets select, .preset-step select, .preset-step input, .preset-step textarea { width: 100%; border: 1px solid var(--line); background: transparent; color: var(--ink); padding: .5rem; font-size: .8rem; }
+.presets__status { margin: 0; font-size: .72rem; color: var(--signal); min-height: 1em; }
+.presets__authed .rail__note { margin-top: 0; }
+.preset-step { border: 1px solid var(--line); padding: .6rem; margin-bottom: .6rem; display: flex; flex-direction: column; gap: .4rem; }
+.preset-step label { font-size: .72rem; color: var(--muted); }
+[data-preset-dialog] textarea { width: 100%; }
+
+.updates-inline__row { display: flex; gap: .4rem; margin-top: .4rem; }
+.updates-inline__row input[type="email"] { flex: 1; min-width: 0; border: 1px solid var(--line); background: transparent; color: var(--ink); padding: .55rem .6rem; font-size: .78rem; }
+.updates-inline__row button { border: 1px solid var(--signal); background: var(--signal-dark); color: var(--ink); padding: .55rem .7rem; cursor: pointer; }
+.updates-inline__row button:hover, .updates-inline__row button:focus-visible { filter: brightness(1.15); }
+.updates-inline__status { margin: .4rem 0 0; min-height: 1.1em; font-size: .72rem; color: var(--signal); }
 .workspace { min-width: 0; min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
 .topbar { min-height: 5rem; border-bottom: 1px solid var(--line); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 h1 { font-family: Georgia, serif; font-weight: 500; font-size: 1.25rem; margin: .25rem 0 0; }
@@ -79,7 +95,7 @@ textarea { display: block; width: 100%; resize: none; border: 0; outline: 0; bac
 @media (max-width: 720px) {
   .shell { grid-template-columns: 1fr; }
   .rail { border-right: 0; border-bottom: 1px solid var(--line); padding: .8rem 1rem; display: grid; grid-template-columns: 1fr auto; align-items: center; }
-  .rail nav, .rail__note { display: none; }
+  .rail nav, .rail__note, .updates-inline, .session-transfer, .session-transfer__note, .presets { display: none; }
   .new-chat { width: auto; }
   .submission-button { width: auto; }
   .topbar, .conversation, .composer-wrap { padding-left: 1rem; padding-right: 1rem; }

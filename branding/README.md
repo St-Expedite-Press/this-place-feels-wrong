@@ -30,7 +30,7 @@ The main UX opportunity is not to make the site more generic. It is to control i
 The first implementation pass is active in the app:
 
 - Astro routes assign `data-brand-mode` as `ritual`, `editorial`, or `utility`.
-- Shared CSS consumes mode variables from `apps/web/public/assets/css/tokens.css`.
+- Shared CSS consumes mode variables from `apps/stex/public/assets/css/tokens.css`.
 - Forms, donation, catalog, store, and service CTAs have calmer utility/editorial treatments.
 - Homepage portal media uses a generated motion-ready SVG for a short ritual reveal, quiet breathing, and rare registration faults, with WebP/PNG fallbacks and a static reduced-motion state.
 - The homepage now exposes one document `h1`; visible portal titles are presentation text.
@@ -48,16 +48,16 @@ The first implementation pass is active in the app:
 
 ## Source Of Truth
 
-- Live CSS tokens: `apps/web/public/assets/css/tokens.css`
-- Shared CSS: `apps/web/public/assets/css/interior-base.css`, `components.css`, `layout.css`
-- Homepage portal: `apps/web/src/pages/index.astro` (uses `BasePortal.astro` layout)
-- Shared layout components: `apps/web/src/layouts/` (Base.astro, BasePortal.astro), `apps/web/src/components/`
-- Site metadata and navigation: `apps/web/src/data/site.json`
+- Live CSS tokens: `apps/stex/public/assets/css/tokens.css`
+- Shared CSS: `apps/stex/public/assets/css/interior-base.css`, `components.css`, `layout.css`
+- Homepage portal: `apps/stex/src/pages/index.astro` (uses `BasePortal.astro` layout)
+- Shared layout components: `apps/stex/src/layouts/` (Base.astro, BasePortal.astro), `apps/stex/src/components/`
+- Site metadata and navigation: `apps/stex/src/data/site.json`
 - Canonical source assets: `assets/source/`
 
 ## Guardrails
 
-- Do not hand-edit `apps/web/dist/`.
-- Do not add new generated assets directly under `apps/web/public/assets/img/` or `gif/`; add source files under `assets/source/`, then run `npm run assets:sync` and `npm run assets:check`.
+- Do not hand-edit `apps/stex/dist/`.
+- Do not add new generated assets directly under `apps/stex/public/assets/img/` or `gif/`; add source files under `assets/source/`, then run `npm run assets:sync` and `npm run assets:check`.
 - Keep the homepage as the standalone portal page unless the architecture is intentionally changed.
 - Preserve the press identity. Avoid generic SaaS cards, stock gradients, default purple-on-white AI styling, and ornamental effects that do not improve orientation.

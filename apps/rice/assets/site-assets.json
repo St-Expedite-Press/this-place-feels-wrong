@@ -173,8 +173,10 @@
       "id": "RICE-SITE-RICE_FIELD_LOOP",
       "path": "assets/images/system/rice-field-loop.mp4",
       "category": "system",
-      "role": "retired-splash-video",
-      "used_by": [],
+      "role": "splash-video",
+      "used_by": [
+        "splash.html"
+      ],
       "bytes": 4138718,
       "sha256": "a2435a286a8dddbeb0a820a124fe231e2a4fb6c2edc9eeebd8ea25992d45f588",
       "format": "MP4"

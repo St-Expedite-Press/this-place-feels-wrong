@@ -5,7 +5,7 @@
   "categories_source": "scripts/asset_categories.py",
   "caption_format": "Rendered captions identify sample status and reconstruction status where applicable.",
   "slots": [
-    {"id":"splash-cover","page":"splash.html","location":".splash-media","slot_type":"cover","category":"system","image":"assets/images/system/rice_field.png","link":null,"caption":null,"alt":""},
+    {"id":"splash-cover","page":"splash.html","location":".splash-media","slot_type":"cover","category":"system","image":"assets/images/system/rice-field-loop.mp4","poster":"assets/images/system/rice_field.png","link":null,"caption":null,"alt":""},
     {"id":"index-lead","page":"index.html","location":".lead-feature-media","slot_type":"lead-feature","category":"feature","image":"assets/images/feature/feature-essays.jpg","link":"crowley-modernism.html","caption":{"title":"Crowley Modernism","byline":"C. Sandbatch","series":"Editorial sample"},"alt":"Rice mill ledger beside windows overlooking flooded rice fields"},
     {"id":"essays-lead","page":"essays.html","location":".section-lead","slot_type":"section-lead","category":"feature","image":"assets/images/feature/feature-essays.jpg","link":"crowley-modernism.html","caption":{"title":"Crowley Modernism","byline":"C. Sandbatch","series":"Editorial sample"},"alt":"Rice mill ledger beside windows overlooking flooded rice fields"},
     {"id":"fiction-lead","page":"fiction.html","location":".section-lead","slot_type":"section-lead","category":"feature","image":"assets/images/feature/feature-fiction.jpg","link":"the-pump-house.html","caption":{"title":"The Pump House","byline":"L. Doucet","series":"Editorial sample"},"alt":"Pump house beside dark drainage water under a security light"},

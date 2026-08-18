@@ -58,23 +58,23 @@
     "assets/source/img/covers/lift-wind-cover.jpg"
   ],
   "liveSourceReferences": [
-    "apps/web/src/pages/index.astro",
-    "apps/web/src/components/",
-    "apps/web/src/data/site.json",
-    "apps/web/public/assets/css/tokens.css",
-    "apps/web/public/assets/css/base.css",
-    "apps/web/public/assets/css/components.css",
-    "apps/web/public/assets/css/layout.css",
-    "apps/web/public/assets/css/forms.css",
-    "apps/web/public/assets/css/books.css",
-    "apps/web/public/assets/css/gallery.css",
-    "apps/web/public/assets/css/donate.css",
-    "apps/web/public/assets/css/lab.css"
+    "apps/stex/src/pages/index.astro",
+    "apps/stex/src/components/",
+    "apps/stex/src/data/site.json",
+    "apps/stex/public/assets/css/tokens.css",
+    "apps/stex/public/assets/css/base.css",
+    "apps/stex/public/assets/css/components.css",
+    "apps/stex/public/assets/css/layout.css",
+    "apps/stex/public/assets/css/forms.css",
+    "apps/stex/public/assets/css/books.css",
+    "apps/stex/public/assets/css/gallery.css",
+    "apps/stex/public/assets/css/donate.css",
+    "apps/stex/public/assets/css/lab.css"
   ],
   "exportInstructions": [
     "Zip the branding/ directory for documentation and tokens.",
     "Copy sourceAssets from assets/source/ only when binary media is needed by the recipient.",
-    "Do not export apps/web/dist/ as design source.",
+    "Do not export apps/stex/dist/ as design source.",
     "If brand changes are implemented in the app, run npm run assets:check and npm run check."
   ]
 }

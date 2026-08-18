@@ -8,7 +8,7 @@
                         mockups, and the brand package. Defined here as source.
 
   2. Implementation aliases (bottom of file) — the shorter names used by the
-     live site's CSS (apps/web/public/assets/css/tokens.css). Declared as
+     live site's CSS (apps/stex/public/assets/css/tokens.css). Declared as
      var(--brand-*) aliases so this file can be dropped into any prototype
      and both name sets work.
 
@@ -80,7 +80,7 @@
 
   /* ────────────────────────────────────────────────────────────────────
      Implementation aliases
-     These are the shorthand names used in apps/web/public/assets/css/tokens.css.
+     These are the shorthand names used in apps/stex/public/assets/css/tokens.css.
      Declared here as var(--brand-*) references so prototypes that load only
      this file get both vocabulary sets.
   ──────────────────────────────────────────────────────────────────── */

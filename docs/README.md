@@ -52,6 +52,10 @@ beside the code they govern — see [Conventions](#conventions).
 - [`press/proposals/commit-to-blue-full-book-proposal.md`](press/proposals/commit-to-blue-full-book-proposal.md)
 - [`press/proposals/grammars-and-poetrics-proposal.md`](press/proposals/grammars-and-poetrics-proposal.md)
 
+## Design & proposals
+
+- [`design/visitor-presets-and-portable-graph.md`](design/visitor-presets-and-portable-graph.md) — visitor accounts, moderated presets, and the portable knowledge-graph packet (proposed)
+
 ## Project history
 
 - [`../CHANGELOG.md`](../CHANGELOG.md)

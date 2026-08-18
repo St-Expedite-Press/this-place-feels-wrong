@@ -15,7 +15,7 @@ site has 12 deterministic slots and no runtime-randomized archive cards.
 
 | Slot | Page | Image | Destination / status |
 |---|---|---|---|
-| `splash-cover` | `splash.html` | `rice_field.png` | Decorative monochrome cover |
+| `splash-cover` | `splash.html` | `rice-field-loop.mp4` (poster `rice_field.png`) | Looping field footage; static poster shown to `prefers-reduced-motion` and non-video browsers |
 | `index-lead` | `index.html` | `feature-essays.jpg` | `crowley-modernism.html` |
 | `essays-lead` | `essays.html` | `feature-essays.jpg` | `crowley-modernism.html` |
 | `fiction-lead` | `fiction.html` | `feature-fiction.jpg` | `the-pump-house.html` |

@@ -13,12 +13,15 @@
     return messages;
   }
 
-  function requestBody(surface, messages, turnstileToken) {
-    return {
+  function requestBody(surface, messages, turnstileToken, conversationId, presetId) {
+    const body = {
       surface: normalizeSurface(surface),
       messages: messages.slice(-MAX_MESSAGES),
       turnstileToken: String(turnstileToken || ''),
     };
+    if (conversationId) body.conversationId = String(conversationId);
+    if (presetId) body.presetId = String(presetId);
+    return body;
   }
 
   function eventData(block) {

@@ -15,7 +15,10 @@
 </head>
 <body class="splash">
   <div class="splash-media" aria-hidden="true">
-    <picture>
+    <video class="splash-field" autoplay muted loop playsinline preload="metadata" poster="assets/images/system/rice_field.png">
+      <source src="assets/images/system/rice-field-loop.mp4" type="video/mp4">
+    </video>
+    <picture class="splash-field-fallback">
       <source type="image/webp" srcset="assets/responsive/system/rice_field-640.webp 640w, assets/responsive/system/rice_field-960.webp 960w, assets/responsive/system/rice_field-1440.webp 1440w" sizes="(max-width: 900px) 100vw, 62vw">
       <img src="assets/images/system/rice_field.png" width="1536" height="1024" alt="">
     </picture>

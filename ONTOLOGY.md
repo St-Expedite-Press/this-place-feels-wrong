@@ -6,8 +6,8 @@ The project navigation contract. Read after `AGENTS.md` and before selecting fil
 
 | Field | Value |
 |---|---|
-| Live sites | `https://stexpedite.press` (St. Expedite) · `https://rice.stexpedite.press` (RICE) · `https://chat.stexpedite.press` (Osiris chat) |
-| Stack | Astro · static+Python (RICE) · static chat · Cloudflare Pages · Worker · D1 · Turnstile · isolated Hermes API |
+| Live sites | `https://stexpedite.press` (St. Expedite) · `https://rice.stexpedite.press` (RICE) · `https://chat.stexpedite.press` (Osiris chat) · `https://admin.stexpedite.press` (owner admin) |
+| Stack | Astro · static+Python (RICE) · static chat · static admin · Cloudflare Pages · Worker · D1 · Turnstile · isolated Hermes API |
 | Repository | `St-Expedite-Press/this-place-feels-wrong` (monorepo) |
 | Agent doctrine | `AGENTS.md` · phase tracking `PHASE-PLAN.md` · change log `MEMORY.md` |
 | Documentation hub | `docs/README.md` (indexes every doc; enforced by `npm run check:docs`) |
@@ -18,7 +18,8 @@ The project navigation contract. Read after `AGENTS.md` and before selecting fil
 |---|---|---|
 | St. Expedite app | `apps/stex/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
 | RICE app (rice.stexpedite.press) | `apps/rice/` (static site + Python build; `_site` artifact) | `AGENTS.md`, `MEMORY.md`, `README.md`, `ONTOLOGY.md`, `docs/` |
-| Standalone chat | `apps/chat/` | full-page public chat client — general chat / press knowledge-base toggle plus a manuscript Submit work dialog; generated `dist/` |
+| Standalone chat | `apps/chat/` | full-page public chat client — surface toggle, Submit work, inline updates signup, conversation persistence, and (signed-in visitors) selectable multi-model **presets** + a preset builder; generated `dist/` |
+| Admin dashboard | `apps/admin/` | single-owner, magic-link-gated: read view for `updates_signups`/`contact_submissions`/`donations`, plus preset-moderation, model allow-list, and knowledge-graph (build/export/import) panels; generated `dist/`; live at admin.stexpedite.press |
 | Backend Worker | `apps/backend/` | `AGENTS.md`, `MEMORY.md`, `README.md` |
 | Shared contracts | `packages/` | chat transport, request schema, content model |
 | Osiris agent framework | `agents/` | registry, public/owner policies, knowledge sources, evals |
@@ -67,7 +68,9 @@ npm run build:all
 npm run lint:html
 npm run check:links
 npm run check:a11y
-npm run test:backend     # backend changes
+npm run test:backend     # backend changes (also covers /api/admin/* and /api/chat/history)
+npm run build:chat       # chat app changes
+npm run build:admin      # admin app changes
 npm run assets:check     # media changes
 npm run check            # full gate
 ```

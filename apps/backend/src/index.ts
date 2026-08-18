@@ -30,6 +30,11 @@ type Env = {
   UPDATES_IMPORT_TOKEN?: string;
   HERMES_API_URL?: string;
   HERMES_API_KEY?: string;
+  OWNER_EMAIL?: string;
+  ADMIN_APP_URL?: string;
+  CHAT_APP_URL?: string;
+  OPENROUTER_API_KEY?: string;
+  PRESET_STEP_BUDGET?: string;
 };
 
 type ChatTextPart = {
@@ -64,6 +69,10 @@ type EmailAttachment = {
 type SubmissionAttachment = EmailAttachment & {
   contentType: string;
   size: number;
+};
+
+type ExecutionContext = {
+  waitUntil: (promise: Promise<unknown>) => void;
 };
 
 const CHAT_MAX_BODY_BYTES = 6 * 1024 * 1024;
@@ -107,6 +116,7 @@ function withCors(request: Request, response: Response) {
     "https://st-expedite-press.github.io",
     "https://rice.stexpedite.press",
     "https://chat.stexpedite.press",
+    "https://admin.stexpedite.press",
   ]);
   const isLocalOrigin = /^http:\/\/(?:localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/i.test(origin);
 
@@ -114,7 +124,9 @@ function withCors(request: Request, response: Response) {
   if (allowedOrigins.has(origin) || isLocalOrigin) {
     headers.set("access-control-allow-origin", origin);
     headers.set("vary", "origin");
-    headers.set("access-control-allow-credentials", "false");
+    // Only our own allow-listed subdomains ever land here (never "*"), so it's
+    // safe to let the owner-session cookie ride along on admin-app requests.
+    headers.set("access-control-allow-credentials", "true");
   }
   headers.set("access-control-allow-methods", "GET, POST, OPTIONS");
   headers.set("access-control-allow-headers", "content-type, x-import-token");
@@ -125,6 +137,12 @@ function withCors(request: Request, response: Response) {
     statusText: response.statusText,
     headers,
   });
+}
+
+function withSetCookie(response: Response, cookieHeader: string) {
+  const headers = new Headers(response.headers);
+  headers.append("set-cookie", cookieHeader);
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
 
 function withCache(response: Response, cacheControl: string) {
@@ -381,8 +399,13 @@ async function parseLimitedJson(request: Request, maxBytes: number) {
 function validateChatBody(value: unknown) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   const body = value as JsonRecord;
-  const allowedBodyKeys = new Set(["surface", "messages", "turnstileToken", "cf-turnstile-response"]);
+  const allowedBodyKeys = new Set(["surface", "messages", "turnstileToken", "cf-turnstile-response", "conversationId", "presetId"]);
   if (Object.keys(body).some((key) => !allowedBodyKeys.has(key))) return null;
+  if (body.conversationId !== undefined && typeof body.conversationId !== "string") return null;
+  const conversationId = typeof body.conversationId === "string" ? body.conversationId.slice(0, 128) : undefined;
+  // presetId is just an id the Worker resolves server-side — never a client-supplied prompt.
+  if (body.presetId !== undefined && typeof body.presetId !== "string") return null;
+  const presetId = typeof body.presetId === "string" ? body.presetId.slice(0, 128) : undefined;
   const surface = body.surface === undefined ? undefined : String(body.surface);
   if (surface !== undefined && surface !== "stex" && surface !== "rice" && surface !== "openui") return null;
   const tokenKeys = ["turnstileToken", "cf-turnstile-response"].filter((key) => Object.prototype.hasOwnProperty.call(body, key));
@@ -424,7 +447,7 @@ function validateChatBody(value: unknown) {
   if (messages.at(-1)?.role !== "user") return null;
   const token = pickTurnstileToken(body);
   if (token.length > 2_048) return null;
-  return { messages, turnstileToken: token, surface: surface as ChatSurface | undefined };
+  return { messages, turnstileToken: token, surface: surface as ChatSurface | undefined, conversationId, presetId };
 }
 
 type OriginSurfacePolicy = { default: ChatSurface; allowed: ReadonlySet<ChatSurface> };
@@ -438,7 +461,457 @@ function surfacePolicyForOrigin(origin: string): OriginSurfacePolicy | undefined
   return undefined;
 }
 
-async function handleChat(request: Request, env: Env) {
+// ── Chat persistence (D1) ───────────────────────────────────────────────
+// Additive only: the client still resends full history each turn for the
+// Hermes call itself (unchanged trust model). This just also logs the
+// current turn to D1, keyed by a client-generated opaque id, so a page
+// refresh can rehydrate the transcript via GET /api/chat/history. The
+// public Hermes profile's own memory/tools stay disabled throughout — the
+// Worker is the only thing that ever reads or writes chat_messages.
+
+const CHAT_RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
+
+function isValidConversationId(value: unknown): value is string {
+  return typeof value === "string" && /^[a-zA-Z0-9-]{8,64}$/.test(value);
+}
+
+function runBackground(ctx: ExecutionContext | undefined, promise: Promise<unknown>) {
+  const guarded = promise.catch((error) => {
+    console.warn("Background chat persistence task failed", { message: error instanceof Error ? error.message : String(error) });
+  });
+  if (ctx?.waitUntil) ctx.waitUntil(guarded);
+}
+
+function extractPersistableText(content: string | ChatContentPart[]): string {
+  if (typeof content === "string") return content;
+  const textPart = content.find((part): part is ChatTextPart => part.type === "text");
+  if (textPart) return textPart.text;
+  return content.some((part) => part.type === "image_url") ? "[image attached]" : "";
+}
+
+async function persistChatMessage(db: D1Database, conversationId: string, surface: ChatSurface, role: "user" | "assistant", text: string) {
+  const trimmed = text.trim().slice(0, CHAT_MAX_MESSAGE_CHARS);
+  if (!trimmed) return;
+  try {
+    await db
+      .prepare(
+        `INSERT INTO chat_conversations (id, surface) VALUES (?, ?)
+         ON CONFLICT(id) DO UPDATE SET last_message_at = datetime('now')`,
+      )
+      .bind(conversationId, surface)
+      .run();
+    await db
+      .prepare("INSERT INTO chat_messages (conversation_id, role, content) VALUES (?, ?, ?)")
+      .bind(conversationId, role, trimmed)
+      .run();
+  } catch (error) {
+    console.warn("Chat message persistence failed", { message: error instanceof Error ? error.message : String(error) });
+  }
+}
+
+async function purgeOldChatHistory(env: Env) {
+  const db = env.DB;
+  if (!db?.prepare) return;
+  const threshold = new Date(Date.now() - CHAT_RETENTION_MS).toISOString().replace("T", " ").slice(0, 19);
+  try {
+    await db
+      .prepare("DELETE FROM chat_messages WHERE conversation_id IN (SELECT id FROM chat_conversations WHERE last_message_at < ?)")
+      .bind(threshold)
+      .run();
+    await db.prepare("DELETE FROM chat_conversations WHERE last_message_at < ?").bind(threshold).run();
+  } catch (error) {
+    console.warn("Chat retention purge failed", { message: error instanceof Error ? error.message : String(error) });
+  }
+}
+
+function extractSseDelta(block: string): string {
+  const data = block
+    .split(/\r?\n/)
+    .filter((line) => line.startsWith("data:"))
+    .map((line) => line.slice(5).trimStart())
+    .join("\n");
+  if (!data || data === "[DONE]") return "";
+  try {
+    const payload = JSON.parse(data) as { choices?: Array<{ delta?: { content?: string } }> };
+    const delta = payload.choices?.[0]?.delta?.content;
+    return typeof delta === "string" ? delta : "";
+  } catch {
+    return "";
+  }
+}
+
+function createChatPersistTransform(onComplete: (assistantText: string) => void) {
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let assistantText = "";
+  return new TransformStream<Uint8Array, Uint8Array>({
+    transform(chunk, controller) {
+      controller.enqueue(chunk);
+      buffer += decoder.decode(chunk, { stream: true });
+      const blocks = buffer.split(/\r?\n\r?\n/);
+      buffer = blocks.pop() ?? "";
+      for (const block of blocks) assistantText += extractSseDelta(block);
+    },
+    flush() {
+      buffer += decoder.decode();
+      if (buffer) assistantText += extractSseDelta(buffer);
+      onComplete(assistantText);
+    },
+  });
+}
+
+// ── Presets: server-resolved multi-model pipelines ──────────────────────
+// A visitor sends a preset ID; the Worker resolves the approved (or own-draft)
+// config and runs its ordered steps. Steps call OpenRouter with owner-allow-listed
+// models (never a client-named model); only the final step streams to the browser.
+// The public Hermes profile is untouched by this path — presets are a separate,
+// Worker-orchestrated upstream, same isolation posture as the delegate pattern in AGENTS.md.
+
+const PRESET_MAX_STEPS = 4;
+const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+
+type ResolvedStep = { order: number; upstreamModel: string; roleLabel: string; instruction: string; inputSource: "user" | "previous" };
+type ResolvedPreset = { id: string; name: string; personaPrompt: string; steps: ResolvedStep[] };
+
+async function resolvePreset(db: D1Database, presetId: string, identity: VisitorIdentity | null): Promise<ResolvedPreset | null> {
+  const preset = await db
+    .prepare("SELECT id, name, persona_prompt AS personaPrompt, status, creator_account_id AS creatorId FROM presets WHERE id = ? LIMIT 1")
+    .bind(presetId)
+    .first<{ id: string; name: string; personaPrompt: string; status: string; creatorId: string | null }>();
+  if (!preset) return null;
+  // Approved presets are public; any other status is visible only to its creator.
+  const visible = preset.status === "approved" || (identity !== null && preset.creatorId === identity.accountId);
+  if (!visible) return null;
+
+  const stepRows = await db
+    .prepare(
+      `SELECT s.step_order AS stepOrder, s.role_label AS roleLabel, s.instruction AS instruction,
+              s.input_source AS inputSource, m.upstream_ref AS upstreamRef, m.enabled AS enabled
+       FROM preset_steps s JOIN preset_models m ON s.model_id = m.id
+       WHERE s.preset_id = ? ORDER BY s.step_order ASC LIMIT ?`,
+    )
+    .bind(presetId, PRESET_MAX_STEPS)
+    .all<{ stepOrder: number; roleLabel: string; instruction: string; inputSource: string; upstreamRef: string; enabled: number }>();
+  const rows = stepRows.results ?? [];
+  if (!rows.length) return null;
+  // A disabled model anywhere in the pipeline disables the whole preset (safe default).
+  if (rows.some((r) => !Number(r.enabled))) return null;
+
+  const steps: ResolvedStep[] = rows.map((r) => ({
+    order: Number(r.stepOrder),
+    upstreamModel: String(r.upstreamRef),
+    roleLabel: String(r.roleLabel),
+    instruction: String(r.instruction),
+    inputSource: r.inputSource === "previous" ? "previous" : "user",
+  }));
+  return { id: preset.id, name: preset.name, personaPrompt: preset.personaPrompt, steps };
+}
+
+// Graph grounding (Phase 6): lexical match of the message against kb_entities,
+// pulling connected relations. Runs in the Worker, injected into the step's system
+// content — never as a Hermes/model tool. Returns "" when nothing matches.
+async function retrieveGraphContext(db: D1Database | undefined, text: string): Promise<string> {
+  if (!db?.prepare || !text.trim()) return "";
+  try {
+    const entities = await db.prepare("SELECT id, type, name, description FROM kb_entities LIMIT 500").bind().all<{ id: string; type: string; name: string; description: string }>();
+    const rows = entities.results ?? [];
+    if (!rows.length) return "";
+    const haystack = text.toLowerCase();
+    const hits = rows.filter((e) => e.name && haystack.includes(String(e.name).toLowerCase())).slice(0, 8);
+    if (!hits.length) return "";
+    const ids = hits.map((h) => h.id);
+    const placeholders = ids.map(() => "?").join(",");
+    const rels = await db
+      .prepare(`SELECT source_entity_id AS s, target_entity_id AS t, type, description FROM kb_relations WHERE source_entity_id IN (${placeholders}) OR target_entity_id IN (${placeholders}) LIMIT 30`)
+      .bind(...ids, ...ids)
+      .all<{ s: string; t: string; type: string; description: string }>();
+    const nameById = new Map(hits.map((h) => [h.id, h.name] as const));
+    const lines = [
+      "Relevant press knowledge (verified; cite only what's here):",
+      ...hits.map((h) => `- ${h.name} (${h.type}): ${h.description}`.slice(0, 240)),
+      ...(rels.results ?? []).map((r) => `- ${nameById.get(r.s) ?? r.s} —[${r.type}]→ ${nameById.get(r.t) ?? r.t}`),
+    ];
+    return lines.join("\n");
+  } catch (error) {
+    console.warn("Graph grounding lookup failed", { message: error instanceof Error ? error.message : String(error) });
+    return "";
+  }
+}
+
+function presetStepSystemContent(preset: ResolvedPreset, step: ResolvedStep, grounding: string): string {
+  return [preset.personaPrompt, step.instruction, grounding].filter(Boolean).join("\n\n");
+}
+
+async function callOpenRouterCollect(env: Env, model: string, messages: UpstreamChatMessage[], signal: AbortSignal): Promise<string> {
+  const key = String(env.OPENROUTER_API_KEY ?? "").trim();
+  if (!key) throw new Error("OpenRouter not configured");
+  const resp = await fetch(OPENROUTER_URL, {
+    method: "POST",
+    headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
+    body: JSON.stringify({ model, messages, stream: false }),
+    signal,
+  });
+  if (!resp.ok) {
+    await resp.body?.cancel();
+    throw new Error(`OpenRouter step failed (${resp.status})`);
+  }
+  const data = (await resp.json().catch(() => ({}))) as { choices?: Array<{ message?: { content?: string } }> };
+  return String(data?.choices?.[0]?.message?.content ?? "");
+}
+
+async function runPresetPipeline(
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext | undefined,
+  chat: { messages: ChatMessage[]; conversationId?: string; surface: ChatSurface },
+  preset: ResolvedPreset,
+): Promise<Response> {
+  const db = env.DB;
+  const lastUserText = extractPersistableText(chat.messages.at(-1)?.content ?? "");
+  const grounding = await retrieveGraphContext(db, lastUserText);
+
+  // Run all but the last step buffered, threading output forward.
+  let previous = "";
+  for (let i = 0; i < preset.steps.length - 1; i += 1) {
+    const step = preset.steps[i];
+    const system: UpstreamChatMessage = { role: "system", content: presetStepSystemContent(preset, step, step.inputSource === "user" ? grounding : "") };
+    const input: UpstreamChatMessage[] = step.inputSource === "previous"
+      ? [{ role: "user", content: previous }]
+      : chat.messages;
+    previous = await callOpenRouterCollect(env, step.upstreamModel, [system, ...input], request.signal);
+  }
+
+  // Final step streams to the browser.
+  const finalStep = preset.steps[preset.steps.length - 1];
+  const finalSystem: UpstreamChatMessage = { role: "system", content: presetStepSystemContent(preset, finalStep, finalStep.inputSource === "user" ? grounding : "") };
+  const finalInput: UpstreamChatMessage[] = finalStep.inputSource === "previous" && preset.steps.length > 1
+    ? [{ role: "user", content: previous }]
+    : chat.messages;
+
+  const key = String(env.OPENROUTER_API_KEY ?? "").trim();
+  if (!key) return errorResponse("Preset chat not configured", 503);
+  const upstream = await fetch(OPENROUTER_URL, {
+    method: "POST",
+    headers: { authorization: `Bearer ${key}`, "content-type": "application/json", accept: "text/event-stream" },
+    body: JSON.stringify({ model: finalStep.upstreamModel, messages: [finalSystem, ...finalInput], stream: true }),
+    signal: request.signal,
+  });
+  if (!upstream.ok || !upstream.body) {
+    await upstream.body?.cancel();
+    return errorResponse("Preset chat unavailable", 502);
+  }
+
+  let responseBody: ReadableStream<Uint8Array> = upstream.body;
+  if (chat.conversationId && isValidConversationId(chat.conversationId) && db?.prepare) {
+    const conversationId = chat.conversationId;
+    runBackground(ctx, persistChatMessage(db, conversationId, chat.surface, "user", lastUserText));
+    responseBody = upstream.body.pipeThrough(
+      createChatPersistTransform((assistantText) => {
+        runBackground(ctx, persistChatMessage(db, conversationId, chat.surface, "assistant", assistantText));
+      }),
+    );
+  }
+  return new Response(responseBody, {
+    status: 200,
+    headers: { "content-type": "text/event-stream", "cache-control": "no-store", "x-content-type-options": "nosniff" },
+  });
+}
+
+// ── Preset authoring + portable packets (Phase 3) ───────────────────────
+
+const PRESET_NAME_MAX = 120;
+const PRESET_PERSONA_MAX = 4000;
+const PRESET_INSTRUCTION_MAX = 2000;
+const PRESET_FRAMEWORK_MAX = 8000;
+const PRESET_ROLE_MAX = 60;
+
+type PresetStepInput = { modelId?: string; modelRef?: string; roleLabel: string; instruction: string; inputSource: "user" | "previous" };
+type PresetInput = { name: string; personaPrompt: string; framework: string; steps: PresetStepInput[] };
+
+// byLabel=true → steps carry a portable `model_ref` label (import path); false → a concrete `model_id` (authoring path).
+function validatePresetInput(body: JsonRecord, byLabel: boolean): PresetInput | null {
+  const name = normalizeSingleLine(body.name, PRESET_NAME_MAX);
+  if (!name) return null;
+  const personaPrompt = normalizeText(body.persona_prompt ?? body.personaPrompt, PRESET_PERSONA_MAX);
+  let framework = "{}";
+  const fw = body.framework ?? body.framework_json;
+  if (fw !== undefined && fw !== null) {
+    try { framework = JSON.stringify(fw).slice(0, PRESET_FRAMEWORK_MAX); } catch { return null; }
+  }
+  const rawSteps = body.steps;
+  if (!Array.isArray(rawSteps) || rawSteps.length < 1 || rawSteps.length > PRESET_MAX_STEPS) return null;
+  const steps: PresetStepInput[] = [];
+  for (let i = 0; i < rawSteps.length; i += 1) {
+    const candidate = rawSteps[i];
+    if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) return null;
+    const so = candidate as JsonRecord;
+    const roleLabel = normalizeSingleLine(so.role_label ?? so.roleLabel, PRESET_ROLE_MAX);
+    const instruction = normalizeText(so.instruction, PRESET_INSTRUCTION_MAX);
+    // Step 0 has no previous output, so it always sources from the user.
+    const inputSource: "user" | "previous" = i > 0 && (so.input_source ?? so.inputSource) === "previous" ? "previous" : "user";
+    const step: PresetStepInput = { roleLabel, instruction, inputSource };
+    if (byLabel) {
+      const ref = normalizeSingleLine(so.model_ref ?? so.modelRef, 120);
+      if (!ref) return null;
+      step.modelRef = ref;
+    } else {
+      const id = normalizeSingleLine(so.model_id ?? so.modelId, 120);
+      if (!id) return null;
+      step.modelId = id;
+    }
+    steps.push(step);
+  }
+  return { name, personaPrompt, framework, steps };
+}
+
+async function createPresetFromInput(db: D1Database, creatorId: string, input: PresetInput, byLabel: boolean): Promise<{ id: string } | { error: string }> {
+  const resolved: Array<{ modelId: string; roleLabel: string; instruction: string; inputSource: string }> = [];
+  for (const s of input.steps) {
+    const row = byLabel
+      ? await db.prepare("SELECT id FROM preset_models WHERE label = ? AND enabled = 1 LIMIT 1").bind(s.modelRef).first<{ id: string }>()
+      : await db.prepare("SELECT id FROM preset_models WHERE id = ? AND enabled = 1 LIMIT 1").bind(s.modelId).first<{ id: string }>();
+    if (!row?.id) return { error: "A step references an unknown or disabled model." };
+    resolved.push({ modelId: row.id, roleLabel: s.roleLabel, instruction: s.instruction, inputSource: s.inputSource });
+  }
+  const presetId = refId("preset");
+  await db
+    .prepare("INSERT INTO presets (id, creator_account_id, name, persona_prompt, framework_json, status) VALUES (?, ?, ?, ?, ?, 'draft')")
+    .bind(presetId, creatorId, input.name, input.personaPrompt, input.framework)
+    .run();
+  for (let i = 0; i < resolved.length; i += 1) {
+    const r = resolved[i];
+    await db
+      .prepare("INSERT INTO preset_steps (id, preset_id, step_order, model_id, role_label, instruction, input_source) VALUES (?, ?, ?, ?, ?, ?, ?)")
+      .bind(refId("step"), presetId, i, r.modelId, r.roleLabel, r.instruction, r.inputSource)
+      .run();
+  }
+  return { id: presetId };
+}
+
+async function exportPresetPacket(db: D1Database, presetId: string, identity: VisitorIdentity | null): Promise<JsonRecord | null> {
+  const preset = await db
+    .prepare("SELECT id, name, persona_prompt AS persona, framework_json AS framework, status, creator_account_id AS creatorId FROM presets WHERE id = ? LIMIT 1")
+    .bind(presetId)
+    .first<{ id: string; name: string; persona: string; framework: string; status: string; creatorId: string | null }>();
+  if (!preset) return null;
+  const visible = preset.status === "approved" || (identity !== null && preset.creatorId === identity.accountId);
+  if (!visible) return null;
+  const steps = await db
+    .prepare("SELECT s.step_order AS o, s.role_label AS roleLabel, s.instruction, s.input_source AS inputSource, m.label AS modelRef FROM preset_steps s JOIN preset_models m ON s.model_id = m.id WHERE s.preset_id = ? ORDER BY s.step_order ASC")
+    .bind(presetId)
+    .all<{ o: number; roleLabel: string; instruction: string; inputSource: string; modelRef: string }>();
+  let framework: unknown = {};
+  try { framework = JSON.parse(preset.framework || "{}"); } catch { framework = {}; }
+  return {
+    version: "1.0",
+    kind: "preset",
+    preset: {
+      name: preset.name,
+      persona_prompt: preset.persona,
+      framework,
+      steps: (steps.results ?? []).map((s) => ({ step_order: s.o, model_ref: s.modelRef, role_label: s.roleLabel, instruction: s.instruction, input_source: s.inputSource })),
+    },
+  };
+}
+
+// ── Knowledge graph: extraction + portable packets (Phase 5) ────────────
+
+type GraphEntity = { id: string; type: string; name: string; description: string; source_ref: string };
+type GraphRelation = { id: string; source_entity_id: string; target_entity_id: string; type: string; description: string };
+
+function extractJsonObject(text: string): unknown {
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  const candidate = fenced ? fenced[1] : text;
+  const start = candidate.indexOf("{");
+  const end = candidate.lastIndexOf("}");
+  if (start < 0 || end <= start) return null;
+  try { return JSON.parse(candidate.slice(start, end + 1)); } catch { return null; }
+}
+
+function coerceGraph(parsed: unknown): { entities: GraphEntity[]; relations: GraphRelation[] } {
+  const obj = (parsed && typeof parsed === "object" ? parsed : {}) as JsonRecord;
+  const rawE = Array.isArray(obj.entities) ? obj.entities : [];
+  const rawR = Array.isArray(obj.relations) ? obj.relations : [];
+  const entities: GraphEntity[] = [];
+  const seen = new Set<string>();
+  for (const e of rawE) {
+    if (!e || typeof e !== "object") continue;
+    const r = e as JsonRecord;
+    const id = normalizeSingleLine(r.id, 120) || refId("ent");
+    if (seen.has(id)) continue;
+    seen.add(id);
+    entities.push({
+      id,
+      type: normalizeSingleLine(r.type, 60) || "entity",
+      name: normalizeSingleLine(r.name, 200),
+      description: normalizeText(r.description, 500),
+      source_ref: normalizeSingleLine(r.source_ref ?? r.sourceRef, 200),
+    });
+  }
+  const ids = new Set(entities.map((e) => e.id));
+  const relations: GraphRelation[] = [];
+  for (const rel of rawR) {
+    if (!rel || typeof rel !== "object") continue;
+    const r = rel as JsonRecord;
+    const s = normalizeSingleLine(r.source_entity_id ?? r.sourceEntityId, 120);
+    const t = normalizeSingleLine(r.target_entity_id ?? r.targetEntityId, 120);
+    if (!ids.has(s) || !ids.has(t)) continue; // drop dangling relations
+    relations.push({
+      id: normalizeSingleLine(r.id, 120) || refId("rel"),
+      source_entity_id: s,
+      target_entity_id: t,
+      type: normalizeSingleLine(r.type, 60) || "related",
+      description: normalizeText(r.description, 500),
+    });
+  }
+  return { entities: entities.filter((e) => e.name), relations };
+}
+
+async function replaceGraph(db: D1Database, graph: { entities: GraphEntity[]; relations: GraphRelation[] }): Promise<{ entities: number; relations: number }> {
+  await db.prepare("DELETE FROM kb_relations").bind().run();
+  await db.prepare("DELETE FROM kb_entities").bind().run();
+  for (const e of graph.entities) {
+    await db.prepare("INSERT INTO kb_entities (id, type, name, description, source_ref) VALUES (?, ?, ?, ?, ?)").bind(e.id, e.type, e.name, e.description, e.source_ref).run();
+  }
+  for (const r of graph.relations) {
+    await db.prepare("INSERT INTO kb_relations (id, source_entity_id, target_entity_id, type, description) VALUES (?, ?, ?, ?, ?)").bind(r.id, r.source_entity_id, r.target_entity_id, r.type, r.description).run();
+  }
+  return { entities: graph.entities.length, relations: graph.relations.length };
+}
+
+async function buildGraphFromWorks(env: Env, signal: AbortSignal): Promise<{ entities: number; relations: number }> {
+  const db = env.DB;
+  if (!db?.prepare) throw new Error("Database not configured");
+  const key = String(env.OPENROUTER_API_KEY ?? "").trim();
+  if (!key) throw new Error("OpenRouter not configured");
+  const works = await db.prepare("SELECT project_slug, title, author, status, popup_description FROM works LIMIT 200").bind().all<{ project_slug: string; title: string; author: string | null; status: string; popup_description: string | null }>();
+  const rows = works.results ?? [];
+  const corpus = rows
+    .map((w) => `- "${w.title}"${w.author ? ` by ${w.author}` : ""} [${w.status}] (slug: ${w.project_slug}): ${w.popup_description ?? ""}`)
+    .join("\n");
+  const prompt =
+    'Extract a knowledge graph from this publisher catalog. Return STRICT JSON only, no prose: ' +
+    '{"entities":[{"id","type","name","description","source_ref"}],"relations":[{"id","source_entity_id","target_entity_id","type","description"}]}. ' +
+    'Give each entity a short stable id. Use source_ref of the form "works:<slug>". Relations connect entity ids.\n\nCatalog:\n' +
+    corpus;
+  const content = await callOpenRouterCollect(env, "deepseek/deepseek-v4-flash", [{ role: "system", content: "You output only strict JSON." }, { role: "user", content: prompt }], signal);
+  const graph = coerceGraph(extractJsonObject(content));
+  return replaceGraph(db, graph);
+}
+
+async function exportGraphPacket(db: D1Database): Promise<JsonRecord> {
+  const entities = await db.prepare("SELECT id, type, name, description, source_ref FROM kb_entities ORDER BY id ASC LIMIT 5000").bind().all<GraphEntity>();
+  const relations = await db.prepare("SELECT id, source_entity_id, target_entity_id, type, description FROM kb_relations ORDER BY id ASC LIMIT 20000").bind().all<GraphRelation>();
+  return {
+    version: "1.0",
+    kind: "knowledge-graph",
+    generatedAt: new Date().toISOString(),
+    entities: entities.results ?? [],
+    relations: relations.results ?? [],
+  };
+}
+
+async function handleChat(request: Request, env: Env, ctx?: ExecutionContext) {
   const parsed = await parseLimitedJson(request, CHAT_MAX_BODY_BYTES);
   if (parsed.kind === "too-large") return errorResponse("Request body too large", 413);
   if (parsed.kind !== "ok") return errorResponse("Invalid JSON", 400);
@@ -453,6 +926,24 @@ async function handleChat(request: Request, env: Env) {
 
   const turnstileOk = await verifyTurnstile(request, env, chat.turnstileToken);
   if (!turnstileOk) return errorResponse("Turnstile verification failed", 403);
+
+  // Preset path: a visitor-selected pipeline resolved entirely server-side.
+  if (chat.presetId && env.DB?.prepare) {
+    const identity = await requireVisitorSession(request, env);
+    const preset = await resolvePreset(env.DB, chat.presetId, identity);
+    // 404 (not 403) so an outsider can't distinguish "exists but private" from "no such preset".
+    if (!preset) return errorResponse("Preset not available", 404);
+    const identityKey = identity?.accountId ?? clientIp(request) ?? "anon";
+    if (!(await reservePresetBudget(env, identityKey, preset.steps.length))) {
+      return errorResponse("Preset usage limit reached — try again shortly", 429);
+    }
+    try {
+      return await runPresetPipeline(request, env, ctx, { messages: chat.messages, conversationId: chat.conversationId, surface }, preset);
+    } catch (error) {
+      console.error("Preset pipeline failed", { message: error instanceof Error ? error.message : String(error) });
+      return errorResponse("Preset chat unavailable", 502);
+    }
+  }
 
   const apiUrl = String(env.HERMES_API_URL ?? "").trim();
   const apiKey = String(env.HERMES_API_KEY ?? "").trim();
@@ -492,7 +983,22 @@ async function handleChat(request: Request, env: Env) {
       return errorResponse("Chat service unavailable", 502);
     }
 
-    return new Response(upstream.body, {
+    let responseBody: ReadableStream<Uint8Array> = upstream.body;
+    const db = env.DB;
+    if (chat.conversationId && isValidConversationId(chat.conversationId) && db?.prepare) {
+      const conversationId = chat.conversationId;
+      const lastUserMessage = chat.messages.at(-1);
+      if (lastUserMessage) {
+        runBackground(ctx, persistChatMessage(db, conversationId, surface, "user", extractPersistableText(lastUserMessage.content)));
+      }
+      responseBody = upstream.body.pipeThrough(
+        createChatPersistTransform((assistantText) => {
+          runBackground(ctx, persistChatMessage(db, conversationId, surface, "assistant", assistantText));
+        }),
+      );
+    }
+
+    return new Response(responseBody, {
       status: 200,
       headers: {
         "content-type": contentType,
@@ -1122,6 +1628,39 @@ function enrichUpdatesRecord(body: JsonRecord) {
   };
 }
 
+// Step-weighted, per-identity budget for preset pipelines: a multi-model preset
+// costs one unit per step, so a 3-step preset draws 3× a 1-step one. Keyed on the
+// visitor account when signed in, else the client IP — so neither a single account
+// (rotating IPs) nor a single IP (many accounts) can run away with cost. Reuses the
+// api_rate_limits table. Fails open only when D1 is unavailable, same as checkRateLimit.
+async function reservePresetBudget(env: Env, identityKey: string, steps: number): Promise<boolean> {
+  const db = env.DB;
+  if (!db?.prepare) return true;
+  const budget = intOrDefault(env.PRESET_STEP_BUDGET, 40);
+  const windowMs = intOrDefault(env.RATE_LIMIT_WINDOW_MS, 60_000);
+  const now = Date.now();
+  const bucketStart = now - (now % windowMs);
+  const resetAt = bucketStart + windowMs;
+  const key = `preset:${identityKey}:${bucketStart}`;
+  try {
+    const existing = await db.prepare("SELECT count, reset_at FROM api_rate_limits WHERE bucket_key = ? LIMIT 1").bind(key).first<{ count: number; reset_at: number }>();
+    const current = existing && now < Number(existing.reset_at) ? Number(existing.count) : 0;
+    if (current + steps > budget) return false;
+    if (!existing || now >= Number(existing.reset_at)) {
+      await db
+        .prepare("INSERT INTO api_rate_limits (bucket_key, count, reset_at) VALUES (?, ?, ?) ON CONFLICT(bucket_key) DO UPDATE SET count = excluded.count, reset_at = excluded.reset_at")
+        .bind(key, steps, resetAt)
+        .run();
+    } else {
+      await db.prepare("UPDATE api_rate_limits SET count = count + ? WHERE bucket_key = ?").bind(steps, key).run();
+    }
+    return true;
+  } catch (error) {
+    console.warn("Preset budget check unavailable; allowing", { message: error instanceof Error ? error.message : String(error) });
+    return true;
+  }
+}
+
 async function checkRateLimit(request: Request, env: Env) {
   const ip = clientIp(request);
   const db = env.DB;
@@ -1560,14 +2099,128 @@ async function handleWorks(request: Request, env: Env, url: URL) {
   }
 }
 
-function requireImportAuth(request: Request, env: Env) {
+async function timingSafeEqual(a: string, b: string): Promise<boolean> {
+  const enc = new TextEncoder();
+  const [digestA, digestB] = await Promise.all([
+    crypto.subtle.digest("SHA-256", enc.encode(a)),
+    crypto.subtle.digest("SHA-256", enc.encode(b)),
+  ]);
+  const bytesA = new Uint8Array(digestA);
+  const bytesB = new Uint8Array(digestB);
+  let diff = 0;
+  for (let i = 0; i < bytesA.length; i++) diff |= bytesA[i] ^ bytesB[i];
+  return diff === 0;
+}
+
+async function requireImportAuth(request: Request, env: Env): Promise<boolean> {
   const token = String(env.UPDATES_IMPORT_TOKEN ?? "").trim();
   const provided = String(request.headers.get("x-import-token") ?? "").trim();
-  return Boolean(token && provided && token === provided);
+  if (!token || !provided) return false;
+  return timingSafeEqual(token, provided);
+}
+
+// ── Owner magic-link auth ───────────────────────────────────────────────
+// Single-owner session system for /api/admin/*. Neither the emailed login
+// link nor the session cookie's raw value is ever stored — only their
+// SHA-256 hash goes in D1 (owner_login_tokens / owner_sessions), same idiom
+// as every mainstream session-token design.
+
+const OWNER_LOGIN_TOKEN_TTL_MS = 15 * 60 * 1000;
+const OWNER_SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+const OWNER_SESSION_COOKIE = "stex_owner_session";
+
+function randomToken(byteLength = 32): string {
+  const bytes = new Uint8Array(byteLength);
+  crypto.getRandomValues(bytes);
+  let binary = "";
+  for (const b of bytes) binary += String.fromCharCode(b);
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+async function sha256Hex(value: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+function parseCookies(request: Request): Record<string, string> {
+  const header = request.headers.get("cookie") ?? "";
+  const out: Record<string, string> = {};
+  for (const part of header.split(";")) {
+    const eq = part.indexOf("=");
+    if (eq < 0) continue;
+    const key = part.slice(0, eq).trim();
+    const value = part.slice(eq + 1).trim();
+    if (key) out[key] = decodeURIComponent(value);
+  }
+  return out;
+}
+
+function ownerSessionCookieHeader(token: string, maxAgeSec: number): string {
+  return `${OWNER_SESSION_COOKIE}=${token}; Path=/; Domain=.stexpedite.press; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAgeSec}`;
+}
+
+function clearOwnerSessionCookieHeader(): string {
+  return `${OWNER_SESSION_COOKIE}=; Path=/; Domain=.stexpedite.press; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
+}
+
+async function requireOwnerSession(request: Request, env: Env): Promise<boolean> {
+  const db = env.DB;
+  if (!db?.prepare) return false;
+  const token = parseCookies(request)[OWNER_SESSION_COOKIE];
+  if (!token) return false;
+  const hash = await sha256Hex(token);
+  const row = await db
+    .prepare("SELECT expires_at FROM owner_sessions WHERE session_hash = ? LIMIT 1")
+    .bind(hash)
+    .first<{ expires_at: number }>();
+  if (!row || Date.now() >= Number(row.expires_at)) return false;
+  await db.prepare("UPDATE owner_sessions SET last_seen_at = datetime('now') WHERE session_hash = ?").bind(hash).run();
+  return true;
+}
+
+// ── Visitor magic-link auth ─────────────────────────────────────────────
+// A second, lower-privilege identity class alongside the owner, using the
+// exact same mechanism (hash-only D1 tokens/sessions, magic link via Resend,
+// HttpOnly cookie). Unlike the single fixed OWNER_EMAIL, any email may sign
+// up as a visitor; the account row is created at verify time (once email
+// ownership is proven), never at the login-request step.
+
+const VISITOR_LOGIN_TOKEN_TTL_MS = 15 * 60 * 1000;
+const VISITOR_SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+const VISITOR_SESSION_COOKIE = "stex_visitor_session";
+
+function visitorSessionCookieHeader(token: string, maxAgeSec: number): string {
+  return `${VISITOR_SESSION_COOKIE}=${token}; Path=/; Domain=.stexpedite.press; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAgeSec}`;
+}
+
+function clearVisitorSessionCookieHeader(): string {
+  return `${VISITOR_SESSION_COOKIE}=; Path=/; Domain=.stexpedite.press; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
+}
+
+type VisitorIdentity = { accountId: string; email: string };
+
+async function requireVisitorSession(request: Request, env: Env): Promise<VisitorIdentity | null> {
+  const db = env.DB;
+  if (!db?.prepare) return null;
+  const token = parseCookies(request)[VISITOR_SESSION_COOKIE];
+  if (!token) return null;
+  const hash = await sha256Hex(token);
+  const row = await db
+    .prepare(
+      `SELECT s.account_id AS accountId, s.expires_at AS expiresAt, a.email AS email, a.status AS status
+       FROM visitor_sessions s JOIN visitor_accounts a ON s.account_id = a.id
+       WHERE s.session_hash = ? LIMIT 1`,
+    )
+    .bind(hash)
+    .first<{ accountId: string; expiresAt: number; email: string; status: string }>();
+  // A suspended account's sessions stop authenticating — the moderation kill-switch.
+  if (!row || row.status !== "active" || Date.now() >= Number(row.expiresAt)) return null;
+  await db.prepare("UPDATE visitor_sessions SET last_seen_at = datetime('now') WHERE session_hash = ?").bind(hash).run();
+  return { accountId: row.accountId, email: row.email };
 }
 
 export default {
-  async fetch(request: Request, env: Env) {
+  async fetch(request: Request, env: Env, ctx?: ExecutionContext) {
     const url = new URL(request.url);
 
     try {
@@ -1596,6 +2249,7 @@ export default {
             stripeConfigured: Boolean(String(env.STRIPE_SECRET_KEY ?? "").trim()),
             storefrontConfigured: Boolean(String(env.FOURTH_WALL_API_KEY ?? env.FW_STOREFRONT_TOKEN ?? "").trim()),
             importConfigured: Boolean(String(env.UPDATES_IMPORT_TOKEN ?? "").trim()),
+            ownerAuthConfigured: Boolean(String(env.OWNER_EMAIL ?? "").trim()),
             now: new Date().toISOString(),
           }),
         );
@@ -1613,8 +2267,214 @@ export default {
         return withCors(request, await handleWorks(request, env, url));
       }
 
+      if (url.pathname === "/api/presets" && request.method === "GET") {
+        const db = env.DB;
+        if (!db?.prepare) return withCors(request, ok({ presets: [] }));
+        const identity = await requireVisitorSession(request, env);
+        // Approved presets are public; a signed-in visitor also sees their own (any status).
+        const rows = identity
+          ? await db
+              .prepare(
+                "SELECT id, name, status, (creator_account_id IS NULL) AS official FROM presets WHERE status = 'approved' OR creator_account_id = ? ORDER BY official DESC, name ASC LIMIT 200",
+              )
+              .bind(identity.accountId)
+              .all()
+          : await db
+              .prepare("SELECT id, name, status, (creator_account_id IS NULL) AS official FROM presets WHERE status = 'approved' ORDER BY official DESC, name ASC LIMIT 200")
+              .bind()
+              .all();
+        return withCors(request, ok({ presets: rows.results ?? [] }));
+      }
+
+      if (url.pathname === "/api/preset-models" && request.method === "GET") {
+        if (!(await requireVisitorSession(request, env))) return withCors(request, errorResponse("Unauthorized", 401));
+        const db = env.DB;
+        if (!db?.prepare) return withCors(request, ok({ models: [] }));
+        const rows = await db.prepare("SELECT id, label FROM preset_models WHERE enabled = 1 ORDER BY label ASC").bind().all();
+        return withCors(request, ok({ models: rows.results ?? [] }));
+      }
+
+      if (url.pathname.startsWith("/api/presets/") && url.pathname.endsWith("/export") && request.method === "GET") {
+        const db = env.DB;
+        if (!db?.prepare) return withCors(request, errorResponse("Not configured", 500));
+        const presetId = url.pathname.slice("/api/presets/".length, -"/export".length);
+        const identity = await requireVisitorSession(request, env);
+        const packet = await exportPresetPacket(db, presetId, identity);
+        if (!packet) return withCors(request, errorResponse("Preset not available", 404));
+        return withCors(request, ok(packet));
+      }
+
+      if (url.pathname === "/api/visitor/verify" && request.method === "GET") {
+        const token = url.searchParams.get("token") ?? "";
+        const db = env.DB;
+        const invalid = () =>
+          new Response("This sign-in link is invalid or has expired. Request a new one.", {
+            status: 401,
+            headers: { "content-type": "text/plain; charset=utf-8" },
+          });
+        if (!token || !db?.prepare) return invalid();
+
+        const hash = await sha256Hex(token);
+        const row = await db
+          .prepare("SELECT email, expires_at, used_at FROM visitor_login_tokens WHERE token_hash = ? LIMIT 1")
+          .bind(hash)
+          .first<{ email: string; expires_at: number; used_at: string | null }>();
+        if (!row || row.used_at || Date.now() >= Number(row.expires_at)) return invalid();
+
+        await db.prepare("UPDATE visitor_login_tokens SET used_at = datetime('now') WHERE token_hash = ?").bind(hash).run();
+
+        // Create the account on first verified login (email ownership now proven).
+        const email = String(row.email).toLowerCase();
+        const existing = await db
+          .prepare("SELECT id, status FROM visitor_accounts WHERE email = ? LIMIT 1")
+          .bind(email)
+          .first<{ id: string; status: string }>();
+        let accountId: string;
+        if (existing) {
+          if (existing.status !== "active") return invalid();
+          accountId = existing.id;
+        } else {
+          accountId = refId("va");
+          await db.prepare("INSERT INTO visitor_accounts (id, email) VALUES (?, ?)").bind(accountId, email).run();
+        }
+
+        const sessionToken = randomToken();
+        const sessionHash = await sha256Hex(sessionToken);
+        const sessionExpiresAt = Date.now() + VISITOR_SESSION_TTL_MS;
+        await db
+          .prepare("INSERT INTO visitor_sessions (session_hash, account_id, expires_at) VALUES (?, ?, ?)")
+          .bind(sessionHash, accountId, sessionExpiresAt)
+          .run();
+
+        const chatUrl = String(env.CHAT_APP_URL ?? "https://chat.stexpedite.press").trim();
+        return withSetCookie(
+          new Response(null, { status: 302, headers: { location: chatUrl } }),
+          visitorSessionCookieHeader(sessionToken, Math.floor(VISITOR_SESSION_TTL_MS / 1000)),
+        );
+      }
+
+      if (url.pathname === "/api/visitor/me" && request.method === "GET") {
+        const identity = await requireVisitorSession(request, env);
+        return withCors(request, ok({ authenticated: Boolean(identity), email: identity?.email ?? null }));
+      }
+
+      if (url.pathname === "/api/admin/verify" && request.method === "GET") {
+        const token = url.searchParams.get("token") ?? "";
+        const db = env.DB;
+        const invalid = () =>
+          new Response("This sign-in link is invalid or has expired. Request a new one.", {
+            status: 401,
+            headers: { "content-type": "text/plain; charset=utf-8" },
+          });
+        if (!token || !db?.prepare) return invalid();
+
+        const hash = await sha256Hex(token);
+        const row = await db
+          .prepare("SELECT expires_at, used_at FROM owner_login_tokens WHERE token_hash = ? LIMIT 1")
+          .bind(hash)
+          .first<{ expires_at: number; used_at: string | null }>();
+        if (!row || row.used_at || Date.now() >= Number(row.expires_at)) return invalid();
+
+        await db.prepare("UPDATE owner_login_tokens SET used_at = datetime('now') WHERE token_hash = ?").bind(hash).run();
+
+        const sessionToken = randomToken();
+        const sessionHash = await sha256Hex(sessionToken);
+        const sessionExpiresAt = Date.now() + OWNER_SESSION_TTL_MS;
+        await db
+          .prepare("INSERT INTO owner_sessions (session_hash, expires_at) VALUES (?, ?)")
+          .bind(sessionHash, sessionExpiresAt)
+          .run();
+
+        const adminUrl = String(env.ADMIN_APP_URL ?? "https://admin.stexpedite.press").trim();
+        return withSetCookie(
+          new Response(null, { status: 302, headers: { location: adminUrl } }),
+          ownerSessionCookieHeader(sessionToken, Math.floor(OWNER_SESSION_TTL_MS / 1000)),
+        );
+      }
+
+      if (url.pathname === "/api/admin/me" && request.method === "GET") {
+        return withCors(request, ok({ authenticated: await requireOwnerSession(request, env) }));
+      }
+
+      if (url.pathname.startsWith("/api/admin/") && request.method === "GET") {
+        if (!(await requireOwnerSession(request, env))) {
+          return withCors(request, errorResponse("Unauthorized", 401));
+        }
+        const db = env.DB;
+        if (!db?.prepare) return withCors(request, errorResponse("Not configured", 500));
+        const limit = Math.min(200, Math.max(1, Number(url.searchParams.get("limit")) || 50));
+        const offset = Math.max(0, Number(url.searchParams.get("offset")) || 0);
+
+        if (url.pathname === "/api/admin/signups") {
+          const rows = await db
+            .prepare(
+              "SELECT email, first_seen_at, last_seen_at, source, unsubscribed_at FROM updates_signups ORDER BY first_seen_at DESC LIMIT ? OFFSET ?",
+            )
+            .bind(limit, offset)
+            .all();
+          return withCors(request, ok({ rows: rows.results ?? [] }));
+        }
+        if (url.pathname === "/api/admin/submissions") {
+          const rows = await db
+            .prepare(
+              "SELECT id, type, email, reason, author_name, work_title, genre, received_at FROM contact_submissions ORDER BY received_at DESC LIMIT ? OFFSET ?",
+            )
+            .bind(limit, offset)
+            .all();
+          return withCors(request, ok({ rows: rows.results ?? [] }));
+        }
+        if (url.pathname === "/api/admin/donations") {
+          const rows = await db
+            .prepare(
+              "SELECT id, amount_cents, email, payment_status, received_at FROM donations ORDER BY received_at DESC LIMIT ? OFFSET ?",
+            )
+            .bind(limit, offset)
+            .all();
+          return withCors(request, ok({ rows: rows.results ?? [] }));
+        }
+        if (url.pathname === "/api/admin/presets/pending") {
+          const rows = await db
+            .prepare(
+              "SELECT p.id, p.name, p.status, p.updated_at, a.email AS creator_email FROM presets p LEFT JOIN visitor_accounts a ON p.creator_account_id = a.id WHERE p.status = 'pending' ORDER BY p.updated_at DESC LIMIT ? OFFSET ?",
+            )
+            .bind(limit, offset)
+            .all();
+          return withCors(request, ok({ rows: rows.results ?? [] }));
+        }
+        if (url.pathname === "/api/admin/models") {
+          const rows = await db.prepare("SELECT id, label, upstream_ref, enabled FROM preset_models ORDER BY label ASC").bind().all();
+          return withCors(request, ok({ rows: rows.results ?? [] }));
+        }
+        if (url.pathname === "/api/admin/graph/export") {
+          return withCors(request, ok(await exportGraphPacket(db)));
+        }
+        // Owner preset detail (any status) for review — reuse the export packet with owner privilege.
+        if (url.pathname.startsWith("/api/admin/presets/") && url.pathname.endsWith("/detail")) {
+          const presetId = url.pathname.slice("/api/admin/presets/".length, -"/detail".length);
+          const row = await db.prepare("SELECT creator_account_id AS creatorId FROM presets WHERE id = ? LIMIT 1").bind(presetId).first<{ creatorId: string | null }>();
+          if (!row) return withCors(request, errorResponse("Not found", 404));
+          const packet = await exportPresetPacket(db, presetId, row.creatorId ? { accountId: row.creatorId, email: "" } : null);
+          return withCors(request, ok(packet ?? {}));
+        }
+        return withCors(request, errorResponse("Not found", 404));
+      }
+
       if (url.pathname === "/api/stripe/webhook" && request.method === "POST") {
         return handleStripeWebhook(request, env);
+      }
+
+      if (url.pathname === "/api/chat/history" && request.method === "GET") {
+        const conversationId = url.searchParams.get("conversationId") ?? "";
+        if (!isValidConversationId(conversationId)) {
+          return withCors(request, errorResponse("Invalid conversationId", 400));
+        }
+        const db = env.DB;
+        if (!db?.prepare) return withCors(request, ok({ messages: [] }));
+        const rows = await db
+          .prepare("SELECT role, content, created_at FROM chat_messages WHERE conversation_id = ? ORDER BY id ASC LIMIT 200")
+          .bind(conversationId)
+          .all();
+        return withCors(request, ok({ messages: rows.results ?? [] }));
       }
 
       if (request.method !== "POST") {
@@ -1633,7 +2493,7 @@ export default {
       }
 
       if (url.pathname === "/api/chat") {
-        return withCors(request, await handleChat(request, env));
+        return withCors(request, await handleChat(request, env, ctx));
       }
 
       if (url.pathname === "/api/submit" && (request.headers.get("content-type") ?? "").toLowerCase().startsWith("multipart/form-data;")) {
@@ -1644,7 +2504,7 @@ export default {
       if (!body) return withCors(request, errorResponse("Invalid JSON", 400));
 
       if (url.pathname === "/api/updates/import") {
-        if (!requireImportAuth(request, env)) {
+        if (!(await requireImportAuth(request, env))) {
           return withCors(request, errorResponse("Unauthorized", 401));
         }
         const db = env.DB;
@@ -1660,6 +2520,183 @@ export default {
         const { canonicalEmail } = await upsertUpdatesSignup(db, fromEmail, source, userAgent);
         await applyUpdatesEnrichment(db, canonicalEmail, body);
         return withCors(request, ok({ imported: true }));
+      }
+
+      if (url.pathname === "/api/visitor/login") {
+        const email = normalizeText(body.email, 320).toLowerCase();
+        const db = env.DB;
+        // Any valid email may sign up as a visitor. A suspended existing account
+        // gets the same silent no-op as a bad address — no email is sent, and the
+        // response is identical either way so the route reveals nothing.
+        if (isProbablyEmail(email) && db?.prepare) {
+          const suspended = await db
+            .prepare("SELECT status FROM visitor_accounts WHERE email = ? LIMIT 1")
+            .bind(email)
+            .first<{ status: string }>();
+          if (!suspended || suspended.status === "active") {
+            const token = randomToken();
+            const hash = await sha256Hex(token);
+            const expiresAt = Date.now() + VISITOR_LOGIN_TOKEN_TTL_MS;
+            await db.prepare("INSERT INTO visitor_login_tokens (token_hash, email, expires_at) VALUES (?, ?, ?)").bind(hash, email, expiresAt).run();
+            const verifyUrl = `${BRAND.siteUrl}/api/visitor/verify?token=${encodeURIComponent(token)}`;
+            await sendEmail(env, {
+              to: email,
+              subject: "St. Expedite Press sign-in link",
+              text: `Sign in: ${verifyUrl}\n\nThis link expires in 15 minutes and can only be used once. If you didn't request this, you can ignore it.`,
+            }).catch((error) => {
+              console.error("Visitor login email failed", { message: error instanceof Error ? error.message : String(error) });
+            });
+          }
+        }
+        return withCors(request, ok({ sent: true }));
+      }
+
+      if (url.pathname === "/api/visitor/logout") {
+        const token = parseCookies(request)[VISITOR_SESSION_COOKIE];
+        const db = env.DB;
+        if (token && db?.prepare) {
+          await db.prepare("DELETE FROM visitor_sessions WHERE session_hash = ?").bind(await sha256Hex(token)).run();
+        }
+        return withSetCookie(withCors(request, ok({ loggedOut: true })), clearVisitorSessionCookieHeader());
+      }
+
+      if (url.pathname === "/api/presets/create" || url.pathname === "/api/presets/import") {
+        const identity = await requireVisitorSession(request, env);
+        if (!identity) return withCors(request, errorResponse("Unauthorized", 401));
+        const db = env.DB;
+        if (!db?.prepare) return withCors(request, errorResponse("Not configured", 500));
+        const byLabel = url.pathname.endsWith("/import");
+        // An import packet wraps the preset under `preset`; create takes the fields directly.
+        const source = byLabel && body.preset && typeof body.preset === "object" ? (body.preset as JsonRecord) : body;
+        const input = validatePresetInput(source, byLabel);
+        if (!input) return withCors(request, errorResponse("Invalid preset", 400));
+        const result = await createPresetFromInput(db, identity.accountId, input, byLabel);
+        if ("error" in result) return withCors(request, errorResponse(result.error, 400));
+        return withCors(request, ok({ id: result.id, status: "draft" }));
+      }
+
+      if (url.pathname.startsWith("/api/presets/") && url.pathname.endsWith("/submit")) {
+        const identity = await requireVisitorSession(request, env);
+        if (!identity) return withCors(request, errorResponse("Unauthorized", 401));
+        const db = env.DB;
+        if (!db?.prepare) return withCors(request, errorResponse("Not configured", 500));
+        const presetId = url.pathname.slice("/api/presets/".length, -"/submit".length);
+        // Only the creator can submit their own draft/rejected preset for review.
+        const owned = await db
+          .prepare("SELECT status FROM presets WHERE id = ? AND creator_account_id = ? LIMIT 1")
+          .bind(presetId, identity.accountId)
+          .first<{ status: string }>();
+        if (!owned) return withCors(request, errorResponse("Preset not available", 404));
+        if (owned.status === "approved") return withCors(request, ok({ status: "approved" }));
+        await db.prepare("UPDATE presets SET status = 'pending', updated_at = datetime('now') WHERE id = ?").bind(presetId).run();
+        return withCors(request, ok({ status: "pending" }));
+      }
+
+      if (url.pathname === "/api/admin/login") {
+        const email = normalizeText(body.email, 320).toLowerCase();
+        const ownerEmail = String(env.OWNER_EMAIL ?? "").trim().toLowerCase();
+        const db = env.DB;
+        if (ownerEmail && email === ownerEmail && db?.prepare) {
+          const token = randomToken();
+          const hash = await sha256Hex(token);
+          const expiresAt = Date.now() + OWNER_LOGIN_TOKEN_TTL_MS;
+          await db.prepare("INSERT INTO owner_login_tokens (token_hash, expires_at) VALUES (?, ?)").bind(hash, expiresAt).run();
+          const verifyUrl = `${BRAND.siteUrl}/api/admin/verify?token=${encodeURIComponent(token)}`;
+          await sendEmail(env, {
+            to: ownerEmail,
+            subject: "St. Expedite Press admin sign-in link",
+            text: `Sign in: ${verifyUrl}\n\nThis link expires in 15 minutes and can only be used once. If you didn't request this, you can ignore it.`,
+          }).catch((error) => {
+            console.error("Admin login email failed", { message: error instanceof Error ? error.message : String(error) });
+          });
+        }
+        // Same response whether or not the address matched, so this route can't be used to confirm the owner's email.
+        return withCors(request, ok({ sent: true }));
+      }
+
+      if (url.pathname === "/api/admin/logout") {
+        if (await requireOwnerSession(request, env)) {
+          const token = parseCookies(request)[OWNER_SESSION_COOKIE];
+          const db = env.DB;
+          if (token && db?.prepare) {
+            await db.prepare("DELETE FROM owner_sessions WHERE session_hash = ?").bind(await sha256Hex(token)).run();
+          }
+        }
+        return withSetCookie(withCors(request, ok({ loggedOut: true })), clearOwnerSessionCookieHeader());
+      }
+
+      // Owner-gated admin mutations (moderation, model allow-list, visitor suspension).
+      if (url.pathname.startsWith("/api/admin/") && url.pathname !== "/api/admin/login" && url.pathname !== "/api/admin/logout") {
+        if (!(await requireOwnerSession(request, env))) return withCors(request, errorResponse("Unauthorized", 401));
+        const db = env.DB;
+        if (!db?.prepare) return withCors(request, errorResponse("Not configured", 500));
+
+        if (url.pathname.startsWith("/api/admin/presets/") && url.pathname.endsWith("/moderate")) {
+          const presetId = url.pathname.slice("/api/admin/presets/".length, -"/moderate".length);
+          const action = String(body.action ?? "");
+          if (action !== "approve" && action !== "reject") return withCors(request, errorResponse("Invalid action", 400));
+          const exists = await db.prepare("SELECT id FROM presets WHERE id = ? LIMIT 1").bind(presetId).first<{ id: string }>();
+          if (!exists) return withCors(request, errorResponse("Not found", 404));
+          const newStatus = action === "approve" ? "approved" : "rejected";
+          const note = normalizeNullableText(body.note, 500);
+          await db.prepare("UPDATE presets SET status = ?, updated_at = datetime('now') WHERE id = ?").bind(newStatus, presetId).run();
+          await db.prepare("INSERT INTO preset_moderation (id, preset_id, owner_action, note) VALUES (?, ?, ?, ?)").bind(refId("mod"), presetId, newStatus, note).run();
+          return withCors(request, ok({ status: newStatus }));
+        }
+
+        if (url.pathname === "/api/admin/models") {
+          const label = normalizeSingleLine(body.label, 120);
+          const upstreamRef = normalizeSingleLine(body.upstream_ref ?? body.upstreamRef, 200);
+          if (!label || !upstreamRef) return withCors(request, errorResponse("Missing fields", 400));
+          const enabled = body.enabled === false ? 0 : 1;
+          const providedId = normalizeNullableText(body.id, 120);
+          const id = providedId ?? refId("mdl");
+          await db
+            .prepare(
+              `INSERT INTO preset_models (id, label, upstream_ref, enabled) VALUES (?, ?, ?, ?)
+               ON CONFLICT(id) DO UPDATE SET label = excluded.label, upstream_ref = excluded.upstream_ref, enabled = excluded.enabled`,
+            )
+            .bind(id, label, upstreamRef, enabled)
+            .run();
+          return withCors(request, ok({ id }));
+        }
+
+        if (url.pathname.startsWith("/api/admin/models/") && url.pathname.endsWith("/toggle")) {
+          const modelId = url.pathname.slice("/api/admin/models/".length, -"/toggle".length);
+          const enabled = body.enabled === false ? 0 : 1;
+          await db.prepare("UPDATE preset_models SET enabled = ? WHERE id = ?").bind(enabled, modelId).run();
+          return withCors(request, ok({ id: modelId, enabled: Boolean(enabled) }));
+        }
+
+        if (url.pathname === "/api/admin/graph/build") {
+          try {
+            const result = await buildGraphFromWorks(env, request.signal);
+            return withCors(request, ok({ built: true, ...result }));
+          } catch (error) {
+            console.error("Graph build failed", { message: error instanceof Error ? error.message : String(error) });
+            return withCors(request, errorResponse("Graph build failed", 502));
+          }
+        }
+
+        if (url.pathname === "/api/admin/graph/import") {
+          const graph = coerceGraph(body.entities || body.relations ? body : body.graph ?? {});
+          const result = await replaceGraph(db, graph);
+          return withCors(request, ok({ imported: true, ...result }));
+        }
+
+        if (url.pathname.startsWith("/api/admin/visitors/") && url.pathname.endsWith("/status")) {
+          const accountId = url.pathname.slice("/api/admin/visitors/".length, -"/status".length);
+          const status = String(body.status ?? "");
+          if (status !== "active" && status !== "suspended") return withCors(request, errorResponse("Invalid status", 400));
+          await db.prepare("UPDATE visitor_accounts SET status = ? WHERE id = ?").bind(status, accountId).run();
+          // Suspending hides the account's presets from the public until re-review (kill-switch).
+          if (status === "suspended") {
+            await db.prepare("UPDATE presets SET status = 'pending' WHERE creator_account_id = ? AND status = 'approved'").bind(accountId).run();
+          }
+          return withCors(request, ok({ id: accountId, status }));
+        }
+
+        return withCors(request, errorResponse("Not found", 404));
       }
 
       if (pickHoneypot(body)) {
@@ -1794,6 +2831,10 @@ export default {
       });
       return withCors(request, errorResponse("Internal server error", 500));
     }
+  },
+
+  async scheduled(_event: unknown, env: Env, ctx: ExecutionContext) {
+    ctx.waitUntil(purgeOldChatHistory(env));
   },
 };
 

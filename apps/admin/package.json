@@ -1,0 +1,14 @@
+{
+  "name": "stexpedite-admin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node scripts/build.mjs",
+    "preview": "wrangler pages dev ./dist"
+  },
+  "dependencies": {
+    "astro": "^6.3.7"
+  }
+}

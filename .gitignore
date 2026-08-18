@@ -36,6 +36,9 @@ launch-*.png
 apps/stex/.astro/collections/
 apps/stex/.astro/data-store.json
 apps/stex/.astro/settings.json
+apps/chat/.astro/collections/
+apps/chat/.astro/data-store.json
+apps/chat/.astro/settings.json
 
 # Local IDE and bundler artifacts
 .vscode/

@@ -1,15 +1,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 
 const appRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repoRoot = path.resolve(appRoot, '..', '..');
-const source = path.join(appRoot, 'src');
 const output = path.join(appRoot, 'dist');
 
-await fs.rm(output, { recursive: true, force: true });
-await fs.mkdir(output, { recursive: true });
-await fs.cp(source, output, { recursive: true });
+execFileSync('npx', ['astro', 'build'], { cwd: appRoot, stdio: 'inherit' });
 await fs.copyFile(
   path.join(repoRoot, 'packages', 'chat-client', 'browser.js'),
   path.join(output, 'chat-client.js'),

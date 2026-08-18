@@ -32,11 +32,15 @@ function readRequiredEnv(name) {
   return value;
 }
 
+// Wrangler's `pages project list --json` output shape varies by version: older
+// builds key each row by the API field `name`; 4.110.x keys by the display column
+// `"Project Name"`. Accept either so project detection doesn't silently fail.
+function projectName(entry) {
+  return String(entry?.name ?? entry?.["Project Name"] ?? "").trim();
+}
+
 function formatKnownProjects(projects) {
-  const names = projects
-    .map((entry) => String(entry?.name ?? "").trim())
-    .filter(Boolean)
-    .slice(0, 8);
+  const names = projects.map(projectName).filter(Boolean).slice(0, 8);
 
   return names.length ? names.join(", ") : "none returned";
 }
@@ -78,7 +82,7 @@ async function assertPagesProjectAccess() {
     fail("Wrangler returned an unexpected Cloudflare Pages project list response.");
   }
 
-  const hasProject = projects.some((entry) => String(entry?.name ?? "").trim() === project);
+  const hasProject = projects.some((entry) => projectName(entry) === project);
   if (!hasProject) {
     fail(
       `Cloudflare Pages project "${project}" is not visible with the supplied CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID. Known projects: ${formatKnownProjects(projects)}.`,

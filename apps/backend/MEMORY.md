@@ -1,5 +1,47 @@
 # Backend Worker Memory
 
+## 2026-07-27 — Presets, visitor auth, knowledge graph (8-phase feature)
+
+**Changed:** Migrations `0023–0026`. Visitor magic-link auth (`/api/visitor/*`). Server-resolved multi-model preset pipelines on `/api/chat` (presetId → OpenRouter steps, final streams). Graph grounding injected Worker-side. Preset authoring + portable packets. Admin moderation + model allow-list + visitor suspend. Owner-triggered graph extraction + graph packets. Step-weighted per-identity preset budget (reuses `api_rate_limits`). Full detail in root `MEMORY.md`.
+**Checks:** `npm run test:backend` — 71/71. Migrations executed against real SQLite. Not deployed.
+**Follow-ups:** `wrangler secret put OPENROUTER_API_KEY` + apply `0023–0026` + redeploy before this works in prod. `openapi.yaml` bumped to 1.12.0.
+**Tooling notes:** OpenRouter is the preset/graph upstream (owner key), distinct from the Hermes bridge; the public Hermes profile is unchanged (tool-free, memory-off).
+
+## 2026-07-27 — Deploy — Shipped 2026-07-22's auth/persistence work to production
+
+**Changed:** `wrangler d1 migrations apply --remote` (0021, 0022) then `wrangler deploy --keep-vars`. Full detail in root `MEMORY.md`.
+**Checks:** `GET /api/health` → `ownerAuthConfigured: true`; live `/api/admin/login`, `/api/admin/me`, `/api/chat/history` smoke tests against real D1.
+**Follow-ups:** Cron trigger (`0 9 * * *`, retention purge) is now live — first real run not yet observed, worth checking Cloudflare's cron trigger logs in ~a day.
+**Tooling notes:** none.
+
+## 2026-07-22 — Chat — Conversation persistence + retention purge
+
+**Changed:** Migration `0022_chat_conversations.sql` (`chat_conversations`, `chat_messages`). `POST /api/chat` accepts optional `conversationId`; persists the user turn before the Hermes call and the assistant turn after the SSE stream completes (via a `TransformStream` that passes bytes through unmodified — the existing no-buffering test is the regression guard for that). New `GET /api/chat/history`. New `scheduled()` export + `wrangler.toml` `[triggers]` cron purges rows older than 30 days. Full detail in root `MEMORY.md`.
+**Checks:** `npm run test:backend` — 50/50 pass.
+**Follow-ups:** `[triggers]` only takes effect on next deploy. No live D1/Hermes verification yet.
+**Tooling notes:** `handleChat` and `export default`'s `fetch` both gained an optional `ctx: ExecutionContext` parameter (hand-rolled minimal type, matching this file's existing convention of not depending on `@cloudflare/workers-types`) — optional specifically so the 46 pre-existing tests calling `worker.fetch(req, env)` with two args keep working unchanged.
+
+## 2026-07-22 — Auth — Owner magic-link sessions + `/api/admin/*`
+
+**Changed:** New migration `0021_owner_sessions.sql` (`owner_login_tokens`, `owner_sessions`, both hash-only). New `Env` vars `OWNER_EMAIL`/`ADMIN_APP_URL`. New routes: `POST /api/admin/login`, `GET /api/admin/verify`, `GET /api/admin/me`, `POST /api/admin/logout`, `GET /api/admin/{signups,submissions,donations}` — full detail in root `MEMORY.md`. `withCors`'s `access-control-allow-credentials` is now `true` (was hardcoded `false`) and `https://admin.stexpedite.press` joined the origin allow-list — needed so the new `apps/admin` app's cross-origin `fetch(..., {credentials:"include"})` calls actually carry the session cookie.
+**Checks:** `npm run test:backend` — 46/46 pass.
+**Follow-ups:** `POST /api/admin/login` and `/logout` ride the existing D1 `checkRateLimit` (all POST routes do). The GET routes (`verify`/`me`/`signups`/`submissions`/`donations`) don't — same as every other existing GET route in this file (`checkRateLimit` only runs on the POST branch) — acceptable since they're session-gated, not open, but worth knowing if `/api/admin/verify` token-guessing ever becomes a concern (256-bit random tokens make that impractical today).
+**Tooling notes:** none.
+
+## 2026-07-22 — Security — Timing-safe comparison for `/api/updates/import` auth
+
+**Changed:** `requireImportAuth()` used `===` on the raw `x-import-token` header vs `UPDATES_IMPORT_TOKEN`, which leaks a timing signal via early exit on mismatch. Added `timingSafeEqual()` (SHA-256 digest both sides to a fixed 32 bytes, then a non-short-circuiting XOR compare) and made `requireImportAuth` async; updated its single call site to `await` it. No behavior change, no schema change.
+**Checks:** `npm run test:backend` — 40/40 pass (existing import-auth accept/reject/CORS-preflight tests cover this path already).
+**Follow-ups:** This route still has no expiry/rotation — just a static shared secret, now compared safely rather than unsafely. If an owner-auth system gets built (see root `MEMORY.md` 2026-07-22 entry), this route is a natural candidate to migrate onto it instead of a standalone token.
+**Tooling notes:** none.
+
+## 2026-07-16 — D1 — Recovered missing `api_rate_limits` table in production
+
+**Changed:** `d1_migrations` recorded `0008_api_rate_limits.sql` as applied, but the table did not exist in the live `stexpedite-updates` database — `checkRateLimit()` in `src/index.ts` was silently failing open (rate limiting disabled) on every request instead of erroring loudly. Added append-only `migrations/0020_recreate_api_rate_limits.sql` (`IF NOT EXISTS`-guarded, same shape as 0008) rather than editing the existing migration file.
+**Checks:** Verified locally first (`wrangler d1 migrations apply --local`, confirmed table creation), then applied to remote with explicit authorization; confirmed `api_rate_limits` exists in production afterward via direct query.
+**Follow-ups:** Root cause of the original table's disappearance despite the migration ledger showing it applied was not investigated.
+**Tooling notes:** none.
+
 ## 2026-07-15 — Chat — Per-origin surface allow-list
 
 **Changed:** Replaced the single-forced-surface `surfaceForOrigin` with an allow-list + default per origin (`surfacePolicyForOrigin`). `stexpedite.press`/`www` stay locked to `stex`, `rice.stexpedite.press` to `rice` — unchanged behavior — but `chat.stexpedite.press` may now choose between `openui` (default) and `stex`, making its visitor-facing surface toggle load-bearing instead of cosmetic. No `/api/*` schema change — additive, not breaking. Also updated all three `CHAT_SYSTEM_PROMPTS` to drop stale `/connect` references and point manuscript/human-contact guidance at `https://chat.stexpedite.press`'s Submit work button and `editor@stexpedite.press`.

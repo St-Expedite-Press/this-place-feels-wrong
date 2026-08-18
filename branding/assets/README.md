@@ -29,7 +29,7 @@ Copy from `assets/source/` when preparing an external package:
 - `assets/source/img/covers/lift-wind-cover.jpg`
 - `assets/source/img/covers/lift-wind-cover.webp`
 
-Published copies live under `apps/web/public/assets/` and are synchronized from the source tree.
+Published copies live under `apps/stex/public/assets/` and are synchronized from the source tree.
 
 ## Usage Roles
 

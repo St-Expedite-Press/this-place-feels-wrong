@@ -1,9 +1,9 @@
 openapi: 3.1.0
 info:
   title: St. Expedite Press Communications API
-  version: 1.9.0
+  version: 1.12.0
   description: |
-    Cloudflare Worker API for public chat, contact, submission, donation, storefront, projects, and updates signup flows.
+    Cloudflare Worker API for public chat, contact, submission, donation, storefront, projects, updates signup, and owner admin flows.
     Source implementation: apps/backend/src/index.ts
   license:
     name: Proprietary
@@ -171,6 +171,35 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
         "503":
           description: Hermes endpoint or server credential is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/chat/history:
+    get:
+      tags: [chat]
+      summary: Read a persisted conversation transcript by its client-generated id
+      operationId: getChatHistory
+      description: |
+        Anonymous, unauthenticated by design — the conversationId itself (a 8-64 char opaque
+        client-generated token) is the only access control, the same trust model as an unlisted
+        share link. Returns an empty list for an unknown id rather than a 404, so a client can't
+        distinguish "never existed" from "purged by retention" from "never persisted" (no
+        conversationId was sent on the original /api/chat calls).
+      parameters:
+        - in: query
+          name: conversationId
+          required: true
+          schema: { type: string, minLength: 8, maxLength: 64 }
+      responses:
+        "200":
+          description: Ordered transcript (oldest first), possibly empty
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatHistorySuccess"
+        "400":
+          description: Malformed conversationId
           content:
             application/json:
               schema:
@@ -507,7 +536,325 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /api/admin/login:
+    post:
+      tags: [admin]
+      summary: Request an owner magic-link sign-in email
+      operationId: adminLogin
+      description: |
+        Always returns `{ ok: true, sent: true }` regardless of whether the
+        submitted email matches the Worker's configured `OWNER_EMAIL`, so this
+        route cannot be used to confirm the owner's address. A login link is
+        only actually emailed on a match.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLoginRequest"
+      responses:
+        "200":
+          description: Request accepted (email sent only if the address matched)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminLoginSuccess"
+        "400":
+          description: Invalid JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/admin/verify:
+    get:
+      tags: [admin]
+      summary: Consume a single-use magic-link token and start an owner session
+      operationId: adminVerify
+      parameters:
+        - in: query
+          name: token
+          required: true
+          schema: { type: string }
+      responses:
+        "302":
+          description: Valid token — session cookie set, redirects to ADMIN_APP_URL
+        "401":
+          description: Token missing, unknown, already used, or expired
+          content:
+            text/plain:
+              schema: { type: string }
+  /api/admin/me:
+    get:
+      tags: [admin]
+      summary: Check whether the current request carries a valid owner session
+      operationId: adminMe
+      responses:
+        "200":
+          description: Always 200; `authenticated` reflects session validity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminMeSuccess"
+  /api/admin/logout:
+    post:
+      tags: [admin]
+      summary: End the current owner session
+      operationId: adminLogout
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        "200":
+          description: Session (if any) deleted and cookie cleared
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminLogoutSuccess"
+  /api/admin/signups:
+    get:
+      tags: [admin]
+      summary: Read the updates_signups table
+      operationId: adminSignups
+      security: [{ ownerSession: [] }]
+      parameters:
+        - $ref: "#/components/parameters/AdminLimit"
+        - $ref: "#/components/parameters/AdminOffset"
+      responses:
+        "200":
+          description: Signup rows
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminRowsSuccess"
+        "401":
+          description: No valid owner session cookie
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/admin/submissions:
+    get:
+      tags: [admin]
+      summary: Read the contact_submissions table (metadata only, never manuscript contents)
+      operationId: adminSubmissions
+      security: [{ ownerSession: [] }]
+      parameters:
+        - $ref: "#/components/parameters/AdminLimit"
+        - $ref: "#/components/parameters/AdminOffset"
+      responses:
+        "200":
+          description: Submission rows
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminRowsSuccess"
+        "401":
+          description: No valid owner session cookie
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/admin/donations:
+    get:
+      tags: [admin]
+      summary: Read the donations table
+      operationId: adminDonations
+      security: [{ ownerSession: [] }]
+      parameters:
+        - $ref: "#/components/parameters/AdminLimit"
+        - $ref: "#/components/parameters/AdminOffset"
+      responses:
+        "200":
+          description: Donation rows
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminRowsSuccess"
+        "401":
+          description: No valid owner session cookie
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/visitor/login:
+    post:
+      tags: [visitor]
+      summary: Request a visitor magic-link sign-in email
+      description: Any valid email may sign up. Always returns { ok, sent:true }; a suspended account gets a silent no-op.
+      responses:
+        "200": { description: Accepted }
+  /api/visitor/verify:
+    get:
+      tags: [visitor]
+      summary: Consume a visitor magic-link token, create the account on first login, set the session cookie
+      parameters: [{ in: query, name: token, required: true, schema: { type: string } }]
+      responses:
+        "302": { description: Valid — cookie set, redirect to CHAT_APP_URL }
+        "401": { description: Invalid/expired/used token, or suspended account }
+  /api/visitor/me:
+    get:
+      tags: [visitor]
+      summary: Report whether the request carries a valid visitor session
+      responses:
+        "200": { description: "{ authenticated, email }" }
+  /api/visitor/logout:
+    post:
+      tags: [visitor]
+      summary: End the current visitor session
+      responses:
+        "200": { description: Session cleared }
+  /api/presets:
+    get:
+      tags: [presets]
+      summary: List presets — approved ones for everyone, plus the caller's own drafts when signed in
+      responses:
+        "200": { description: "{ presets: [...] }" }
+  /api/preset-models:
+    get:
+      tags: [presets]
+      summary: List owner-enabled models available to presets (visitor-gated)
+      security: [{ visitorSession: [] }]
+      responses:
+        "200": { description: "{ models: [{id,label}] }" }
+        "401": { description: No visitor session }
+  /api/presets/create:
+    post:
+      tags: [presets]
+      summary: Create a private draft preset (visitor-gated). Steps reference model_id from the allow-list.
+      security: [{ visitorSession: [] }]
+      responses:
+        "200": { description: "{ id, status: draft }" }
+        "400": { description: Invalid preset or unknown/disabled model }
+        "401": { description: No visitor session }
+  /api/presets/import:
+    post:
+      tags: [presets]
+      summary: Import a portable preset packet as a private draft, mapping model_ref labels to allow-listed models
+      security: [{ visitorSession: [] }]
+      responses:
+        "200": { description: "{ id, status: draft }" }
+        "400": { description: Invalid packet or unknown model_ref }
+        "401": { description: No visitor session }
+  /api/presets/{id}/export:
+    get:
+      tags: [presets]
+      summary: Export a preset as a portable packet (own preset, or any approved one). model_ref carries the public label, not the internal upstream ref.
+      parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses:
+        "200": { description: preset packet }
+        "404": { description: Not available }
+  /api/presets/{id}/submit:
+    post:
+      tags: [presets]
+      summary: Submit the caller's own draft/rejected preset for owner review (→ pending)
+      security: [{ visitorSession: [] }]
+      parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses:
+        "200": { description: "{ status }" }
+        "401": { description: No visitor session }
+        "404": { description: Not the caller's preset }
+  /api/admin/presets/pending:
+    get:
+      tags: [admin]
+      summary: List presets awaiting moderation (owner-gated)
+      security: [{ ownerSession: [] }]
+      responses:
+        "200": { description: rows }
+        "401": { description: No owner session }
+  /api/admin/presets/{id}/detail:
+    get:
+      tags: [admin]
+      summary: Owner view of any preset (packet) for review
+      security: [{ ownerSession: [] }]
+      parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses:
+        "200": { description: preset packet }
+  /api/admin/presets/{id}/moderate:
+    post:
+      tags: [admin]
+      summary: Approve or reject a preset (owner-gated); logged to preset_moderation
+      security: [{ ownerSession: [] }]
+      parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses:
+        "200": { description: "{ status }" }
+        "400": { description: Invalid action }
+        "401": { description: No owner session }
+  /api/admin/models:
+    get:
+      tags: [admin]
+      summary: List the full model allow-list incl. disabled (owner-gated)
+      security: [{ ownerSession: [] }]
+      responses:
+        "200": { description: rows }
+    post:
+      tags: [admin]
+      summary: Add or update an allow-listed model (owner-gated)
+      security: [{ ownerSession: [] }]
+      responses:
+        "200": { description: "{ id }" }
+  /api/admin/models/{id}/toggle:
+    post:
+      tags: [admin]
+      summary: Enable/disable an allow-listed model (owner-gated)
+      security: [{ ownerSession: [] }]
+      parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses:
+        "200": { description: "{ id, enabled }" }
+  /api/admin/visitors/{id}/status:
+    post:
+      tags: [admin]
+      summary: Set a visitor account active/suspended (owner-gated). Suspending un-approves that account's public presets.
+      security: [{ ownerSession: [] }]
+      parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses:
+        "200": { description: "{ id, status }" }
+  /api/admin/graph/build:
+    post:
+      tags: [admin]
+      summary: Owner-triggered knowledge-graph extraction over the works catalog (OpenRouter). Rebuilds kb_entities/kb_relations.
+      security: [{ ownerSession: [] }]
+      responses:
+        "200": { description: "{ built, entities, relations }" }
+        "502": { description: Extraction failed }
+  /api/admin/graph/export:
+    get:
+      tags: [admin]
+      summary: Export the knowledge graph as a portable packet (owner-gated)
+      security: [{ ownerSession: [] }]
+      responses:
+        "200": { description: knowledge-graph packet }
+  /api/admin/graph/import:
+    post:
+      tags: [admin]
+      summary: Replace the knowledge graph from a portable packet (owner-gated). Dangling relations are dropped.
+      security: [{ ownerSession: [] }]
+      responses:
+        "200": { description: "{ imported, entities, relations }" }
 components:
+  parameters:
+    AdminLimit:
+      in: query
+      name: limit
+      required: false
+      schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+    AdminOffset:
+      in: query
+      name: offset
+      required: false
+      schema: { type: integer, minimum: 0, default: 0 }
+  securitySchemes:
+    ownerSession:
+      type: apiKey
+      in: cookie
+      name: stex_owner_session
+      description: Set by GET /api/admin/verify after a successful magic-link login.
+    visitorSession:
+      type: apiKey
+      in: cookie
+      name: stex_visitor_session
+      description: Set by GET /api/visitor/verify after a successful visitor magic-link login.
   schemas:
     ChatTextPart:
       type: object
@@ -585,6 +932,22 @@ components:
           type: string
           maxLength: 2048
           description: Turnstile token alias
+        conversationId:
+          type: string
+          maxLength: 128
+          description: |
+            Optional client-generated opaque id (8-64 chars, [a-zA-Z0-9-]) used to persist this
+            turn to D1 for later retrieval via GET /api/chat/history. Purely additive — omitting
+            it (or sending a malformed value) changes nothing about how the request is answered,
+            it just isn't logged. Never treated as an identity or session token.
+        presetId:
+          type: string
+          maxLength: 128
+          description: |
+            Optional preset id. When present and resolvable (an approved preset, or the signed-in
+            visitor's own), the Worker runs that preset's server-resolved multi-model pipeline
+            instead of the default Hermes bridge; only the final step streams back. Never a
+            client-supplied prompt — just an id the Worker resolves server-side.
     ContactRequest:
       type: object
       required: [email, message]
@@ -999,7 +1362,7 @@ components:
     HealthSuccess:
       type: object
       additionalProperties: false
-      required: [ok, service, dbConfigured, dbReachable, resendConfigured, stripeConfigured, storefrontConfigured, importConfigured, now]
+      required: [ok, service, dbConfigured, dbReachable, resendConfigured, stripeConfigured, storefrontConfigured, importConfigured, ownerAuthConfigured, now]
       properties:
         ok:
           type: boolean
@@ -1019,9 +1382,87 @@ components:
           type: boolean
         importConfigured:
           type: boolean
+        ownerAuthConfigured:
+          type: boolean
         now:
           type: string
           format: date-time
+    AdminLoginRequest:
+      type: object
+      additionalProperties: false
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+    AdminLoginSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, sent]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        sent:
+          type: boolean
+          const: true
+    AdminMeSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, authenticated]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        authenticated:
+          type: boolean
+    AdminLogoutSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, loggedOut]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        loggedOut:
+          type: boolean
+          const: true
+    AdminRowsSuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, rows]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        rows:
+          type: array
+          items:
+            type: object
+    ChatHistorySuccess:
+      type: object
+      additionalProperties: false
+      required: [ok, messages]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        messages:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [role, content, created_at]
+            properties:
+              role:
+                type: string
+                enum: [user, assistant]
+              content:
+                type: string
+                description: Plain text only — image attachments are stored as a "[image attached]" placeholder, never as image bytes.
+              created_at:
+                type: string
+                format: date-time
     ProjectEntry:
       type: object
       additionalProperties: false

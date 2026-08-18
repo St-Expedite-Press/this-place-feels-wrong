@@ -4,7 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "astro dev",
     "build": "node scripts/build.mjs",
-    "dev": "node scripts/build.mjs && npx wrangler pages dev ./dist"
+    "preview": "wrangler pages dev ./dist"
+  },
+  "dependencies": {
+    "astro": "^6.3.7"
   }
 }

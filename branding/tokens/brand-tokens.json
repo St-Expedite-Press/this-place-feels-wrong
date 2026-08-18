@@ -4,10 +4,10 @@
   "lastUpdated": "2026-05-31",
   "description": "Portable design tokens for the St. Expedite Press brand package. --brand-* names are the design vocabulary; branding/tokens/brand-tokens.css declares both --brand-* and the implementation aliases used by the live site.",
   "sourceFiles": [
-    "apps/web/public/assets/css/tokens.css",
-    "apps/web/public/assets/css/interior-base.css",
-    "apps/web/public/assets/css/components.css",
-    "apps/web/public/assets/css/layout.css"
+    "apps/stex/public/assets/css/tokens.css",
+    "apps/stex/public/assets/css/interior-base.css",
+    "apps/stex/public/assets/css/components.css",
+    "apps/stex/public/assets/css/layout.css"
   ],
   "color": {
     "void": {

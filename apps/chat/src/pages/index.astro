@@ -1,3 +1,5 @@
+---
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,9 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Chat with St. Expedite Press, or submit a manuscript directly to the editor.">
   <meta name="chat-endpoint" content="https://stexpedite.press/api/chat">
+  <meta name="chat-history-endpoint" content="https://stexpedite.press/api/chat/history">
   <meta name="submission-endpoint" content="https://stexpedite.press/api/submit">
+  <meta name="updates-endpoint" content="https://stexpedite.press/api/updates">
+  <meta name="api-base" content="https://stexpedite.press">
   <meta name="turnstile-sitekey" content="0x4AAAAAADc-GOYeYwVaZA_I">
   <title>Chat — St. Expedite Press</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <script src="chat-client.js" defer></script>
   <script src="app.js" defer></script>
@@ -21,12 +27,52 @@
       </a>
       <button class="new-chat" type="button" data-new-chat>+ New conversation</button>
       <button class="submission-button" type="button" data-open-submission>Submit work</button>
+      <div class="session-transfer">
+        <button class="new-chat" type="button" data-download-chat>Download conversation</button>
+        <button class="new-chat" type="button" data-upload-chat>Upload conversation</button>
+        <input type="file" accept="application/json" data-upload-input hidden>
+      </div>
+      <p class="session-transfer__note">Your own copy of this transcript &mdash; download it, or upload one to pick a conversation back up. Uploading never sends anything to us; it only redraws this page.</p>
       <nav aria-label="Chat mode">
         <p class="rail__label">Mode</p>
         <button class="surface is-active" type="button" data-surface="openui" aria-pressed="true">General chat</button>
         <button class="surface" type="button" data-surface="stex" aria-pressed="false">Ask about the press</button>
       </nav>
+
+      <div class="presets" data-presets-block>
+        <p class="rail__label">Assistant preset</p>
+        <label class="sr-only" for="preset-select">Assistant preset</label>
+        <select id="preset-select" data-preset-select>
+          <option value="">Default (no preset)</option>
+        </select>
+        <div class="presets__auth" data-visitor-auth>
+          <form data-visitor-login-form>
+            <label class="sr-only" for="visitor-email">Email</label>
+            <div class="updates-inline__row">
+              <input id="visitor-email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="320" placeholder="Sign in to build presets">
+              <button type="submit" aria-label="Send sign-in link">&rarr;</button>
+            </div>
+          </form>
+          <p class="presets__status" data-visitor-status aria-live="polite"></p>
+        </div>
+        <div class="presets__authed" data-visitor-authed hidden>
+          <p class="rail__note" data-visitor-email></p>
+          <button class="new-chat" type="button" data-open-preset-builder>Build a preset</button>
+          <button class="new-chat" type="button" data-visitor-logout>Sign out</button>
+        </div>
+      </div>
+
       <p class="rail__note">Submit work sends your manuscript straight to the editor; the chat never sees the file. Ask about the press can also give you a human email address.</p>
+
+      <form class="updates-inline" data-updates-form novalidate>
+        <label class="rail__label" for="updates-email">Get updates on new releases</label>
+        <div class="updates-inline__row">
+          <input id="updates-email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="320" placeholder="you@example.com">
+          <input class="sr-only" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" aria-label="Sign up for updates">&rarr;</button>
+        </div>
+        <p class="updates-inline__status" data-updates-status aria-live="polite"></p>
+      </form>
     </aside>
 
     <main class="workspace">
@@ -81,6 +127,26 @@
       <div data-submission-turnstile aria-label="Human verification"></div>
       <button class="submission-send" type="submit" data-submission-send>Forward to editor</button>
       <p class="submission-status" data-submission-status role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <dialog class="submission-dialog" data-preset-dialog aria-labelledby="preset-title">
+    <form data-preset-form method="dialog">
+      <h2 id="preset-title">Build a preset</h2>
+      <p class="rail__note">A preset is a persona plus an ordered pipeline of models. It's private to you until an editor approves it for the public list. You can also import a preset file.</p>
+      <label for="preset-name">Name</label>
+      <input id="preset-name" name="name" type="text" maxlength="120" required>
+      <label for="preset-persona">Persona (shared framing for every step)</label>
+      <textarea id="preset-persona" name="persona_prompt" rows="3" maxlength="4000"></textarea>
+      <div data-preset-steps></div>
+      <button type="button" class="new-chat" data-add-step>+ Add step</button>
+      <p class="submission-status" data-preset-status aria-live="polite"></p>
+      <div class="submission-actions">
+        <input type="file" accept="application/json" data-preset-import-input hidden>
+        <button type="button" class="new-chat" data-preset-import>Import file…</button>
+        <button type="button" class="new-chat" data-preset-close>Cancel</button>
+        <button type="submit" class="submission-send">Save draft</button>
+      </div>
     </form>
   </dialog>
 </body>

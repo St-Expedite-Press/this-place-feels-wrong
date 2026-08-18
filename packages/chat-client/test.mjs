@@ -23,6 +23,18 @@ assert.deepEqual(request, {
   turnstileToken: 'token',
 });
 
+const requestWithConversation = chat.requestBody('openui', [{ role: 'user', content: 'hello' }], 'token', 'abc-123');
+assert.deepEqual(requestWithConversation, {
+  surface: 'openui',
+  messages: [{ role: 'user', content: 'hello' }],
+  turnstileToken: 'token',
+  conversationId: 'abc-123',
+});
+
+const requestWithPreset = chat.requestBody('openui', [{ role: 'user', content: 'hello' }], 'token', 'abc-123', 'preset_x');
+assert.equal(requestWithPreset.presetId, 'preset_x');
+assert.equal(chat.requestBody('openui', [{ role: 'user', content: 'hi' }], 't').presetId, undefined);
+
 const encoder = new TextEncoder();
 const chunks = [
   'data: {"choices":[{"delta":{"content":"Os"}}]}\n',

@@ -1,6 +1,6 @@
 # St. Expedite Press — Phase Plan
 
-**Last updated:** 2026-07-14
+**Last updated:** 2026-07-27
 
 ## Current program — Osiris consolidation 🚧 IN PROGRESS
 
@@ -9,8 +9,20 @@
 | Explicit app roots: St. Expedite, RICE, chat, backend | ✅ Foundation complete |
 | Shared chat transport and versioned request/content schemas | ✅ Foundation complete |
 | Public-guide and owner-worker agent policies/evals | ✅ Foundation complete |
-| Backend route modularization and grounded public context | ⬜ Next |
+| Backend route modularization and grounded public context | ⬜ Next — see sub-plan below; supersedes this row's original scope |
 | Separate-OS-user public Hermes hardening | ⬜ Post-launch hardening; isolated profile/listener verified |
+
+### Sub-plan — Owner auth, chat persistence & KB grounding (from 2026-07-22 audit)
+
+Full findings: [`audit/2026-07-22-backend-auth-chat-audit.md`](audit/2026-07-22-backend-auth-chat-audit.md).
+
+| Task | Status |
+|---|---|
+| Harden `/api/updates/import` shared-secret comparison (timing-safe) | ✅ Done 2026-07-22 |
+| Owner auth + read view for `updates_signups`/`contact_submissions`/`donations` | ✅ Done — built 2026-07-22, deployed live 2026-07-27 (`admin.stexpedite.press`, `deploy-admin.yml`) |
+| Chat conversation persistence + in-chat email-capture moment | ✅ Done 2026-07-22 — D1-backed, keyed by a client-generated `conversationId` (not a cookie — simpler, avoids new CORS/session complexity for chat specifically); inline signup form calls `/api/updates` directly |
+| Chat knowledge-base grounding (in-Worker D1 FTS5 over `works` + site copy) | ⬜ Planned |
+| Backend modularization (`apps/backend/src/index.ts` → multiple files) | ⬜ Planned — threaded through the above rather than done as a separate pass |
 | Preview chat deployment and canary | ✅ Pages, custom DNS, CORS, and edge smoke checks passed |
 | Commit/push and sequential production release | ✅ Commit `1ce33e5`; all four deployment workflows passed |
 | Canonical consolidated source checkout on EC2 | ✅ Active at `/home/ec2-user/src/this-place-feels-wrong`; prior base commit remains in Git history, but its uncommitted overlay was not retained by the attempted archive move |
