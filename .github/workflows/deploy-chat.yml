@@ -17,8 +17,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
+          cache: npm
+      - run: npm ci
       - run: npm run build:chat
       - run: node --check apps/chat/dist/app.js
+      - run: node --check apps/chat/dist/profiles-ui.js
 
   deploy:
     if: github.event_name == 'workflow_dispatch'
@@ -32,6 +35,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
+          cache: npm
+      - run: npm ci
       - run: npm run build:chat
       - name: Deploy chat to Cloudflare Pages
         env:
