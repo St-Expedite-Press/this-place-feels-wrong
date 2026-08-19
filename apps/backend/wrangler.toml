@@ -1,5 +1,5 @@
 name = "stexpedite-communications"
-main = "src/index.ts"
+main = "src/profile-entry.ts"
 compatibility_date = "2026-05-01"
 routes = [
   { pattern = "stexpedite.press/api/*", zone_name = "stexpedite.press" },
@@ -18,7 +18,9 @@ OWNER_EMAIL = "editor@stexpedite.press"
 ADMIN_APP_URL = "https://admin.stexpedite.press"
 # Where /api/visitor/verify redirects after a successful visitor sign-in.
 CHAT_APP_URL = "https://chat.stexpedite.press"
-# Step-weighted per-identity budget for preset pipelines, per rate-limit window.
+# Maximum private Hermes assistants a visitor account may provision.
+PROFILE_LIMIT_PER_ACCOUNT = "8"
+# Legacy preset budget remains during the compatibility window only.
 PRESET_STEP_BUDGET = "40"
 
 # Secrets (set via `wrangler secret put <NAME>` — NOT in this file):
@@ -26,13 +28,16 @@ PRESET_STEP_BUDGET = "40"
 #   STRIPE_WEBHOOK_SECRET  — Stripe webhook signing secret (whsec_...)
 #   RESEND_API_KEY         — Resend API key for transactional email
 #   FOURTHWALL_API_KEY     — Fourthwall storefront API key
-#   TURNSTILE_SECRET       - Cloudflare Turnstile secret (required before public chat release)
-#   UPDATES_IMPORT_TOKEN   - Bearer token for /api/updates/import
-#   OPENROUTER_API_KEY     - powers preset pipelines (/api/chat with a presetId) and graph extraction (/api/admin/graph/build)
+#   TURNSTILE_SECRET       — Cloudflare Turnstile secret
+#   UPDATES_IMPORT_TOKEN   — Bearer token for /api/updates/import
+#   OPENROUTER_API_KEY     — legacy preset pipeline + graph extraction only; remove after preset cutover
+#   HERMES_PROFILE_SERVICE_KEY — Worker-to-profile-service bearer token
 
-# Public chat bridge configuration (leave unset until the isolated public Hermes profile exists):
-#   HERMES_API_URL         - non-secret full HTTPS chat-completions endpoint
-#   HERMES_API_KEY         - dedicated public-profile bearer token (set with wrangler secret put)
+# Public Hermes bridge. HERMES_API_URL/HERMES_API_KEY remain as the default-profile
+# fallback until the profile service is deployed and verified.
+#   HERMES_API_URL             — current stexpedite-public chat-completions endpoint
+#   HERMES_API_KEY             — current stexpedite-public bearer token
+#   HERMES_PROFILE_SERVICE_URL — private authenticated profile service origin
 
 [[d1_databases]]
 binding = "DB"
