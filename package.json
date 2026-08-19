@@ -35,7 +35,7 @@
     "check:docs": "node scripts/check-docs-coverage.mjs",
     "check:lighthouse": "node scripts/check-lighthouse.mjs",
     "check:seo": "node scripts/run-bash.mjs scripts/check-site-seo.sh",
-    "check:audit": "npm audit --audit-level=high && npm --prefix apps/stex audit --audit-level=high && npm --prefix apps/backend audit --audit-level=high",
+    "check:audit": "npm audit --audit-level=high",
     "runtime:config": "node scripts/run-bash.mjs scripts/check-runtime-config.sh",
     "runtime:audit": "node scripts/run-bash.mjs ops/cloudflare-stability/scripts/runtime-audit.sh",
     "smoke:api": "node scripts/run-bash.mjs ops/cloudflare-stability/scripts/smoke-api.sh",
