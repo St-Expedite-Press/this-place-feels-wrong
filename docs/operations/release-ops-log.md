@@ -49,3 +49,12 @@ Historical note: entries before the 2026-03-16 repo refactor may refer to the ol
   - runtime audit script executed
   - API smoke script executed
 - Scope: Cloudflare Worker + D1 + API runtime
+
+## 2026-08-19T21:08:04Z
+- Commit: `9f1b1ec`
+- Checks:
+  - CI Validate passed on `e370aaf` (build, lint:html, check:links, check:a11y, worker tests, audit)
+  - Pages deploy verified live: 10 wing pages 200, 18 legacy redirects 301 to correct targets
+  - Worker smoke: /api/health, /api/works?program=rice, /api/storefront all 200
+  - Live browser render of / at 1440x900 and 390x844, no page errors
+- Scope: Press/Lab wing restructure — Pages (stexpedite-press) + Worker (stexpedite-communications, version 89d0afe3-44e7-4106-89d7-9647f89529f9)
