@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="chat-client.js" defer></script>
   <script src="app.js" defer></script>
+  <script src="profiles-ui.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#composer">Skip to message</a>
@@ -62,12 +63,12 @@
         </div>
       </div>
 
-      <p class="rail__note">Submit work sends your manuscript straight to the editor; the chat never sees the file. Ask about the press can also give you a human email address.</p>
+      <p class="rail__note">Submit work sends your manuscript straight to the editor; the chat never sees the file. The public assistant can also give you a human email address.</p>
 
       <form class="updates-inline" data-updates-form novalidate>
         <label class="rail__label" for="updates-email">Get updates on new releases</label>
         <div class="updates-inline__row">
-          <input id="updates-email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="320" placeholder="you@example.com">
+          <input id="updates-email" name="email" type="email" inputmode="email" autocomplete="off" required maxlength="320" placeholder="you@example.com">
           <input class="sr-only" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" aria-label="Sign up for updates">&rarr;</button>
         </div>
@@ -77,14 +78,14 @@
 
     <main class="workspace">
       <header class="topbar">
-        <div><span class="eyebrow">PUBLIC LLM / HERMES</span><h1 data-title>Start a conversation</h1></div>
-        <span class="status-dot"><i></i> Public profile</span>
+        <div><span class="eyebrow">ST. EXPEDITE / CHAT</span><h1 data-title>Start a conversation</h1></div>
+        <span class="status-dot"><i></i> Public assistant</span>
       </header>
 
       <section class="conversation" data-transcript role="log" aria-live="polite" aria-relevant="additions text">
         <article class="message message--assistant" data-greeting>
           <span class="avatar" aria-hidden="true">AI</span>
-          <div><strong>Public assistant</strong><p data-greeting-text>Ask a question, work through an idea, or start with a blank page.</p></div>
+          <div><strong>Public assistant</strong><p data-greeting-text>Ask a question, work through an idea, or ask about St. Expedite Press.</p></div>
         </article>
       </section>
 
@@ -95,7 +96,7 @@
             <button type="button" class="attachment-remove" data-attachment-remove aria-label="Remove attached image">×</button>
           </div>
           <label class="sr-only" for="message">Message</label>
-          <textarea id="message" rows="2" maxlength="1000" placeholder="Message the public assistant" data-input></textarea>
+          <textarea id="message" rows="2" maxlength="1000" placeholder="Message the assistant" data-input></textarea>
           <div class="composer__controls">
             <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" data-image-input hidden>
             <button type="button" class="attach-button" data-attach-image aria-label="Attach an image">📎</button>
@@ -132,20 +133,20 @@
 
   <dialog class="submission-dialog" data-preset-dialog aria-labelledby="preset-title">
     <form data-preset-form method="dialog">
-      <h2 id="preset-title">Build a preset</h2>
-      <p class="rail__note">A preset is a persona plus an ordered pipeline of models. It's private to you until an editor approves it for the public list. You can also import a preset file.</p>
-      <label for="preset-name">Name</label>
+      <h2 id="preset-title">Build an assistant</h2>
+      <p class="rail__note">Create a private Hermes assistant. Choose a main model and optionally a separate model Hermes may use for delegated subtasks.</p>
+      <label for="preset-name">Assistant name</label>
       <input id="preset-name" name="name" type="text" maxlength="120" required>
-      <label for="preset-persona">Persona (shared framing for every step)</label>
-      <textarea id="preset-persona" name="persona_prompt" rows="3" maxlength="4000"></textarea>
+      <label for="preset-persona">Instructions</label>
+      <textarea id="preset-persona" name="persona_prompt" rows="3" maxlength="4000" placeholder="How should this assistant behave?"></textarea>
       <div data-preset-steps></div>
-      <button type="button" class="new-chat" data-add-step>+ Add step</button>
+      <button type="button" class="new-chat" data-add-step>+ Add delegation model</button>
       <p class="submission-status" data-preset-status aria-live="polite"></p>
       <div class="submission-actions">
         <input type="file" accept="application/json" data-preset-import-input hidden>
-        <button type="button" class="new-chat" data-preset-import>Import file…</button>
+        <button type="button" class="new-chat" data-preset-import hidden>Import file…</button>
         <button type="button" class="new-chat" data-preset-close>Cancel</button>
-        <button type="submit" class="submission-send">Save draft</button>
+        <button type="submit" class="submission-send">Create assistant</button>
       </div>
     </form>
   </dialog>
