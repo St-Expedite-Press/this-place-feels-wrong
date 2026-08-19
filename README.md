@@ -1,91 +1,118 @@
 # St. Expedite Press — monorepo
 
-Proprietary monorepo for five St. Expedite products plus their shared contracts
-and Osiris agent control plane.
+Proprietary monorepo for five St. Expedite products plus their shared contracts and agent/runtime configuration.
 
 | App | Path | Production | Stack |
 |---|---|---|---|
 | St. Expedite | `apps/stex/` | [stexpedite.press](https://stexpedite.press) | Astro → Cloudflare Pages |
 | RICE | `apps/rice/` | [rice.stexpedite.press](https://rice.stexpedite.press) | Static + Python build → Cloudflare Pages |
-| Chat | `apps/chat/` | preview pending | Static OpenUI-style client → Cloudflare Pages |
+| Chat | `apps/chat/` | [chat.stexpedite.press](https://chat.stexpedite.press) | Static Astro client → Cloudflare Pages |
 | Admin | `apps/admin/` | [admin.stexpedite.press](https://admin.stexpedite.press) | Single-owner dashboard, Astro → Cloudflare Pages |
 | Backend | `apps/backend/` | `stexpedite.press/api/*` | Cloudflare Worker + D1 |
 
-RICE calls the Worker's works, updates, and public-chat routes. The public chat
-surface is shared by both sites and reaches only the isolated, read-only Hermes
-profile through the Worker; the owner/deployment profile is never public.
+The private owner/deployment Hermes profile is never exposed to public chat.
+
+## Chat architecture
+
+The standalone chat is migrating to a simple rule: **one selectable assistant = one Hermes profile**.
+
+Anonymous visitors use the locked `stexpedite-public` Hermes profile. It is a general-purpose assistant that also receives verified public St. Expedite/RICE context from the Worker when relevant. Authenticated visitors may create and select private Hermes profiles that they own. The Worker authorizes and routes profiles; it does not give the browser Hermes/provider credentials or privileged tool access.
+
+Current migration structure:
+
+```text
+chat.stexpedite.press
+        |
+        v
+Cloudflare Worker
+  auth / limits / D1 transcript / profile ownership
+        |
+        v
+private Hermes profile service
+        |
+        +--> stexpedite-public
+        |
+        +--> user-* Hermes profile
+```
+
+The first implementation uses one loopback Hermes API server per visitor profile. See [`ops/hermes/README.md`](ops/hermes/README.md) for provisioning and security boundaries. The baseline policy applied to visitor-created profiles is [`agents/user-profile/BASE.md`](agents/user-profile/BASE.md).
+
+Embedded St. Expedite and RICE chat surfaces remain on their existing bounded `surface` behavior during this migration. Legacy Worker-executed preset pipelines remain only for unmigrated preset IDs and should not receive new features.
 
 ## Command surface
 
-One command surface drives all five products from the repo root:
+One command surface drives all products from the repo root:
 
 ```bash
 # dev
-npm run dev:web        # Astro dev server (:4321)
-npm run dev:rice       # RICE static server (:4173)
-npm run dev:chat       # full-page public chat client
-npm run dev:admin      # owner admin dashboard
-npm run dev:worker     # Wrangler dev (Worker)
+npm run dev:web
+npm run dev:rice
+npm run dev:chat
+npm run dev:admin
+npm run dev:worker
 
 # build
-npm run build:web      # or: npm run build
+npm run build:web
 npm run build:rice
 npm run build:chat
 npm run build:admin
 npm run build:all
 
-# deploy (Cloudflare Pages, one token)
+# deploy — explicit only
 npm run deploy:web
 npm run deploy:rice
-npm run deploy:chat    # explicit preview/release action
+npm run deploy:chat
 npm run deploy:admin
 npm run deploy:all
 npm run deploy:worker
 
 # checks
-npm run check          # web gate: build + html + links + a11y + worker tests + audit
-npm run check:rice     # RICE asset integrity
-npm run check:docs     # documentation coverage (no orphaned docs)
+npm run check
+npm run check:rice
+npm run check:docs
+npm run test:backend
+npm run test:chat-client
 ```
 
-Deploy auth: `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`. CI deploys each
-app independently via path-filtered workflows in `.github/workflows/`.
+Deploy auth uses `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`. CI deploy workflows remain path-filtered and explicit; pull-request validation must not deploy production resources.
 
 ## Routes
 
-**Web (`apps/stex`):** `/` · `/books` · `/about` · `/work` · `/gallery` (Store) · `/donate` (+ `/donate/thanks`); `/services`,`/lab`,`/submit`,`/contact`,`/connect` redirect (`/connect` → `https://chat.stexpedite.press`).
-**RICE (`apps/rice`):** `/` (Seed) · `/splash` · `/project` · essays/fiction/poetry/archive + sample pages.
-**Chat (`apps/chat`):** the site's single intake surface — general chat / press knowledge-base toggle, a manuscript Submit work dialog, and an inline updates-signup form; conversation persists across a page refresh via a client-generated `conversationId`; calls `/api/chat`, `/api/chat/history`, `/api/submit`, and `/api/updates`.
-**Admin (`apps/admin`):** single-owner dashboard, magic-link auth, read-only view of newsletter signups, contact/submission log, and donations; live at admin.stexpedite.press.
-**Worker API:** `GET /api/health` · `GET /api/storefront` · `GET /api/projects` · `GET /api/works` · `POST /api/chat` · `GET /api/chat/history` · `POST /api/contact` · `POST /api/submit` · `POST /api/donate/session` · `POST /api/stripe/webhook` · `POST /api/updates` · `POST /api/updates/import` · `POST /api/updates/unsubscribe` · `POST /api/admin/login` · `GET /api/admin/verify` · `GET /api/admin/me` · `POST /api/admin/logout` · `GET /api/admin/{signups,submissions,donations}` · `POST /api/visitor/{login,logout}` · `GET /api/visitor/{verify,me}` · `GET /api/presets` · `GET /api/preset-models` · `POST /api/presets/{create,import}` · `GET|POST /api/presets/{id}/{export,submit}` · `GET|POST /api/admin/{presets/*,models,models/*/toggle,visitors/*/status,graph/*}`.
+**Web (`apps/stex`):** `/` · `/books` · `/about` · `/work` · `/gallery` · `/donate`; legacy convenience routes redirect as documented in `ONTOLOGY.md`.
+
+**RICE (`apps/rice`):** `/` · `/splash` · `/project` · essays/fiction/poetry/archive + sample pages.
+
+**Chat (`apps/chat`):** standalone assistant client, manuscript submission, transcript download/upload, visitor sign-in, private assistant creation/selection, and updates signup. The browser calls first-party Worker routes only.
+
+**Admin (`apps/admin`):** single-owner, magic-link-gated administration for signups/submissions/donations plus the existing model/preset/graph controls while migration is incomplete.
+
+**Worker API:** see [`apps/backend/openapi.yaml`](apps/backend/openapi.yaml). Profile-native chat adds `/api/profiles`, `/api/profile-models`, `/api/profiles/create`, and profile-aware `/api/chat`; legacy preset routes remain during the compatibility window.
 
 Full route/ownership map: [`ONTOLOGY.md`](ONTOLOGY.md).
 
 ## Documentation
 
-**All documentation is indexed in one hub: [`docs/README.md`](docs/README.md).**
-It links every reference doc (framework, per-app, deployment/ops, brand, press)
-and declares the per-directory conventions below. Coverage is enforced by
-`npm run check:docs`.
+All documentation is indexed in [`docs/README.md`](docs/README.md), with coverage enforced by `npm run check:docs`.
 
-Framework entrypoints: [`AGENTS.md`](AGENTS.md) (agent doctrine) ·
-[`ONTOLOGY.md`](ONTOLOGY.md) (navigation map) · [`CLAUDE.md`](CLAUDE.md)
-(Claude Code) · [`MEMORY.md`](MEMORY.md) (change log).
+Framework entrypoints: [`AGENTS.md`](AGENTS.md) · [`ONTOLOGY.md`](ONTOLOGY.md) · [`CLAUDE.md`](CLAUDE.md) · [`MEMORY.md`](MEMORY.md).
 
-**Per-directory convention** — operational docs live beside the code they
-govern and are indexed by rule, not one-by-one:
-`**/AGENTS.md` (scope + rules), `**/MEMORY.md` (change log),
-`**/README.md` (orientation), `**/SKILL.md` (skills under `skills/`, `ops/`).
-Historical/audit/scaffolding trees: `archive/`, `audit/`, `kits/`.
+Per-directory convention:
 
-Operational architecture: [public Hermes boundary](ops/hermes/README.md) ·
-[Osiris agent framework](agents/README.md) ·
-[repository retirement gate](ops/repository-retirement.md).
+- `**/AGENTS.md` — scope and rules
+- `**/MEMORY.md` — change log
+- `**/README.md` — orientation/runbooks
+- `**/SKILL.md` — executable skills under `skills/`/`ops/`
+- `archive/`, `audit/`, `kits/` — historical/audit/scaffolding material
+
+Operational architecture: [Hermes chat runtime](ops/hermes/README.md) · [agent configuration](agents/README.md) · [visitor profile baseline](agents/user-profile/BASE.md) · [repository retirement gate](ops/repository-retirement.md).
 
 ## Deployment model
 
-- St. Expedite and RICE retain their existing Pages projects; chat and admin are each independently released Pages products.
-- The Worker serves `stexpedite.press/api/*`; Resend (email), Stripe (donations), D1 (data + rate limits), Fourthwall (storefront), Turnstile (bot protection), and an authenticated tunnel to the isolated public Hermes profile.
-- Never edit `apps/stex/dist/`, `apps/rice/_site/`, or `apps/chat/dist/` by hand; regenerate with the build commands. D1 migrations are append-only.
+- St. Expedite, RICE, chat, and admin are independently released Pages products.
+- The Worker serves `stexpedite.press/api/*` and integrates D1, Resend, Stripe, Fourthwall, Turnstile, and authenticated Hermes origins.
+- `stexpedite-public` and visitor-created `user-*` Hermes profiles are isolated from the private owner profile.
+- Visitor profile provisioning is performed only by the loopback/private service under `ops/hermes/`; the browser never receives raw Hermes profile names or API keys.
+- D1 chat transcripts may be retained temporarily for refresh/recovery; this is distinct from Hermes long-term memory.
+- Never edit generated `dist/`/`_site/` output by hand. D1 migrations are append-only.
 
 This repository is not licensed for public redistribution or reuse.
