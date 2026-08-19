@@ -4,6 +4,10 @@
 This service is intentionally narrow. It binds to loopback, requires one service
 bearer token, accepts only generated user-* profile names for mutation, and never
 exposes profile API keys or arbitrary Hermes/shell execution.
+
+The first production-safe implementation uses one loopback Hermes API server per
+profile, matching Hermes' documented multi-user profile setup. Multiplex routing
+can replace this later after the installed Hermes version is verified on-host.
 """
 
 from __future__ import annotations
@@ -13,8 +17,8 @@ import os
 import re
 import secrets
 import shutil
+import socket
 import subprocess
-import tempfile
 import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -29,8 +33,9 @@ HERMES_BIN = os.environ.get("HERMES_BIN", "hermes")
 HERMES_HOME = Path(os.environ.get("HERMES_HOME", str(Path.home() / ".hermes")))
 PROFILES_DIR = HERMES_HOME / "profiles"
 SOURCE_ENV = Path(os.environ.get("PROFILE_SOURCE_ENV", str(PROFILES_DIR / "stexpedite" / ".env")))
-GATEWAY_ORIGIN = os.environ.get("HERMES_MULTIPLEX_ORIGIN", "http://127.0.0.1:8643").rstrip("/")
 BASE_SOUL = Path(os.environ.get("USER_PROFILE_BASE_SOUL", "agents/user-profile/BASE.md"))
+PROFILE_PORT_MIN = int(os.environ.get("PROFILE_PORT_MIN", "8700"))
+PROFILE_PORT_MAX = int(os.environ.get("PROFILE_PORT_MAX", "8799"))
 
 USER_PROFILE_RE = re.compile(r"^user-[a-z0-9][a-z0-9-]{4,62}$")
 CHAT_PROFILE_RE = re.compile(r"^(?:stexpedite-public|user-[a-z0-9][a-z0-9-]{4,62})$")
@@ -77,7 +82,36 @@ def safe_instructions(value: Any) -> str:
     return text
 
 
-def write_profile_env(profile: str) -> str:
+def port_available(port: int) -> bool:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            sock.bind(("127.0.0.1", port))
+        except OSError:
+            return False
+    return True
+
+
+def allocated_ports() -> set[int]:
+    ports: set[int] = set()
+    if not PROFILES_DIR.exists():
+        return ports
+    for env_path in PROFILES_DIR.glob("*/.env"):
+        value = env_value(env_path, "API_SERVER_PORT")
+        if value.isdigit():
+            ports.add(int(value))
+    return ports
+
+
+def allocate_port() -> int:
+    used = allocated_ports()
+    for port in range(PROFILE_PORT_MIN, PROFILE_PORT_MAX + 1):
+        if port not in used and port_available(port):
+            return port
+    raise RuntimeError("no Hermes profile API ports are available")
+
+
+def write_profile_env(profile: str, port: int) -> str:
     profile_dir = PROFILES_DIR / profile
     profile_dir.mkdir(parents=True, exist_ok=True)
     source_key = env_value(SOURCE_ENV, "OPENROUTER_API_KEY")
@@ -88,6 +122,9 @@ def write_profile_env(profile: str) -> str:
         [
             f"OPENROUTER_API_KEY={source_key}",
             f"API_SERVER_KEY={api_key}",
+            "API_SERVER_ENABLED=true",
+            "API_SERVER_HOST=127.0.0.1",
+            f"API_SERVER_PORT={port}",
             f"API_SERVER_MODEL_NAME={profile}",
             "",
         ]
@@ -130,8 +167,8 @@ def apply_safe_profile_config(profile: str, primary_model: str, delegation_model
     for command in commands:
         run_hermes("-p", profile, *command)
 
-    # Public API profiles receive no host, file, browser, execution, memory,
-    # deployment, or scheduling tools. Vision is safe for explicit message images.
+    # Profile text can never grant host authority. Tool access is structural and
+    # always reset to this server-owned baseline when a profile is provisioned.
     run_hermes(
         "-p", profile, "tools", "disable", "--platform", "api_server",
         "web", "browser", "terminal", "file", "code_execution", "video", "image_gen", "video_gen",
@@ -158,21 +195,21 @@ def create_profile(payload: dict[str, Any]) -> dict[str, Any]:
     profile_dir = PROFILES_DIR / profile
     if profile_dir.exists():
         raise FileExistsError("profile already exists")
+    port = allocate_port()
 
     try:
         run_hermes("profile", "create", profile, "--no-skills", "--description", "Private visitor-created St. Expedite chat assistant")
-        write_profile_env(profile)
+        write_profile_env(profile, port)
         write_soul(profile, instructions)
         apply_safe_profile_config(profile, primary_model, delegation_model)
-        # Multiplex routing is owned by the default gateway. Restarting it is a
-        # controlled reload point so newly-created named profiles become routable.
-        run_hermes("gateway", "restart")
-        return {"ok": True, "profileName": profile}
+        run_hermes("-p", profile, "gateway", "install")
+        run_hermes("-p", profile, "gateway", "restart")
+        return {"ok": True, "profileName": profile, "port": port}
     except Exception:
         if profile_dir.exists():
-            try:
-                run_hermes("profile", "delete", profile, "--yes", check=False)
-            except Exception:
+            run_hermes("-p", profile, "gateway", "stop", check=False)
+            run_hermes("profile", "delete", profile, "--yes", check=False)
+            if profile_dir.exists():
                 shutil.rmtree(profile_dir, ignore_errors=True)
         raise
 
@@ -184,21 +221,22 @@ def delete_profile(profile: str) -> dict[str, Any]:
     profile_dir = PROFILES_DIR / profile
     if not profile_dir.exists():
         return {"ok": True, "deleted": False}
+    run_hermes("-p", profile, "gateway", "stop", check=False)
     result = run_hermes("profile", "delete", profile, "--yes", check=False)
     if result.returncode != 0:
-        # Do not fall back to rm unless Hermes itself cannot find the profile.
         raise RuntimeError(result.stderr.strip() or "Hermes profile deletion failed")
-    run_hermes("gateway", "restart")
     return {"ok": True, "deleted": True}
 
 
-def profile_api_key(profile: str) -> str:
+def profile_api(profile: str) -> tuple[str, str]:
     if not CHAT_PROFILE_RE.fullmatch(profile):
         raise ValueError("invalid profile name")
-    key = env_value(PROFILES_DIR / profile / ".env", "API_SERVER_KEY")
-    if not key:
-        raise RuntimeError("profile API key is missing")
-    return key
+    env_path = PROFILES_DIR / profile / ".env"
+    key = env_value(env_path, "API_SERVER_KEY")
+    port = env_value(env_path, "API_SERVER_PORT")
+    if not key or not port.isdigit():
+        raise RuntimeError("profile API configuration is missing")
+    return f"http://127.0.0.1:{int(port)}/v1/chat/completions", key
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -226,8 +264,7 @@ class Handler(BaseHTTPRequestHandler):
         length = int(self.headers.get("content-length", "0") or "0")
         if length < 1 or length > MAX_BODY:
             raise ValueError("invalid body length")
-        body = self.rfile.read(length)
-        value = json.loads(body)
+        value = json.loads(self.rfile.read(length))
         if not isinstance(value, dict):
             raise ValueError("JSON object required")
         return value
@@ -271,8 +308,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json(404, {"ok": False, "error": "not found"})
             return
         try:
-            profile = unquote(parsed.path[len(prefix):])
-            self.send_json(200, delete_profile(profile))
+            self.send_json(200, delete_profile(unquote(parsed.path[len(prefix):])))
         except ValueError as exc:
             self.send_json(400, {"ok": False, "error": str(exc)})
         except Exception as exc:
@@ -287,8 +323,7 @@ class Handler(BaseHTTPRequestHandler):
         if not isinstance(messages, list) or not messages:
             raise ValueError("messages are required")
         request_body = json.dumps({"model": profile, "messages": messages, "stream": True}).encode("utf-8")
-        key = profile_api_key(profile)
-        url = f"{GATEWAY_ORIGIN}/p/{profile}/v1/chat/completions"
+        url, key = profile_api(profile)
         upstream_request = urllib.request.Request(
             url,
             data=request_body,
