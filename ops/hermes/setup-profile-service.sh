@@ -20,6 +20,7 @@ PROFILE_PORT_MIN=8700
 PROFILE_PORT_MAX=9699
 PROFILE_SOURCE_ENV=${HOME}/.hermes/profiles/stexpedite/.env
 USER_PROFILE_BASE_SOUL=${repo_root}/agents/user-profile/BASE.md
+HERMES_BIN=${HOME}/.local/bin/hermes
 EOF
 fi
 chmod 600 "${env_file}"
@@ -41,8 +42,8 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=read-only
-# Hermes profile create/config writes under ~/.hermes. `gateway install/delete`
-# also manages per-profile user units under ~/.config/systemd/user; both paths
+# Hermes profile create/config writes under ~/.hermes. The gateway install/delete
+# path also manages per-profile user units under ~/.config/systemd/user; both
 # must remain writable inside the otherwise read-only home sandbox.
 ReadWritePaths=${HOME}/.hermes ${HOME}/.config/systemd/user
 
