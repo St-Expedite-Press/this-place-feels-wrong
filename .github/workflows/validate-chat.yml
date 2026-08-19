@@ -1,0 +1,49 @@
+name: Validate chat
+
+on:
+  pull_request:
+    paths:
+      - 'apps/backend/**'
+      - 'apps/chat/**'
+      - 'packages/chat-client/**'
+      - 'agents/public-guide/**'
+      - 'agents/user-profile/**'
+      - 'ops/hermes/**'
+      - '.github/workflows/validate-chat.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Backend tests
+        run: npm run test:backend
+
+      - name: Shared chat client tests
+        run: npm run test:chat-client
+
+      - name: Build standalone chat
+        run: npm run build:chat
+
+      - name: Validate profile service Python
+        run: python3 -m py_compile ops/hermes/profile-service.py
+
+      - name: Validate Hermes setup shell
+        run: bash -n ops/hermes/setup-public-profile.sh ops/hermes/setup-profile-service.sh
+
+      - name: Documentation coverage
+        run: npm run check:docs
