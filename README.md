@@ -39,6 +39,31 @@ The first implementation uses one loopback Hermes API server per visitor profile
 
 Embedded St. Expedite and RICE chat surfaces remain on their existing bounded `surface` behavior during this migration. Legacy Worker-executed preset pipelines remain only for unmigrated preset IDs and should not receive new features.
 
+## Profile-native chat cutover
+
+The authoritative production migration procedure is the **Profile-native chat cutover runbook** in [`ops/hermes/README.md`](ops/hermes/README.md#profile-native-chat-cutover-runbook).
+
+It covers, in order:
+
+1. repository/CI preflight;
+2. verification of the actual Hermes CLI installed on EC2;
+3. host-local configuration backup;
+4. local D1 migration validation;
+5. default `stexpedite-public` verification;
+6. installation and health-check of the private profile service;
+7. disposable real-profile create/chat/delete testing;
+8. authenticated Tunnel/origin exposure without opening EC2 profile ports;
+9. remote D1 migration;
+10. Worker secret/configuration setup;
+11. Worker-first deployment and regression testing;
+12. profile API ownership/isolation testing;
+13. streaming, abort, Turnstile, rate-limit, image, and log-safety testing;
+14. standalone chat UI deployment;
+15. an observation/inventory period for old preset IDs;
+16. a separate final cleanup change that removes the legacy Worker→OpenRouter preset executor only after migration is proven.
+
+The runbook also contains explicit Worker/UI, profile-service, host-configuration, and D1 rollback procedures plus a final production checklist. Do not shortcut the cleanup gate: the additive profile architecture can be deployed while the old executor remains available as a compatibility path.
+
 ## Command surface
 
 One command surface drives all products from the repo root:
@@ -104,7 +129,7 @@ Per-directory convention:
 - `**/SKILL.md` — executable skills under `skills/`/`ops/`
 - `archive/`, `audit/`, `kits/` — historical/audit/scaffolding material
 
-Operational architecture: [Hermes chat runtime](ops/hermes/README.md) · [agent configuration](agents/README.md) · [visitor profile baseline](agents/user-profile/BASE.md) · [repository retirement gate](ops/repository-retirement.md).
+Operational architecture: [Hermes chat runtime and cutover runbook](ops/hermes/README.md) · [agent configuration](agents/README.md) · [visitor profile baseline](agents/user-profile/BASE.md) · [repository retirement gate](ops/repository-retirement.md).
 
 ## Deployment model
 
