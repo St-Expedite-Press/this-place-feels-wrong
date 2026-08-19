@@ -1,5 +1,5 @@
 name = "stexpedite-communications"
-main = "src/profile-entry.ts"
+main = "src/entry.ts"
 compatibility_date = "2026-05-01"
 routes = [
   { pattern = "stexpedite.press/api/*", zone_name = "stexpedite.press" },
