@@ -57,11 +57,12 @@ function validFinalUserContent(value: unknown): { chars: number } | null {
 function validStandaloneChatBody(body: unknown) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) return false;
   const record = body as JsonRecord;
-  const allowed = new Set(['surface', 'messages', 'turnstileToken', 'cf-turnstile-response', 'conversationId', 'profileId', 'presetId']);
+  const allowed = new Set(['surface', 'messages', 'turnstileToken', 'cf-turnstile-response', 'conversationId', 'profileId', 'presetId', 'kbId']);
   if (Object.keys(record).some((key) => !allowed.has(key))) return false;
   if (record.profileId !== undefined && typeof record.profileId !== 'string') return false;
   if (record.presetId !== undefined && typeof record.presetId !== 'string') return false;
   if (record.conversationId !== undefined && typeof record.conversationId !== 'string') return false;
+  if (record.kbId !== undefined && typeof record.kbId !== 'string') return false;
   if (record.profileId && record.presetId) return false;
   const messages = record.messages;
   if (!Array.isArray(messages) || messages.length < 1 || messages.length > CHAT_MAX_MESSAGES) return false;

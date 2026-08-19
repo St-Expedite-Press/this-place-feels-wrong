@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: St. Expedite Profile-Native Chat API Migration
-  version: 0.2.0
+  version: 0.3.0
   description: |
     Temporary migration contract for the standalone chat's Hermes-profile routes.
     This file documents only the new/changed profile-native behavior while
@@ -33,6 +33,34 @@ paths:
                   profiles:
                     type: array
                     items: { $ref: "#/components/schemas/AssistantProfile" }
+  /api/knowledge-bases:
+    get:
+      tags: [profiles]
+      summary: List knowledge bases available for grounding (official + caller's own)
+      description: >
+        Merged from the KB-chat work: a chat may pass an optional `kbId` and the Worker
+        grounds the assistant's reply from that KB (graph backend implemented;
+        documents/connector are Phase 4/5). The default assistant grounds from the works
+        graph (`kb_works`) when no `kbId` is given.
+      responses:
+        "200":
+          description: Active knowledge bases
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, knowledgeBases]
+                properties:
+                  ok: { type: boolean, const: true }
+                  knowledgeBases:
+                    type: array
+                    items:
+                      type: object
+                      required: [id, name, kind]
+                      properties:
+                        id: { type: string }
+                        name: { type: string }
+                        kind: { type: string, enum: [graph, documents, connector] }
   /api/profile-models:
     get:
       tags: [profiles]
@@ -181,6 +209,13 @@ components:
           type: string
           maxLength: 128
           description: Opaque application assistant id. Omit for the default public assistant.
+        kbId:
+          type: string
+          maxLength: 128
+          description: >
+            Optional knowledge-base id to ground this reply (Worker-side retrieval, never a
+            Hermes tool). Omit to use the works graph for the default assistant. Resolvable
+            KBs come from GET /api/knowledge-bases.
         presetId:
           type: string
           maxLength: 128

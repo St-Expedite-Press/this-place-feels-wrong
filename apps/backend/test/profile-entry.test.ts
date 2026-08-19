@@ -58,8 +58,13 @@ function makeDb() {
     };
   }
 
+  const knowledgeBases = new Map<string, { kind: string; status: string; name: string; owner_account_id: string | null }>();
+  const kbEntities: Array<{ id: string; type: string; name: string; description: string; kb_id: string }> = [];
+
   return {
     profiles,
+    knowledgeBases,
+    kbEntities,
     prepare(query: string) {
       const sql = query.replace(/\s+/g, ' ').trim();
       return {
@@ -84,6 +89,10 @@ function makeDb() {
                 const p = [...profiles.values()].find((candidate) => candidate.is_default === 1);
                 return (p ? rowShape(p) : null) as T | null;
               }
+              if (sql.includes('FROM knowledge_bases WHERE id')) {
+                const kb = knowledgeBases.get(String(values[0] ?? ''));
+                return (kb ? { kind: kb.kind, status: kb.status } : null) as T | null;
+              }
               if (sql.includes('FROM api_rate_limits')) return null;
               return null;
             },
@@ -98,7 +107,15 @@ function makeDb() {
               if (sql.includes('FROM preset_models')) {
                 return { results: [...models.entries()].map(([id]) => ({ id, label: id, upstreamRef: models.get(id)!.upstream_ref })) as T[] };
               }
-              if (sql.includes('FROM kb_entities') || sql.includes('FROM kb_relations')) return { results: [] as T[] };
+              if (sql.includes('FROM kb_entities')) {
+                const kbId = String(values[0] ?? '');
+                return { results: kbEntities.filter((e) => e.kb_id === kbId).map((e) => ({ id: e.id, type: e.type, name: e.name, description: e.description })) as T[] };
+              }
+              if (sql.includes('FROM kb_relations')) return { results: [] as T[] };
+              if (sql.includes('FROM knowledge_bases WHERE status')) {
+                const rows = [...knowledgeBases.entries()].filter(([, kb]) => kb.status === 'active').map(([id, kb]) => ({ id, name: kb.name, kind: kb.kind }));
+                return { results: rows as T[] };
+              }
               return { results: [] as T[] };
             },
             async run() {
@@ -223,5 +240,36 @@ describe('profile-native chat', () => {
     expect(String(url)).toBe('https://profiles.internal/chat');
     const payload = JSON.parse(String(init?.body));
     expect(payload.profileName).toBe('user-va1-private');
+  });
+
+  it('grounds the default assistant from the works knowledge base (merged KB retrieval)', async () => {
+    const db = makeDb();
+    db.knowledgeBases.set('kb_works', { kind: 'graph', status: 'active', name: 'Press catalog graph', owner_account_id: null });
+    db.kbEntities.push({ id: 'e1', type: 'book', name: 'Lift Wind', description: 'A flagship title.', kb_id: 'kb_works' });
+    fetchMock.mockResolvedValueOnce(sse('ok'));
+    const response = await worker.fetch(chatRequest({ messages: [{ role: 'user', content: 'tell me about Lift Wind' }], turnstileToken: '' }), {
+      DB: db,
+      HERMES_API_URL: 'https://hermes.example/v1/chat/completions',
+      HERMES_API_KEY: 'public-key',
+    });
+    expect(response.status).toBe(200);
+    const upstream = JSON.parse(String(fetchMock.mock.calls[0][1]?.body));
+    // Worker-side KB grounding is injected as a leading system message.
+    expect(upstream.messages[0].role).toBe('system');
+    expect(upstream.messages[0].content).toContain('Lift Wind');
+    expect(upstream.messages[0].content).toContain('A flagship title.');
+  });
+
+  it('lists active knowledge bases via GET /api/knowledge-bases', async () => {
+    const db = makeDb();
+    db.knowledgeBases.set('kb_works', { kind: 'graph', status: 'active', name: 'Press catalog graph', owner_account_id: null });
+    const response = await worker.fetch(
+      new Request('https://stexpedite.press/api/knowledge-bases', { method: 'GET', headers: { origin: 'https://chat.stexpedite.press' } }),
+      { DB: db },
+    );
+    expect(response.status).toBe(200);
+    const body = await response.json() as { knowledgeBases: Array<{ id: string; kind: string }> };
+    expect(body.knowledgeBases.map((k) => k.id)).toEqual(['kb_works']);
+    expect(body.knowledgeBases[0].kind).toBe('graph');
   });
 });
