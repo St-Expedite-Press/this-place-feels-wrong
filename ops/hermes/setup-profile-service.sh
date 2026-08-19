@@ -17,7 +17,7 @@ PROFILE_SERVICE_KEY=$(openssl rand -hex 32)
 PROFILE_SERVICE_HOST=127.0.0.1
 PROFILE_SERVICE_PORT=8765
 PROFILE_PORT_MIN=8700
-PROFILE_PORT_MAX=8799
+PROFILE_PORT_MAX=9699
 PROFILE_SOURCE_ENV=${HOME}/.hermes/profiles/stexpedite/.env
 USER_PROFILE_BASE_SOUL=${repo_root}/agents/user-profile/BASE.md
 EOF
@@ -41,7 +41,10 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=read-only
-ReadWritePaths=${HOME}/.hermes
+# Hermes profile create/config writes under ~/.hermes. `gateway install/delete`
+# also manages per-profile user units under ~/.config/systemd/user; both paths
+# must remain writable inside the otherwise read-only home sandbox.
+ReadWritePaths=${HOME}/.hermes ${HOME}/.config/systemd/user
 
 [Install]
 WantedBy=default.target
