@@ -2,6 +2,12 @@ import legacyWorker from './index';
 import profileWorker from './profile-entry';
 
 type JsonRecord = Record<string, unknown>;
+type D1Statement = {
+  bind: (...values: unknown[]) => {
+    first: <T>() => Promise<T | null>;
+  };
+};
+type EntryEnv = { DB?: { prepare: (query: string) => D1Statement } };
 
 const CHAT_MAX_BODY_BYTES = 6 * 1024 * 1024;
 const CHAT_MAX_MESSAGES = 12;
@@ -85,22 +91,87 @@ function validStandaloneChatBody(body: unknown) {
   return (messages.at(-1) as JsonRecord | undefined)?.role === 'user';
 }
 
-async function validateStandaloneChatRequest(request: Request): Promise<Response | null> {
+function jsonError(message: string, status: number) {
+  return new Response(JSON.stringify({ ok: false, error: message }), {
+    status,
+    headers: { 'content-type': 'application/json; charset=utf-8' },
+  });
+}
+
+async function parseStandaloneChatRequest(request: Request): Promise<{ body: JsonRecord } | { error: Response }> {
   const declared = Number.parseInt(request.headers.get('content-length') ?? '', 10);
   if (Number.isFinite(declared) && declared > CHAT_MAX_BODY_BYTES) {
-    return new Response(JSON.stringify({ ok: false, error: 'Request body too large' }), {
-      status: 413,
-      headers: { 'content-type': 'application/json; charset=utf-8' },
-    });
+    return { error: jsonError('Request body too large', 413) };
   }
   try {
     const body = await request.clone().json();
-    if (validStandaloneChatBody(body)) return null;
+    if (validStandaloneChatBody(body)) return { body: body as JsonRecord };
   } catch { /* fall through */ }
-  return new Response(JSON.stringify({ ok: false, error: 'Invalid chat request' }), {
-    status: 400,
-    headers: { 'content-type': 'application/json; charset=utf-8' },
+  return { error: jsonError('Invalid chat request', 400) };
+}
+
+async function expectedProfileId(body: JsonRecord, env: EntryEnv): Promise<string | null> {
+  if (typeof body.profileId === 'string' && body.profileId) return body.profileId;
+  if (typeof body.presetId === 'string' && body.presetId.startsWith('profile-')) return body.presetId;
+  if (typeof body.presetId === 'string' && body.presetId) return null; // legacy preset executor owns this request
+  const db = env.DB;
+  if (!db?.prepare) return null;
+  const row = await db.prepare('SELECT id FROM assistant_profiles WHERE is_default = 1 LIMIT 1').bind().first<{ id: string }>();
+  return row?.id ?? null;
+}
+
+async function checkConversationProfile(body: JsonRecord, env: EntryEnv): Promise<Response | null> {
+  const conversationId = typeof body.conversationId === 'string' ? body.conversationId : '';
+  if (!conversationId || !/^[a-zA-Z0-9-]{8,128}$/.test(conversationId)) return null;
+  const db = env.DB;
+  if (!db?.prepare) return null;
+  const profileId = await expectedProfileId(body, env);
+  if (!profileId) return null;
+  const existing = await db.prepare('SELECT profile_id AS profileId FROM chat_conversations WHERE id = ? LIMIT 1')
+    .bind(conversationId).first<{ profileId: string | null }>();
+  if (existing?.profileId && existing.profileId !== profileId) {
+    return jsonError('This conversation belongs to a different assistant. Start a new conversation before changing assistants.', 409);
+  }
+  return null;
+}
+
+function stripRuntimeProfileFields(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(stripRuntimeProfileFields);
+  if (!value || typeof value !== 'object') return value;
+  const input = value as JsonRecord;
+  const output: JsonRecord = {};
+  for (const [key, child] of Object.entries(input)) {
+    // The application id/name/status are enough for selection. Provider model refs
+    // are runtime configuration and are intentionally not returned to the browser.
+    if (key === 'primaryModel' || key === 'delegationModel' || key === 'hermesProfileName') continue;
+    output[key] = stripRuntimeProfileFields(child);
+  }
+  return output;
+}
+
+async function sanitizeProfileResponse(response: Response): Promise<Response> {
+  const contentType = response.headers.get('content-type') ?? '';
+  if (!contentType.includes('application/json')) return response;
+  let data: unknown;
+  try {
+    data = await response.clone().json();
+  } catch {
+    return response;
+  }
+  const headers = new Headers(response.headers);
+  headers.set('content-type', 'application/json; charset=utf-8');
+  return new Response(JSON.stringify(stripRuntimeProfileFields(data)), {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
   });
+}
+
+function isProfileMetadataRoute(url: URL, method: string) {
+  if (url.pathname === '/api/profiles' && method === 'GET') return true;
+  if (url.pathname === '/api/presets' && method === 'GET') return true; // compatibility alias
+  if ((url.pathname === '/api/profiles/create' || url.pathname === '/api/presets/create') && method === 'POST') return true;
+  return false;
 }
 
 // The standalone chat is migrating to Hermes-profile identity first. Embedded
@@ -115,10 +186,14 @@ export default {
 
     if (url.pathname === '/api/chat' && request.method === 'POST') {
       if (!standalone) return legacyWorker.fetch(request, env as never, ctx as never);
-      const invalid = await validateStandaloneChatRequest(request);
-      if (invalid) return invalid;
+      const parsed = await parseStandaloneChatRequest(request);
+      if ('error' in parsed) return parsed.error;
+      const conflict = await checkConversationProfile(parsed.body, env as EntryEnv);
+      if (conflict) return conflict;
     }
-    return profileWorker.fetch(request, env as never, ctx as never);
+
+    const response = await profileWorker.fetch(request, env as never, ctx as never);
+    return isProfileMetadataRoute(url, request.method) ? sanitizeProfileResponse(response) : response;
   },
 
   async scheduled(event: unknown, env: unknown, ctx: unknown) {
