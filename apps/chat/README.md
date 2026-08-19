@@ -1,49 +1,54 @@
 # St. Expedite chat
 
-An independent, static OpenUI-style client for the general public Osiris chat profile. It
-builds to `dist/` and calls `https://stexpedite.press/api/chat`; it never calls
-Hermes directly.
+An independent static client for `https://chat.stexpedite.press`. It calls the St. Expedite Worker API and never calls Hermes or a model provider directly.
 
-This is the site's single public intake surface — the "Chat" nav link on
-stexpedite.press, RICE's submission portal, and the press's manuscript/rights/
-press/collaboration CTAs all land here. It has four flows:
+The standalone chat now treats an assistant as a Hermes profile.
 
-- **General chat** (`openui` surface, default) and **Ask about the press**
-  (`stex` surface) — a visitor-controlled toggle in the rail. Both are bounded
-  enum choices validated by the Worker against this origin's allow-list; the
-  browser never supplies a system prompt, only picks which server-owned one to
-  use. The conversation persists across a page refresh (not a browser
-  restart) via a client-generated `conversationId` and `GET /api/chat/history`
-  — this is Worker/D1-side bookkeeping only; the public Hermes profile itself
-  still has memory disabled, unchanged, per the public/owner isolation
-  boundary in `ops/hermes/README.md`.
-- **Submit work** — an always-visible dialog that POSTs multipart form data
-  directly to `/api/submit`. This bypasses chat/Hermes entirely: file bytes
-  and manuscript metadata never enter chat history or a Hermes request, only a
-  confirmation message (with reference number) is appended to the transcript
-  on success. Opening `?open=submit` in the URL auto-opens this dialog (used
-  by deep links from `/connect`, `books.astro`, and RICE's submissions page).
-- **Get updates on new releases** — an always-visible inline form in the rail
-  that posts directly to `/api/updates`, same as RICE's signup widget. Never
-  touches chat history or Hermes.
-- **Download / Upload conversation** — the transcript is exported to a local
-  JSON file (`Blob` + a hidden `<a download>`, no server round-trip) and can
-  be re-imported the same way. Upload is deliberately local-only: it repaints
-  the transcript from the file and starts a fresh `conversationId` for
-  anything sent afterward, but never re-uploads the restored history to the
-  server. The point is that a visitor's own downloaded file, not the 30-day
-  D1 store, is the thing they can actually rely on to keep their history.
+## Default experience
 
-It has no development, deployment, or private-retrieval capability, and
-cannot read back a submitted manuscript once sent.
+Anonymous visitors get one default assistant: **St. Expedite**. It is the locked `stexpedite-public` Hermes profile. It behaves as a general-purpose assistant and also receives verified public St. Expedite/RICE context from the Worker when relevant.
+
+There is no longer a meaningful visitor choice between "General chat" and "Ask about the press" on this standalone client. The old surface controls remain in markup temporarily only because the legacy browser controller is still shared with embedded clients; `profiles-ui.js` hides them here during migration.
+
+## Signed-in visitors
+
+A verified visitor account may select private assistants it owns and may create a new assistant. Each created assistant maps to a real isolated Hermes profile. The browser sends only an opaque application profile id; it never receives the Hermes profile name, Hermes API key, provider key, filesystem path, or tool configuration.
+
+The current builder exposes:
+
+- assistant name;
+- assistant instructions;
+- main model;
+- optional delegation model.
+
+The model choices come from the owner-controlled server allow-list. A profile cannot grant itself terminal, file, browser, deployment, memory, code-execution, or private Press access by changing its instructions.
+
+## Other flows
+
+- **Submit work** posts multipart form data directly to `/api/submit`. Manuscript bytes and metadata never enter chat history or a Hermes request. Only the receipt/reference is appended to the visible transcript.
+- **Get updates** posts directly to `/api/updates` and never enters Hermes.
+- **Download / Upload conversation** remains browser-local. Upload redraws the page and starts a fresh server conversation id; it does not upload the old transcript back to the server.
+- **Temporary history** uses a client-generated `conversationId` and `/api/chat/history`. D1 may retain the text transcript for up to 30 days so refresh can restore it. This is application transcript storage, not Hermes long-term memory.
+
+The client has no development, deployment, private-retrieval, or manuscript-readback capability.
+
+## Source
+
+```text
+src/pages/index.astro        page structure
+public/app.js                legacy browser controller
+public/profiles-ui.js        profile-native standalone UI adapter
+public/styles.css            presentation
+packages/chat-client/        shared request/SSE transport
+```
+
+The adapter is intentionally transitional: once embedded clients no longer depend on the old surface/preset controller, fold assistant/profile behavior into a smaller conventional browser module and remove obsolete preset/surface UI code rather than creating another abstraction layer.
+
+## Commands
 
 ```bash
 npm run build:chat
 npm run dev:chat
 ```
 
-The source is `public/` (Astro's static-asset convention) plus
-`src/pages/index.astro`. `scripts/build.mjs` copies the canonical
-`packages/chat-client/browser.js` transport into the generated artifact.
-Production deploys manually through `deploy-chat.yml`; the custom hostname is
-`https://chat.stexpedite.press`.
+`scripts/build.mjs` copies the canonical `packages/chat-client/browser.js` transport into the generated artifact. Production deployment remains an explicit action; this migration branch must not be deployed until the backend migration and Hermes host service are verified.
