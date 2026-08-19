@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: St. Expedite Profile-Native Chat API Migration
-  version: 0.1.0
+  version: 0.2.0
   description: |
     Temporary migration contract for the standalone chat's Hermes-profile routes.
     This file documents only the new/changed profile-native behavior while
@@ -18,8 +18,8 @@ paths:
       description: |
         Anonymous callers receive public ready profiles. Authenticated callers
         additionally receive private profiles owned by their visitor account.
-        Returned ids are application ids; raw Hermes profile names and credentials
-        are never returned.
+        Returned ids are application ids. Raw Hermes profile names, provider model
+        references, filesystem details, and credentials are not returned.
       responses:
         "200":
           description: Available assistants
@@ -56,7 +56,7 @@ paths:
                       properties:
                         id: { type: string }
                         label: { type: string }
-        "401": { description: No valid visitor session }
+        "401": { description: No visitor session }
   /api/profiles/create:
     post:
       tags: [profiles]
@@ -79,7 +79,7 @@ paths:
                   ok: { type: boolean, const: true }
                   profile: { $ref: "#/components/schemas/AssistantProfile" }
         "400": { description: Invalid name/model configuration }
-        "401": { description: No valid visitor session }
+        "401": { description: No visitor session }
         "429": { description: Per-account assistant limit reached }
         "502": { description: Hermes profile provisioning failed }
   /api/profiles/{id}:
@@ -94,7 +94,7 @@ paths:
           schema: { type: string }
       responses:
         "200": { description: Profile deleted or already absent at the Hermes host }
-        "401": { description: No valid visitor session }
+        "401": { description: No visitor session }
         "404": { description: Profile missing, not owned by caller, or protected default profile }
         "502": { description: Hermes profile deletion failed }
   /api/chat:
@@ -106,8 +106,11 @@ paths:
         St. Expedite Hermes profile. A supplied `profileId` must resolve to a public
         ready profile or a private ready profile owned by the authenticated visitor.
         The Worker performs authorization, Turnstile validation, rate limiting,
-        temporary transcript persistence, and routing. It never sends Hermes or
-        provider credentials to the browser.
+        temporary transcript persistence, conversation/profile binding, and routing.
+        It never sends Hermes or provider credentials to the browser.
+
+        A conversation id becomes bound to one assistant. Reusing it with a different
+        assistant is rejected; selecting another assistant must start a new conversation.
 
         Message/image constraints remain the same as the legacy chat contract:
         at most 12 alternating messages, at most 4000 text characters per message,
@@ -129,6 +132,7 @@ paths:
         "400": { description: Invalid request/messages/image/profile fields }
         "403": { description: Turnstile verification failed }
         "404": { description: Selected assistant is not available to the caller }
+        "409": { description: Conversation id is already bound to a different assistant }
         "413": { description: Request body exceeds 6 MiB }
         "429": { description: Rate limit exceeded }
         "502": { description: Hermes/profile service unavailable }
@@ -142,8 +146,8 @@ components:
   schemas:
     AssistantProfile:
       type: object
-      additionalProperties: true
-      required: [id, name, status, official, isDefault, visibility]
+      additionalProperties: false
+      required: [id, name, displayName, status, official, isDefault, visibility]
       properties:
         id:
           type: string
@@ -155,8 +159,6 @@ components:
         official: { type: boolean }
         isDefault: { type: boolean }
         visibility: { type: string, enum: [public, private] }
-        primaryModel: { type: [string, "null"] }
-        delegationModel: { type: [string, "null"] }
     CreateAssistantProfile:
       type: object
       additionalProperties: false
