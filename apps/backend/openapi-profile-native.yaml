@@ -1,0 +1,212 @@
+openapi: 3.1.0
+info:
+  title: St. Expedite Profile-Native Chat API Migration
+  version: 0.1.0
+  description: |
+    Temporary migration contract for the standalone chat's Hermes-profile routes.
+    This file documents only the new/changed profile-native behavior while
+    `openapi.yaml` continues to describe legacy-compatible routes. Fold these
+    paths and fields into `openapi.yaml` before the old preset/surface path is removed.
+servers:
+  - url: https://stexpedite.press
+security: []
+paths:
+  /api/profiles:
+    get:
+      tags: [profiles]
+      summary: List assistants available to the current visitor
+      description: |
+        Anonymous callers receive public ready profiles. Authenticated callers
+        additionally receive private profiles owned by their visitor account.
+        Returned ids are application ids; raw Hermes profile names and credentials
+        are never returned.
+      responses:
+        "200":
+          description: Available assistants
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, profiles]
+                properties:
+                  ok: { type: boolean, const: true }
+                  profiles:
+                    type: array
+                    items: { $ref: "#/components/schemas/AssistantProfile" }
+  /api/profile-models:
+    get:
+      tags: [profiles]
+      summary: List owner-enabled models available for visitor profile creation
+      security: [{ visitorSession: [] }]
+      responses:
+        "200":
+          description: Sanitized model allow-list; provider/upstream refs are not returned
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, models]
+                properties:
+                  ok: { type: boolean, const: true }
+                  models:
+                    type: array
+                    items:
+                      type: object
+                      required: [id, label]
+                      properties:
+                        id: { type: string }
+                        label: { type: string }
+        "401": { description: No valid visitor session }
+  /api/profiles/create:
+    post:
+      tags: [profiles]
+      summary: Create a private visitor-owned Hermes assistant
+      security: [{ visitorSession: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateAssistantProfile" }
+      responses:
+        "201":
+          description: Hermes profile provisioned and marked ready
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, profile]
+                properties:
+                  ok: { type: boolean, const: true }
+                  profile: { $ref: "#/components/schemas/AssistantProfile" }
+        "400": { description: Invalid name/model configuration }
+        "401": { description: No valid visitor session }
+        "429": { description: Per-account assistant limit reached }
+        "502": { description: Hermes profile provisioning failed }
+  /api/profiles/{id}:
+    delete:
+      tags: [profiles]
+      summary: Delete a private assistant owned by the current visitor
+      security: [{ visitorSession: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Profile deleted or already absent at the Hermes host }
+        "401": { description: No valid visitor session }
+        "404": { description: Profile missing, not owned by caller, or protected default profile }
+        "502": { description: Hermes profile deletion failed }
+  /api/chat:
+    post:
+      tags: [chat]
+      summary: Stream a response from the authorized Hermes assistant
+      description: |
+        For `chat.stexpedite.press`, omitting `profileId` selects the public default
+        St. Expedite Hermes profile. A supplied `profileId` must resolve to a public
+        ready profile or a private ready profile owned by the authenticated visitor.
+        The Worker performs authorization, Turnstile validation, rate limiting,
+        temporary transcript persistence, and routing. It never sends Hermes or
+        provider credentials to the browser.
+
+        Message/image constraints remain the same as the legacy chat contract:
+        at most 12 alternating messages, at most 4000 text characters per message,
+        at most 12000 combined text characters, and at most one JPEG/PNG/WebP/GIF
+        inline data image up to 4 MiB decoded on the final user message only.
+
+        `presetId` remains temporarily accepted only for unmigrated legacy presets.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProfileChatRequest" }
+      responses:
+        "200":
+          description: OpenAI-compatible server-sent event stream
+          content:
+            text/event-stream:
+              schema: { type: string }
+        "400": { description: Invalid request/messages/image/profile fields }
+        "403": { description: Turnstile verification failed }
+        "404": { description: Selected assistant is not available to the caller }
+        "413": { description: Request body exceeds 6 MiB }
+        "429": { description: Rate limit exceeded }
+        "502": { description: Hermes/profile service unavailable }
+        "503": { description: Profile runtime not configured }
+components:
+  securitySchemes:
+    visitorSession:
+      type: apiKey
+      in: cookie
+      name: stex_visitor_session
+  schemas:
+    AssistantProfile:
+      type: object
+      additionalProperties: true
+      required: [id, name, status, official, isDefault, visibility]
+      properties:
+        id:
+          type: string
+          description: Opaque application profile id; not the Hermes profile name
+        name: { type: string }
+        displayName: { type: string }
+        description: { type: [string, "null"] }
+        status: { type: string, enum: [pending, ready, error] }
+        official: { type: boolean }
+        isDefault: { type: boolean }
+        visibility: { type: string, enum: [public, private] }
+        primaryModel: { type: [string, "null"] }
+        delegationModel: { type: [string, "null"] }
+    CreateAssistantProfile:
+      type: object
+      additionalProperties: false
+      required: [displayName, primaryModelId]
+      properties:
+        displayName: { type: string, minLength: 1, maxLength: 120 }
+        instructions: { type: string, maxLength: 8000 }
+        primaryModelId:
+          type: string
+          description: Owner-controlled application model id from GET /api/profile-models
+        delegationModelId:
+          type: string
+          description: Optional owner-controlled model id used for Hermes delegation
+    ProfileChatRequest:
+      type: object
+      additionalProperties: false
+      required: [messages]
+      properties:
+        profileId:
+          type: string
+          maxLength: 128
+          description: Opaque application assistant id. Omit for the default public assistant.
+        presetId:
+          type: string
+          maxLength: 128
+          deprecated: true
+          description: Migration compatibility for legacy preset ids only; do not use for new assistants.
+        surface:
+          type: string
+          enum: [stex, rice, openui]
+          deprecated: true
+          description: Retained while shared/embedded clients complete migration; not assistant identity on the standalone chat.
+        conversationId:
+          type: string
+          maxLength: 128
+        turnstileToken:
+          type: string
+          maxLength: 2048
+        cf-turnstile-response:
+          type: string
+          maxLength: 2048
+        messages:
+          type: array
+          minItems: 1
+          maxItems: 12
+          items:
+            type: object
+            additionalProperties: false
+            required: [role, content]
+            properties:
+              role: { type: string, enum: [user, assistant] }
+              content:
+                description: Plain text, or on the final user message only the existing 1-2 part text/image content array.
