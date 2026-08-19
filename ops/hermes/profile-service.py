@@ -19,6 +19,7 @@ import secrets
 import shutil
 import socket
 import subprocess
+import threading
 import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -35,13 +36,14 @@ PROFILES_DIR = HERMES_HOME / "profiles"
 SOURCE_ENV = Path(os.environ.get("PROFILE_SOURCE_ENV", str(PROFILES_DIR / "stexpedite" / ".env")))
 BASE_SOUL = Path(os.environ.get("USER_PROFILE_BASE_SOUL", "agents/user-profile/BASE.md"))
 PROFILE_PORT_MIN = int(os.environ.get("PROFILE_PORT_MIN", "8700"))
-PROFILE_PORT_MAX = int(os.environ.get("PROFILE_PORT_MAX", "8799"))
+PROFILE_PORT_MAX = int(os.environ.get("PROFILE_PORT_MAX", "9699"))
 
 USER_PROFILE_RE = re.compile(r"^user-[a-z0-9][a-z0-9-]{4,62}$")
 CHAT_PROFILE_RE = re.compile(r"^(?:stexpedite-public|user-[a-z0-9][a-z0-9-]{4,62})$")
 MODEL_RE = re.compile(r"^[A-Za-z0-9._:-]+/[A-Za-z0-9._:/+-]{1,180}$")
 MAX_BODY = 6 * 1024 * 1024
 MAX_INSTRUCTIONS = 8_000
+MUTATION_LOCK = threading.Lock()
 
 
 def run_hermes(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -185,7 +187,7 @@ def apply_safe_profile_config(profile: str, primary_model: str, delegation_model
         run_hermes("-p", profile, "tools", "enable", "--platform", "api_server", "delegation")
 
 
-def create_profile(payload: dict[str, Any]) -> dict[str, Any]:
+def _create_profile(payload: dict[str, Any]) -> dict[str, Any]:
     profile = str(payload.get("profileName") or "").strip().lower()
     if not USER_PROFILE_RE.fullmatch(profile):
         raise ValueError("invalid generated profile name")
@@ -214,7 +216,15 @@ def create_profile(payload: dict[str, Any]) -> dict[str, Any]:
         raise
 
 
-def delete_profile(profile: str) -> dict[str, Any]:
+def create_profile(payload: dict[str, Any]) -> dict[str, Any]:
+    # Allocation and Hermes profile/gateway installation are not atomic. Serialize
+    # mutations so concurrent signups cannot claim the same loopback port or race
+    # systemd unit creation/deletion.
+    with MUTATION_LOCK:
+        return _create_profile(payload)
+
+
+def _delete_profile(profile: str) -> dict[str, Any]:
     profile = profile.strip().lower()
     if not USER_PROFILE_RE.fullmatch(profile):
         raise ValueError("invalid generated profile name")
@@ -226,6 +236,11 @@ def delete_profile(profile: str) -> dict[str, Any]:
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or "Hermes profile deletion failed")
     return {"ok": True, "deleted": True}
+
+
+def delete_profile(profile: str) -> dict[str, Any]:
+    with MUTATION_LOCK:
+        return _delete_profile(profile)
 
 
 def profile_api(profile: str) -> tuple[str, str]:
@@ -337,8 +352,13 @@ class Handler(BaseHTTPRequestHandler):
         try:
             upstream = urllib.request.urlopen(upstream_request, timeout=180)
         except urllib.error.HTTPError as exc:
-            detail = exc.read(512).decode("utf-8", "replace")
-            print(f"Hermes upstream {exc.code}: {detail}")
+            # Do not log the upstream body: model/provider failures can echo user
+            # content. Status code is enough for host diagnostics at this boundary.
+            print(f"Hermes upstream HTTP {exc.code}")
+            self.send_json(502, {"ok": False, "error": "Hermes profile unavailable"})
+            return
+        except urllib.error.URLError as exc:
+            print(f"Hermes upstream connection failure: {type(exc.reason).__name__}")
             self.send_json(502, {"ok": False, "error": "Hermes profile unavailable"})
             return
         self.send_response(200)
@@ -364,6 +384,8 @@ def main() -> None:
         raise SystemExit("PROFILE_SERVICE_KEY is required")
     if HOST not in {"127.0.0.1", "::1", "localhost"}:
         raise SystemExit("profile service must bind to loopback")
+    if PROFILE_PORT_MIN < 1024 or PROFILE_PORT_MAX <= PROFILE_PORT_MIN:
+        raise SystemExit("invalid visitor profile port range")
     if not shutil.which(HERMES_BIN):
         raise SystemExit(f"Hermes executable not found: {HERMES_BIN}")
     server = ThreadingHTTPServer((HOST, PORT), Handler)
