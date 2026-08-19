@@ -40,7 +40,7 @@ Prefer built-in subagents when the runtime can select the requested model direct
 
 | Layer | Path | Purpose |
 |---|---|---|
-| Web source | `apps/stex/src/` | Astro pages, layouts, components, `data/site.json` (stexpedite.press) |
+| Web source | `apps/stex/src/` | Astro pages, layouts, components, `data/site.json` (stexpedite.press). Pages are split into the `press/` and `lab/` wings; `site.wings` drives nav and the splash doors |
 | Web assets | `apps/stex/public/assets/` | Authored CSS, JS, fonts, synced images |
 | Web output | `apps/stex/dist/` | **Generated only — never edit by hand** |
 | RICE app | `apps/rice/` | Static site + Python build (rice.stexpedite.press); output `apps/rice/_site/` (**generated**). See `apps/rice/ONTOLOGY.md` |
@@ -94,7 +94,7 @@ Presets and knowledge-graph extraction call **OpenRouter** (owner key, server-si
 Dark void aesthetic — do not genericize it. Fonts: Cinzel (display), Cormorant Garamond (body), system mono (`--font-mono`) for kickers/metadata/instrument text.
 
 - All UI color is a token from `apps/stex/public/assets/css/tokens.css` (loaded first on every page). No raw hex/rgba in component CSS — use `--line-*`, `--surface-*`, `--green-*`, `--mode-*`.
-- Three brand modes via `data-brand-mode` on `<body>`: `ritual` (home), `editorial` (books/about/work/store), `utility` (connect/donate). Components consume `--mode-*` vars; override at the mode level, never inline.
+- Three brand modes via `data-brand-mode` on `<body>`: `ritual` (splash), `editorial` (both wing indexes and their interior pages), `utility` (connect/donate). Components consume `--mode-*` vars; override at the mode level, never inline.
 - Body copy is `--text-readable` (warm cream), not green. Signal green is brand/accent, not every paragraph. Magenta `--relief` is anomaly/relief only.
 - The interior surface is **de-boxed**: open blocks separated by hairline rules (`--line-*`) and whitespace, not rounded bordered panels. Keep buttons/inputs as the only bordered controls. Guard animations behind `prefers-reduced-motion`; keep the grain texture and cursor glow.
 

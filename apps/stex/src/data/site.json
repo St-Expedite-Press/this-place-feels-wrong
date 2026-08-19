@@ -1,6 +1,7 @@
 {
   "site": {
     "name": "St. Expedite Press",
+    "shortName": "St. Expedite",
     "origin": "https://stexpedite.press",
     "themeColor": "#050807",
     "ogImage": "https://stexpedite.press/assets/img/identity/expedite-seal-og-1200x630.webp",
@@ -33,30 +34,94 @@
         "icon": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22\" /></svg>"
       }
     ],
-    "nav": [
-      { "label": "Portal", "href": "/", "group": "home" },
-      { "label": "Books", "href": "/books", "group": "read" },
-      { "label": "About", "href": "/about", "group": "read" },
-      { "label": "Work", "href": "/work", "group": "read" },
-      { "label": "Store", "href": "/gallery", "group": "buy" },
-      { "label": "Chat", "href": "https://chat.stexpedite.press", "group": "act" },
-      { "label": "Donate", "href": "/donate", "group": "act" }
-    ],
     "footerLinks": [
-      { "label": "Portal", "href": "/" },
-      { "label": "Books", "href": "/books" },
-      { "label": "Store", "href": "/gallery" },
-      { "label": "About", "href": "/about" },
-      { "label": "Work", "href": "/work" },
-      { "label": "Chat", "href": "https://chat.stexpedite.press" },
-      { "label": "Donate", "href": "/donate" }
-    ]
+      {
+        "label": "Portal",
+        "href": "/"
+      },
+      {
+        "label": "Press",
+        "href": "/press"
+      },
+      {
+        "label": "Lab",
+        "href": "/lab"
+      },
+      {
+        "label": "Chat",
+        "href": "https://chat.stexpedite.press"
+      },
+      {
+        "label": "Connect",
+        "href": "/connect"
+      },
+      {
+        "label": "Donate",
+        "href": "/press/donate"
+      }
+    ],
+    "wings": {
+      "press": {
+        "key": "press",
+        "label": "Press",
+        "href": "/press",
+        "tagline": "Books, archive, translation",
+        "nav": [
+          {
+            "label": "Books",
+            "href": "/press/books"
+          },
+          {
+            "label": "Store",
+            "href": "/press/store"
+          },
+          {
+            "label": "About",
+            "href": "/press/about"
+          },
+          {
+            "label": "Donate",
+            "href": "/press/donate"
+          }
+        ]
+      },
+      "lab": {
+        "key": "lab",
+        "label": "Lab",
+        "href": "/lab",
+        "tagline": "Instruments, systems, practice",
+        "nav": [
+          {
+            "label": "Instruments",
+            "href": "/lab/instruments"
+          },
+          {
+            "label": "Practice",
+            "href": "/lab/practice"
+          },
+          {
+            "label": "Chat",
+            "href": "https://chat.stexpedite.press"
+          }
+        ]
+      }
+    }
   },
   "pages": {
     "index": {
       "title": "St. Expedite Press",
       "description": "Night-minded books from New Orleans: original Southern fiction, archival recovery, translation, and experimental literary instruments from St. Expedite Press.",
       "canonical": "https://stexpedite.press/"
+    },
+    "press": {
+      "title": "Press",
+      "description": "The publishing wing of St. Expedite Press: the catalog, the store, the mission, and direct support for the work.",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "The press wing",
+      "introTitle": "Books, archive, translation.",
+      "introText": "Original Southern fiction, recovery editions, and translation selected for formal and spiritual pressure — plus the store, the premise, and the means to support it.",
+      "canonical": "https://stexpedite.press/press",
+      "currentNav": "/press"
     },
     "books": {
       "title": "Books",
@@ -66,8 +131,19 @@
       "introKicker": "",
       "introTitle": "The catalog is the program.",
       "introText": "",
-      "canonical": "https://stexpedite.press/books",
-      "currentNav": "/books"
+      "canonical": "https://stexpedite.press/press/books",
+      "currentNav": "/press/books"
+    },
+    "store": {
+      "title": "Store",
+      "description": "Books, prints, and objects from St. Expedite Press, loaded live from the shop.",
+      "subtitle": "",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "From the press",
+      "introTitle": "Books when they exist. Prints when they mean something.",
+      "introText": "Objects from the press's working life.",
+      "canonical": "https://stexpedite.press/press/store",
+      "currentNav": "/press/store"
     },
     "about": {
       "title": "About",
@@ -77,8 +153,8 @@
       "introKicker": "The project",
       "introTitle": "Gather the Limbs of Osiris.",
       "introText": "Osiris was killed by Set and scattered. Isis gathered his limbs and reconstituted him. We take the same disposition toward Southern writing.",
-      "canonical": "https://stexpedite.press/about",
-      "currentNav": "/about"
+      "canonical": "https://stexpedite.press/press/about",
+      "currentNav": "/press/about"
     },
     "donate": {
       "title": "Donate",
@@ -88,8 +164,8 @@
       "introKicker": "Direct support",
       "introTitle": "Support the press directly.",
       "introText": "A one-time contribution goes straight into publishing, archive work, and what comes next.",
-      "canonical": "https://stexpedite.press/donate",
-      "currentNav": "/donate"
+      "canonical": "https://stexpedite.press/press/donate",
+      "currentNav": "/press/donate"
     },
     "donateThanks": {
       "title": "Donation",
@@ -99,73 +175,38 @@
       "introKicker": "Donation complete",
       "introTitle": "The press continues.",
       "introText": "Your support enters the ongoing work directly.",
-      "canonical": "https://stexpedite.press/donate/thanks",
-      "currentNav": "/donate"
-    },
-    "submit": {
-      "title": "Submit",
-      "description": "Submission guidelines for St. Expedite Press: original work, archival recovery proposals, and literary translation selected by formal seriousness rather than market fit.",
-      "subtitle": "",
-      "eyebrow": "St. Expedite Press",
-      "introKicker": "Send a project",
-      "introTitle": "One concise inquiry, then materials by reply.",
-      "introText": "Lead with the work. Genre, length, and stage are useful. If attachments are needed, they come later in the thread.",
-      "canonical": "https://stexpedite.press/submit",
-      "currentNav": "/submit"
+      "canonical": "https://stexpedite.press/press/donate/thanks",
+      "currentNav": "/press/donate"
     },
     "lab": {
       "title": "Lab",
-      "description": "Experimental instruments from St. Expedite Press, including the American Anglossic Compass.",
-      "subtitle": "",
-      "eyebrow": "St. Expedite Press",
-      "introKicker": "Current instrument",
-      "introTitle": "The Lab runs work that has not yet found its form in the catalog.",
-      "introText": "Instruments that require a different kind of attention than a book.",
+      "description": "The working wing of St. Expedite Press: experimental instruments, agentic systems, ontology and knowledge-graph practice, and the public assistant.",
+      "eyebrow": "St. Expedite Lab",
+      "introKicker": "The lab wing",
+      "introTitle": "Instruments, systems, practice.",
+      "introText": "Work that runs rather than reads: field instruments, agent and knowledge architectures, and the founder-led practice that builds them.",
       "canonical": "https://stexpedite.press/lab",
       "currentNav": "/lab"
     },
-    "gallery": {
-      "title": "Store",
-      "description": "Books, prints, and objects from St. Expedite Press, loaded live from the shop.",
-      "subtitle": "",
-      "eyebrow": "St. Expedite Press",
-      "introKicker": "From the press",
-      "introTitle": "Books when they exist. Prints when they mean something.",
-      "introText": "Objects from the press's working life.",
-      "canonical": "https://stexpedite.press/gallery",
-      "currentNav": "/gallery"
-    },
-    "contact": {
-      "title": "Contact",
-      "description": "General correspondence for St. Expedite Press: project inquiries, rights, press, collaborations, and editorial questions.",
-      "subtitle": "",
-      "eyebrow": "St. Expedite Press",
-      "introKicker": "Write to the press",
-      "introTitle": "Projects, rights, press, collaborations, and general correspondence.",
-      "introText": "Manuscripts go through Submit. Everything else comes here.",
-      "canonical": "https://stexpedite.press/contact",
-      "currentNav": "/contact"
-    },
-    "services": {
-      "title": "Services",
-      "description": "Founder-led agentic marketing, web design, editing, writing, and knowledge-system engagements from St. Expedite Press.",
-      "subtitle": "",
-      "eyebrow": "St. Expedite Press",
-      "introKicker": "Creative systems",
-      "introTitle": "Distinctive ideas need more than content.",
-      "introText": "St. Expedite builds the voice, structure, website, and operating system that let a project become recognizable in public.",
-      "canonical": "https://stexpedite.press/services",
-      "currentNav": "/services"
-    },
-    "work": {
-      "title": "Work",
+    "labPractice": {
+      "title": "Practice",
       "description": "Founder-led engagements from St. Expedite Press: agentic systems and operations infrastructure, ontology and knowledge-graph design, editorial strategy, web production, and experimental instruments like the American Anglossic Compass.",
-      "eyebrow": "St. Expedite Press",
+      "eyebrow": "St. Expedite Lab",
       "introKicker": "Creative systems",
       "introTitle": "Distinctive ideas need more than content.",
       "introText": "St. Expedite builds the voice, structure, and operating systems that let a project become recognizable in public — persona and agent architectures, knowledge graphs, and the machinery that runs them under human review — and keeps instruments that do not fit inside a book.",
-      "canonical": "https://stexpedite.press/work",
-      "currentNav": "/work"
+      "canonical": "https://stexpedite.press/lab/practice",
+      "currentNav": "/lab/practice"
+    },
+    "labInstruments": {
+      "title": "Instruments",
+      "description": "Experimental instruments from St. Expedite Press, including the American Anglossic Compass.",
+      "eyebrow": "St. Expedite Lab",
+      "introKicker": "Current instrument",
+      "introTitle": "The Lab runs work that has not yet found its form in the catalog.",
+      "introText": "Instruments that require a different kind of attention than a book.",
+      "canonical": "https://stexpedite.press/lab/instruments",
+      "currentNav": "/lab/instruments"
     },
     "connect": {
       "title": "Submit / Contact",

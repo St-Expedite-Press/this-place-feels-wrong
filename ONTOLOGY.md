@@ -82,20 +82,35 @@ Verified publication context is restricted to the public source allow-list in `a
 
 ## St. Expedite page routes
 
-Every interior page uses `Base.astro` and shared brand CSS; the home page uses `BasePortal.astro`.
+The site is organized into two wings. `/` is a splash that captures an email
+address and sends the visitor through one of two doors; every other public page
+belongs to **Press** (the publishing house) or **Lab** (the working practice).
+Wing pages use `Base.astro` with a `wing` prop; the home page uses
+`BasePortal.astro`. `HeroBar` renders the active wing's nav plus a crossing link
+to the other wing, both read from `site.wings` in `src/data/site.json`.
 
-| Route | Source | Brand mode | Page CSS/JS |
-|---|---|---|---|
-| `/` | `pages/index.astro` | ritual | `portal.css`, `index-effects.js` |
-| `/books` | `pages/books.astro` | editorial | `books.css`, `books-page.js` |
-| `/about` | `pages/about.astro` | editorial | `mission.css` |
-| `/gallery` | `pages/gallery.astro` | editorial | `gallery.css`, `gallery-page.js` |
-| `/work` | `pages/work.astro` | editorial | `services.css`, `lab.css`, `lab-anglossic-*.js`, `dialog.js` |
-| `/connect` | `pages/connect.astro` | redirect | → `https://chat.stexpedite.press`; manuscript deep-link opens `?open=submit` |
-| `/donate`, `/donate/thanks` | `pages/donate*.astro` | utility | forms/donation JS/CSS |
-| `/404` | `pages/404.astro` | editorial | shared |
+| Route | Source | Wing | Brand mode | Page CSS/JS |
+|---|---|---|---|---|
+| `/` | `pages/index.astro` | — | ritual | `portal.css`, `index-effects.js`, `splash-entry.js` → `splash-signup.js` (`POST /api/updates`, `source: "splash"`) |
+| `/press` | `pages/press/index.astro` | press | editorial | `wings.css` |
+| `/press/books` | `pages/press/books.astro` | press | editorial | `books.css`, `books-page.js` |
+| `/press/store` | `pages/press/store.astro` | press | editorial | `gallery.css`, `gallery-page.js` |
+| `/press/about` | `pages/press/about.astro` | press | editorial | `mission.css` |
+| `/press/donate`, `/press/donate/thanks` | `pages/press/donate*.astro` | press | utility | forms/donation JS/CSS |
+| `/lab` | `pages/lab/index.astro` | lab | editorial | `wings.css` |
+| `/lab/practice` | `pages/lab/practice.astro` | lab | editorial | `services.css` |
+| `/lab/instruments` | `pages/lab/instruments.astro` | lab | editorial | `lab.css`, `lab-anglossic-*.js`, `dialog.js` |
+| `/connect` | `pages/connect.astro` | — | redirect | → `https://chat.stexpedite.press`; manuscript deep-link opens `?open=submit` |
+| `/404` | `pages/404.astro` | — | editorial | shared |
 
-Redirects in `astro.config.mjs`: `/services` + `/lab` → `/work`; `/submit` + `/contact` → `/connect`.
+Legacy routes are 301s served from `apps/stex/public/_redirects` (a real
+Cloudflare Pages redirect, replacing the old meta-refresh stub pages):
+`/books` → `/press/books`, `/gallery` → `/press/store`, `/about` →
+`/press/about`, `/donate` → `/press/donate`, `/donate/thanks` →
+`/press/donate/thanks`, `/work` and `/services` → `/lab/practice`, `/submit` →
+`/connect?about=manuscript`, `/contact` → `/connect`. The Stripe
+`success_url` in `apps/backend/src/index.ts` points at `/press/donate/thanks`
+directly; the redirect covers checkouts started before that Worker deploy.
 
 `packages/chat-client/browser.js` remains the shared request/SSE implementation. During migration it can send either a new `profileId` or an old `presetId`; `profile-*` ids are profile-native, while old preset ids stay on compatibility code.
 

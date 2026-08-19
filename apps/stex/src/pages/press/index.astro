@@ -1,0 +1,99 @@
+---
+import Base from '../../layouts/Base.astro';
+import siteData from '../../data/site.json';
+
+const page = siteData.pages.press;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/wings.css',
+];
+
+const rooms = [
+  {
+    href: '/press/books',
+    kicker: 'Catalog',
+    title: 'Books',
+    copy: 'Original Southern fiction, recovery editions, and translation. The catalog is the program: each series carries a different kind of pressure.',
+  },
+  {
+    href: '/press/store',
+    kicker: 'Objects',
+    title: 'Store',
+    copy: 'Books when they exist. Prints when they mean something. Objects from the working life of the press, loaded live from the shop.',
+  },
+  {
+    href: '/press/about',
+    kicker: 'The premise',
+    title: 'About',
+    copy: 'Gather the limbs of Osiris — rebuild a Southern literary institution outside the approval systems that flatten it.',
+  },
+  {
+    href: 'https://rice.stexpedite.press/',
+    kicker: 'Magazine',
+    title: 'RICE',
+    copy: 'The independent magazine: essays, fiction, poetry, and archive, published on its own schedule and its own terms.',
+    external: true,
+  },
+  {
+    href: '/press/donate',
+    kicker: 'Direct support',
+    title: 'Donate',
+    copy: 'A one-time contribution goes straight into publishing, archive work, and what comes next.',
+  },
+  {
+    href: '/connect?about=manuscript',
+    kicker: 'Submissions',
+    title: 'Send a manuscript',
+    copy: 'One concise inquiry, then materials by reply. Lead with the work — genre, length, and stage are useful.',
+  },
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  canonical={page.canonical}
+  currentNav={page.currentNav}
+  wing="press"
+  brandMode="editorial"
+  styles={styles}
+>
+  <section class="section-block wing-rooms" aria-labelledby="press-rooms-title">
+    <div class="section-header">
+      <p class="card-kicker">The press wing</p>
+      <h2 class="section-heading" id="press-rooms-title">Everything the press publishes, sells, or asks for.</h2>
+    </div>
+    <div class="section-grid section-grid--two">
+      {rooms.map(room => (
+        <a
+          class="card wing-room"
+          href={room.href}
+          target={room.external ? '_blank' : undefined}
+          rel={room.external ? 'noopener noreferrer' : undefined}
+        >
+          <p class="card-kicker">{room.kicker}</p>
+          <h3 class="wing-room__title">{room.title}</h3>
+          <p class="section-copy">{room.copy}</p>
+          <span class="wing-room__cue" aria-hidden="true">&#8594;</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-block section-block--reading wing-crossing" aria-labelledby="press-crossing-title">
+    <article class="card quiet-panel stack">
+      <p class="card-kicker">The other wing</p>
+      <h2 class="section-heading" id="press-crossing-title">The Lab runs what the catalog cannot hold.</h2>
+      <p class="section-copy section-copy--large">Field instruments, agent and knowledge architectures, and the founder-led practice that builds them — work that runs rather than reads.</p>
+      <div class="actions">
+        <a class="button" href="/lab">Cross to the Lab</a>
+      </div>
+    </article>
+  </section>
+</Base>

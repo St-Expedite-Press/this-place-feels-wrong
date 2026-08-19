@@ -1,5 +1,11 @@
 # Press Web App Memory
 
+## 2026-08-19 — Whole site — Press/Lab wings behind an email splash
+
+**Changed:** `/` became a signup splash with two doors; every other page now lives under `pages/press/` or `pages/lab/`. `work.astro` split into `lab/practice.astro` + `lab/instruments.astro`. New `pages/press/index.astro`, `pages/lab/index.astro`, `wings.css`, `splash-signup.js`/`splash-entry.js`. `portal.css` rewritten as one responsive composition (the `.portal-desktop`/`.portal-mobile` split, `.big-nav`/`.big-word`, `.mobile-index-nav`, `.thin-*` rules and the mobile-fit script are all gone, along with `body { overflow: hidden }`). `site.json`: added `wings` + `shortName`, dropped `nav`, repointed every canonical/`currentNav`. `HeroBar` is wing-aware. Deleted the `lab`/`services`/`submit`/`contact` meta-refresh stubs; legacy paths are now real 301s in `public/_redirects`.
+**Checks:** `npm run build:stex` + `lint:html` + `check:links` + `check:a11y` pass; headless Chromium pass over all pages at desktop and mobile widths, plus interaction tests of the Compass modal and the splash signup.
+**Tooling notes:** The prior entry's deliberately-orphaned `.thin-*`/`.splash__subscribe` CSS and the `pages.submit`/`pages.contact` blocks were finally removed here — not a speculative cleanup, they sat in the two files this change rewrote.
+
 ## 2026-07-15 — Portal and Connect — Chat replaces the form, newsletter removed
 
 **Changed:** Removed the "Letters from the press" Substack signup (mobile form + desktop link, plus the now-dead `wireUpdatesForm`/`copyText` script and the page's Turnstile include) from `index.astro`. Converted `connect.astro` from a full Turnstile form page into a redirect stub to `https://chat.stexpedite.press`, following the existing `submit.astro`/`contact.astro` pattern plus an inline client script (needed since query params aren't available at static build time) to preserve `?about=manuscript` as a `?open=submit` deep link. Changed the nav/footer "Submit / Contact" entry in `site.json` to a single-word "Chat" label pointing at `https://chat.stexpedite.press`. Updated `ChatWidget.astro`'s noscript fallback, and the `/connect`-linking CTAs on `work.astro`, `books.astro`, and `404.astro`, to point directly at chat instead of round-tripping through the stub.

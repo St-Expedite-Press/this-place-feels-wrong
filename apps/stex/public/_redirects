@@ -1,0 +1,14 @@
+# Wing restructure (2026-08-19): the site splits into /press and /lab.
+# Cloudflare Pages serves these as real 301s; query strings are preserved.
+
+/donate/thanks    /press/donate/thanks       301
+/donate           /press/donate              301
+/books            /press/books               301
+/gallery          /press/store               301
+/about            /press/about               301
+
+/work             /lab/practice              301
+/services         /lab/practice              301
+
+/submit           /connect?about=manuscript  301
+/contact          /connect                   301

@@ -4,20 +4,37 @@ import siteData from '../data/site.json';
 interface Props {
   currentNav?: string;
   minimal?: boolean;
+  wing?: 'press' | 'lab';
 }
 
-const { currentNav, minimal } = Astro.props;
+const { currentNav, minimal, wing } = Astro.props;
 const { site } = siteData;
+
+const wings = Object.values(site.wings);
+const activeWing = wing ? site.wings[wing] : null;
+const otherWing = wing ? wings.find((entry) => entry.key !== wing) : null;
+const navItems = activeWing ? activeWing.nav : wings.map((entry) => ({ label: entry.label, href: entry.href }));
 ---
-<div class={`hero-bar${minimal ? ' hero-bar--minimal' : ''}`}>
+<div class={`hero-bar${minimal ? ' hero-bar--minimal' : ''}`} data-wing={wing}>
   {!minimal && (
     <>
-      <a class="hero-bar__wordmark" href="/">{site.name}</a>
+      <a class="hero-bar__wordmark" href="/">
+        {activeWing ? site.shortName : site.name}
+        {activeWing && (
+          <>
+            <span class="hero-bar__wing-sep" aria-hidden="true">&#183;</span>
+            <span class="hero-bar__wing">{activeWing.label}</span>
+          </>
+        )}
+      </a>
 
       <nav class="hero-bar__nav" aria-label="Primary">
-        {site.nav.filter(item => item.href !== '/').map(item => (
-          <a href={item.href} data-nav={item.group} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
+        {navItems.map(item => (
+          <a href={item.href} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
         ))}
+        {otherWing && (
+          <a class="hero-bar__crossing" href={otherWing.href}>{otherWing.label} &#8594;</a>
+        )}
       </nav>
     </>
   )}
@@ -34,9 +51,10 @@ const { site } = siteData;
     <details class="hero-bar__menu">
       <summary aria-label="Menu">Menu</summary>
       <nav aria-label="Primary mobile">
-        {site.nav.filter(item => item.href !== '/').map(item => (
-          <a href={item.href} data-nav={item.group} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
+        {navItems.map(item => (
+          <a href={item.href} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
         ))}
+        {otherWing && <a class="hero-bar__crossing" href={otherWing.href}>{otherWing.label} &#8594;</a>}
       </nav>
     </details>
   )}

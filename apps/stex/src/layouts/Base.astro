@@ -16,13 +16,14 @@ interface Props {
   currentNav?: string;
   pageClass?: string;
   brandMode?: 'ritual' | 'editorial' | 'utility';
+  wing?: 'press' | 'lab';
   styles: string[];
   robots?: string;
 }
 
 const {
   title, description, canonical, subtitle, eyebrow,
-  introKicker, introTitle, introText, currentNav, pageClass,
+  introKicker, introTitle, introText, currentNav, pageClass, wing,
   brandMode = 'editorial',
   styles,
   robots,
@@ -38,9 +39,9 @@ const allStyles = [...styles, 'assets/css/chat.css'];
   styles={allStyles}
   robots={robots}
 />
-<body data-brand-mode={brandMode}>
+<body data-brand-mode={brandMode} data-wing={wing}>
   <a class="skip-link" href="#main">Skip to content</a>
-  <HeroBar currentNav={currentNav} />
+  <HeroBar currentNav={currentNav} wing={wing} />
   <div class="texture--grain" aria-hidden="true"></div>
   <main id="main" class={`page${pageClass ? ` ${pageClass}` : ''}`}>
     <section class="page-intro">

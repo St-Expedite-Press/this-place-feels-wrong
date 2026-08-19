@@ -1,0 +1,81 @@
+/*
+  wings.css
+
+  Styles for the two wing index pages (/press and /lab).
+  Requires: tokens.css, interior-base.css, layout.css, components.css.
+  Brand mode: editorial
+
+  De-boxed per the design system: a wing room is a hairline-ruled block that
+  behaves as one large link target, not a bordered card.
+*/
+
+/* ── Wing room (a linked block on a wing index) ──────────────────────────── */
+
+.wing-room {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 1.2rem 2.2rem 1.4rem 0;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.wing-room:hover,
+.wing-room:focus-visible {
+  border-top-color: var(--accent-strong);
+  transform: translateX(2px);
+}
+
+.wing-room:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 6px;
+}
+
+.wing-room__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: var(--mode-heading-shadow, 0 0 8px var(--green-2));
+}
+
+.wing-room__cue {
+  position: absolute;
+  top: 1.2rem;
+  right: 0;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--mode-copy-muted, var(--text-muted));
+  transition: transform 180ms ease, color 180ms ease;
+}
+
+.wing-room:hover .wing-room__cue,
+.wing-room:focus-visible .wing-room__cue {
+  color: var(--accent);
+  transform: translateX(4px);
+}
+
+/* ── Crossing block (link to the opposite wing) ──────────────────────────── */
+
+.wing-crossing {
+  margin-top: clamp(2rem, 6vh, 3.5rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wing-room,
+  .wing-room__cue {
+    transition: none;
+  }
+  .wing-room:hover,
+  .wing-room:focus-visible {
+    transform: none;
+  }
+  .wing-room:hover .wing-room__cue,
+  .wing-room:focus-visible .wing-room__cue {
+    transform: none;
+  }
+}

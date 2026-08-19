@@ -1,8 +1,8 @@
 ---
-import Base from '../layouts/Base.astro';
-import siteData from '../data/site.json';
+import Base from '../../layouts/Base.astro';
+import siteData from '../../data/site.json';
 
-const page = siteData.pages.gallery;
+const page = siteData.pages.store;
 const styles = [
   'assets/css/tokens.css',
   'assets/css/interior-base.css',
@@ -15,6 +15,7 @@ const styles = [
   title={page.title}
   description={page.description}
   canonical={page.canonical}
+  wing="press"
   subtitle={page.subtitle}
   eyebrow={page.eyebrow}
   introKicker={page.introKicker}

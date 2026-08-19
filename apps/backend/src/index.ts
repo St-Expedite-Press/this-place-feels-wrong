@@ -1062,7 +1062,7 @@ async function createStripeCheckoutSession(env: Env, params: { amountCents: numb
   const body = new URLSearchParams();
   body.set("mode", "payment");
   body.set("submit_type", "donate");
-  body.set("success_url", `${BRAND.siteUrl}/donate/thanks?session_id={CHECKOUT_SESSION_ID}`);
+  body.set("success_url", `${BRAND.siteUrl}/press/donate/thanks?session_id={CHECKOUT_SESSION_ID}`);
   body.set("cancel_url", `${BRAND.siteUrl}/donate`);
   body.set("line_items[0][quantity]", "1");
   body.set("line_items[0][price_data][currency]", "usd");

@@ -103,7 +103,7 @@ Deploy auth uses `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`. CI deploy wor
 
 ## Routes
 
-**Web (`apps/stex`):** `/` · `/books` · `/about` · `/work` · `/gallery` · `/donate`; legacy convenience routes redirect as documented in `ONTOLOGY.md`.
+**Web (`apps/stex`):** a splash at `/` (email signup + two doors) opening into two wings — **Press** (`/press` · `/press/books` · `/press/store` · `/press/about` · `/press/donate`) and **Lab** (`/lab` · `/lab/practice` · `/lab/instruments`). Legacy routes 301 into the wings via `apps/stex/public/_redirects`, as documented in `ONTOLOGY.md`.
 
 **RICE (`apps/rice`):** `/` · `/splash` · `/project` · essays/fiction/poetry/archive + sample pages.
 

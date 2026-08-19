@@ -43,6 +43,16 @@
   white-space: nowrap;
 }
 
+.hero-bar__wing-sep {
+  margin: 0 0.4em;
+  opacity: 0.55;
+}
+
+.hero-bar__wing {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--green-hot-3);
+}
+
 .hero-bar__nav {
   flex: 1 1 auto;
   display: flex;

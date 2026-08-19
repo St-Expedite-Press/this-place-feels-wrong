@@ -4,6 +4,7 @@ import siteData from '../data/site.json';
 
 const { site, pages } = siteData;
 const page = pages.index;
+const wings = Object.values(site.wings);
 const homeMetaTitle = 'St. Expedite Press — Southern Fiction, Translation & Archive | New Orleans';
 const homeMetaDescription = 'Night-minded books from New Orleans: original Southern fiction, archival recovery, translation, and experimental literary instruments from St. Expedite Press.';
 const homeOgTitle = 'St. Expedite Press';
@@ -23,48 +24,12 @@ const homeOgDescription = 'A New Orleans press gathering fiction, archive, trans
     <link rel="preload" as="image" href="/assets/img/identity/expedite-seal-motion.svg" type="image/svg+xml" fetchpriority="high" />
   </Fragment>
 
-  <main id="main" class="page" tabindex="-1">
+  <main id="main" class="page portal-page" tabindex="-1">
     <h1 class="home-heading-sr">St. Expedite Press</h1>
 
-    <div class="portal-mobile">
-      <div class="wrap">
-        <div class="mobile-fit">
-          <section class="portal-stack">
-            <div class="portal-link-row">
-              <a class="portal-link" href="/books">Books</a>
-              <a class="portal-link" href="/gallery">Store</a>
-            </div>
+    <div class="portal-flash"></div>
 
-            <div class="portal" aria-hidden="true">
-              <picture class="portal-media portal-media--seal">
-                <source srcset="/assets/img/identity/expedite-seal-motion.svg" type="image/svg+xml">
-                <source srcset="/assets/img/identity/expedite-seal-green-768.webp" type="image/webp">
-                <img src="/assets/img/identity/expedite-seal-green-768.png" alt="" width="768" height="768" fetchpriority="high" decoding="async">
-              </picture>
-            </div>
-
-            <div class="portal-link-row">
-              <a class="portal-link" href="/about">About</a>
-              <a class="portal-link" href="/work">Work</a>
-            </div>
-
-          </section>
-
-          <footer class="foot">
-            <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
-            <p class="lede">...in the key of Night.</p>
-            <div class="divider">&#9651; &#10013; &#9651;</div>
-            <div class="splash__foot">
-              <a href="/connect">Connect</a> // <a href="/donate">Donate</a>
-            </div>
-          </footer>
-        </div>
-      </div>
-    </div>
-
-    <div class="portal-desktop">
-      <div class="portal-flash"></div>
-
+    <div class="portal-stage">
       <div class="portal-frame portal-frame--seal">
         <div class="portal-noise"></div>
         <picture class="portal-media portal-media--seal">
@@ -74,75 +39,53 @@ const homeOgDescription = 'A New Orleans press gathering fiction, archive, trans
         </picture>
       </div>
 
-      <nav class="mobile-index-nav" aria-label="Primary">
-        <a href="/books">Books</a>
-        <a href="/gallery">Store</a>
-        <a href="/about">About</a>
-        <a href="/work">Work</a>
+      <section class="gate" aria-labelledby="gate-title">
+        <h2 class="gate__title" id="gate-title">Dispatches from the press</h2>
+        <form class="gate__form" id="splash-signup" novalidate>
+          <label class="gate__label" for="splash-email">Email address</label>
+          <input
+            class="gate__input"
+            id="splash-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            inputmode="email"
+            placeholder="your@email.com"
+            required
+          />
+          <button class="gate__button" id="splash-submit" type="submit">Join</button>
+        </form>
+        <div class="gate__helper status-panel" id="splash-helper" role="status" aria-live="polite" hidden>
+          <div data-status-text></div>
+        </div>
+      </section>
+
+      <nav class="doors" aria-label="Primary">
+        {wings.map((entry, index) => (
+          <>
+            {index > 0 && <span class="doors__rule" aria-hidden="true">&#9651;</span>}
+            <a class={`door door--${entry.key}`} href={entry.href}>
+              <span class="door__word">{entry.label}</span>
+              <span class="door__gloss">{entry.tagline}</span>
+            </a>
+          </>
+        ))}
       </nav>
 
-      <nav class="big-nav" aria-label="Primary">
-        <a href="/books"   class="big-word big-word--books"  >BOOKS</a>
-        <div></div>
-        <a href="/gallery" class="big-word big-word--store"  >STORE</a>
-        <div></div><div></div><div></div>
-        <a href="/about"   class="big-word big-word--about"  >ABOUT</a>
-        <div></div>
-        <a href="/work"    class="big-word big-word--work"   >WORK</a>
-      </nav>
-
-      <div class="splash">
+      <footer class="splash">
         <p class="splash__eyebrow">29.9511&deg; N &mdash; 90.0715&deg; W</p>
         <p class="lede">...in the key of Night.</p>
         <div class="divider">&#9651; &#10013; &#9651;</div>
         <div class="splash__foot">
-          <a href="/connect">Connect</a> // <a href="/donate">Donate</a>
+          <a href="/connect">Connect</a> // <a href="https://rice.stexpedite.press/">RICE</a> // <a href="/press/donate">Donate</a>
         </div>
-      </div>
+      </footer>
     </div>
-
   </main>
 
   <Fragment slot="scripts">
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>
     <script is:inline src="/assets/js/index-effects.js"></script>
-
-    <script is:inline>
-    const applyMobileFit = () => {
-      const mobileFit = document.querySelector('.portal-mobile .mobile-fit');
-      const mobileWrap = document.querySelector('.portal-mobile .wrap');
-      if (!mobileFit || !mobileWrap) return;
-
-      const isMobileLayout = window.matchMedia('(max-width: 900px)').matches;
-      if (!isMobileLayout) {
-        mobileFit.style.removeProperty('--mobile-fit-scale');
-        return;
-      }
-
-      mobileFit.style.setProperty('--mobile-fit-scale', '1');
-      const availableWidth = mobileWrap.clientWidth;
-      const availableHeight = mobileWrap.clientHeight;
-
-      const contentWidth = mobileFit.scrollWidth;
-      const contentHeight = mobileFit.scrollHeight;
-
-      if (!contentWidth || !contentHeight) return;
-
-      const scale = Math.min(1, availableWidth / contentWidth, availableHeight / contentHeight);
-      mobileFit.style.setProperty('--mobile-fit-scale', String(Math.max(0.65, scale)));
-    };
-
-    let mobileFitTimer = 0;
-    const scheduleMobileFit = (delayMs) => {
-      window.clearTimeout(mobileFitTimer);
-      mobileFitTimer = window.setTimeout(applyMobileFit, delayMs);
-    };
-
-    scheduleMobileFit(0);
-    window.addEventListener('resize', () => scheduleMobileFit(60), { passive: true });
-    window.addEventListener('orientationchange', () => scheduleMobileFit(250), { passive: true });
-    window.addEventListener('load', () => scheduleMobileFit(0), { passive: true });
-    document.fonts?.ready?.then?.(() => scheduleMobileFit(0));
-    </script>
+    <script is:inline src="/assets/js/splash-entry.js" type="module"></script>
   </Fragment>
 </BasePortal>

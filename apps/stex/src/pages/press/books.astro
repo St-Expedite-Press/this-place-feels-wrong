@@ -1,6 +1,6 @@
 ---
-import Base from '../layouts/Base.astro';
-import siteData from '../data/site.json';
+import Base from '../../layouts/Base.astro';
+import siteData from '../../data/site.json';
 
 const page = siteData.pages.books;
 const styles = [
@@ -42,6 +42,7 @@ const series = [
   title={page.title}
   description={page.description}
   canonical={page.canonical}
+  wing="press"
   subtitle={page.subtitle}
   eyebrow={page.eyebrow}
   introKicker={page.introKicker}

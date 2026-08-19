@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro';
+import siteData from '../../data/site.json';
+
+const page = siteData.pages.lab;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/wings.css',
+];
+
+const rooms = [
+  {
+    href: '/lab/instruments',
+    kicker: 'Field instruments',
+    title: 'Instruments',
+    copy: 'The American Anglossic Compass: forty prompts, five axes, seven archetypes. Work that is run rather than read.',
+  },
+  {
+    href: '/lab/practice',
+    kicker: 'Commissioned work',
+    title: 'Practice',
+    copy: 'Agentic systems and operations infrastructure, ontology and knowledge graphs, digital publishing, and editorial work — founder-led, a small number at a time.',
+  },
+  {
+    href: 'https://chat.stexpedite.press',
+    kicker: 'Public assistant',
+    title: 'Chat',
+    copy: 'A Turnstile-gated public interface with grounded retrieval and private assistants you own. No file, email, or deployment tools.',
+    external: true,
+  },
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  canonical={page.canonical}
+  currentNav={page.currentNav}
+  wing="lab"
+  brandMode="editorial"
+  styles={styles}
+>
+  <section class="section-block wing-rooms" aria-labelledby="lab-rooms-title">
+    <div class="section-header">
+      <p class="card-kicker">The lab wing</p>
+      <h2 class="section-heading" id="lab-rooms-title">Machinery, instruments, and the practice that builds them.</h2>
+    </div>
+    <div class="section-grid section-grid--two">
+      {rooms.map(room => (
+        <a
+          class="card wing-room"
+          href={room.href}
+          target={room.external ? '_blank' : undefined}
+          rel={room.external ? 'noopener noreferrer' : undefined}
+        >
+          <p class="card-kicker">{room.kicker}</p>
+          <h3 class="wing-room__title">{room.title}</h3>
+          <p class="section-copy">{room.copy}</p>
+          <span class="wing-room__cue" aria-hidden="true">&#8594;</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-block section-block--reading wing-crossing" aria-labelledby="lab-crossing-title">
+    <article class="card quiet-panel stack">
+      <p class="card-kicker">The other wing</p>
+      <h2 class="section-heading" id="lab-crossing-title">The Press publishes what the Lab cannot run.</h2>
+      <p class="section-copy section-copy--large">Original Southern fiction, recovery editions, and translation — the catalog, the store, and the premise behind them.</p>
+      <div class="actions">
+        <a class="button" href="/press">Cross to the Press</a>
+      </div>
+    </article>
+  </section>
+</Base>
