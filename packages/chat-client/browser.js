@@ -13,14 +13,21 @@
     return messages;
   }
 
-  function requestBody(surface, messages, turnstileToken, conversationId, presetId) {
+  function requestBody(surface, messages, turnstileToken, conversationId, assistantId) {
     const body = {
+      // surface remains during the migration because the embedded St. Expedite/RICE
+      // chat clients still use it. The standalone chat no longer depends on it for
+      // assistant identity once a profile id is present.
       surface: normalizeSurface(surface),
       messages: messages.slice(-MAX_MESSAGES),
       turnstileToken: String(turnstileToken || ''),
     };
     if (conversationId) body.conversationId = String(conversationId);
-    if (presetId) body.presetId = String(presetId);
+    if (assistantId) {
+      const id = String(assistantId);
+      if (id.startsWith('profile-')) body.profileId = id;
+      else body.presetId = id; // migration compatibility for unmigrated presets
+    }
     return body;
   }
 
