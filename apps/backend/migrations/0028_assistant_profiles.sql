@@ -2,19 +2,19 @@
 -- remains the runtime source of truth for each assistant profile.
 
 CREATE TABLE IF NOT EXISTS assistant_profiles (
-  id                 TEXT    PRIMARY KEY,
-  owner_account_id   TEXT    REFERENCES visitor_accounts(id),
-  hermes_profile_name TEXT   NOT NULL UNIQUE,
-  display_name       TEXT    NOT NULL,
-  description        TEXT,
-  instructions       TEXT    NOT NULL DEFAULT '',
-  primary_model      TEXT    NOT NULL DEFAULT '',
-  delegation_model   TEXT,
-  visibility         TEXT    NOT NULL DEFAULT 'private' CHECK (visibility IN ('public', 'private')),
-  status             TEXT    NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'ready', 'error')),
-  is_default         INTEGER NOT NULL DEFAULT 0 CHECK (is_default IN (0, 1)),
-  created_at         TEXT    NOT NULL DEFAULT (datetime('now')),
-  updated_at         TEXT    NOT NULL DEFAULT (datetime('now'))
+  id                  TEXT    PRIMARY KEY,
+  owner_account_id    TEXT    REFERENCES visitor_accounts(id),
+  hermes_profile_name TEXT    NOT NULL UNIQUE,
+  display_name        TEXT    NOT NULL,
+  description         TEXT,
+  instructions        TEXT    NOT NULL DEFAULT '',
+  primary_model       TEXT    NOT NULL DEFAULT '',
+  delegation_model    TEXT,
+  visibility          TEXT    NOT NULL DEFAULT 'private' CHECK (visibility IN ('public', 'private')),
+  status              TEXT    NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'ready', 'error')),
+  is_default          INTEGER NOT NULL DEFAULT 0 CHECK (is_default IN (0, 1)),
+  created_at          TEXT    NOT NULL DEFAULT (datetime('now')),
+  updated_at          TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE INDEX IF NOT EXISTS idx_assistant_profiles_owner
@@ -51,6 +51,9 @@ INSERT OR IGNORE INTO assistant_profiles (
 
 -- Bind newly-created conversations to one assistant. Existing conversations
 -- remain nullable for compatibility and continue to use the legacy public path.
-ALTER TABLE chat_conversations ADD COLUMN profile_id TEXT REFERENCES assistant_profiles(id);
+-- Deleting a private assistant must not delete its historical transcript; the
+-- binding becomes NULL and normal chat-retention policy removes the transcript later.
+ALTER TABLE chat_conversations
+  ADD COLUMN profile_id TEXT REFERENCES assistant_profiles(id) ON DELETE SET NULL;
 CREATE INDEX IF NOT EXISTS idx_chat_conversations_profile
   ON chat_conversations (profile_id, last_message_at);
