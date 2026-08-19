@@ -7,6 +7,9 @@
   const presetStatus = document.querySelector('[data-preset-status]');
   const transcript = document.querySelector('[data-transcript]');
   const newChat = document.querySelector('[data-new-chat]');
+  const authedBlock = document.querySelector('[data-visitor-authed]');
+  const visitorStatus = document.querySelector('[data-visitor-status]');
+  const apiBase = document.querySelector('meta[name="api-base"]')?.content || '';
 
   // The standalone chat has one default assistant. Site/RICE embedded clients may
   // retain their surface values, but visitors no longer choose a surface here.
@@ -20,6 +23,13 @@
   if (blockLabel) blockLabel.textContent = 'Assistant';
   if (openBuilder) openBuilder.textContent = 'Build an assistant';
 
+  const deleteAssistant = document.createElement('button');
+  deleteAssistant.type = 'button';
+  deleteAssistant.className = 'new-chat';
+  deleteAssistant.textContent = 'Delete assistant';
+  deleteAssistant.hidden = true;
+  openBuilder?.insertAdjacentElement('afterend', deleteAssistant);
+
   const privacyNote = document.createElement('p');
   privacyNote.className = 'rail__note';
   privacyNote.textContent = 'Chat transcripts are stored temporarily for up to 30 days so a refresh can restore this session. Hermes long-term memory remains disabled for the public assistant.';
@@ -28,6 +38,15 @@
   function selectedAssistantName() {
     const text = select?.selectedOptions?.[0]?.textContent?.trim();
     return text || 'St. Expedite';
+  }
+
+  function canDeleteSelection() {
+    const id = select?.value || '';
+    return Boolean(apiBase && authedBlock && !authedBlock.hidden && id.startsWith('profile-') && id !== 'profile-stexpedite');
+  }
+
+  function syncDeleteButton() {
+    deleteAssistant.hidden = !canDeleteSelection();
   }
 
   function normalizeOptions() {
@@ -42,6 +61,7 @@
         .replace(/\s*—\s*ready\s*$/i, '')
         .replace(/\s*\(yours\)\s*$/i, '');
     }
+    syncDeleteButton();
   }
 
   if (select) {
@@ -54,8 +74,35 @@
         previous = next;
         newChat?.click();
       }
+      syncDeleteButton();
     });
   }
+  if (authedBlock) new MutationObserver(syncDeleteButton).observe(authedBlock, { attributes: true, attributeFilter: ['hidden'] });
+
+  deleteAssistant.addEventListener('click', async () => {
+    const id = select?.value || '';
+    if (!canDeleteSelection() || !id) return;
+    const name = selectedAssistantName().replace(/\s+—\s+(?:pending|error|rejected)$/i, '');
+    if (!window.confirm(`Delete ${name}? Existing transcript history will remain until normal retention expiry, but this assistant will no longer run.`)) return;
+    deleteAssistant.disabled = true;
+    try {
+      const response = await fetch(`${apiBase}/api/profiles/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'Delete failed.');
+      select.querySelector(`option[value="${CSS.escape(id)}"]`)?.remove();
+      select.value = '';
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      if (visitorStatus) visitorStatus.textContent = `${name} deleted.`;
+    } catch (error) {
+      if (visitorStatus) visitorStatus.textContent = `Could not delete assistant: ${error instanceof Error ? error.message : 'unknown error'}`;
+    } finally {
+      deleteAssistant.disabled = false;
+      syncDeleteButton();
+    }
+  });
 
   function relabelAssistantMessages() {
     const name = selectedAssistantName();
