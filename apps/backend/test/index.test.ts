@@ -2014,4 +2014,97 @@ describe("preset step-weighted per-identity budget (Phase 7)", () => {
     const second = await worker.fetch(makeJsonRequest("/api/chat", { messages: [{ role: "user", content: "hi" }], presetId: "p" }), env);
     expect(second.status).toBe(429);
   });
+
+  it("resolves order prices server-side and ignores any price sent by the client", async () => {
+    fetchMock.mockResolvedValue(
+      new Response(JSON.stringify({ id: "cs_order_1", url: "https://checkout.stripe.com/c/pay/cs_order_1" }), { status: 200 }),
+    );
+
+    // A client trying to buy the Collector Set for one cent.
+    const req = makeJsonRequest("/api/orders/session", {
+      packageId: "collector-set",
+      amountCents: 1,
+      amount: 1,
+      price: 1,
+    });
+    const res = await worker.fetch(req, baseEnv as never);
+    const body = (await res.json()) as { ok: boolean; amountCents: number; shippingCents: number; url: string };
+
+    expect(res.status).toBe(200);
+    expect(body.amountCents).toBe(5799);
+    expect(body.shippingCents).toBe(700);
+    const stripeBody = String((fetchMock.mock.calls[0]?.[1] as RequestInit)?.body ?? "");
+    expect(stripeBody).toContain("line_items%5B0%5D%5Bprice_data%5D%5Bunit_amount%5D=5799");
+    expect(stripeBody).not.toContain("unit_amount=1&");
+    expect(stripeBody).toContain("shipping_address_collection");
+    expect(stripeBody).toContain("submit_type=pay");
+  });
+
+  it("rejects an unknown order package", async () => {
+    const req = makeJsonRequest("/api/orders/session", { packageId: "free-everything" });
+    const res = await worker.fetch(req, baseEnv as never);
+    expect(res.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("requires a valid shirt size for packages that include a shirt", async () => {
+    const missing = await worker.fetch(
+      makeJsonRequest("/api/orders/session", { packageId: "full-collector" }),
+      baseEnv as never,
+    );
+    expect(missing.status).toBe(400);
+
+    const bogus = await worker.fetch(
+      makeJsonRequest("/api/orders/session", { packageId: "full-collector", shirtSize: "TENT" }),
+      baseEnv as never,
+    );
+    expect(bogus.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("accepts a shirt size and carries it into Stripe metadata", async () => {
+    fetchMock.mockResolvedValue(
+      new Response(JSON.stringify({ id: "cs_order_2", url: "https://checkout.stripe.com/c/pay/cs_order_2" }), { status: 200 }),
+    );
+    const res = await worker.fetch(
+      makeJsonRequest("/api/orders/session", { packageId: "readers-set-shirt", shirtSize: "xl" }),
+      baseEnv as never,
+    );
+    expect(res.status).toBe(200);
+    const stripeBody = String((fetchMock.mock.calls[0]?.[1] as RequestInit)?.body ?? "");
+    expect(stripeBody).toContain("shirt_size%5D=XL");
+    expect(stripeBody).toContain("package_id%5D=readers-set-shirt");
+  });
+
+  it("routes an order webhook to the orders ledger, not donations", async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ id: "resend-order" }), { status: 200 }));
+    const db = makeMockDb();
+    const event = {
+      type: "checkout.session.completed",
+      data: {
+        object: {
+          id: "cs_order_hook",
+          amount_total: 6499,
+          payment_status: "paid",
+          customer_details: { email: "buyer@example.com" },
+          shipping_details: {
+            name: "A Buyer",
+            address: { line1: "1 Rampart St", city: "New Orleans", state: "LA", postal_code: "70116", country: "US" },
+          },
+          metadata: {
+            source: "site_order",
+            package_id: "collector-set",
+            package_name: "Collector Set",
+            goods_cents: "5799",
+            shipping_cents: "700",
+          },
+        },
+      },
+    };
+
+    const res = await worker.fetch(await makeStripeWebhookRequest(event), { ...baseEnv, DB: db } as never);
+    expect(res.status).toBe(200);
+    // The donation ledger must not absorb a product sale.
+    expect(db.donations.size).toBe(0);
+  });
 });

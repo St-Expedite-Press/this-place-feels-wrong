@@ -75,51 +75,57 @@ const styles = [
     </div>
   </section>
 
-  <section class="section-block section-block--reading preorder-reserve" aria-labelledby="reserve-title">
+  <section class="section-block section-block--reading preorder-order" aria-labelledby="order-title">
     <article class="card quiet-panel stack">
-      <p class="card-kicker">Reserve a copy</p>
-      <h2 class="section-heading" id="reserve-title">Nothing is charged today.</h2>
-      <p class="section-copy section-copy--large">Leave an address against the edition you want. When the files are locked and the run is priced, the press writes to you first with a payment link. Reserving costs nothing and commits you to nothing.</p>
+      <p class="card-kicker">Order</p>
+      <h2 class="section-heading" id="order-title">Order direct from the press</h2>
+      <p class="section-copy section-copy--large">Payment is taken now and the press ships the whole order itself, in one parcel. Shipping is a flat rate within the United States. These are pre-orders: the books go out when the run is complete.</p>
 
-      <form class="preorder-form" id="preorder-form" novalidate>
+      <form class="preorder-form" id="order-form" novalidate>
         <div class="field">
-          <label for="preorder-package">Edition or set</label>
-          <select class="input" id="preorder-package" name="package">
+          <label for="order-package">Edition or set</label>
+          <select class="input" id="order-package" name="packageId">
             <optgroup label="Sets">
               {sets.map(set => (
-                <option value={`set:${set.id}`}>{set.name} — {set.price}</option>
+                <option value={set.id} data-shirt={set.contents.includes('shirt') ? 'true' : 'false'}>{set.name} — {set.price}</option>
               ))}
             </optgroup>
-            {editions.map(group => (
-              <optgroup label={group.work}>
-                {group.items.map(item => (
-                  <option value={`item:${group.group}:${item.binding}`}>{item.binding} — {item.price}</option>
-                ))}
-              </optgroup>
-            ))}
+            <optgroup label="Single volumes">
+              <option value="main-softcover" data-shirt="false">Main collection, softcover — $17.99</option>
+              <option value="main-hardcover" data-shirt="false">Main collection, hardcover numbered — $39.99</option>
+              <option value="companion-softcover" data-shirt="false">Companion, softcover — $12.99</option>
+              <option value="companion-hardcover" data-shirt="false">Companion, hardcover — $22.99</option>
+            </optgroup>
           </select>
         </div>
 
-        <div class="field">
-          <label for="preorder-email">Email</label>
-          <input class="input" id="preorder-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="your@email.com" required />
+        <div class="field" id="order-size-field" hidden>
+          <label for="order-size">Shirt size</label>
+          <select class="input" id="order-size" name="shirtSize">
+            <option value="S">Small</option>
+            <option value="M">Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">Extra large</option>
+            <option value="XXL">2XL</option>
+          </select>
         </div>
 
         <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
 
         <div class="actions">
-          <button class="button" id="preorder-submit" type="submit">Reserve</button>
+          <button class="button" id="order-submit" type="submit">Continue to payment</button>
         </div>
 
-        <div class="status-panel" id="preorder-helper" role="status" aria-live="polite" hidden>
+        <div class="status-panel" id="order-helper" role="status" aria-live="polite" hidden>
           <div data-status-text></div>
         </div>
       </form>
 
       <ul class="meta-list preorder-terms">
-        <li>No payment is taken now and no card details are collected.</li>
-        <li>Extents and specifications for the companion volume are still being set; the press will confirm before invoicing.</li>
-        <li>Reserving adds you to press correspondence. Every message carries an unsubscribe link.</li>
+        <li>Payment is handled by Stripe. The press never sees your card details.</li>
+        <li>Flat-rate shipping within the United States, added at checkout.</li>
+        <li>Everything in an order ships together, in one parcel, when the run is ready.</li>
+        <li>Write to <a href="/lab/schedule">the press</a> for anything unusual — overseas, bulk, or trade.</li>
       </ul>
     </article>
   </section>
@@ -127,6 +133,6 @@ const styles = [
   <Fragment slot="scripts">
     <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>
-    <script is:inline src="/assets/js/preorder-entry.js" type="module"></script>
+    <script is:inline src="/assets/js/order-entry.js" type="module"></script>
   </Fragment>
 </Base>

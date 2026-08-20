@@ -144,6 +144,16 @@
       "canonical": "https://stexpedite.press/press/preorder",
       "currentNav": "/press/books"
     },
+    "orderThanks": {
+      "title": "Order received",
+      "description": "Your order with St. Expedite Press has been received.",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "Order received",
+      "introTitle": "The order is in.",
+      "introText": "Payment went through and the press has your details.",
+      "canonical": "https://stexpedite.press/press/preorder/thanks",
+      "currentNav": "/press/books"
+    },
     "store": {
       "title": "Store",
       "description": "Books, prints, and objects from St. Expedite Press, loaded live from the shop.",

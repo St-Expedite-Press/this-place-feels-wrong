@@ -1053,6 +1053,121 @@ function parseDonationAmountCents(body: JsonRecord) {
   return Math.round(amount * 100);
 }
 
+// ── Direct orders ──────────────────────────────────────────────────────────
+// The order catalog lives server-side so a client can never name its own
+// price. Ids are the contract with the pre-order page; amounts are cents.
+//
+// SHIPPING: one flat US rate. Confirm this against real postage for the
+// heaviest package (two hardcovers plus a shirt) before taking live orders.
+const ORDER_SHIPPING_CENTS = 700;
+const ORDER_SHIPPING_LABEL = "US shipping (flat rate)";
+
+type OrderItem = {
+  name: string;
+  description: string;
+  amountCents: number;
+  needsShirtSize: boolean;
+};
+
+const ORDER_CATALOG: Record<string, OrderItem> = {
+  "main-softcover":      { name: "Lift Wind / Love Heat — softcover",                  description: "Main collection, 6.14 x 9.21 in", amountCents: 1799, needsShirtSize: false },
+  "main-hardcover":      { name: "Lift Wind / Love Heat — hardcover, numbered",        description: "Main collection, numbered edition", amountCents: 3999, needsShirtSize: false },
+  "companion-softcover": { name: "Translation & Essays — softcover",                   description: "Companion volume, 5.5 x 8.5 in", amountCents: 1299, needsShirtSize: false },
+  "companion-hardcover": { name: "Translation & Essays — hardcover",                   description: "Companion volume, 5.5 x 8.5 in", amountCents: 2299, needsShirtSize: false },
+  "readers-set":         { name: "Reader's Set",                                       description: "Main softcover + companion softcover", amountCents: 2799, needsShirtSize: false },
+  "readers-set-shirt":   { name: "Reader's Set + Shirt",                               description: "Main softcover + companion softcover + press shirt", amountCents: 5499, needsShirtSize: true },
+  "collector-set":       { name: "Collector Set",                                      description: "Main hardcover + companion hardcover", amountCents: 5799, needsShirtSize: false },
+  "full-collector":      { name: "Full Collector",                                     description: "Main hardcover + companion hardcover + press shirt", amountCents: 8499, needsShirtSize: true },
+};
+
+const ORDER_SHIRT_SIZES = new Set(["S", "M", "L", "XL", "XXL"]);
+
+async function createStripeOrderSession(
+  env: Env,
+  params: { packageId: string; item: OrderItem; shirtSize: string },
+) {
+  const secret = String(env.STRIPE_SECRET_KEY ?? "").trim();
+  if (!secret) {
+    throw new Error("Stripe not configured");
+  }
+
+  const { packageId, item, shirtSize } = params;
+  const descriptionSuffix = shirtSize ? ` (shirt size ${shirtSize})` : "";
+
+  const body = new URLSearchParams();
+  body.set("mode", "payment");
+  body.set("submit_type", "pay");
+  body.set("success_url", `${BRAND.siteUrl}/press/preorder/thanks?session_id={CHECKOUT_SESSION_ID}`);
+  body.set("cancel_url", `${BRAND.siteUrl}/press/preorder`);
+  body.set("line_items[0][quantity]", "1");
+  body.set("line_items[0][price_data][currency]", "usd");
+  body.set("line_items[0][price_data][unit_amount]", String(item.amountCents));
+  body.set("line_items[0][price_data][product_data][name]", item.name);
+  body.set("line_items[0][price_data][product_data][description]", `${item.description}${descriptionSuffix}`);
+  // Physical goods: collect a destination. US only for now.
+  body.set("shipping_address_collection[allowed_countries][0]", "US");
+  body.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
+  body.set("shipping_options[0][shipping_rate_data][display_name]", ORDER_SHIPPING_LABEL);
+  body.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", "usd");
+  body.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", String(ORDER_SHIPPING_CENTS));
+  for (const scope of ["metadata", "payment_intent_data[metadata]"]) {
+    body.set(`${scope}[source]`, "site_order");
+    body.set(`${scope}[package_id]`, packageId);
+    body.set(`${scope}[package_name]`, item.name);
+    body.set(`${scope}[goods_cents]`, String(item.amountCents));
+    body.set(`${scope}[shipping_cents]`, String(ORDER_SHIPPING_CENTS));
+    if (shirtSize) body.set(`${scope}[shirt_size]`, shirtSize);
+  }
+
+  const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${secret}`,
+      "content-type": "application/x-www-form-urlencoded",
+      "stripe-version": STRIPE_API_VERSION,
+    },
+    body: body.toString(),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => "");
+    throw new Error(`Stripe error (${response.status}): ${errorBody.slice(0, 500)}`);
+  }
+
+  const data = (await response.json().catch(() => ({}))) as { id?: string; url?: string };
+  return { id: String(data.id ?? ""), url: String(data.url ?? "") };
+}
+
+async function claimOrder(
+  db: D1Database | undefined,
+  row: {
+    id: string; stripeSessionId: string; packageId: string; packageName: string; shirtSize: string;
+    goodsCents: number; shippingCents: number; amountCents: number; email: string;
+    ship: Record<string, string>; paymentStatus: string;
+  },
+) {
+  if (!db?.prepare) return { claimed: true };
+  const result = await db
+    .prepare(
+      `INSERT INTO orders (
+         id, stripe_session_id, package_id, package_name, shirt_size,
+         goods_cents, shipping_cents, amount_cents, email,
+         ship_name, ship_line1, ship_line2, ship_city, ship_state, ship_postal, ship_country,
+         payment_status
+       ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+       ON CONFLICT (stripe_session_id) DO NOTHING`,
+    )
+    .bind(
+      row.id, row.stripeSessionId, row.packageId, row.packageName, row.shirtSize || null,
+      row.goodsCents, row.shippingCents, row.amountCents, row.email || null,
+      row.ship.name || null, row.ship.line1 || null, row.ship.line2 || null,
+      row.ship.city || null, row.ship.state || null, row.ship.postal || null, row.ship.country || null,
+      row.paymentStatus,
+    )
+    .run();
+  return { claimed: (result.meta?.changes ?? 0) > 0 };
+}
+
 async function createStripeCheckoutSession(env: Env, params: { amountCents: number }) {
   const secret = String(env.STRIPE_SECRET_KEY ?? "").trim();
   if (!secret) {
@@ -1485,6 +1600,101 @@ function renderDonationEditorHtml(params: { id: string; amountDisplay: string; e
   });
 }
 
+async function handleOrderCompleted(
+  env: Env,
+  params: {
+    session: JsonRecord; sessionId: string; amountTotal: number;
+    paymentStatus: string; customerEmail: string; metadata: JsonRecord;
+  },
+): Promise<Response> {
+  const { session, sessionId, amountTotal, paymentStatus, customerEmail, metadata } = params;
+  const jsonHeaders = { "content-type": "application/json; charset=utf-8" };
+
+  if (!sessionId) {
+    return new Response(JSON.stringify({ ok: false, error: "Invalid payload" }), { status: 400, headers: jsonHeaders });
+  }
+
+  const shippingDetails = (session.shipping_details ?? session.customer_details ?? {}) as JsonRecord;
+  const address = (shippingDetails.address ?? {}) as JsonRecord;
+  const ship = {
+    name: String(shippingDetails.name ?? ""),
+    line1: String(address.line1 ?? ""),
+    line2: String(address.line2 ?? ""),
+    city: String(address.city ?? ""),
+    state: String(address.state ?? ""),
+    postal: String(address.postal_code ?? ""),
+    country: String(address.country ?? ""),
+  };
+
+  const packageId = String(metadata.package_id ?? "");
+  const packageName = String(metadata.package_name ?? ORDER_CATALOG[packageId]?.name ?? "Order");
+  const shirtSize = String(metadata.shirt_size ?? "");
+  const goodsCents = Number(metadata.goods_cents ?? 0);
+  const shippingCents = Number(metadata.shipping_cents ?? 0);
+  const id = refId("ORDER");
+
+  const claim = await claimOrder(env.DB, {
+    id, stripeSessionId: sessionId, packageId, packageName, shirtSize,
+    goodsCents, shippingCents, amountCents: amountTotal, email: customerEmail, ship, paymentStatus,
+  });
+  if (!claim.claimed) {
+    return new Response(JSON.stringify({ ok: true, received: true, duplicate: true }), { status: 200, headers: jsonHeaders });
+  }
+
+  if (customerEmail && env.RESEND_API_KEY && env.FROM_EMAIL && paymentStatus === "paid") {
+    const lines = [
+      "Your order with St. Expedite Press is confirmed.",
+      "",
+      `Reference: ${id}`,
+      `Item: ${packageName}${shirtSize ? ` (shirt size ${shirtSize})` : ""}`,
+      `Total: $${(amountTotal / 100).toFixed(2)} (including $${(shippingCents / 100).toFixed(2)} shipping)`,
+      "",
+      "Shipping to:",
+      [ship.name, ship.line1, ship.line2, [ship.city, ship.state, ship.postal].filter(Boolean).join(" "), ship.country]
+        .filter(Boolean).join("\n"),
+      "",
+      "This is a pre-order. The press writes again when it ships.",
+      "Reply to this email with the reference if anything above is wrong.",
+      "",
+      "— St. Expedite Press",
+    ];
+    try {
+      await sendEmail(env, {
+        to: customerEmail,
+        subject: `Order confirmed — ${id}`,
+        text: lines.join("\n"),
+        replyTo: env.TO_EMAIL,
+      });
+    } catch {
+      // The order is already recorded; a failed receipt must not fail the webhook.
+    }
+  }
+
+  if (env.TO_EMAIL && env.RESEND_API_KEY && env.FROM_EMAIL) {
+    try {
+      await sendEmail(env, {
+        to: env.TO_EMAIL,
+        subject: `New order — ${packageName} — ${id}`,
+        text: [
+          `Ref: ${id}`,
+          `Package: ${packageId} (${packageName})`,
+          shirtSize ? `Shirt size: ${shirtSize}` : null,
+          `Paid: $${(amountTotal / 100).toFixed(2)}`,
+          `Email: ${customerEmail || "(none)"}`,
+          "",
+          "Ship to:",
+          [ship.name, ship.line1, ship.line2, [ship.city, ship.state, ship.postal].filter(Boolean).join(" "), ship.country]
+            .filter(Boolean).join("\n"),
+        ].filter(Boolean).join("\n"),
+      });
+    } catch {
+      // Non-fatal: the row is the record of truth.
+    }
+  }
+
+  return new Response(JSON.stringify({ ok: true, received: true }), { status: 200, headers: jsonHeaders });
+}
+
 async function handleStripeWebhook(request: Request, env: Env): Promise<Response> {
   const webhookSecret = String(env.STRIPE_WEBHOOK_SECRET ?? "").trim();
   if (!webhookSecret || webhookSecret.startsWith("whsec_xxx")) {
@@ -1522,6 +1732,21 @@ async function handleStripeWebhook(request: Request, env: Env): Promise<Response
     const sessionId = String(session.id ?? "");
     const customerDetails = session.customer_details as JsonRecord | null;
     const customerEmail = String(customerDetails?.email ?? session.customer_email ?? "").trim();
+    const sessionMetadata = (session.metadata ?? {}) as JsonRecord;
+
+    // Orders and donations share this event; the metadata written at session
+    // creation decides which ledger the payment belongs in.
+    if (String(sessionMetadata.source ?? "") === "site_order") {
+      return handleOrderCompleted(env, {
+        session,
+        sessionId,
+        amountTotal,
+        paymentStatus,
+        customerEmail,
+        metadata: sessionMetadata,
+      });
+    }
+
     const id = refId("DONATE");
     const amountDisplay = `$${(amountTotal / 100).toFixed(2)}`;
     let receiptEmailId = "";
@@ -2804,6 +3029,43 @@ export default {
         }
 
         return withCors(request, ok({ amountCents, sessionId: session.id, url: session.url }));
+      }
+
+      if (url.pathname === "/api/orders/session") {
+        const packageId = normalizeText(body.packageId, 64);
+        const item = Object.prototype.hasOwnProperty.call(ORDER_CATALOG, packageId)
+          ? ORDER_CATALOG[packageId]
+          : undefined;
+        if (!item) {
+          return withCors(request, errorResponse("Unknown package", 400));
+        }
+
+        const shirtSize = normalizeText(body.shirtSize, 8).toUpperCase();
+        if (item.needsShirtSize && !ORDER_SHIRT_SIZES.has(shirtSize)) {
+          return withCors(request, errorResponse("Shirt size required", 400));
+        }
+
+        let session: { id: string; url: string };
+        try {
+          session = await createStripeOrderSession(env, {
+            packageId,
+            item,
+            shirtSize: item.needsShirtSize ? shirtSize : "",
+          });
+        } catch {
+          return withCors(request, errorResponse("Checkout unavailable", 502));
+        }
+        if (!session.url) {
+          return withCors(request, errorResponse("Stripe session unavailable", 502));
+        }
+
+        return withCors(request, ok({
+          packageId,
+          amountCents: item.amountCents,
+          shippingCents: ORDER_SHIPPING_CENTS,
+          sessionId: session.id,
+          url: session.url,
+        }));
       }
 
       if (url.pathname === "/api/updates/unsubscribe") {

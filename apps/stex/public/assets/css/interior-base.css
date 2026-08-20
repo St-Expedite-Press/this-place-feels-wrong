@@ -1,3 +1,11 @@
+/* The hidden attribute must beat any author display rule. Without this, a
+   component with its own `display` (.field is display:grid) stays visible
+   while marked hidden, which is why several components carry their own
+   [hidden] override further down the stack. */
+[hidden] {
+  display: none !important;
+}
+
 *,
 *::before,
 *::after {

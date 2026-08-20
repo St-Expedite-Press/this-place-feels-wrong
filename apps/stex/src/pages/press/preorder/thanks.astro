@@ -1,0 +1,43 @@
+---
+import Base from '../../../layouts/Base.astro';
+import siteData from '../../../data/site.json';
+
+const page = siteData.pages.orderThanks;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/forms.css',
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  canonical={page.canonical}
+  currentNav={page.currentNav}
+  wing="press"
+  brandMode="utility"
+  robots="noindex"
+  styles={styles}
+>
+  <section class="section-block section-block--reading" aria-labelledby="order-thanks-title">
+    <article class="card stack">
+      <h2 class="section-heading" id="order-thanks-title">What happens now</h2>
+      <ul class="meta-list">
+        <li>A confirmation is on its way to the address you gave Stripe, with a reference number on it.</li>
+        <li>The press writes again when the run is complete and your parcel goes out.</li>
+        <li>Everything in the order ships together, so a set arrives as one parcel.</li>
+        <li>If anything on the confirmation is wrong &mdash; the address, the shirt size &mdash; reply to that email with the reference.</li>
+      </ul>
+      <div class="actions">
+        <a class="button-secondary" href="/press/books">Back to the catalog</a>
+        <a class="button-secondary" href="/press">The press</a>
+      </div>
+    </article>
+  </section>
+</Base>
