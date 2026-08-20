@@ -16,44 +16,44 @@ const contents = [
     num: '01',
     href: '/lab/instruments',
     name: 'Instruments',
-    detail: 'The American Anglossic Compass — forty prompts, five axes, seven archetypes, and a reading at the end. Runs in the browser in a few minutes.',
-    meta: 'Runnable now',
+    detail: 'The American Anglossic Compass. Forty prompts across five axes, scored against seven archetypes. Runs in the browser in a few minutes.',
+    meta: 'Working example',
   },
   {
     num: '02',
     href: '/lab/architecture',
     name: 'Architecture',
-    detail: 'The request path for the public assistant, where each control is enforced, and the fifteen capabilities it is denied. Rendered from the policy file the profile actually runs on.',
-    meta: 'Published constraints',
+    detail: 'The request path for the public assistant, where each control is applied, and the fifteen capabilities it is denied. Generated from the profile configuration.',
+    meta: 'Reference',
   },
   {
     num: '03',
     href: '/lab/practice',
     name: 'Practice',
-    detail: 'The four forms of work that can be commissioned, what each leaves you holding, and the three phases a project moves through.',
-    meta: 'What to commission',
+    detail: 'Four forms of work, the deliverable for each, and the three phases an engagement moves through.',
+    meta: 'Services',
   },
   {
     num: '04',
     href: '/lab/schedule',
     name: 'Schedule',
-    detail: 'A short first call to establish whether there is a project here. No charge, no obligation afterwards.',
-    meta: 'Start here',
+    detail: 'A short introductory call to establish scope and fit. No charge and no obligation.',
+    meta: 'Contact',
   },
 ];
 
 const principles = [
   {
-    name: 'One pair of hands',
-    detail: 'Strategy and execution stay with the same person, from the first model of an audience to the last line of code. There is no account layer and nothing is subcontracted out of view.',
+    name: 'Direct delivery',
+    detail: 'The person who scopes the work writes the schema and ships the code. There is no account management layer and no subcontracting.',
   },
   {
-    name: 'Structure over prompt',
-    detail: 'Relationships are explicit and inspectable — ontologies, contracts between pipeline steps, retrieval that can show its source — rather than buried in a prompt someone else can silently change.',
+    name: 'Explicit structure',
+    detail: 'System behaviour lives in schemas, contracts between pipeline steps, and configuration rather than in prompt text. Retrieval returns its sources.',
   },
   {
-    name: 'Constraints in public',
-    detail: 'The systems built here publish what they cannot do. The public assistant’s denial list is on this site, generated from its own configuration.',
+    name: 'Documented limits',
+    detail: 'Systems ship with their constraints written down and generated from configuration, so the documentation cannot drift from what is deployed.',
   },
 ];
 ---
@@ -73,7 +73,7 @@ const principles = [
   <section class="section-block" aria-labelledby="contents-title">
     <div class="section-header">
       <p class="card-kicker">Contents</p>
-      <h2 class="section-heading" id="contents-title">What is here</h2>
+      <h2 class="section-heading" id="contents-title">Sections</h2>
     </div>
     <ol class="doc-index">
       {contents.map(entry => (
@@ -91,8 +91,8 @@ const principles = [
 
   <section class="section-block" aria-labelledby="principles-title">
     <div class="section-header">
-      <p class="card-kicker">How the work is done</p>
-      <h2 class="section-heading" id="principles-title">Three commitments that shape everything else</h2>
+      <p class="card-kicker">How engagements work</p>
+      <h2 class="section-heading" id="principles-title">Constants across engagements</h2>
     </div>
     <dl class="doc-defs">
       {principles.map(item => (
@@ -106,9 +106,9 @@ const principles = [
 
   <section class="section-block section-block--reading" aria-labelledby="crossing-title">
     <div class="doc-note">
-      <p class="card-kicker">The other side</p>
-      <h2 class="section-heading" id="crossing-title">There is also a Press.</h2>
-      <p class="section-copy section-copy--large">St. Expedite publishes Southern fiction, recovery editions, and translation out of New Orleans. The commissioned work here is what pays for that building.</p>
+      <p class="card-kicker">Related</p>
+      <h2 class="section-heading" id="crossing-title">St. Expedite Press</h2>
+      <p class="section-copy section-copy--large">The Lab shares an operation with a publishing house in New Orleans, which issues Southern fiction, recovery editions, and translation. Commissioned work funds it.</p>
       <div class="actions">
         <a class="button" href="/lab/schedule">Book a call</a>
         <a class="button-secondary" href="/press">Go to the Press</a>

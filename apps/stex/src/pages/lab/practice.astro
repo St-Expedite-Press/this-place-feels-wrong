@@ -40,19 +40,19 @@ const phases = [
     num: '01',
     name: 'Discovery',
     span: '1–2 weeks',
-    detail: 'Model the problem, the audience, and the constraint. Ends with a written scope and a decision about whether to continue. Paid, and useful on its own if the answer is no.',
+    detail: 'Define the problem, the constraints, and the success conditions. Produces a written scope and a go/no-go decision. Billed, and usable independently if the answer is no.',
   },
   {
     num: '02',
     name: 'Build',
     span: 'Bulk of the work',
-    detail: 'Delivery against the scope, in reviewable increments. Contracts between steps are fixed early so the shape stops moving.',
+    detail: 'Implementation against the agreed scope, delivered in reviewable increments. Interfaces between components are fixed early to limit rework.',
   },
   {
     num: '03',
     name: 'Handover',
     span: 'Final stage',
-    detail: 'Documentation, procedure, and the access required to run it without the practice. The system should not need its author to keep working.',
+    detail: 'Documentation, operating procedure, and access transfer, so the system can be run and modified without further involvement.',
   },
 ];
 ---
@@ -72,9 +72,9 @@ const phases = [
   <section class="section-block section-block--reading services-premise">
     <article class="card editorial-card stack">
       <p class="card-kicker">Who does the work</p>
-      <h2 class="section-heading">One person, one or two projects at a time.</h2>
-      <p class="section-copy section-copy--large">Christopher Sandbatch takes the work directly. That means the person who models your problem is the person who writes the ontology and ships the code, and it means capacity is genuinely limited — two substantial engagements at once is the ceiling, not a positioning device.</p>
-      <p class="section-copy">The trade is deliberate. You lose the surge capacity of an agency and the account manager who returns calls faster. You get continuity of judgment, no translation loss between strategy and build, and someone who has to live with the architecture he chose.</p>
+      <h2 class="section-heading">Delivery model</h2>
+      <p class="section-copy section-copy--large">Christopher Sandbatch delivers the work directly. The same person handles scoping, architecture, and implementation, which keeps intent intact between design and build but caps throughput: two substantial engagements at a time.</p>
+      <p class="section-copy">This suits projects where the architecture matters more than the schedule. It does not suit work that needs parallel teams, guaranteed surge capacity, or dedicated account management.</p>
     </article>
   </section>
 
@@ -87,16 +87,16 @@ const phases = [
       <thead>
         <tr>
           <th scope="col">Form</th>
-          <th scope="col">What the work is</th>
-          <th scope="col">What you are left holding</th>
+          <th scope="col">Scope</th>
+          <th scope="col">Deliverable</th>
         </tr>
       </thead>
       <tbody>
         {capabilities.map(row => (
           <tr>
             <th scope="row">{row.name}</th>
-            <td data-label="The work">{row.work}</td>
-            <td data-label="Delivered">{row.output}</td>
+            <td data-label="Scope">{row.work}</td>
+            <td data-label="Deliverable">{row.output}</td>
           </tr>
         ))}
       </tbody>
@@ -105,10 +105,10 @@ const phases = [
 
   <section class="section-block" aria-labelledby="advanced-service-title">
     <div class="section-header">
-      <p class="card-kicker">The harder cases</p>
-      <h2 class="section-heading" id="advanced-service-title">When the project has become too complicated to reason about</h2>
-      <p class="section-copy">Content, research, and AI systems reach a point where nobody can say what the system will do, because the rules live in a prompt, a spreadsheet, and someone's head. The work then is to build the governing layer: definitions that are written down, relationships that can be inspected, retrieval that cites its source, and a record of how any of it changed.</p>
-      <p class="section-copy">That layer is the difference between a system you can argue with and one you can only restart. It is slower to build and it is the reason the systems here can publish their own constraints.</p>
+      <p class="card-kicker">Governance layer</p>
+      <h2 class="section-heading" id="advanced-service-title">Systems that have outgrown informal rules</h2>
+      <p class="section-copy">Content, research, and AI systems commonly reach a point where behaviour cannot be predicted, because the rules are distributed across prompt text, spreadsheets, and undocumented convention. The remedy is a governing layer: written definitions, inspectable relationships, retrieval that returns its sources, and a change record.</p>
+      <p class="section-copy">This work takes longer than adding another prompt, and it is what makes a system auditable afterwards.</p>
     </div>
   </section>
 
@@ -178,7 +178,7 @@ const phases = [
     <div class="section-header">
       <p class="card-kicker">Engagement shape</p>
       <h2 class="section-heading" id="engagement-title">How a project runs</h2>
-      <p class="section-copy">One or two substantial engagements at a time, led directly, without account layers. Scoped by deliverables and decisions rather than indefinite activity.</p>
+      <p class="section-copy">Engagements are scoped to deliverables and decisions rather than open-ended retainers. Each phase ends with something you can evaluate.</p>
     </div>
     <ol class="phase-list">
       {phases.map(phase => (
@@ -192,7 +192,7 @@ const phases = [
     </ol>
     <div class="actions">
       <a class="button" href="/lab/schedule">Book a call</a>
-      <a class="button-secondary" href="/lab/architecture">See how the machinery is bounded</a>
+      <a class="button-secondary" href="/lab/architecture">Architecture reference</a>
     </div>
   </section>
 

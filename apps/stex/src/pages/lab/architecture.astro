@@ -56,8 +56,8 @@ const deniedLabels = {
   <section class="section-block" aria-labelledby="path-title">
     <div class="section-header">
       <p class="card-kicker">Request path</p>
-      <h2 class="section-heading" id="path-title">Every control sits in front of the model, not inside it.</h2>
-      <p class="section-copy">A browser never reaches the model. It reaches a Worker, which authorizes the request, spends the rate limit, and decides what context the model is permitted to see. The model receives a bounded request and returns a stream.</p>
+      <h2 class="section-heading" id="path-title">Where each control is applied</h2>
+      <p class="section-copy">Browsers do not reach the model directly. Requests terminate at a Cloudflare Worker, which authorizes them, applies rate limits, and selects the context the model receives. The model handles a bounded request and returns a stream.</p>
     </div>
 
     <figure class="spec-figure">
@@ -101,23 +101,23 @@ const deniedLabels = {
         </g>
 
         <g class="spec-diagram__note">
-          <text x="264" y="242">Refused here, before the model</text>
+          <text x="264" y="242">Requests rejected here</text>
           <line x1="264" y1="252" x2="264" y2="214" />
         </g>
         <g class="spec-diagram__note">
-          <text x="476" y="72">Never exposed to the browser</text>
+          <text x="476" y="72">Not reachable from the browser</text>
           <line x1="476" y1="80" x2="476" y2="102" />
         </g>
       </svg>
-      <figcaption>The browser holds no profile name, no key, and no tool configuration. Everything it is allowed to do is decided before the model is reached.</figcaption>
+      <figcaption>The browser receives no profile name, API key, or tool configuration. Authorization is resolved before the model is invoked.</figcaption>
     </figure>
   </section>
 
   <section class="section-block" aria-labelledby="denied-title">
     <div class="section-header">
       <p class="card-kicker">Capability denial</p>
-      <h2 class="section-heading" id="denied-title">What the public assistant cannot do</h2>
-      <p class="section-copy">This list is rendered from the profile's policy file, not written by hand for this page. If the policy changes, so does the page.</p>
+      <h2 class="section-heading" id="denied-title">Denied capabilities</h2>
+      <p class="section-copy">Generated from the profile's policy file rather than maintained by hand, so this list cannot diverge from the deployed configuration.</p>
     </div>
     <ul class="spec-list">
       {denied.map(key => (
@@ -133,7 +133,7 @@ const deniedLabels = {
   <section class="section-block" aria-labelledby="limits-title">
     <div class="section-header">
       <p class="card-kicker">Hard limits</p>
-      <h2 class="section-heading" id="limits-title">Bounds it runs under</h2>
+      <h2 class="section-heading" id="limits-title">Enforced limits</h2>
     </div>
     <table class="spec-table">
       <caption class="spec-table__caption">Enforced by the Worker on every request.</caption>
@@ -150,12 +150,12 @@ const deniedLabels = {
 
   <section class="section-block section-block--reading" aria-labelledby="context-title">
     <article class="card quiet-panel stack">
-      <p class="card-kicker">What it is allowed to read</p>
-      <h2 class="section-heading" id="context-title">Published material, and nothing else</h2>
-      <p class="section-copy section-copy--large">Grounding comes from an explicit source allow-list: the public site, the RICE site, and the works catalogue. Submissions, donor and subscriber records, private memory, environment data, and logs are excluded by name rather than by omission.</p>
+      <p class="card-kicker">Retrieval scope</p>
+      <h2 class="section-heading" id="context-title">Permitted sources</h2>
+      <p class="section-copy section-copy--large">Grounding is restricted to an explicit allow-list: the public site, the RICE site, and the works catalogue. Submissions, donor and subscriber records, private memory, environment data, and logs are excluded by name rather than by omission.</p>
       <div class="actions">
         <a class="button" href="https://chat.stexpedite.press">Use the assistant</a>
-        <a class="button-secondary" href="/lab/practice">How the practice works</a>
+        <a class="button-secondary" href="/lab/practice">Commissioned work</a>
       </div>
     </article>
   </section>
