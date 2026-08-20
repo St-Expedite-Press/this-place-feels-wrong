@@ -13,10 +13,10 @@ const styles = [
 
 const rooms = [
   {
-    href: '/lab/instruments',
-    kicker: 'Field instruments',
-    title: 'Instruments',
-    copy: 'The American Anglossic Compass. Forty prompts, five axes, seven archetypes, and a reading at the end of it.',
+    href: '/lab/architecture',
+    kicker: 'How it runs',
+    title: 'Architecture',
+    copy: 'The request path for the public assistant, where each control is enforced, and the capability list it is denied — rendered from the policy file itself.',
   },
   {
     href: '/lab/practice',
@@ -52,10 +52,22 @@ const rooms = [
   brandMode="editorial"
   styles={styles}
 >
+  <section class="section-block lab-lead" aria-labelledby="lab-lead-title">
+    <article class="card card--feature stack">
+      <p class="card-kicker">Working instrument</p>
+      <h2 class="section-heading section-heading--display" id="lab-lead-title">American Anglossic Compass</h2>
+      <p class="section-copy section-copy--large">Forty prompts across five axes resolve through seven archetypes into a reading. It takes a few minutes, the order shuffles on each run, and it holds your place if you stop. Nothing about it is a mockup — it is the clearest look at how the Lab builds.</p>
+      <div class="actions">
+        <a class="button" href="/lab/instruments">Run the Compass</a>
+        <a class="button-secondary" href="/lab/architecture">How it is bounded</a>
+      </div>
+    </article>
+  </section>
+
   <section class="section-block wing-rooms" aria-labelledby="lab-rooms-title">
     <div class="section-header">
       <p class="card-kicker">Where to start</p>
-      <h2 class="section-heading" id="lab-rooms-title">Four ways in.</h2>
+      <h2 class="section-heading" id="lab-rooms-title">The rest of it.</h2>
     </div>
     <div class="section-grid section-grid--two">
       {rooms.map(room => (

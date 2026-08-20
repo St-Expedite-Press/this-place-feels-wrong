@@ -1,0 +1,162 @@
+---
+import Base from '../../layouts/Base.astro';
+import siteData from '../../data/site.json';
+import policy from '../../../../../agents/public-guide/policy.json';
+
+const page = siteData.pages.labArchitecture;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/spec.css',
+];
+
+// Rendered from the profile's actual policy file, so the page cannot drift
+// from what the running assistant is configured to allow.
+const denied = policy.deny;
+const limits = [
+  { name: 'Turns per conversation', value: String(policy.limits.maxTurns) },
+  { name: 'Messages per conversation', value: String(policy.limits.maxMessages) },
+  { name: 'Characters per message', value: String(policy.limits.maxMessageCharacters) },
+  { name: 'Human verification', value: policy.limits.requiresTurnstile ? 'Required' : 'Not required' },
+  { name: 'Rate limiting', value: policy.limits.requiresRateLimit ? 'Required' : 'Not required' },
+];
+const deniedLabels = {
+  filesystem: 'Read or write any file',
+  terminal: 'Run shell commands',
+  browser: 'Browse the web',
+  'code-execution': 'Execute code',
+  memory: 'Remember you between conversations',
+  delegation: 'Hand work to another model',
+  cron: 'Schedule anything',
+  deployment: 'Deploy or change infrastructure',
+  secrets: 'Read credentials',
+  'private-retrieval': 'Search anything not publicly published',
+  'submission-file-access': 'Open a submitted manuscript',
+  'email-tool-access': 'Send mail',
+  'profile-selection': 'Change which assistant it is',
+  'model-selection': 'Change which model it runs on',
+  'system-prompt-selection': 'Change its own instructions',
+};
+---
+<Base
+  title={page.title}
+  description={page.description}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  canonical={page.canonical}
+  currentNav={page.currentNav}
+  wing="lab"
+  brandMode="editorial"
+  styles={styles}
+>
+  <section class="section-block" aria-labelledby="path-title">
+    <div class="section-header">
+      <p class="card-kicker">Request path</p>
+      <h2 class="section-heading" id="path-title">Every control sits in front of the model, not inside it.</h2>
+      <p class="section-copy">A browser never reaches the model. It reaches a Worker, which authorizes the request, spends the rate limit, and decides what context the model is permitted to see. The model receives a bounded request and returns a stream.</p>
+    </div>
+
+    <figure class="spec-figure">
+      <svg class="spec-diagram" viewBox="0 0 720 300" role="img" aria-labelledby="diagram-title diagram-desc">
+        <title id="diagram-title">Request path for the public assistant</title>
+        <desc id="diagram-desc">A browser sends a message to a Cloudflare Worker. The Worker verifies a Turnstile token, applies a rate limit, writes the turn to a D1 database, and selects allow-listed public context. It then calls a private profile service over an authenticated tunnel, which runs the least-privileged public Hermes profile. The response streams back through the Worker to the browser.</desc>
+
+        <g class="spec-diagram__node">
+          <rect x="8" y="120" width="120" height="56" rx="4" />
+          <text x="68" y="144">Browser</text>
+          <text x="68" y="162" class="spec-diagram__sub">message + token</text>
+        </g>
+
+        <g class="spec-diagram__node spec-diagram__node--gate">
+          <rect x="176" y="86" width="176" height="124" rx="4" />
+          <text x="264" y="112">Cloudflare Worker</text>
+          <text x="264" y="134" class="spec-diagram__sub">verify Turnstile</text>
+          <text x="264" y="152" class="spec-diagram__sub">spend rate limit</text>
+          <text x="264" y="170" class="spec-diagram__sub">persist turn to D1</text>
+          <text x="264" y="188" class="spec-diagram__sub">allow-listed context</text>
+        </g>
+
+        <g class="spec-diagram__node">
+          <rect x="400" y="106" width="152" height="84" rx="4" />
+          <text x="476" y="132">Profile service</text>
+          <text x="476" y="152" class="spec-diagram__sub">loopback only</text>
+          <text x="476" y="170" class="spec-diagram__sub">reapplies tool policy</text>
+        </g>
+
+        <g class="spec-diagram__node spec-diagram__node--model">
+          <rect x="596" y="112" width="120" height="72" rx="4" />
+          <text x="656" y="136">Public profile</text>
+          <text x="656" y="154" class="spec-diagram__sub">no tools</text>
+          <text x="656" y="170" class="spec-diagram__sub">no memory</text>
+        </g>
+
+        <g class="spec-diagram__flow">
+          <line x1="128" y1="148" x2="172" y2="148" />
+          <line x1="352" y1="148" x2="396" y2="148" />
+          <line x1="552" y1="148" x2="592" y2="148" />
+        </g>
+
+        <g class="spec-diagram__note">
+          <text x="264" y="242">Refused here, before the model</text>
+          <line x1="264" y1="252" x2="264" y2="214" />
+        </g>
+        <g class="spec-diagram__note">
+          <text x="476" y="72">Never exposed to the browser</text>
+          <line x1="476" y1="80" x2="476" y2="102" />
+        </g>
+      </svg>
+      <figcaption>The browser holds no profile name, no key, and no tool configuration. Everything it is allowed to do is decided before the model is reached.</figcaption>
+    </figure>
+  </section>
+
+  <section class="section-block" aria-labelledby="denied-title">
+    <div class="section-header">
+      <p class="card-kicker">Capability denial</p>
+      <h2 class="section-heading" id="denied-title">What the public assistant cannot do</h2>
+      <p class="section-copy">This list is rendered from the profile's policy file, not written by hand for this page. If the policy changes, so does the page.</p>
+    </div>
+    <ul class="spec-list">
+      {denied.map(key => (
+        <li class="spec-list__item">
+          <span class="spec-list__mark" aria-hidden="true">&times;</span>
+          <span class="spec-list__label">{deniedLabels[key] ?? key}</span>
+          <code class="spec-list__key">{key}</code>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section-block" aria-labelledby="limits-title">
+    <div class="section-header">
+      <p class="card-kicker">Hard limits</p>
+      <h2 class="section-heading" id="limits-title">Bounds it runs under</h2>
+    </div>
+    <table class="spec-table">
+      <caption class="spec-table__caption">Enforced by the Worker on every request.</caption>
+      <tbody>
+        {limits.map(row => (
+          <tr>
+            <th scope="row">{row.name}</th>
+            <td>{row.value}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section-block section-block--reading" aria-labelledby="context-title">
+    <article class="card quiet-panel stack">
+      <p class="card-kicker">What it is allowed to read</p>
+      <h2 class="section-heading" id="context-title">Published material, and nothing else</h2>
+      <p class="section-copy section-copy--large">Grounding comes from an explicit source allow-list: the public site, the RICE site, and the works catalogue. Submissions, donor and subscriber records, private memory, environment data, and logs are excluded by name rather than by omission.</p>
+      <div class="actions">
+        <a class="button" href="https://chat.stexpedite.press">Use the assistant</a>
+        <a class="button-secondary" href="/lab/practice">How the practice works</a>
+      </div>
+    </article>
+  </section>
+</Base>

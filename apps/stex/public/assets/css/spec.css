@@ -1,0 +1,284 @@
+/*
+  spec.css
+
+  Specification surfaces for the Lab: request diagram, capability denial
+  list, and bounded-limits tables.
+  Requires: tokens.css, interior-base.css, layout.css, components.css.
+  Brand mode: editorial
+
+  Credibility comes from structure here, so these read as documents:
+  monospace metadata, hairline rules, no decorative glow.
+*/
+
+/* ── Diagram ─────────────────────────────────────────────────────────────── */
+
+.spec-figure {
+  margin: 1.4rem 0 0;
+  padding: 0;
+}
+
+.spec-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Drawn at 720x300; scaling past that inflates the labels out of their
+     boxes, so cap it at its design size and let narrow screens scroll. */
+  max-width: 45rem;
+  min-width: 34rem;
+  margin: 0 auto;
+}
+
+.spec-figure {
+  overflow-x: auto;
+}
+
+.spec-diagram__node rect {
+  fill: var(--surface-2);
+  stroke: var(--line-3);
+  stroke-width: 1;
+}
+
+.spec-diagram__node--gate rect {
+  stroke: var(--accent-strong);
+}
+
+.spec-diagram__node--model rect {
+  stroke: var(--line-2);
+  stroke-dasharray: 3 3;
+}
+
+.spec-diagram__node text {
+  fill: var(--text-readable);
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-anchor: middle;
+}
+
+.spec-diagram__node .spec-diagram__sub {
+  fill: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.spec-diagram__flow line {
+  stroke: var(--accent-strong);
+  stroke-width: 1.5;
+  marker-end: none;
+}
+
+.spec-diagram__note text {
+  fill: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-anchor: middle;
+}
+
+.spec-diagram__note line {
+  stroke: var(--line-2);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.spec-figure figcaption {
+  margin-top: 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  color: var(--mode-copy-muted, var(--text-readable-muted));
+}
+
+/* ── Denial list ─────────────────────────────────────────────────────────── */
+
+.spec-list {
+  margin: 1.2rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 0 clamp(1.2rem, 3vw, 2.4rem);
+}
+
+.spec-list__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.spec-list__mark {
+  font-family: var(--font-mono);
+  color: var(--status-error);
+}
+
+.spec-list__label {
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  color: var(--mode-copy, var(--text-soft));
+}
+
+.spec-list__key {
+  grid-column: 2;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+/* ── Spec tables ─────────────────────────────────────────────────────────── */
+
+.spec-table {
+  width: 100%;
+  margin-top: 1.1rem;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.spec-table__caption {
+  margin-bottom: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.spec-table th,
+.spec-table td {
+  padding: 0.62rem 0;
+  border-bottom: 1px solid var(--line-1);
+  vertical-align: top;
+}
+
+.spec-table th {
+  font-family: var(--font-body);
+  font-weight: normal;
+  font-size: 1.02rem;
+  color: var(--mode-copy, var(--text-soft));
+}
+
+.spec-table td {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Capability matrix: three columns, prose left, metadata right. */
+.spec-table--matrix td {
+  color: var(--mode-copy-muted, var(--text-readable-muted));
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  letter-spacing: normal;
+  text-align: left;
+  white-space: normal;
+}
+
+.spec-table--matrix thead th {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom-color: var(--line-2);
+}
+
+.spec-table--matrix tbody th {
+  width: 30%;
+  padding-right: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  color: var(--text-readable);
+}
+
+@media (max-width: 720px) {
+  .spec-table--matrix,
+  .spec-table--matrix tbody,
+  .spec-table--matrix tr,
+  .spec-table--matrix th,
+  .spec-table--matrix td {
+    display: block;
+    width: auto;
+  }
+  .spec-table--matrix thead { display: none; }
+  .spec-table--matrix tr {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line-1);
+  }
+  .spec-table--matrix th,
+  .spec-table--matrix td {
+    border: 0;
+    padding: 0.15rem 0;
+  }
+  .spec-table--matrix td::before {
+    content: attr(data-label) " — ";
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+}
+
+/* ── Engagement phases ───────────────────────────────────────────────────── */
+
+.phase-list {
+  margin: 1.2rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0;
+}
+
+.phase-list__item {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr auto;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--line-2);
+}
+
+.phase-list__num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.phase-list__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  color: var(--text-readable);
+}
+
+.phase-list__span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.phase-list__detail {
+  grid-column: 2 / -1;
+  margin: 0.25rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  color: var(--mode-copy-muted, var(--text-readable-muted));
+}
+
+@media (max-width: 600px) {
+  .phase-list__item { grid-template-columns: 2.4rem 1fr; }
+  .phase-list__span { grid-column: 2; }
+  .phase-list__detail { grid-column: 1 / -1; }
+}

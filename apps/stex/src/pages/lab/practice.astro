@@ -9,6 +9,51 @@ const styles = [
   'assets/css/layout.css',
   'assets/css/components.css',
   'assets/css/services.css',
+  'assets/css/spec.css',
+];
+
+const capabilities = [
+  {
+    name: 'Agentic systems & operations',
+    work: 'Multi-agent pipelines with explicit input/output contracts between steps, human approval at the points that matter, and a system that can be stopped from a single message.',
+    output: 'A running pipeline, its contracts, and the audit trail it writes.',
+  },
+  {
+    name: 'Ontology & knowledge graphs',
+    work: 'OWL/RDF ontologies and taxonomies as a semantic backbone, agent memory and persona compilation, and retrieval that can always show its source.',
+    output: 'A graph, its schema, and a retrieval path with provenance attached.',
+  },
+  {
+    name: 'Websites & digital publishing',
+    work: 'Art direction, copy, information architecture, and implementation held to one idea — from static graph-driven front ends to application back ends.',
+    output: 'A deployed site or application, documented well enough to hand over.',
+  },
+  {
+    name: 'Editing, writing & translation',
+    work: 'Developmental editing, translation, archival recovery, and long-form work requiring synthesis and cultural judgement.',
+    output: 'Finished prose, in the register the work needs.',
+  },
+];
+
+const phases = [
+  {
+    num: '01',
+    name: 'Discovery',
+    span: '1–2 weeks',
+    detail: 'Model the problem, the audience, and the constraint. Ends with a written scope and a decision about whether to continue. Paid, and useful on its own if the answer is no.',
+  },
+  {
+    num: '02',
+    name: 'Build',
+    span: 'Bulk of the work',
+    detail: 'Delivery against the scope, in reviewable increments. Contracts between steps are fixed early so the shape stops moving.',
+  },
+  {
+    num: '03',
+    name: 'Handover',
+    span: 'Final stage',
+    detail: 'Documentation, procedure, and the access required to run it without the practice. The system should not need its author to keep working.',
+  },
 ];
 ---
 <Base
@@ -38,44 +83,24 @@ const styles = [
       <p class="card-kicker">What can be commissioned</p>
       <h2 class="section-heading" id="services-offers-title">Four principal forms of work</h2>
     </div>
-    <div class="section-grid section-grid--two services-grid">
-      <article class="card service-card">
-        <h3>Agentic systems &amp; operations infrastructure</h3>
-        <p>Multi-agent pipelines that do real operational work — research, drafting, outreach, review, publishing — with defined contracts between steps, human approval where it matters, and a system that can be paused from a single message.</p>
-        <ul class="check-list">
-          <li>Multi-agent pipelines with explicit input/output contracts</li>
-          <li>Human-in-the-loop approval, anti-fabrication, and audit receipts</li>
-          <li>Back-office operations for content, outreach, and campaign-scale work</li>
-        </ul>
-      </article>
-      <article class="card service-card">
-        <h3>Ontology, knowledge graphs &amp; provenance</h3>
-        <p>Systems whose relationships are explicit and inspectable rather than buried in a prompt: formal ontologies, evidence-backed agent contexts, and retrieval that can always show its source.</p>
-        <ul class="check-list">
-          <li>OWL/RDF ontologies and taxonomies as a semantic backbone</li>
-          <li>Agent memory, persona compilation, and grounded retrieval</li>
-          <li>Provenance, governance, and append-only procedure</li>
-        </ul>
-      </article>
-      <article class="card service-card">
-        <h3>Websites &amp; digital publishing</h3>
-        <p>Editorial and institutional systems in which art direction, copy, information architecture, and implementation belong to one coherent idea — from static graph-driven front ends to full application back ends.</p>
-        <ul class="check-list">
-          <li>Design and full-stack build (static front ends to app back ends)</li>
-          <li>Publication, archive, catalog, and commerce structures</li>
-          <li>Accessible, maintainable, self-documenting deployment</li>
-        </ul>
-      </article>
-      <article class="card service-card">
-        <h3>Editing, writing, translation &amp; research</h3>
-        <p>The humanist core the machinery serves: developmental editing, translation, and long-form work that requires synthesis, cultural judgment, and a voice capable of carrying more than a list of findings.</p>
-        <ul class="check-list">
-          <li>Structural editing, positioning, and brand voice</li>
-          <li>Translation, archival recovery, and cultural synthesis</li>
-          <li>Essays, reports, launch narratives, and commissioned research</li>
-        </ul>
-      </article>
-    </div>
+    <table class="spec-table spec-table--matrix">
+      <thead>
+        <tr>
+          <th scope="col">Form</th>
+          <th scope="col">What the work is</th>
+          <th scope="col">What you are left holding</th>
+        </tr>
+      </thead>
+      <tbody>
+        {capabilities.map(row => (
+          <tr>
+            <th scope="row">{row.name}</th>
+            <td data-label="The work">{row.work}</td>
+            <td data-label="Delivered">{row.output}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </section>
 
   <section class="section-block advanced-service" aria-labelledby="advanced-service-title">
@@ -156,24 +181,27 @@ const styles = [
     </div>
   </section>
 
-  <section class="section-block section-block--reading engagement-panel" aria-labelledby="engagement-title">
-    <article class="card quiet-panel stack">
-      <p class="card-kicker">Engagement model</p>
-      <h2 class="section-heading" id="engagement-title">A small number of projects, scoped around an outcome.</h2>
-      <p class="section-copy section-copy--large">Book a call and describe the problem, what already exists, and whether you need strategy, execution, or both.</p>
-      <ul class="engagement-list">
-        <li><strong>Direct:</strong> work is led by Christopher Sandbatch, without account layers.</li>
-        <li><strong>Selective:</strong> one or two substantial engagements are taken at a time.</li>
-        <li><strong>Defined:</strong> projects are scoped by deliverables and decisions, not indefinite activity.</li>
-      </ul>
-      <div class="actions">
-        <a class="button" href="/lab/schedule">Book a call</a>
-        <a class="button-secondary" href="/press/about">Read the premise</a>
-        <a class="button-secondary" href="/lab/instruments">See the instruments</a>
-      </div>
-    </article>
+  <section class="section-block" aria-labelledby="engagement-title">
+    <div class="section-header">
+      <p class="card-kicker">Engagement shape</p>
+      <h2 class="section-heading" id="engagement-title">How a project runs</h2>
+      <p class="section-copy">One or two substantial engagements at a time, led directly, without account layers. Scoped by deliverables and decisions rather than indefinite activity.</p>
+    </div>
+    <ol class="phase-list">
+      {phases.map(phase => (
+        <li class="phase-list__item">
+          <span class="phase-list__num">{phase.num}</span>
+          <span class="phase-list__name">{phase.name}</span>
+          <span class="phase-list__span">{phase.span}</span>
+          <p class="phase-list__detail">{phase.detail}</p>
+        </li>
+      ))}
+    </ol>
+    <div class="actions">
+      <a class="button" href="/lab/schedule">Book a call</a>
+      <a class="button-secondary" href="/lab/architecture">See how the machinery is bounded</a>
+    </div>
   </section>
-
 
   <Fragment slot="scripts">
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>
