@@ -793,8 +793,8 @@ body {
   /* The portal is a single fixed screen with content down to its last line,
      so lift the chat launcher clear of the standing note rather than starve
      the composition of height to route around it. */
-  /* Short phones cannot hold the whole composition; the standing detail is
-     the most expendable line, so drop it and keep the phase marker. */
+  /* Short phones cannot hold the whole composition; the standing note is the
+     most expendable block, so drop it rather than crowd the doors. */
   @media (max-height: 780px) {
     .portal-mobile .splash__standing { display: none; }
   }
