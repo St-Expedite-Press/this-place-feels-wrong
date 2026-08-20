@@ -58,3 +58,12 @@ Historical note: entries before the 2026-03-16 repo refactor may refer to the ol
   - Worker smoke: /api/health, /api/works?program=rice, /api/storefront all 200
   - Live browser render of / at 1440x900 and 390x844, no page errors
 - Scope: Press/Lab wing restructure — Pages (stexpedite-press) + Worker (stexpedite-communications, version 89d0afe3-44e7-4106-89d7-9647f89529f9)
+
+## 2026-08-20T21:35:33Z
+- Commit: `fbde37a`
+- Checks:
+  - 88 backend tests (5 new order tests incl. price-tampering guard)
+  - build, lint:html, check:links, check:a11y, check:docs
+  - D1 migration 0030_orders applied to remote; `orders` table confirmed present
+  - Worker deployed, /api/health 200; order pages live
+- Scope: direct Stripe order checkout — D1 (0030_orders) + Worker (stexpedite-communications, version 9ee833a7-a972-41fa-aa33-ab63edd17115) + Pages
