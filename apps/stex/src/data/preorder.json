@@ -7,37 +7,96 @@
     "title": "Lift Wind / Love Heat",
     "subtitle": "Symphony No. 1 in C Minor",
     "series": "SEXP — Flagship Original Works",
-    "fromPrice": "$12.99"
+    "fromPrice": "$12.99",
+    "splashLine": "Lift Wind / Love Heat — pre-order open"
   },
   "editions": [
     {
       "group": "Main collection",
       "work": "Lift Wind / Love Heat: Symphony No. 1 in C Minor",
       "items": [
-        { "binding": "Softcover", "trim": "6.14 × 9.21 in", "extent": "≈200 pp", "price": "$17.99", "note": "" },
-        { "binding": "Hardcover, numbered", "trim": "6.14 × 9.21 in", "extent": "≈200 pp", "price": "$39.99", "note": "Numbered edition, direct from the press" }
+        {
+          "binding": "Softcover",
+          "trim": "6.14 × 9.21 in",
+          "extent": "≈200 pp",
+          "price": "$17.99",
+          "note": ""
+        },
+        {
+          "binding": "Hardcover, numbered",
+          "trim": "6.14 × 9.21 in",
+          "extent": "≈200 pp",
+          "price": "$39.99",
+          "note": "Numbered edition, direct from the press"
+        }
       ]
     },
     {
       "group": "Companion volume",
       "work": "Translation & Essays",
       "items": [
-        { "binding": "Softcover", "trim": "5.5 × 8.5 in", "extent": "Extent to be confirmed", "price": "$12.99", "note": "" },
-        { "binding": "Hardcover", "trim": "5.5 × 8.5 in", "extent": "Extent to be confirmed", "price": "$22.99", "note": "" }
+        {
+          "binding": "Softcover",
+          "trim": "5.5 × 8.5 in",
+          "extent": "Extent to be confirmed",
+          "price": "$12.99",
+          "note": ""
+        },
+        {
+          "binding": "Hardcover",
+          "trim": "5.5 × 8.5 in",
+          "extent": "Extent to be confirmed",
+          "price": "$22.99",
+          "note": ""
+        }
       ]
     },
     {
       "group": "Add-on",
       "work": "Press shirt",
       "items": [
-        { "binding": "T-shirt", "trim": "—", "extent": "—", "price": "$28.00", "note": "Available with a set only" }
+        {
+          "binding": "T-shirt",
+          "trim": "—",
+          "extent": "—",
+          "price": "$28.00",
+          "note": "Available with a set only"
+        }
       ]
     }
   ],
   "sets": [
-    { "id": "readers-set", "name": "Reader's Set", "contents": "Main softcover + companion softcover", "parts": "$30.98", "price": "$27.99", "saving": "$2.99" },
-    { "id": "readers-set-shirt", "name": "Reader's Set + Shirt", "contents": "Main softcover + companion softcover + shirt", "parts": "$58.98", "price": "$54.99", "saving": "$3.99" },
-    { "id": "collector-set", "name": "Collector Set", "contents": "Main hardcover + companion hardcover", "parts": "$62.98", "price": "$57.99", "saving": "$4.99" },
-    { "id": "full-collector", "name": "Full Collector", "contents": "Main hardcover + companion hardcover + shirt", "parts": "$90.98", "price": "$84.99", "saving": "$5.99" }
+    {
+      "id": "readers-set",
+      "name": "Reader's Set",
+      "contents": "Main softcover + companion softcover",
+      "parts": "$30.98",
+      "price": "$27.99",
+      "saving": "$2.99"
+    },
+    {
+      "id": "readers-set-shirt",
+      "name": "Reader's Set + Shirt",
+      "contents": "Main softcover + companion softcover + shirt",
+      "parts": "$58.98",
+      "price": "$54.99",
+      "saving": "$3.99"
+    },
+    {
+      "id": "collector-set",
+      "name": "Collector Set",
+      "contents": "Main hardcover + companion hardcover",
+      "parts": "$62.98",
+      "price": "$57.99",
+      "saving": "$4.99"
+    },
+    {
+      "id": "full-collector",
+      "name": "Full Collector",
+      "contents": "Main hardcover + companion hardcover + shirt",
+      "parts": "$90.98",
+      "price": "$84.99",
+      "saving": "$5.99"
+    }
   ]
 }

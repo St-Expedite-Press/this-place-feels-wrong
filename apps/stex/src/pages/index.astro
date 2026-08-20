@@ -1,10 +1,13 @@
 ---
 import BasePortal from '../layouts/BasePortal.astro';
 import siteData from '../data/site.json';
+import preorder from '../data/preorder.json';
 
 const { site, pages } = siteData;
 const page = pages.index;
 const press = site.wings.press;
+const standing = site.standing;
+const campaign = preorder.campaign;
 const lab = site.wings.lab;
 const homeMetaTitle = 'St. Expedite Press — Southern Fiction, Translation & Archive | New Orleans';
 const homeMetaDescription = 'Night-minded books from New Orleans: original Southern fiction, archival recovery, translation, and experimental literary instruments from St. Expedite Press.';
@@ -54,6 +57,11 @@ const homeOgDescription = 'A New Orleans press gathering fiction, archive, trans
             <p class="lede">...in the key of Night.</p>
             <div class="divider">&#9651; &#10013; &#9651;</div>
 
+            <a class="splash__dispatch" href={campaign.href}>
+              <span class="splash__dispatch-mark" aria-hidden="true">&#9651;</span>
+              {campaign.splashLine}
+            </a>
+
             <div class="thin-band">
               <form class="thin-form" id="splash-signup-mobile" novalidate>
                 <label class="home-heading-sr" for="splash-email-mobile">Email address</label>
@@ -69,6 +77,11 @@ const homeOgDescription = 'A New Orleans press gathering fiction, archive, trans
             <div class="splash__foot">
               <a href="/connect">Connect</a> // <a href="https://rice.stexpedite.press/">RICE</a> // <a href="/press/donate">Donate</a>
             </div>
+
+            <a class="splash__standing" href={standing.href}>
+              <span class="splash__standing-phase">{standing.phase} &mdash; {standing.phaseName}</span>
+              <span class="splash__standing-detail">{standing.detail}</span>
+            </a>
           </footer>
         </div>
       </div>
@@ -107,6 +120,11 @@ const homeOgDescription = 'A New Orleans press gathering fiction, archive, trans
         <p class="lede">...in the key of Night.</p>
         <div class="divider">&#9651; &#10013; &#9651;</div>
 
+        <a class="splash__dispatch" href={campaign.href}>
+          <span class="splash__dispatch-mark" aria-hidden="true">&#9651;</span>
+          {campaign.splashLine}
+        </a>
+
         <form class="splash__signup" id="splash-signup" novalidate>
           <p class="splash__signup-label">Word from the press</p>
           <label class="home-heading-sr" for="splash-email">Email address</label>
@@ -122,6 +140,11 @@ const homeOgDescription = 'A New Orleans press gathering fiction, archive, trans
         <div class="splash__foot">
           <a href="/connect">Connect</a> // <a href="https://rice.stexpedite.press/">RICE</a> // <a href="/press/donate">Donate</a>
         </div>
+
+        <a class="splash__standing" href={standing.href}>
+          <span class="splash__standing-phase">{standing.phase} &mdash; {standing.phaseName}</span>
+          <span class="splash__standing-detail">{standing.detail}</span>
+        </a>
       </div>
     </div>
 

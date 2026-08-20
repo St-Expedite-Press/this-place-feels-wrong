@@ -358,7 +358,7 @@ body {
 
 .portal-frame {
   position: absolute;
-  top: 43%;
+  top: 40%;
   left: 50%;
   width: min(48vh, 620px);
   height: min(48vh, 620px);
@@ -535,7 +535,7 @@ body {
 
 .splash {
   position: absolute;
-  top: calc(66vh + clamp(0.5rem, 1.5vh, 1.25rem));
+  top: calc(58vh + clamp(0.3rem, 1vh, 0.8rem));
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -672,7 +672,7 @@ body {
 }
 
 .splash__foot {
-  margin-top: 0.55rem;
+  margin-top: 0.45rem;
   font-size: 1.05rem;
   opacity: 1;
   letter-spacing: .12em;
@@ -694,12 +694,116 @@ body {
 
 /* Short desktop viewports — tighten before anything clips. */
 @media (min-width: 769px) and (max-height: 820px) {
-  .portal-frame { top: 41%; width: min(44vh, 560px); height: min(44vh, 560px); }
-  .splash { top: calc(63vh + 0.5rem); }
+  .portal-frame { top: 38%; width: min(38vh, 470px); height: min(38vh, 470px); }
+  .splash { top: calc(53vh + 0.4rem); }
+  .splash__standing-detail { font-size: 0.86rem; }
   .splash__eyebrow { font-size: 1rem; }
   .lede { font-size: 1.2rem; margin: 0.3rem auto; }
   .divider { margin-top: .3rem; }
   .big-word { font-size: clamp(2.6rem, 6vw, 5.5rem); }
+}
+
+
+/* ── Dispatch line (what is open right now) ──────────────────────────────── */
+
+.splash__dispatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--status-warning);
+  text-decoration: none;
+  text-shadow: none;
+  transition: filter 180ms ease;
+}
+
+.splash__dispatch-mark {
+  font-family: var(--font-display);
+  opacity: 0.8;
+}
+
+.splash__dispatch:hover,
+.splash__dispatch:focus-visible {
+  filter: brightness(1.25);
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+/* ── Standing (where the project currently is) ───────────────────────────── */
+
+.splash__standing {
+  display: grid;
+  gap: 0.1rem;
+  margin-top: 0.6rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--line-1);
+  text-decoration: none;
+  color: inherit;
+}
+
+.splash__standing-phase {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  text-shadow: 0 0 8px var(--green-3);
+}
+
+.splash__standing-detail {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--text-readable-muted);
+}
+
+.splash__standing:hover .splash__standing-phase,
+.splash__standing:focus-visible .splash__standing-phase {
+  filter: brightness(1.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash__dispatch { transition: none; }
+}
+
+
+/* Mobile surface: the dispatch and standing rows are additions to the tuned
+   original stack, so they stay compact and the wrap clears the fixed chat
+   launcher rather than letting it sit on top of the standing line. */
+@media (max-width: 900px) {
+  .portal-mobile .wrap {
+    padding-bottom: calc(clamp(18px, 4svh, 40px) + 4.75rem + env(safe-area-inset-bottom));
+  }
+  .portal-mobile .splash__dispatch {
+    margin-top: 0.4rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+  }
+  .portal-mobile .splash__standing {
+    margin-top: 0.45rem;
+    padding-top: 0.4rem;
+  }
+  .portal-mobile .splash__standing-phase { font-size: 0.62rem; letter-spacing: 0.16em; }
+  .portal-mobile .splash__standing-detail { font-size: 0.8rem; line-height: 1.3; }
+
+  /* The portal is a single fixed screen with content down to its last line,
+     so lift the chat launcher clear of the standing note rather than starve
+     the composition of height to route around it. */
+  /* Short phones cannot hold the whole composition; the standing detail is
+     the most expendable line, so drop it and keep the phase marker. */
+  @media (max-height: 780px) {
+    .portal-mobile .splash__standing { display: none; }
+  }
+
+  body[data-brand-mode="ritual"] .public-chat {
+    right: 50%;
+    bottom: max(0.5rem, env(safe-area-inset-bottom));
+    transform: translateX(50%);
+  }
 }
 
 /* ── Cursor glow override ────────────────────────────────────────────────── */
