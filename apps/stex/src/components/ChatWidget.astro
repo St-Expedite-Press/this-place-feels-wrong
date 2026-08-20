@@ -1,21 +1,45 @@
 ---
-interface Props { endpoint?: string; }
-const { endpoint = '/api/chat' } = Astro.props;
+interface Props { endpoint?: string; wing?: 'press' | 'lab'; }
+const { endpoint = '/api/chat', wing } = Astro.props;
+
+const copy = wing === 'press'
+  ? {
+      launcher: 'Ask the press',
+      label: 'Ask the press',
+      notice: 'Ask about the press, its books, RICE, or where to find something. Replies may be incomplete; do not send private information.',
+      opener: 'I can help you navigate the press and its published work. What are you looking for?',
+      placeholder: 'Ask about a book, RICE, submissions, or the archive.',
+    }
+  : wing === 'lab'
+  ? {
+      launcher: 'Ask the lab',
+      label: 'Ask the lab',
+      notice: 'Ask about the practice, the instruments, or how a project is scoped. Replies may be incomplete; do not send private information.',
+      opener: 'I can answer questions about the practice, the instruments, and how work here is scoped. What do you need?',
+      placeholder: 'Ask about the practice, an instrument, or scoping a project.',
+    }
+  : {
+      launcher: 'Ask St. Expedite',
+      label: 'Ask St. Expedite',
+      notice: 'Ask about the press, the lab, or where to find something. Replies may be incomplete; do not send private information.',
+      opener: 'I can point you to either side of the operation — the books, or the working practice. What are you after?',
+      placeholder: 'Ask about a book, an instrument, or where something lives.',
+    };
 ---
-<aside class='public-chat' data-chat-widget data-endpoint={endpoint} aria-label='Ask St. Expedite'>
-  <button class='public-chat__launcher' type='button' data-chat-open aria-controls='public-chat-panel' aria-expanded='false'>Ask the press</button>
+<aside class='public-chat' data-chat-widget data-endpoint={endpoint} aria-label={copy.label}>
+  <button class='public-chat__launcher' type='button' data-chat-open aria-controls='public-chat-panel' aria-expanded='false'>{copy.launcher}</button>
   <section class='public-chat__panel' id='public-chat-panel' data-chat-panel hidden>
     <header class='public-chat__header'>
-      <div><p class='public-chat__kicker'>Public instrument / Hermes</p><h2>Ask St. Expedite</h2></div>
+      <div><p class='public-chat__kicker'>Public instrument / Hermes</p><h2>{copy.label}</h2></div>
       <button class='public-chat__close' type='button' data-chat-close aria-label='Close chat'>Close</button>
     </header>
-    <p class='public-chat__notice'>Ask about the press, its books, RICE, or where to find something. Replies may be incomplete; do not send private information.</p>
+    <p class='public-chat__notice'>{copy.notice}</p>
     <div class='public-chat__transcript' data-chat-transcript role='log' aria-live='polite' aria-relevant='additions text'>
-      <article class='public-chat__message' data-role='assistant'><span>St. Expedite</span><p>I can help you navigate the press and its published work. What are you looking for?</p></article>
+      <article class='public-chat__message' data-role='assistant'><span>St. Expedite</span><p>{copy.opener}</p></article>
     </div>
     <form class='public-chat__form' data-chat-form>
       <label for='public-chat-message'>Message</label>
-      <textarea id='public-chat-message' name='message' rows='3' maxlength='1000' autocomplete='off' placeholder='Ask about a book, RICE, submissions, or the archive.' required data-chat-input></textarea>
+      <textarea id='public-chat-message' name='message' rows='3' maxlength='1000' autocomplete='off' placeholder={copy.placeholder} required data-chat-input></textarea>
       <div class='public-chat__actions'>
         <button class='public-chat__send' type='submit' data-chat-send>Send</button>
         <button class='public-chat__secondary' type='button' data-chat-stop hidden>Stop</button>

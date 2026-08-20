@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import siteData from '../../data/site.json';
+import preorder from '../../data/preorder.json';
 
 const page = siteData.pages.books;
 const styles = [
@@ -102,4 +103,6 @@ const series = [
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>
     <script is:inline src="/assets/js/books-page.js" type="module"></script>
   </Fragment>
+
+  <script type="application/json" id="preorder-campaign" set:html={JSON.stringify(preorder.campaign)}></script>
 </Base>

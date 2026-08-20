@@ -100,8 +100,8 @@
             "href": "/lab/practice"
           },
           {
-            "label": "Chat",
-            "href": "https://chat.stexpedite.press"
+            "label": "Schedule",
+            "href": "/lab/schedule"
           }
         ]
       }
@@ -117,9 +117,9 @@
       "title": "Press",
       "description": "The publishing wing of St. Expedite Press: the catalog, the store, the mission, and direct support for the work.",
       "eyebrow": "St. Expedite Press",
-      "introKicker": "The press wing",
-      "introTitle": "Books, archive, translation.",
-      "introText": "Original Southern fiction, recovery editions, and translation selected for formal and spiritual pressure — plus the store, the premise, and the means to support it.",
+      "introKicker": "The publishing side",
+      "introTitle": "What the press prints and sells.",
+      "introText": "Original Southern fiction, recovery editions, and translation, plus the store, the premise behind the whole thing, and the means to keep it running.",
       "canonical": "https://stexpedite.press/press",
       "currentNav": "/press"
     },
@@ -132,6 +132,16 @@
       "introTitle": "The catalog is the program.",
       "introText": "",
       "canonical": "https://stexpedite.press/press/books",
+      "currentNav": "/press/books"
+    },
+    "preorder": {
+      "title": "Pre-order",
+      "description": "Pre-order Lift Wind / Love Heat: Symphony No. 1 in C Minor — softcover, numbered hardcover, the translation and essays companion, and the collector sets.",
+      "eyebrow": "St. Expedite Press",
+      "introKicker": "SEXP — pre-order",
+      "introTitle": "Lift Wind / Love Heat",
+      "introText": "Symphony No. 1 in C Minor. The main collection and its companion of translation and essays, in softcover and hardcover, with sets that cost less than their parts.",
+      "canonical": "https://stexpedite.press/press/preorder",
       "currentNav": "/press/books"
     },
     "store": {
@@ -182,9 +192,9 @@
       "title": "Lab",
       "description": "The working wing of St. Expedite Press: experimental instruments, agentic systems, ontology and knowledge-graph practice, and the public assistant.",
       "eyebrow": "St. Expedite Lab",
-      "introKicker": "The lab wing",
-      "introTitle": "Instruments, systems, practice.",
-      "introText": "Work that runs rather than reads: field instruments, agent and knowledge architectures, and the founder-led practice that builds them.",
+      "introKicker": "The working side",
+      "introTitle": "Instruments and the practice behind them.",
+      "introText": "Field instruments you can run, the agent and knowledge architecture underneath them, and the commissioned work that pays for the building.",
       "canonical": "https://stexpedite.press/lab",
       "currentNav": "/lab"
     },
@@ -203,10 +213,20 @@
       "description": "Experimental instruments from St. Expedite Press, including the American Anglossic Compass.",
       "eyebrow": "St. Expedite Lab",
       "introKicker": "Current instrument",
-      "introTitle": "The Lab runs work that has not yet found its form in the catalog.",
-      "introText": "Instruments that require a different kind of attention than a book.",
+      "introTitle": "American Anglossic Compass",
+      "introText": "Forty prompts, five axes, seven archetypes. A scored sequence that resolves into an interpretive profile.",
       "canonical": "https://stexpedite.press/lab/instruments",
       "currentNav": "/lab/instruments"
+    },
+    "labSchedule": {
+      "title": "Schedule",
+      "description": "Request a call with St. Expedite Lab about agent systems, knowledge graphs, publishing infrastructure, or editorial work.",
+      "eyebrow": "St. Expedite Lab",
+      "introKicker": "Scheduling",
+      "introTitle": "Book a call",
+      "introText": "A short first call to work out whether there is a project here. No charge for it, and no obligation after.",
+      "canonical": "https://stexpedite.press/lab/schedule",
+      "currentNav": "/lab/schedule"
     },
     "connect": {
       "title": "Submit / Contact",

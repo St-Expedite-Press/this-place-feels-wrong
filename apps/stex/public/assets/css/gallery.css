@@ -55,7 +55,8 @@
 }
 
 .store-grid[data-count="1"] .product-name {
-  font-size: clamp(1.35rem, 3vw, 2.4rem);
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+  letter-spacing: 0.05em;
 }
 
 .product-card {
@@ -111,6 +112,9 @@
   font-size: 0.95rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  /* Product names come from the storefront and can be long single words. */
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .product-price {

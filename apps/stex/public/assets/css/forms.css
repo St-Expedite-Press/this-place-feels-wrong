@@ -145,3 +145,45 @@
     min-height: 0;
   }
 }
+
+/* ── Checkbox group inside a .field ──────────────────────────────────────── */
+/* A fieldset ships a browser-default box; the interior surface is de-boxed,
+   so strip it and let the legend behave like any other field label. */
+
+fieldset.field {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-inline-size: 0;
+}
+
+fieldset.field > legend {
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+/* Options are prose, not labels — undo the uppercase .field label treatment.
+   44px min height per the brand accessibility rule on tap targets. */
+.field .schedule-check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--mode-copy, var(--text-soft));
+  cursor: pointer;
+}
+
+.schedule-check input[type="checkbox"] {
+  inline-size: 1.05rem;
+  block-size: 1.05rem;
+  accent-color: var(--accent);
+  cursor: pointer;
+}

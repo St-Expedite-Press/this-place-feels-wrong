@@ -1,0 +1,132 @@
+---
+import Base from '../../layouts/Base.astro';
+import siteData from '../../data/site.json';
+import preorder from '../../data/preorder.json';
+
+const page = siteData.pages.preorder;
+const { campaign, editions, sets } = preorder;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/forms.css',
+  'assets/css/preorder.css',
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  canonical={page.canonical}
+  currentNav={page.currentNav}
+  wing="press"
+  brandMode="editorial"
+  styles={styles}
+>
+  <section class="section-block preorder-editions" aria-labelledby="editions-title">
+    <div class="section-header">
+      <p class="card-kicker">The editions</p>
+      <h2 class="section-heading" id="editions-title">What you can order</h2>
+      <p class="section-copy">The symphony comes in two volumes — the main collection, and a companion of translation and essays. Either stands on its own. The sets below cost less than buying the parts separately.</p>
+    </div>
+
+    {editions.map(group => (
+      <article class="edition-group">
+        <header class="edition-group__head">
+          <p class="edition-group__kicker">{group.group}</p>
+          <h3 class="edition-group__title">{group.work}</h3>
+        </header>
+        <ul class="edition-list">
+          {group.items.map(item => (
+            <li class="edition-row">
+              <span class="edition-row__binding">{item.binding}</span>
+              <span class="edition-row__spec">{item.trim}</span>
+              <span class="edition-row__spec">{item.extent}</span>
+              <span class="edition-row__price">{item.price}</span>
+              {item.note && <span class="edition-row__note">{item.note}</span>}
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </section>
+
+  <section class="section-block preorder-sets" aria-labelledby="sets-title">
+    <div class="section-header">
+      <p class="card-kicker">The sets</p>
+      <h2 class="section-heading" id="sets-title">Both volumes together</h2>
+    </div>
+    <div class="set-grid">
+      {sets.map(set => (
+        <article class="set-card">
+          <h3 class="set-card__name">{set.name}</h3>
+          <p class="set-card__contents">{set.contents}</p>
+          <p class="set-card__pricing">
+            <span class="set-card__parts"><s>{set.parts}</s></span>
+            <span class="set-card__price">{set.price}</span>
+          </p>
+          <p class="set-card__saving">Saves {set.saving}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-block section-block--reading preorder-reserve" aria-labelledby="reserve-title">
+    <article class="card quiet-panel stack">
+      <p class="card-kicker">Reserve a copy</p>
+      <h2 class="section-heading" id="reserve-title">Nothing is charged today.</h2>
+      <p class="section-copy section-copy--large">Leave an address against the edition you want. When the files are locked and the run is priced, the press writes to you first with a payment link. Reserving costs nothing and commits you to nothing.</p>
+
+      <form class="preorder-form" id="preorder-form" novalidate>
+        <div class="field">
+          <label for="preorder-package">Edition or set</label>
+          <select class="input" id="preorder-package" name="package">
+            <optgroup label="Sets">
+              {sets.map(set => (
+                <option value={`set:${set.id}`}>{set.name} — {set.price}</option>
+              ))}
+            </optgroup>
+            {editions.map(group => (
+              <optgroup label={group.work}>
+                {group.items.map(item => (
+                  <option value={`item:${group.group}:${item.binding}`}>{item.binding} — {item.price}</option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="preorder-email">Email</label>
+          <input class="input" id="preorder-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="your@email.com" required />
+        </div>
+
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
+
+        <div class="actions">
+          <button class="button" id="preorder-submit" type="submit">Reserve</button>
+        </div>
+
+        <div class="status-panel" id="preorder-helper" role="status" aria-live="polite" hidden>
+          <div data-status-text></div>
+        </div>
+      </form>
+
+      <ul class="meta-list preorder-terms">
+        <li>No payment is taken now and no card details are collected.</li>
+        <li>Extents and specifications for the companion volume are still being set; the press will confirm before invoicing.</li>
+        <li>Reserving adds you to press correspondence. Every message carries an unsubscribe link.</li>
+      </ul>
+    </article>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/preorder-entry.js" type="module"></script>
+  </Fragment>
+</Base>

@@ -1,0 +1,116 @@
+---
+import Base from '../../layouts/Base.astro';
+import siteData from '../../data/site.json';
+
+const page = siteData.pages.labSchedule;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/forms.css',
+];
+
+const lengths = ['30 minutes — introduction', '60 minutes — scoping', 'Longer — existing project review'];
+const windows = [
+  'Weekday mornings (US Central)',
+  'Weekday afternoons (US Central)',
+  'Weekday evenings (US Central)',
+  'Outside those — say so below',
+];
+const subjects = [
+  'Agent systems and operations infrastructure',
+  'Ontology, knowledge graphs, and retrieval',
+  'Websites and digital publishing',
+  'Editing, writing, translation, research',
+  'Something else',
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  canonical={page.canonical}
+  currentNav={page.currentNav}
+  wing="lab"
+  brandMode="utility"
+  styles={styles}
+>
+  <section class="section-block section-block--reading" aria-labelledby="schedule-form-title">
+    <article class="card stack">
+      <h2 class="section-heading" id="schedule-form-title">Request a time</h2>
+      <p class="section-copy">Say what the project is and when you are generally free. You get a reply with two or three specific times, usually within a working day. There is no charge for the first call and no obligation after it.</p>
+
+      <form class="schedule-form" id="schedule-form" novalidate>
+        <div class="field">
+          <label for="schedule-email">Email</label>
+          <input class="input" id="schedule-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="your@email.com" required />
+        </div>
+
+        <div class="field">
+          <label for="schedule-name">Name</label>
+          <input class="input" id="schedule-name" name="name" type="text" autocomplete="name" required />
+        </div>
+
+        <div class="field">
+          <label for="schedule-subject">What it concerns</label>
+          <select class="input" id="schedule-subject" name="subject">
+            {subjects.map(item => <option value={item}>{item}</option>)}
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="schedule-length">How long</label>
+          <select class="input" id="schedule-length" name="length">
+            {lengths.map(item => <option value={item}>{item}</option>)}
+          </select>
+        </div>
+
+        <fieldset class="field schedule-windows">
+          <legend>When you are generally free</legend>
+          {windows.map((item, i) => (
+            <label class="schedule-check" for={`schedule-window-${i}`}>
+              <input type="checkbox" id={`schedule-window-${i}`} name="window" value={item} />
+              <span>{item}</span>
+            </label>
+          ))}
+        </fieldset>
+
+        <div class="field">
+          <label for="schedule-timezone">Your time zone</label>
+          <input class="input" id="schedule-timezone" name="timezone" type="text" placeholder="Detected automatically — correct it if wrong" />
+        </div>
+
+        <div class="field">
+          <label for="schedule-note">What you are trying to build</label>
+          <textarea class="input" id="schedule-note" name="note" rows="5" maxlength="4000" placeholder="What exists now, what it needs to do, and what is in the way." required></textarea>
+        </div>
+
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
+
+        <div class="actions">
+          <button class="button" id="schedule-submit" type="submit">Send the request</button>
+        </div>
+
+        <div class="status-panel" id="schedule-helper" role="status" aria-live="polite" hidden>
+          <div data-status-text></div>
+        </div>
+      </form>
+
+      <ul class="meta-list">
+        <li>Requests go to the editor's address and are answered by a person.</li>
+        <li>You get a reference number by email; reply to that thread to add detail.</li>
+        <li>If it is faster to type than to talk, <a href="https://chat.stexpedite.press">the assistant</a> is always open.</li>
+      </ul>
+    </article>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/schedule-entry.js" type="module"></script>
+  </Fragment>
+</Base>

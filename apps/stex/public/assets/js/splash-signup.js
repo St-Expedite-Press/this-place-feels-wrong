@@ -3,6 +3,22 @@ import { setPendingState, setStatus } from "./form-utils.js";
 
 const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// The splash renders a desktop and a mobile form, so each carries its own
+// Turnstile widget. Read the token from inside the submitted form rather than
+// with a global query, which would pick up the hidden surface's empty field.
+function scopedTurnstileToken(form) {
+  return String(form.querySelector('[name="cf-turnstile-response"]')?.value ?? "").trim();
+}
+
+function resetScopedTurnstile(form) {
+  const widget = form.querySelector(".cf-turnstile");
+  try {
+    if (widget && window.turnstile) window.turnstile.reset(widget);
+  } catch {
+    /* the widget resets itself on the next challenge */
+  }
+}
+
 export function mountSplashSignup({ form, emailInput, submitButton, helper, source = "splash" }) {
   if (!form || !emailInput || !submitButton || !helper) return;
 
@@ -21,19 +37,20 @@ export function mountSplashSignup({ form, emailInput, submitButton, helper, sour
     try {
       const data = await requestJson("/api/updates", {
         method: "POST",
-        body: { email, source },
+        body: { email, source, turnstileToken: scopedTurnstileToken(form) },
       });
       setStatus(
         helper,
         data.alreadySignedUp
-          ? "Your address is already on the list. Go through either door."
-          : "You are on the list. Go through either door.",
+          ? "You are already on the list."
+          : "You are on the list.",
         "success",
       );
       form.reset();
     } catch (error) {
-      setStatus(helper, "Could not save your signup right now. Try again shortly.", "error");
+      setStatus(helper, "Could not save your signup. Try again in a moment.", "error");
     } finally {
+      resetScopedTurnstile(form);
       setPendingState(submitButton, false);
     }
   });

@@ -160,6 +160,13 @@
   box-shadow: 0 0 8px rgba(42, 255, 138, 0.12);
 }
 
+/* Pending state — ember per the brand guidelines' warning/accent role. */
+.status--preorder {
+  background: var(--surface-2);
+  border-color: var(--status-warning);
+  color: var(--status-warning);
+}
+
 .book-row__date {
   font-size: 0.72rem;
   color: var(--mode-copy-muted, var(--text-muted));

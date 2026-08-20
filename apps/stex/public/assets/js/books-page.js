@@ -9,6 +9,26 @@ const STATUS_META = {
   published:   { label: "Published",   cls: "status--published" },
 };
 
+// A pre-order campaign is declared in src/data/preorder.json and emitted by
+// books.astro. It overrides the catalog badge/CTA for one work, because
+// works.status is CHECK-constrained in D1 and has no 'preorder' value.
+function readPreorderCampaign() {
+  try {
+    const raw = document.getElementById("preorder-campaign")?.textContent;
+    const parsed = raw ? JSON.parse(raw) : null;
+    return parsed && parsed.slug && parsed.href ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+const PREORDER = readPreorderCampaign();
+
+function safeInternalPath(value) {
+  const raw = String(value || "").trim();
+  return /^\/[A-Za-z0-9\-._~/]*$/.test(raw) ? raw : "";
+}
+
 function formatDate(dateStr) {
   if (!dateStr) return "";
   const d = new Date(dateStr + "T00:00:00");
@@ -36,6 +56,9 @@ function renderBookRow(project) {
   const meta = STATUS_META[String(project.status || "planned")] || STATUS_META.planned;
   const dateStr = formatDate(project.published_at);
 
+  const isPreorder = Boolean(PREORDER) && PREORDER.slug === project.project_slug;
+  const preorderHref = isPreorder ? safeInternalPath(PREORDER.href) : "";
+
   return `
     <article class="book-row">
       <div class="book-row__cover" aria-hidden="true">
@@ -49,9 +72,11 @@ function renderBookRow(project) {
         ${description ? `<p class="book-row__description">${description}</p>` : ""}
       </div>
       <div class="book-row__aside">
-        <span class="book-status ${escapeHtml(meta.cls)}">${escapeHtml(meta.label)}</span>
-        ${dateStr ? `<span class="book-row__date">${escapeHtml(dateStr)}</span>` : ""}
-        ${buyUrl ? `<a class="button book-row__buy" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener noreferrer">Buy</a>` : ""}
+        <span class="book-status ${escapeHtml(isPreorder ? "status--preorder" : meta.cls)}">${escapeHtml(isPreorder ? PREORDER.label : meta.label)}</span>
+        ${dateStr && !isPreorder ? `<span class="book-row__date">${escapeHtml(dateStr)}</span>` : ""}
+        ${preorderHref
+          ? `<a class="button book-row__buy" href="${escapeHtml(preorderHref)}">Pre-order${PREORDER.fromPrice ? ` &middot; from ${escapeHtml(PREORDER.fromPrice)}` : ""}</a>`
+          : buyUrl ? `<a class="button book-row__buy" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener noreferrer">Buy</a>` : ""}
       </div>
     </article>
   `;

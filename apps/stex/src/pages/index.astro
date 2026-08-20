@@ -59,6 +59,7 @@ const homeOgDescription = 'A New Orleans press gathering fiction, archive, trans
                 <label class="home-heading-sr" for="splash-email-mobile">Email address</label>
                 <input class="thin-input" id="splash-email-mobile" name="email" type="email" autocomplete="email" inputmode="email" placeholder="your@email.com" required />
                 <button class="thin-button" id="splash-submit-mobile" type="submit">Join</button>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
               </form>
               <div class="thin-helper status-panel" id="splash-helper-mobile" role="status" aria-live="polite" hidden>
                 <div data-status-text></div>
@@ -107,10 +108,12 @@ const homeOgDescription = 'A New Orleans press gathering fiction, archive, trans
         <div class="divider">&#9651; &#10013; &#9651;</div>
 
         <form class="splash__signup" id="splash-signup" novalidate>
-          <p class="splash__signup-label">Dispatches from the press</p>
+          <p class="splash__signup-label">Word from the press</p>
           <label class="home-heading-sr" for="splash-email">Email address</label>
           <input class="splash__input" id="splash-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="your@email.com" required />
           <button class="splash__join" id="splash-submit" type="submit">Join</button>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
+
           <div class="splash__helper status-panel" id="splash-helper" role="status" aria-live="polite" hidden>
             <div data-status-text></div>
           </div>
@@ -125,6 +128,7 @@ const homeOgDescription = 'A New Orleans press gathering fiction, archive, trans
   </main>
 
   <Fragment slot="scripts">
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script is:inline src="/assets/js/site-shell.js" type="module"></script>
     <script is:inline src="/assets/js/index-effects.js"></script>
     <script is:inline src="/assets/js/splash-entry.js" type="module"></script>

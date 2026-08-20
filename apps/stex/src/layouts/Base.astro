@@ -56,7 +56,7 @@ const allStyles = [...styles, 'assets/css/chat.css'];
   </main>
   <slot name="afterMain" />
   <slot name="scripts" />
-  <ChatWidget />
+  <ChatWidget wing={wing} />
   <script is:inline src='/assets/js/chat-client.js'></script>
   <script is:inline src='/assets/js/chat.js' type='module'></script>
 </body>
