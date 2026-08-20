@@ -8,34 +8,52 @@ const styles = [
   'assets/css/interior-base.css',
   'assets/css/layout.css',
   'assets/css/components.css',
-  'assets/css/wings.css',
+  'assets/css/spec.css',
 ];
 
-const rooms = [
+const contents = [
   {
+    num: '01',
+    href: '/lab/instruments',
+    name: 'Instruments',
+    detail: 'The American Anglossic Compass — forty prompts, five axes, seven archetypes, and a reading at the end. Runs in the browser in a few minutes.',
+    meta: 'Runnable now',
+  },
+  {
+    num: '02',
     href: '/lab/architecture',
-    kicker: 'How it runs',
-    title: 'Architecture',
-    copy: 'The request path for the public assistant, where each control is enforced, and the capability list it is denied — rendered from the policy file itself.',
+    name: 'Architecture',
+    detail: 'The request path for the public assistant, where each control is enforced, and the fifteen capabilities it is denied. Rendered from the policy file the profile actually runs on.',
+    meta: 'Published constraints',
   },
   {
+    num: '03',
     href: '/lab/practice',
-    kicker: 'Commissioned work',
-    title: 'Practice',
-    copy: 'Agent systems, knowledge graphs, publishing infrastructure, and editorial work. Led directly, one or two projects at a time.',
+    name: 'Practice',
+    detail: 'The four forms of work that can be commissioned, what each leaves you holding, and the three phases a project moves through.',
+    meta: 'What to commission',
   },
   {
+    num: '04',
     href: '/lab/schedule',
-    kicker: 'Scheduling',
-    title: 'Book a call',
-    copy: 'A short first call to work out whether there is a project here. Free, and no obligation after it.',
+    name: 'Schedule',
+    detail: 'A short first call to establish whether there is a project here. No charge, no obligation afterwards.',
+    meta: 'Start here',
+  },
+];
+
+const principles = [
+  {
+    name: 'One pair of hands',
+    detail: 'Strategy and execution stay with the same person, from the first model of an audience to the last line of code. There is no account layer and nothing is subcontracted out of view.',
   },
   {
-    href: 'https://chat.stexpedite.press',
-    kicker: 'Public assistant',
-    title: 'Chat',
-    copy: 'A public assistant with grounded retrieval, and private ones you own. It holds no file, email, or deployment access.',
-    external: true,
+    name: 'Structure over prompt',
+    detail: 'Relationships are explicit and inspectable — ontologies, contracts between pipeline steps, retrieval that can show its source — rather than buried in a prompt someone else can silently change.',
+  },
+  {
+    name: 'Constraints in public',
+    detail: 'The systems built here publish what they cannot do. The public assistant’s denial list is on this site, generated from its own configuration.',
   },
 ];
 ---
@@ -52,48 +70,49 @@ const rooms = [
   brandMode="editorial"
   styles={styles}
 >
-  <section class="section-block lab-lead" aria-labelledby="lab-lead-title">
-    <article class="card card--feature stack">
-      <p class="card-kicker">Working instrument</p>
-      <h2 class="section-heading section-heading--display" id="lab-lead-title">American Anglossic Compass</h2>
-      <p class="section-copy section-copy--large">Forty prompts across five axes resolve through seven archetypes into a reading. It takes a few minutes, the order shuffles on each run, and it holds your place if you stop. Nothing about it is a mockup — it is the clearest look at how the Lab builds.</p>
-      <div class="actions">
-        <a class="button" href="/lab/instruments">Run the Compass</a>
-        <a class="button-secondary" href="/lab/architecture">How it is bounded</a>
-      </div>
-    </article>
-  </section>
-
-  <section class="section-block wing-rooms" aria-labelledby="lab-rooms-title">
+  <section class="section-block" aria-labelledby="contents-title">
     <div class="section-header">
-      <p class="card-kicker">Where to start</p>
-      <h2 class="section-heading" id="lab-rooms-title">The rest of it.</h2>
+      <p class="card-kicker">Contents</p>
+      <h2 class="section-heading" id="contents-title">What is here</h2>
     </div>
-    <div class="section-grid section-grid--two">
-      {rooms.map(room => (
-        <a
-          class="card wing-room"
-          href={room.href}
-          target={room.external ? '_blank' : undefined}
-          rel={room.external ? 'noopener noreferrer' : undefined}
-        >
-          <p class="card-kicker">{room.kicker}</p>
-          <h3 class="wing-room__title">{room.title}</h3>
-          <p class="section-copy">{room.copy}</p>
-          <span class="wing-room__cue" aria-hidden="true">&#8594;</span>
-        </a>
+    <ol class="doc-index">
+      {contents.map(entry => (
+        <li class="doc-index__item">
+          <a class="doc-index__link" href={entry.href}>
+            <span class="doc-index__num">{entry.num}</span>
+            <span class="doc-index__name">{entry.name}</span>
+            <span class="doc-index__meta">{entry.meta}</span>
+            <span class="doc-index__detail">{entry.detail}</span>
+          </a>
+        </li>
       ))}
-    </div>
+    </ol>
   </section>
 
-  <section class="section-block section-block--reading wing-crossing" aria-labelledby="lab-crossing-title">
-    <article class="card quiet-panel stack">
+  <section class="section-block" aria-labelledby="principles-title">
+    <div class="section-header">
+      <p class="card-kicker">How the work is done</p>
+      <h2 class="section-heading" id="principles-title">Three commitments that shape everything else</h2>
+    </div>
+    <dl class="doc-defs">
+      {principles.map(item => (
+        <div class="doc-defs__row">
+          <dt class="doc-defs__term">{item.name}</dt>
+          <dd class="doc-defs__desc">{item.detail}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="section-block section-block--reading" aria-labelledby="crossing-title">
+    <div class="doc-note">
       <p class="card-kicker">The other side</p>
-      <h2 class="section-heading" id="lab-crossing-title">There is also a Press.</h2>
-      <p class="section-copy section-copy--large">St. Expedite publishes Southern fiction, recovery editions, and translation out of New Orleans. That is the older half of the operation.</p>
+      <h2 class="section-heading" id="crossing-title">There is also a Press.</h2>
+      <p class="section-copy section-copy--large">St. Expedite publishes Southern fiction, recovery editions, and translation out of New Orleans. The commissioned work here is what pays for that building.</p>
       <div class="actions">
-        <a class="button" href="/press">Go to the Press</a>
+        <a class="button" href="/lab/schedule">Book a call</a>
+        <a class="button-secondary" href="/press">Go to the Press</a>
       </div>
-    </article>
+    </div>
   </section>
 </Base>

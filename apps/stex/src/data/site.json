@@ -210,11 +210,11 @@
     },
     "lab": {
       "title": "Lab",
-      "description": "The working wing of St. Expedite Press: experimental instruments, agentic systems, ontology and knowledge-graph practice, and the public assistant.",
+      "description": "St. Expedite Lab — founder-led work on agent systems, ontology and knowledge graphs, and publishing infrastructure, with runnable instruments and published architectural constraints.",
       "eyebrow": "St. Expedite Lab",
-      "introKicker": "The working side",
-      "introTitle": "Instruments and the practice behind them.",
-      "introText": "Field instruments you can run, the agent and knowledge architecture underneath them, and the commissioned work that pays for the building.",
+      "introKicker": "St. Expedite Lab",
+      "introTitle": "Systems work, run by one person.",
+      "introText": "Christopher Sandbatch builds agent systems, knowledge graphs, and publishing infrastructure on commission, one or two projects at a time. The instruments and the architecture below are the working evidence; everything here is inspectable before you spend anything.",
       "canonical": "https://stexpedite.press/lab",
       "currentNav": "/lab"
     },
