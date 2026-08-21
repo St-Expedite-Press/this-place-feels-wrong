@@ -8,46 +8,38 @@ const styles = [
   'assets/css/interior-base.css',
   'assets/css/layout.css',
   'assets/css/components.css',
-  'assets/css/wings.css',
+  'assets/css/spec.css',
 ];
 
-const rooms = [
+const catalog = [
   {
+    num: '01',
+    href: '/press/preorder',
+    name: 'Lift Wind / Love Heat',
+    meta: 'Forthcoming',
+    detail: 'The manuscript is complete and is now in editing and typesetting. Editions and direct ordering are open.',
+  },
+  {
+    num: '02',
     href: '/press/books',
-    kicker: 'Catalog',
-    title: 'Books',
-    copy: 'Three arms: original fiction, recovery editions, and translation. Each holds a different kind of pressure.',
+    name: 'Books',
+    meta: 'Catalog',
+    detail: 'Browse original work from Southern Experimental Press, recovery editions, and translation.',
   },
   {
-    href: '/press/store',
-    kicker: 'Objects',
-    title: 'Store',
-    copy: 'Prints, objects, and whatever the press has run off lately. Stock is irregular.',
-  },
-  {
-    href: '/press/about',
-    kicker: 'The premise',
-    title: 'About',
-    copy: 'Gather the limbs of Osiris — rebuild a Southern literary institution outside the approval systems that flatten it.',
-  },
-  {
+    num: '03',
     href: 'https://rice.stexpedite.press/',
-    kicker: 'Magazine',
-    title: 'RICE',
-    copy: 'The magazine. Essays, fiction, poetry, and archive, on its own schedule.',
+    name: 'RICE',
+    meta: 'Journal',
+    detail: 'Essays, fiction, poetry, translation, and archival work. The print journal is the press’s next institutional threshold.',
     external: true,
   },
   {
-    href: '/press/donate',
-    kicker: 'Direct support',
-    title: 'Donate',
-    copy: 'Money here pays for printing and archive work. Nothing else.',
-  },
-  {
-    href: '/connect?about=manuscript',
-    kicker: 'Submissions',
-    title: 'Send a manuscript',
-    copy: 'One concise inquiry, then materials by reply. Lead with the work — genre, length, and stage are useful.',
+    num: '04',
+    href: '/press/about',
+    name: 'About the Press',
+    meta: 'Institution',
+    detail: 'The catalog, the reconstruction project behind it, and the sequence from a meaningful catalog to a journal and eventually a fellowship.',
   },
 ];
 ---
@@ -64,36 +56,69 @@ const rooms = [
   brandMode="editorial"
   styles={styles}
 >
-  <section class="section-block wing-rooms" aria-labelledby="press-rooms-title">
+  <section class="section-block section-block--reading" aria-labelledby="press-signup-title">
+    <article class="card card--feature stack">
+      <p class="card-kicker">Word from the press</p>
+      <h2 class="section-heading section-heading--display" id="press-signup-title">New books begin here.</h2>
+      <p class="section-copy section-copy--large">Join the list for publication notices, pre-orders, new catalog entries, and RICE. The catalog is immediately below.</p>
+
+      <form class="form-grid" id="press-signup" novalidate>
+        <div class="field">
+          <label for="press-email">Email address</label>
+          <input class="input" id="press-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="your@email.com" required />
+        </div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
+        <div class="actions">
+          <button class="button" id="press-submit" type="submit">Join the list</button>
+        </div>
+        <div class="status-panel" id="press-helper" role="status" aria-live="polite" hidden>
+          <div data-status-text></div>
+        </div>
+      </form>
+    </article>
+  </section>
+
+  <section class="section-block" aria-labelledby="press-catalog-title">
     <div class="section-header">
-      <p class="card-kicker">Where to start</p>
-      <h2 class="section-heading" id="press-rooms-title">Six ways in.</h2>
+      <p class="card-kicker">The press</p>
+      <h2 class="section-heading" id="press-catalog-title">Current work and catalog</h2>
     </div>
-    <div class="section-grid section-grid--two">
-      {rooms.map(room => (
-        <a
-          class="card wing-room"
-          href={room.href}
-          target={room.external ? '_blank' : undefined}
-          rel={room.external ? 'noopener noreferrer' : undefined}
-        >
-          <p class="card-kicker">{room.kicker}</p>
-          <h3 class="wing-room__title">{room.title}</h3>
-          <p class="section-copy">{room.copy}</p>
-          <span class="wing-room__cue" aria-hidden="true">&#8594;</span>
-        </a>
+    <ol class="doc-index">
+      {catalog.map(entry => (
+        <li class="doc-index__item">
+          <a
+            class="doc-index__link"
+            href={entry.href}
+            target={entry.external ? '_blank' : undefined}
+            rel={entry.external ? 'noopener noreferrer' : undefined}
+          >
+            <span class="doc-index__num">{entry.num}</span>
+            <span class="doc-index__name">{entry.name}</span>
+            <span class="doc-index__meta">{entry.meta}</span>
+            <span class="doc-index__detail">{entry.detail}</span>
+          </a>
+        </li>
       ))}
+    </ol>
+  </section>
+
+  <section class="section-block section-block--reading" aria-labelledby="press-utilities-title">
+    <div class="doc-note">
+      <p class="card-kicker">Other business</p>
+      <h2 class="section-heading" id="press-utilities-title">Store, submissions, and support</h2>
+      <p class="section-copy">Use these after the catalog: objects from the press, manuscript inquiries, direct support, or the technical practice that helps fund the publishing work.</p>
+      <div class="actions">
+        <a class="button-secondary" href="/press/store">Store</a>
+        <a class="button-secondary" href="/connect?about=manuscript">Send a manuscript</a>
+        <a class="button-secondary" href="/press/donate">Donate</a>
+        <a class="pill-link" href="/lab">St. Expedite Lab</a>
+      </div>
     </div>
   </section>
 
-  <section class="section-block section-block--reading wing-crossing" aria-labelledby="press-crossing-title">
-    <article class="card quiet-panel stack">
-      <p class="card-kicker">The other side</p>
-      <h2 class="section-heading" id="press-crossing-title">There is also a Lab.</h2>
-      <p class="section-copy section-copy--large">The same hands build software: agent systems, knowledge graphs, and the field instruments that come out of them. It is where the commissioned work lives.</p>
-      <div class="actions">
-        <a class="button" href="/lab">Go to the Lab</a>
-      </div>
-    </article>
-  </section>
+  <Fragment slot="scripts">
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/press-signup.js" type="module"></script>
+  </Fragment>
 </Base>

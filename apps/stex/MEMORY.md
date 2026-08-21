@@ -1,5 +1,12 @@
 # Press Web App Memory
 
+## 2026-08-21 — Press/Lab — Product alignment from owner decisions
+
+**Changed:** Rebuilt `/press` as a publisher funnel rather than a six-card directory: Turnstile-protected email signup is the primary action, current title/catalog browsing is second, and store/submissions/donate/Lab are subordinate utilities. Added `press-signup.js` using the existing `/api/updates` signup path. Public copy now expands SEXP as Southern Experimental Press and records *Lift Wind / Love Heat* as manuscript-complete, editing/typesetting. `/press/about` now defines Phase One as standing up a meaningful original+archival catalog, RICE print as the next threshold triggered by an owner-defined number of $25 pre-orders, and the fellowship as long-term aspiration rather than an active program. Repositioned the Lab toward founders/small teams needing aesthetic product systems, memory/knowledge layers, specialized creative agents, and infrastructure; Signal Atlas is now the flagship proof on `/lab` and `/lab/practice`. Scheduling now states the first 30-minute consultation is free and distinguishes longer existing-project calls.
+**Checks:** Changes are isolated on `product-alignment-2026-08-21` for PR validation; no production deploy performed in this pass.
+**Follow-ups:** Owner still needs to define the RICE preorder count, numerical “meaningful catalog” threshold, minimum desirable paid Lab engagement, and what exactly “Psalter of the Crow Saint” names before either catalog line is renamed.
+**Tooling notes:** Reusing `mountSplashSignup` avoided a second newsletter implementation and preserved the existing Turnstile boundary.
+
 ## 2026-08-19 — Whole site — Press/Lab wings behind an email splash
 
 **Changed:** `/` became a signup splash with two doors; every other page now lives under `pages/press/` or `pages/lab/`. `work.astro` split into `lab/practice.astro` + `lab/instruments.astro`. New `pages/press/index.astro`, `pages/lab/index.astro`, `wings.css`, `splash-signup.js`/`splash-entry.js`. `portal.css` rewritten as one responsive composition (the `.portal-desktop`/`.portal-mobile` split, `.big-nav`/`.big-word`, `.mobile-index-nav`, `.thin-*` rules and the mobile-fit script are all gone, along with `body { overflow: hidden }`). `site.json`: added `wings` + `shortName`, dropped `nav`, repointed every canonical/`currentNav`. `HeroBar` is wing-aware. Deleted the `lab`/`services`/`submit`/`contact` meta-refresh stubs; legacy paths are now real 301s in `public/_redirects`.
@@ -16,6 +23,7 @@
 
 **Changed:** Recast `/connect` as the protected submission/contact portal, made manuscript and correspondence modes explicit, relabeled navigation, and added `chat.stexpedite.press` under Work projects.
 **Checks:** Connect script syntax passes; Astro validation is delegated to the clean EC2 checkout because OneDrive placeholders block the local build.
+**Follow-ups:** Production still requires the authenticated tunnel and Worker runtime variables.
 **Tooling notes:** The existing Turnstile form remained the correct gate; no authentication layer or route break was needed.
 
 ## 2026-07-14 — Connect — Direct manuscript upload

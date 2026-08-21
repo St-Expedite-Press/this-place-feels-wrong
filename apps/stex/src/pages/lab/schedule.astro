@@ -11,7 +11,7 @@ const styles = [
   'assets/css/forms.css',
 ];
 
-const lengths = ['30 minutes — introduction', '60 minutes — scoping', 'Longer — existing project review'];
+const lengths = ['30 minutes — free introductory consultation', '60 minutes — existing project follow-up', 'Longer — existing project review'];
 const windows = [
   'Weekday mornings (US Central)',
   'Weekday afternoons (US Central)',
@@ -19,10 +19,10 @@ const windows = [
   'Outside those — say so below',
 ];
 const subjects = [
-  'Agent systems and operations infrastructure',
-  'Ontology, knowledge graphs, and retrieval',
-  'Websites and digital publishing',
-  'Editing, writing, translation, research',
+  'Aesthetic product and interface design',
+  'Memory, knowledge graphs, and retrieval',
+  'Specialized creative agents',
+  'Agent systems and product infrastructure',
   'Something else',
 ];
 ---
@@ -42,7 +42,7 @@ const subjects = [
   <section class="section-block section-block--reading" aria-labelledby="schedule-form-title">
     <article class="card stack">
       <h2 class="section-heading" id="schedule-form-title">Request a time</h2>
-      <p class="section-copy">Say what the project is and when you are generally free. You get a reply with two or three specific times, usually within a working day. There is no charge for the first call and no obligation after it.</p>
+      <p class="section-copy">The first consultation is 30 minutes and free. Say what you are building and when you are generally free; you get a reply with two or three specific times, usually within a working day. Longer sessions are for projects or conversations already underway.</p>
 
       <form class="schedule-form" id="schedule-form" novalidate>
         <div class="field">
@@ -63,7 +63,7 @@ const subjects = [
         </div>
 
         <div class="field">
-          <label for="schedule-length">How long</label>
+          <label for="schedule-length">Call type</label>
           <select class="input" id="schedule-length" name="length">
             {lengths.map(item => <option value={item}>{item}</option>)}
           </select>
@@ -92,7 +92,7 @@ const subjects = [
         <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
 
         <div class="actions">
-          <button class="button" id="schedule-submit" type="submit">Send the request</button>
+          <button class="button" id="schedule-submit" type="submit">Request the consultation</button>
         </div>
 
         <div class="status-panel" id="schedule-helper" role="status" aria-live="polite" hidden>
@@ -101,6 +101,7 @@ const subjects = [
       </form>
 
       <ul class="meta-list">
+        <li>The first 30-minute consultation is free and carries no obligation.</li>
         <li>Requests go to the editor's address and are answered by a person.</li>
         <li>You get a reference number by email; reply to that thread to add detail.</li>
         <li>If it is faster to type than to talk, <a href="https://chat.stexpedite.press">the assistant</a> is always open.</li>
