@@ -14,46 +14,46 @@ const styles = [
 const contents = [
   {
     num: '01',
+    href: '/lab/practice',
+    name: 'Practice',
+    detail: 'Aesthetic product systems, memory and knowledge layers, specialized creative agents, and the infrastructure that makes them operable.',
+    meta: 'Commissioned work',
+  },
+  {
+    num: '02',
+    href: '/lab/architecture',
+    name: 'Architecture',
+    detail: 'The request path for the public assistant, where each control is applied, and the capabilities it is denied. Generated from the profile configuration.',
+    meta: 'Reference',
+  },
+  {
+    num: '03',
     href: '/lab/instruments',
     name: 'Instruments',
     detail: 'The American Anglossic Compass. Forty prompts across five axes, scored against seven archetypes. Runs in the browser in a few minutes.',
     meta: 'Working example',
   },
   {
-    num: '02',
-    href: '/lab/architecture',
-    name: 'Architecture',
-    detail: 'The request path for the public assistant, where each control is applied, and the fifteen capabilities it is denied. Generated from the profile configuration.',
-    meta: 'Reference',
-  },
-  {
-    num: '03',
-    href: '/lab/practice',
-    name: 'Practice',
-    detail: 'Four forms of work, the deliverable for each, and the three phases an engagement moves through.',
-    meta: 'Services',
-  },
-  {
     num: '04',
     href: '/lab/schedule',
     name: 'Schedule',
-    detail: 'A short introductory call to establish scope and fit. No charge and no obligation.',
-    meta: 'Contact',
+    detail: 'A free 30-minute introductory consultation to establish what you are building, where the difficult part is, and whether the Lab is a fit.',
+    meta: 'Free consultation',
   },
 ];
 
 const principles = [
   {
-    name: 'Direct delivery',
-    detail: 'The person who scopes the work writes the schema and ships the code. There is no account management layer and no subcontracting.',
+    name: 'Design and intelligence together',
+    detail: 'Interface, information architecture, memory, retrieval, and agent behaviour are treated as parts of the same product rather than separate vendor layers.',
   },
   {
     name: 'Explicit structure',
     detail: 'System behaviour lives in schemas, contracts between pipeline steps, and configuration rather than in prompt text. Retrieval returns its sources.',
   },
   {
-    name: 'Documented limits',
-    detail: 'Systems ship with their constraints written down and generated from configuration, so the documentation cannot drift from what is deployed.',
+    name: 'Direct delivery',
+    detail: 'The person who scopes the work handles the architecture and implementation. There is no account management layer and no subcontracting.',
   },
 ];
 ---
@@ -70,6 +70,19 @@ const principles = [
   brandMode="editorial"
   styles={styles}
 >
+  <section class="section-block section-block--reading" aria-labelledby="signal-atlas-title">
+    <article class="card card--feature stack">
+      <p class="card-kicker">Flagship system</p>
+      <h2 class="section-heading section-heading--display" id="signal-atlas-title">Signal Atlas</h2>
+      <p class="section-copy section-copy--large">An ontology-backed locality-intelligence product in which events, sources, places, and agents live in a world layer and are projected into a designed interface. It is the clearest example of the Lab’s working premise: aesthetic direction, structured memory, retrieval, agents, and front-end experience should be designed as one system.</p>
+      <p class="section-copy">Signal Atlas is the primary proof of practice for founders building products that need both a distinctive public surface and an intelligence layer with inspectable structure underneath it.</p>
+      <div class="actions">
+        <a class="button" href="https://github.com/St-Expedite-Press/on-high-in-blue-tomorrows" target="_blank" rel="noopener noreferrer">Inspect Signal Atlas</a>
+        <a class="button-secondary" href="/lab/schedule">Book a free 30-minute consultation</a>
+      </div>
+    </article>
+  </section>
+
   <section class="section-block" aria-labelledby="contents-title">
     <div class="section-header">
       <p class="card-kicker">Contents</p>
@@ -108,9 +121,9 @@ const principles = [
     <div class="doc-note">
       <p class="card-kicker">Related</p>
       <h2 class="section-heading" id="crossing-title">St. Expedite Press</h2>
-      <p class="section-copy section-copy--large">The Lab shares an operation with a publishing house in New Orleans, which issues Southern fiction, recovery editions, and translation. Commissioned work funds it.</p>
+      <p class="section-copy section-copy--large">The Lab shares an operation with a publishing house in New Orleans, which issues Southern fiction, recovery editions, and translation. Commissioned work helps fund the publishing program.</p>
       <div class="actions">
-        <a class="button" href="/lab/schedule">Book a call</a>
+        <a class="button" href="/lab/schedule">Book a free consultation</a>
         <a class="button-secondary" href="/press">Go to the Press</a>
       </div>
     </div>
