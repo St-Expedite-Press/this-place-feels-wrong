@@ -260,6 +260,7 @@
 
   [data-brand-mode="lab"] .lab-control-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   [data-brand-mode="lab"] .lab-control-strip span:nth-child(2) { border-right: 0; }
+  [data-brand-mode="lab"] .lab-control-strip span:nth-child(-n + 2) { border-bottom: 1px solid var(--lab-rule); }
   [data-brand-mode="lab"] .lab-control-strip span:last-child { text-align: left; }
 
   [data-brand-mode="lab"] .doc-index__link { grid-template-columns: 2.6rem minmax(0, 1fr); }
