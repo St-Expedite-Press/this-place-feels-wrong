@@ -51,6 +51,22 @@
   --surface-3: rgba(0, 0, 0, 0.65);
   --surface-4: rgba(0, 0, 0, 0.78);
 
+  /* ── Wing-specific material palette ──────────────────────────────── */
+  --press-paper: #efe6cf;
+  --press-paper-muted: rgba(239, 230, 207, 0.68);
+  --press-ink: #181410;
+  --press-bruise: #a55b83;
+  --press-ember: #c66f3a;
+  --press-rule: rgba(239, 230, 207, 0.24);
+  --press-rule-strong: rgba(239, 230, 207, 0.48);
+
+  --lab-bone: #e9ece6;
+  --lab-ash: rgba(233, 236, 230, 0.62);
+  --lab-dust: rgba(233, 236, 230, 0.14);
+  --lab-rule: rgba(233, 236, 230, 0.20);
+  --lab-rule-strong: rgba(233, 236, 230, 0.42);
+  --lab-signal: #9fe3bd;
+
   --shadow: 0 0 18px rgba(0, 0, 0, 0.9), 0 0 26px var(--green-3);
   --shadow-soft: 0 0 12px rgba(0, 0, 0, 0.9), 0 0 18px var(--green-3);
   --radius-xl: 28px;
@@ -97,6 +113,32 @@
   --mode-copy-muted: var(--text-readable-muted);
   --mode-heading-shadow: 0 0 8px var(--green-3);
   --mode-shadow: 0 0 14px rgba(0, 0, 0, 0.88), 0 0 14px rgba(42, 255, 138, 0.04);
+  --mode-text-shadow: none;
+}
+
+/* Press: paper, bruise, ornament, and reproduction damage over the void. */
+[data-brand-mode="press"] {
+  --mode-panel: var(--surface-2);
+  --mode-panel-strong: var(--surface-3);
+  --mode-border: var(--press-rule);
+  --mode-border-strong: var(--press-rule-strong);
+  --mode-copy: var(--press-paper);
+  --mode-copy-muted: var(--press-paper-muted);
+  --mode-heading-shadow: none;
+  --mode-shadow: none;
+  --mode-text-shadow: none;
+}
+
+/* Lab: cold document control; green becomes a measured status signal. */
+[data-brand-mode="lab"] {
+  --mode-panel: var(--surface-3);
+  --mode-panel-strong: var(--surface-4);
+  --mode-border: var(--lab-rule);
+  --mode-border-strong: var(--lab-rule-strong);
+  --mode-copy: var(--lab-bone);
+  --mode-copy-muted: var(--lab-ash);
+  --mode-heading-shadow: none;
+  --mode-shadow: none;
   --mode-text-shadow: none;
 }
 

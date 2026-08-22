@@ -1,5 +1,11 @@
 # Press Web App Memory
 
+## 2026-08-21 — Press/Lab — Distinct material modes
+
+**Changed:** Split the shared interior visual language into wing-specific layers without changing routes. `Base.astro` now resolves Press pages to `press` mode and Lab pages to `lab` mode, loading `press-mode.css` / `lab-mode.css` after the common stack. Press now uses paper/ink/edition cues, Cormorant-led display type, double rules, square controls, slight physical misregistration, subdued bruise/ember accents, and a colophon-style secondary index; the Press index was rewritten around three primary doors rather than six equal cards. Lab now uses hard grids, mono metadata, bone/ash copy, square controls, document-style headers, restrained status green, nearly no glow, and an explicit document-control strip (`STEX/LAB`, revision, status) on the index. Social icons are removed from interior headers; the ritual portal is unchanged.
+**Checks:** Remote branch source was reviewed after each write. A local production build could not be run because the execution container cannot resolve `github.com`; GitHub had not reported CI status on the new head at closeout.
+**Tooling notes:** The GitHub connector supported narrow branch edits; the container network prevented cloning the branch for local build validation.
+
 ## 2026-08-19 — Whole site — Press/Lab wings behind an email splash
 
 **Changed:** `/` became a signup splash with two doors; every other page now lives under `pages/press/` or `pages/lab/`. `work.astro` split into `lab/practice.astro` + `lab/instruments.astro`. New `pages/press/index.astro`, `pages/lab/index.astro`, `wings.css`, `splash-signup.js`/`splash-entry.js`. `portal.css` rewritten as one responsive composition (the `.portal-desktop`/`.portal-mobile` split, `.big-nav`/`.big-word`, `.mobile-index-nav`, `.thin-*` rules and the mobile-fit script are all gone, along with `body { overflow: hidden }`). `site.json`: added `wings` + `shortName`, dropped `nav`, repointed every canonical/`currentNav`. `HeroBar` is wing-aware. Deleted the `lab`/`services`/`submit`/`contact` meta-refresh stubs; legacy paths are now real 301s in `public/_redirects`.
