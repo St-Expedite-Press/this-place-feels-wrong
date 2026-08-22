@@ -17,28 +17,28 @@ const contents = [
     href: '/lab/instruments',
     name: 'Instruments',
     detail: 'The American Anglossic Compass. Forty prompts across five axes, scored against seven archetypes. Runs in the browser in a few minutes.',
-    meta: 'Working example',
+    meta: 'FIELD TEST',
   },
   {
     num: '02',
     href: '/lab/architecture',
     name: 'Architecture',
     detail: 'The request path for the public assistant, where each control is applied, and the fifteen capabilities it is denied. Generated from the profile configuration.',
-    meta: 'Reference',
+    meta: 'REFERENCE',
   },
   {
     num: '03',
     href: '/lab/practice',
     name: 'Practice',
     detail: 'Four forms of work, the deliverable for each, and the three phases an engagement moves through.',
-    meta: 'Services',
+    meta: 'ACTIVE',
   },
   {
     num: '04',
     href: '/lab/schedule',
     name: 'Schedule',
     detail: 'A short introductory call to establish scope and fit. No charge and no obligation.',
-    meta: 'Contact',
+    meta: 'INTAKE',
   },
 ];
 
@@ -70,10 +70,17 @@ const principles = [
   brandMode="editorial"
   styles={styles}
 >
+  <section class="lab-control-strip" aria-label="Document control">
+    <span>STEX/LAB</span>
+    <span>PUBLIC BRIEF</span>
+    <span>REV 01</span>
+    <span>STATUS: OPERATING</span>
+  </section>
+
   <section class="section-block" aria-labelledby="contents-title">
     <div class="section-header">
       <p class="card-kicker">Contents</p>
-      <h2 class="section-heading" id="contents-title">Sections</h2>
+      <h2 class="section-heading" id="contents-title">Operating surfaces</h2>
     </div>
     <ol class="doc-index">
       {contents.map(entry => (
@@ -91,7 +98,7 @@ const principles = [
 
   <section class="section-block" aria-labelledby="principles-title">
     <div class="section-header">
-      <p class="card-kicker">How engagements work</p>
+      <p class="card-kicker">Delivery controls</p>
       <h2 class="section-heading" id="principles-title">Constants across engagements</h2>
     </div>
     <dl class="doc-defs">
@@ -106,12 +113,12 @@ const principles = [
 
   <section class="section-block section-block--reading" aria-labelledby="crossing-title">
     <div class="doc-note">
-      <p class="card-kicker">Related</p>
+      <p class="card-kicker">Adjacent operation</p>
       <h2 class="section-heading" id="crossing-title">St. Expedite Press</h2>
       <p class="section-copy section-copy--large">The Lab shares an operation with a publishing house in New Orleans, which issues Southern fiction, recovery editions, and translation. Commissioned work funds it.</p>
       <div class="actions">
-        <a class="button" href="/lab/schedule">Book a call</a>
-        <a class="button-secondary" href="/press">Go to the Press</a>
+        <a class="button" href="/lab/schedule">Open intake</a>
+        <a class="button-secondary" href="/press">Cross to the Press</a>
       </div>
     </div>
   </section>
