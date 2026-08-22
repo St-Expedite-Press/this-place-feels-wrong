@@ -10,11 +10,13 @@ Proprietary monorepo for five St. Expedite products plus their shared contracts 
 | Admin | `apps/admin/` | [admin.stexpedite.press](https://admin.stexpedite.press) | Single-owner dashboard, Astro → Cloudflare Pages |
 | Backend | `apps/backend/` | `stexpedite.press/api/*` | Cloudflare Worker + D1 |
 
+The public institution has two wings. **Press** is a publisher: email capture first, catalog browsing second, then store/submissions/support. **Lab** is a founder-facing creative-systems practice whose flagship proof is Signal Atlas. Commissioned Lab work helps fund the publishing program.
+
 The private owner/deployment Hermes profile is never exposed to public chat.
 
-## Chat architecture
+## Chat product and architecture
 
-The standalone chat is migrating to a simple rule: **one selectable assistant = one Hermes profile**.
+`chat.stexpedite.press` is intended to become a **general ChatGPT alternative and a public showcase for the St. Expedite agent framework**. It is not merely a Press concierge. The standalone chat is migrating to a simple runtime rule: **one selectable assistant = one Hermes profile**.
 
 Anonymous visitors use the locked `stexpedite-public` Hermes profile. It is a general-purpose assistant that also receives verified public St. Expedite/RICE context from the Worker when relevant. Authenticated visitors may create and select private Hermes profiles that they own. The Worker authorizes and routes profiles; it does not give the browser Hermes/provider credentials or privileged tool access.
 
@@ -103,11 +105,15 @@ Deploy auth uses `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`. CI deploy wor
 
 ## Routes
 
-**Web (`apps/stex`):** a splash at `/` (email signup + two doors) opening into two wings — **Press** (`/press` · `/press/books` · `/press/store` · `/press/about` · `/press/donate`) and **Lab** (`/lab` · `/lab/practice` · `/lab/instruments`). Legacy routes 301 into the wings via `apps/stex/public/_redirects`, as documented in `ONTOLOGY.md`.
+**Web (`apps/stex`):** a splash at `/` (email signup + two doors) opening into two wings. **Press**: `/press` · `/press/books` · `/press/preorder` · `/press/store` · `/press/about` · `/press/donate`. **Lab**: `/lab` · `/lab/practice` · `/lab/instruments` · `/lab/architecture` · `/lab/schedule`. Legacy routes 301 into the wings via `apps/stex/public/_redirects`, as documented in `ONTOLOGY.md`.
+
+The Press homepage is a publisher funnel: mailing-list signup is the first action, catalog/current-title browsing is the second, and store/submissions/support are subordinate. Phase One completes when the press has a meaningful catalog of original and archival titles. RICE print is Phase Two and is triggered by an owner-defined target number of $25 pre-orders; the exact count is intentionally unresolved in `PHASE-PLAN.md`.
+
+The Lab is aimed primarily at startups, founders, and small teams building unusual creative/cultural products that need aesthetic product design, memory/knowledge layers, specialized creative agents, or agent infrastructure. Signal Atlas is the marquee proof of practice. There is no public rate card; the entry point is a free 30-minute consultation.
 
 **RICE (`apps/rice`):** `/` · `/splash` · `/project` · essays/fiction/poetry/archive + sample pages.
 
-**Chat (`apps/chat`):** standalone assistant client, manuscript submission, transcript download/upload, visitor sign-in, private assistant creation/selection, and updates signup. The browser calls first-party Worker routes only.
+**Chat (`apps/chat`):** general assistant client and agent-framework showcase, plus manuscript submission, transcript download/upload, visitor sign-in, private assistant creation/selection, and updates signup. The browser calls first-party Worker routes only.
 
 **Admin (`apps/admin`):** single-owner, magic-link-gated administration for signups/submissions/donations plus the existing model/preset/graph controls while migration is incomplete.
 
@@ -119,7 +125,15 @@ Full route/ownership map: [`ONTOLOGY.md`](ONTOLOGY.md).
 
 All documentation is indexed in [`docs/README.md`](docs/README.md), with coverage enforced by `npm run check:docs`.
 
-Framework entrypoints: [`AGENTS.md`](AGENTS.md) · [`ONTOLOGY.md`](ONTOLOGY.md) · [`CLAUDE.md`](CLAUDE.md) · [`MEMORY.md`](MEMORY.md).
+Framework entrypoints: [`AGENTS.md`](AGENTS.md) · [`ONTOLOGY.md`](ONTOLOGY.md) · [`PHASE-PLAN.md`](PHASE-PLAN.md) · [`CLAUDE.md`](CLAUDE.md) · [`MEMORY.md`](MEMORY.md).
+
+Document roles:
+
+- `AGENTS.md` — coding-agent rules and safety boundaries;
+- `ONTOLOGY.md` — current architecture, ownership, routes, and runtime map;
+- `PHASE-PLAN.md` — current roadmap and unresolved owner decisions;
+- `MEMORY.md` — chronological implementation/deployment record;
+- `CHANGELOG.md` — historical release summary.
 
 Per-directory convention:
 

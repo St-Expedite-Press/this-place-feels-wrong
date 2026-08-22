@@ -84,6 +84,28 @@ const secondary = [
     </div>
   </section>
 
+  <section class="section-block section-block--reading" aria-labelledby="press-list-title">
+    <div class="section-header">
+      <p class="card-kicker">Word from the press</p>
+      <h2 class="section-heading" id="press-list-title">New books begin here.</h2>
+    </div>
+    <p class="section-copy">Publication notices, pre-orders, new catalog entries, and RICE go to the list first.</p>
+
+    <form class="form-grid press-list-form" id="press-signup" novalidate>
+      <div class="field">
+        <label for="press-email">Email address</label>
+        <input class="input" id="press-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="your@email.com" required />
+      </div>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAADc-GOYeYwVaZA_I" data-theme="dark" data-appearance="interaction-only"></div>
+      <div class="actions">
+        <button class="button" id="press-submit" type="submit">Join the list</button>
+      </div>
+      <div class="status-panel" id="press-helper" role="status" aria-live="polite" hidden>
+        <div data-status-text></div>
+      </div>
+    </form>
+  </section>
+
   <section class="section-block section-block--reading" aria-labelledby="press-secondary-title">
     <div class="section-header">
       <p class="card-kicker">Elsewhere in the operation</p>
@@ -115,4 +137,10 @@ const secondary = [
       </div>
     </div>
   </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+    <script is:inline src="/assets/js/press-signup.js" type="module"></script>
+  </Fragment>
 </Base>

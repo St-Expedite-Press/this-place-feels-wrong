@@ -1,10 +1,11 @@
 # Press Web App Memory
 
-## 2026-08-21 — Press/Lab — Distinct material modes
+## 2026-08-21 — Press/Lab — Product alignment from owner decisions
 
-**Changed:** Split the shared interior visual language into wing-specific layers without changing routes. `Base.astro` now resolves Press pages to `press` mode and Lab pages to `lab` mode, loading `press-mode.css` / `lab-mode.css` after the common stack. Press now uses paper/ink/edition cues, Cormorant-led display type, double rules, square controls, slight physical misregistration, subdued bruise/ember accents, and a colophon-style secondary index; the Press index was rewritten around three primary doors rather than six equal cards. Lab now uses hard grids, mono metadata, bone/ash copy, square controls, document-style headers, restrained status green, nearly no glow, and an explicit document-control strip (`STEX/LAB`, revision, status) on the index. Social icons are removed from interior headers; the ritual portal is unchanged.
-**Checks:** Remote branch source was reviewed after each write. A local production build could not be run because the execution container cannot resolve `github.com`; GitHub had not reported CI status on the new head at closeout.
-**Tooling notes:** The GitHub connector supported narrow branch edits; the container network prevented cloning the branch for local build validation.
+**Changed:** Rebuilt `/press` as a publisher funnel rather than a six-card directory: Turnstile-protected email signup is the primary action, current title/catalog browsing is second, and store/submissions/donate/Lab are subordinate utilities. Added `press-signup.js` using the existing `/api/updates` signup path. Public copy now expands SEXP as Southern Experimental Press and records *Lift Wind / Love Heat* as manuscript-complete, editing/typesetting. `/press/about` now defines Phase One as standing up a meaningful original+archival catalog, RICE print as the next threshold triggered by an owner-defined number of $25 pre-orders, and the fellowship as long-term aspiration rather than an active program. Repositioned the Lab toward founders/small teams needing aesthetic product systems, memory/knowledge layers, specialized creative agents, and infrastructure; Signal Atlas is now the flagship proof on `/lab` and `/lab/practice`. Scheduling now states the first 30-minute consultation is free and distinguishes longer existing-project calls.
+**Checks:** Changes are isolated on `product-alignment-2026-08-21` for PR validation; no production deploy performed in this pass.
+**Follow-ups:** Owner still needs to define the RICE preorder count, numerical “meaningful catalog” threshold, minimum desirable paid Lab engagement, and what exactly “Psalter of the Crow Saint” names before either catalog line is renamed.
+**Tooling notes:** Reusing `mountSplashSignup` avoided a second newsletter implementation and preserved the existing Turnstile boundary.
 
 ## 2026-08-19 — Whole site — Press/Lab wings behind an email splash
 
@@ -22,6 +23,7 @@
 
 **Changed:** Recast `/connect` as the protected submission/contact portal, made manuscript and correspondence modes explicit, relabeled navigation, and added `chat.stexpedite.press` under Work projects.
 **Checks:** Connect script syntax passes; Astro validation is delegated to the clean EC2 checkout because OneDrive placeholders block the local build.
+**Follow-ups:** Production still requires the authenticated tunnel and Worker runtime variables.
 **Tooling notes:** The existing Turnstile form remained the correct gate; no authentication layer or route break was needed.
 
 ## 2026-07-14 — Connect — Direct manuscript upload
