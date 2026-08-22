@@ -10,31 +10,35 @@ interface Props {
 const { currentNav, minimal, wing } = Astro.props;
 const { site } = siteData;
 
-const wings = Object.values(site.wings);
 const activeWing = wing ? site.wings[wing] : null;
-const otherWing = wing ? wings.find((entry) => entry.key !== wing) : null;
-const navItems = activeWing ? activeWing.nav : wings.map((entry) => ({ label: entry.label, href: entry.href }));
+const contextNav = activeWing
+  ? activeWing.nav.filter((item) => item.href !== '/press/donate')
+  : [];
+
+const globalNav = [
+  { label: 'Press', href: '/press' },
+  { label: 'Lab', href: '/lab' },
+  { label: 'RICE', href: 'https://rice.stexpedite.press/' },
+  { label: 'Chat', href: 'https://chat.stexpedite.press/' },
+];
 ---
 <div class={`hero-bar${minimal ? ' hero-bar--minimal' : ''}`} data-wing={wing}>
   {!minimal && (
     <>
-      <a class="hero-bar__wordmark" href="/">
-        {activeWing ? site.shortName : site.name}
-        {activeWing && (
-          <>
-            <span class="hero-bar__wing-sep" aria-hidden="true">&#183;</span>
-            <span class="hero-bar__wing">{activeWing.label}</span>
-          </>
-        )}
-      </a>
+      <a class="hero-bar__wordmark" href="/">{site.name}</a>
 
-      <nav class="hero-bar__nav" aria-label="Primary">
-        {navItems.map(item => (
+      {activeWing && (
+        <nav class="hero-bar__nav" aria-label={`${activeWing.label} navigation`}>
+          {contextNav.map(item => (
+            <a href={item.href} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
+          ))}
+        </nav>
+      )}
+
+      <nav class="hero-bar__global" aria-label="Site navigation">
+        {globalNav.map(item => (
           <a href={item.href} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
         ))}
-        {otherWing && (
-          <a class="hero-bar__crossing" href={otherWing.href}>{otherWing.label} &#8594;</a>
-        )}
       </nav>
     </>
   )}
@@ -51,10 +55,21 @@ const navItems = activeWing ? activeWing.nav : wings.map((entry) => ({ label: en
     <details class="hero-bar__menu">
       <summary aria-label="Menu">Menu</summary>
       <nav aria-label="Primary mobile">
-        {navItems.map(item => (
+        <span class="hero-bar__menu-label">Site</span>
+        {globalNav.map(item => (
           <a href={item.href} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
         ))}
-        {otherWing && <a class="hero-bar__crossing" href={otherWing.href}>{otherWing.label} &#8594;</a>}
+        <a href="/connect">Contact</a>
+
+        {activeWing && (
+          <>
+            <span class="hero-bar__menu-label">{activeWing.label}</span>
+            {contextNav.map(item => (
+              <a href={item.href} aria-current={item.href === currentNav ? 'page' : undefined}>{item.label}</a>
+            ))}
+            {wing === 'press' && <a href="/press/donate">Donate</a>}
+          </>
+        )}
       </nav>
     </details>
   )}
