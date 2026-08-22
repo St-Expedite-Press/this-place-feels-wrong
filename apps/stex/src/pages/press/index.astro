@@ -11,7 +11,7 @@ const styles = [
   'assets/css/wings.css',
 ];
 
-const rooms = [
+const primaryRooms = [
   {
     href: '/press/books',
     kicker: 'Catalog',
@@ -30,24 +30,27 @@ const rooms = [
     title: 'About',
     copy: 'Gather the limbs of Osiris — rebuild a Southern literary institution outside the approval systems that flatten it.',
   },
+];
+
+const related = [
   {
     href: 'https://rice.stexpedite.press/',
     kicker: 'Magazine',
     title: 'RICE',
-    copy: 'The magazine. Essays, fiction, poetry, and archive, on its own schedule.',
+    copy: 'Essays, fiction, poetry, and archive, published on its own schedule.',
     external: true,
-  },
-  {
-    href: '/press/donate',
-    kicker: 'Direct support',
-    title: 'Donate',
-    copy: 'Money here pays for printing and archive work. Nothing else.',
   },
   {
     href: '/connect?about=manuscript',
     kicker: 'Submissions',
     title: 'Send a manuscript',
     copy: 'One concise inquiry, then materials by reply. Lead with the work — genre, length, and stage are useful.',
+  },
+  {
+    href: '/press/donate',
+    kicker: 'Direct support',
+    title: 'Donate',
+    copy: 'Money here pays for printing and archive work. Nothing else.',
   },
 ];
 ---
@@ -66,11 +69,28 @@ const rooms = [
 >
   <section class="section-block wing-rooms" aria-labelledby="press-rooms-title">
     <div class="section-header">
-      <p class="card-kicker">Where to start</p>
-      <h2 class="section-heading" id="press-rooms-title">Six ways in.</h2>
+      <p class="card-kicker">The press</p>
+      <h2 class="section-heading" id="press-rooms-title">Three ways in.</h2>
     </div>
-    <div class="section-grid section-grid--two">
-      {rooms.map(room => (
+    <div class="section-grid section-grid--three">
+      {primaryRooms.map(room => (
+        <a class="card wing-room" href={room.href}>
+          <p class="card-kicker">{room.kicker}</p>
+          <h3 class="wing-room__title">{room.title}</h3>
+          <p class="section-copy">{room.copy}</p>
+          <span class="wing-room__cue" aria-hidden="true">&#8594;</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-block wing-rooms" aria-labelledby="press-related-title">
+    <div class="section-header">
+      <p class="card-kicker">Related</p>
+      <h2 class="section-heading" id="press-related-title">Magazine, submissions, support.</h2>
+    </div>
+    <div class="section-grid section-grid--three">
+      {related.map(room => (
         <a
           class="card wing-room"
           href={room.href}
