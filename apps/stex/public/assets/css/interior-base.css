@@ -38,7 +38,9 @@ body.dialog-open {
   overflow: hidden;
 }
 
-body[data-brand-mode="editorial"] {
+body[data-brand-mode="editorial"],
+body[data-brand-mode="press"],
+body[data-brand-mode="lab"] {
   background:
     linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.93)),
     image-set(
@@ -83,7 +85,9 @@ select {
   mix-blend-mode: soft-light;
 }
 
-[data-brand-mode="editorial"] .texture--grain {
+[data-brand-mode="editorial"] .texture--grain,
+[data-brand-mode="press"] .texture--grain,
+[data-brand-mode="lab"] .texture--grain {
   opacity: 0.055;
 }
 
