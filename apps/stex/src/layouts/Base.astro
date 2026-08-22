@@ -15,7 +15,7 @@ interface Props {
   introText?: string;
   currentNav?: string;
   pageClass?: string;
-  brandMode?: 'ritual' | 'editorial' | 'utility';
+  brandMode?: 'ritual' | 'editorial' | 'utility' | 'press' | 'lab';
   wing?: 'press' | 'lab';
   styles: string[];
   robots?: string;
@@ -28,7 +28,12 @@ const {
   styles,
   robots,
 } = Astro.props;
-const allStyles = [...styles, 'assets/css/chat.css'];
+
+// The portal keeps ritual mode. Interior wing pages resolve to their own
+// material systems even when older page files still pass brandMode="editorial".
+const resolvedBrandMode = wing ?? brandMode;
+const wingStyles = wing ? [`assets/css/${wing}-mode.css`] : [];
+const allStyles = [...styles, 'assets/css/chat.css', ...wingStyles];
 ---
 <!doctype html>
 <html lang="en">
@@ -39,7 +44,7 @@ const allStyles = [...styles, 'assets/css/chat.css'];
   styles={allStyles}
   robots={robots}
 />
-<body data-brand-mode={brandMode} data-wing={wing}>
+<body data-brand-mode={resolvedBrandMode} data-wing={wing}>
   <a class="skip-link" href="#main">Skip to content</a>
   <HeroBar currentNav={currentNav} wing={wing} />
   <div class="texture--grain" aria-hidden="true"></div>
