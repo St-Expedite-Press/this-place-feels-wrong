@@ -14,40 +14,43 @@ const styles = [
 const rooms = [
   {
     href: '/press/books',
-    kicker: 'Catalog',
+    kicker: 'Catalog / 01',
     title: 'Books',
-    copy: 'Three arms: original fiction, recovery editions, and translation. Each holds a different kind of pressure.',
+    copy: 'Original work, recovery editions, and translation. The catalog is the program.',
   },
   {
     href: '/press/store',
-    kicker: 'Objects',
+    kicker: 'Objects / 02',
     title: 'Store',
-    copy: 'Prints, objects, and whatever the press has run off lately. Stock is irregular.',
+    copy: 'Books, prints, and objects from the press room. Stock is irregular by design and circumstance.',
   },
   {
     href: '/press/about',
-    kicker: 'The premise',
+    kicker: 'Premise / 03',
     title: 'About',
-    copy: 'Gather the limbs of Osiris — rebuild a Southern literary institution outside the approval systems that flatten it.',
+    copy: 'Gather the limbs of Osiris: the institutional argument behind the catalog and its recovery work.',
   },
+];
+
+const secondary = [
   {
     href: 'https://rice.stexpedite.press/',
     kicker: 'Magazine',
     title: 'RICE',
-    copy: 'The magazine. Essays, fiction, poetry, and archive, on its own schedule.',
+    copy: 'Essays, fiction, poetry, and archive on its own schedule.',
     external: true,
-  },
-  {
-    href: '/press/donate',
-    kicker: 'Direct support',
-    title: 'Donate',
-    copy: 'Money here pays for printing and archive work. Nothing else.',
   },
   {
     href: '/connect?about=manuscript',
     kicker: 'Submissions',
     title: 'Send a manuscript',
-    copy: 'One concise inquiry, then materials by reply. Lead with the work — genre, length, and stage are useful.',
+    copy: 'Lead with the work: genre, length, and stage are useful.',
+  },
+  {
+    href: '/press/donate',
+    kicker: 'Direct support',
+    title: 'Donate',
+    copy: 'Money here pays for printing and archive work.',
   },
 ];
 ---
@@ -66,17 +69,12 @@ const rooms = [
 >
   <section class="section-block wing-rooms" aria-labelledby="press-rooms-title">
     <div class="section-header">
-      <p class="card-kicker">Where to start</p>
-      <h2 class="section-heading" id="press-rooms-title">Six ways in.</h2>
+      <p class="card-kicker">The press room</p>
+      <h2 class="section-heading section-heading--display" id="press-rooms-title">Three doors into the work.</h2>
     </div>
     <div class="section-grid section-grid--two">
       {rooms.map(room => (
-        <a
-          class="card wing-room"
-          href={room.href}
-          target={room.external ? '_blank' : undefined}
-          rel={room.external ? 'noopener noreferrer' : undefined}
-        >
+        <a class="card wing-room" href={room.href}>
           <p class="card-kicker">{room.kicker}</p>
           <h3 class="wing-room__title">{room.title}</h3>
           <p class="section-copy">{room.copy}</p>
@@ -86,14 +84,35 @@ const rooms = [
     </div>
   </section>
 
+  <section class="section-block section-block--reading" aria-labelledby="press-secondary-title">
+    <div class="section-header">
+      <p class="card-kicker">Elsewhere in the operation</p>
+      <h2 class="section-heading" id="press-secondary-title">Magazine, submissions, support.</h2>
+    </div>
+    <div class="press-colophon-list">
+      {secondary.map(item => (
+        <a
+          class="press-colophon-link"
+          href={item.href}
+          target={item.external ? '_blank' : undefined}
+          rel={item.external ? 'noopener noreferrer' : undefined}
+        >
+          <span class="press-colophon-link__kicker">{item.kicker}</span>
+          <span class="press-colophon-link__title">{item.title}</span>
+          <span class="press-colophon-link__copy">{item.copy}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
   <section class="section-block section-block--reading wing-crossing" aria-labelledby="press-crossing-title">
-    <article class="card quiet-panel stack">
+    <div class="doc-note">
       <p class="card-kicker">The other side</p>
-      <h2 class="section-heading" id="press-crossing-title">There is also a Lab.</h2>
-      <p class="section-copy section-copy--large">The same hands build software: agent systems, knowledge graphs, and the field instruments that come out of them. It is where the commissioned work lives.</p>
+      <h2 class="section-heading" id="press-crossing-title">St. Expedite Lab</h2>
+      <p class="section-copy section-copy--large">The same operation also builds agent systems, knowledge graphs, and publishing infrastructure on commission.</p>
       <div class="actions">
-        <a class="button" href="/lab">Go to the Lab</a>
+        <a class="button-secondary" href="/lab">Cross to the Lab</a>
       </div>
-    </article>
+    </div>
   </section>
 </Base>
