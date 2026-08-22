@@ -29,9 +29,9 @@ const {
   robots,
 } = Astro.props;
 
-// Wing identity is the visual contract for all interior Press/Lab pages.
-// Older page files may still pass brandMode="editorial"; the wing wins.
-const resolvedBrandMode: Props['brandMode'] = wing ?? brandMode;
+// Wing identity replaces only the old generic editorial treatment. Explicit
+// utility/ritual modes remain authoritative for forms and task surfaces.
+const resolvedBrandMode: Props['brandMode'] = brandMode === 'editorial' && wing ? wing : brandMode;
 const wingStyles = wing ? [`assets/css/${wing}-mode.css`] : [];
 const allStyles = [...styles, 'assets/css/chat.css', ...wingStyles];
 ---
