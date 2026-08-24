@@ -38,6 +38,33 @@ const objects = [
   },
 ];
 
+const shots = [
+  {
+    name: 'The local read',
+    src: '/assets/img/signal-atlas/signal-atlas-home.png',
+    alt: 'Signal Atlas home surface: the headline "What New Orleans is paying attention to right now", a runtime stamp reading twenty items across seven publications, a source held in focus with its place and time, the main reading grid, and the Orleans Parish map with weighted markers.',
+    caption: 'A source held in focus, its place resolved from the map spine, with the grid and the parish map moving with it.',
+  },
+  {
+    name: 'The world read',
+    src: '/assets/img/signal-atlas/signal-atlas-world-read.png',
+    alt: 'Signal Atlas in world read mode: neighborhood pressure bars for Citywide, Frenchman, CBD and Riverfront, and a field-mix panel counting twelve sources and eight events across seven publications.',
+    caption: 'Counts under "what is holding this read together" are computed from the visible feed rather than stored.',
+  },
+  {
+    name: 'A curated set',
+    src: '/assets/img/signal-atlas/signal-atlas-mixtape.png',
+    alt: 'A Signal Atlas mixtape detail page: seven curated event and source cards read in sequence, a place-cluster panel showing Citywide five, CBD one and Riverfront one, and a source-mix panel counting the publications carrying the set.',
+    caption: 'A Mixtape binds sources and events into one continuous read, and resolves its own place spine and source mix.',
+  },
+  {
+    name: 'The place spine',
+    src: '/assets/img/signal-atlas/signal-atlas-map.png',
+    alt: 'The Signal Atlas map expanded over Orleans Parish, with weighted markers over the downtown neighborhoods and labelled pills reading Frenchman, Citywide, Riverfront, Bywater and CBD.',
+    caption: 'Every marker is a place in the model, weighted by how much of the current read sits there.',
+  },
+];
+
 // Stated plainly so the page cannot read as a claim of a shipped product.
 const state = [
   { name: 'Runtime', value: 'Sources and events are real; Listing records are not yet populated.' },
@@ -157,20 +184,24 @@ const state = [
   <section class="section-block" aria-labelledby="surface-title">
     <div class="section-header">
       <p class="card-kicker">Surface</p>
-      <h2 class="section-heading" id="surface-title">The read, and what is holding it together</h2>
-      <p class="section-copy">The same filtered runtime drives the place-pressure rows, the source and publication counts, and the read-mode controls. When the read changes, every one of those moves with it — they are not separately maintained summaries.</p>
+      <h2 class="section-heading" id="surface-title">Four reads of the same runtime</h2>
+      <p class="section-copy">Nothing below is a separate view assembled by hand. The map, the reading grid, the curated set, and the classifieds rail are the same filtered state drawn four ways — which is why a place is the same place, with the same count, everywhere it appears.</p>
     </div>
-    <figure class="spec-figure spec-shot">
-      <img
-        src="/assets/img/signal-atlas/signal-atlas-world-read.png"
-        alt="Signal Atlas in world read mode: neighborhood pressure bars for Citywide, Frenchman, CBD, and Riverfront on the left; a field-mix panel counting twelve sources and eight events against seven publications; and a read-mode row switching between World, Local, and Classifieds."
-        width="1600"
-        height="1100"
-        loading="lazy"
-        decoding="async"
-      />
-      <figcaption>World read mode. Counts under “what is holding this read together” are computed from the visible feed rather than stored.</figcaption>
-    </figure>
+    <div class="shot-grid">
+      {shots.map(shot => (
+        <figure class="spec-figure spec-shot">
+          <img
+            src={shot.src}
+            alt={shot.alt}
+            width="1600"
+            height="1100"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption><strong>{shot.name}.</strong> {shot.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
   </section>
 
   <section class="section-block" aria-labelledby="state-title">

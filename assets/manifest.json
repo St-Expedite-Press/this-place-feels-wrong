@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-24T20:12:05.359Z",
+  "generated_at": "2026-08-24T20:36:36.750Z",
   "roots": {
     "canonical_media": "assets/source/",
     "authored_public": "apps/stex/public/assets/",
@@ -158,8 +158,8 @@
       "path": "apps/stex/public/assets/css/spec.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 10194,
-      "sha256": "861c4286ec0f9cb059c829310a22fdd9f8a86fd5e8feff59c91949d29c21f109"
+      "bytes": 10632,
+      "sha256": "8fb702f17139404e68b007619ea58329fd6029f0e9936f0f1364908925befb99"
     },
     {
       "path": "apps/stex/public/assets/css/tokens.css",
@@ -414,11 +414,32 @@
       "sha256": "e29228c6e593f7a7e90ebf13f35d12edd6a3de6a4366a1620944c934d7cc95b0"
     },
     {
+      "path": "apps/stex/public/assets/img/signal-atlas/signal-atlas-home.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/signal-atlas/signal-atlas-home.png",
+      "bytes": 422413,
+      "sha256": "af3f843daf4e7caa0179e1a88b11a69ce10439ff266123800e54569e4c8a6243"
+    },
+    {
+      "path": "apps/stex/public/assets/img/signal-atlas/signal-atlas-map.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/signal-atlas/signal-atlas-map.png",
+      "bytes": 318284,
+      "sha256": "dc9ca7ea9422c0fa2819319f1de9baa4a1511241a3b3c456b1e111a0f5eae9b7"
+    },
+    {
+      "path": "apps/stex/public/assets/img/signal-atlas/signal-atlas-mixtape.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/signal-atlas/signal-atlas-mixtape.png",
+      "bytes": 274171,
+      "sha256": "ebf9b47cc01bf0145c733e7135febf3424eb0ddfa6a173590b891f85c039369f"
+    },
+    {
       "path": "apps/stex/public/assets/img/signal-atlas/signal-atlas-world-read.png",
       "ownership": "synced-media",
       "source": "assets/source/img/signal-atlas/signal-atlas-world-read.png",
-      "bytes": 188348,
-      "sha256": "33d1ba5cd848bf594e0d1bedbfeb4111ddc16360832d17c09e79052bbe52f236"
+      "bytes": 168024,
+      "sha256": "c720b75d312415aeec8519c0c7696728e66133ed4cba990182d989205a6c65ec"
     },
     {
       "path": "apps/stex/public/assets/img/void_engine_twinkle_green.png",

@@ -1,5 +1,5 @@
 # Asset Manifest
-# Generated: 2026-08-24T20:12:05.359Z
+# Generated: 2026-08-24T20:36:36.750Z
 # ownership  sha256  bytes  path  source
 authored-public  23df42ff94f09dff0af0ff0092c3c15b7dfd61b8cc0f9ef067eff5ef2192e24a  758  apps/stex/public/assets/css/a11y.css  -
 authored-public  efb587ae350e609ebefad8de1eaf335430a7d4c37d1d4f2cbd12a4621efa2ee6  6739  apps/stex/public/assets/css/books.css  -
@@ -22,7 +22,7 @@ authored-public  0a4107f01c04545e3b529b7651dd359d054ba018ed204c28c67038704313354
 authored-public  032860b1417705b3ea73a279d98fb3cdbf4f369a781a0fd2b51fed2592816cbf  9732  apps/stex/public/assets/css/press-mode.css  -
 authored-public  d3dfdfef3a88492480103e1239c29a1ac003bee2beac2f7217dc2895a332a3d6  819  apps/stex/public/assets/css/README.md  -
 authored-public  1554f6baf1379f5e7eb445557902e0b832023bf86dd0c54c8c2d5efcbb90a861  2981  apps/stex/public/assets/css/services.css  -
-authored-public  861c4286ec0f9cb059c829310a22fdd9f8a86fd5e8feff59c91949d29c21f109  10194  apps/stex/public/assets/css/spec.css  -
+authored-public  8fb702f17139404e68b007619ea58329fd6029f0e9936f0f1364908925befb99  10632  apps/stex/public/assets/css/spec.css  -
 authored-public  1684fa614927cceff7060bf9d8bfa4f6f96e8d0cc48df8e110dfe3350a492140  6589  apps/stex/public/assets/css/tokens.css  -
 authored-public  8a333da3dbaaffe1f743e2fe0c36f7003722a57fda7075e633093eb4130bfd0c  2001  apps/stex/public/assets/css/wings.css  -
 authored-public  91b622f3d9d90c295a5667852858e85493586e5950a3b6c052dc275e6ea49f77  14748  apps/stex/public/assets/fonts/cg-cyrillic-ext-italic.woff2  -
@@ -59,7 +59,10 @@ synced-media  239b6134116f2b84b0088d45a7674aa32cb69cedfee2b1ba12a13b20f21c5e4a  
 synced-media  e161a31bf4f047fd98600788f17a15524fae51ce4851b4c9fb35514935ef7cd3  73665  apps/stex/public/assets/img/identity/expedite-seal-white-768.png  assets/source/img/identity/expedite-seal-white-768.png
 synced-media  13f355a4c8a0b842c62647fb3285a6b1f13554403a9563754a4112356a3f5ee0  708827  apps/stex/public/assets/img/les-fievres-cover.svg  assets/source/img/les-fievres-cover.svg
 synced-media  e29228c6e593f7a7e90ebf13f35d12edd6a3de6a4366a1620944c934d7cc95b0  265  apps/stex/public/assets/img/README.md  assets/source/img/README.md
-synced-media  33d1ba5cd848bf594e0d1bedbfeb4111ddc16360832d17c09e79052bbe52f236  188348  apps/stex/public/assets/img/signal-atlas/signal-atlas-world-read.png  assets/source/img/signal-atlas/signal-atlas-world-read.png
+synced-media  af3f843daf4e7caa0179e1a88b11a69ce10439ff266123800e54569e4c8a6243  422413  apps/stex/public/assets/img/signal-atlas/signal-atlas-home.png  assets/source/img/signal-atlas/signal-atlas-home.png
+synced-media  dc9ca7ea9422c0fa2819319f1de9baa4a1511241a3b3c456b1e111a0f5eae9b7  318284  apps/stex/public/assets/img/signal-atlas/signal-atlas-map.png  assets/source/img/signal-atlas/signal-atlas-map.png
+synced-media  ebf9b47cc01bf0145c733e7135febf3424eb0ddfa6a173590b891f85c039369f  274171  apps/stex/public/assets/img/signal-atlas/signal-atlas-mixtape.png  assets/source/img/signal-atlas/signal-atlas-mixtape.png
+synced-media  c720b75d312415aeec8519c0c7696728e66133ed4cba990182d989205a6c65ec  168024  apps/stex/public/assets/img/signal-atlas/signal-atlas-world-read.png  assets/source/img/signal-atlas/signal-atlas-world-read.png
 synced-media  d6de1ea2b692023ef272d2323fae852e7dfa0358c7e6dd9e0acb5e4edaf06f15  2094346  apps/stex/public/assets/img/void_engine_twinkle_green.png  assets/source/img/void_engine_twinkle_green.png
 synced-media  719aaa227dc10401fae3b3074207ce65e4a640ea33c4a5329229a5b1da780846  143826  apps/stex/public/assets/img/void_engine_twinkle_green.webp  assets/source/img/void_engine_twinkle_green.webp
 authored-public  23d8ccb4259a1eef25d8750a1c542048de30fae6fa4a862b2157cac5533187ab  2357  apps/stex/public/assets/js/api-client.js  -

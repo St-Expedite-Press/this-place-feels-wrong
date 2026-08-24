@@ -1,5 +1,12 @@
 # Press Web App Memory
 
+## 2026-08-24 — Lab — Signal Atlas gallery and the overflow gate
+
+**Changed:** `/lab/signal-atlas` now carries a four-shot gallery instead of one screenshot — local read, world read, a populated curated set, and the place spine — behind a new `.shot-grid` (`auto-fit` at a 24rem floor, collapsed to one column under 46rem so the floor cannot outgrow a narrow viewport). All four are fresh captures taken after the upstream `undefined` fix, so the copy and the images now agree. Added `scripts/check-overflow.mjs` and `check:overflow`, wired into `npm run check` and CI.
+**Checks:** build, lint:html, check:links, check:a11y, check:overflow, check:docs, assets:check, check:audit; verified at 1280px and 390px.
+**Follow-ups:** The gallery adds ~1.2MB of PNG across four images, all `loading="lazy"` below the first. No image tooling (cwebp, ImageMagick, PIL) is available on this box, so nothing could be converted to WebP or resized; worth doing when a machine with those tools is at hand.
+**Tooling notes:** `check:overflow` reuses `scripts/lib/static-server.mjs`. It deliberately ignores elements inside a container whose `overflow-x` is set, which is what lets the `.spec-diagram` figures keep their intentional internal scroll without failing the gate.
+
 ## 2026-08-24 — Lab — Signal Atlas case study page
 
 **Changed:** New `/lab/signal-atlas` built from existing components only — `.doc-index` for the index entry, `.spec-table--matrix` for the object table, the `.spec-figure`/`.spec-diagram` inline-SVG idiom from `lab/architecture.astro` for the read-path diagram, and `.doc-defs` for present state. Added `pages.labSignalAtlas` to `site.json` and a leading `/lab/signal-atlas` item to `site.wings.lab.nav`; renumbered the Lab index contents 01–05. One screenshot added through `assets/source/img/` and `npm run assets:sync` (the publish tree is a mirror — never drop files straight into `public/assets/img/`).

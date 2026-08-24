@@ -118,13 +118,14 @@ npm run dev:worker       # Wrangler dev (Worker)
 # deploy (explicit authorization required)
 npm run deploy:web  |  deploy:rice  |  deploy:chat  |  deploy:admin  |  deploy:worker
 # checks
-npm run check            # docs + build + lint:html + links + a11y + worker tests + audit
+npm run check            # docs + build + lint:html + links + a11y + overflow + worker tests + audit
+npm run check:overflow   # layout: no page wider than the viewport at 390/768 (needs Chromium)
 npm run check:rice       # RICE asset integrity
 npm run check:docs       # documentation coverage (no orphaned docs)
 npm run assets:sync | assets:check
 ```
 
-Run the narrowest relevant checks: web/CSS/Astro → `build` + `lint:html` + `check:links` + `check:a11y`; RICE → `check:rice` + `build:rice`; Worker → `test:worker` and update `openapi.yaml`; docs moves → `check:docs`; media → `assets:sync` + `assets:check`. On Windows, shell scripts route through `scripts/run-bash.mjs` (WSL → Git Bash).
+Run the narrowest relevant checks: web/CSS/Astro → `build` + `lint:html` + `check:links` + `check:a11y` + `check:overflow`; RICE → `check:rice` + `build:rice`; Worker → `test:worker` and update `openapi.yaml`; docs moves → `check:docs`; media → `assets:sync` + `assets:check`. On Windows, shell scripts route through `scripts/run-bash.mjs` (WSL → Git Bash).
 
 ## Git and editing discipline
 
