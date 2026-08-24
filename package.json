@@ -31,6 +31,7 @@
     "lint:html": "npx -y htmlhint \"apps/stex/dist/**/*.html\"",
     "check:links": "node scripts/check-links.mjs",
     "check:a11y": "node scripts/check-a11y.mjs",
+    "check:overflow": "node scripts/check-overflow.mjs",
     "check:rice": "cd apps/rice && python scripts/check_assets.py",
     "check:docs": "node scripts/check-docs-coverage.mjs",
     "check:lighthouse": "node scripts/check-lighthouse.mjs",
@@ -46,7 +47,7 @@
     "test:backend": "npm --prefix apps/backend run test",
     "test:worker": "npm run test:backend",
     "test:chat-client": "npm --prefix packages/chat-client run test",
-    "check": "npm run check:docs && npm run check:chat-client && npm run test:chat-client && npm run build:all && npm run lint:html && npm run check:links && npm run check:a11y && npm run test:backend && npm run check:audit",
+    "check": "npm run check:docs && npm run check:chat-client && npm run test:chat-client && npm run build:all && npm run lint:html && npm run check:links && npm run check:a11y && npm run check:overflow && npm run test:backend && npm run check:audit",
     "deploy:stex": "node scripts/deploy-web.mjs",
     "deploy:web": "npm run deploy:stex",
     "deploy:rice": "npm run build:rice && npx wrangler pages deploy apps/rice/_site --project-name=rice-magazine --branch=main --commit-dirty=true",
@@ -57,6 +58,7 @@
     "deploy:worker": "npm run deploy:backend"
   },
   "devDependencies": {
-    "@playwright/mcp": "^0.0.70"
+    "@playwright/mcp": "^0.0.70",
+    "playwright": "^1.58.2"
   }
 }

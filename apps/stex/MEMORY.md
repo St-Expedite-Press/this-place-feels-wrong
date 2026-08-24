@@ -1,5 +1,28 @@
 # Press Web App Memory
 
+## 2026-08-24 — Lab — Signal Atlas gallery and the overflow gate
+
+**Changed:** `/lab/signal-atlas` now carries a four-shot gallery instead of one screenshot — local read, world read, a populated curated set, and the place spine — behind a new `.shot-grid` (`auto-fit` at a 24rem floor, collapsed to one column under 46rem so the floor cannot outgrow a narrow viewport). All four are fresh captures taken after the upstream `undefined` fix, so the copy and the images now agree. Added `scripts/check-overflow.mjs` and `check:overflow`, wired into `npm run check` and CI.
+**Checks:** build, lint:html, check:links, check:a11y, check:overflow, check:docs, assets:check, check:audit; verified at 1280px and 390px.
+**Follow-ups:** The gallery adds ~1.2MB of PNG across four images, all `loading="lazy"` below the first. No image tooling (cwebp, ImageMagick, PIL) is available on this box, so nothing could be converted to WebP or resized; worth doing when a machine with those tools is at hand.
+**Tooling notes:** `check:overflow` reuses `scripts/lib/static-server.mjs`. It deliberately ignores elements inside a container whose `overflow-x` is set, which is what lets the `.spec-diagram` figures keep their intentional internal scroll without failing the gate.
+
+## 2026-08-24 — Lab — Signal Atlas case study page
+
+**Changed:** New `/lab/signal-atlas` built from existing components only — `.doc-index` for the index entry, `.spec-table--matrix` for the object table, the `.spec-figure`/`.spec-diagram` inline-SVG idiom from `lab/architecture.astro` for the read-path diagram, and `.doc-defs` for present state. Added `pages.labSignalAtlas` to `site.json` and a leading `/lab/signal-atlas` item to `site.wings.lab.nav`; renumbered the Lab index contents 01–05. One screenshot added through `assets/source/img/` and `npm run assets:sync` (the publish tree is a mirror — never drop files straight into `public/assets/img/`).
+**Bugs found and fixed:** Mobile horizontal overflow (scrollWidth 796 on a 390 viewport). Cause was the present-state table: `.spec-table td` is `white-space: nowrap`, sized for short values like "12" or "Required", so prose sentences forced the section's grid track to 780px. Swapped to `.doc-defs`.
+**Design note:** The source repo ships exported Graphviz diagrams, but they are white-background with pastel default fills and would have fought the dark palette. The read-path diagram is hand-authored in the token-driven `.spec-diagram` idiom instead, reusing the architecture page's proven 720x300 coordinates so the labels fit inside their boxes.
+**Checks:** build, lint:html, check:links, check:a11y, assets:check; headless Chromium at 1280 and 390.
+**Follow-ups:** Only one screenshot was clean enough to ship — see the root memory entry for the specific defects in the rest of the library.
+**Tooling notes:** The repo's checks do not catch layout overflow. A short Playwright script comparing `scrollWidth`/`clientWidth` across the wing's routes found it immediately and would be worth folding into `check:a11y` or a sibling script.
+
+## 2026-08-21 — Press/Lab — Product alignment from owner decisions
+
+**Changed:** Rebuilt `/press` as a publisher funnel rather than a six-card directory: Turnstile-protected email signup is the primary action, current title/catalog browsing is second, and store/submissions/donate/Lab are subordinate utilities. Added `press-signup.js` using the existing `/api/updates` signup path. Public copy now expands SEXP as Southern Experimental Press and records *Lift Wind / Love Heat* as manuscript-complete, editing/typesetting. `/press/about` now defines Phase One as standing up a meaningful original+archival catalog, RICE print as the next threshold triggered by an owner-defined number of $25 pre-orders, and the fellowship as long-term aspiration rather than an active program. Repositioned the Lab toward founders/small teams needing aesthetic product systems, memory/knowledge layers, specialized creative agents, and infrastructure; Signal Atlas is now the flagship proof on `/lab` and `/lab/practice`. Scheduling now states the first 30-minute consultation is free and distinguishes longer existing-project calls.
+**Checks:** Changes are isolated on `product-alignment-2026-08-21` for PR validation; no production deploy performed in this pass.
+**Follow-ups:** Owner still needs to define the RICE preorder count, numerical “meaningful catalog” threshold, minimum desirable paid Lab engagement, and what exactly “Psalter of the Crow Saint” names before either catalog line is renamed.
+**Tooling notes:** Reusing `mountSplashSignup` avoided a second newsletter implementation and preserved the existing Turnstile boundary.
+
 ## 2026-08-19 — Whole site — Press/Lab wings behind an email splash
 
 **Changed:** `/` became a signup splash with two doors; every other page now lives under `pages/press/` or `pages/lab/`. `work.astro` split into `lab/practice.astro` + `lab/instruments.astro`. New `pages/press/index.astro`, `pages/lab/index.astro`, `wings.css`, `splash-signup.js`/`splash-entry.js`. `portal.css` rewritten as one responsive composition (the `.portal-desktop`/`.portal-mobile` split, `.big-nav`/`.big-word`, `.mobile-index-nav`, `.thin-*` rules and the mobile-fit script are all gone, along with `body { overflow: hidden }`). `site.json`: added `wings` + `shortName`, dropped `nav`, repointed every canonical/`currentNav`. `HeroBar` is wing-aware. Deleted the `lab`/`services`/`submit`/`contact` meta-refresh stubs; legacy paths are now real 301s in `public/_redirects`.
@@ -16,6 +39,7 @@
 
 **Changed:** Recast `/connect` as the protected submission/contact portal, made manuscript and correspondence modes explicit, relabeled navigation, and added `chat.stexpedite.press` under Work projects.
 **Checks:** Connect script syntax passes; Astro validation is delegated to the clean EC2 checkout because OneDrive placeholders block the local build.
+**Follow-ups:** Production still requires the authenticated tunnel and Worker runtime variables.
 **Tooling notes:** The existing Turnstile form remained the correct gate; no authentication layer or route break was needed.
 
 ## 2026-07-14 — Connect — Direct manuscript upload

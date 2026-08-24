@@ -1,79 +1,101 @@
-# St. Expedite Press — Phase Plan
+# St. Expedite Press — Current Roadmap
 
-**Last updated:** 2026-07-27
+**Last updated:** 2026-08-21
 
-## Current program — Osiris consolidation 🚧 IN PROGRESS
+This file records current product and institutional priorities. Completed historical build phases belong in `MEMORY.md` and the changelog; they should not remain here as apparently-pending work.
 
-| Task | Status |
+## Press — Phase One: a meaningful catalog 🚧 IN PROGRESS
+
+Phase One is not complete merely because the website, commerce, or first title exists. It completes when St. Expedite has stood up a **meaningful catalog of original and archival titles**: enough books, across more than one publishing line, that a reader encounters a publishing program rather than a single release.
+
+Current priorities:
+
+| Priority | State |
 |---|---|
-| Explicit app roots: St. Expedite, RICE, chat, backend | ✅ Foundation complete |
-| Shared chat transport and versioned request/content schemas | ✅ Foundation complete |
-| Public-guide and owner-worker agent policies/evals | ✅ Foundation complete |
-| Backend route modularization and grounded public context | ⬜ Next — see sub-plan below; supersedes this row's original scope |
-| Separate-OS-user public Hermes hardening | ⬜ Post-launch hardening; isolated profile/listener verified |
+| Email capture as the primary Press conversion | ✅ Implemented on portal; `/press` now also leads with signup |
+| Catalog browsing as the second Press action | ✅ `/press` and `/press/books` |
+| Southern Experimental Press (SEXP) named as the original-work line | ✅ Current public copy |
+| *Lift Wind / Love Heat: Symphony No. 1 in C Minor* | 🚧 Manuscript complete; editing and typesetting |
+| Grow original + archival catalog to the Phase One threshold | 🚧 Active institutional goal |
+| Define the numerical catalog threshold for “meaningful” | ⬜ Owner decision |
 
-### Sub-plan — Owner auth, chat persistence & KB grounding (from 2026-07-22 audit)
+### Phase Two — RICE
 
-Full findings: [`audit/2026-07-22-backend-auth-chat-audit.md`](audit/2026-07-22-backend-auth-chat-audit.md).
+RICE becomes a print journal when the press reaches a defined target number of **$25 pre-orders**. The mechanism is fixed; the target count is not yet fixed and must not be invented by an agent.
 
-| Task | Status |
-|---|---|
-| Harden `/api/updates/import` shared-secret comparison (timing-safe) | ✅ Done 2026-07-22 |
-| Owner auth + read view for `updates_signups`/`contact_submissions`/`donations` | ✅ Done — built 2026-07-22, deployed live 2026-07-27 (`admin.stexpedite.press`, `deploy-admin.yml`) |
-| Chat conversation persistence + in-chat email-capture moment | ✅ Done 2026-07-22 — D1-backed, keyed by a client-generated `conversationId` (not a cookie — simpler, avoids new CORS/session complexity for chat specifically); inline signup form calls `/api/updates` directly |
-| Chat knowledge-base grounding (in-Worker D1 FTS5 over `works` + site copy) | ⬜ Planned |
-| Backend modularization (`apps/backend/src/index.ts` → multiple files) | ⬜ Planned — threaded through the above rather than done as a separate pass |
-| Preview chat deployment and canary | ✅ Pages, custom DNS, CORS, and edge smoke checks passed |
-| Commit/push and sequential production release | ✅ Commit `1ce33e5`; all four deployment workflows passed |
-| Canonical consolidated source checkout on EC2 | ✅ Active at `/home/ec2-user/src/this-place-feels-wrong`; prior base commit remains in Git history, but its uncommitted overlay was not retained by the attempted archive move |
+RICE remains a publishing project during Phase One, but the print threshold is intentionally economic rather than rhetorical.
 
-Public and owner agents remain separate identities under one framework. The
-browser always calls the backend; it never calls Hermes or selects a profile.
-The public free-model route remains prototype-only even though the production
-transport is live; budget controls, grounded context, and OS-user isolation are
-still required hardening work.
+### Phase Three — Fellowship
+
+The fellowship is a **long-term institutional aspiration**, not an active program. Do not present applications, dates, or funding as available until the press has the catalog, readership, and economics to support it.
 
 ---
 
-## Phase 1 — Audit ✅ COMPLETE
+## Lab — founder-facing creative systems practice
 
-| Task | Status |
-|------|--------|
-| Live page audit (stexpedite.press) | ✅ Done — full audit 2026-05-30 → `audit/site-audit-2026-05-30.md` |
-| Content inventory | ✅ Done — all 11 pages catalogued in audit report |
-| Brand identity review | ✅ Done — design system analysis in audit report |
+The Lab is a commissioned practice for **startups, founders, and small teams building unusual creative or cultural products**. It is not generic AI consulting.
 
-**Top 3 fixes before Phase 2:**
-1. Add buy link to *Lift Wind / Love Heat* (critical — revenue leak)
-2. Replace `lift-wind-cover.jpg` with working webp cover image
-3. Fix intro text duplication on `/about` and `/donate/thanks`
+Primary problem space:
 
----
+- aesthetic product and interface design;
+- memory layers, ontologies, knowledge graphs, and provenance-aware retrieval;
+- specialized agents in creative domains;
+- agent/application infrastructure that makes those systems operable.
 
-## Phase 2 — Design System ⬜ PENDING
+### Flagship proof
 
-| Task | Status |
-|------|--------|
-| Design variants (min 3) | ⬜ |
-| Sandbatch critique | ⬜ |
-| Design system locked | ⬜ |
+**Signal Atlas is the marquee Lab product and primary proof of practice.** It should lead Lab credibility work ahead of generic service claims. Treat it as the clearest example of aesthetic direction, structured world models, memory/retrieval, agents, and interface design operating as one product system.
+
+### Commercial posture
+
+- No public rate card.
+- First consultation: **30 minutes, free, no obligation**.
+- Minimum desirable paid engagement remains an owner decision; do not publish or infer one.
 
 ---
 
-## Phase 3 — Build ⬜ PENDING
+## Chat — general AI product + framework showcase
 
-| Task | Status |
-|------|--------|
-| Scaffold + routing | ⬜ |
-| Content migration | ⬜ |
-| Events / catalog integration | ⬜ |
+`chat.stexpedite.press` is intended to become a **general ChatGPT alternative and a public showcase for the St. Expedite agent framework**, not merely a Press concierge.
+
+The product direction therefore supports the complexity of:
+
+- selectable assistants backed by real Hermes profiles;
+- authenticated user-owned profiles where authorized;
+- model abstraction behind first-party routes;
+- conversation continuity and explicit memory boundaries;
+- knowledge grounding and specialized assistants;
+- strict separation between public/user profiles and the private owner/deployment profile.
+
+The profile-native rule remains authoritative: **one selectable assistant = one Hermes profile**. Legacy Worker-executed preset pipelines are compatibility code only and should receive no new features.
+
+Current engineering priorities:
+
+1. complete and observe the profile-native cutover;
+2. remove legacy preset execution only after the compatibility gate is proven safe;
+3. keep browser clients behind first-party Worker authorization and never expose provider/Hermes credentials;
+4. evolve Chat as a useful general assistant product, not as a wrapper around Press content.
 
 ---
 
-## Phase 4 — Launch ⬜ PENDING
+## Repository truth and maintenance
 
-| Task | Status |
-|------|--------|
-| QA pass | ⬜ |
-| DNS verification | ⬜ |
-| Launch | ⬜ |
+The monorepo is the source of truth for St. Expedite, RICE, Chat, Admin, Backend, shared packages, and Hermes configuration.
+
+Operational document roles:
+
+- `AGENTS.md` — coding-agent rules and safety boundaries;
+- `ONTOLOGY.md` — current architecture, ownership, routes, and runtime map;
+- `PHASE-PLAN.md` — current roadmap and unresolved owner decisions;
+- `MEMORY.md` — chronological implementation/deployment record;
+- `CHANGELOG.md` — historical release summary.
+
+Do not let historical phases remain marked “pending” after the product has moved beyond them.
+
+## Owner decisions still open
+
+1. Exact number of $25 RICE pre-orders that triggers print.
+2. Numerical definition of a “meaningful catalog” for completion of Press Phase One.
+3. Minimum paid Lab engagement worth accepting after the free consultation.
+4. Whether “Psalter of the Crow Saint” names the archival line, the translation line, a series, or a title. Do not rename either catalog arm until this is explicit.
+5. Longer-term user-authoring scope in Chat: how much profile/agent configuration visitors should control versus select from server-provided options.

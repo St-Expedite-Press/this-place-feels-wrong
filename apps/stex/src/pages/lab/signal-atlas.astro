@@ -1,0 +1,239 @@
+---
+import Base from '../../layouts/Base.astro';
+import siteData from '../../data/site.json';
+
+const page = siteData.pages.labSignalAtlas;
+const styles = [
+  'assets/css/tokens.css',
+  'assets/css/interior-base.css',
+  'assets/css/layout.css',
+  'assets/css/components.css',
+  'assets/css/services.css',
+  'assets/css/spec.css',
+];
+
+// The four objects the runtime is built from. Everything the interface renders
+// resolves back to one of these, which is what makes the surfaces consistent
+// with each other rather than separately maintained.
+const objects = [
+  {
+    name: 'Source',
+    holds: 'Reporting, neighborhood writing, and newsletters that cover or reference local places.',
+    carries: 'Publication, source family, place reference, time, and a score used for ordering.',
+  },
+  {
+    name: 'Event',
+    holds: 'Something happening at a time and a place — live music, civic meetings, listings.',
+    carries: 'Start time, venue, place reference, and the publication that reported it.',
+  },
+  {
+    name: 'Place',
+    holds: 'The neighborhood spine the whole surface is read against.',
+    carries: 'Geometry, a short code, and the pressure count that drives map and ranking.',
+  },
+  {
+    name: 'Mixtape',
+    holds: 'A deliberate set binding sources and events into one continuous read.',
+    carries: 'Ordered members, a place summary, and a source mix resolved from its members.',
+  },
+];
+
+const shots = [
+  {
+    name: 'The local read',
+    src: '/assets/img/signal-atlas/signal-atlas-home.png',
+    alt: 'Signal Atlas home surface: the headline "What New Orleans is paying attention to right now", a runtime stamp reading twenty items across seven publications, a source held in focus with its place and time, the main reading grid, and the Orleans Parish map with weighted markers.',
+    caption: 'A source held in focus, its place resolved from the map spine, with the grid and the parish map moving with it.',
+  },
+  {
+    name: 'The world read',
+    src: '/assets/img/signal-atlas/signal-atlas-world-read.png',
+    alt: 'Signal Atlas in world read mode: neighborhood pressure bars for Citywide, Frenchman, CBD and Riverfront, and a field-mix panel counting twelve sources and eight events across seven publications.',
+    caption: 'Counts under "what is holding this read together" are computed from the visible feed rather than stored.',
+  },
+  {
+    name: 'A curated set',
+    src: '/assets/img/signal-atlas/signal-atlas-mixtape.png',
+    alt: 'A Signal Atlas mixtape detail page: seven curated event and source cards read in sequence, a place-cluster panel showing Citywide five, CBD one and Riverfront one, and a source-mix panel counting the publications carrying the set.',
+    caption: 'A Mixtape binds sources and events into one continuous read, and resolves its own place spine and source mix.',
+  },
+  {
+    name: 'The place spine',
+    src: '/assets/img/signal-atlas/signal-atlas-map.png',
+    alt: 'The Signal Atlas map expanded over Orleans Parish, with weighted markers over the downtown neighborhoods and labelled pills reading Frenchman, Citywide, Riverfront, Bywater and CBD.',
+    caption: 'Every marker is a place in the model, weighted by how much of the current read sits there.',
+  },
+];
+
+// Stated plainly so the page cannot read as a claim of a shipped product.
+const state = [
+  { name: 'Runtime', value: 'Sources and events are real; Listing records are not yet populated.' },
+  { name: 'Mixtapes', value: 'Front-end first. The draft set is local to the browser and is not persisted.' },
+  { name: 'Data', value: 'Generated and committed as a static module; the front end makes no runtime fetch.' },
+  { name: 'Deployment', value: 'Static-first. No public instance is currently published.' },
+];
+---
+<Base
+  title={page.title}
+  description={page.description}
+  eyebrow={page.eyebrow}
+  introKicker={page.introKicker}
+  introTitle={page.introTitle}
+  introText={page.introText}
+  canonical={page.canonical}
+  currentNav={page.currentNav}
+  wing="lab"
+  brandMode="editorial"
+  styles={styles}
+>
+  <section class="section-block section-block--reading">
+    <article class="card editorial-card stack">
+      <p class="card-kicker">What it is</p>
+      <h2 class="section-heading">A city read through one model</h2>
+      <p class="section-copy section-copy--large">Signal Atlas collapses local reporting, neighborhood writing, live events, and curated sets into a single reading surface for New Orleans. It answers one question quickly: what is the city paying attention to right now, and where is that attention clustering?</p>
+      <p class="section-copy">It is not a dashboard, a chat layer, or a gallery of disconnected views. There is one map, one feed surface, one visual system. The interface is a projection of the underlying model rather than a skin placed over it — which is the whole argument the Lab makes about how these products should be built.</p>
+    </article>
+  </section>
+
+  <section class="section-block" aria-labelledby="model-title">
+    <div class="section-header">
+      <p class="card-kicker">World layer</p>
+      <h2 class="section-heading" id="model-title">Four objects, one graph</h2>
+      <p class="section-copy">Rather than shaping data per view, the runtime defines a small controlled vocabulary and resolves every surface against it. A place is the same place in the map, the grid, and the classifieds rail, because there is only one of it.</p>
+    </div>
+    <table class="spec-table spec-table--matrix">
+      <thead>
+        <tr>
+          <th scope="col">Object</th>
+          <th scope="col">What it holds</th>
+          <th scope="col">What it carries</th>
+        </tr>
+      </thead>
+      <tbody>
+        {objects.map(row => (
+          <tr>
+            <th scope="row">{row.name}</th>
+            <td>{row.holds}</td>
+            <td>{row.carries}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section-block" aria-labelledby="path-title">
+    <div class="section-header">
+      <p class="card-kicker">Read path</p>
+      <h2 class="section-heading" id="path-title">How information becomes the product</h2>
+      <p class="section-copy">Adapters produce a generated runtime module at build time. The renderer never reads that module directly after startup — it queries a graph layer, which is what keeps the map, the grid, and the rail derived from one filtered state instead of three.</p>
+    </div>
+
+    <figure class="spec-figure">
+      <svg class="spec-diagram" viewBox="0 0 720 300" role="img" aria-labelledby="atlas-diagram-title atlas-diagram-desc">
+        <title id="atlas-diagram-title">Signal Atlas read path</title>
+        <desc id="atlas-diagram-desc">Source adapters produce a generated runtime data module holding the build, feed, and map exports. A graph query layer reads that module and applies filtering, sorting, and place focus. The rendered surfaces — map, main grid, classifieds rail, and mixtape detail — are all projections of that query layer. Nothing is fetched at runtime.</desc>
+
+        <g class="spec-diagram__node">
+          <rect x="8" y="120" width="120" height="56" rx="4" />
+          <text x="68" y="144">Adapters</text>
+          <text x="68" y="162" class="spec-diagram__sub">sources + events</text>
+        </g>
+
+        <g class="spec-diagram__node spec-diagram__node--gate">
+          <rect x="176" y="86" width="176" height="124" rx="4" />
+          <text x="264" y="112">Runtime data</text>
+          <text x="264" y="134" class="spec-diagram__sub">signal-atlas-data.js</text>
+          <text x="264" y="152" class="spec-diagram__sub">atlasBuild</text>
+          <text x="264" y="170" class="spec-diagram__sub">atlasFeed</text>
+          <text x="264" y="188" class="spec-diagram__sub">atlasMap</text>
+        </g>
+
+        <g class="spec-diagram__node">
+          <rect x="400" y="106" width="152" height="84" rx="4" />
+          <text x="476" y="132">Query layer</text>
+          <text x="476" y="152" class="spec-diagram__sub">createAtlasGraph</text>
+          <text x="476" y="170" class="spec-diagram__sub">filter · sort · focus</text>
+        </g>
+
+        <g class="spec-diagram__node spec-diagram__node--model">
+          <rect x="596" y="112" width="120" height="72" rx="4" />
+          <text x="656" y="136">Surfaces</text>
+          <text x="656" y="154" class="spec-diagram__sub">map · grid</text>
+          <text x="656" y="170" class="spec-diagram__sub">rail · mixtape</text>
+        </g>
+
+        <g class="spec-diagram__flow">
+          <line x1="128" y1="148" x2="172" y2="148" />
+          <line x1="352" y1="148" x2="396" y2="148" />
+          <line x1="552" y1="148" x2="592" y2="148" />
+        </g>
+
+        <g class="spec-diagram__note">
+          <text x="264" y="242">Generated at build time</text>
+          <line x1="264" y1="252" x2="264" y2="214" />
+        </g>
+        <g class="spec-diagram__note">
+          <text x="476" y="72">No runtime API dependency</text>
+          <line x1="476" y1="80" x2="476" y2="102" />
+        </g>
+      </svg>
+      <figcaption>Everything needed to render the application is present before the first paint. The query layer, not the renderer, owns filtering and ranking.</figcaption>
+    </figure>
+  </section>
+
+  <section class="section-block" aria-labelledby="surface-title">
+    <div class="section-header">
+      <p class="card-kicker">Surface</p>
+      <h2 class="section-heading" id="surface-title">Four reads of the same runtime</h2>
+      <p class="section-copy">Nothing below is a separate view assembled by hand. The map, the reading grid, the curated set, and the classifieds rail are the same filtered state drawn four ways — which is why a place is the same place, with the same count, everywhere it appears.</p>
+    </div>
+    <div class="shot-grid">
+      {shots.map(shot => (
+        <figure class="spec-figure spec-shot">
+          <img
+            src={shot.src}
+            alt={shot.alt}
+            width="1600"
+            height="1100"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption><strong>{shot.name}.</strong> {shot.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-block" aria-labelledby="state-title">
+    <div class="section-header">
+      <p class="card-kicker">Present state</p>
+      <h2 class="section-heading" id="state-title">Where the build actually stands</h2>
+      <p class="section-copy">Signal Atlas is an active build, not a finished product. The honest position is worth more here than the pitch, so the current limits are named rather than left for a reader to discover.</p>
+    </div>
+    <p class="spec-table__caption">Accurate as of the current runtime export.</p>
+    <dl class="doc-defs">
+      {state.map(row => (
+        <div class="doc-defs__row">
+          <dt class="doc-defs__term">{row.name}</dt>
+          <dd class="doc-defs__desc">{row.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="section-block section-block--reading" aria-labelledby="commission-title">
+    <article class="card quiet-panel stack">
+      <p class="card-kicker">Why it is the flagship</p>
+      <h2 class="section-heading" id="commission-title">The combination is the point</h2>
+      <p class="section-copy section-copy--large">Aesthetic direction, information architecture, a structured world model, provenance-aware retrieval, and a rendered product surface were designed as one thing. That combination — not any single layer — is what the Lab is commissioned to do.</p>
+      <div class="actions">
+        <a class="button" href="/lab/schedule">Book a free 30-minute consultation</a>
+        <a class="button-secondary" href="https://github.com/St-Expedite-Press/on-high-in-blue-tomorrows" target="_blank" rel="noopener noreferrer">Inspect the source</a>
+      </div>
+    </article>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/assets/js/site-shell.js" type="module"></script>
+  </Fragment>
+</Base>

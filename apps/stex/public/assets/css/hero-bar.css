@@ -12,7 +12,7 @@
   padding: 0 var(--hero-bar-pad-x);
   display: flex;
   align-items: center;
-  gap: 1rem 1.75rem;
+  gap: 1rem 1.5rem;
   z-index: 200;
 
   background: linear-gradient(
@@ -43,25 +43,27 @@
   white-space: nowrap;
 }
 
-.hero-bar__wing-sep {
-  margin: 0 0.4em;
-  opacity: 0.55;
-}
-
-.hero-bar__wing {
-  color: var(--accent);
-  text-shadow: 0 0 8px var(--green-hot-3);
+.hero-bar__nav,
+.hero-bar__global {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1.05rem;
 }
 
 .hero-bar__nav {
   flex: 1 1 auto;
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 0.35rem 1.15rem;
 }
 
-.hero-bar__nav a {
+.hero-bar__global {
+  flex: 0 0 auto;
+  padding-left: 1.15rem;
+  border-left: 1px solid var(--line-2);
+}
+
+.hero-bar__nav a,
+.hero-bar__global a {
   color: var(--text-soft);
   font-family: var(--font-display);
   font-size: 0.78rem;
@@ -73,20 +75,17 @@
   text-shadow: 0 0 6px var(--green-3);
 }
 
-.hero-bar__nav a[data-nav="act"] {
-  color: var(--text);
-}
-
-.hero-bar__nav a[data-nav="buy"]::after {
-  content: "\2197";
-  margin-inline-start: 0.15em;
-  font-size: 0.8em;
-  opacity: 0.7;
+.hero-bar__global a {
+  font-size: 0.72rem;
+  color: var(--text-muted);
 }
 
 .hero-bar__nav a[aria-current="page"],
 .hero-bar__nav a:hover,
-.hero-bar__nav a:focus-visible {
+.hero-bar__nav a:focus-visible,
+.hero-bar__global a[aria-current="page"],
+.hero-bar__global a:hover,
+.hero-bar__global a:focus-visible {
   color: var(--text);
   border-bottom-color: var(--accent-strong);
   filter: brightness(1.15);
@@ -163,12 +162,26 @@
   z-index: 60;
   display: grid;
   gap: 0.15rem;
-  width: min(15rem, 70vw);
+  width: min(17rem, 78vw);
   padding: 0.75rem 0.9rem;
   border: 1px solid var(--line-3);
   border-radius: var(--radius-md);
   background: var(--panel-strong);
   backdrop-filter: blur(12px);
+}
+
+.hero-bar__menu-label {
+  margin-top: 0.45rem;
+  padding: 0.35rem 0 0.15rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero-bar__menu-label:first-child {
+  margin-top: 0;
 }
 
 .hero-bar__menu nav a {
@@ -186,12 +199,18 @@
   color: var(--text);
 }
 
+@media (max-width: 1120px) {
+  .hero-bar__nav {
+    display: none;
+  }
+}
+
 @media (max-width: 900px) {
   .hero-bar {
     justify-content: space-between;
   }
 
-  .hero-bar__nav {
+  .hero-bar__global {
     display: none;
   }
 

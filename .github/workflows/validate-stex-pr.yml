@@ -1,0 +1,65 @@
+name: Validate St. Expedite PR
+
+on:
+  pull_request:
+    paths:
+      - "apps/stex/**"
+      - "apps/backend/**"
+      - "packages/**"
+      - "scripts/**"
+      - "README.md"
+      - "AGENTS.md"
+      - "ONTOLOGY.md"
+      - "PHASE-PLAN.md"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/validate-stex-pr.yml"
+
+concurrency:
+  group: "validate-stex-pr-${{ github.event.pull_request.number }}"
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install web dependencies
+        run: npm --prefix apps/stex ci
+
+      - name: Install worker dependencies
+        run: npm --prefix apps/backend ci
+
+      - name: Check documentation
+        run: npm run check:docs
+
+      - name: Build site
+        run: npm run build
+
+      - name: Lint HTML
+        run: npm run lint:html
+
+      - name: Check links
+        run: npm run check:links
+
+      - name: Check accessibility
+        run: npm run check:a11y
+
+      - name: Install Chromium for the overflow check
+        run: npx playwright install --with-deps chromium-headless-shell
+
+      - name: Check layout overflow
+        run: npm run check:overflow
+
+      - name: Test worker
+        run: npm run test:worker
+
+      - name: Audit dependencies
+        run: npm run check:audit

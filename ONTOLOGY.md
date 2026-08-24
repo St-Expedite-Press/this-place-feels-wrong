@@ -99,6 +99,9 @@ to the other wing, both read from `site.wings` in `src/data/site.json`.
 | `/press/donate`, `/press/donate/thanks` | `pages/press/donate*.astro` | press | utility | forms/donation JS/CSS |
 | `/lab` | `pages/lab/index.astro` | lab | editorial | `wings.css` |
 | `/lab/practice` | `pages/lab/practice.astro` | lab | editorial | `services.css` |
+| `/lab/signal-atlas` | `pages/lab/signal-atlas.astro` | lab | editorial | `services.css`, `spec.css`; screenshot under `img/signal-atlas/` |
+| `/lab/architecture` | `pages/lab/architecture.astro` | lab | editorial | `spec.css`; rendered from `agents/public-guide/policy.json` |
+| `/lab/schedule` | `pages/lab/schedule.astro` | lab | utility | `forms.css` |
 | `/lab/instruments` | `pages/lab/instruments.astro` | lab | editorial | `lab.css`, `lab-anglossic-*.js`, `dialog.js` |
 | `/connect` | `pages/connect.astro` | — | redirect | → `https://chat.stexpedite.press`; manuscript deep-link opens `?open=submit` |
 | `/404` | `pages/404.astro` | — | editorial | shared |
