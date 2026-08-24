@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-16T20:47:10.107Z",
+  "generated_at": "2026-08-24T20:12:05.359Z",
   "roots": {
     "canonical_media": "assets/source/",
     "authored_public": "apps/stex/public/assets/",
@@ -18,8 +18,8 @@
       "path": "apps/stex/public/assets/css/books.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 6536,
-      "sha256": "9204d5901c0224ae8a66fecd404103f62d308d8e459c4c0d988ef9e736b7f212"
+      "bytes": 6739,
+      "sha256": "efb587ae350e609ebefad8de1eaf335430a7d4c37d1d4f2cbd12a4621efa2ee6"
     },
     {
       "path": "apps/stex/public/assets/css/chat.css",
@@ -67,29 +67,36 @@
       "path": "apps/stex/public/assets/css/forms.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 2352,
-      "sha256": "44a01d8225ba623a3be90f86d070fddd411cd16d49e379c193b96ac4218921f7"
+      "bytes": 3494,
+      "sha256": "9ba6ea3f893d825516ee7e1c58d4255852f82efcd79387c0edc7c2ec9d8f4cde"
     },
     {
       "path": "apps/stex/public/assets/css/gallery.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 3034,
-      "sha256": "c961b6768b41fcfce75c82f135376586007f0bb2347dc25229bdcf935f562fb5"
+      "bytes": 3182,
+      "sha256": "5941009cead7553aa17da6c18e4a531b1f3f8870bae8cf9ce861143740f20cf1"
     },
     {
       "path": "apps/stex/public/assets/css/hero-bar.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 4036,
-      "sha256": "168b2f53340edb43ad0722ae6c502649199acf47ac2a9a623da69c3e63608af6"
+      "bytes": 4562,
+      "sha256": "17e1e53ac9f90b3ef6a792b81e51da26ec7822419cfe16b152131699438d0735"
     },
     {
       "path": "apps/stex/public/assets/css/interior-base.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 3079,
-      "sha256": "6db2e2537d241473cdbaa785c1e8b3490596dc4a2fce027cc675ea8ce3536d54"
+      "bytes": 3535,
+      "sha256": "f9996cc2a28d74ade7fe46b533904279923e0149a0d8a97264e42ddca6f408c0"
+    },
+    {
+      "path": "apps/stex/public/assets/css/lab-mode.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 7726,
+      "sha256": "7be2d4e78f8c360957ac2172a22ceb9c14840f136153758f70d4c927ddd18d0b"
     },
     {
       "path": "apps/stex/public/assets/css/lab.css",
@@ -116,8 +123,22 @@
       "path": "apps/stex/public/assets/css/portal.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 17781,
-      "sha256": "403904728bd6463ac99a38b66256c6971a389f57a3fe29ce9654053c2beccae3"
+      "bytes": 20238,
+      "sha256": "457c4343f250c139b1cc0371e121b6194bfb5266674d493dc8bc995074e66807"
+    },
+    {
+      "path": "apps/stex/public/assets/css/preorder.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 3835,
+      "sha256": "0a4107f01c04545e3b529b7651dd359d054ba018ed204c28c670387043133541"
+    },
+    {
+      "path": "apps/stex/public/assets/css/press-mode.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 9732,
+      "sha256": "032860b1417705b3ea73a279d98fb3cdbf4f369a781a0fd2b51fed2592816cbf"
     },
     {
       "path": "apps/stex/public/assets/css/README.md",
@@ -134,11 +155,25 @@
       "sha256": "1554f6baf1379f5e7eb445557902e0b832023bf86dd0c54c8c2d5efcbb90a861"
     },
     {
+      "path": "apps/stex/public/assets/css/spec.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 10194,
+      "sha256": "861c4286ec0f9cb059c829310a22fdd9f8a86fd5e8feff59c91949d29c21f109"
+    },
+    {
       "path": "apps/stex/public/assets/css/tokens.css",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 5136,
-      "sha256": "bef396177140467f14caa400251eabc02ccd147b4bf6e967f2e1a39c25bc0b08"
+      "bytes": 6589,
+      "sha256": "1684fa614927cceff7060bf9d8bfa4f6f96e8d0cc48df8e110dfe3350a492140"
+    },
+    {
+      "path": "apps/stex/public/assets/css/wings.css",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2001,
+      "sha256": "8a333da3dbaaffe1f743e2fe0c36f7003722a57fda7075e633093eb4130bfd0c"
     },
     {
       "path": "apps/stex/public/assets/fonts/cg-cyrillic-ext-italic.woff2",
@@ -379,6 +414,13 @@
       "sha256": "e29228c6e593f7a7e90ebf13f35d12edd6a3de6a4366a1620944c934d7cc95b0"
     },
     {
+      "path": "apps/stex/public/assets/img/signal-atlas/signal-atlas-world-read.png",
+      "ownership": "synced-media",
+      "source": "assets/source/img/signal-atlas/signal-atlas-world-read.png",
+      "bytes": 188348,
+      "sha256": "33d1ba5cd848bf594e0d1bedbfeb4111ddc16360832d17c09e79052bbe52f236"
+    },
+    {
       "path": "apps/stex/public/assets/img/void_engine_twinkle_green.png",
       "ownership": "synced-media",
       "source": "assets/source/img/void_engine_twinkle_green.png",
@@ -403,15 +445,15 @@
       "path": "apps/stex/public/assets/js/books-page.js",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 6157,
-      "sha256": "339db4a33b19015c806259c548d87a939a29333c618b61e4869cc03e49183457"
+      "bytes": 7259,
+      "sha256": "8fac96d568668903a71e6ebbba464091dee4339ab0272a6079f8a7c5368b1a88"
     },
     {
       "path": "apps/stex/public/assets/js/chat-client.js",
       "ownership": "authored-public",
       "source": null,
-      "bytes": 2202,
-      "sha256": "b968fc7ed89d349d269200ff3b6a307efc6eed8e2e1dd3f3ac61be89cb945681"
+      "bytes": 2757,
+      "sha256": "3c9312a2b6ebce9231f622ad3063331208927a14dab5abe12954baf96a36c882"
     },
     {
       "path": "apps/stex/public/assets/js/chat.js",
@@ -505,6 +547,20 @@
       "sha256": "9ab9601d208330ce23fcb15a954222dad88cc7b249068523d12a3401ab487d14"
     },
     {
+      "path": "apps/stex/public/assets/js/order-entry.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2018,
+      "sha256": "7e68cc12bc8a3d0172e9381273ea74a5158245fde97d3e8727c5fa8a3eb885e4"
+    },
+    {
+      "path": "apps/stex/public/assets/js/press-signup.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 311,
+      "sha256": "4d542267aaaa30e3492759ea40e7ff2e6ec825a771245c83d26611f5feff3984"
+    },
+    {
       "path": "apps/stex/public/assets/js/README.md",
       "ownership": "authored-public",
       "source": null,
@@ -512,11 +568,32 @@
       "sha256": "a5f7a9d999aa712123f18c95613c4f7cf2326096558e42d787ab1d21e317141e"
     },
     {
+      "path": "apps/stex/public/assets/js/schedule-entry.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 2944,
+      "sha256": "da4d7f3730cc200ddfe89e1929486c0038cc67c7c3e5a752989e0617e01cb4bb"
+    },
+    {
       "path": "apps/stex/public/assets/js/site-shell.js",
       "ownership": "authored-public",
       "source": null,
       "bytes": 46,
       "sha256": "07e9e867f8ac3af35001da64b63f4b405e3281b52e8cb3956de56d59a6f329b7"
+    },
+    {
+      "path": "apps/stex/public/assets/js/splash-entry.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 744,
+      "sha256": "e641abfe5300f1df9665bba6947794ed3df78fc57b724aed6c8ff35757ee066b"
+    },
+    {
+      "path": "apps/stex/public/assets/js/splash-signup.js",
+      "ownership": "authored-public",
+      "source": null,
+      "bytes": 1875,
+      "sha256": "24ed37bdc9164a1f7aa47422acdc8256458f21fdcbf1214dc5a767b9303f2cd1"
     },
     {
       "path": "apps/stex/public/assets/js/submit-page.js",

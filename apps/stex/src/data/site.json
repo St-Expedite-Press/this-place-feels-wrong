@@ -92,6 +92,10 @@
         "tagline": "Instruments, systems, practice",
         "nav": [
           {
+            "label": "Signal Atlas",
+            "href": "/lab/signal-atlas"
+          },
+          {
             "label": "Instruments",
             "href": "/lab/instruments"
           },
@@ -211,6 +215,16 @@
       "introText": "The Lab works with founders and small teams building unusual products in creative and cultural domains. Signal Atlas is the flagship demonstration: interface design, ontology, memory, retrieval, and agents treated as one system.",
       "canonical": "https://stexpedite.press/lab",
       "currentNav": "/lab"
+    },
+    "labSignalAtlas": {
+      "title": "Signal Atlas",
+      "description": "Signal Atlas is the Lab's flagship system: an ontology-backed locality-intelligence surface for New Orleans where the map, the feed, and the classifieds rail are all projections of one structured world model.",
+      "eyebrow": "St. Expedite Lab",
+      "introKicker": "Flagship system \u2014 active build",
+      "introTitle": "One world model, read three ways.",
+      "introText": "Sources, events, places, and curated sets live in a structured layer queried through a single graph. The map, the main grid, and the classifieds rail are projections of that model rather than separate views assembled by hand.",
+      "canonical": "https://stexpedite.press/lab/signal-atlas",
+      "currentNav": "/lab/signal-atlas"
     },
     "labInstruments": {
       "title": "Instruments",

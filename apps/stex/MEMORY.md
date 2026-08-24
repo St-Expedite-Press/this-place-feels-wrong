@@ -1,5 +1,14 @@
 # Press Web App Memory
 
+## 2026-08-24 — Lab — Signal Atlas case study page
+
+**Changed:** New `/lab/signal-atlas` built from existing components only — `.doc-index` for the index entry, `.spec-table--matrix` for the object table, the `.spec-figure`/`.spec-diagram` inline-SVG idiom from `lab/architecture.astro` for the read-path diagram, and `.doc-defs` for present state. Added `pages.labSignalAtlas` to `site.json` and a leading `/lab/signal-atlas` item to `site.wings.lab.nav`; renumbered the Lab index contents 01–05. One screenshot added through `assets/source/img/` and `npm run assets:sync` (the publish tree is a mirror — never drop files straight into `public/assets/img/`).
+**Bugs found and fixed:** Mobile horizontal overflow (scrollWidth 796 on a 390 viewport). Cause was the present-state table: `.spec-table td` is `white-space: nowrap`, sized for short values like "12" or "Required", so prose sentences forced the section's grid track to 780px. Swapped to `.doc-defs`.
+**Design note:** The source repo ships exported Graphviz diagrams, but they are white-background with pastel default fills and would have fought the dark palette. The read-path diagram is hand-authored in the token-driven `.spec-diagram` idiom instead, reusing the architecture page's proven 720x300 coordinates so the labels fit inside their boxes.
+**Checks:** build, lint:html, check:links, check:a11y, assets:check; headless Chromium at 1280 and 390.
+**Follow-ups:** Only one screenshot was clean enough to ship — see the root memory entry for the specific defects in the rest of the library.
+**Tooling notes:** The repo's checks do not catch layout overflow. A short Playwright script comparing `scrollWidth`/`clientWidth` across the wing's routes found it immediately and would be worth folding into `check:a11y` or a sibling script.
+
 ## 2026-08-21 — Press/Lab — Product alignment from owner decisions
 
 **Changed:** Rebuilt `/press` as a publisher funnel rather than a six-card directory: Turnstile-protected email signup is the primary action, current title/catalog browsing is second, and store/submissions/donate/Lab are subordinate utilities. Added `press-signup.js` using the existing `/api/updates` signup path. Public copy now expands SEXP as Southern Experimental Press and records *Lift Wind / Love Heat* as manuscript-complete, editing/typesetting. `/press/about` now defines Phase One as standing up a meaningful original+archival catalog, RICE print as the next threshold triggered by an owner-defined number of $25 pre-orders, and the fellowship as long-term aspiration rather than an active program. Repositioned the Lab toward founders/small teams needing aesthetic product systems, memory/knowledge layers, specialized creative agents, and infrastructure; Signal Atlas is now the flagship proof on `/lab` and `/lab/practice`. Scheduling now states the first 30-minute consultation is free and distinguishes longer existing-project calls.

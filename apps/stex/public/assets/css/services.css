@@ -118,17 +118,6 @@
   border-color: var(--green-hot-2);
 }
 
-.work-link--unlinked {
-  opacity: 0.72;
-}
-
-.work-link--unlinked span em {
-  font-style: normal;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  color: var(--mode-copy-muted);
-}
-
 .engagement-list {
   display: grid;
   gap: 0.55rem;
